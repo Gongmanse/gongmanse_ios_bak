@@ -12,7 +12,7 @@
 		<key>Alamofire.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>3</integer>
 		</dict>
 		<key>BottomPopup.xcscheme</key>
 		<dict>
@@ -27,7 +27,7 @@
 		<key>Pods-gongmanse.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>SideMenu.xcscheme</key>
 		<dict>
@@ -37,7 +37,7 @@
 		<key>SideMenu.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 </dict>

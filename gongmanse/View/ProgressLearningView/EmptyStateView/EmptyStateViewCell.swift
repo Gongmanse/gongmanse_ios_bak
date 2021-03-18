@@ -13,6 +13,8 @@ class EmptyStateViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.alertMessage.font = UIFont.appBoldFontWith(size: 17)
+        self.alertMessage.textColor = #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

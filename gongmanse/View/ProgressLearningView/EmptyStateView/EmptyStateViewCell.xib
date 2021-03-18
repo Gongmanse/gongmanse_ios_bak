@@ -25,10 +25,10 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="영상 목록이 없습니다." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8F-C2-UTd">
-                        <rect key="frame" x="112" y="391" width="136" height="18"/>
+                        <rect key="frame" x="50.5" y="391" width="259" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="3j6-ja-d9f"/>
-                            <constraint firstAttribute="width" constant="136" id="GLD-v1-kEy"/>
+                            <constraint firstAttribute="width" constant="259" id="GLD-v1-kEy"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
