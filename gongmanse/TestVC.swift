@@ -11,7 +11,7 @@ class TestVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "테스트2"
+        self.navigationItem.title = "테스트3"
     }
 
 }
