@@ -82,6 +82,7 @@ class SideMenuVC: UITableViewController {
         self.loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         
         view.addSubview(self.loginBtn)
+        self.loginBtn.addTarget(self, action: #selector(handleLoginButton), for: .touchUpInside)
         
         //회원가입 버튼
         self.signUpBtn.setTitle("회원가입", for: .normal)
@@ -110,6 +111,12 @@ class SideMenuVC: UITableViewController {
     
     @objc func closeButton() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func handleLoginButton() {
+        let vc = PassTicketVC(nibName: "PassTicketVC", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
 
     // MARK: - Table view data source
