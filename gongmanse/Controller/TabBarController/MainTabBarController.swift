@@ -4,9 +4,11 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupStyle()
         
+        //탭 바 색상 변경
+        tabBarController?.tabBar.barTintColor = UIColor.white
     }
     
     func setupStyle() {
