@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumSquareRoundB.ttf">
+            <string>NanumSquareRoundB</string>
+        </array>
+        <array key="NanumSquareRoundR.ttf">
+            <string>NanumSquareRoundR</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SearchNoteCell" id="gTV-IL-0wX" customClass="SearchNoteCell" customModule="gongmanse" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="syt-jH-Pjk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9E7-0y-Irl">
+                                <rect key="frame" x="20" y="0.0" width="114" height="80"/>
+                                <color key="backgroundColor" red="1" green="0.51023204820000001" blue="0.16042598529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="화학" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ms5-BX-vIJ">
+                                <rect key="frame" x="149" y="0.0" width="40" height="20"/>
+                                <color key="backgroundColor" red="0.14875933529999999" green="0.29579317570000002" blue="0.38432610029999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ms5-BX-vIJ" secondAttribute="height" multiplier="2:1" id="GWQ-gs-hCz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="용어" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dot-a8-GUt">
+                                <rect key="frame" x="197" y="0.0" width="40" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Dot-a8-GUt" secondAttribute="height" multiplier="2:1" id="pgV-QZ-mka"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전자 배치 규칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhL-u9-Jem">
+                                <rect key="frame" x="149" y="30" width="101.5" height="20.5"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="루돌프 클라우지우스" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf4-lx-xcR">
+                                <rect key="frame" x="149" y="65.5" width="93" height="14.5"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="9E7-0y-Irl" secondAttribute="bottom" id="0Mu-XY-eiK"/>
+                            <constraint firstItem="Bf4-lx-xcR" firstAttribute="leading" secondItem="ZhL-u9-Jem" secondAttribute="leading" id="2hl-Iw-rdq"/>
+                            <constraint firstItem="Bf4-lx-xcR" firstAttribute="height" secondItem="syt-jH-Pjk" secondAttribute="height" multiplier="0.18125" id="D8i-DN-OiB"/>
+                            <constraint firstItem="Dot-a8-GUt" firstAttribute="width" secondItem="ms5-BX-vIJ" secondAttribute="width" id="Iz2-Gh-R9o"/>
+                            <constraint firstItem="9E7-0y-Irl" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.275362" id="KPu-XW-tqv"/>
+                            <constraint firstItem="ms5-BX-vIJ" firstAttribute="leading" secondItem="ZhL-u9-Jem" secondAttribute="leading" id="S2c-AA-jDJ"/>
+                            <constraint firstItem="ms5-BX-vIJ" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.0966184" id="V6C-PJ-sdI"/>
+                            <constraint firstItem="9E7-0y-Irl" firstAttribute="leading" secondItem="syt-jH-Pjk" secondAttribute="leading" constant="20" id="VWO-av-GI4"/>
+                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="leading" secondItem="9E7-0y-Irl" secondAttribute="trailing" constant="15" id="XDY-V2-8kR"/>
+                            <constraint firstItem="9E7-0y-Irl" firstAttribute="top" secondItem="syt-jH-Pjk" secondAttribute="top" id="ZiG-th-W9f"/>
+                            <constraint firstItem="Dot-a8-GUt" firstAttribute="leading" secondItem="ms5-BX-vIJ" secondAttribute="trailing" constant="8" id="bzj-oO-hsu"/>
+                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="height" secondItem="syt-jH-Pjk" secondAttribute="height" multiplier="0.25625" id="clu-zM-WCB"/>
+                            <constraint firstItem="ms5-BX-vIJ" firstAttribute="top" secondItem="syt-jH-Pjk" secondAttribute="top" id="i8d-bA-khb"/>
+                            <constraint firstItem="9E7-0y-Irl" firstAttribute="leading" secondItem="syt-jH-Pjk" secondAttribute="leading" constant="20" id="mic-b7-r2g"/>
+                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="centerY" secondItem="syt-jH-Pjk" secondAttribute="centerY" id="s9W-xn-T7C"/>
+                            <constraint firstAttribute="bottom" secondItem="Bf4-lx-xcR" secondAttribute="bottom" id="vqS-Mp-0B9"/>
+                            <constraint firstItem="Dot-a8-GUt" firstAttribute="top" secondItem="syt-jH-Pjk" secondAttribute="top" id="vx7-ir-Noi"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="syt-jH-Pjk" secondAttribute="bottom" id="DP1-bH-fTk"/>
+                <constraint firstItem="syt-jH-Pjk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="FXz-gD-vuO"/>
+                <constraint firstItem="syt-jH-Pjk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="RU6-Uf-v1W"/>
+                <constraint firstAttribute="trailing" secondItem="syt-jH-Pjk" secondAttribute="trailing" id="qUC-a6-IzL"/>
+            </constraints>
+            <size key="customSize" width="414" height="80"/>
+            <connections>
+                <outlet property="chemistry" destination="ms5-BX-vIJ" id="0Xy-sW-FJg"/>
+                <outlet property="teacher" destination="Bf4-lx-xcR" id="fQM-IH-zto"/>
+                <outlet property="titleImage" destination="9E7-0y-Irl" id="5UI-pn-HoB"/>
+                <outlet property="titleLabel" destination="ZhL-u9-Jem" id="eb5-ee-fwO"/>
+                <outlet property="word" destination="Dot-a8-GUt" id="5GF-74-BdL"/>
+            </connections>
+            <point key="canvasLocation" x="-10.144927536231885" y="105.80357142857143"/>
+        </collectionViewCell>
+    </objects>
+</document>
