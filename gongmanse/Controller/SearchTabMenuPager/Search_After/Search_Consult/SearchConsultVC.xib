@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumSquareRoundR.ttf">
+            <string>NanumSquareRoundR</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchConsultVC" customModule="gongmanse" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="RTZ-wI-hZz" id="LEd-SF-9sk"/>
+                <outlet property="numberOfLesson" destination="rJk-h1-XWL" id="OyT-SF-oj7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="RTZ-wI-hZz">
+                    <rect key="frame" x="0.0" y="91" width="414" height="805"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Q5-mK-Bk6">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nmh-pM-YMr">
+                    <rect key="frame" x="0.0" y="44" width="414" height="47"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 32 개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJk-h1-XWL">
+                            <rect key="frame" x="20" y="8" width="60" height="31"/>
+                            <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uXR-Ne-kOZ">
+                            <rect key="frame" x="95" y="8" width="67" height="31"/>
+                            <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
+                            <state key="normal" title="평점순 ▼">
+                                <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="handleFilter:" destination="-1" eventType="touchUpInside" id="PeL-ux-Xjh"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="uXR-Ne-kOZ" firstAttribute="centerY" secondItem="nmh-pM-YMr" secondAttribute="centerY" id="4sw-0w-eKy"/>
+                        <constraint firstItem="rJk-h1-XWL" firstAttribute="leading" secondItem="nmh-pM-YMr" secondAttribute="leading" constant="20" id="700-4s-YEF"/>
+                        <constraint firstItem="uXR-Ne-kOZ" firstAttribute="leading" secondItem="rJk-h1-XWL" secondAttribute="trailing" constant="15" id="IB6-rF-Ge0"/>
+                        <constraint firstItem="rJk-h1-XWL" firstAttribute="centerY" secondItem="nmh-pM-YMr" secondAttribute="centerY" id="RnF-DU-qUC"/>
+                        <constraint firstItem="rJk-h1-XWL" firstAttribute="height" secondItem="nmh-pM-YMr" secondAttribute="height" multiplier="0.659574" id="sZX-95-oUM"/>
+                        <constraint firstItem="uXR-Ne-kOZ" firstAttribute="height" secondItem="nmh-pM-YMr" secondAttribute="height" multiplier="0.659574" id="y38-di-YPH"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="nmh-pM-YMr" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="36L-Qz-cHV"/>
+                <constraint firstItem="nmh-pM-YMr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="6sK-Gd-zDV"/>
+                <constraint firstAttribute="bottom" secondItem="RTZ-wI-hZz" secondAttribute="bottom" id="DH8-yr-qVK"/>
+                <constraint firstItem="nmh-pM-YMr" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="PTw-6I-KLc"/>
+                <constraint firstItem="RTZ-wI-hZz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="VC7-h1-OOD"/>
+                <constraint firstItem="RTZ-wI-hZz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hDC-8I-KIo"/>
+                <constraint firstItem="RTZ-wI-hZz" firstAttribute="top" secondItem="nmh-pM-YMr" secondAttribute="bottom" id="mRF-CF-Brc"/>
+            </constraints>
+            <point key="canvasLocation" x="-9" y="88"/>
+        </view>
+    </objects>
+</document>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNp-eM-zGT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNp-eM-zGT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -61,10 +61,27 @@
                     <view key="view" contentMode="scaleToFill" id="Ror-aR-zQo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3SL-ZK-eQ1" customClass="TabsView" customModule="gongmanse" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="414" height="55"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="Ujr-lP-LXT"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="9pf-w3-GQN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="3SL-ZK-eQ1" firstAttribute="trailing" secondItem="9pf-w3-GQN" secondAttribute="trailing" id="6m1-VB-0zj"/>
+                            <constraint firstItem="3SL-ZK-eQ1" firstAttribute="leading" secondItem="9pf-w3-GQN" secondAttribute="leading" id="pYW-TV-zLR"/>
+                            <constraint firstItem="3SL-ZK-eQ1" firstAttribute="top" secondItem="9pf-w3-GQN" secondAttribute="top" id="qt0-YK-wRX"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="진도 학습" id="yIJ-gM-h1g"/>
+                    <connections>
+                        <outlet property="tabsView" destination="3SL-ZK-eQ1" id="tc5-FN-FOm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t0b-b6-VH5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -77,10 +94,57 @@
                     <view key="view" contentMode="scaleToFill" id="Ig8-8n-hCU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" placeholder="검색어를 입력하세요" translatesAutoresizingMaskIntoConstraints="NO" id="gdP-5X-sc0">
+                                <rect key="frame" x="13" y="108" width="388" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="BUL-B0-M8s"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IJM-Ft-RZW" customClass="TabsView" customModule="gongmanse" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="188" width="414" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yZ9-EL-Yq3">
+                                <rect key="frame" x="0.0" y="158" width="414" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wmb-SI-qDG">
+                                        <rect key="frame" x="33" y="0.0" width="149" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="모든 학년  " backgroundImage="모든학년배경이미지">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih7-Vv-TnW">
+                                        <rect key="frame" x="238" y="0.0" width="149" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="모든 과목  " backgroundImage="모든학년배경이미지">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="hJk-S9-esz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gdP-5X-sc0" firstAttribute="leading" secondItem="hJk-S9-esz" secondAttribute="leading" constant="13" id="GhL-MB-08e"/>
+                            <constraint firstItem="hJk-S9-esz" firstAttribute="trailing" secondItem="gdP-5X-sc0" secondAttribute="trailing" constant="13" id="U6M-ii-TKE"/>
+                            <constraint firstItem="gdP-5X-sc0" firstAttribute="top" secondItem="hJk-S9-esz" secondAttribute="top" constant="20" id="WWd-ZS-JD7"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="검색" id="Hw2-CA-BRS"/>
+                    <connections>
+                        <outlet property="buttonContainerView" destination="yZ9-EL-Yq3" id="jpF-VW-W4f"/>
+                        <outlet property="gradeButton" destination="Wmb-SI-qDG" id="4bI-QT-oBW"/>
+                        <outlet property="searchBar" destination="gdP-5X-sc0" id="ChN-II-Irq"/>
+                        <outlet property="subjectButton" destination="Ih7-Vv-TnW" id="tcZ-3i-jF2"/>
+                        <outlet property="tabsView" destination="IJM-Ft-RZW" id="dkF-4x-E3h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H8Q-Lw-AGM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -109,10 +173,27 @@
                     <view key="view" contentMode="scaleToFill" id="hgW-up-w06">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vi-Eg-4FO" customClass="TabsView" customModule="gongmanse" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="414" height="55"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="d9M-cg-EyY"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vqZ-hp-P5F"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0vi-Eg-4FO" firstAttribute="top" secondItem="vqZ-hp-P5F" secondAttribute="top" id="CBN-qw-9ei"/>
+                            <constraint firstItem="0vi-Eg-4FO" firstAttribute="trailing" secondItem="vqZ-hp-P5F" secondAttribute="trailing" id="gDJ-dU-Wbz"/>
+                            <constraint firstItem="0vi-Eg-4FO" firstAttribute="leading" secondItem="vqZ-hp-P5F" secondAttribute="leading" id="kjp-eQ-aPW"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="강사별 강의" id="Sa6-x7-5Zw"/>
+                    <connections>
+                        <outlet property="tabsView" destination="0vi-Eg-4FO" id="bZB-11-fch"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhI-qD-cBf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1961,6 +2042,7 @@
         <image name="search_off" width="26" height="45"/>
         <image name="search_on" width="26" height="45"/>
         <image name="star" width="10.5" height="9.5"/>
+        <image name="모든학년배경이미지" width="261" height="50"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
