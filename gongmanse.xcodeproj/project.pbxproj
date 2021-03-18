@@ -85,6 +85,16 @@
 		259B8C24260307A0009A7146 /* TeacherPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C22260307A0009A7146 /* TeacherPlaylistCell.swift */; };
 		259B8C28260307A5009A7146 /* LectureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C26260307A4009A7146 /* LectureCell.swift */; };
 		259B8C29260307A5009A7146 /* LectureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C27260307A5009A7146 /* LectureCell.xib */; };
+		259B8C2E26031C76009A7146 /* PassTicketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C2C26031C76009A7146 /* PassTicketVC.swift */; };
+		259B8C2F26031C76009A7146 /* PassTicketVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C2D26031C76009A7146 /* PassTicketVC.xib */; };
+		259B8C3426031C99009A7146 /* StoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C3226031C99009A7146 /* StoreVC.swift */; };
+		259B8C3526031C99009A7146 /* StoreVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C3326031C99009A7146 /* StoreVC.xib */; };
+		259B8C3926031CBE009A7146 /* PaymentHistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C3726031CBE009A7146 /* PaymentHistoryVC.swift */; };
+		259B8C3A26031CBE009A7146 /* PaymentHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C3826031CBE009A7146 /* PaymentHistoryVC.xib */; };
+		259B8C4026032E87009A7146 /* StoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C3E26032E87009A7146 /* StoreCell.swift */; };
+		259B8C4126032E87009A7146 /* StoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C3F26032E87009A7146 /* StoreCell.xib */; };
+		259B8C4926033EF8009A7146 /* PaymentHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */; };
+		259B8C4A26033EF8009A7146 /* PaymentHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */; };
 		6C47138325F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47138225F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift */; };
 		6C47138625F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */; };
 		6C47139225F60F0A00D68A2B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47139125F60F0900D68A2B /* MainTabBarController.swift */; };
@@ -217,6 +227,16 @@
 		259B8C22260307A0009A7146 /* TeacherPlaylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherPlaylistCell.swift; sourceTree = "<group>"; };
 		259B8C26260307A4009A7146 /* LectureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LectureCell.swift; sourceTree = "<group>"; };
 		259B8C27260307A5009A7146 /* LectureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LectureCell.xib; sourceTree = "<group>"; };
+		259B8C2C26031C76009A7146 /* PassTicketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTicketVC.swift; sourceTree = "<group>"; };
+		259B8C2D26031C76009A7146 /* PassTicketVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PassTicketVC.xib; sourceTree = "<group>"; };
+		259B8C3226031C99009A7146 /* StoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreVC.swift; sourceTree = "<group>"; };
+		259B8C3326031C99009A7146 /* StoreVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoreVC.xib; sourceTree = "<group>"; };
+		259B8C3726031CBE009A7146 /* PaymentHistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentHistoryVC.swift; sourceTree = "<group>"; };
+		259B8C3826031CBE009A7146 /* PaymentHistoryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaymentHistoryVC.xib; sourceTree = "<group>"; };
+		259B8C3E26032E87009A7146 /* StoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCell.swift; sourceTree = "<group>"; };
+		259B8C3F26032E87009A7146 /* StoreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoreCell.xib; sourceTree = "<group>"; };
+		259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentHistoryCell.swift; sourceTree = "<group>"; };
+		259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaymentHistoryCell.xib; sourceTree = "<group>"; };
 		6C47138225F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathTitleCVCell.swift; sourceTree = "<group>"; };
 		6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathCVCell.swift; sourceTree = "<group>"; };
 		6C47139125F60F0900D68A2B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -306,6 +326,7 @@
 		259B8B4B2603000D009A7146 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				259B8C3C26032E60009A7146 /* SideMenuView */,
 				259B8B7D260300F9009A7146 /* CommonView */,
 				259B8B7C260300F8009A7146 /* ProgressLearningView */,
 				259B8B7B260300F7009A7146 /* SearchView */,
@@ -644,6 +665,38 @@
 			path = Playlist_Lecturelist;
 			sourceTree = "<group>";
 		};
+		259B8C2B26031BDB009A7146 /* PassTicket */ = {
+			isa = PBXGroup;
+			children = (
+				259B8C2C26031C76009A7146 /* PassTicketVC.swift */,
+				259B8C2D26031C76009A7146 /* PassTicketVC.xib */,
+				259B8C3226031C99009A7146 /* StoreVC.swift */,
+				259B8C3326031C99009A7146 /* StoreVC.xib */,
+				259B8C3726031CBE009A7146 /* PaymentHistoryVC.swift */,
+				259B8C3826031CBE009A7146 /* PaymentHistoryVC.xib */,
+			);
+			path = PassTicket;
+			sourceTree = "<group>";
+		};
+		259B8C3C26032E60009A7146 /* SideMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				259B8C3D26032E6C009A7146 /* PassTicketView */,
+			);
+			path = SideMenuView;
+			sourceTree = "<group>";
+		};
+		259B8C3D26032E6C009A7146 /* PassTicketView */ = {
+			isa = PBXGroup;
+			children = (
+				259B8C3E26032E87009A7146 /* StoreCell.swift */,
+				259B8C3F26032E87009A7146 /* StoreCell.xib */,
+				259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */,
+				259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */,
+			);
+			path = PassTicketView;
+			sourceTree = "<group>";
+		};
 		6C47139025F60ED800D68A2B /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,6 +717,7 @@
 		6C4713A125F70E3100D68A2B /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				259B8C2B26031BDB009A7146 /* PassTicket */,
 				6C4713D425F8B3C600D68A2B /* Settings */,
 				6C4713D325F8B3A300D68A2B /* MyCalendar */,
 				6C4713C525F87B1800D68A2B /* MyActivity */,
@@ -970,6 +1024,7 @@
 				259B8B5826030048009A7146 /* NanumSquareRoundEB.ttf in Resources */,
 				259B8B832603013F009A7146 /* EmptyStateViewCell.xib in Resources */,
 				259B8BCE2603054D009A7146 /* ProgressScienceVC.xib in Resources */,
+				259B8C3A26031CBE009A7146 /* PaymentHistoryVC.xib in Resources */,
 				259B8BD326030558009A7146 /* ProgressSocialVC.xib in Resources */,
 				259B8C032603062C009A7146 /* LectureTabREADME.md in Resources */,
 				259B8C23260307A0009A7146 /* TeacherPlaylistCell.xib in Resources */,
@@ -977,6 +1032,7 @@
 				259B8BB2260301EC009A7146 /* SearchGradeBottomPopupCell.xib in Resources */,
 				259B8BA8260301D4009A7146 /* SearchConsultCell.xib in Resources */,
 				259B8BDE2603059E009A7146 /* Search_README.md in Resources */,
+				259B8C2F26031C76009A7146 /* PassTicketVC.xib in Resources */,
 				259B8B8E26030153009A7146 /* ProgressMainCell.xib in Resources */,
 				259B8BEE260305CB009A7146 /* SearchAfterVC.xib in Resources */,
 				259B8C1F26030799009A7146 /* CurriculumCell.xib in Resources */,
@@ -995,10 +1051,13 @@
 				259B8BCA26030531009A7146 /* ProgressPopupVC.xib in Resources */,
 				259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */,
 				259B8C1426030640009A7146 /* TeacherPlaylistVC.xib in Resources */,
+				259B8C4126032E87009A7146 /* StoreCell.xib in Resources */,
 				259B8C0D26030632009A7146 /* HighSchoolVC.xib in Resources */,
+				259B8C4A26033EF8009A7146 /* PaymentHistoryCell.xib in Resources */,
 				259B8B5626030048009A7146 /* NanumSquareRoundL.ttf in Resources */,
 				259B8BFD260305EB009A7146 /* SearchNoteVC.xib in Resources */,
 				259B8B8726030148009A7146 /* ProgressPopupCell.xib in Resources */,
+				259B8C3526031C99009A7146 /* StoreVC.xib in Resources */,
 				259B8BBF2603050A009A7146 /* ProgressMainVC.xib in Resources */,
 				259B8B99260301B0009A7146 /* PopularKeywordCell.xib in Resources */,
 				259B8BE4260305B3009A7146 /* RecentKeywordVC.xib in Resources */,
@@ -1065,6 +1124,7 @@
 				259B8B9E260301B7009A7146 /* RecentKeywordCell.swift in Sources */,
 				6CF2E68725F21E2C000FE084 /* PopularCVCell.swift in Sources */,
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
+				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
 				259B8B78260300D6009A7146 /* SearchVideoViewModel.swift in Sources */,
@@ -1078,6 +1138,7 @@
 				6CF2E67B25F0C4CF000FE084 /* ExpertConsultationVC.swift in Sources */,
 				6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */,
 				6CF2E65125F09161000FE084 /* TabCell.swift in Sources */,
+				259B8C3426031C99009A7146 /* StoreVC.swift in Sources */,
 				6CC1F06E25FA0A3600A909B0 /* RecommendBannerCell.swift in Sources */,
 				259B8BCF2603054D009A7146 /* ProgressScienceVC.swift in Sources */,
 				259B8BD92603057A009A7146 /* ProgressOthers.swift in Sources */,
@@ -1089,6 +1150,7 @@
 				6C4713B125F7247E00D68A2B /* TestVC.swift in Sources */,
 				259B8B6426030065009A7146 /* ConstraintMethod.swift in Sources */,
 				6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */,
+				259B8C3926031CBE009A7146 /* PaymentHistoryVC.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,
 				259B8BA3260301CF009A7146 /* SearchNoteCell.swift in Sources */,
 				6C47139E25F61C6200D68A2B /* NoticeTVCell.swift in Sources */,
@@ -1113,6 +1175,7 @@
 				259B8C0F26030632009A7146 /* MiddleSchoolVC.swift in Sources */,
 				259B8C1526030640009A7146 /* TeacherPlaylistVC.swift in Sources */,
 				259B8B5726030048009A7146 /* CustonFont.swift in Sources */,
+				259B8C4926033EF8009A7146 /* PaymentHistoryCell.swift in Sources */,
 				6CF2E65B25F0AA2C000FE084 /* PopularVC.swift in Sources */,
 				6CF2E67E25F0C59A000FE084 /* LectureByInstructorVC.swift in Sources */,
 				6C4713C325F8548900D68A2B /* SettingsVC.swift in Sources */,
@@ -1122,6 +1185,7 @@
 				6C47138325F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift in Sources */,
 				259B8C28260307A5009A7146 /* LectureCell.swift in Sources */,
 				259B8BB1260301EC009A7146 /* SearchGradeBottomPopupCell.swift in Sources */,
+				259B8C2E26031C76009A7146 /* PassTicketVC.swift in Sources */,
 				6CF2E65825F0A992000FE084 /* RecommendVC.swift in Sources */,
 				6CF2E66C25F0AB9B000FE084 /* HomeVC.swift in Sources */,
 				259B8BAC260301D8009A7146 /* SearchVideoCell.swift in Sources */,
