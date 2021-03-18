@@ -1,6 +1,0 @@
-framework module Pods_gongmanse {
-  umbrella header "Pods-gongmanse-umbrella.h"
-
-  export *
-  module * { export * }
-}
