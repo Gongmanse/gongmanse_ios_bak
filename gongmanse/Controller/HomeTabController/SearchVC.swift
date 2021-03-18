@@ -44,12 +44,14 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //네비게이션 바 색상 변경
+        navigationController?.navigationBar.barTintColor = UIColor.white
+        
         // PageController Method
         configureNavi()
         setupTabs()
         setupPageViewController()
         addBottomBorder()
-        setupStyle()
         configureConstraint()
         
         // BottomPopup Setting
@@ -158,20 +160,14 @@ class SearchVC: UIViewController {
         // 좌, 우 버튼생성
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "alarm"), style: .plain, target: self, action: #selector(handleAlarm))
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "text.justifyleft")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAlarm))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAlarm))
 
-        // 그림자 효과
-        self.navigationController?.navigationBar.layer.masksToBounds = false
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.8
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1
-    }
-    
-    func setupStyle() {
-        // 탭 바 그림자효과부여
-        UITabBar.clearShadow()
-        tabBarController?.tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 12)
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
     }
     
     func addBottomBorder() {

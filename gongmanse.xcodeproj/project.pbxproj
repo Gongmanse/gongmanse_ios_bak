@@ -103,6 +103,8 @@
 		6C4C38A525FEFCF600653A61 /* LectureQuestionsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38A425FEFCF600653A61 /* LectureQuestionsTVCell.swift */; };
 		6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38AA25FF4C0A00653A61 /* ExpertConsultTVCell.swift */; };
 		6C4C38AF26004F8900653A61 /* BookMarkTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38AE26004F8900653A61 /* BookMarkTVCell.swift */; };
+		6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */; };
+		6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */; };
 		6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */; };
 		6CB83C2F2600C7F8007AED64 /* RecentVideoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C2E2600C7F8007AED64 /* RecentVideoTVCell.swift */; };
 		6CB83C3226018F00007AED64 /* NoteListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C3126018F00007AED64 /* NoteListTVC.swift */; };
@@ -233,6 +235,8 @@
 		6C4C38A425FEFCF600653A61 /* LectureQuestionsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureQuestionsTVCell.swift; sourceTree = "<group>"; };
 		6C4C38AA25FF4C0A00653A61 /* ExpertConsultTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultTVCell.swift; sourceTree = "<group>"; };
 		6C4C38AE26004F8900653A61 /* BookMarkTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkTVCell.swift; sourceTree = "<group>"; };
+		6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationTVCell.swift; sourceTree = "<group>"; };
+		6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationFloatingVC.swift; sourceTree = "<group>"; };
 		6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoTVC.swift; sourceTree = "<group>"; };
 		6CB83C2E2600C7F8007AED64 /* RecentVideoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoTVCell.swift; sourceTree = "<group>"; };
 		6CB83C3126018F00007AED64 /* NoteListTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTVC.swift; sourceTree = "<group>"; };
@@ -821,6 +825,8 @@
 				6CF2E67025F0C449000FE084 /* ProgressLearningVC.swift */,
 				6CF2E67725F0C498000FE084 /* SearchVC.swift */,
 				6CF2E67A25F0C4CF000FE084 /* ExpertConsultationVC.swift */,
+				6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */,
+				6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */,
 				6CF2E67D25F0C59A000FE084 /* LectureByInstructorVC.swift */,
 			);
 			path = HomeTabController;
@@ -1063,6 +1069,7 @@
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
 				259B8B78260300D6009A7146 /* SearchVideoViewModel.swift in Sources */,
 				6C4713BD25F853EA00D68A2B /* SideMenuNoticeVC.swift in Sources */,
+				6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */,
 				6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
 				6CD7C3C525F086E00092D30E /* AppDelegate.swift in Sources */,
@@ -1088,6 +1095,7 @@
 				259B8C24260307A0009A7146 /* TeacherPlaylistCell.swift in Sources */,
 				259B8B75260300D2009A7146 /* RecentKeywordViewModel.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
+				6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */,
 				259B8BEF260305CB009A7146 /* SearchAfterVC.swift in Sources */,
 				6CF2E67825F0C498000FE084 /* SearchVC.swift in Sources */,
 				259B8BD426030558009A7146 /* ProgressSocialVC.swift in Sources */,
