@@ -23,10 +23,12 @@ class ProgressLearningVC: UIViewController {
         setupTabs()
         setupPageViewController()
         
-        navigationItem.title = "진도학습"
-        
         addBottomBorder()
         configureNavi()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = "진도학습"
     }
     //MARK: - Helper functions
     

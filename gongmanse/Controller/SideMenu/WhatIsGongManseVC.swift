@@ -14,5 +14,4 @@ class WhatIsGongManseVC: UIViewController {
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
     }
-
 }

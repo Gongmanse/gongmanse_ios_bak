@@ -65,15 +65,6 @@ class SearchVC: UIViewController {
         searchBar.backgroundImage = searchBarImage
         searchBar.setImage(#imageLiteral(resourceName: "search_on"), for: .search, state: .normal)
     }
-    
-    
-    //MARK: - Actions
-    
-    @objc func handleAlarm() {
-        // 직접 RecentKeyword > TableView , reload 해야할 시, 사용할 delegate Method
-        self.delegate?.finalReload()
-    }
-    
 
     //MARK: - Helper functions
 
@@ -156,11 +147,6 @@ class SearchVC: UIViewController {
         title.text = "검색"
         title.font = UIFont.appBoldFontWith(size: 17)
         navigationItem.titleView = title
-        
-        // 좌, 우 버튼생성
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "alarm"), style: .plain, target: self, action: #selector(handleAlarm))
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAlarm))
 
         //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor

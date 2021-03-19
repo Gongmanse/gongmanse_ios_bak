@@ -2,6 +2,11 @@ import UIKit
 
 class ExpertConsultationFloatingVC: UIViewController {
 
+    @IBOutlet weak var upLoadImage: UIImageView!
+    @IBOutlet weak var answerTextView: UITextView!
+    @IBOutlet weak var addImageBtn: UIButton!
+    @IBOutlet weak var writeBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -13,5 +18,28 @@ class ExpertConsultationFloatingVC: UIViewController {
         
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
+        
+        //업로드 이미지 라운딩 처리 및 Border 추가
+        upLoadImage.layer.cornerRadius = 13
+        upLoadImage.layer.borderWidth = 2.0
+        upLoadImage.layer.borderColor = #colorLiteral(red: 0.9294117647, green: 0.9294117647, blue: 0.9294117647, alpha: 1)
+        upLoadImage.backgroundColor = .clear
+        
+        //답변 텍스트 뷰 라운딩 처리 및 Border 추가
+        answerTextView.layer.cornerRadius = 13
+        answerTextView.layer.borderWidth = 2.0
+        answerTextView.layer.borderColor = #colorLiteral(red: 0.9294117647, green: 0.9294117647, blue: 0.9294117647, alpha: 1)
+        answerTextView.backgroundColor = .clear
+        
+        //작성하기 버튼 라운딩 처리
+        writeBtn.layer.cornerRadius = 8
+        writeBtn.layer.shadowColor = UIColor.gray.cgColor
+        writeBtn.layer.shadowOffset = CGSize(width: 0, height: 4)
+        writeBtn.layer.shadowRadius = 5
+        writeBtn.layer.shadowOpacity = 0.3
+    }
+    
+    @IBAction func writeBtnAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
 }

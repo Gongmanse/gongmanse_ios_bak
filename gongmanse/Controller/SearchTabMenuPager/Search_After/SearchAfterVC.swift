@@ -64,6 +64,9 @@ class SearchAfterVC: UIViewController {
         // SearchBar
         configureSearchBar()
         
+        //네비게이션 바 색상 변경
+        navigationController?.navigationBar.barTintColor = UIColor.white
+        
     }
     
     
@@ -114,15 +117,16 @@ class SearchAfterVC: UIViewController {
         navigationItem.titleView = title
         
         // navigationItem Back button
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
+        backButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         
-        // 그림자 효과
-        self.navigationController?.navigationBar.layer.masksToBounds = false
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.8
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
     }
     
     func setupTabs() {

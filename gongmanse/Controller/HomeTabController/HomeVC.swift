@@ -14,8 +14,6 @@ class HomeVC: UIViewController {
         
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
-        //탭 바 색상 변경
-        tabBarController?.tabBar.barTintColor = UIColor.white
 
         setupTabs()
         setupPageViewController()

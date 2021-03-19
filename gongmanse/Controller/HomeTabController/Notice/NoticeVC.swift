@@ -9,8 +9,8 @@ class NoticeVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //네비게이션 바 타이틀 정하기
+        
+        //네비게이션 바 타이틀 지정
         self.navigationItem.title = "알림"
         
         //네비게이션 바 뒤로가기 버튼 색상 바꾸기

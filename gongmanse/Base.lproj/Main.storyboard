@@ -79,8 +79,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yIJ-gM-h1g">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="alarm" id="E0W-Ms-Wd7"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="list" id="s9g-kV-XFp"/>
+                        <barButtonItem key="leftBarButtonItem" image="alarm" id="E0W-Ms-Wd7">
+                            <connections>
+                                <segue destination="K1i-Se-r2y" kind="push" id="bS5-JD-jfF"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="list" id="s9g-kV-XFp">
+                            <connections>
+                                <segue destination="hMZ-Bh-xa8" kind="show" id="9yM-Fl-lv9"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tabsView" destination="3SL-ZK-eQ1" id="tc5-FN-FOm"/>
@@ -140,7 +148,18 @@
                             <constraint firstItem="gdP-5X-sc0" firstAttribute="top" secondItem="hJk-S9-esz" secondAttribute="top" constant="20" id="WWd-ZS-JD7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="검색" id="Hw2-CA-BRS"/>
+                    <navigationItem key="navigationItem" title="검색" id="Hw2-CA-BRS">
+                        <barButtonItem key="leftBarButtonItem" image="alarm" id="CPF-we-LZz">
+                            <connections>
+                                <segue destination="K1i-Se-r2y" kind="push" id="jHT-2c-ryc"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="list" id="nX8-jS-tAM">
+                            <connections>
+                                <segue destination="hMZ-Bh-xa8" kind="show" id="amk-EG-qGo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="buttonContainerView" destination="yZ9-EL-Yq3" id="jpF-VW-W4f"/>
                         <outlet property="gradeButton" destination="Wmb-SI-qDG" id="4bI-QT-oBW"/>
@@ -317,8 +336,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pia-uO-dPG">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="alarm" id="fuz-t4-bIe"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="list" id="8O2-bD-eXX"/>
+                        <barButtonItem key="leftBarButtonItem" image="alarm" id="fuz-t4-bIe">
+                            <connections>
+                                <segue destination="K1i-Se-r2y" kind="push" id="RQ3-Hc-uCw"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="list" id="8O2-bD-eXX">
+                            <connections>
+                                <segue destination="hMZ-Bh-xa8" kind="show" id="ltC-PN-uOf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="ExpertConsultationTV" destination="q4W-56-B4h" id="wRl-fh-bmf"/>
@@ -338,13 +365,99 @@
                     <view key="view" contentMode="scaleToFill" id="f9R-aA-sfa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사진 &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hnb-d6-Po0">
+                                <rect key="frame" x="20" y="64" width="56" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="56" id="LQh-IY-MeM"/>
+                                    <constraint firstAttribute="height" constant="20" id="cb4-jL-DEv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사진 &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISp-Lf-fTm">
+                                <rect key="frame" x="20" y="299" width="56" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="4Wa-As-xUa"/>
+                                    <constraint firstAttribute="width" constant="56" id="lID-WH-MBO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photoDefault" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
+                                <rect key="frame" x="40" y="99" width="334" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="334" id="3sh-7Y-cJM"/>
+                                    <constraint firstAttribute="height" constant="160" id="cU5-Mg-HJk"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="be동사가 조동사로 쓰이는 경우에 예시를 알고 싶습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cfC-XL-tF6">
+                                <rect key="frame" x="40" y="334" width="334" height="190"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="190" id="1PZ-BE-B5R"/>
+                                    <constraint firstAttribute="width" constant="334" id="fVu-AR-4xr"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fxh-nb-VJ8">
+                                <rect key="frame" x="50" y="822" width="314" height="40"/>
+                                <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="314" id="Izj-eN-NfM"/>
+                                    <constraint firstAttribute="height" constant="40" id="T6t-jZ-QGw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <state key="normal" title="작성하기">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="writeBtnAction:" destination="AgR-CB-1m6" eventType="touchUpInside" id="c5V-Li-8Iy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvM-yL-jXR">
+                                <rect key="frame" x="374" y="64" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="bzt-ac-2bH"/>
+                                    <constraint firstAttribute="width" constant="20" id="lif-oF-avs"/>
+                                </constraints>
+                                <state key="normal" image="addPhoto"/>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="F6q-xg-ic5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Fxh-nb-VJ8" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="50" id="5sL-VQ-LTx"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Jcd-0a-MXO" secondAttribute="trailing" constant="40" id="68E-np-ikF"/>
+                            <constraint firstItem="ISp-Lf-fTm" firstAttribute="top" secondItem="Jcd-0a-MXO" secondAttribute="bottom" constant="40" id="6mA-BA-yQM"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="cfC-XL-tF6" secondAttribute="trailing" constant="40" id="75P-hv-6X1"/>
+                            <constraint firstItem="Hnb-d6-Po0" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="AjN-Lf-XIq"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="hvM-yL-jXR" secondAttribute="trailing" constant="20" id="E7P-T8-eYt"/>
+                            <constraint firstItem="hvM-yL-jXR" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="G3t-4w-7Gi"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Fxh-nb-VJ8" secondAttribute="trailing" constant="50" id="KWI-ht-Rge"/>
+                            <constraint firstItem="ISp-Lf-fTm" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="NDx-it-EBi"/>
+                            <constraint firstItem="Jcd-0a-MXO" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="40" id="Y1i-qB-n4u"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="bottom" secondItem="Fxh-nb-VJ8" secondAttribute="bottom" id="buF-LM-AQr"/>
+                            <constraint firstItem="Jcd-0a-MXO" firstAttribute="top" secondItem="Hnb-d6-Po0" secondAttribute="bottom" constant="15" id="gA0-dC-c0c"/>
+                            <constraint firstItem="cfC-XL-tF6" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="40" id="uRf-XI-Ly1"/>
+                            <constraint firstItem="Hnb-d6-Po0" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="xWm-aQ-5Pe"/>
+                            <constraint firstItem="cfC-XL-tF6" firstAttribute="top" secondItem="ISp-Lf-fTm" secondAttribute="bottom" constant="15" id="xYn-Ue-DmU"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addImageBtn" destination="hvM-yL-jXR" id="7ER-qO-92A"/>
+                        <outlet property="answerTextView" destination="cfC-XL-tF6" id="28L-1r-dT9"/>
+                        <outlet property="upLoadImage" destination="Jcd-0a-MXO" id="ZPw-FM-5lg"/>
+                        <outlet property="writeBtn" destination="Fxh-nb-VJ8" id="gh5-Ig-HLY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hvY-nZ-yXF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6407" y="822"/>
+            <point key="canvasLocation" x="6405.7971014492759" y="821.65178571428567"/>
         </scene>
         <!--강사별 강의-->
         <scene sceneID="6f6-y0-1uR">
@@ -370,7 +483,18 @@
                             <constraint firstItem="0vi-Eg-4FO" firstAttribute="leading" secondItem="vqZ-hp-P5F" secondAttribute="leading" id="kjp-eQ-aPW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="강사별 강의" id="Sa6-x7-5Zw"/>
+                    <navigationItem key="navigationItem" title="강사별 강의" id="Sa6-x7-5Zw">
+                        <barButtonItem key="leftBarButtonItem" image="alarm" id="0c9-OG-a4j">
+                            <connections>
+                                <segue destination="K1i-Se-r2y" kind="push" id="1s1-Wf-sWq"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="list" id="OSp-3x-Wi3">
+                            <connections>
+                                <segue destination="hMZ-Bh-xa8" kind="show" id="xjb-mo-FWE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tabsView" destination="0vi-Eg-4FO" id="bZB-11-fch"/>
                     </connections>
@@ -1960,7 +2084,7 @@
         <!--NoticeVC-->
         <scene sceneID="CQv-bE-deb">
             <objects>
-                <tableViewController storyboardIdentifier="NoticeVC" id="K1i-Se-r2y" customClass="NoticeVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NoticeVC" hidesBottomBarWhenPushed="YES" id="K1i-Se-r2y" customClass="NoticeVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hm7-Su-UOx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2206,7 +2330,12 @@
             <point key="canvasLocation" x="7218.8405797101459" y="118.52678571428571"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="xjb-mo-FWE"/>
+        <segue reference="1s1-Wf-sWq"/>
+    </inferredMetricsTieBreakers>
     <resources>
+        <image name="addPhoto" width="18" height="18"/>
         <image name="alarm" width="22" height="25.5"/>
         <image name="arrowBelowGray" width="8" height="8"/>
         <image name="expert_off" width="56" height="47"/>
@@ -2217,12 +2346,16 @@
         <image name="lecture_off" width="56" height="47"/>
         <image name="lecture_on" width="56" height="47"/>
         <image name="list" width="22" height="20"/>
+        <image name="photoDefault" width="50" height="50"/>
         <image name="progress_off" width="47" height="47"/>
         <image name="progress_on" width="47" height="47"/>
         <image name="search_off" width="26" height="45"/>
         <image name="search_on" width="26" height="45"/>
         <image name="star" width="10.5" height="9.5"/>
         <image name="모든학년배경이미지" width="261" height="50"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
