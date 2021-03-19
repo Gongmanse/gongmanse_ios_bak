@@ -9,6 +9,8 @@ import UIKit
 
 class FindIDResultVC: UIViewController {
 
+    var pageIndex: Int!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -8,7 +8,6 @@
 import UIKit
 
 class LoginVC: UIViewController {
-
     
     // MARK: - IBOutlet
     
@@ -40,7 +39,7 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
+        setupUI()           // Custom TextField UI 설정
         // UI 메모리 로드 이후, 내비게이션 바와 탭 바 제거
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -54,6 +53,12 @@ class LoginVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isHidden = false
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func handleLogin(_ sender: Any) {
+        self.navigationController?.navigationBar.isHidden = false
+        let vc = FindingIDVC(nibName: "FindingIDVC", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // 아이디 찾기 클릭 시,
@@ -71,23 +76,46 @@ class LoginVC: UIViewController {
         print("DEBUG: Clicked Registration")
     }
     
+    
     // MARK: - Helper functions
     
     func configureUI() {
+        /* UITextField Properties and LeftView */
         let tfWidth = view.frame.width - 40
+        
+        // 아이디 TextField leftView
+        let idImage = #imageLiteral(resourceName: "myActivity")
+        let idleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let idimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        idimageView.image = idImage
+        idleftView.addSubview(idimageView)
+        
+        // 비밀번호 TextField leftView
+        let passwordImage = #imageLiteral(resourceName: "home_on")
+        let passwordleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let passwordimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        passwordimageView.image = passwordImage
+        passwordleftView.addSubview(passwordimageView)
+        
+        /* UITextField setting */
         // 아이디 Textfield
-        idTextField.setDimensions(height: 30, width: tfWidth - 20)
-        custonTextField(tf: idTextField, width: tfWidth, leftImage: #imageLiteral(resourceName: "settings"), placehoder: "아이디")
+        idTextField.setDimensions(height: 50, width: tfWidth - 20)
+        idTextField.placeholder = "아이디"
+        idTextField.leftViewMode = .always
+        idTextField.leftView = idleftView
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: logoImage.bottomAnchor,
                            paddingTop: view.frame.height * 0.1)
         
         // 비밀번호 Textfield
-        passwordTextField.setDimensions(height: 30, width: tfWidth - 20)
-        custonTextField(tf: passwordTextField, width: tfWidth, leftImage: #imageLiteral(resourceName: "settings"), placehoder: "비밀번호")
+        passwordTextField.setDimensions(height: 50, width: tfWidth - 20)
+        passwordTextField.placeholder = "비밀번호"
+        passwordTextField.leftViewMode = .always
+        passwordTextField.leftView = passwordleftView
         passwordTextField.isSecureTextEntry = true
         passwordTextField.keyboardType = .emailAddress
+        
         passwordTextField.centerX(inView: view)
         passwordTextField.anchor(top: idTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
@@ -144,4 +172,22 @@ class LoginVC: UIViewController {
 
 
 
+}
+
+
+// MARK: - CustomTextField
+private extension LoginVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
 }

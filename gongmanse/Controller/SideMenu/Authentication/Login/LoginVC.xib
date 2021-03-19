@@ -32,7 +32,7 @@
                         <constraint firstAttribute="width" secondItem="V0s-mv-udY" secondAttribute="height" multiplier="154:57" id="I7m-LI-ezb"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kte-JM-11E">
+                <textField opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kte-JM-11E" customClass="SloyTextField" customModule="gongmanse" customModuleProvider="target">
                     <rect key="frame" x="16" y="371" width="358" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -45,6 +45,9 @@
                     <state key="normal" title="로그인">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="handleLogin:" destination="-1" eventType="touchUpInside" id="TEe-g7-iGK"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-fK-NAT">
                     <rect key="frame" x="37" y="613" width="69" height="30"/>
@@ -76,7 +79,7 @@
                         <action selector="handleRegistration:" destination="-1" eventType="touchUpInside" id="j47-sy-KyH"/>
                     </connections>
                 </button>
-                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ha7-Id-Qzb">
+                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ha7-Id-Qzb" customClass="SloyTextField" customModule="gongmanse" customModuleProvider="target">
                     <rect key="frame" x="16" y="433" width="350" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
