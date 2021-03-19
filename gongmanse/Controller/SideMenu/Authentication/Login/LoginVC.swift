@@ -9,6 +9,14 @@ import UIKit
 
 class LoginVC: UIViewController {
 
+    // MARK: - Test - UITextField 03.19 14:21
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    
+    
+    
     
     // MARK: - IBOutlet
     
@@ -40,7 +48,7 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
+        setupUI()
         // UI 메모리 로드 이후, 내비게이션 바와 탭 바 제거
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -83,8 +91,8 @@ class LoginVC: UIViewController {
     func configureUI() {
         let tfWidth = view.frame.width - 40
         // 아이디 Textfield
-        idTextField.setDimensions(height: 30, width: tfWidth - 20)
-        custonTextField(tf: idTextField, width: tfWidth, leftImage: #imageLiteral(resourceName: "settings"), placehoder: "아이디")
+        idTextField.setDimensions(height: 50, width: tfWidth - 20)
+        idTextField.placeholder = "   아이디"
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: logoImage.bottomAnchor,
@@ -151,4 +159,22 @@ class LoginVC: UIViewController {
 
 
 
+}
+
+
+private extension LoginVC {
+    
+    @objc
+    func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
 }

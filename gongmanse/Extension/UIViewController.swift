@@ -52,5 +52,17 @@ extension UIViewController {
         dividerView.setDimensions(height: 1.2, width: width)
         dividerView.centerX(inView: view)
     }
+ 
+
+    
+    static func instantiateFromStoryboard() -> Self {
+        let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle(for: self))
+        guard let viewController = storyboard.instantiateInitialViewController() as? Self else {
+            fatalError("Can't instantiate \(self) from storyboard")
+        }
+        return viewController
+    }
+    
+    
     
 }

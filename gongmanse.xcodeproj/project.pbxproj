@@ -19,6 +19,8 @@
 		25201DBA26042894001098AC /* FindIDResultVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25201DB826042894001098AC /* FindIDResultVC.xib */; };
 		25201DBE26042A92001098AC /* FindingIDVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DBC26042A92001098AC /* FindingIDVC.swift */; };
 		25201DBF26042A92001098AC /* FindingIDVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25201DBD26042A92001098AC /* FindingIDVC.xib */; };
+		25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DDA26046BD0001098AC /* FloatingTextField.swift */; };
+		25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DDD26046BDF001098AC /* SloyTextField.swift */; };
 		257C61372602E86000153BF3 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C61362602E86000153BF3 /* test.swift */; };
 		259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */; };
 		259B8B5626030048009A7146 /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5126030048009A7146 /* NanumSquareRoundL.ttf */; };
@@ -174,6 +176,8 @@
 		25201DB826042894001098AC /* FindIDResultVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindIDResultVC.xib; sourceTree = "<group>"; };
 		25201DBC26042A92001098AC /* FindingIDVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDVC.swift; sourceTree = "<group>"; };
 		25201DBD26042A92001098AC /* FindingIDVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindingIDVC.xib; sourceTree = "<group>"; };
+		25201DDA26046BD0001098AC /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
+		25201DDD26046BDF001098AC /* SloyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SloyTextField.swift; sourceTree = "<group>"; };
 		257C61362602E86000153BF3 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
 		259B8B5126030048009A7146 /* NanumSquareRoundL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundL.ttf; sourceTree = "<group>"; };
@@ -384,6 +388,15 @@
 			path = FindingID;
 			sourceTree = "<group>";
 		};
+		25201DD926046BC2001098AC /* CustomTextField */ = {
+			isa = PBXGroup;
+			children = (
+				25201DDA26046BD0001098AC /* FloatingTextField.swift */,
+				25201DDD26046BDF001098AC /* SloyTextField.swift */,
+			);
+			path = CustomTextField;
+			sourceTree = "<group>";
+		};
 		257C61352602E85700153BF3 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,6 +438,7 @@
 		259B8B4E26030020009A7146 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				25201DD926046BC2001098AC /* CustomTextField */,
 				259B8B5F26030065009A7146 /* ConstraintMethod.swift */,
 				259B8B5E26030065009A7146 /* UIColor.swift */,
 				259B8B5D26030065009A7146 /* UIImage.swift */,
@@ -1198,6 +1212,7 @@
 				259B8B6226030065009A7146 /* UIImage.swift in Sources */,
 				6CF2E65F25F0AA45000FE084 /* KoreanEnglishMathVC.swift in Sources */,
 				259B8B9E260301B7009A7146 /* RecentKeywordCell.swift in Sources */,
+				25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */,
 				6CF2E68725F21E2C000FE084 /* PopularCVCell.swift in Sources */,
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
@@ -1228,6 +1243,7 @@
 				259B8B6426030065009A7146 /* ConstraintMethod.swift in Sources */,
 				6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */,
 				259B8C3926031CBE009A7146 /* PaymentHistoryVC.swift in Sources */,
+				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,
 				259B8BA3260301CF009A7146 /* SearchNoteCell.swift in Sources */,
 				6C47139E25F61C6200D68A2B /* NoticeTVCell.swift in Sources */,
