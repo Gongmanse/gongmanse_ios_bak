@@ -56,6 +56,12 @@ class LoginVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func handleLogin(_ sender: Any) {
+        self.navigationController?.navigationBar.isHidden = false
+        let vc = FindingIDVC(nibName: "FindingIDVC", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // 아이디 찾기 클릭 시,
     @IBAction func handleFindingID(_ sender: Any) {
         print("DEBUG: Clicked Finding ID")
@@ -70,6 +76,7 @@ class LoginVC: UIViewController {
     @IBAction func handleRegistration(_ sender: Any) {
         print("DEBUG: Clicked Registration")
     }
+    
     
     // MARK: - Helper functions
     

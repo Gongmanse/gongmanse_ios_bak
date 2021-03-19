@@ -9,6 +9,8 @@ import UIKit
 
 class FindIDByEmailVC: UIViewController {
 
+    var pageIndex: Int!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

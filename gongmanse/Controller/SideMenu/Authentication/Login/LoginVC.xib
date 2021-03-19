@@ -45,6 +45,9 @@
                     <state key="normal" title="로그인">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="handleLogin:" destination="-1" eventType="touchUpInside" id="TEe-g7-iGK"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-fK-NAT">
                     <rect key="frame" x="37" y="613" width="69" height="30"/>
