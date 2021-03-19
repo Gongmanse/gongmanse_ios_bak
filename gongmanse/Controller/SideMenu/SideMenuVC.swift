@@ -114,7 +114,8 @@ class SideMenuVC: UITableViewController {
     }
     
     @objc func handleLoginButton() {
-        let vc = PassTicketVC(nibName: "PassTicketVC", bundle: nil)
+//        let vc = PassTicketVC(nibName: "PassTicketVC", bundle: nil)
+        let vc = LoginVC(nibName: "LoginVC", bundle: nil)
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

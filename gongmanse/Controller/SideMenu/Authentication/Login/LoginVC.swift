@@ -9,21 +9,40 @@ import UIKit
 
 class LoginVC: UIViewController {
 
+    
+    // MARK: - IBOutlet
+    
+    @IBOutlet weak var idTextField: UITextField!
+    
+    lazy var dividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .mainOrange
+        return view
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureUI()
     }
 
+    
+    func configureUI() {
+        let tfWidth = view.frame.width - 40
+        // 아이디 Textfield
+        idTextField.setDimensions(height: 50, width: tfWidth - 20)
+        custonTextField(tf: idTextField, width: tfWidth, leftImage: #imageLiteral(resourceName: "settings"), placehoder: "아이디")
+        idTextField.keyboardType = .emailAddress
+        idTextField.centerY(inView: view)
+        idTextField.centerX(inView: view)
+        
+        
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+                                
+        
     }
-    */
+    
+
+
 
 }
