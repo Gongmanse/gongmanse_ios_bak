@@ -2,7 +2,9 @@
  * 작성자 : 김우성
  * 사용 시, UITextField 객체 생성 후 class를 SloyTextField로 작성하면 됩니다. FloatingTextField를 희망하면, FloatingTextField를 class로 선택하면 됩니다.
  * Placeholder가 위로 이동할 때, 색상을 변경하고 싶다면, MARK: Color Chagne 부분을 변경하시면 됩니다.
+ * 03.19(금) 기준 SloyTextField 만 사용하고 있음.
  */
+
 
 
 import UIKit
