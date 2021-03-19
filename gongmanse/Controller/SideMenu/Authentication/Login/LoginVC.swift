@@ -8,15 +8,6 @@
 import UIKit
 
 class LoginVC: UIViewController {
-
-    // MARK: - Test - UITextField 03.19 14:21
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    
-    
-    
     
     // MARK: - IBOutlet
     
@@ -48,7 +39,7 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setupUI()
+        setupUI()           // Custom TextField UI 설정
         // UI 메모리 로드 이후, 내비게이션 바와 탭 바 제거
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -92,15 +83,24 @@ class LoginVC: UIViewController {
         let tfWidth = view.frame.width - 40
         // 아이디 Textfield
         idTextField.setDimensions(height: 50, width: tfWidth - 20)
-        idTextField.placeholder = "   아이디"
+        idTextField.placeholder = "아이디"
+        idTextField.leftViewMode = .always
+        let image = #imageLiteral(resourceName: "settings")
+        let leftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        imageView.image = image
+        leftView.addSubview(imageView)
+        
+        image.withBaselineOffset(fromBottom: 10)
+        idTextField.leftView = leftView
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: logoImage.bottomAnchor,
                            paddingTop: view.frame.height * 0.1)
         
         // 비밀번호 Textfield
-        passwordTextField.setDimensions(height: 30, width: tfWidth - 20)
-        custonTextField(tf: passwordTextField, width: tfWidth, leftImage: #imageLiteral(resourceName: "settings"), placehoder: "비밀번호")
+        passwordTextField.setDimensions(height: 50, width: tfWidth - 20)
+        passwordTextField.placeholder = "   비밀번호"
         passwordTextField.isSecureTextEntry = true
         passwordTextField.keyboardType = .emailAddress
         passwordTextField.centerX(inView: view)
@@ -162,10 +162,10 @@ class LoginVC: UIViewController {
 }
 
 
+// MARK: - CustomTextField
 private extension LoginVC {
     
-    @objc
-    func tapGesture() {
+    @objc func tapGesture() {
         view.endEditing(true)
     }
     

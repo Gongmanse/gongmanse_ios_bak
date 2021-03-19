@@ -28,7 +28,10 @@ final class SloyTextField: UITextField {
     private let label = UILabel()
 
     // MARK: - Private Properties
-
+    
+    // MARK: startingPoint 값 만큼 우측으로 Placehoder와 상단으로 animation되는 Label 위치 이동.
+    private let startingPoint: CGFloat = 25
+    
     private var labelHeight: CGFloat {
         ceil(font?.withSize(Constants.placeholderSize).lineHeight ?? 0)
     }
@@ -42,7 +45,8 @@ final class SloyTextField: UITextField {
     }
 
     private var textInsets: UIEdgeInsets {
-        UIEdgeInsets(top: Constants.offset + labelHeight, left: 0, bottom: Constants.offset, right: 0)
+        // MARK: UITextField 시작 위치 선정, left Parameter에 값 기입할 것.
+        UIEdgeInsets(top: Constants.offset + labelHeight, left: startingPoint, bottom: Constants.offset, right: 0)
     }
 
     // MARK: - Initialization
@@ -119,7 +123,8 @@ final class SloyTextField: UITextField {
     }
 
     private func updateBorder() {
-        let borderColor = isFirstResponder ? tintColor : .inactive
+        // MARK: UITextField 클릭 시, 하단 Border(구분선) 색상 설정
+        let borderColor = isFirstResponder ? UIColor.mainOrange : .inactive
         UIView.animate(withDuration: .animation250ms) {
             self.border.backgroundColor = borderColor
         }
@@ -128,7 +133,8 @@ final class SloyTextField: UITextField {
     private func updateLabel(animated: Bool = true) {
         let alpha: CGFloat = isEmpty ? 0 : 1
         let y = isEmpty ? labelHeight * 0.5 : 0
-        let labelFrame = CGRect(x: 0, y: y, width: bounds.width, height: labelHeight)
+        // MARK: 위로 올라가는 Label의 시작위치 조정, x parameter에 값을 조정할 것.
+        let labelFrame = CGRect(x: startingPoint, y: y, width: bounds.width, height: labelHeight)
 
         guard animated else {
             label.frame = labelFrame
@@ -139,8 +145,9 @@ final class SloyTextField: UITextField {
         UIView.animate(withDuration: .animation250ms) {
             self.label.frame = labelFrame
             self.label.alpha = alpha
-            // MARK: - Color Change
+            // MARK: Color Change
             self.label.textColor = .mainOrange
+            
         }
     }
 }
