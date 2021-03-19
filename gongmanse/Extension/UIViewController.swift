@@ -30,5 +30,27 @@ extension UIViewController {
         return removedArray
     }
     
+    // MARK: - CustonTextField로 동일한 Textfield 구성 시, 공통사항
+    
+    func custonTextField(tf: UITextField, width: CGFloat, leftImage: UIImage, placehoder: String) {
+        let idImage = leftImage.withTintColor(.mainOrange)
+        tf.leftView = UIImageView(image: idImage)
+        tf.leftViewMode = .always
+        tf.borderStyle = .none
+        tf.placeholder = "  \(placehoder)"
+        tf.clearButtonMode = .whileEditing
+        
+        // Textfield 하단 Divider 추가
+        let dividerView: UIView = {
+            let view = UIView()
+            view.backgroundColor = .mainOrange
+            return view
+        }()
+        
+        view.addSubview(dividerView)
+        dividerView.anchor(top: tf.bottomAnchor, paddingTop: 1)
+        dividerView.setDimensions(height: 1.2, width: width)
+        dividerView.centerX(inView: view)
+    }
     
 }
