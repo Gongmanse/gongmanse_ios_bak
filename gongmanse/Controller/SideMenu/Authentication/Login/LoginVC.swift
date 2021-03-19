@@ -80,19 +80,30 @@ class LoginVC: UIViewController {
     // MARK: - Helper functions
     
     func configureUI() {
+        // MARK: TextField에 공통적으로 적용되는 프로퍼티
+        // width value
         let tfWidth = view.frame.width - 40
+        
+        // leftView Image Setting
+        // 아이디 TextField leftView
+        let idImage = #imageLiteral(resourceName: "myActivity")
+        let idleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let idimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        idimageView.image = idImage
+        idleftView.addSubview(idimageView)
+        
+        // 비밀번호 TextField leftView
+        let passwordImage = #imageLiteral(resourceName: "home_on")
+        let passwordleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let passwordimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        passwordimageView.image = passwordImage
+        passwordleftView.addSubview(passwordimageView)
+        
         // 아이디 Textfield
         idTextField.setDimensions(height: 50, width: tfWidth - 20)
         idTextField.placeholder = "아이디"
         idTextField.leftViewMode = .always
-        let image = #imageLiteral(resourceName: "settings")
-        let leftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
-        imageView.image = image
-        leftView.addSubview(imageView)
-        
-        image.withBaselineOffset(fromBottom: 10)
-        idTextField.leftView = leftView
+        idTextField.leftView = idleftView
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: logoImage.bottomAnchor,
@@ -100,9 +111,12 @@ class LoginVC: UIViewController {
         
         // 비밀번호 Textfield
         passwordTextField.setDimensions(height: 50, width: tfWidth - 20)
-        passwordTextField.placeholder = "   비밀번호"
+        passwordTextField.placeholder = "비밀번호"
+        passwordTextField.leftViewMode = .always
+        passwordTextField.leftView = passwordleftView
         passwordTextField.isSecureTextEntry = true
         passwordTextField.keyboardType = .emailAddress
+        
         passwordTextField.centerX(inView: view)
         passwordTextField.anchor(top: idTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
