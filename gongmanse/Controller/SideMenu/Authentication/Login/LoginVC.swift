@@ -80,11 +80,9 @@ class LoginVC: UIViewController {
     // MARK: - Helper functions
     
     func configureUI() {
-        // MARK: TextField에 공통적으로 적용되는 프로퍼티
-        // width value
+        /* UITextField Properties and LeftView */
         let tfWidth = view.frame.width - 40
         
-        // leftView Image Setting
         // 아이디 TextField leftView
         let idImage = #imageLiteral(resourceName: "myActivity")
         let idleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
@@ -99,6 +97,7 @@ class LoginVC: UIViewController {
         passwordimageView.image = passwordImage
         passwordleftView.addSubview(passwordimageView)
         
+        /* UITextField setting */
         // 아이디 Textfield
         idTextField.setDimensions(height: 50, width: tfWidth - 20)
         idTextField.placeholder = "아이디"
