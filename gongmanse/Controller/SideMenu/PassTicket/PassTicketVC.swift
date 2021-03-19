@@ -37,9 +37,10 @@ class PassTicketVC: UIViewController {
     
     //MARK: - Actions
     
-    @objc
-    func dissmissButton() {
-        self.dismiss(animated: true, completion: nil)
+    // Navigation에 있는 BackButton
+    @objc func dissmissButton() {
+        self.navigationController?.popViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
     
 
