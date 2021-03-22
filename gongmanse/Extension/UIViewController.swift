@@ -52,8 +52,8 @@ extension UIViewController {
         dividerView.setDimensions(height: 1.2, width: width)
         dividerView.centerX(inView: view)
     }
- 
-
+    
+    
     
     static func instantiateFromStoryboard() -> Self {
         let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle(for: self))
@@ -63,6 +63,15 @@ extension UIViewController {
         return viewController
     }
     
-    
+    // UITextField LeftView 추가 메소드
+    func settingLeftViewInTextField(_ textField: UITextField,
+                                           _ image: UIImage,
+                                           y: Int = 10) -> UIView {
+        let view = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: y, width: 20, height: 20))
+        imageView.image = image
+        view.addSubview(imageView)
+        return view
+    }
     
 }

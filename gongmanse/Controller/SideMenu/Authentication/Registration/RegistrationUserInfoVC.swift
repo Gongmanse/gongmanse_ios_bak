@@ -19,7 +19,14 @@ class RegistrationUserInfoVC: UIViewController {
     @IBOutlet weak var totalProgressView: UIView!
     @IBOutlet weak var pageID: UILabel!
     @IBOutlet weak var pageNumber: UILabel!
+    
+    // textField
     @IBOutlet weak var idTextField: SloyTextField!
+    @IBOutlet weak var pwdTextField: SloyTextField!
+    @IBOutlet weak var confirmPwdTextField: SloyTextField!
+    @IBOutlet weak var nameTextField: SloyTextField!
+    @IBOutlet weak var nicknameTextField: SloyTextField!
+    @IBOutlet weak var emailTextField: SloyTextField!
     
     
     
@@ -31,7 +38,7 @@ class RegistrationUserInfoVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         cofigureNavi()
- 
+        
      
     }
 
@@ -44,6 +51,13 @@ class RegistrationUserInfoVC: UIViewController {
     // MARK: - Helper functions
 
     func configureUI() {
+        idTextField.delegate = self
+        pwdTextField.delegate = self
+        confirmPwdTextField.delegate = self
+        nameTextField.delegate = self
+        nicknameTextField.delegate = self
+        emailTextField.delegate = self
+        
         tabBarController?.tabBar.isHidden = true
         
         nextButton.backgroundColor = UIColor.mainOrange
@@ -82,34 +96,79 @@ class RegistrationUserInfoVC: UIViewController {
         pageNumber.font = UIFont.appBoldFontWith(size: 14)
         pageNumber.textAlignment = .right
         
+        // MARK: TextField Setting
         // 아이디 TextField
         // 아이디 TextField leftView
-        let tfWidth = view.frame.width - 40
-        let idImage = #imageLiteral(resourceName: "myActivity")
-        let idleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
-        let idimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
-        idimageView.image = idImage
-        idleftView.addSubview(idimageView)
+        let tfWidth = view.frame.width - 125
         
-        idTextField.setDimensions(height: 50, width: tfWidth - 85)
+        let idTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        idTextField.setDimensions(height: 50, width: tfWidth)
         idTextField.placeholder = "아이디"
         idTextField.leftViewMode = .always
-        idTextField.leftView = idleftView
+        idTextField.leftView = idTfLeftView
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: totalProgressView.bottomAnchor,
                            paddingTop: view.frame.height * 0.05)
-    }
-    
-    func settingLeftViewInTextField(_ image: UIImage,
-                                    imageY: Int = 10,
-                                    view: UIView) {
-        let image = image
         
+        // 비밀번호 TextField
+        let pwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        pwdTextField.setDimensions(height: 50, width: tfWidth)
+        pwdTextField.placeholder = "비밀번호"
+        pwdTextField.leftViewMode = .always
+        pwdTextField.leftView = pwdTfLeftView
+        pwdTextField.keyboardType = .emailAddress
+        pwdTextField.isSecureTextEntry = true
+        pwdTextField.centerX(inView: view)
+        pwdTextField.anchor(top: idTextField.bottomAnchor,
+                           paddingTop: view.frame.height * 0.03)
+        
+        // 비밀번호 재입력 TextField
+        let confirmPwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        confirmPwdTextField.setDimensions(height: 50, width: tfWidth)
+        confirmPwdTextField.placeholder = "비밀번호 재입력"
+        confirmPwdTextField.leftViewMode = .always
+        confirmPwdTextField.leftView = confirmPwdTfLeftView
+        confirmPwdTextField.keyboardType = .emailAddress
+        confirmPwdTextField.isSecureTextEntry = true
+        confirmPwdTextField.centerX(inView: view)
+        confirmPwdTextField.anchor(top: pwdTextField.bottomAnchor,
+                           paddingTop: view.frame.height * 0.03)
+        
+        // 이름 TextField
+        let nameTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        nameTextField.setDimensions(height: 50, width: tfWidth)
+        nameTextField.placeholder = "이름"
+        nameTextField.leftViewMode = .always
+        nameTextField.leftView = nameTfLeftView
+        nameTextField.keyboardType = .emailAddress
+        nameTextField.centerX(inView: view)
+        nameTextField.anchor(top: confirmPwdTextField.bottomAnchor,
+                           paddingTop: view.frame.height * 0.03)
+        
+        // 닉네임 TextField
+        let nicknameLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        nicknameTextField.setDimensions(height: 50, width: tfWidth)
+        nicknameTextField.placeholder = "닉네임"
+        nicknameTextField.leftViewMode = .always
+        nicknameTextField.leftView = nicknameLeftView
+        nicknameTextField.keyboardType = .emailAddress
+        nicknameTextField.centerX(inView: view)
+        nicknameTextField.anchor(top: nameTextField.bottomAnchor,
+                           paddingTop: view.frame.height * 0.03)
+        
+        // 이메일 TextField
+        let emailLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        emailTextField.setDimensions(height: 50, width: tfWidth)
+        emailTextField.placeholder = "이메일"
+        emailTextField.leftViewMode = .always
+        emailTextField.leftView = emailLeftView
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.centerX(inView: view)
+        emailTextField.anchor(top: nicknameTextField.bottomAnchor,
+                           paddingTop: view.frame.height * 0.03)
         
     }
-    
-    
     
     func cofigureNavi() {
         // 내비게이션 타이틀 폰트 변경
@@ -122,8 +181,24 @@ class RegistrationUserInfoVC: UIViewController {
 }
 
 
-// MARK: - UITextField LeftView
+// MARK: - UITextFieldDelegate
 
-private extension RegistrationUserInfoVC {
+extension RegistrationUserInfoVC: UITextFieldDelegate {
+    
+    // UITextField가 수정이 시작될 때, 호출
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("DEBUG: press TF")
+    }
+    
+    // UITextField가 수정이 완료될 때, 호출
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("DEBUG: end editing")
+    }
+    
+    // UITextField 사용중에 키보드에서 return(엔터나 완료버튼)을 클릭 시, 호출
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("DEBUG: press Enter")
+        return true
+    }
     
 }

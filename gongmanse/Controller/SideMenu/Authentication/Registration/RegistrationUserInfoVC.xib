@@ -16,11 +16,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegistrationUserInfoVC" customModule="gongmanse" customModuleProvider="target">
             <connections>
+                <outlet property="confirmPwdTextField" destination="Ppw-Zp-7Re" id="eBe-FK-GAX"/>
                 <outlet property="currentProgressView" destination="3Wy-sZ-HdY" id="qxz-lk-PjF"/>
+                <outlet property="emailTextField" destination="gBN-en-acu" id="16r-Wc-aAO"/>
                 <outlet property="idTextField" destination="pbY-bf-ubz" id="gzc-y2-qbZ"/>
+                <outlet property="nameTextField" destination="Mu4-qb-HTZ" id="hQe-i4-XtS"/>
                 <outlet property="nextButton" destination="acO-bh-jpX" id="VXu-bW-ivw"/>
+                <outlet property="nicknameTextField" destination="QgZ-Mk-Gg5" id="Weh-0H-Y2d"/>
                 <outlet property="pageID" destination="zMM-wC-aUM" id="iCf-0f-RtE"/>
                 <outlet property="pageNumber" destination="r93-8r-zRN" id="hZU-4O-72A"/>
+                <outlet property="pwdTextField" destination="eXC-gE-QYR" id="zWe-w3-5tL"/>
                 <outlet property="totalProgressView" destination="d3X-47-Kmc" id="52d-WT-1i4"/>
                 <outlet property="view" destination="C9N-MY-bAY" id="MFE-Cg-30y"/>
             </connections>
