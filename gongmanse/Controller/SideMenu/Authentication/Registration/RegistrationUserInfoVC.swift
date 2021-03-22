@@ -11,7 +11,7 @@ class RegistrationUserInfoVC: UIViewController {
 
     // MARK: - Properties
     
-
+    var userInfo = RegistrationInput(username: "", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 0, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
     
     // MARK: - IBOutlet
     // 오토레이아웃 - CODE
@@ -45,7 +45,10 @@ class RegistrationUserInfoVC: UIViewController {
     // MARK: - Actions
     
     @IBAction func handleNextPage(_ sender: Any) {
-        self.navigationController?.pushViewController(CheckUserIdentificationVC(), animated: false)
+        let vc = CheckUserIdentificationVC()
+        // "회원정보" 페이지에서 작성한 값들을 화면전환 전에 넘겨줌
+        vc.userInfoData = self.userInfo
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     // MARK: - Helper functions
@@ -187,17 +190,37 @@ extension RegistrationUserInfoVC: UITextFieldDelegate {
     
     // UITextField가 수정이 시작될 때, 호출
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("DEBUG: press TF")
     }
     
     // UITextField가 수정이 완료될 때, 호출
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("DEBUG: end editing")
     }
     
     // UITextField 사용중에 키보드에서 return(엔터나 완료버튼)을 클릭 시, 호출
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("DEBUG: press Enter")
+        return true
+    }
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let tf = textField as! SloyTextField
+        
+        switch tf {
+        case idTextField:
+            self.userInfo.username = idTextField.text!
+        case pwdTextField:
+            self.userInfo.password = pwdTextField.text!
+        case confirmPwdTextField:
+            self.userInfo.confirm_password = confirmPwdTextField.text!
+        case nameTextField:
+            self.userInfo.first_name = nameTextField.text!
+        case nicknameTextField:
+            self.userInfo.nickname = nicknameTextField.text!
+        case emailTextField:
+            self.userInfo.email = emailTextField.text!
+        default:
+            print("DEBUG: didn't find textField in Registration...")
+        }
         return true
     }
     
