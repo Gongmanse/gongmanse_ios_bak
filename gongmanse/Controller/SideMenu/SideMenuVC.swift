@@ -91,7 +91,7 @@ class SideMenuVC: UITableViewController {
         self.signUpBtn.frame = CGRect(x: 173, y: 209, width: 105, height: 35)
         self.signUpBtn.layer.cornerRadius = 10
         self.signUpBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        
+        self.signUpBtn.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         view.addSubview(self.signUpBtn)
         
         //닫기 버튼
@@ -109,15 +109,27 @@ class SideMenuVC: UITableViewController {
         self.closeBtn.addTarget(self, action: #selector(closeButton), for: .touchUpInside)
     }
     
+    
+    // MARK: - Actions
+    
     @objc func closeButton() {
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func handleLoginButton() {
+        // TODO: 로그인 이후에는 이용권이 나타날 수 있도록 처리해둘 것
 //        let vc = PassTicketVC(nibName: "PassTicketVC", bundle: nil)
         let vc = LoginVC(nibName: "LoginVC", bundle: nil)
         self.navigationController?.pushViewController(vc, animated: true)
-        
+    }
+    
+    
+    
+    
+    @objc func handleRegistration() {
+        let vc = RegistrationVC(nibName: "RegistrationVC", bundle: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     // MARK: - Table view data source
