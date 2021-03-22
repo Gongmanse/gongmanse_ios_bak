@@ -91,15 +91,25 @@ class RegistrationUserInfoVC: UIViewController {
         idimageView.image = idImage
         idleftView.addSubview(idimageView)
         
-        idTextField.setDimensions(height: 50, width: tfWidth - 20)
+        idTextField.setDimensions(height: 50, width: tfWidth - 85)
         idTextField.placeholder = "아이디"
         idTextField.leftViewMode = .always
         idTextField.leftView = idleftView
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: totalProgressView.bottomAnchor,
-                           paddingTop: view.frame.height * 0.1)
+                           paddingTop: view.frame.height * 0.05)
     }
+    
+    func settingLeftViewInTextField(_ image: UIImage,
+                                    imageY: Int = 10,
+                                    view: UIView) {
+        let image = image
+        
+        
+    }
+    
+    
     
     func cofigureNavi() {
         // 내비게이션 타이틀 폰트 변경

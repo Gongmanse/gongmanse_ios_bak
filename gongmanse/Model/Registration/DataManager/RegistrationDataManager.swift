@@ -13,7 +13,6 @@ class RegistrationDataManager {
 //            .validate()
             .responseDecodable(of: RegistrationResponse.self) { response in
                 
-                print("DEBUG: \(response.description)")
                 switch response.result {
                 case .success(let response):
                     // 연결 성공
@@ -24,7 +23,7 @@ class RegistrationDataManager {
                     } else {
                         // 화원가입 실패 시, 실패메세지 전달 (실패한 항목이 많으면 그만큼 메세지 항목이 많아짐)
                         print("DEBUG: failed Registration...")
-//                        print("DEBUG: \(response.errors)")
+                        print("DEBUG: \(response.errors)")
                         viewController.failedToRequest(message: response.message)
                     }
                 case .failure(let error):
