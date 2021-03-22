@@ -38,7 +38,7 @@ class RegistrationUserInfoVC: UIViewController {
     // MARK: - Actions
     
     @IBAction func handleNextPage(_ sender: Any) {
-        self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
+        self.navigationController?.pushViewController(CheckUserIdentificationVC(), animated: false)
     }
     
     // MARK: - Helper functions
