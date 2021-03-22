@@ -1,11 +1,12 @@
 import UIKit
 
-class PopularCVCell: UICollectionViewCell {
+class OtherSubjectsCVCell: UICollectionViewCell {
+    
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
-    @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var subjects: UILabel!
     @IBOutlet weak var term: UILabel!
+    @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var starRating: UILabel!
     
     override func awakeFromNib() {

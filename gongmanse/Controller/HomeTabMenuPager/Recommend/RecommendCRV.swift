@@ -24,7 +24,7 @@ class RecommendCRV: UICollectionReusableView {
         
         viewTitle.text = "추천BEST! 동영상 강의"
         
-        let attributedString = NSMutableAttributedString(string: viewTitle.text!, attributes: [.font: UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.black])
+        let attributedString = NSMutableAttributedString(string: viewTitle.text!, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold), .foregroundColor: UIColor.black])
         
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .medium), range: (viewTitle.text! as NSString).range(of: "BEST!"))
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (viewTitle.text! as NSString).range(of: "BEST!"))
