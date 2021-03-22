@@ -25,3 +25,16 @@ class CheckUserIdentificationVC: UIViewController {
     }
 
 }
+
+
+// MARK: - 회원가입API post
+
+extension CheckUserIdentificationVC {
+    func didSuccessRegistration(message: String) {
+        // TODO: 회원가입 성공 시, 진행할 로직 작성할 것.
+    }
+    
+    func failedToRequest(message: String) {
+        
+    }
+}

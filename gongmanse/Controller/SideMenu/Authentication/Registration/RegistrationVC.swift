@@ -34,6 +34,9 @@ class RegistrationVC: UIViewController {
 
     // MARK: - Actions
     
+    @IBAction func handleNextPage(_ sender: Any) {
+        self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
+    }
     
     // MARK: - Helper functions
 
@@ -63,15 +66,16 @@ class RegistrationVC: UIViewController {
                       paddingTop: 11,
                       paddingLeft: 20)
         pageID.font = UIFont.appBoldFontWith(size: 14)
+        pageID.textAlignment = .left
         
         pageNumber.setDimensions(height: view.frame.height * 0.02,
                                  width: view.frame.width * 0.15)
         pageNumber.anchor(top: totalProgressView.bottomAnchor,
-                          left: totalProgressView.leftAnchor,
+                          right: view.rightAnchor,
                           paddingTop: 11,
-                          paddingLeft: 20)
-        
-        
+                          paddingRight: 20)
+        pageNumber.font = UIFont.appBoldFontWith(size: 14)
+        pageNumber.textAlignment = .right
         
     }
     
