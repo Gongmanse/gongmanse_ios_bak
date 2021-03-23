@@ -32,6 +32,16 @@
 		2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8C726084056000DFA20 /* RegistrationDataManager.swift */; };
 		2584E8CC26084108000DFA20 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8CB26084108000DFA20 /* Constant.swift */; };
 		2588F852260985C10070C2FC /* RegistrationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F851260985C10070C2FC /* RegistrationResponse.swift */; };
+		2588F857260987690070C2FC /* FindingPwdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F855260987690070C2FC /* FindingPwdVC.swift */; };
+		2588F858260987690070C2FC /* FindingPwdVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F856260987690070C2FC /* FindingPwdVC.xib */; };
+		2588F85D2609877B0070C2FC /* FindingPwdByEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F85B2609877B0070C2FC /* FindingPwdByEmailVC.swift */; };
+		2588F85E2609877B0070C2FC /* FindingPwdByEmailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F85C2609877B0070C2FC /* FindingPwdByEmailVC.xib */; };
+		2588F8622609878D0070C2FC /* FindingPwdByPhoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F8602609878D0070C2FC /* FindingPwdByPhoneVC.swift */; };
+		2588F8632609878D0070C2FC /* FindingPwdByPhoneVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F8612609878D0070C2FC /* FindingPwdByPhoneVC.xib */; };
+		2588F8672609879F0070C2FC /* NewPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F8652609879F0070C2FC /* NewPasswordVC.swift */; };
+		2588F8682609879F0070C2FC /* NewPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F8662609879F0070C2FC /* NewPasswordVC.xib */; };
+		2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F86A260987B30070C2FC /* CompleteChangePwdVC.swift */; };
+		2588F86D260987B30070C2FC /* CompleteChangePwdVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F86B260987B30070C2FC /* CompleteChangePwdVC.xib */; };
 		259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */; };
 		259B8B5626030048009A7146 /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5126030048009A7146 /* NanumSquareRoundL.ttf */; };
 		259B8B5726030048009A7146 /* CustonFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8B5226030048009A7146 /* CustonFont.swift */; };
@@ -205,6 +215,16 @@
 		2584E8C726084056000DFA20 /* RegistrationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDataManager.swift; sourceTree = "<group>"; };
 		2584E8CB26084108000DFA20 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		2588F851260985C10070C2FC /* RegistrationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationResponse.swift; sourceTree = "<group>"; };
+		2588F855260987690070C2FC /* FindingPwdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdVC.swift; sourceTree = "<group>"; };
+		2588F856260987690070C2FC /* FindingPwdVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindingPwdVC.xib; sourceTree = "<group>"; };
+		2588F85B2609877B0070C2FC /* FindingPwdByEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailVC.swift; sourceTree = "<group>"; };
+		2588F85C2609877B0070C2FC /* FindingPwdByEmailVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindingPwdByEmailVC.xib; sourceTree = "<group>"; };
+		2588F8602609878D0070C2FC /* FindingPwdByPhoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByPhoneVC.swift; sourceTree = "<group>"; };
+		2588F8612609878D0070C2FC /* FindingPwdByPhoneVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindingPwdByPhoneVC.xib; sourceTree = "<group>"; };
+		2588F8652609879F0070C2FC /* NewPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordVC.swift; sourceTree = "<group>"; };
+		2588F8662609879F0070C2FC /* NewPasswordVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPasswordVC.xib; sourceTree = "<group>"; };
+		2588F86A260987B30070C2FC /* CompleteChangePwdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteChangePwdVC.swift; sourceTree = "<group>"; };
+		2588F86B260987B30070C2FC /* CompleteChangePwdVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompleteChangePwdVC.xib; sourceTree = "<group>"; };
 		259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
 		259B8B5126030048009A7146 /* NanumSquareRoundL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundL.ttf; sourceTree = "<group>"; };
 		259B8B5226030048009A7146 /* CustonFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustonFont.swift; sourceTree = "<group>"; };
@@ -388,6 +408,7 @@
 		25201DA6260427BD001098AC /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				2588F8542609872D0070C2FC /* FindingPwd */,
 				25201DC126042A96001098AC /* FindingID */,
 				25201D9B260426C6001098AC /* LoginVC.swift */,
 				25201D9C260426C6001098AC /* LoginVC.xib */,
@@ -475,6 +496,23 @@
 				2584E8CB26084108000DFA20 /* Constant.swift */,
 			);
 			path = Cofiguration;
+			sourceTree = "<group>";
+		};
+		2588F8542609872D0070C2FC /* FindingPwd */ = {
+			isa = PBXGroup;
+			children = (
+				2588F855260987690070C2FC /* FindingPwdVC.swift */,
+				2588F856260987690070C2FC /* FindingPwdVC.xib */,
+				2588F85B2609877B0070C2FC /* FindingPwdByEmailVC.swift */,
+				2588F85C2609877B0070C2FC /* FindingPwdByEmailVC.xib */,
+				2588F8602609878D0070C2FC /* FindingPwdByPhoneVC.swift */,
+				2588F8612609878D0070C2FC /* FindingPwdByPhoneVC.xib */,
+				2588F8652609879F0070C2FC /* NewPasswordVC.swift */,
+				2588F8662609879F0070C2FC /* NewPasswordVC.xib */,
+				2588F86A260987B30070C2FC /* CompleteChangePwdVC.swift */,
+				2588F86B260987B30070C2FC /* CompleteChangePwdVC.xib */,
+			);
+			path = FindingPwd;
 			sourceTree = "<group>";
 		};
 		259B8B4B2603000D009A7146 /* View */ = {
@@ -1186,10 +1224,13 @@
 				25201DB026042872001098AC /* FindIDByEmailVC.xib in Resources */,
 				259B8BAD260301D8009A7146 /* SearchVideoCell.xib in Resources */,
 				259B8B9D260301B7009A7146 /* RecentKeywordCell.xib in Resources */,
+				2588F8682609879F0070C2FC /* NewPasswordVC.xib in Resources */,
 				259B8B5826030048009A7146 /* NanumSquareRoundEB.ttf in Resources */,
 				259B8B832603013F009A7146 /* EmptyStateViewCell.xib in Resources */,
 				259B8BCE2603054D009A7146 /* ProgressScienceVC.xib in Resources */,
 				259B8C3A26031CBE009A7146 /* PaymentHistoryVC.xib in Resources */,
+				2588F86D260987B30070C2FC /* CompleteChangePwdVC.xib in Resources */,
+				2588F8632609878D0070C2FC /* FindingPwdByPhoneVC.xib in Resources */,
 				259B8BD326030558009A7146 /* ProgressSocialVC.xib in Resources */,
 				259B8C032603062C009A7146 /* LectureTabREADME.md in Resources */,
 				259B8C23260307A0009A7146 /* TeacherPlaylistCell.xib in Resources */,
@@ -1218,6 +1259,7 @@
 				259B8BA2260301CF009A7146 /* SearchNoteCell.xib in Resources */,
 				259B8BF4260305E1009A7146 /* SearchVideoVC.xib in Resources */,
 				25201DB526042880001098AC /* FindIDByPhoneVC.xib in Resources */,
+				2588F85E2609877B0070C2FC /* FindingPwdByEmailVC.xib in Resources */,
 				259B8BCA26030531009A7146 /* ProgressPopupVC.xib in Resources */,
 				259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */,
 				25201DA4260426D6001098AC /* RegistrationVC.xib in Resources */,
@@ -1234,6 +1276,7 @@
 				259B8B99260301B0009A7146 /* PopularKeywordCell.xib in Resources */,
 				2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */,
 				259B8BE4260305B3009A7146 /* RecentKeywordVC.xib in Resources */,
+				2588F858260987690070C2FC /* FindingPwdVC.xib in Resources */,
 				259B8BF9260305E6009A7146 /* SearchConsultVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1342,6 +1385,7 @@
 				259B8BEF260305CB009A7146 /* SearchAfterVC.swift in Sources */,
 				6C576F5026087A08001B28E6 /* SocialStudiesCRV.swift in Sources */,
 				6CF2E67825F0C498000FE084 /* SearchVC.swift in Sources */,
+				2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */,
 				259B8BD426030558009A7146 /* ProgressSocialVC.swift in Sources */,
 				6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */,
 				6C4713C025F8541600D68A2B /* CustomerServiceVC.swift in Sources */,
@@ -1351,16 +1395,20 @@
 				6C4C38A525FEFCF600653A61 /* LectureQuestionsTVCell.swift in Sources */,
 				259B8B822603013F009A7146 /* EmptyStateViewCell.swift in Sources */,
 				6CD7C3C725F086E00092D30E /* SceneDelegate.swift in Sources */,
+				2588F8672609879F0070C2FC /* NewPasswordVC.swift in Sources */,
 				25201DB426042880001098AC /* FindIDByPhoneVC.swift in Sources */,
 				6C576F4D26087962001B28E6 /* SocialStudiesCVCell.swift in Sources */,
+				2588F8622609878D0070C2FC /* FindingPwdByPhoneVC.swift in Sources */,
 				259B8B98260301B0009A7146 /* PopularKeywordCell.swift in Sources */,
 				6CC1F06825F9CD6A00A909B0 /* RecommendCRV.swift in Sources */,
+				2588F857260987690070C2FC /* FindingPwdVC.swift in Sources */,
 				6C47139A25F6192600D68A2B /* NoticeVC.swift in Sources */,
 				6C4713A325F70E5900D68A2B /* CustomSideMenuNavigation.swift in Sources */,
 				259B8C0F26030632009A7146 /* MiddleSchoolVC.swift in Sources */,
 				259B8C1526030640009A7146 /* TeacherPlaylistVC.swift in Sources */,
 				259B8B5726030048009A7146 /* CustonFont.swift in Sources */,
 				259B8C4926033EF8009A7146 /* PaymentHistoryCell.swift in Sources */,
+				2588F85D2609877B0070C2FC /* FindingPwdByEmailVC.swift in Sources */,
 				6CF2E65B25F0AA2C000FE084 /* PopularVC.swift in Sources */,
 				6CF2E67E25F0C59A000FE084 /* LectureByInstructorVC.swift in Sources */,
 				6C4713C325F8548900D68A2B /* SettingsVC.swift in Sources */,
