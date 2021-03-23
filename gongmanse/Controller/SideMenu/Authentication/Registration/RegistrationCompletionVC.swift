@@ -1,4 +1,11 @@
 //
+//  RegistrationCompletionVC.swift
+//  gongmanse
+//
+//  Created by 김우성 on 2021/03/22.
+//
+
+//
 //  RegistrationVC.swift
 //  gongmanse
 //
@@ -7,20 +14,26 @@
 
 import UIKit
 
-class RegistrationVC: UIViewController {
+class RegistrationCompletionVC: UIViewController {
 
     // MARK: - Properties
     
     
     // MARK: - IBOutlet
     // 오토레이아웃 - CODE
+    
     @IBOutlet weak var currentProgressView: UIView!
     @IBOutlet weak var totalProgressView: UIView!
     @IBOutlet weak var pageID: UILabel!
     @IBOutlet weak var pageNumber: UILabel!
     
     
+    
+    @IBOutlet weak var completeImage: UIImageView!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var completeMent01: UILabel!
+    @IBOutlet weak var completeMent02: UILabel!
+    
     
     // MARK: - Lifecycle
     
@@ -33,9 +46,10 @@ class RegistrationVC: UIViewController {
     }
 
     // MARK: - Actions
-    
-    @IBAction func handleNextPage(_ sender: Any) {
-        self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
+
+    @IBAction func backToMainPage(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+        
     }
     
     // MARK: - Helper functions
@@ -54,7 +68,7 @@ class RegistrationVC: UIViewController {
                                  height: 4)
         totalProgressView.backgroundColor = UIColor(white: 200.0 / 255.0, alpha: 1.0)
         
-        currentProgressView.setDimensions(height: 4, width: view.frame.width * 0.25)
+        currentProgressView.setDimensions(height: 4, width: view.frame.width * 1.0)
         currentProgressView.anchor(top:totalProgressView.topAnchor,
                                    left: totalProgressView.leftAnchor)
         currentProgressView.backgroundColor = .mainOrange
@@ -77,6 +91,18 @@ class RegistrationVC: UIViewController {
         pageNumber.font = UIFont.appBoldFontWith(size: 14)
         pageNumber.textAlignment = .right
         
+        // completeMent01
+        
+        // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
+        let attributedString = NSMutableAttributedString(string: "회원가입",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange])
+        
+        attributedString.append(NSAttributedString(string: "이 완료되었습니다.",
+                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+        completeMent01.attributedText = attributedString
+        completeMent01.font = UIFont.appEBFontWith(size: 22)
+        completeMent02.font = UIFont.appBoldFontWith(size: 13)
+        
     }
     
     func cofigureNavi() {
@@ -88,3 +114,4 @@ class RegistrationVC: UIViewController {
     }
 
 }
+
