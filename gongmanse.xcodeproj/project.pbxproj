@@ -515,6 +515,14 @@
 			path = FindingPwd;
 			sourceTree = "<group>";
 		};
+		258B5E9A2609D81600F470B7 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				2584E8BE26083C86000DFA20 /* Registration */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		259B8B4B2603000D009A7146 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -539,7 +547,6 @@
 		259B8B4D2603001C009A7146 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2584E8BE26083C86000DFA20 /* Registration */,
 				259B8B672603008A009A7146 /* Progress */,
 				259B8B662603007B009A7146 /* Search */,
 			);
@@ -1020,6 +1027,7 @@
 		6CD7C3C325F086E00092D30E /* gongmanse */ = {
 			isa = PBXGroup;
 			children = (
+				258B5E9A2609D81600F470B7 /* API */,
 				2584E8CA260840F9000DFA20 /* Cofiguration */,
 				259B8B4F26030026009A7146 /* Font */,
 				259B8B4E26030020009A7146 /* Extension */,

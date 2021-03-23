@@ -208,20 +208,54 @@ extension RegistrationUserInfoVC: UITextFieldDelegate {
         switch tf {
         case idTextField:
             self.userInfo.username = idTextField.text!
+            textFieldCheck(idTextField)
+            
         case pwdTextField:
             self.userInfo.password = pwdTextField.text!
+            textFieldCheck(pwdTextField)
+            
         case confirmPwdTextField:
             self.userInfo.confirm_password = confirmPwdTextField.text!
+            textFieldCheck(confirmPwdTextField)
+
         case nameTextField:
             self.userInfo.first_name = nameTextField.text!
+            textFieldCheck(nameTextField)
+
         case nicknameTextField:
             self.userInfo.nickname = nicknameTextField.text!
+            textFieldCheck(nicknameTextField)
+
         case emailTextField:
             self.userInfo.email = emailTextField.text!
+            textFieldCheck(emailTextField)
+
         default:
             print("DEBUG: didn't find textField in Registration...")
         }
         return true
+    }
+}
+
+private extension RegistrationUserInfoVC {
+    // 키보드 유효성 검사를 위한 커스텀 메소드
+    func textFieldCheck(_ tf: UITextField) {
+        // textField 좌측에 나타날 이미지
+        let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
+
+        if !textFieldNullCheck(tf) { // 아무것도 입력되지 않은 상태
+        } else {                     // 무언가 입력된 상황
+            tf.rightViewMode = .always
+            tf.rightView = rightView
+        }
+        
+    }
+    
+    func textFieldNullCheck(_ tf: UITextField) -> Bool {
+        if tf.text == "" {
+            print("DEBUG: 아무것도 입력안함.")
+            return false
+        } else { return true }
     }
     
 }

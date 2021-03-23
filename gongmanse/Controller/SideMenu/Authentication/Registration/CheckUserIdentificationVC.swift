@@ -33,6 +33,14 @@ class CheckUserIdentificationVC: UIViewController {
         configureUI()
     }
 
+    // MARK: - Actions
+    
+    @objc func handleSendingBtn() {
+        // TODO: Alamofire 통신으로 인증번호를 받는 로직 구현
+        // TODO: Timer 실행
+        print("DEBUG: Clicked Button")
+    }
+    
     @IBAction func testAction(_ sender: Any) {
 //        RegistrationDataManager().signUp(self.userInfoData, viewController: self)
         self.navigationController?.pushViewController(RegistrationCompletionVC(), animated: false)
@@ -62,7 +70,7 @@ class CheckUserIdentificationVC: UIViewController {
         sendingNumButton.layer.cornerRadius = 7
         sendingNumButton.frame = CGRect(x: 0, y: 5, width: 80, height: 25)
         buttonView.addSubview(sendingNumButton)
-        
+        sendingNumButton.addTarget(self, action: #selector(handleSendingBtn), for: .touchUpInside)
         phoneNumberTextField.rightView = buttonView
         phoneNumberTextField.rightViewMode = .always
         
