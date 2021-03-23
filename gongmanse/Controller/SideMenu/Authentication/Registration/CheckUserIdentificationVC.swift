@@ -12,7 +12,7 @@ class CheckUserIdentificationVC: UIViewController {
 
     // MARK: - Propertise
     
-    var userInfoData = RegistrationInput(username: "woosungs", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 0, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
+    var userInfoData = RegistrationInput(username: "woosungs", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 01047850519, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
 
     // MARK: - IBOutlet
     
@@ -37,6 +37,7 @@ class CheckUserIdentificationVC: UIViewController {
     
     @objc func handleSendingBtn() {
         // TODO: Alamofire 통신으로 인증번호를 받는 로직 구현
+        CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
         // TODO: Timer 실행
         print("DEBUG: Clicked Button")
     }
@@ -165,4 +166,11 @@ extension CheckUserIdentificationVC {
         print("DEBUG: message is \(message.message)")
         print("DEBUG: errors is \(message.errors!)")
     }
+    
+    func didSendingNumber(response: CertificationNumberResponses) {
+        // 인증번호 전송 시, 진행할 로직 작성할 것.
+        print("DEBUG: 정상적으로 인증번호 전송됨.")
+        print("DEBUG: 인증번호는 \(String(describing: response.data)) 입니다.")
+    }
+    
 }

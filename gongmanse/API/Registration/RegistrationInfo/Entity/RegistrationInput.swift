@@ -24,6 +24,6 @@ struct RegistrationInput: Codable {
     var address2: String            // #45
     var city: String                // jeju
     var state: String?
-    var zip: Int                    // 431212
+    var zip: Int?                    // 필수값 아님.
     var country: String             // Korea
 }
