@@ -29,7 +29,6 @@
 		2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8AC26082088000DFA20 /* RegistrationCompletionVC.swift */; };
 		2584E8AF26082088000DFA20 /* RegistrationCompletionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8AD26082088000DFA20 /* RegistrationCompletionVC.xib */; };
 		2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8BF26083CD8000DFA20 /* RegistrationInput.swift */; };
-		2584E8C326083E7C000DFA20 /* RegistrationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8C226083E7C000DFA20 /* RegistrationResponse.swift */; };
 		2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8C726084056000DFA20 /* RegistrationDataManager.swift */; };
 		2584E8CC26084108000DFA20 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8CB26084108000DFA20 /* Constant.swift */; };
 		259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */; };
@@ -196,7 +195,6 @@
 		2584E8AC26082088000DFA20 /* RegistrationCompletionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCompletionVC.swift; sourceTree = "<group>"; };
 		2584E8AD26082088000DFA20 /* RegistrationCompletionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationCompletionVC.xib; sourceTree = "<group>"; };
 		2584E8BF26083CD8000DFA20 /* RegistrationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationInput.swift; sourceTree = "<group>"; };
-		2584E8C226083E7C000DFA20 /* RegistrationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationResponse.swift; sourceTree = "<group>"; };
 		2584E8C726084056000DFA20 /* RegistrationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDataManager.swift; sourceTree = "<group>"; };
 		2584E8CB26084108000DFA20 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 			isa = PBXGroup;
 			children = (
 				2584E8BF26083CD8000DFA20 /* RegistrationInput.swift */,
-				2584E8C226083E7C000DFA20 /* RegistrationResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1324,7 +1321,6 @@
 				259B8BD426030558009A7146 /* ProgressSocialVC.swift in Sources */,
 				6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */,
 				6C4713C025F8541600D68A2B /* CustomerServiceVC.swift in Sources */,
-				2584E8C326083E7C000DFA20 /* RegistrationResponse.swift in Sources */,
 				6CF2E64E25F08B2A000FE084 /* TabsView.swift in Sources */,
 				259B8C0E26030632009A7146 /* ElementaryVC.swift in Sources */,
 				6C4C38A525FEFCF600653A61 /* LectureQuestionsTVCell.swift in Sources */,
