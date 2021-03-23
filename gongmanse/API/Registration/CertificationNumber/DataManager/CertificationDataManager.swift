@@ -13,17 +13,19 @@ class CertificationDataManager {
     func sendingNumber(_ parameters: CertificationNumberInput, viewController: CheckUserIdentificationVC) {
         // Controller에서 휴대전화번호 데이터 받음
         let data = viewController.userInfoData.phone_number
-        
+
         let number = [0,1,0,4,7,8,5,0,5,1,9]
+
 
         // 휴대전화번호를 post
         AF.upload(multipartFormData: { MultipartFormData in
-            
-            
+            4
+
             #warning("Int -> Data 로 변환하는 것 먼저하자. 관련 문서좀 찾아보야할 듯. 아니면 이걸 어떻게 넘기지??")
-            MultipartFormData.append(Data(UInt(parameters.phone_number)), withName: "phone_number")
+            MultipartFormData.append("\(parameters.phone_number)".data(using: .utf8)!, withName: "phone_number")
+
         }, to: "\(Constant.BASE_URL)/v1/sms/verifications")
-        
+
         // Result를 Response 타입에 맞게 변환
         .responseDecodable(of: CertificationNumberResponses.self) { response in
             switch response.result {
@@ -42,3 +44,24 @@ class CertificationDataManager {
         }
     }
 }
+
+
+//class CertificationDataManagers {
+//    func sendingNumber(_ parameters: CertificationNumberInput, viewController: CheckUserIdentificationVC) {
+//        AF.request("\(Constant.BASE_URL)/v1/sms/verifications", method: .post, parameters: parameters.phone_number, encoder: JSONParameterEncoder(), headers: nil)
+//            .responseDecodable(of: CertificationNumberResponses.self) { response in
+//                switch response.result {
+//                case .success(let response):
+//                    if response.message == "ok" {
+//                        viewController.didSendingNumber(response: response)
+//                    } else {
+//                        print("DEBUG: 실패")
+//                        print("DEBUG: \(response.message)")
+//                    }
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//
+//                }
+//            }
+//    }
+//}

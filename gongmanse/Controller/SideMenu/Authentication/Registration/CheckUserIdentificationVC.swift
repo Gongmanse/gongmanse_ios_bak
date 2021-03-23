@@ -37,7 +37,7 @@ class CheckUserIdentificationVC: UIViewController {
     
     @objc func handleSendingBtn() {
         // TODO: Alamofire 통신으로 인증번호를 받는 로직 구현
-        CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
+        CertificationDataManagers().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
         // TODO: Timer 실행
         print("DEBUG: Clicked Button")
     }
