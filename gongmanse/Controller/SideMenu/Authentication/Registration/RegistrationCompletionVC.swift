@@ -48,6 +48,7 @@ class RegistrationCompletionVC: UIViewController {
     // MARK: - Actions
 
     @IBAction func backToMainPage(_ sender: Any) {
+        tabBarController?.tabBar.isHidden = false
         self.navigationController?.popToRootViewController(animated: true)
         
     }
@@ -66,7 +67,7 @@ class RegistrationCompletionVC: UIViewController {
                                  left: view.leftAnchor,
                                  right: view.rightAnchor,
                                  height: 4)
-        totalProgressView.backgroundColor = UIColor(white: 200.0 / 255.0, alpha: 1.0)
+        totalProgressView.backgroundColor = UIColor.mainOrange
         
         currentProgressView.setDimensions(height: 4, width: view.frame.width * 1.0)
         currentProgressView.anchor(top:totalProgressView.topAnchor,
