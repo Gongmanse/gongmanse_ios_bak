@@ -92,6 +92,9 @@
                     <state key="normal" title="메인">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="backToMainPage:" destination="-1" eventType="touchUpInside" id="ZIK-AB-yP0"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="Rnh-4u-c4E"/>

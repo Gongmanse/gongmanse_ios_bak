@@ -46,9 +46,10 @@ class RegistrationCompletionVC: UIViewController {
     }
 
     // MARK: - Actions
-    
-    @IBAction func handleNextPage(_ sender: Any) {
-        self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
+
+    @IBAction func backToMainPage(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+        
     }
     
     // MARK: - Helper functions
