@@ -33,7 +33,16 @@ class RegistrationUserInfoVC: UIViewController {
     @IBOutlet weak var nicknameTextField: SloyTextField!
     @IBOutlet weak var emailTextField: SloyTextField!
     
-    
+    // Programmatic
+    // 비밀번호 하단 조건 레이블
+    private let bottomLabel: UILabel = {
+        let label = UILabel()
+        label.text = "8~16자, 영문 대소문자, 숫자, 특수문자를 사용해주세요."
+        label.textColor = .red
+        label.font = UIFont.appBoldFontWith(size: 10)
+        label.textAlignment = .left
+        return label
+    }()
     
     @IBOutlet weak var nextButton: UIButton!
     
@@ -130,6 +139,18 @@ class RegistrationUserInfoVC: UIViewController {
         pwdTextField.centerX(inView: view)
         pwdTextField.anchor(top: idTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
+        
+        
+        // 비밀번호 하단 레이블
+        view.addSubview(bottomLabel)
+        bottomLabel.setDimensions(height: 10, width: tfWidth)
+        bottomLabel.anchor(top: pwdTextField.bottomAnchor,
+                           left: pwdTextField.leftAnchor,
+                           paddingTop: 1,
+                           paddingLeft: 5)
+        
+        
+        
         
         // 비밀번호 재입력 TextField
         let confirmPwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
@@ -342,7 +363,7 @@ private extension RegistrationUserInfoVC {
     
 
     // 비밀번호 유효성검사
-    func checkPassword(_ tf: UITextField, text: String) {
+    func checkPassword(_ tf: SloyTextField, text: String) {
         if !textFieldNullCheck(tf) {
             tf.rightView = UIView()
         } else {
@@ -352,12 +373,12 @@ private extension RegistrationUserInfoVC {
                 let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
                 tf.rightView = rightView
                 // TextField 하단 divider 색상 변경
-                
             } else {
                 // 위 조건 불충분한 경우
                 // TextField RightView 이미지
                 let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
                 tf.rightView = rightView
+                tf.border.backgroundColor = .red
             }
 
         }

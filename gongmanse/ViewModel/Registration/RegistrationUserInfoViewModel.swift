@@ -34,7 +34,8 @@ struct RegistrationUserInfoViewModel: AuthenticationViewModel {
     
     // 정규표현식
     var passwordIsValid: Bool {
-        return password!.validatePassword()
+        guard let pwd = password else { return false }
+        return pwd.validatePassword()
     }
 
     

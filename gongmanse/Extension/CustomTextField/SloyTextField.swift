@@ -26,7 +26,7 @@ final class SloyTextField: UITextField {
 
     // MARK: - Subviews
 
-    private let border = UIView()
+    let border = UIView()
     private let label = UILabel()
 
     // MARK: - Private Properties
