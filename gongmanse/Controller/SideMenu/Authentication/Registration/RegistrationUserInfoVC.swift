@@ -16,7 +16,6 @@ class RegistrationUserInfoVC: UIViewController {
     
     var viewModel = RegistrationUserInfoViewModel()
     
-    var userInfo = RegistrationInput(username: "", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 0, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
     
     // MARK: - IBOutlet
     // 오토레이아웃 - CODE
@@ -61,9 +60,7 @@ class RegistrationUserInfoVC: UIViewController {
     
     @IBAction func handleNextPage(_ sender: Any) {
         let vc = CheckUserIdentificationVC()
-        // "회원정보" 페이지에서 작성한 값들을 화면전환 전에 넘겨줌
-        vc.userInfoData = self.userInfo
-//        self.navigationController?.pushViewController(vc, animated: false)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     
@@ -147,7 +144,7 @@ class RegistrationUserInfoVC: UIViewController {
         bottomLabel.setDimensions(height: 10, width: tfWidth)
         bottomLabel.anchor(top: pwdTextField.bottomAnchor,
                            left: pwdTextField.leftAnchor,
-                           paddingTop: 1,
+                           paddingTop: 3,
                            paddingLeft: 5)
         
         
@@ -366,23 +363,32 @@ private extension RegistrationUserInfoVC {
     // 비밀번호 유효성검사
     func checkPassword(_ tf: SloyTextField, text: String) {
         if !textFieldNullCheck(tf) {
-            tf.rightView = UIView()
-            bottomLabel.alpha = 0
+            UIView.animate(withDuration: 0.3) {
+                tf.rightView = UIView()
+                self.bottomLabel.alpha = 0
+            }
+            
         } else {
             if viewModel.passwordIsValid {
-                // 8~16글자 + 대문자 한개 이상포함 + 소문자 + 숫자 조합 (한글X)
-                // TextField RightView 이미지
-                let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
-                tf.rightView = rightView
-                // TextField 하단 divider 색상 변경
-                bottomLabel.alpha = 0
+                UIView.animate(withDuration: 0.3) {
+                    // 8~16글자 + 대문자 한개 이상포함 + 소문자 + 숫자 조합 (한글X)
+                    // TextField RightView 이미지
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
+                    tf.rightView = rightView
+                    // TextField 하단 divider 색상 변경
+                    self.bottomLabel.alpha = 0
+                }
+ 
             } else {
-                // 위 조건 불충분한 경우
-                // TextField RightView 이미지
-                let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
-                tf.rightView = rightView
-                tf.border.backgroundColor = .red
-                bottomLabel.alpha = 1
+                UIView.animate(withDuration: 0.3) {
+                    // 위 조건 불충분한 경우
+                    // TextField RightView 이미지
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
+                    tf.rightView = rightView
+                    tf.border.backgroundColor = .red
+                    self.bottomLabel.alpha = 1
+                }
+
             }
 
         }
