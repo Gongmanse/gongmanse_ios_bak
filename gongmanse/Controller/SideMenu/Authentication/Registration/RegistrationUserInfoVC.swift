@@ -41,6 +41,7 @@ class RegistrationUserInfoVC: UIViewController {
         label.textColor = .red
         label.font = UIFont.appBoldFontWith(size: 10)
         label.textAlignment = .left
+        label.alpha = 0
         return label
     }()
     
@@ -366,6 +367,7 @@ private extension RegistrationUserInfoVC {
     func checkPassword(_ tf: SloyTextField, text: String) {
         if !textFieldNullCheck(tf) {
             tf.rightView = UIView()
+            bottomLabel.alpha = 0
         } else {
             if viewModel.passwordIsValid {
                 // 8~16글자 + 대문자 한개 이상포함 + 소문자 + 숫자 조합 (한글X)
@@ -373,12 +375,14 @@ private extension RegistrationUserInfoVC {
                 let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
                 tf.rightView = rightView
                 // TextField 하단 divider 색상 변경
+                bottomLabel.alpha = 0
             } else {
                 // 위 조건 불충분한 경우
                 // TextField RightView 이미지
                 let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
                 tf.rightView = rightView
                 tf.border.backgroundColor = .red
+                bottomLabel.alpha = 1
             }
 
         }
