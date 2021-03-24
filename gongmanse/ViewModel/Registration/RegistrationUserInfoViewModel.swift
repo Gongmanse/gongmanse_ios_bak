@@ -32,6 +32,12 @@ struct RegistrationUserInfoViewModel: AuthenticationViewModel {
     var city: String?                    // jeju
     var country: String?                 // Korea
     
+    // 정규표현식
+    var passwordIsValid: Bool {
+        return password!.validatePassword()
+    }
+
+    
     // 항목이 비어있는지 확인하는 로직
     var formIsValid: Bool {
         return username?.isEmpty == false

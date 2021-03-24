@@ -44,11 +44,11 @@ class CertificationDataManager {
         
         // Controller에서 휴대전화번호 데이터 받음
         // 클릭할 때마다 실행됨.
-        let data = viewController.userInfo.username
+        let data = viewController.viewModel.username
         
         // 아이디를 post
         AF.upload(multipartFormData: { MultipartFormData in
-            MultipartFormData.append("\(data)".data(using: .utf8)!, withName: "username")
+            MultipartFormData.append("\(data!)".data(using: .utf8)!, withName: "username")
         }, to: "\(Constant.BASE_URL)/v/member/duplication_username")
 
         // Result를 Response 타입에 맞게 변환

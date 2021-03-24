@@ -14,7 +14,7 @@ class RegistrationUserInfoVC: UIViewController {
 
     // MARK: - Properties
     
-    private var viewModel = RegistrationUserInfoViewModel()
+    var viewModel = RegistrationUserInfoViewModel()
     
     var userInfo = RegistrationInput(username: "", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 0, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
     
@@ -53,10 +53,6 @@ class RegistrationUserInfoVC: UIViewController {
         let vc = CheckUserIdentificationVC()
         // "회원정보" 페이지에서 작성한 값들을 화면전환 전에 넘겨줌
         vc.userInfoData = self.userInfo
-        
-        // 아이디 중복검사 로직 테스트용으로 이곳에 작성해둠, 추후삭제예정 03.24
-        CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: self.userInfo.username), viewController: self)
-
 //        self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -204,9 +200,10 @@ class RegistrationUserInfoVC: UIViewController {
     @objc func textDidChange(sender: UITextField) {
         if sender == idTextField {
             viewModel.username = sender.text
-            textFieldCheck(idTextField, text: viewModel.username!)  // 아이디 중복확인 API 사용
+            textFieldCheck(idTextField, text: sender.text!)  // 아이디 중복확인 API 사용
         } else if sender == pwdTextField {
             viewModel.password = sender.text
+            textFieldCheck(pwdTextField, text: viewModel.password!)
         } else if sender == confirmPwdTextField {
             viewModel.confirm_password = sender.text
         } else if sender == nameTextField {
@@ -252,45 +249,45 @@ extension RegistrationUserInfoVC: UITextFieldDelegate {
     
     
     // configureObervation 으로 대체할 예정 03.24
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let tf = textField as! SloyTextField
-        
-        switch tf {
-        case idTextField:
-            let text = "\(idTextField.text!)" + "\(string)"
-            self.userInfo.username = text
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        let tf = textField as! SloyTextField
+//
+//        switch tf {
+//        case idTextField:
+//            let text = "\(idTextField.text!)" + "\(string)"
+//            self.userInfo.username = text
 //            textFieldCheck(idTextField, text: text)
-            
-        case pwdTextField:
-            let text = "\(pwdTextField.text!)" + "\(string)"
-            self.userInfo.password = text
-            textFieldCheck(pwdTextField, text: text)
-            
-        case confirmPwdTextField:
-            let text = "\(confirmPwdTextField.text!)" + "\(string)"
-            self.userInfo.confirm_password = confirmPwdTextField.text!
-            textFieldCheck(confirmPwdTextField, text: text)
-
-        case nameTextField:
-            let text = "\(nameTextField.text!)" + "\(string)"
-            self.userInfo.first_name = nameTextField.text!
-            textFieldCheck(nameTextField, text: text)
-
-        case nicknameTextField:
-            let text = "\(nicknameTextField.text!)" + "\(string)"
-            self.userInfo.nickname = nicknameTextField.text!
-            textFieldCheck(nicknameTextField, text: text)
-
-        case emailTextField:
-            let text = "\(emailTextField.text!)" + "\(string)"
-            self.userInfo.email = emailTextField.text!
-            textFieldCheck(emailTextField, text: text)
-
-        default:
-            print("DEBUG: didn't find textField in Registration...")
-        }
-        return true
-    }
+//
+//        case pwdTextField:
+//            let text = "\(pwdTextField.text!)" + "\(string)"
+//            self.userInfo.password = text
+//            textFieldCheck(pwdTextField, text: text)
+//
+//        case confirmPwdTextField:
+//            let text = "\(confirmPwdTextField.text!)" + "\(string)"
+//            self.userInfo.confirm_password = confirmPwdTextField.text!
+//            textFieldCheck(confirmPwdTextField, text: text)
+//
+//        case nameTextField:
+//            let text = "\(nameTextField.text!)" + "\(string)"
+//            self.userInfo.first_name = nameTextField.text!
+//            textFieldCheck(nameTextField, text: text)
+//
+//        case nicknameTextField:
+//            let text = "\(nicknameTextField.text!)" + "\(string)"
+//            self.userInfo.nickname = nicknameTextField.text!
+//            textFieldCheck(nicknameTextField, text: text)
+//
+//        case emailTextField:
+//            let text = "\(emailTextField.text!)" + "\(string)"
+//            self.userInfo.email = emailTextField.text!
+//            textFieldCheck(emailTextField, text: text)
+//
+//        default:
+//            print("DEBUG: didn't find textField in Registration...")
+//        }
+//        return true
+//    }
 }
 
 
@@ -314,7 +311,7 @@ private extension RegistrationUserInfoVC {
         case pwdTextField:
             // TODO: pwd 유효성검사
             checkPassword(pwdTextField, text: text)
-
+            
         case confirmPwdTextField:
             // TODO: pwd 와 일치여부
             CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
@@ -334,16 +331,6 @@ private extension RegistrationUserInfoVC {
         default:
             print("DEBUG: default")
         }
-        
-        
-        // textField Null 체크
-        if !textFieldNullCheck(textField) { // 아무것도 입력되지 않은 상태
-        } else {                     // 무언가 입력된 상황
-            textField.rightViewMode = .always
-            let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
-            tf.rightView = rightView
-        }
-        
     }
     
     func textFieldNullCheck(_ tf: UITextField) -> Bool {
@@ -353,12 +340,29 @@ private extension RegistrationUserInfoVC {
         } else { return true }
     }
     
-    
+
     // 비밀번호 유효성검사
     func checkPassword(_ tf: UITextField, text: String) {
-        print("DEBUG: pwdTextField is \(self.userInfo.password)")
+        if !textFieldNullCheck(tf) {
+            tf.rightView = UIView()
+        } else {
+            if viewModel.passwordIsValid {
+                // 8~16글자 + 대문자 한개 이상포함 + 소문자 + 숫자 조합 (한글X)
+                // TextField RightView 이미지
+                let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
+                tf.rightView = rightView
+                // TextField 하단 divider 색상 변경
+                
+            } else {
+                // 위 조건 불충분한 경우
+                // TextField RightView 이미지
+                let rightView = settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
+                tf.rightView = rightView
+            }
+
+        }
     }
-    
+        
     // 비밀번호 확인 유효성검사
     func checkConfirmPassword() {
         
@@ -392,8 +396,8 @@ extension RegistrationUserInfoVC {
             idTextField.rightView = UIView()
         } else {
             if message.data == "0" {    // 중복아님
-            let rightView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "settings").withTintColor(.green))
-            idTextField.rightView = rightView
+                let rightView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "settings").withTintColor(.green))
+                idTextField.rightView = rightView
             } else {                    // 중복
                 let rightView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "settings").withTintColor(.red))
                 idTextField.rightView = rightView
