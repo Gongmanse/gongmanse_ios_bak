@@ -18,6 +18,7 @@
             <connections>
                 <outlet property="certificationNumberTextField" destination="6Kv-bD-pEC" id="yDB-ip-Ghp"/>
                 <outlet property="currentProgressView" destination="eKO-ZU-G4u" id="I4c-O3-izU"/>
+                <outlet property="nextButton" destination="0zc-wQ-OGA" id="5At-d9-cef"/>
                 <outlet property="pageID" destination="O7x-8S-HsE" id="BEU-12-GPT"/>
                 <outlet property="pageNumber" destination="ylT-MY-ct4" id="xBE-LM-LE2"/>
                 <outlet property="phoneNumberTextField" destination="bua-tf-5ea" id="rBq-na-fCu"/>

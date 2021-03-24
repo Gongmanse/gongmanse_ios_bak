@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+/* 인증번호 */
 struct CertificationNumberResponses: Decodable {
     // response
     var message: String
@@ -15,4 +15,10 @@ struct CertificationNumberResponses: Decodable {
 
 struct idData: Decodable {
     var id: Int
+}
+
+
+/* 아이디 중복여부 확인 */
+struct idDuplicateCheckResponse: Decodable {
+    var data: String
 }

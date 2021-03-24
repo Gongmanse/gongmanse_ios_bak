@@ -21,6 +21,7 @@
 		25201DBF26042A92001098AC /* FindingIDVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25201DBD26042A92001098AC /* FindingIDVC.xib */; };
 		25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DDA26046BD0001098AC /* FloatingTextField.swift */; };
 		25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DDD26046BDF001098AC /* SloyTextField.swift */; };
+		253B4EC9260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B4EC8260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift */; };
 		257C61372602E86000153BF3 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C61362602E86000153BF3 /* test.swift */; };
 		2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */; };
 		2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */; };
@@ -42,8 +43,8 @@
 		2588F8682609879F0070C2FC /* NewPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F8662609879F0070C2FC /* NewPasswordVC.xib */; };
 		2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588F86A260987B30070C2FC /* CompleteChangePwdVC.swift */; };
 		2588F86D260987B30070C2FC /* CompleteChangePwdVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2588F86B260987B30070C2FC /* CompleteChangePwdVC.xib */; };
-		258B5EA02609D89B00F470B7 /* CertificationNumberInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B5E9F2609D89B00F470B7 /* CertificationNumberInput.swift */; };
-		258B5EA32609D8AA00F470B7 /* CertificationNumberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B5EA22609D8AA00F470B7 /* CertificationNumberResponse.swift */; };
+		258B5EA02609D89B00F470B7 /* CertificationInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B5E9F2609D89B00F470B7 /* CertificationInput.swift */; };
+		258B5EA32609D8AA00F470B7 /* CertificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B5EA22609D8AA00F470B7 /* CertificationResponse.swift */; };
 		258B5EA62609D8B800F470B7 /* CertificationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B5EA52609D8B800F470B7 /* CertificationDataManager.swift */; };
 		259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */; };
 		259B8B5626030048009A7146 /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 259B8B5126030048009A7146 /* NanumSquareRoundL.ttf */; };
@@ -207,6 +208,7 @@
 		25201DBD26042A92001098AC /* FindingIDVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindingIDVC.xib; sourceTree = "<group>"; };
 		25201DDA26046BD0001098AC /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		25201DDD26046BDF001098AC /* SloyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SloyTextField.swift; sourceTree = "<group>"; };
+		253B4EC8260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoViewModel.swift; sourceTree = "<group>"; };
 		257C61362602E86000153BF3 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoVC.swift; sourceTree = "<group>"; };
 		2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationUserInfoVC.xib; sourceTree = "<group>"; };
@@ -228,8 +230,8 @@
 		2588F8662609879F0070C2FC /* NewPasswordVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPasswordVC.xib; sourceTree = "<group>"; };
 		2588F86A260987B30070C2FC /* CompleteChangePwdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteChangePwdVC.swift; sourceTree = "<group>"; };
 		2588F86B260987B30070C2FC /* CompleteChangePwdVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompleteChangePwdVC.xib; sourceTree = "<group>"; };
-		258B5E9F2609D89B00F470B7 /* CertificationNumberInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationNumberInput.swift; sourceTree = "<group>"; };
-		258B5EA22609D8AA00F470B7 /* CertificationNumberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationNumberResponse.swift; sourceTree = "<group>"; };
+		258B5E9F2609D89B00F470B7 /* CertificationInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationInput.swift; sourceTree = "<group>"; };
+		258B5EA22609D8AA00F470B7 /* CertificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationResponse.swift; sourceTree = "<group>"; };
 		258B5EA52609D8B800F470B7 /* CertificationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationDataManager.swift; sourceTree = "<group>"; };
 		259B8B5026030048009A7146 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
 		259B8B5126030048009A7146 /* NanumSquareRoundL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundL.ttf; sourceTree = "<group>"; };
@@ -462,6 +464,14 @@
 			path = CustomTextField;
 			sourceTree = "<group>";
 		};
+		253B4EC7260AF021000B7DB9 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				253B4EC8260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
 		257C61352602E85700153BF3 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,7 +483,7 @@
 		2584E8BE26083C86000DFA20 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				258B5E9C2609D87700F470B7 /* CertificationNumber */,
+				258B5E9C2609D87700F470B7 /* Certification */,
 				258B5E9B2609D86C00F470B7 /* RegistrationInfo */,
 			);
 			path = Registration;
@@ -538,13 +548,13 @@
 			path = RegistrationInfo;
 			sourceTree = "<group>";
 		};
-		258B5E9C2609D87700F470B7 /* CertificationNumber */ = {
+		258B5E9C2609D87700F470B7 /* Certification */ = {
 			isa = PBXGroup;
 			children = (
 				258B5E9E2609D88300F470B7 /* Entity */,
 				258B5E9D2609D88200F470B7 /* DataManager */,
 			);
-			path = CertificationNumber;
+			path = Certification;
 			sourceTree = "<group>";
 		};
 		258B5E9D2609D88200F470B7 /* DataManager */ = {
@@ -558,8 +568,8 @@
 		258B5E9E2609D88300F470B7 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				258B5E9F2609D89B00F470B7 /* CertificationNumberInput.swift */,
-				258B5EA22609D8AA00F470B7 /* CertificationNumberResponse.swift */,
+				258B5E9F2609D89B00F470B7 /* CertificationInput.swift */,
+				258B5EA22609D8AA00F470B7 /* CertificationResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -579,6 +589,7 @@
 		259B8B4C26030018009A7146 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				253B4EC7260AF021000B7DB9 /* Registration */,
 				259B8B70260300AD009A7146 /* ProgressVM */,
 				259B8B6F260300AC009A7146 /* SearchVM */,
 			);
@@ -1407,7 +1418,7 @@
 				6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */,
 				25201DBE26042A92001098AC /* FindingIDVC.swift in Sources */,
 				6CF2E67B25F0C4CF000FE084 /* ExpertConsultationVC.swift in Sources */,
-				258B5EA32609D8AA00F470B7 /* CertificationNumberResponse.swift in Sources */,
+				258B5EA32609D8AA00F470B7 /* CertificationResponse.swift in Sources */,
 				6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */,
 				6CF2E65125F09161000FE084 /* TabCell.swift in Sources */,
 				259B8C3426031C99009A7146 /* StoreVC.swift in Sources */,
@@ -1451,10 +1462,11 @@
 				2588F8622609878D0070C2FC /* FindingPwdByPhoneVC.swift in Sources */,
 				259B8B98260301B0009A7146 /* PopularKeywordCell.swift in Sources */,
 				6CC1F06825F9CD6A00A909B0 /* RecommendCRV.swift in Sources */,
+				253B4EC9260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift in Sources */,
 				2588F857260987690070C2FC /* FindingPwdVC.swift in Sources */,
 				6C47139A25F6192600D68A2B /* NoticeVC.swift in Sources */,
 				6C4713A325F70E5900D68A2B /* CustomSideMenuNavigation.swift in Sources */,
-				258B5EA02609D89B00F470B7 /* CertificationNumberInput.swift in Sources */,
+				258B5EA02609D89B00F470B7 /* CertificationInput.swift in Sources */,
 				259B8C0F26030632009A7146 /* MiddleSchoolVC.swift in Sources */,
 				259B8C1526030640009A7146 /* TeacherPlaylistVC.swift in Sources */,
 				259B8B5726030048009A7146 /* CustonFont.swift in Sources */,

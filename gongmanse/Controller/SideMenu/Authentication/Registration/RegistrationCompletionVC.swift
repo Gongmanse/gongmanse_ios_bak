@@ -5,13 +5,6 @@
 //  Created by 김우성 on 2021/03/22.
 //
 
-//
-//  RegistrationVC.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/03/19.
-//
-
 import UIKit
 
 class RegistrationCompletionVC: UIViewController {
@@ -93,7 +86,6 @@ class RegistrationCompletionVC: UIViewController {
         pageNumber.textAlignment = .right
         
         // completeMent01
-        
         // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
         let attributedString = NSMutableAttributedString(string: "회원가입",
                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange])

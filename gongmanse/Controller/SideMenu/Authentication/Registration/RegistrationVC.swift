@@ -148,7 +148,7 @@ class RegistrationVC: UIViewController {
     func configureUI() {
         tabBarController?.tabBar.isHidden = true
         
-        nextButton.backgroundColor = UIColor.mainOrange
+        nextButton.backgroundColor = UIColor.progressBackgroundColor
         nextButton.layer.cornerRadius = 10
         
         // ProgressView 오토레이아웃

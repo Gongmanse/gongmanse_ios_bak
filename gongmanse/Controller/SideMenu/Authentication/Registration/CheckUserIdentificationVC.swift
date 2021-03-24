@@ -11,18 +11,17 @@ import Alamofire
 class CheckUserIdentificationVC: UIViewController {
 
     // MARK: - Propertise
-    
+    // Default 값 넣어놓은 상태
     var userInfoData = RegistrationInput(username: "woosungs", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 01047850519, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
 
-    // MARK: - IBOutlet
-    
+    // MARK: IBOutlet
     @IBOutlet weak var phoneNumberTextField: SloyTextField!
     @IBOutlet weak var certificationNumberTextField: SloyTextField!
     @IBOutlet weak var totalProgressView: UIView!
     @IBOutlet weak var currentProgressView: UIView!
     @IBOutlet weak var pageID: UILabel!
     @IBOutlet weak var pageNumber: UILabel!
-    
+    @IBOutlet weak var nextButton: UIButton!
     
     
     // MARK: - Lifecycle
@@ -36,14 +35,20 @@ class CheckUserIdentificationVC: UIViewController {
     // MARK: - Actions
     
     @objc func handleSendingBtn() {
-        // TODO: Alamofire 통신으로 인증번호를 받는 로직 구현
-        CertificationDataManagers().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
-        // TODO: Timer 실행
+        // TODO: 1) Alamofire 통신으로 인증번호를 받는 로직 구현
+        CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
+        
+        // TODO: 2) 인증번호 유효기간 Timer 실행
         print("DEBUG: Clicked Button")
     }
     
     @IBAction func testAction(_ sender: Any) {
-//        RegistrationDataManager().signUp(self.userInfoData, viewController: self)
+        // 1) 회원가입을 위한 정보를 모두 전송
+        RegistrationDataManager().signUp(self.userInfoData, viewController: self)
+        
+        // 2) TODO: 만약 성공했다면 버튼 색상 변경과 다음페이지 이동 로직 구현
+        
+        // 3) 화면이동
         self.navigationController?.pushViewController(RegistrationCompletionVC(), animated: false)
     }
     
@@ -58,6 +63,7 @@ class CheckUserIdentificationVC: UIViewController {
     func configureUI() {
         
         let tfWidth = view.frame.width - 125
+        nextButton.backgroundColor = UIColor.progressBackgroundColor
         
         // 휴대전화번호 RightView
         // "인증번호 발송" 버튼 (이메일 TextField의 rightView)
@@ -99,7 +105,6 @@ class CheckUserIdentificationVC: UIViewController {
 
         certificationNumberTextField.rightView = timerView
         certificationNumberTextField.rightViewMode = .always
-        
         
         // 인증번호 TextField
         let certificationNumberTextFieldLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "myActivity"))
@@ -146,10 +151,7 @@ class CheckUserIdentificationVC: UIViewController {
         pageNumber.font = UIFont.appBoldFontWith(size: 14)
         pageNumber.textAlignment = .right
     }
-    
-    
 }
-
 
 
 // MARK: - 회원가입API
@@ -169,8 +171,9 @@ extension CheckUserIdentificationVC {
     
     func didSendingNumber(response: CertificationNumberResponses) {
         // 인증번호 전송 시, 진행할 로직 작성할 것.
+        // TODO: 정상적으로 API는 동작하는데, 실제 휴대폰으로 인증번호가 오지 않음.
         print("DEBUG: 정상적으로 인증번호 전송됨.")
-        print("DEBUG: 인증번호는 \(String(describing: response.data)) 입니다.")
+        print("DEBUG: 인증번호id는 \(String(describing: response.data!)) 입니다.")
     }
     
 }
