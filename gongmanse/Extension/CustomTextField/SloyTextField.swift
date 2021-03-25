@@ -23,8 +23,10 @@ private enum Constants {
 }
 
 final class SloyTextField: UITextField {
-    #warning("test")
+    
+    // 유효성검사 통과 여부를 확인하기 위한 프로퍼티
     var isVailedIndex: Bool = true
+    
     // MARK: - Subviews
 
     let border = UIView()
@@ -127,7 +129,8 @@ final class SloyTextField: UITextField {
 
     private func updateBorder() {
         // MARK: UITextField 클릭 시, 하단 Border(구분선) 색상 설정
-        #warning("test")
+        
+        // 유효성조건 만족에 따른 하단 보더 색상 변경
         let borderColor = isFirstResponder ? UIColor.mainOrange : (isVailedIndex ? .inactive : .red)
         
         UIView.animate(withDuration: .animation250ms) {

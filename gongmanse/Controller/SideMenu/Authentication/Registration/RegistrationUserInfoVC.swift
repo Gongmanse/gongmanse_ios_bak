@@ -87,6 +87,17 @@ class RegistrationUserInfoVC: UIViewController {
         return label
     }()
     
+    // 이메일 하단 조건 레이블
+    private let emailBottomLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.text = "이메일 형식에 맞게 입력해주세요."
+        label.font = UIFont.appBoldFontWith(size: 10)
+        label.textAlignment = .left
+        label.alpha = 0
+        return label
+    }()
+    
     @IBOutlet weak var nextButton: UIButton!
     
     // MARK: - Lifecycle
@@ -97,7 +108,6 @@ class RegistrationUserInfoVC: UIViewController {
         configureBottomLabel()
         cofigureNavi()
         configureNotificationObservers()
-     
     }
 
     // MARK: - Actions
@@ -111,13 +121,6 @@ class RegistrationUserInfoVC: UIViewController {
     // MARK: - Helper functions
 
     func configureUI() {
-        idTextField.delegate = self
-        pwdTextField.delegate = self
-        confirmPwdTextField.delegate = self
-        nameTextField.delegate = self
-        nicknameTextField.delegate = self
-        emailTextField.delegate = self
-        
         tabBarController?.tabBar.isHidden = true
         
         nextButton.backgroundColor = UIColor.progressBackgroundColor
@@ -243,7 +246,6 @@ class RegistrationUserInfoVC: UIViewController {
                            left: idTextField.leftAnchor,
                            paddingTop: 3,
                            paddingLeft: 5)
-        
         // 비밀번호 하단 레이블
         view.addSubview(passwordBottomLabel)
         passwordBottomLabel.setDimensions(height: 10, width: tfWidth)
@@ -251,7 +253,6 @@ class RegistrationUserInfoVC: UIViewController {
                            left: pwdTextField.leftAnchor,
                            paddingTop: 3,
                            paddingLeft: 5)
-        
         // 비밀번호 재입력 하단 레이블
         view.addSubview(confirmPasswrodBottomLabel)
         confirmPasswrodBottomLabel.setDimensions(height: 10, width: tfWidth)
@@ -259,7 +260,6 @@ class RegistrationUserInfoVC: UIViewController {
                                           left: confirmPwdTextField.leftAnchor,
                                           paddingTop: 3,
                                           paddingLeft: 5)
-        
         // 이름 하단 레이블
         view.addSubview(nameBottomLabel)
         nameBottomLabel.setDimensions(height: 10, width: tfWidth)
@@ -267,7 +267,6 @@ class RegistrationUserInfoVC: UIViewController {
                                           left: nameTextField.leftAnchor,
                                           paddingTop: 3,
                                           paddingLeft: 5)
-        
         // 닉네임 하단 레이블
         view.addSubview(nicknameBottomLabel)
         nicknameBottomLabel.setDimensions(height: 10, width: tfWidth)
@@ -275,8 +274,13 @@ class RegistrationUserInfoVC: UIViewController {
                                           left: nicknameTextField.leftAnchor,
                                           paddingTop: 3,
                                           paddingLeft: 5)
-        
-
+        // 이메일 하단 레이블
+        view.addSubview(emailBottomLabel)
+        emailBottomLabel.setDimensions(height: 10, width: tfWidth)
+        emailBottomLabel.anchor(top: emailTextField.bottomAnchor,
+                                          left: emailTextField.leftAnchor,
+                                          paddingTop: 3,
+                                          paddingLeft: 5)
     }
     
     
@@ -300,11 +304,16 @@ class RegistrationUserInfoVC: UIViewController {
     
     // UITextField 타이핑 할때마다 값을 ViewModel로 전달
     @objc func textDidChange(sender: UITextField) {
+        // 커서 색상
         sender.tintColor = .mainOrange
+        
+        // TextField가 firstResponder여부에 따라서 leftView의 색상을 변경
+        sender.leftView?.tintColor = viewModel.leftViewColor
+
         if sender == idTextField {
             viewModel.username = sender.text
             textFieldCheck(idTextField, text: sender.text!)  // 아이디 중복확인 API 사용
-            
+            // TextField의 상태에 따라서 leftView tintColor 설정
         } else if sender == pwdTextField {
             viewModel.password = sender.text
             textFieldCheck(pwdTextField, text: viewModel.password!)
@@ -323,6 +332,8 @@ class RegistrationUserInfoVC: UIViewController {
             
         } else {  // emailTextField
             viewModel.email = sender.text
+            textFieldCheck(emailTextField, text: viewModel.email!)
+            
         }
         
         updateForm() // 전달받은 값을 바탕으로 버튼의 색상 결정하는 메소드
@@ -342,25 +353,6 @@ extension RegistrationUserInfoVC: FormViewModel {
 }
 
 
-// MARK: - UITextFieldDelegate
-
-extension RegistrationUserInfoVC: UITextFieldDelegate {
-    
-    // UITextField가 수정이 시작될 때, 호출
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-    }
-    
-    // UITextField가 수정이 완료될 때, 호출
-    func textFieldDidEndEditing(_ textField: UITextField) {
-    }
-    
-    // UITextField 사용중에 키보드에서 return(엔터나 완료버튼)을 클릭 시, 호출
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-
-}
-
 
 // MARK: - UITextField Helper functions
 
@@ -376,7 +368,6 @@ private extension RegistrationUserInfoVC {
         switch textField {
         case idTextField:
             // 유효성검사 : 중복여부확인 API + 글자수 제한로직
-            
             CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
             
         case pwdTextField:
@@ -397,7 +388,7 @@ private extension RegistrationUserInfoVC {
             
         case emailTextField:
             // 유효성 검사 : 정규표현식(이메일양식)
-            CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
+            checkValidationAndLabelUpdate(emailTextField, label: emailBottomLabel, condition: viewModel.emailIsValid)
 
         default:
             print("DEBUG: \(#function) didn't have any responder...")
@@ -405,9 +396,7 @@ private extension RegistrationUserInfoVC {
     }
     
     func textFieldNullCheck(_ tf: UITextField) -> Bool {
-        print("DEBUG: \(tf.text!)")
         if tf.text == "" {
-            print("DEBUG: 아무것도 입력안함.")
             return false
         } else { return true }
     }
@@ -421,28 +410,31 @@ extension RegistrationUserInfoVC {
     // 유효성검사 + 하단 텍스트필드 입력 조건 레이블 세팅 커스텀메소드
     func checkValidationAndLabelUpdate(_ tf: SloyTextField, label: UILabel, condition: Bool) {
         // tf Null 체크
-        if !textFieldNullCheck(tf) {
+        if !textFieldNullCheck(tf) { // 아무것도 입력하지 않은 경우
             UIView.animate(withDuration: 0.3) {
                 tf.rightView = UIView()
                 label.alpha = 0
+                tf.isVailedIndex = true
             }
             
         } else {
-            if condition {
+            if condition {           // 조건을 모두 만족한 경우
                 UIView.animate(withDuration: 0.3) {
                     // TextField RightView 이미지
                     let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
                     tf.rightView = rightView
                     label.alpha = 0
+                    tf.isVailedIndex = true
                 }
                 
-            } else {
+            } else {                 // 조건을 만족하지 못한 경우
                 UIView.animate(withDuration: 0.3) {
                     // TextField RightView 이미지
                     let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
                     tf.rightView = rightView
                     tf.border.backgroundColor = .red
                     label.alpha = 1
+                    tf.isVailedIndex = false
                 }
                 
             }
@@ -453,33 +445,39 @@ extension RegistrationUserInfoVC {
     // 유효성검사 + 하단 텍스트필드 입력 조건 레이블 세팅 커스텀메소드
     func checkTwoValidationAndLabelUpdate(_ tf: SloyTextField, label: UILabel, first: String, second: String, condition: Bool) {
         // tf Null 체크
-        if !textFieldNullCheck(tf) {                // 텍스트가 없는 경우
+        if !textFieldNullCheck(tf) {                // 아무것도 입력하지 않은 경우
             UIView.animate(withDuration: 0.3) {
                 tf.rightView = UIView()
-                tf.isVailedIndex = true
                 label.alpha = 0
-                
+                tf.isVailedIndex = true
             }
         } else { // 텍스트가 있는 경우
             // nicknameTextField의 경우 12자 글자 제한적용.
             if (tf != nicknameTextField) ? (tf.text!.count < 2) : (tf.text!.count < 2 || tf.text!.count > 12) {
-                UIView.animate(withDuration: 0.3) {
+                UIView.animate(withDuration: 0.3) { // 2글자보다 많은 경우 +a
                     // TextField RightView 이미지
                     let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
                     tf.rightView = rightView
                     label.text = first
                     tf.border.backgroundColor = .red
-                    #warning("test")
                     tf.isVailedIndex = false
                     label.alpha = 1
                 }
-            } else { // 글자가 3글자 이상 있는경우
-                UIView.animate(withDuration: 0.3) {
+            } else {                                // 글자가 3글자 이상 있는경우 + 조건을 만족한 경우
+                UIView.animate(withDuration: 0.3) { //
                     let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(condition ? .green : .red))
                     tf.rightView = rightView
                     label.text = condition ? "" : second
                     tf.border.backgroundColor = condition ? .mainOrange : .red
                     label.alpha = condition ? 0 : 1
+                    tf.isVailedIndex = condition ? true : false
+
+                    // 다음버튼 활성화를 위한 index value Changed
+                    if condition {
+                        if tf == self.idTextField { self.viewModel.idIsValid =  true }
+                        else { self.viewModel.nicknameIsValid = true }
+                    }
+                    
                 }
                 
             }

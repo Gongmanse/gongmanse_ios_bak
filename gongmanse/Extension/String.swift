@@ -12,7 +12,7 @@ extension String {
     // 이메일 정규식
     // @를 사용했는지 여부
     func validateEmail() -> Bool {
-        let emailRegEx = "^.@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*$"
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         
         let predicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return predicate.evaluate(with: self)
