@@ -16,3 +16,8 @@ struct CertificationNumberInput: Encodable {
 struct idDuplicateCheckInput: Encodable {
     var username: String
 }
+
+/* 닉네임 중복여부 확인 */
+struct nicknameDulicateCheckInput: Encodable {
+    var nickname: String
+}

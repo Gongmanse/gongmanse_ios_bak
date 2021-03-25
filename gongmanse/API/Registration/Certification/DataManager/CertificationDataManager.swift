@@ -70,8 +70,29 @@ class CertificationDataManager {
                 print("DEBUG: failed connection \(error.localizedDescription)")
             }
         }
-        
     }
 
+    /* 닉네임 중복 여부 */
+    func nicknameDuplicateCheck(_ parameters: nicknameDulicateCheckInput, viewController: RegistrationUserInfoVC) {
+        let data = viewController.viewModel.nickname
+        
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(data!)".data(using: .utf8)!, withName: "nickname")
+        }, to: "\(Constant.BASE_URL)/v/member/duplication_nickname")
+
+        .responseDecodable(of: nicknameDuplicateCheckResponse.self) { response in
+            switch response.result {
+            case .success(let response): // 연결 성공
+                if response.data == "0" {
+                    viewController.nicknameDuplicationCheckInVC(message: response)
+                } else {
+                    viewController.nicknameDuplicationCheckInVC(message: response)
+                }
+            case .failure(let error):
+                print("DEBUG: failed connection \(error.localizedDescription)")
+            }
+        }
+    }
+    
 }
 

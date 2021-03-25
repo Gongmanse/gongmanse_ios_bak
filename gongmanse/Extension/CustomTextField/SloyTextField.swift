@@ -23,7 +23,8 @@ private enum Constants {
 }
 
 final class SloyTextField: UITextField {
-
+    #warning("test")
+    var isVailedIndex: Bool = true
     // MARK: - Subviews
 
     let border = UIView()
@@ -126,9 +127,12 @@ final class SloyTextField: UITextField {
 
     private func updateBorder() {
         // MARK: UITextField 클릭 시, 하단 Border(구분선) 색상 설정
-        let borderColor = isFirstResponder ? UIColor.mainOrange : .inactive
+        #warning("test")
+        let borderColor = isFirstResponder ? UIColor.mainOrange : (isVailedIndex ? .inactive : .red)
+        
         UIView.animate(withDuration: .animation250ms) {
             self.border.backgroundColor = borderColor
+            self.leftView?.tintColor = borderColor
         }
     }
 

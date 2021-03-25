@@ -26,4 +26,14 @@ extension String {
         let predicate = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
         return predicate.evaluate(with: self)
     }
+    
+    // 이름 정규식
+    // 한글만 포함
+    func validatName() -> Bool {
+        let nameRegEx = "[가-힣]{1,}"
+        
+        let predicate = NSPredicate(format: "SELF MATCHES %@", nameRegEx)
+        return predicate.evaluate(with: self)
+    }
+    
 }

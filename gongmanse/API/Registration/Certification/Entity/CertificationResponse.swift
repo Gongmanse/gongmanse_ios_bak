@@ -22,3 +22,8 @@ struct idData: Decodable {
 struct idDuplicateCheckResponse: Decodable {
     var data: String
 }
+
+/* 닉네임 중복여부 확인 */
+struct nicknameDuplicateCheckResponse: Decodable {
+    var data: String
+}

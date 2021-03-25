@@ -17,7 +17,6 @@ protocol AuthenticationViewModel {
     var buttonTitleColor: UIColor { get }
 }
 
-
 struct RegistrationUserInfoViewModel: AuthenticationViewModel {
     var username: String?                // woosung
     var password: String?                // 12341234
@@ -32,15 +31,30 @@ struct RegistrationUserInfoViewModel: AuthenticationViewModel {
     var city: String?                    // jeju
     var country: String?                 // Korea
     
-    // 정규표현식
+    // 정규표현식 적용 -> Extension > String 에 작성
     var passwordIsValid: Bool {
         guard let pwd = password else { return false }
         return pwd.validatePassword()
     }
-
+    
+    // 비밀번호 재입력 로직
+    var confirmPasswrdIsVaild: Bool {
+        guard let pwd = password else { return false }
+        guard let cofirmPwd = confirm_password else { return false }
+        return pwd == cofirmPwd ? true : false
+    }
+    
+    // 이름 로직
+    var nameIslVaild: Bool {
+        guard let name = first_name else { return false }
+        return name.validatName()
+    }
+    
+    // 이메일 로직
     
     // 항목이 비어있는지 확인하는 로직
     var formIsValid: Bool {
+        // TODO: 나머지 TextField 조건 추가되면 나머지 로직도 추가할 예정.
         return username?.isEmpty == false
 //            && password?.isEmpty == false
 //            && confirm_password?.isEmpty == false && first_name?.isEmpty == false

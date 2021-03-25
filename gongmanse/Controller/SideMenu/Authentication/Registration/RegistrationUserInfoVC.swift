@@ -32,11 +32,54 @@ class RegistrationUserInfoVC: UIViewController {
     @IBOutlet weak var nicknameTextField: SloyTextField!
     @IBOutlet weak var emailTextField: SloyTextField!
     
-    // Programmatic
+    // Programmatic) 하단 레이블
+    // 아이디(username) 하단 조건 레이블
+    private let idBottomLabel: UILabel = {
+        let label = UILabel()
+        label.text = "" //"2자 이상의 영문과 숫자를 사용하세요."
+        label.textColor = .red
+        label.font = UIFont.appBoldFontWith(size: 10)
+        label.textAlignment = .left
+        label.alpha = 0
+        return label
+    }()
+    
     // 비밀번호 하단 조건 레이블
-    private let bottomLabel: UILabel = {
+    private let passwordBottomLabel: UILabel = {
         let label = UILabel()
         label.text = "8~16자, 영문 대소문자, 숫자, 특수문자를 사용해주세요."
+        label.textColor = .red
+        label.font = UIFont.appBoldFontWith(size: 10)
+        label.textAlignment = .left
+        label.alpha = 0
+        return label
+    }()
+    
+    // 비밀번호 재입력 하단 조건 레이블
+    private let confirmPasswrodBottomLabel: UILabel = {
+        let label = UILabel()
+        label.text = "비밀번호가 일치하지 않습니다."
+        label.textColor = .red
+        label.font = UIFont.appBoldFontWith(size: 10)
+        label.textAlignment = .left
+        label.alpha = 0
+        return label
+    }()
+    
+    // 이름 하단 조건 레이블
+    private let nameBottomLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.text = "한글을 입력해주세요."
+        label.font = UIFont.appBoldFontWith(size: 10)
+        label.textAlignment = .left
+        label.alpha = 0
+        return label
+    }()
+    
+    // 닉네임 하단 조건 레이블
+    private let nicknameBottomLabel: UILabel = {
+        let label = UILabel()
         label.textColor = .red
         label.font = UIFont.appBoldFontWith(size: 10)
         label.textAlignment = .left
@@ -51,6 +94,7 @@ class RegistrationUserInfoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureBottomLabel()
         cofigureNavi()
         configureNotificationObservers()
      
@@ -114,6 +158,7 @@ class RegistrationUserInfoVC: UIViewController {
         
         // MARK: TextField Setting
         let tfWidth = view.frame.width - 125
+    
         
         // 아이디 TextField
         let idTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
@@ -137,18 +182,6 @@ class RegistrationUserInfoVC: UIViewController {
         pwdTextField.centerX(inView: view)
         pwdTextField.anchor(top: idTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
-        
-        
-        // 비밀번호 하단 레이블
-        view.addSubview(bottomLabel)
-        bottomLabel.setDimensions(height: 10, width: tfWidth)
-        bottomLabel.anchor(top: pwdTextField.bottomAnchor,
-                           left: pwdTextField.leftAnchor,
-                           paddingTop: 3,
-                           paddingLeft: 5)
-        
-        
-        
         
         // 비밀번호 재입력 TextField
         let confirmPwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
@@ -184,6 +217,8 @@ class RegistrationUserInfoVC: UIViewController {
         nicknameTextField.anchor(top: nameTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
         
+
+        
         // 이메일 TextField
         let emailLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
         emailTextField.setDimensions(height: 50, width: tfWidth)
@@ -196,6 +231,54 @@ class RegistrationUserInfoVC: UIViewController {
                            paddingTop: view.frame.height * 0.03)
         
     }
+    
+    // 하단 레이블 오토레이아웃
+    func configureBottomLabel() {
+        let tfWidth = view.frame.width - 125
+
+        // 아이디 하단 레이블
+        view.addSubview(idBottomLabel)
+        idBottomLabel.setDimensions(height: 10, width: tfWidth)
+        idBottomLabel.anchor(top: idTextField.bottomAnchor,
+                           left: idTextField.leftAnchor,
+                           paddingTop: 3,
+                           paddingLeft: 5)
+        
+        // 비밀번호 하단 레이블
+        view.addSubview(passwordBottomLabel)
+        passwordBottomLabel.setDimensions(height: 10, width: tfWidth)
+        passwordBottomLabel.anchor(top: pwdTextField.bottomAnchor,
+                           left: pwdTextField.leftAnchor,
+                           paddingTop: 3,
+                           paddingLeft: 5)
+        
+        // 비밀번호 재입력 하단 레이블
+        view.addSubview(confirmPasswrodBottomLabel)
+        confirmPasswrodBottomLabel.setDimensions(height: 10, width: tfWidth)
+        confirmPasswrodBottomLabel.anchor(top: confirmPwdTextField.bottomAnchor,
+                                          left: confirmPwdTextField.leftAnchor,
+                                          paddingTop: 3,
+                                          paddingLeft: 5)
+        
+        // 이름 하단 레이블
+        view.addSubview(nameBottomLabel)
+        nameBottomLabel.setDimensions(height: 10, width: tfWidth)
+        nameBottomLabel.anchor(top: nameTextField.bottomAnchor,
+                                          left: nameTextField.leftAnchor,
+                                          paddingTop: 3,
+                                          paddingLeft: 5)
+        
+        // 닉네임 하단 레이블
+        view.addSubview(nicknameBottomLabel)
+        nicknameBottomLabel.setDimensions(height: 10, width: tfWidth)
+        nicknameBottomLabel.anchor(top: nicknameTextField.bottomAnchor,
+                                          left: nicknameTextField.leftAnchor,
+                                          paddingTop: 3,
+                                          paddingLeft: 5)
+        
+
+    }
+    
     
     // 내비게이션 타이틀 폰트 변경
     func cofigureNavi() {
@@ -217,21 +300,31 @@ class RegistrationUserInfoVC: UIViewController {
     
     // UITextField 타이핑 할때마다 값을 ViewModel로 전달
     @objc func textDidChange(sender: UITextField) {
+        sender.tintColor = .mainOrange
         if sender == idTextField {
             viewModel.username = sender.text
             textFieldCheck(idTextField, text: sender.text!)  // 아이디 중복확인 API 사용
+            
         } else if sender == pwdTextField {
             viewModel.password = sender.text
             textFieldCheck(pwdTextField, text: viewModel.password!)
+            
         } else if sender == confirmPwdTextField {
             viewModel.confirm_password = sender.text
+            textFieldCheck(confirmPwdTextField, text: viewModel.confirm_password!)
+            
         } else if sender == nameTextField {
             viewModel.first_name = sender.text
+            textFieldCheck(nameTextField, text: viewModel.first_name!)
+
         } else if sender == nicknameTextField {
             viewModel.nickname = sender.text
+            textFieldCheck(nicknameTextField, text: viewModel.nickname!)
+            
         } else {  // emailTextField
             viewModel.email = sender.text
         }
+        
         updateForm() // 전달받은 값을 바탕으로 버튼의 색상 결정하는 메소드
     }
     
@@ -265,48 +358,7 @@ extension RegistrationUserInfoVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
-    
-    
-    // configureObervation 으로 대체할 예정 03.24
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let tf = textField as! SloyTextField
-//
-//        switch tf {
-//        case idTextField:
-//            let text = "\(idTextField.text!)" + "\(string)"
-//            self.userInfo.username = text
-//            textFieldCheck(idTextField, text: text)
-//
-//        case pwdTextField:
-//            let text = "\(pwdTextField.text!)" + "\(string)"
-//            self.userInfo.password = text
-//            textFieldCheck(pwdTextField, text: text)
-//
-//        case confirmPwdTextField:
-//            let text = "\(confirmPwdTextField.text!)" + "\(string)"
-//            self.userInfo.confirm_password = confirmPwdTextField.text!
-//            textFieldCheck(confirmPwdTextField, text: text)
-//
-//        case nameTextField:
-//            let text = "\(nameTextField.text!)" + "\(string)"
-//            self.userInfo.first_name = nameTextField.text!
-//            textFieldCheck(nameTextField, text: text)
-//
-//        case nicknameTextField:
-//            let text = "\(nicknameTextField.text!)" + "\(string)"
-//            self.userInfo.nickname = nicknameTextField.text!
-//            textFieldCheck(nicknameTextField, text: text)
-//
-//        case emailTextField:
-//            let text = "\(emailTextField.text!)" + "\(string)"
-//            self.userInfo.email = emailTextField.text!
-//            textFieldCheck(emailTextField, text: text)
-//
-//        default:
-//            print("DEBUG: didn't find textField in Registration...")
-//        }
-//        return true
-//    }
+
 }
 
 
@@ -323,118 +375,142 @@ private extension RegistrationUserInfoVC {
         // TextField에 따른 로직
         switch textField {
         case idTextField:
-            // TODO: 유효성검사
-            // 중복검사 -> 완료
+            // 유효성검사 : 중복여부확인 API + 글자수 제한로직
+            
             CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
             
         case pwdTextField:
-            // TODO: pwd 유효성검사
-            checkPassword(pwdTextField, text: text)
+            // 유효성 검사 : 정규표현식(영문 대소문자 + 숫자 + 특수문자 조합여부) + 글자수 제한로직
+            checkValidationAndLabelUpdate(pwdTextField, label: passwordBottomLabel, condition: viewModel.passwordIsValid)
             
         case confirmPwdTextField:
-            // TODO: pwd 와 일치여부
-            CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
-
+            // 유효성 검사 : viewModel
+            checkValidationAndLabelUpdate(confirmPwdTextField, label: confirmPasswrodBottomLabel, condition: viewModel.confirmPasswrdIsVaild)
+            
         case nameTextField:
-            // TODO: name 유효성검사
-            CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
+            // 유효성 검사 : 정규표현식(한글)
+            checkValidationAndLabelUpdate(nameTextField, label: nameBottomLabel, condition: viewModel.nameIslVaild)
 
         case nicknameTextField:
-            // TODO: nickname 유효성검사 + 중복검사
-            CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
-
+            // 유효성 검사 : 중복여부확인 API + 글자수 제한로직
+            CertificationDataManager().nicknameDuplicateCheck(nicknameDulicateCheckInput(nickname: text), viewController: self)
+            
         case emailTextField:
-            // TODO: email 유효성검사
+            // 유효성 검사 : 정규표현식(이메일양식)
             CertificationDataManager().idDuplicateCheck(idDuplicateCheckInput(username: text), viewController: self)
 
         default:
-            print("DEBUG: default")
+            print("DEBUG: \(#function) didn't have any responder...")
         }
     }
     
     func textFieldNullCheck(_ tf: UITextField) -> Bool {
+        print("DEBUG: \(tf.text!)")
         if tf.text == "" {
             print("DEBUG: 아무것도 입력안함.")
             return false
         } else { return true }
     }
-    
 
-    // 비밀번호 유효성검사
-    func checkPassword(_ tf: SloyTextField, text: String) {
+}
+
+
+// MARK: - Validation Functions
+
+extension RegistrationUserInfoVC {
+    // 유효성검사 + 하단 텍스트필드 입력 조건 레이블 세팅 커스텀메소드
+    func checkValidationAndLabelUpdate(_ tf: SloyTextField, label: UILabel, condition: Bool) {
+        // tf Null 체크
         if !textFieldNullCheck(tf) {
             UIView.animate(withDuration: 0.3) {
                 tf.rightView = UIView()
-                self.bottomLabel.alpha = 0
+                label.alpha = 0
             }
             
         } else {
-            if viewModel.passwordIsValid {
+            if condition {
                 UIView.animate(withDuration: 0.3) {
-                    // 8~16글자 + 대문자 한개 이상포함 + 소문자 + 숫자 조합 (한글X)
                     // TextField RightView 이미지
                     let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
                     tf.rightView = rightView
-                    // TextField 하단 divider 색상 변경
-                    self.bottomLabel.alpha = 0
+                    label.alpha = 0
                 }
- 
+                
             } else {
                 UIView.animate(withDuration: 0.3) {
-                    // 위 조건 불충분한 경우
                     // TextField RightView 이미지
                     let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
                     tf.rightView = rightView
                     tf.border.backgroundColor = .red
-                    self.bottomLabel.alpha = 1
+                    label.alpha = 1
                 }
-
+                
             }
-
+            
         }
     }
-        
-    // 비밀번호 확인 유효성검사
-    func checkConfirmPassword() {
-        
-    }
     
-    // 이름 유효성검사
-    func checkname() {
-        
+    // 유효성검사 + 하단 텍스트필드 입력 조건 레이블 세팅 커스텀메소드
+    func checkTwoValidationAndLabelUpdate(_ tf: SloyTextField, label: UILabel, first: String, second: String, condition: Bool) {
+        // tf Null 체크
+        if !textFieldNullCheck(tf) {                // 텍스트가 없는 경우
+            UIView.animate(withDuration: 0.3) {
+                tf.rightView = UIView()
+                tf.isVailedIndex = true
+                label.alpha = 0
+                
+            }
+        } else { // 텍스트가 있는 경우
+            // nicknameTextField의 경우 12자 글자 제한적용.
+            if (tf != nicknameTextField) ? (tf.text!.count < 2) : (tf.text!.count < 2 || tf.text!.count > 12) {
+                UIView.animate(withDuration: 0.3) {
+                    // TextField RightView 이미지
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
+                    tf.rightView = rightView
+                    label.text = first
+                    tf.border.backgroundColor = .red
+                    #warning("test")
+                    tf.isVailedIndex = false
+                    label.alpha = 1
+                }
+            } else { // 글자가 3글자 이상 있는경우
+                UIView.animate(withDuration: 0.3) {
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(condition ? .green : .red))
+                    tf.rightView = rightView
+                    label.text = condition ? "" : second
+                    tf.border.backgroundColor = condition ? .mainOrange : .red
+                    label.alpha = condition ? 0 : 1
+                }
+                
+            }
+        }
     }
-    
-    // 닉네임 유효성검사
-    func checkNickname() {
-        
-    }
-    
-    // 이메일 유효성검사
-    func checkEmail() {
-        
-    }
-    
 }
+
 
 // MARK: - API
 
 extension RegistrationUserInfoVC {
-    // 아이디 중복체크
+    /* 아이디 중복체크 */
     func idDuplicationCheckInVC(message: idDuplicateCheckResponse) {
-        // 아이디 중복체크여부확인
-        print("DEBUG: 아이디 중복체크여부결과 \(message.data)")
-        if !textFieldNullCheck(idTextField) {
-            idTextField.rightView = UIView()
+        var result: Bool
+        if message.data == "0" {
+            result = true
         } else {
-            if message.data == "0" {    // 중복아님
-                let rightView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "settings").withTintColor(.green))
-                idTextField.rightView = rightView
-            } else {                    // 중복
-                let rightView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "settings").withTintColor(.red))
-                idTextField.rightView = rightView
-            }
+            result = false
         }
-        
+        checkTwoValidationAndLabelUpdate(idTextField, label: idBottomLabel, first: "2자 이상의 연문과 숫자를 사용하세요.", second: "중복된 아이디입니다.", condition: result)
+    }
+    
+    /* 닉네임 중복체크 */
+    func nicknameDuplicationCheckInVC(message: nicknameDuplicateCheckResponse) {
+        var result: Bool
+        if message.data == "0" {
+            result = true
+        } else {
+            result = false
+        }
+        checkTwoValidationAndLabelUpdate(nicknameTextField, label: nicknameBottomLabel, first: "2~12자를 사용하세요.", second: "중복된 닉네임입니다.", condition: result)
     }
     
 }
