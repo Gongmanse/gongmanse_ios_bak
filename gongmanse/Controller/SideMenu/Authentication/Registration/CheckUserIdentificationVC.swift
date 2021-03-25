@@ -11,9 +11,29 @@ import Alamofire
 class CheckUserIdentificationVC: UIViewController {
 
     // MARK: - Propertise
+    
+    var viewModel: RegistrationUserInfoViewModel?
+    var numberTimer: Timer?
+    var totalTime: Int = 180
+    
     // Default 값 넣어놓은 상태
     var userInfoData = RegistrationInput(username: "woosungs", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 01047850519, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
 
+    // 인증번호 RightView
+    
+    
+    private let timerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "03:00"
+        label.font = UIFont.appRegularFontWith(size: 10)
+        label.textColor = .black
+        label.frame = CGRect(x: 0, y: 10, width: 50, height: 13)
+        return label
+    }()
+    
+    
+    
+    
     // MARK: IBOutlet
     @IBOutlet weak var phoneNumberTextField: SloyTextField!
     @IBOutlet weak var certificationNumberTextField: SloyTextField!
@@ -30,6 +50,7 @@ class CheckUserIdentificationVC: UIViewController {
         super.viewDidLoad()
         cofigureNavi()
         configureUI()
+        configureNotificationObservers()
     }
 
     // MARK: - Actions
@@ -37,7 +58,7 @@ class CheckUserIdentificationVC: UIViewController {
     @objc func handleSendingBtn() {
         // TODO: 1) Alamofire 통신으로 인증번호를 받는 로직 구현
         CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
-        
+        onTimerStart()
         // TODO: 2) 인증번호 유효기간 Timer 실행
         print("DEBUG: Clicked Button")
     }
@@ -47,9 +68,28 @@ class CheckUserIdentificationVC: UIViewController {
         RegistrationDataManager().signUp(self.userInfoData, viewController: self)
         
         // 2) TODO: 만약 성공했다면 버튼 색상 변경과 다음페이지 이동 로직 구현
-        
+        numberTimer?.invalidate()
         // 3) 화면이동
-        self.navigationController?.pushViewController(RegistrationCompletionVC(), animated: false)
+//        self.navigationController?.pushViewController(RegistrationCompletionVC(), animated: false)
+    }
+    
+    
+    @objc func timerCallback() {
+        totalTime -= 1
+        let dici = Int(Double((totalTime % 60) - (totalTime % 10)) * 0.1)
+        timerLabel.text = "0\(Int(totalTime/60)):\(dici)\(totalTime%10)"
+        
+        if totalTime == 0 {
+            numberTimer?.invalidate()
+        }
+    }
+    
+    // MARK: - Helper functions
+    
+    func onTimerStart() {
+        // 1초마다 timerCallback 메소드 호출
+        numberTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+        
     }
     
     func cofigureNavi() {
@@ -92,17 +132,8 @@ class CheckUserIdentificationVC: UIViewController {
         phoneNumberTextField.anchor(top: totalProgressView.bottomAnchor,
                            paddingTop: view.frame.height * 0.05)
         
-        // 인증번호 RightView
-        let timerView = UIView(frame: CGRect(x: 0, y: 0, width: 31, height: 13))
-        
-        let timerLabel = UILabel()
-        timerLabel.text = "03:00"
-        timerLabel.font = UIFont.appRegularFontWith(size: 10)
-        timerLabel.textColor = .black
-        
-        timerLabel.frame = CGRect(x: 0, y: 10, width: 31, height: 13)
+        let timerView = UIView(frame: CGRect(x: 0, y: 0, width: 51, height: 13))
         timerView.addSubview(timerLabel)
-
         certificationNumberTextField.rightView = timerView
         certificationNumberTextField.rightViewMode = .always
         
@@ -151,6 +182,20 @@ class CheckUserIdentificationVC: UIViewController {
         pageNumber.font = UIFont.appBoldFontWith(size: 14)
         pageNumber.textAlignment = .right
     }
+    
+    @objc func textDidChange() {
+        // 텍스트필드 편집할 때마다 호출되는 콜백메소드
+        // 텍스트필드 필터는 안드로이드와 맞출 것.
+        #warning("추후 다시 진행예정.")
+        // Zeplin 이랑 갤럭시폰에 설치된 것은 디폴트값으로 저장되어있어서 볼 수 가 없음.
+    }
+    
+    func configureNotificationObservers() {
+            // addTarget
+            phoneNumberTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        }
+    
+    
 }
 
 

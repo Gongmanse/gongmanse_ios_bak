@@ -135,7 +135,7 @@ final class SloyTextField: UITextField {
         
         UIView.animate(withDuration: .animation250ms) {
             self.border.backgroundColor = borderColor
-            self.leftView?.tintColor = borderColor
+            self.leftView?.tintColor = self.isFirstResponder ? .mainOrange : .gray
         }
     }
 

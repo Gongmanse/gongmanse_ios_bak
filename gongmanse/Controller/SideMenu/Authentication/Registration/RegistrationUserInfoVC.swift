@@ -168,7 +168,9 @@ class RegistrationUserInfoVC: UIViewController {
         idTextField.setDimensions(height: 50, width: tfWidth)
         idTextField.placeholder = "아이디"
         idTextField.leftViewMode = .always
+        idTfLeftView.tintColor = .gray
         idTextField.leftView = idTfLeftView
+        
         idTextField.keyboardType = .emailAddress
         idTextField.centerX(inView: view)
         idTextField.anchor(top: totalProgressView.bottomAnchor,
@@ -348,11 +350,7 @@ extension RegistrationUserInfoVC: FormViewModel {
     func updateForm() {
         nextButton.backgroundColor = viewModel.buttonBackgroundColor
     }
-    
-    
 }
-
-
 
 // MARK: - UITextField Helper functions
 
