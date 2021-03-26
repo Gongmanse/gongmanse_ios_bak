@@ -3,17 +3,29 @@ import UIKit
 class ScienceVC: UIViewController {
     
     var pageIndex: Int!
+    
+    let scienceRC: UIRefreshControl = {
+       let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    @IBOutlet weak var scienceCollection: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        scienceCollection.refreshControl = scienceRC
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        scienceCollection.reloadData()
+        sender.endRefreshing()
     }
 }
 
 extension ScienceVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

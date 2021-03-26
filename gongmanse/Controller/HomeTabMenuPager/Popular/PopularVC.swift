@@ -3,15 +3,29 @@ import UIKit
 class PopularVC: UIViewController {
     
     var pageIndex: Int!
+    
+    let popularRC: UIRefreshControl = {
+       let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    @IBOutlet weak var popularCollection: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        popularCollection.refreshControl = popularRC
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        popularCollection.reloadData()
+        sender.endRefreshing()
     }
 }
 
 extension PopularVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

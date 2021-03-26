@@ -65,6 +65,15 @@ class SearchVC: UIViewController {
         searchBar.backgroundImage = searchBarImage
         searchBar.setImage(#imageLiteral(resourceName: "search_on"), for: .search, state: .normal)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+    }
 
     //MARK: - Helper functions
 
@@ -147,13 +156,6 @@ class SearchVC: UIViewController {
         title.text = "검색"
         title.font = UIFont.appBoldFontWith(size: 17)
         navigationItem.titleView = title
-
-        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
-        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
-        self.navigationController?.navigationBar.layer.masksToBounds = false
     }
     
     func addBottomBorder() {

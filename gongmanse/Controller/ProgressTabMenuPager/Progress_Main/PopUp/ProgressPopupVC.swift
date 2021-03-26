@@ -51,7 +51,6 @@ class ProgressPopupVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
 }
 
 

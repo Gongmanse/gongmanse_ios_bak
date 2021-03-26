@@ -17,13 +17,6 @@ class ExpertConsultationVC: UIViewController {
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         
-        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
-        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
-        self.navigationController?.navigationBar.layer.masksToBounds = false
-        
         //테이블 뷰 빈칸 숨기기
         ExpertConsultationTV.tableFooterView = UIView()
         
@@ -44,6 +37,13 @@ class ExpertConsultationVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         //네비게이션 바 타이틀 지정
         self.navigationItem.title = "전문가 상담"
+        
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
     }
     
     //플로팅 버튼 생성 및 크기 지정 후 뷰 이동

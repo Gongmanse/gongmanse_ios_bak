@@ -3,17 +3,29 @@ import UIKit
 class SocialStudiesVC: UIViewController {
     
     var pageIndex: Int!
+    
+    let socialStudiesRC: UIRefreshControl = {
+       let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    @IBOutlet weak var socialStudiesCollection: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        socialStudiesCollection.refreshControl = socialStudiesRC
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        socialStudiesCollection.reloadData()
+        sender.endRefreshing()
     }
 }
 
 extension SocialStudiesVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNp-eM-zGT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNp-eM-zGT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -723,6 +723,9 @@
                             <constraint firstItem="P4B-Yk-hOR" firstAttribute="trailing" secondItem="hjm-7H-9Xv" secondAttribute="trailing" id="lfG-JY-cqk"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="recommendCollection" destination="hjm-7H-9Xv" id="BbZ-AI-gWc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T96-fQ-ivj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -886,6 +889,9 @@
                             <constraint firstItem="zXb-CK-akf" firstAttribute="trailing" secondItem="Abr-Xh-d0e" secondAttribute="trailing" id="ur1-Bt-s2i"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="popularCollection" destination="zXb-CK-akf" id="sAK-uk-9xv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zob-Mu-Nbg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1131,6 +1137,9 @@
                             <constraint firstItem="qVo-db-s3g" firstAttribute="leading" secondItem="bCj-iX-3kc" secondAttribute="leading" id="fEe-7s-xcb"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="koreanEnglishMathCollection" destination="qVo-db-s3g" id="aOJ-JX-CQ9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oX9-Kr-O8D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1363,6 +1372,9 @@
                             <constraint firstItem="IjQ-fH-fBS" firstAttribute="leading" secondItem="mFb-fz-DSP" secondAttribute="leading" id="iFD-B0-A7W"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scienceCollection" destination="IjQ-fH-fBS" id="Io1-4A-zKJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mIE-Ev-ApR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1594,6 +1606,9 @@
                             <constraint firstItem="iKH-Id-MNf" firstAttribute="bottom" secondItem="4ir-JB-TmR" secondAttribute="bottom" id="ulc-qe-Jgt"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="socialStudiesCollection" destination="4ir-JB-TmR" id="I9a-8C-4vB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5TH-ex-pvK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1825,6 +1840,9 @@
                             <constraint firstItem="ksI-OV-71X" firstAttribute="top" secondItem="fKM-Q0-4H0" secondAttribute="top" id="zwd-nk-mKE"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="otherSubjectsCollection" destination="ksI-OV-71X" id="WMl-L2-TOn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WpW-1k-Q0v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

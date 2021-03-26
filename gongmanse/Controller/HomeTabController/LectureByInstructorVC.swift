@@ -28,11 +28,11 @@ class LectureByInstructorVC: UIViewController {
         setupPageViewController()
         
         addBottomBorder()
-        configureNavi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = "강사별 강의"
+        configureNavi()
     }
     
     //MARK: - Helper functions

@@ -3,17 +3,29 @@ import UIKit
 class OtherSubjectsVC: UIViewController {
     
     var pageIndex: Int!
+    
+    let otherSubjectsRC: UIRefreshControl = {
+       let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    @IBOutlet weak var otherSubjectsCollection: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        otherSubjectsCollection.refreshControl = otherSubjectsRC
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        otherSubjectsCollection.reloadData()
+        sender.endRefreshing()
     }
 }
 
 extension OtherSubjectsVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

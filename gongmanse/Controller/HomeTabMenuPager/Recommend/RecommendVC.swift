@@ -3,16 +3,29 @@ import UIKit
 class RecommendVC: UIViewController {
     
     var pageIndex: Int!
-
+    
+    let recommendRC: UIRefreshControl = {
+       let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    @IBOutlet weak var recommendCollection: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        recommendCollection.refreshControl = recommendRC
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        recommendCollection.reloadData()
+        sender.endRefreshing()
     }
 }
 
 extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

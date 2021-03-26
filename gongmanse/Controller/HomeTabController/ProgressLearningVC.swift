@@ -24,11 +24,11 @@ class ProgressLearningVC: UIViewController {
         setupPageViewController()
         
         addBottomBorder()
-        configureNavi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = "진도학습"
+        configureNavi()
     }
     //MARK: - Helper functions
     
