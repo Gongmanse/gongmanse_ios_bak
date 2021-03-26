@@ -112,7 +112,10 @@ class RegistrationUserInfoVC: UIViewController {
     @IBAction func handleNextPage(_ sender: Any) {
         let vc = CheckUserIdentificationVC()                                // 화면전환을 희망하는 컨트롤러 프로퍼티 생성
         vc.viewModel = self.viewModel
-        self.navigationController?.pushViewController(vc, animated: false)  // push를 통한 화면전환
+        
+        if viewModel.formIsValid {
+            self.navigationController?.pushViewController(vc, animated: false)  // push를 통한 화면전환
+        }
     }
     
     
@@ -282,12 +285,12 @@ class RegistrationUserInfoVC: UIViewController {
     // MARK: 텍스트필드 콜벡메소드 추가
     func configureNotificationObservers() {
         // addTarget
-        idTextField.addTarget        (self, action: #selector(textDidChange), for: .editingChanged)
-        pwdTextField.addTarget       (self, action: #selector(textDidChange), for: .editingChanged)
+        idTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        pwdTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         confirmPwdTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        nameTextField.addTarget      (self, action: #selector(textDidChange), for: .editingChanged)
-        nicknameTextField.addTarget  (self, action: #selector(textDidChange), for: .editingChanged)
-        emailTextField.addTarget     (self, action: #selector(textDidChange), for: .editingChanged)
+        nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        nicknameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     // 텍스트필드 콜백메소드

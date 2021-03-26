@@ -23,7 +23,7 @@ struct RegistrationUserInfoViewModel: AuthenticationViewModel {
     var confirm_password: String?        // 12341234
     var first_name: String?              // woosung
     var nickname: String?                // woosung
-    var phone_number: Int?               // 01047850519
+    var phone_number: String?            // "01047850519"
     var verification_code: Int?          // (자신의 폰으로 받아야하는 숫자) 431212 - 일정시간 지나면 다시 발급받아야함.
     var email: String?                   // woosung@test.com
     var address1: String?                // 45 gasnaro
@@ -56,11 +56,23 @@ struct RegistrationUserInfoViewModel: AuthenticationViewModel {
     
     // 이메일 로직
     var emailIsValid: Bool {
-        guard let email = email else { return false}
+        guard let email = email else { return false }
         return email.validateEmail()
     }
     
-    // 항목이 비어있는지 확인하는 로직
+    // 휴대전화번호 로직
+    var phoneNumberIsValid: Bool {
+        guard let phoneNumber = phone_number else { return  false }
+        return phoneNumber.validatePhoneNumber()
+    }
+    
+    // 인증번호 로직
+    var verificationNumberIsValid: Bool {
+        guard let number = verification_code else { return false }
+        return number > 99999 && number < 1000000 ? true : false
+    }
+    
+    // 항목이 유효성검사를 충족하는지 로직
     var formIsValid: Bool {
         return idIsValid == true
             && passwordIsValid == true

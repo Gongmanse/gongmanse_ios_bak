@@ -38,9 +38,9 @@ extension String {
     
     // 휴대전화번호 정규식
     // 숫자만 추출
-    func validateNumber() -> Bool {
-        let numberRegEx = "[0-9]{1,}"
-        
+    func validatePhoneNumber() -> Bool {
+        let numberRegEx = "^010-?([0-9]{4})-?([0-9]{4})"
+
         let predicate = NSPredicate(format: "SELF MATCHES %@", numberRegEx)
         return predicate.evaluate(with: self)
     }

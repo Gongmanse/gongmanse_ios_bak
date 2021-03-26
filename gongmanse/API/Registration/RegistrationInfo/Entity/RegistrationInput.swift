@@ -17,7 +17,7 @@ struct RegistrationInput: Codable {
     var name_suffix: String?
     var nickname: String            // woosung
     var gender: String?
-    var phone_number: Int           // 01047850519
+    var phone_number: String        // 01047850519
     var verification_code: Int      // (자신의 폰으로 받아야하는 숫자) 431212 - 일정시간 지나면 다시 발급받아야함.
     var email: String               // woosung@test.com
     var address1: String = ""       // 45 gasnaro
