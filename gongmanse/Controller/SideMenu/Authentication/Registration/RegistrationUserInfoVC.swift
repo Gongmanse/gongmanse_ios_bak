@@ -13,7 +13,7 @@ class RegistrationUserInfoVC: UIViewController {
     
     var viewModel = RegistrationUserInfoViewModel()         // viewModel 생성
     
-    // MARK: - IBOutlet
+    // MARK: IBOutlet
     // 오토레이아웃 - CODE
     @IBOutlet weak var currentProgressView: UIView!
     @IBOutlet weak var totalProgressView: UIView!
@@ -111,6 +111,7 @@ class RegistrationUserInfoVC: UIViewController {
     // 클릭 시, 다음 페이지 이동 로직
     @IBAction func handleNextPage(_ sender: Any) {
         let vc = CheckUserIdentificationVC()                                // 화면전환을 희망하는 컨트롤러 프로퍼티 생성
+        vc.viewModel = self.viewModel
         self.navigationController?.pushViewController(vc, animated: false)  // push를 통한 화면전환
     }
     
@@ -201,9 +202,7 @@ class RegistrationUserInfoVC: UIViewController {
         nicknameTextField.centerX(inView: view)
         nicknameTextField.anchor(top: nameTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
-        
 
-        
         // 이메일 TextField
         let emailLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
         setupTextField(emailTextField, placehoder: "이메일", leftView: emailLeftView)
@@ -211,9 +210,6 @@ class RegistrationUserInfoVC: UIViewController {
         emailTextField.centerX(inView: view)
         emailTextField.anchor(top: nicknameTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
-        
-        
-        
     }
     
     // textField 공통 세팅 커스텀메소드
@@ -224,7 +220,6 @@ class RegistrationUserInfoVC: UIViewController {
         tf.leftView = leftView
         tf.keyboardType = .emailAddress
     }
-    
     
     // MARK: 텍스트필드 하단 레이블 UI
     func configureBottomLabel() {

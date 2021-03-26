@@ -11,7 +11,7 @@ import Alamofire
 class RegistrationDataManager {
     func signUp(_ parameters: RegistrationInput, viewController: CheckUserIdentificationVC) {
         // Controller에서 데이터 수신
-        let data = viewController.userInfoData
+        let data = parameters
         
         // 받은 데이터를 AF를 통한 업로드
         AF.upload(multipartFormData: { MultipartFormData in

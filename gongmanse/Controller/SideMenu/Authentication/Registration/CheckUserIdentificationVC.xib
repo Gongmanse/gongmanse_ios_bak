@@ -42,7 +42,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <connections>
-                        <action selector="testAction:" destination="-1" eventType="touchUpInside" id="S4h-0n-iec"/>
+                        <action selector="nextPageAction:" destination="-1" eventType="touchUpInside" id="S4h-0n-iec"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HEY-jx-cPo" userLabel="totalView">

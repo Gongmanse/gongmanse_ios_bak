@@ -12,27 +12,40 @@ class CheckUserIdentificationVC: UIViewController {
 
     // MARK: - Propertise
     
-    var viewModel: RegistrationUserInfoViewModel?
-    var numberTimer: Timer?
-    var totalTime: Int = 180
+    var viewModel: RegistrationUserInfoViewModel?   // viewModel
+    var numberTimer: Timer?                         // timer
+    var totalTime: Int = 180                        // 3분
     
-    // Default 값 넣어놓은 상태
-    var userInfoData = RegistrationInput(username: "woosungs", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 01047850519, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
+    
+//    lazy var userInfoData = RegistrationInput(username: "\(viewModel!.username!)",
+//                                              password: "\(viewModel!.password!)",
+//                                              confirm_password: "\(viewModel!.confirm_password!)",
+//                                              first_name: "\(viewModel!.first_name!)",
+//                                              nickname: "\(viewModel!.nickname!)",
+//                                              phone_number: viewModel!.phone_number!, // viewModel에서 휴대전화 "-" 제거 정규표현식 적용할 예정
+//                                              verification_code: viewModel!.verification_code!,
+//                                              email: "\(viewModel!.email!)", address1: "", address2: "", city: "", zip: 0, country: "")
 
     // 인증번호 RightView
-
-    
     private let timerLabel: UILabel = {
         let label = UILabel()
         label.text = "03:00"
         label.font = UIFont.appRegularFontWith(size: 10)
+        label.textAlignment = .right
         label.textColor = .black
         label.frame = CGRect(x: 0, y: 10, width: 50, height: 13)
         return label
     }()
     
-    
-    
+    private let textButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .mainOrange
+        button.setTitle("인증번호 발송", for: .normal)
+        button.titleLabel?.font = UIFont.appRegularFontWith(size: 11)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
     // MARK: IBOutlet
     @IBOutlet weak var phoneNumberTextField: SloyTextField!
@@ -55,29 +68,43 @@ class CheckUserIdentificationVC: UIViewController {
 
     // MARK: - Actions
     
+    // "인증번호 발송" 클릭 시, 호출되는 메소드
     @objc func handleSendingBtn() {
-        // TODO: 1) Alamofire 통신으로 인증번호를 받는 로직 구현
-        CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: 01047850519), viewController: self)
-        onTimerStart()
-        // TODO: 2) 인증번호 유효기간 Timer 실행
-        print("DEBUG: Clicked Button")
+        guard let viewModel = viewModel else { return }
+        print("DEBUG: Clicked sendingButton...")
+        
+        // 만약 휴대전화번호를 입력하지 않았는데 클릭한 경우를 위해서 조건문 추가할 것.
+        // Alamofire 통신으로 인증번호를 받는 로직 구현
+//        CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: viewModel.phone_number!), viewController: self)
+        onTimerStart()  // 인증번호 유효기간 Timer 실행
     }
     
-    @IBAction func testAction(_ sender: Any) {
+    // "다음" 버튼 클릭 시, 호출되는 메소드
+    @IBAction func nextPageAction(_ sender: Any) {
+        guard let viewModel = viewModel else { return }
+        
+        let userInfoData = RegistrationInput(username: "\(viewModel.username!)",
+                                             password: "\(viewModel.password!)",
+                                             confirm_password: "\(viewModel.confirm_password!)",
+                                             first_name: "\(viewModel.first_name!)",
+                                             nickname: "\(viewModel.nickname!)",
+                                             phone_number: viewModel.phone_number!, // viewModel에서 휴대전화 "-" 제거 정규표현식 적용할 예정
+                                             verification_code: viewModel.verification_code!,
+                                             email: "\(viewModel.email!)", address1: "", address2: "", city: "", zip: 0, country: "")
+        
         // 1) 회원가입을 위한 정보를 모두 전송
-        RegistrationDataManager().signUp(self.userInfoData, viewController: self)
+        RegistrationDataManager().signUp(userInfoData, viewController: self)
         
         // 2) TODO: 만약 성공했다면 버튼 색상 변경과 다음페이지 이동 로직 구현
         numberTimer?.invalidate()
         // 3) 화면이동
-//        self.navigationController?.pushViewController(RegistrationCompletionVC(), animated: false)
+        self.navigationController?.pushViewController(RegistrationCompletionVC(), animated: false)
     }
     
-    
     @objc func timerCallback() {
-        totalTime -= 1
-        let dici = Int(Double((totalTime % 60) - (totalTime % 10)) * 0.1)
-        timerLabel.text = "0\(Int(totalTime/60)):\(dici)\(totalTime%10)"
+        totalTime -= 1                                                      // 시작이 180초로 1초씩 감소하기위해 -1
+        let dici = Int(Double((totalTime % 60) - (totalTime % 10)) * 0.1)   // 10초 단위 레이블 나타내기 위한 식
+        timerLabel.text = "0\(Int(totalTime/60)):\(dici)\(totalTime%10)"    // 00:00 레이블
         
         if totalTime == 0 {
             numberTimer?.invalidate()
@@ -107,29 +134,36 @@ class CheckUserIdentificationVC: UIViewController {
         
         // 휴대전화번호 RightView
         // "인증번호 발송" 버튼 (이메일 TextField의 rightView)
-        let buttonView = UIView(frame: CGRect(x: 0, y: 10, width: 80, height: 25))
         
-        let sendingNumButton = UIButton(type: .system)
-        sendingNumButton.setTitle("인증번호 발송", for: .normal)
-        sendingNumButton.titleLabel?.font = UIFont.appBoldFontWith(size: 11)
-        sendingNumButton.titleLabel?.tintColor = .white
-        sendingNumButton.backgroundColor = .mainOrange
-        sendingNumButton.layer.cornerRadius = 7
-        sendingNumButton.frame = CGRect(x: 0, y: 5, width: 80, height: 25)
-        buttonView.addSubview(sendingNumButton)
-        sendingNumButton.addTarget(self, action: #selector(handleSendingBtn), for: .touchUpInside)
-        phoneNumberTextField.rightView = buttonView
-        phoneNumberTextField.rightViewMode = .always
+        view.addSubview(textButton)
+        textButton.setDimensions(height: 25, width: 80)
+        textButton.anchor(bottom: phoneNumberTextField.bottomAnchor,
+                          right: phoneNumberTextField.rightAnchor,
+                          paddingBottom: 5.5)
+        textButton.addTarget(self, action: #selector(handleSendingBtn), for: .touchUpInside)
+        
+        
+        
+//        let buttonView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 25))
+//
+//        let sendingNumButton = UIButton(type: .system)
+//        sendingNumButton.setTitle("인증번호 발송", for: .normal)
+//        sendingNumButton.titleLabel?.font = UIFont.appBoldFontWith(size: 11)
+//        sendingNumButton.titleLabel?.tintColor = .white
+//        sendingNumButton.backgroundColor = .mainOrange
+//        sendingNumButton.layer.cornerRadius = 7
+//        sendingNumButton.frame = CGRect(x: 0, y: 5, width: 80, height: 25)
+//        buttonView.addSubview(sendingNumButton)
+//        sendingNumButton.addTarget(self, action: #selector(handleSendingBtn), for: .touchUpInside)
+//        phoneNumberTextField.rightView = buttonView
+//        phoneNumberTextField.rightViewMode = .always
         
         // 휴대전화번호 TextField
         let phoneNumberLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "myActivity"))
+        setupTextField(phoneNumberTextField, placehoder: "휴대전화 번호", leftView: phoneNumberLeftView)
         phoneNumberTextField.setDimensions(height: 50, width: tfWidth)
-        phoneNumberTextField.placeholder = "휴대전화 번호"
-        phoneNumberTextField.leftViewMode = .always
-        phoneNumberTextField.leftView = phoneNumberLeftView
-        phoneNumberTextField.keyboardType = .numberPad
-        phoneNumberTextField.centerX(inView: view)
         phoneNumberTextField.anchor(top: totalProgressView.bottomAnchor,
+                                    left: certificationNumberTextField.leftAnchor,
                            paddingTop: view.frame.height * 0.05)
         
         let timerView = UIView(frame: CGRect(x: 0, y: 0, width: 51, height: 13))
@@ -140,10 +174,7 @@ class CheckUserIdentificationVC: UIViewController {
         // 인증번호 TextField
         let certificationNumberTextFieldLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "myActivity"))
         certificationNumberTextField.setDimensions(height: 50, width: tfWidth)
-        certificationNumberTextField.placeholder = "인증번호"
-        certificationNumberTextField.leftViewMode = .always
-        certificationNumberTextField.leftView = certificationNumberTextFieldLeftView
-        certificationNumberTextField.keyboardType = .numberPad
+        setupTextField(certificationNumberTextField, placehoder: "인증번호", leftView: certificationNumberTextFieldLeftView)
         certificationNumberTextField.centerX(inView: view)
         certificationNumberTextField.anchor(top: phoneNumberTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.01)
@@ -184,10 +215,25 @@ class CheckUserIdentificationVC: UIViewController {
     }
     
     @objc func textDidChange() {
-        // 텍스트필드 편집할 때마다 호출되는 콜백메소드
-        // 텍스트필드 필터는 안드로이드와 맞출 것.
+        guard var viewModel = viewModel else { return }
+        viewModel.phone_number = Int(phoneNumberTextField.text!.components(separatedBy: ["-"]).joined())    // 010-1111-1111 을 01011111111로 저장
+        
+        // textField의 값을 viewModel에 할당
+        viewModel.phone_number = Int(viewModel.phone_number!)
+        viewModel.verification_code = Int(certificationNumberTextField.text!)
+        
         #warning("추후 다시 진행예정.")
-        // Zeplin 이랑 갤럭시폰에 설치된 것은 디폴트값으로 저장되어있어서 볼 수 가 없음.
+        // 0326작성 -> 안드로이드 분들 출근하시는 날 확인할 것.
+        // TODO: 텍스트필드에 인증번호를 작성할 때마다 인증번호API를 통해 인증번호를 검증해야하는 것인지 아니면 다음을 누를 때 검증해야하는 것인지 안드로이드 보고 판단할 것
+    }
+    
+    // textField 공통 세팅 커스텀메소드
+    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
+        tf.placeholder = placehoder
+        tf.leftViewMode = .always
+        tf.tintColor = .gray
+        tf.leftView = leftView
+        tf.keyboardType = .numberPad
     }
     
     func configureNotificationObservers() {
