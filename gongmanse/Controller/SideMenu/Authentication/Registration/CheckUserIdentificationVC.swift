@@ -20,7 +20,7 @@ class CheckUserIdentificationVC: UIViewController {
     var userInfoData = RegistrationInput(username: "woosungs", password: "", confirm_password: "", first_name: "", nickname: "", phone_number: 01047850519, verification_code: 0, email: "", address1: "", address2: "", city: "", zip: 0, country: "")
 
     // 인증번호 RightView
-    
+
     
     private let timerLabel: UILabel = {
         let label = UILabel()

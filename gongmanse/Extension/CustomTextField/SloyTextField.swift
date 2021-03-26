@@ -113,7 +113,6 @@ final class SloyTextField: UITextField {
         label.text = placeholder
         label.isUserInteractionEnabled = false
         addSubview(label)
-
         attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: [
             NSAttributedString.Key.foregroundColor: UIColor.inactive
         ])
