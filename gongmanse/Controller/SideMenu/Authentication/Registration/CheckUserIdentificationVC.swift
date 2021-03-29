@@ -247,19 +247,13 @@ class CheckUserIdentificationVC: UIViewController {
         }
         
         #warning("추후 다시 진행예정.")
-        // 0326작성 -> 안드로이드 분들 출근하시는 날 확인할 것.
-        // TODO: 텍스트필드에 인증번호를 작성할 때마다 인증번호API를 통해 인증번호를 검증해야하는 것인지 아니면 다음을 누를 때 검증해야하는 것인지 안드로이드 보고 판단할 것
+        /*
+         인증번호 관련해서 API 새로 만들 우려가 있으므로 작업하던거 중지.
+         현재 : 가입정보를 전송해야 가입된 휴대폰인지 결과를 알 수 있음
+         개선한다면 : 휴대전화 인증번호 보낼때, 이미 가입된 휴대전화인지 결과를 알려준다.
+        */
     }
-    
-    // textField 공통 세팅 커스텀메소드
-    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
-        tf.placeholder = placehoder
-        tf.leftViewMode = .always
-        tf.tintColor = .gray
-        tf.leftView = leftView
-        tf.keyboardType = .numberPad
-    }
-    
+        
     func configureNotificationObservers() {
         // addTarget
         phoneNumberTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)

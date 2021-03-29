@@ -27,6 +27,12 @@
 		25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DDD26046BDF001098AC /* SloyTextField.swift */; };
 		253B4EC9260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B4EC8260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift */; };
 		253B4ECD260B15DB000B7DB9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B4ECC260B15DB000B7DB9 /* String.swift */; };
+		2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF326119F4800CD24B8 /* ByEmailInput.swift */; };
+		2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */; };
+		2568EEFA26119F6400CD24B8 /* ByEmailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* ByEmailDataManager.swift */; };
+		2568EEFD26119F7000CD24B8 /* ByPhoneInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */; };
+		2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */; };
+		2568EF0326119F8400CD24B8 /* ByPhoneDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EF0226119F8400CD24B8 /* ByPhoneDataManager.swift */; };
 		257C61372602E86000153BF3 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C61362602E86000153BF3 /* test.swift */; };
 		2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */; };
 		2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */; };
@@ -219,6 +225,12 @@
 		25201DDD26046BDF001098AC /* SloyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SloyTextField.swift; sourceTree = "<group>"; };
 		253B4EC8260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoViewModel.swift; sourceTree = "<group>"; };
 		253B4ECC260B15DB000B7DB9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		2568EEF326119F4800CD24B8 /* ByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailInput.swift; sourceTree = "<group>"; };
+		2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailResponse.swift; sourceTree = "<group>"; };
+		2568EEF926119F6400CD24B8 /* ByEmailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailDataManager.swift; sourceTree = "<group>"; };
+		2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneInput.swift; sourceTree = "<group>"; };
+		2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneResponse.swift; sourceTree = "<group>"; };
+		2568EF0226119F8400CD24B8 /* ByPhoneDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneDataManager.swift; sourceTree = "<group>"; };
 		257C61362602E86000153BF3 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoVC.swift; sourceTree = "<group>"; };
 		2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationUserInfoVC.xib; sourceTree = "<group>"; };
@@ -509,6 +521,67 @@
 			path = Registration;
 			sourceTree = "<group>";
 		};
+		2568EEEC26119EDB00CD24B8 /* Finding */ = {
+			isa = PBXGroup;
+			children = (
+				2568EEEE26119EEC00CD24B8 /* ID */,
+				2568EEED26119EEA00CD24B8 /* password */,
+			);
+			path = Finding;
+			sourceTree = "<group>";
+		};
+		2568EEED26119EEA00CD24B8 /* password */ = {
+			isa = PBXGroup;
+			children = (
+				2568EEF226119F0700CD24B8 /* Entity */,
+				2568EEF126119F0600CD24B8 /* DataManager */,
+			);
+			path = password;
+			sourceTree = "<group>";
+		};
+		2568EEEE26119EEC00CD24B8 /* ID */ = {
+			isa = PBXGroup;
+			children = (
+				2568EEF026119F0400CD24B8 /* Entity */,
+				2568EEEF26119F0200CD24B8 /* DataManager */,
+			);
+			path = ID;
+			sourceTree = "<group>";
+		};
+		2568EEEF26119F0200CD24B8 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				2568EEF926119F6400CD24B8 /* ByEmailDataManager.swift */,
+				2568EF0226119F8400CD24B8 /* ByPhoneDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		2568EEF026119F0400CD24B8 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				2568EEF326119F4800CD24B8 /* ByEmailInput.swift */,
+				2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */,
+				2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */,
+				2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		2568EEF126119F0600CD24B8 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		2568EEF226119F0700CD24B8 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		257C61352602E85700153BF3 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,6 +644,7 @@
 		258B5E9A2609D81600F470B7 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				2568EEEC26119EDB00CD24B8 /* Finding */,
 				25126D62261175C000009526 /* Login */,
 				2584E8BE26083C86000DFA20 /* Registration */,
 			);
@@ -1430,12 +1504,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				259B8BFE260305EB009A7146 /* SearchNoteVC.swift in Sources */,
+				2568EEFD26119F7000CD24B8 /* ByPhoneInput.swift in Sources */,
 				259B8BF3260305E1009A7146 /* SearchVideoVC.swift in Sources */,
 				259B8B8826030148009A7146 /* ProgressPopupCell.swift in Sources */,
 				259B8BE6260305B3009A7146 /* RecentKeywordVC.swift in Sources */,
 				6CF2E66525F0AA8E000FE084 /* SocialStudiesVC.swift in Sources */,
 				259B8B6226030065009A7146 /* UIImage.swift in Sources */,
 				6CF2E65F25F0AA45000FE084 /* KoreanEnglishMathVC.swift in Sources */,
+				2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */,
 				259B8B9E260301B7009A7146 /* RecentKeywordCell.swift in Sources */,
 				25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */,
 				6CF2E68725F21E2C000FE084 /* PopularCVCell.swift in Sources */,
@@ -1492,6 +1568,7 @@
 				25126D66261175EA00009526 /* LoginInput.swift in Sources */,
 				6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */,
 				6C4713C025F8541600D68A2B /* CustomerServiceVC.swift in Sources */,
+				2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */,
 				6C576F4726083C49001B28E6 /* ScienceCRV.swift in Sources */,
 				6CF2E64E25F08B2A000FE084 /* TabsView.swift in Sources */,
 				25126D5D26115D1500009526 /* RegistrationVCViewModel.swift in Sources */,
@@ -1523,6 +1600,7 @@
 				6C4713B725F8534900D68A2B /* MyCalendarVC.swift in Sources */,
 				25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */,
 				2584E8A926082078000DFA20 /* CheckUserIdentificationVC.swift in Sources */,
+				2568EEFA26119F6400CD24B8 /* ByEmailDataManager.swift in Sources */,
 				6C4713B425F8532500D68A2B /* MyActivityVC.swift in Sources */,
 				6C47138325F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift in Sources */,
 				253B4ECD260B15DB000B7DB9 /* String.swift in Sources */,
@@ -1533,6 +1611,7 @@
 				6CF2E65825F0A992000FE084 /* RecommendVC.swift in Sources */,
 				6CF2E66C25F0AB9B000FE084 /* HomeVC.swift in Sources */,
 				259B8BAC260301D8009A7146 /* SearchVideoCell.swift in Sources */,
+				2568EF0326119F8400CD24B8 /* ByPhoneDataManager.swift in Sources */,
 				259B8B6326030065009A7146 /* UIColor.swift in Sources */,
 				6C47139225F60F0A00D68A2B /* MainTabBarController.swift in Sources */,
 				6C47138625F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift in Sources */,
@@ -1547,6 +1626,7 @@
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
+				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
 				25201DB926042894001098AC /* FindIDResultVC.swift in Sources */,
 				259B8C1E26030799009A7146 /* CurriculumCell.swift in Sources */,
 				6C4713AB25F7103100D68A2B /* SideMenuVC.swift in Sources */,

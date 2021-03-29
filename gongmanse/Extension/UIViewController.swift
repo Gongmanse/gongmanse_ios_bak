@@ -74,4 +74,12 @@ extension UIViewController {
         return view
     }
     
+    // textField 공통 세팅 커스텀메소드
+    func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
+        tf.placeholder = placehoder
+        tf.leftViewMode = .always
+        tf.tintColor = .gray
+        tf.leftView = leftView
+        tf.keyboardType = .emailAddress
+    }
 }

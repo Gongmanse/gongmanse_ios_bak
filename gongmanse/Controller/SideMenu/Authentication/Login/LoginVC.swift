@@ -57,17 +57,14 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func handleLogin(_ sender: Any) {
-        
         LoginDataManager().sendingLoginInfo(LoginInput(usr: "woosung", pwd: "12341234"), viewController: self)
-        
-//        self.navigationController?.navigationBar.isHidden = false
-//        let vc = FindingIDVC(nibName: "FindingIDVC", bundle: nil)
-//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // 아이디 찾기 클릭 시,
     @IBAction func handleFindingID(_ sender: Any) {
-        print("DEBUG: Clicked Finding ID")
+        self.navigationController?.navigationBar.isHidden = false
+        let vc = FindingIDVC(nibName: "FindingIDVC", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // 비밀번호 찾기 클릭 시,
@@ -180,14 +177,14 @@ class LoginVC: UIViewController {
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
-    // textField 공통 세팅 커스텀메소드
-    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
-        tf.placeholder = placehoder
-        tf.leftViewMode = .always
-        tf.tintColor = .gray
-        tf.leftView = leftView
-        tf.keyboardType = .emailAddress
-    }
+//    // textField 공통 세팅 커스텀메소드
+//    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
+//        tf.placeholder = placehoder
+//        tf.leftViewMode = .always
+//        tf.tintColor = .gray
+//        tf.leftView = leftView
+//        tf.keyboardType = .emailAddress
+//    }
 }
 
 
@@ -209,4 +206,23 @@ private extension LoginVC {
     }
     
 
+}
+
+// MARK: - API
+
+extension LoginVC {
+    func didSucceedLogin(_ token: String?) {  // 로그인 성공한 경우
+        // 토큰 전달
+        guard let token = token else { return }
+        Constant.token = token
+        
+        // 회면전환 - Main Controller 로 이동.
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func didFaildLogin(_ response: LoginResponse) {
+        print("DEBUG: 실패이유 = \(response.message!)")
+    }
 }

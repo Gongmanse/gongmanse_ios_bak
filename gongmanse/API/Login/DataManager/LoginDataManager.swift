@@ -28,9 +28,10 @@ class LoginDataManager {
             case .success(let response):
                 if let token = response.token {
                     // 로그인 성공
-                    print("DEBUG: \(token)")
+                    viewController.didSucceedLogin(token)
                 } else {
-                    print("DEBUG: \(String(describing: response.message))")
+                    // 로그인 실패
+                    viewController.didFaildLogin(response)
                 }
                 
             case .failure(let error):
