@@ -9,7 +9,7 @@
 import Foundation
 /* 인증번호 */
 struct CertificationNumberInput: Encodable {
-    var phone_number: Int
+    var phone_number: String
 }
 
 /* 아이디 중복여부 확인 */

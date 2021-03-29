@@ -11,26 +11,15 @@ class RegistrationVC: UIViewController {
     
     // MARK: - Properties
     
+    var viewModel = RegistrationVCViewModel()
+    
     var isSelected: Bool = false
     var bottomIsSelected: Bool = false
+    
+    // 이용약관 레이블
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text =
-"""
-공만세 서비스 이용약관
-        
--제 1장 총 칙-
-
-제 1조 (목적)
-
-이 약관은 공만세(이하 '회사')의 웹사이트"공만
-세" 또는 스마트폰 등 이동통신기기를 통해 제공
-되는 "공만세" 모바일 어플리케이션을 통해 회사
-가 운영, 제공하는 인터넷 관련 서비스 (이하 "공
-만세 서비스" 또는 "서비스")을 이용함에 있어 이
-용자의 권리, 의무 및 책임사항을 규정함을 목적
-으로 합니다.
-"""
+        label.text = Constant.termOfServiceText
         label.numberOfLines = 0
         label.font = UIFont.appRegularFontWith(size: 12.5)
         label.textAlignment = .left
@@ -38,24 +27,10 @@ class RegistrationVC: UIViewController {
         return label
     }()
     
+    // 개인정보 레이블
     let bottomtitleLabel: UILabel = {
         let label = UILabel()
-        label.text =
-"""
-공만세 서비스 이용약관
-        
--제 1장 총 칙-
-
-제 1조 (목적)
-
-이 약관은 공만세(이하 '회사')의 웹사이트"공만
-세" 또는 스마트폰 등 이동통신기기를 통해 제공
-되는 "공만세" 모바일 어플리케이션을 통해 회사
-가 운영, 제공하는 인터넷 관련 서비스 (이하 "공
-만세 서비스" 또는 "서비스")을 이용함에 있어 이
-용자의 권리, 의무 및 책임사항을 규정함을 목적
-으로 합니다.
-"""
+        label.text = Constant.termOfServiceText
         label.numberOfLines = 0
         label.font = UIFont.appRegularFontWith(size: 12.5)
         label.textAlignment = .left
@@ -88,10 +63,8 @@ class RegistrationVC: UIViewController {
     // all Agree
     @IBOutlet weak var allAgreeLabel: UILabel!
     @IBOutlet weak var allAgreeButton: UIButton!
-    
-    
     @IBOutlet weak var nextButton: UIButton!
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -100,21 +73,33 @@ class RegistrationVC: UIViewController {
         cofigureNavi()
         setupScrollView()
         setupViews()
-        
     }
     
     // MARK: - Actions
     
+    // "다음" 버튼
     @IBAction func handleNextPage(_ sender: Any) {
-        self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
+        if viewModel.agreeIsValid {
+            self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
+        } else {
+            // 모두 동의를 하지 않은 경우,
+        }
     }
 
     // 이용약관 버튼 액션
     @IBAction func handleUpperAgreeBtn(_ sender: UIButton) {
-        if termsOfServiceButton.isSelected {
+        if termsOfServiceButton.isSelected {    // 비동의
             termsOfServiceButton.isSelected = false
-        } else {
+            viewModel.firstAgree = false
+            if !viewModel.agreeIsValid {
+                allAgreeButton.isSelected = false
+            }
+        } else {                                // 동의
             termsOfServiceButton.isSelected = true
+            viewModel.firstAgree = true
+            if viewModel.secondAgree {
+                allAgree(true)
+            }
         }
     }
     
@@ -122,25 +107,39 @@ class RegistrationVC: UIViewController {
     @IBAction func handleBottomAgreeBtn(_ sender: UIButton) {
         if termsOfInfoButton.isSelected {
             termsOfInfoButton.isSelected = false
+            viewModel.secondAgree = false
+            if !viewModel.agreeIsValid {
+                allAgreeButton.isSelected = false
+            }
         } else {
             termsOfInfoButton.isSelected = true
+            viewModel.secondAgree = true
+            if viewModel.firstAgree {
+                allAgree(true)
+            }
+            
+            
         }
     }
-    
     
     @IBAction func handleAllAgreeBtn(_ sender: Any) {
         if allAgreeButton.isSelected {
-            allAgreeButton.isSelected = false
-            termsOfInfoButton.isSelected = false
-            termsOfServiceButton.isSelected = false
-        } else {
-            allAgreeButton.isSelected = true
-            termsOfInfoButton.isSelected = true
-            termsOfServiceButton.isSelected = true
+            viewModel.firstAgree = false
+            viewModel.secondAgree = false
+            allAgree(false)
+        } else if (allAgreeButton.isSelected == false) {
+            viewModel.firstAgree = true
+            viewModel.secondAgree = true
+            allAgree(true)
         }
     }
     
-    
+    // TODO: 모두 동의 로직, 추후 코드 리펙토링 필요
+    func allAgree(_ index: Bool) {
+        allAgreeButton.isSelected = index
+        termsOfInfoButton.isSelected = index
+        termsOfServiceButton.isSelected = index
+    }
     
 
     // MARK: - Helper functions

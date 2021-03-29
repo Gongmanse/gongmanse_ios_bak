@@ -13,7 +13,7 @@ class CertificationDataManager {
     func sendingNumber(_ parameters: CertificationNumberInput, viewController: CheckUserIdentificationVC) {
         
         // Controller에서 휴대전화번호 데이터 받음
-        let data = viewController.userInfoData.phone_number
+        let data = parameters.phone_number
         
         // 휴대전화번호를 post
         AF.upload(multipartFormData: { MultipartFormData in
