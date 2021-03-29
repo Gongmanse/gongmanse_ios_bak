@@ -284,7 +284,7 @@ class RegistrationUserInfoVC: UIViewController {
     
     // MARK: 텍스트필드 콜벡메소드 추가
     func configureNotificationObservers() {
-        // addTarget
+    
         idTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         pwdTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         confirmPwdTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
