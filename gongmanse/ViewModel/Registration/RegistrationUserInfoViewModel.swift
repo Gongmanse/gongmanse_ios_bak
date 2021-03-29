@@ -17,19 +17,19 @@ protocol AuthenticationViewModel {
     var buttonTitleColor: UIColor { get }
 }
 
-struct RegistrationUserInfoViewModel: AuthenticationViewModel {
-    var username: String?                // woosung
-    var password: String?                // 12341234
-    var confirm_password: String?        // 12341234
-    var first_name: String?              // woosung
-    var nickname: String?                // woosung
-    var phone_number: String?            // "01047850519"
-    var verification_code: Int?          // (자신의 폰으로 받아야하는 숫자) 431212 - 일정시간 지나면 다시 발급받아야함.
+class RegistrationUserInfoViewModel: AuthenticationViewModel {
+    var username: String?                // username - API와 동일한 명, username이지만 ID
+    var password: String?                // 영문 대소문자 + 숫자 + 특수문자 8 ~ 12자
+    var confirm_password: String?        // 영문 대소문자 + 숫자 + 특수문자 8 ~ 12자
+    var first_name: String?              // 한글 이름
+    var nickname: String?                // 글자수 제한
+    var phone_number: String?            // "01047850519" String으로 넘겨주면 API에서 Int로 인식함.
+    var verification_code: Int?          // (자신의 폰으로 받아야하는 숫자) 431212(6자리) - 일정시간 지나면 다시 발급받아야함.
     var email: String?                   // woosung@test.com
-    var address1: String?                // 45 gasnaro
-    var address2: String?                // #45
-    var city: String?                    // jeju
-    var country: String?                 // Korea
+    var address1: String?                // 45 gasnaro(비필수항목)
+    var address2: String?                // #45(비필수항목)
+    var city: String?                    // jeju(비필수항목)
+    var country: String?                 // Korea(비필수항목)
     
     var tf: SloyTextField?               // leftViewColor 설정을 위한 객체생성
     var idIsValid: Bool = false
