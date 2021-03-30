@@ -9,9 +9,41 @@ import Foundation
 import Alamofire
 
 class FindingIDDataManager {
-    
-    
-    
+    /* 휴대전화로 찾기 - 인증번호 */
+    func certificationNumberByPhone(_ parameters: ByPhoneInput, viewController: UIViewController) {
+        let data = parameters
+        let param: Parameters = [
+            "receiver_type": "cellphone",
+            "receiver": "01047850519",
+            "name": "woosung"
+        ]
+        
+        let header: HTTPHeaders = [ "Content-Type":"application/json"]
+        
+        // 입력 정보 .PUT
+        AF.request("https://api.gongmanse.com/v1/recovery", method: .put, parameters: param, encoding: JSONEncoding.default, headers: nil)
+//            .responseJSON{ response in
+//                switch response.result {
+//                case .success:
+//                    let data = response.value
+//                    print("DEBUG: \(data)")
+//                    print("DEBUG: \(response)")
+//                case .failure:
+//                    print("DEBUG: \(response)")
+//                }
+//            }
+        
+            .responseDecodable(of: ByPhoneResponse.self) { response in
+                switch response.result {
+                case .success(let response):
+                    print("DEBUG: \(response.key)")
+
+                case .failure(let error):
+                    print("DEBUG: faild connection \(error.localizedDescription)")
+                }
+
+            }
+    }
     
     
     

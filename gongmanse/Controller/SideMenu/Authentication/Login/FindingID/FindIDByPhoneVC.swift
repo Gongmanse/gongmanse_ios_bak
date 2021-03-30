@@ -148,6 +148,8 @@ private extension FindIDByPhoneVC {
         
         // 인증번호 발송 - 이곳에 구현할 것.
         // 인증번호 발송을 클릭했을 때, DataManager method를 호출한다.
+        let input = ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)") 
+        FindingIDDataManager().certificationNumberByPhone(input, viewController: self)
         
     }
     
