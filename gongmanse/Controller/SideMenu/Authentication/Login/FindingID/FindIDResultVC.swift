@@ -70,6 +70,7 @@ class FindIDResultVC: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .mainOrange
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -79,6 +80,7 @@ class FindIDResultVC: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .progressBackgroundColor
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(handleFindingPwd), for: .touchUpInside)
         return button
     }()
     
@@ -91,6 +93,33 @@ class FindIDResultVC: UIViewController {
         
         
     }
+    
+    
+    // MARK: - Actions
+    
+    @objc func handleLogin() {
+        // 중간 스텍의 컨트롤러로 화면 이동하기 위한 로직
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for vc in viewControllers {
+            if vc is LoginVC {
+                self.navigationController!.popToViewController(vc, animated: true)
+            }
+        }
+    }
+    
+    @objc func handleFindingPwd(closure: @escaping () -> Void) {
+        // TODO: LoginVC로 화면전환을 한 이후에 findingPwd로 해야하므로 클로저 문법을 사용하고 싶음.
+        // 중간 스텍의 컨트롤러로 화면 이동하기 위한 로직
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for vc in viewControllers {
+            if vc is FindingPwdVC {
+                self.navigationController!.popToViewController(vc, animated: true)
+                
+            }
+        }
+        
+    }
+    
     
     // MARK: - Helpers
     
