@@ -214,16 +214,7 @@ class RegistrationUserInfoVC: UIViewController {
         emailTextField.anchor(top: nicknameTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.03)
     }
-    
-    // textField 공통 세팅 커스텀메소드
-//    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
-//        tf.placeholder = placehoder
-//        tf.leftViewMode = .always
-//        tf.tintColor = .gray
-//        tf.leftView = leftView
-//        tf.keyboardType = .emailAddress
-//    }
-    
+
     // MARK: 텍스트필드 하단 레이블 UI
     func configureBottomLabel() {
         let tfWidth = view.frame.width - 125
@@ -284,7 +275,6 @@ class RegistrationUserInfoVC: UIViewController {
     
     // MARK: 텍스트필드 콜벡메소드 추가
     func configureNotificationObservers() {
-    
         idTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         pwdTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         confirmPwdTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)

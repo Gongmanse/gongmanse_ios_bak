@@ -76,10 +76,35 @@ extension UIViewController {
     
     // textField 공통 세팅 커스텀메소드
     func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
+        tf.font = UIFont.appBoldFontWith(size: 14)
         tf.placeholder = placehoder
         tf.leftViewMode = .always
         tf.tintColor = .gray
         tf.leftView = leftView
         tf.keyboardType = .emailAddress
+    }
+    
+    // textField leftView 추가를 위한 view 내부에 ImageView 추가 커스텀메소드
+    func addLeftView(image: UIImage) -> UIView {
+        let leftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let leftImageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        leftImageView.image = image
+        leftView.addSubview(leftImageView)
+        self.view.addSubview(leftView)
+        return leftView
+    }
+    
+    // 임시저장.
+    func customTextField(placeholder: String, leftImage: UIImage) -> SloyTextField {
+        let tf = SloyTextField()
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let leftImageView = UIImageView(image: leftImage)
+        leftImageView.tintColor = .gray
+        leftImageView.frame = CGRect(x: 0, y: 25, width: 20, height: 20)
+        leftView.addSubview(leftImageView)
+        tf.placeholder = placeholder
+        tf.leftView = leftView
+        tf.leftViewMode = .always
+        return tf
     }
 }

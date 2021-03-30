@@ -51,6 +51,11 @@ class FindIDByEmailVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         
+        // email API Response 에 서버 로그가 안나오도록 수정되거나 새로운 API 추가되면 로직 구현할 예정.
+        // viewDidLoad에 둔 이유는 테스트를 위해서 임시적으로 둠.
+//        FindingIDDataManager().certificationNumberByEmail(ByEmailInput(receiver_type: "", receiver: "", name: ""),
+//                                                          viewController: self)
+        
     }
 
     // MARK: - Actions
@@ -111,7 +116,6 @@ class FindIDByEmailVC: UIViewController {
                                 right: emailTextField.rightAnchor,
                                 paddingBottom: 10)
         
-        
         // 인증번호 TextField
         CertificationNumberTextField.setDimensions(height: 50, width: tfWidth - 20)
         setupTextField(CertificationNumberTextField, placehoder: "인증번호", leftView: certificationleftView)
@@ -122,10 +126,6 @@ class FindIDByEmailVC: UIViewController {
         
         // "03:00" UILabel (인증번호 TextField의 rightView)
         let timerView = UIView(frame: CGRect(x: 0, y: 0, width: 31, height: 13))
-        
-        
-
-        
         timerLabel.frame = CGRect(x: 0, y: 10, width: 31, height: 13)
         timerView.addSubview(timerLabel)
 

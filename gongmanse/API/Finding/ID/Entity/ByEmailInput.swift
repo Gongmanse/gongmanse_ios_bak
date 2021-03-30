@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct ByEmailInput: Encodable {
+    var receiver_type: String = "email" // eamil OR cellphone
+    var receiver: String                // woosung@gmail.com
+    var name: String                    // 김우성
+}
+
