@@ -121,7 +121,7 @@ class FindIDByPhoneVC: UIViewController {
     
     // 완료 버튼 클릭 시, 호출되는 콜백메소드
     @objc func handleComplete() {
-        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
+        if !viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
             // Transition Controller
             self.navigationController?.pushViewController(FindIDResultVC(), animated: true)
         }
