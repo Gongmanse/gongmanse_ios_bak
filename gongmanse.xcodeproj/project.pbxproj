@@ -987,6 +987,7 @@
 		6C4713A125F70E3100D68A2B /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				A9629CCF2612EB5A00BBFB55 /* CS */,
 				25201D9A26042656001098AC /* Authentication */,
 				259B8C2B26031BDB009A7146 /* PassTicket */,
 				6C4713D425F8B3C600D68A2B /* Settings */,
@@ -1147,7 +1148,6 @@
 		6CF2E68025F0D956000FE084 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				A9629CCF2612EB5A00BBFB55 /* CS */,
 				6C4713A125F70E3100D68A2B /* SideMenu */,
 				6C47139025F60ED800D68A2B /* TabBarController */,
 				6CF2E68125F0D99B000FE084 /* HomeTabController */,

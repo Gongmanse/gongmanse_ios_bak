@@ -2735,8 +2735,22 @@
                     <view key="view" contentMode="scaleToFill" id="5YF-Bp-PDI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IzL-6p-CeV" customClass="TabsView" customModule="gongmanse" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="55"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="8u8-t7-JZF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="C7t-2F-qsY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="IzL-6p-CeV" firstAttribute="top" secondItem="C7t-2F-qsY" secondAttribute="top" id="FSR-Hv-pPg"/>
+                            <constraint firstItem="IzL-6p-CeV" firstAttribute="leading" secondItem="C7t-2F-qsY" secondAttribute="leading" id="bNB-vE-Mrj"/>
+                            <constraint firstItem="C7t-2F-qsY" firstAttribute="trailing" secondItem="IzL-6p-CeV" secondAttribute="trailing" id="fIi-45-g0k"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6M-0R-YpX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2750,8 +2764,22 @@
                     <view key="view" contentMode="scaleToFill" id="ZWO-L2-5Gz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tI5-su-He7" customClass="TabsView" customModule="gongmanse" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="55"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="fnM-Ws-JdB"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="02N-sV-etu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="02N-sV-etu" firstAttribute="trailing" secondItem="tI5-su-He7" secondAttribute="trailing" id="8gW-vk-f4i"/>
+                            <constraint firstItem="tI5-su-He7" firstAttribute="top" secondItem="02N-sV-etu" secondAttribute="top" id="PS8-44-8cY"/>
+                            <constraint firstItem="tI5-su-He7" firstAttribute="leading" secondItem="02N-sV-etu" secondAttribute="leading" id="pzY-Wd-DFc"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49V-Zq-VKg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

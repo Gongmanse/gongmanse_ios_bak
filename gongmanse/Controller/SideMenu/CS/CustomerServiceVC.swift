@@ -12,7 +12,6 @@ class CustomerServiceVC: UIViewController {
 
         
         navigationSetting()
-        configureConstraint()
         setupTabs()
         setupPageViewController()
         
@@ -67,13 +66,6 @@ extension CustomerServiceVC {
         self.navigationController?.navigationBar.topItem?.title = ""
     }
     
-    // 오토레이아웃 설정
-    func configureConstraint() {
-        tabsView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
-                        left: view.leftAnchor,
-                        right: view.rightAnchor,
-                        height: 55)
-    }
     
     func setupTabs() {
         //탭 추가
