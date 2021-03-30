@@ -131,7 +131,7 @@ class FindingIDVC: UIViewController {
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
-            let contentVC = FindIDByPhoneVC(nibName: "FindIDByPhoneVC", bundle: nil)
+            let contentVC = FindIDByPhoneVC()
             contentVC.pageIndex = index
             return contentVC
         } else {

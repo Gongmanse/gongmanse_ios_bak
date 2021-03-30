@@ -40,6 +40,7 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         setupUI()           // Custom TextField UI 설정
+        cofigureNotificationObservers()
         // UI 메모리 로드 이후, 내비게이션 바와 탭 바 제거
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -56,14 +57,14 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func handleLogin(_ sender: Any) {
-        self.navigationController?.navigationBar.isHidden = false
-        let vc = FindingIDVC(nibName: "FindingIDVC", bundle: nil)
-        self.navigationController?.pushViewController(vc, animated: true)
+        LoginDataManager().sendingLoginInfo(LoginInput(usr: "woosung", pwd: "12341234"), viewController: self)
     }
     
     // 아이디 찾기 클릭 시,
     @IBAction func handleFindingID(_ sender: Any) {
-        print("DEBUG: Clicked Finding ID")
+        self.navigationController?.navigationBar.isHidden = false
+        let vc = FindingIDVC(nibName: "FindingIDVC", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // 비밀번호 찾기 클릭 시,
@@ -91,7 +92,7 @@ class LoginVC: UIViewController {
         idleftView.addSubview(idimageView)
         
         // 비밀번호 TextField leftView
-        let passwordImage = #imageLiteral(resourceName: "home_on")
+        let passwordImage = #imageLiteral(resourceName: "myActivity")
         let passwordleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         let passwordimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         passwordimageView.image = passwordImage
@@ -100,21 +101,15 @@ class LoginVC: UIViewController {
         /* UITextField setting */
         // 아이디 Textfield
         idTextField.setDimensions(height: 50, width: tfWidth - 20)
-        idTextField.placeholder = "아이디"
-        idTextField.leftViewMode = .always
-        idTextField.leftView = idleftView
-        idTextField.keyboardType = .emailAddress
+        setupTextField(idTextField, placehoder: "아이디", leftView: idleftView)
         idTextField.centerX(inView: view)
         idTextField.anchor(top: logoImage.bottomAnchor,
                            paddingTop: view.frame.height * 0.1)
         
         // 비밀번호 Textfield
         passwordTextField.setDimensions(height: 50, width: tfWidth - 20)
-        passwordTextField.placeholder = "비밀번호"
-        passwordTextField.leftViewMode = .always
-        passwordTextField.leftView = passwordleftView
+        setupTextField(passwordTextField, placehoder: "비밀번호", leftView: passwordleftView)
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.keyboardType = .emailAddress
         
         passwordTextField.centerX(inView: view)
         passwordTextField.anchor(top: idTextField.bottomAnchor,
@@ -170,12 +165,31 @@ class LoginVC: UIViewController {
     }
     
 
-
-
+    @objc func textDidChange(sender: UITextField) {
+        sender.tintColor = .mainOrange
+        sender.leftView?.tintColor = .mainOrange
+    }
+    
+    
+    // 텍스트 필드 콜백메소드 추가
+    func cofigureNotificationObservers() {
+        idTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+    
+//    // textField 공통 세팅 커스텀메소드
+//    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
+//        tf.placeholder = placehoder
+//        tf.leftViewMode = .always
+//        tf.tintColor = .gray
+//        tf.leftView = leftView
+//        tf.keyboardType = .emailAddress
+//    }
 }
 
 
 // MARK: - CustomTextField
+
 private extension LoginVC {
     
     @objc func tapGesture() {
@@ -189,5 +203,26 @@ private extension LoginVC {
     func setupTapGesture() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
         view.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+
+}
+
+// MARK: - API
+
+extension LoginVC {
+    func didSucceedLogin(_ token: String?) {  // 로그인 성공한 경우
+        // 토큰 전달
+        guard let token = token else { return }
+        Constant.token = token
+        
+        // 회면전환 - Main Controller 로 이동.
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func didFaildLogin(_ response: LoginResponse) {
+        print("DEBUG: 실패이유 = \(response.message!)")
     }
 }
