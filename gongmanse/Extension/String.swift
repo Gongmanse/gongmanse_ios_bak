@@ -18,6 +18,31 @@ extension String {
         return predicate.evaluate(with: self)
     }
     
+    
+    func validate() -> Bool {
+        let regEx = "[0-9]{6}"
+        
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regEx)
+        
+        return predicate.evaluate(with: self)
+    }
+
+    
+    func getCertificationNumber(regex: String) -> [String] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: self, range: NSRange(self.startIndex..., in: self))
+            return results.map {
+                String(self[Range($0.range, in: self)!])
+            }
+        } catch let error {
+            print("DEBUG: invalid regex: \(error.localizedDescription)")
+            return []
+        }
+        
+    }
+    
+    
     // 패스워드 정규식
     // 8~16글자 + 대문자 한개 이상포함 + 소문자 + 숫자 조합 (한글X)
     func validatePassword() -> Bool {
@@ -35,5 +60,15 @@ extension String {
         let predicate = NSPredicate(format: "SELF MATCHES %@", nameRegEx)
         return predicate.evaluate(with: self)
     }
+    
+    // 휴대전화번호 정규식
+    // 숫자만 추출
+    func validatePhoneNumber() -> Bool {
+        let numberRegEx = "^010-?([0-9]{4})-?([0-9]{4})"
+
+        let predicate = NSPredicate(format: "SELF MATCHES %@", numberRegEx)
+        return predicate.evaluate(with: self)
+    }
+ 
     
 }

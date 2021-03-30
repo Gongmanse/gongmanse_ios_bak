@@ -10,8 +10,6 @@ class ProgressLearningVC: UIViewController {
     private var pageController: UIPageViewController!
     @IBOutlet weak var tabsView: TabsView!
     
-    
-    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
