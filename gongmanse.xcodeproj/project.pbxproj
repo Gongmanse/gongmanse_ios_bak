@@ -988,7 +988,6 @@
 				6C4713AA25F7103100D68A2B /* SideMenuVC.swift */,
 				6C4713B925F853AB00D68A2B /* WhatIsGongManseVC.swift */,
 				6C4713BC25F853EA00D68A2B /* SideMenuNoticeVC.swift */,
-				6C4713BF25F8541600D68A2B /* CustomerServiceVC.swift */,
 			);
 			path = SideMenu;
 			sourceTree = "<group>";
@@ -1140,6 +1139,7 @@
 		6CF2E68025F0D956000FE084 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A9629CCF2612EB5A00BBFB55 /* CS */,
 				6C4713A125F70E3100D68A2B /* SideMenu */,
 				6C47139025F60ED800D68A2B /* TabBarController */,
 				6CF2E68125F0D99B000FE084 /* HomeTabController */,
@@ -1236,6 +1236,14 @@
 				6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */,
 			);
 			path = OtherSubjects;
+			sourceTree = "<group>";
+		};
+		A9629CCF2612EB5A00BBFB55 /* CS */ = {
+			isa = PBXGroup;
+			children = (
+				6C4713BF25F8541600D68A2B /* CustomerServiceVC.swift */,
+			);
+			path = CS;
 			sourceTree = "<group>";
 		};
 		E3D6D4DF968EFEE5CE504EFB /* Frameworks */ = {
