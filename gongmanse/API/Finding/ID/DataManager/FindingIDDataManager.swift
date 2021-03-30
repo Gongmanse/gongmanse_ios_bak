@@ -10,38 +10,27 @@ import Alamofire
 
 class FindingIDDataManager {
     /* 휴대전화로 찾기 - 인증번호 */
-    func certificationNumberByPhone(_ parameters: ByPhoneInput, viewController: UIViewController) {
+    func certificationNumberByPhone(_ parameters: ByPhoneInput, viewController: FindIDByPhoneVC) {
+        // viewModel -> paramters 를 통해 값을 전달
         let data = parameters
+        
+        // Input Data Type
         let param: Parameters = [
             "receiver_type": "cellphone",
-            "receiver": "01047850519",
-            "name": "woosung"
+            "receiver": "\(data.receiver)",
+            "name": "\(data.name)"
         ]
-        
-        let header: HTTPHeaders = [ "Content-Type":"application/json"]
         
         // 입력 정보 .PUT
         AF.request("https://api.gongmanse.com/v1/recovery", method: .put, parameters: param, encoding: JSONEncoding.default, headers: nil)
-//            .responseJSON{ response in
-//                switch response.result {
-//                case .success:
-//                    let data = response.value
-//                    print("DEBUG: \(data)")
-//                    print("DEBUG: \(response)")
-//                case .failure:
-//                    print("DEBUG: \(response)")
-//                }
-//            }
-        
             .responseDecodable(of: ByPhoneResponse.self) { response in
                 switch response.result {
                 case .success(let response):
-                    print("DEBUG: \(response.key)")
-
+                    viewController.didSucceedCertificationNumber(response: response)
+                    
                 case .failure(let error):
                     print("DEBUG: faild connection \(error.localizedDescription)")
                 }
-
             }
     }
     

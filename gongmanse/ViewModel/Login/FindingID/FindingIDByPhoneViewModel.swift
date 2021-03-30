@@ -13,6 +13,7 @@ class FindingIDByPhoneViewModel: AuthenticationViewModel {
     var name: String
     var cellPhone: String
     var certificationNumber: Int
+    var receivedKey: Int?
     
     init(name: String = "", cellPhone: String = "", number: Int = 0) {
         self.name = name
@@ -20,7 +21,10 @@ class FindingIDByPhoneViewModel: AuthenticationViewModel {
         self.certificationNumber = number
     }
     
-    var formIsValid: Bool = false
+    var formIsValid: Bool {
+        guard let key = self.receivedKey else { return false }
+        return certificationNumber == key
+    }
     
     var buttonBackgroundColor: UIColor = UIColor.gray
     

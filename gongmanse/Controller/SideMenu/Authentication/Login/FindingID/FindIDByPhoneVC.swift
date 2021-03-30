@@ -22,6 +22,15 @@ class FindIDByPhoneVC: UIViewController {
     private let phoneTextField = SloyTextField()
     private let certificationTextField = SloyTextField()
     
+    // "완료" 버튼
+    private let completeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("완료", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .gray
+        return button
+    }()
+    
     // "인증번호 발송" 버튼
     private let sendingNumButton: UIButton = {
         let button = UIButton(type: .system)
@@ -46,6 +55,7 @@ class FindIDByPhoneVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNotificationObservers()
     }
     
     // MARK: - Helpers
@@ -96,7 +106,26 @@ class FindIDByPhoneVC: UIViewController {
         timerView.addSubview(timerLabel)
         certificationTextField.rightView = timerView
         certificationTextField.rightViewMode = .always
+        
+        // "완료" UIButton
+        view.addSubview(completeButton)
+        completeButton.setDimensions(height: 40, width: 260)
+        completeButton.layer.cornerRadius = 10
+        completeButton.centerX(inView: view)
+        completeButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              paddingBottom: 20)
+        completeButton.addTarget(self, action: #selector(handleComplete), for: .touchUpInside)
         }
+    
+    // MARK: - Actions
+    
+    // 완료 버튼 클릭 시, 호출되는 콜백메소드
+    @objc func handleComplete() {
+        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
+            // Transition Controller
+            self.navigationController?.pushViewController(FindIDResultVC(), animated: true)
+        }
+    }
     
     
     // 텍스트필드 콜벡메소드
@@ -110,6 +139,9 @@ class FindIDByPhoneVC: UIViewController {
             viewModel.cellPhone = text
         case certificationTextField:
             viewModel.certificationNumber = Int(text) ?? 0
+            // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
+            completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
+            
         default:
             print("DEBUG: default in switch Statement...")
         }
@@ -176,3 +208,57 @@ private extension FindIDByPhoneVC {
     }
 }
 
+// MARK: - API
+
+extension FindIDByPhoneVC {
+    func didSucceedCertificationNumber(response: ByPhoneResponse) {
+        guard let key = response.key else { return }
+        viewModel.receivedKey = key
+        print("DEBUG: key is \(key)...")
+    }
+}
+
+// MARK: - Vaildation
+
+extension FindIDByPhoneVC {
+    
+    func textFieldNullCheck(_ tf: UITextField) -> Bool { // Null Check 커스텀메소드
+        if tf.text == "" {
+            return false
+        } else { return true }
+    }
+    
+    // 유효성검사가 1 개인 경우 사용하는 커스텀메소드
+    func checkValidationAndLabelUpdate(_ tf: SloyTextField, label: UILabel, condition: Bool) {
+        /* 텍스트필드에 입력된 글자가 없는 경우 */
+        if !textFieldNullCheck(tf) {            // 관련주석 바로 "checkTwoValidationAndLabelUpdate" 참조
+            UIView.animate(withDuration: 0.3) {
+                tf.rightView = UIView()
+                label.alpha = 0
+                tf.isVailedIndex = true
+            }
+        } else {
+            /* viewModel 로직에 충족된 경우 */
+            if condition {
+                UIView.animate(withDuration: 0.3) {
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
+                    tf.rightView = rightView
+                    label.alpha = 0
+                    tf.isVailedIndex = true
+                }
+            /* viewModel 로직에 불충족된 경우 */
+            } else {
+                UIView.animate(withDuration: 0.3) {
+                    // TextField RightView 이미지
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
+                    tf.rightView = rightView
+                    tf.border.backgroundColor = .red
+                    label.alpha = 1
+                    tf.isVailedIndex = false
+                }
+                
+            }
+            
+        }
+    }
+}
