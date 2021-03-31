@@ -9,15 +9,20 @@ import UIKit
 
 class QuestionListCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var questionMarkLabel: UILabel!
+    @IBOutlet weak var questionLabel: UILabel!
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        questionMarkLabel.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        questionLabel.font = UIFont(name: "NanumSquareRoundE", size: 14)
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
+    
     
 }

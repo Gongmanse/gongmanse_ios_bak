@@ -9,14 +9,148 @@ import UIKit
 
 class FrequentlyAskViewContoler: UIViewController {
 
+    
+    @IBOutlet weak var tableView: UITableView!
     var pageIndex = 0
+    var textList = ["갑자기 자막이 나오지 않아요.","공만세 알림을 받고 싶지 않아요.","이번 달 데이터가 얼마 안 남았는데, 와이파이로 동영상을 볼 수 있나요?","추천 영상에 올라온 강의들은 어떤 강의들인가요?","회원가입 전에 동영상 강의를 먼저 보고 싶은데 방법이 있나요?","키워드 검색은 어떤 키워드들을 검색하게 되나요?","문제를 먼저 검색해서 볼 수 있나요?","동영상 강의 재생이 원활하지 않습니다. 어떻게 해결해야 하나요?"]
+        
+    var isSeletedCell = false
+    
+    let questionMarkLabelSection: UILabel = {
+       let label = UILabel()
+        label.text = "Q."
+        label.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        label.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        label.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var questionTextLableSection: UILabel = {
+       let label = UILabel()
+        label.font = UIFont(name: "NanumSquareRoundE", size: 14)
+//        label.font = .systemFont(ofSize: 14)
+        label.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let sectionLabelStack: UIStackView = {
+       let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 3
+        stack.alignment = .fill
+        stack.distribution = .fillProportionally
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .orange
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 100
+        
+        let numName = UINib(nibName: "QuestionListCell", bundle: nil)
+        tableView.register(numName, forCellReuseIdentifier: "QuestionListCell")
+        
     }
-
-    
 
 }
 
+extension FrequentlyAskViewContoler: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+
+        
+//
+//        questionTextLableSection.text = textList[section]
+//        headerView.addSubview(sectionLabelStack)
+//
+//
+//        sectionLabelStack.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
+//        sectionLabelStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
+//        sectionLabelStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
+//        sectionLabelStack.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
+        
+        let questionTextLableSections = UILabel()
+        questionTextLableSections.font = UIFont(name: "NanumSquareRoundE", size: 14)
+        questionTextLableSections.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        questionTextLableSections.numberOfLines = 0
+        questionTextLableSections.translatesAutoresizingMaskIntoConstraints = false
+        questionTextLableSections.text = textList[section]
+        
+        let questionMarkLabelSections = UILabel()
+        questionMarkLabelSections.text = "Q."
+        questionMarkLabelSections.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        questionMarkLabelSections.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        questionMarkLabelSections.translatesAutoresizingMaskIntoConstraints = false
+        questionMarkLabelSections.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        
+        let isSelectedButton = UIButton(type: .system)
+        isSelectedButton.setImage(UIImage(named: "noticeShow"), for: .normal)
+        
+        
+        
+        let sectionLabelStacks = UIStackView()
+        sectionLabelStacks.axis = .horizontal
+        sectionLabelStacks.spacing = 3
+        sectionLabelStacks.alignment = .fill
+        sectionLabelStacks.distribution = .fillProportionally
+        sectionLabelStacks.translatesAutoresizingMaskIntoConstraints = false
+        
+        sectionLabelStacks.addArrangedSubview(questionMarkLabelSections)
+        sectionLabelStacks.addArrangedSubview(questionTextLableSections)
+        
+        headerView.addSubview(isSelectedButton)
+        headerView.addSubview(sectionLabelStacks)
+        
+        
+        sectionLabelStacks.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
+        sectionLabelStacks.trailingAnchor.constraint(equalTo: isSelectedButton.leadingAnchor, constant: -12).isActive = true
+        sectionLabelStacks.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
+        sectionLabelStacks.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
+        
+        isSelectedButton.translatesAutoresizingMaskIntoConstraints = false
+        isSelectedButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        isSelectedButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        isSelectedButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
+        isSelectedButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        headerView.backgroundColor = .lightGray
+        
+        return headerView
+    }
+    
+    
+}
+
+extension FrequentlyAskViewContoler: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return textList.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionListCell", for: indexPath) as? QuestionListCell else { return UITableViewCell() }
+        
+        cell.textLabel?.text = "A"
+        return cell
+    }
+    
+}
