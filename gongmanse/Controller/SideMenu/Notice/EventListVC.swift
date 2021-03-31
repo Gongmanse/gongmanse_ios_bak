@@ -7,8 +7,9 @@
 
 import UIKit
 
-class EvnetListVC: UIViewController {
+class EventListVC: UIViewController {
 
+    var pageIndex = 0
     override func viewDidLoad() {
         super.viewDidLoad()
 

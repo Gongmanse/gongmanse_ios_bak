@@ -2781,6 +2781,9 @@
                             <constraint firstItem="tI5-su-He7" firstAttribute="leading" secondItem="02N-sV-etu" secondAttribute="leading" id="pzY-Wd-DFc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tabsView" destination="tI5-su-He7" id="z20-kG-74q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49V-Zq-VKg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

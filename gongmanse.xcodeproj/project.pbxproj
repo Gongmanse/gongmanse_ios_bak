@@ -207,7 +207,7 @@
 		A9629CE32613081100BBFB55 /* FrequentlyAskViewContoler.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629CE12613081100BBFB55 /* FrequentlyAskViewContoler.xib */; };
 		A9629CE82613082200BBFB55 /* OneonOneEnquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629CE62613082200BBFB55 /* OneonOneEnquiryViewController.swift */; };
 		A9629CE92613082200BBFB55 /* OneonOneEnquiryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629CE72613082200BBFB55 /* OneonOneEnquiryViewController.xib */; };
-		A9629D312613F40400BBFB55 /* EvnetListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629D2F2613F40400BBFB55 /* EvnetListVC.swift */; };
+		A9629D312613F40400BBFB55 /* EventListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629D2F2613F40400BBFB55 /* EventListVC.swift */; };
 		A9629D322613F40400BBFB55 /* EventListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629D302613F40400BBFB55 /* EventListVC.xib */; };
 		A9629D382613F6B100BBFB55 /* NoticeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629D362613F6B100BBFB55 /* NoticeListVC.swift */; };
 		A9629D392613F6B100BBFB55 /* NoticeListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629D372613F6B100BBFB55 /* NoticeListVC.xib */; };
@@ -417,7 +417,7 @@
 		A9629CE12613081100BBFB55 /* FrequentlyAskViewContoler.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FrequentlyAskViewContoler.xib; sourceTree = "<group>"; };
 		A9629CE62613082200BBFB55 /* OneonOneEnquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneonOneEnquiryViewController.swift; sourceTree = "<group>"; };
 		A9629CE72613082200BBFB55 /* OneonOneEnquiryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OneonOneEnquiryViewController.xib; sourceTree = "<group>"; };
-		A9629D2F2613F40400BBFB55 /* EvnetListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvnetListVC.swift; sourceTree = "<group>"; };
+		A9629D2F2613F40400BBFB55 /* EventListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListVC.swift; sourceTree = "<group>"; };
 		A9629D302613F40400BBFB55 /* EventListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventListVC.xib; sourceTree = "<group>"; };
 		A9629D362613F6B100BBFB55 /* NoticeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListVC.swift; sourceTree = "<group>"; };
 		A9629D372613F6B100BBFB55 /* NoticeListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeListVC.xib; sourceTree = "<group>"; };
@@ -1396,7 +1396,7 @@
 			isa = PBXGroup;
 			children = (
 				6C4713BC25F853EA00D68A2B /* SideMenuNoticeVC.swift */,
-				A9629D2F2613F40400BBFB55 /* EvnetListVC.swift */,
+				A9629D2F2613F40400BBFB55 /* EventListVC.swift */,
 				A9629D302613F40400BBFB55 /* EventListVC.xib */,
 				A9629D362613F6B100BBFB55 /* NoticeListVC.swift */,
 				A9629D372613F6B100BBFB55 /* NoticeListVC.xib */,
@@ -1672,7 +1672,7 @@
 				6C47139A25F6192600D68A2B /* NoticeVC.swift in Sources */,
 				6C4713A325F70E5900D68A2B /* CustomSideMenuNavigation.swift in Sources */,
 				258B5EA02609D89B00F470B7 /* CertificationInput.swift in Sources */,
-				A9629D312613F40400BBFB55 /* EvnetListVC.swift in Sources */,
+				A9629D312613F40400BBFB55 /* EventListVC.swift in Sources */,
 				259B8C0F26030632009A7146 /* MiddleSchoolVC.swift in Sources */,
 				259B8C1526030640009A7146 /* TeacherPlaylistVC.swift in Sources */,
 				259B8B5726030048009A7146 /* CustonFont.swift in Sources */,
