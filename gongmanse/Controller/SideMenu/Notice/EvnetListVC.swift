@@ -1,5 +1,5 @@
 //
-//  NoticeVC.swift
+//  EventVC.swift
 //  gongmanse
 //
 //  Created by taeuk on 2021/03/31.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NoticeVC: UIViewController {
+class EvnetListVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
