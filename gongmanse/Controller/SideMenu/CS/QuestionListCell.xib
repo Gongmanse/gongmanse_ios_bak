@@ -17,11 +17,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="382" height="73"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="1Vc-Xo-6tb">
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="1Vc-Xo-6tb">
                         <rect key="frame" x="20" y="10" width="306" height="53"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Q." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4HB-zg-2pd">
-                                <rect key="frame" x="0.0" y="0.0" width="20" height="53"/>
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="vT2-5l-In4"/>
                                 </constraints>
@@ -29,8 +29,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" text="공만세 알림을 받고 싶지 않아요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ry-vl-6Gt">
-                                <rect key="frame" x="23" y="0.0" width="283" height="53"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" text="공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ry-vl-6Gt">
+                                <rect key="frame" x="23" y="0.0" width="283" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -49,7 +49,7 @@
                 <constraints>
                     <constraint firstItem="6Bk-yy-HIP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1Vc-Xo-6tb" secondAttribute="trailing" constant="12" id="3DB-gx-awh"/>
                     <constraint firstItem="1Vc-Xo-6tb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6cK-vH-knZ"/>
-                    <constraint firstAttribute="bottom" secondItem="1Vc-Xo-6tb" secondAttribute="bottom" priority="750" constant="10" id="7Tv-BD-L2n"/>
+                    <constraint firstAttribute="bottom" secondItem="1Vc-Xo-6tb" secondAttribute="bottom" priority="999" constant="10" id="7Tv-BD-L2n"/>
                     <constraint firstItem="6Bk-yy-HIP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KDP-5r-1Za"/>
                     <constraint firstAttribute="trailing" secondItem="6Bk-yy-HIP" secondAttribute="trailing" constant="20" id="YuG-Th-Qbo"/>
                     <constraint firstItem="1Vc-Xo-6tb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" priority="750" constant="10" id="auT-1V-VE8"/>

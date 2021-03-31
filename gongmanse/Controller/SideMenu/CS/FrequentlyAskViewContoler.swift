@@ -66,31 +66,17 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         
         return 0
     }
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 25
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
 
-        
-//
-//        questionTextLableSection.text = textList[section]
-//        headerView.addSubview(sectionLabelStack)
-//
-//
-//        sectionLabelStack.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
-//        sectionLabelStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
-//        sectionLabelStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
-//        sectionLabelStack.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
-        
-        let questionTextLableSections = UILabel()
-        questionTextLableSections.font = UIFont(name: "NanumSquareRoundE", size: 14)
-        questionTextLableSections.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
-        questionTextLableSections.numberOfLines = 0
-        questionTextLableSections.translatesAutoresizingMaskIntoConstraints = false
-        questionTextLableSections.text = textList[section]
         
         let questionMarkLabelSections = UILabel()
         questionMarkLabelSections.text = "Q."
@@ -98,6 +84,17 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         questionMarkLabelSections.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
         questionMarkLabelSections.translatesAutoresizingMaskIntoConstraints = false
         questionMarkLabelSections.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        questionMarkLabelSections.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        
+        let questionTextLableSections = UILabel()
+        questionTextLableSections.font = UIFont(name: "NanumSquareRoundB", size: 14)
+        questionTextLableSections.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        questionTextLableSections.numberOfLines = 0
+        questionTextLableSections.translatesAutoresizingMaskIntoConstraints = false
+        questionTextLableSections.text = textList[section]
+        questionTextLableSections.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+
         
         let isSelectedButton = UIButton(type: .system)
         isSelectedButton.setImage(UIImage(named: "noticeShow"), for: .normal)
@@ -107,12 +104,14 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         let sectionLabelStacks = UIStackView()
         sectionLabelStacks.axis = .horizontal
         sectionLabelStacks.spacing = 3
-        sectionLabelStacks.alignment = .fill
+        sectionLabelStacks.alignment = .top
         sectionLabelStacks.distribution = .fillProportionally
         sectionLabelStacks.translatesAutoresizingMaskIntoConstraints = false
+        sectionLabelStacks.heightAnchor.constraint(lessThanOrEqualToConstant: 40).isActive = true
         
         sectionLabelStacks.addArrangedSubview(questionMarkLabelSections)
         sectionLabelStacks.addArrangedSubview(questionTextLableSections)
+        
         
         headerView.addSubview(isSelectedButton)
         headerView.addSubview(sectionLabelStacks)
@@ -122,12 +121,14 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         sectionLabelStacks.trailingAnchor.constraint(equalTo: isSelectedButton.leadingAnchor, constant: -12).isActive = true
         sectionLabelStacks.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
         sectionLabelStacks.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
+//        sectionLabelStacks.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         isSelectedButton.translatesAutoresizingMaskIntoConstraints = false
         isSelectedButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         isSelectedButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         isSelectedButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
         isSelectedButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        
         headerView.backgroundColor = .lightGray
         
         return headerView
