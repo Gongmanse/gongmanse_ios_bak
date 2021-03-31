@@ -2752,6 +2752,9 @@
                             <constraint firstItem="C7t-2F-qsY" firstAttribute="trailing" secondItem="IzL-6p-CeV" secondAttribute="trailing" id="fIi-45-g0k"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tabsView" destination="IzL-6p-CeV" id="1GN-bm-Z56"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6M-0R-YpX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

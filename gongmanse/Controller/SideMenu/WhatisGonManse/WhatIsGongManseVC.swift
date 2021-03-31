@@ -2,6 +2,8 @@ import UIKit
 
 class WhatIsGongManseVC: UIViewController {
 
+    @IBOutlet weak var tabsView: TabsView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
