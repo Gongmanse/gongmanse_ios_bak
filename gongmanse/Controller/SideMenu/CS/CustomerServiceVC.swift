@@ -51,7 +51,8 @@ class CustomerServiceVC: UIViewController {
     }
 }
 
-// CustomerService 설정관련
+//MARK: - CustomerService 설정관련
+
 extension CustomerServiceVC {
 
     func navigationSetting() {
@@ -90,7 +91,7 @@ extension CustomerServiceVC {
     
     func setupPageViewController() {
         //pageViewController 설정
-        self.pageViewContoller = storyboard?.instantiateViewController(withIdentifier: "TabsPageViewController") as! TabsPageViewController
+        self.pageViewContoller = storyboard?.instantiateViewController(withIdentifier: "TabsPageViewController") as? TabsPageViewController
         self.addChild(self.pageViewContoller)
         self.view.addSubview(self.pageViewContoller.view)
         
@@ -114,7 +115,8 @@ extension CustomerServiceVC {
     }
 }
 
-// Page 관련
+//MARK: - page 관련
+
 extension CustomerServiceVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     //앞으로 갈 때 viewController 반환
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -166,15 +168,15 @@ extension CustomerServiceVC: UIPageViewControllerDataSource, UIPageViewControlle
     func viewControllerPageIndex(_ viewController: UIViewController?) -> Int {
         switch viewController {
         case is FrequentlyAskViewContoler:
-            let vc = viewController as! FrequentlyAskViewContoler
+            guard let vc = viewController as? FrequentlyAskViewContoler else { return 0}
             return vc.pageIndex
             
         case is OneonOneEnquiryViewController:
-            let vc = viewController as! OneonOneEnquiryViewController
+            guard let vc = viewController as? OneonOneEnquiryViewController else { return 0}
             return vc.pageIndex
             
         default:
-            let vc = viewController as! FrequentlyAskViewContoler
+            guard let vc = viewController as? FrequentlyAskViewContoler else { return 0}
             return vc.pageIndex
         }
     }
