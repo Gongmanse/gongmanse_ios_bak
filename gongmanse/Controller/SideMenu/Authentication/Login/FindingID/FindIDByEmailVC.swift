@@ -12,6 +12,8 @@ class FindIDByEmailVC: UIViewController {
 
     // MARK: - Properties
     
+    var viewModel = FindingIDViewModel()
+    
     var vTimer: Timer?          // 인증번호 타이머
     var totalTime: Int = 180    // 인증번호 시작 03:00
     
@@ -38,11 +40,20 @@ class FindIDByEmailVC: UIViewController {
         return label
     }()
     
+    // "완료" 버튼
+    private let completeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("완료", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .gray
+        return button
+    }()
+    
     // MARK: IBOutlet
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var CertificationNumberTextField: UITextField!
+    @IBOutlet weak var certificationNumberTextField: UITextField!
 
     
     // MARK: - Lifecycle
@@ -50,18 +61,23 @@ class FindIDByEmailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
-        // email API Response 에 서버 로그가 안나오도록 수정되거나 새로운 API 추가되면 로직 구현할 예정.
-        // viewDidLoad에 둔 이유는 테스트를 위해서 임시적으로 둠.
-//        FindingIDDataManager().certificationNumberByEmail(ByEmailInput(receiver_type: "email", receiver: "woosung@gmail.com", name: "woosung"),
-//                                                          viewController: self)
-        
+        configureNotificationObservers()
     }
 
     // MARK: - Actions
     
     @objc func handleDismiss() {
-        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    // 완료 버튼 클릭 시, 호출되는 콜백메소드
+    @objc func handleComplete() {
+        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
+            // Transition Controller
+            let vc = FindIDResultVC()
+            vc.viewModel = self.viewModel
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
     }
     
     
@@ -118,11 +134,11 @@ class FindIDByEmailVC: UIViewController {
                                 paddingBottom: 10)
         
         // 인증번호 TextField
-        CertificationNumberTextField.setDimensions(height: tfHeight, width: tfWidth)
-        setupTextField(CertificationNumberTextField, placehoder: "인증번호", leftView: certificationleftView)
-        CertificationNumberTextField.keyboardType = .numberPad
-        CertificationNumberTextField.centerX(inView: view)
-        CertificationNumberTextField.anchor(top: emailTextField.bottomAnchor,
+        certificationNumberTextField.setDimensions(height: tfHeight, width: tfWidth)
+        setupTextField(certificationNumberTextField, placehoder: "인증번호", leftView: certificationleftView)
+        certificationNumberTextField.keyboardType = .numberPad
+        certificationNumberTextField.centerX(inView: view)
+        certificationNumberTextField.anchor(top: emailTextField.bottomAnchor,
                              paddingTop: 20)
         
         // "03:00" UILabel (인증번호 TextField의 rightView)
@@ -130,13 +146,24 @@ class FindIDByEmailVC: UIViewController {
         timerLabel.frame = CGRect(x: 0, y: 10, width: 31, height: 13)
         timerView.addSubview(timerLabel)
 
-        CertificationNumberTextField.rightView = timerView
-        CertificationNumberTextField.rightViewMode = .always
+        certificationNumberTextField.rightView = timerView
+        certificationNumberTextField.rightViewMode = .always
         
-        
-        
+        // "완료" UIButton
+        view.addSubview(completeButton)
+        completeButton.setDimensions(height: 40, width: 260)
+        completeButton.layer.cornerRadius = 10
+        completeButton.centerX(inView: view)
+        completeButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              paddingBottom: 20)
+        completeButton.addTarget(self, action: #selector(handleComplete), for: .touchUpInside)
+        }
     }
-}
+    
+    
+    
+    
+
 
 
 // MARK: - Timer
@@ -159,6 +186,9 @@ private extension FindIDByEmailVC {
             /** 1초마다 timerCallback함수를 호출하는 타이머 */
             vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
         }
+        
+        FindingIDDataManager().certificationNumberByEmail(ByEmailInput(receiver_type: "email", receiver: "\(viewModel.email)", name: "\(viewModel.name)"),
+                                                          viewController: self)
     }
     
     /** 타이머 종료버튼 클릭 */
@@ -181,5 +211,96 @@ private extension FindIDByEmailVC {
             timerLabel.text = "03:00"
             vTimer?.invalidate()
         }
+    }
+}
+
+
+// MARK: - API
+
+extension FindIDByEmailVC {
+    func didSucceed(response: String) { // response 값에 서버 로그와 key:123456 이 함께 전달됨.
+        let findIndex = response.firstIndex(of: "\"")!      // " 가 사용된 첫번째 텍스트 부터
+        let lastIndex = response.lastIndex(of: "}")!        // } 가 사용된 마지막 텍스트 까지
+        let responseData = response[findIndex..<lastIndex]   // 위 조건 텍스트를 저장
+        
+        // 정규표현식을 통해서 {"key":숫자6자리} 만 필터링해보자.
+        let filteredData = self.matches(for: "[0-9]{1}", in: String(responseData)) // ["4", "2", ...]
+        
+        var result = 0 // 인증번호를 저장한 프로퍼티
+        var count = 0  // 자리수를 위한 인덱스
+        var digit = 0  // 자리수(10의 거듭제곱) * 인자(1~9)
+        
+        for num in filteredData {
+            count += 1
+            digit = Int(self.power_for(x: 10, n: (6 - count)))
+            result += (digit * Int(num)!)
+        }
+        print("DEBUG: result is \(result)...")
+        viewModel.receivedKey = result
+    }
+    
+    
+    // String 중에서 Int(1자리) 만 추출하는 메소드
+    func matches(for regex: String, in text: String) -> [String] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: text,
+                                        range: NSRange(text.startIndex..., in: text))
+            return results.map {
+                String(text[Range($0.range, in: text)!])
+            }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    } // 결과예시 ) ["1", "2", "3", "4"]
+    
+    // 반복문을 통한 거듭제곱 메소드
+    func power_for(x: Double, n: Int) -> Double {
+        if n == 0 { return 1 } // 종료
+        else {
+            var result: Double = 1
+            for _ in 1...n { result = result * x }
+            return result
+        }
+    }
+}
+
+
+// MARK: - UITextField
+
+private extension FindIDByEmailVC {
+    // 텍스트필드 콜벡메소드
+    @objc func textDidChange(sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        switch sender {
+        case nameTextField:
+            viewModel.name = text
+        case emailTextField:
+            viewModel.email = text
+        case certificationNumberTextField:
+            viewModel.certificationNumber = Int(text) ?? 0
+            print("DEBUG: typing is \(Int(text))")
+            
+            // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
+            completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
+            
+        default:
+            print("DEBUG: default in switch Statement...")
+        }
+    }
+    
+    func textFieldNullCheck(_ tf: UITextField) -> Bool { // Null Check 커스텀메소드
+        if tf.text == "" {
+            return false
+        } else { return true }
+    }
+    
+    // 텍스트필드에 콜벡메소드 추가
+    func configureNotificationObservers() {
+        nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        certificationNumberTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
 }

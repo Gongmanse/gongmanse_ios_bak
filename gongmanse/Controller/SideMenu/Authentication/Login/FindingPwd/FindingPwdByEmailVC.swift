@@ -11,7 +11,7 @@ class FindingPwdByEmailVC: UIViewController {
 
     // MARK: - Properties
     
-//    var viewModel = FindingIDByPhoneViewModel()
+    var viewModel = FindingIDViewModel()
     
     var pageIndex: Int! // 상단탭바 구현을 위한 프로퍼티
     var vTimer: Timer?          // 인증번호 타이머
@@ -21,7 +21,6 @@ class FindingPwdByEmailVC: UIViewController {
     private let idTextField = SloyTextField()
     private let emailTextField = SloyTextField()
     private let certificationTextField = SloyTextField()
-    
     
     // "완료" 버튼
     private let completeButton: UIButton = {
@@ -73,38 +72,7 @@ class FindingPwdByEmailVC: UIViewController {
         
         self.navigationController?.pushViewController(NewPasswordVC(), animated: true)
     }
-    
-    
-    // 텍스트필드 콜벡메소드
-    @objc func textDidChange(sender: UITextField) {
-        guard let text = sender.text else { return }
         
-        switch sender {
-        case nameTextField:
-            print("DEBUG: test")
-//            viewModel.name = text
-        case emailTextField:
-            print("DEBUG: test")
-//            viewModel.cellPhone = text
-        case certificationTextField:
-            print("DEBUG: test")
-//            viewModel.certificationNumber = Int(text) ?? 0
-            // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
-            completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
-            
-        default:
-            print("DEBUG: default in switch Statement...")
-        }
-    }
-    
-    // 텍스트필드에 콜벡메소드 추가
-    func configureNotificationObservers() {
-        nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        certificationTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
-    
     // MARK: - Helpers
     
     func configureUI() {
@@ -172,8 +140,39 @@ class FindingPwdByEmailVC: UIViewController {
                               paddingBottom: 20)
         completeButton.addTarget(self, action: #selector(handleComplete), for: .touchUpInside)
         }
-    
+}
 
+
+
+
+// MARK: - UITextField
+
+private extension FindingPwdByEmailVC {
+    // 텍스트필드 콜벡메소드
+    @objc func textDidChange(sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        switch sender {
+        case nameTextField:
+            viewModel.name = text
+        case emailTextField:
+            viewModel.cellPhone = text
+        case certificationTextField:
+            viewModel.certificationNumber = Int(text) ?? 0
+            // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
+            completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
+            
+        default:
+            print("DEBUG: default in switch Statement...")
+        }
+    }
+    
+    // 텍스트필드에 콜벡메소드 추가
+    func configureNotificationObservers() {
+        nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        certificationTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
 }
 
 
@@ -200,7 +199,8 @@ private extension FindingPwdByEmailVC {
         
         // 인증번호 발송 - 이곳에 구현할 것.
         // 인증번호 발송을 클릭했을 때, DataManager method를 호출한다.
-//        let input = ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)")
+        let input = ByEmailInput(receiver: "\(viewModel.email)", name: "\(viewModel.name)")
+//        FindingIDDataManager().certificationNumberByEmail(input, viewController: self)
         
         
     }
@@ -227,6 +227,7 @@ private extension FindingPwdByEmailVC {
         }
     }
 }
+
 
 // MARK: - API
 

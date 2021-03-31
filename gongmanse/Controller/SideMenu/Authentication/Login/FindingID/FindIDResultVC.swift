@@ -11,7 +11,7 @@ class FindIDResultVC: UIViewController {
     
     // MARK: - Properties
 
-    var viewModel: FindingIDByPhoneViewModel?   // FindIDByPhoneVC 의 viewModel을 전달받을 Property
+    var viewModel: FindingIDViewModel?   // FindIDByPhoneVC 의 viewModel을 전달받을 Property
     
     var pageIndex: Int!
     
@@ -27,7 +27,6 @@ class FindIDResultVC: UIViewController {
         label.text = "아이디 찾기가 완료되었습니다."
         let attributedString = NSMutableAttributedString(string: "아이디 찾기",
                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange])
-        
         attributedString.append(NSAttributedString(string: "가 완료되었습니다.",
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
         label.attributedText = attributedString
@@ -92,10 +91,7 @@ class FindIDResultVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
-        guard let viewModel = viewModel else { return }
-        FindingIDDataManager().findingIDResultByPhone(FindingIDResultInput(receiver: viewModel.cellPhone, name: viewModel.name),
-                                                      viewController: self)
+        networkingAPI()
     }
     
     
@@ -118,10 +114,33 @@ class FindIDResultVC: UIViewController {
         self.navigationController?.pushViewController(FindingPwdVC(), animated: true)
     }
     
+    @objc func dismissVC() {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     // MARK: - Helpers
     
+    func networkingAPI() {
+        guard let viewModel = viewModel else { return }
+        print(#function)
+
+        if viewModel.cellPhone.count > 10 {
+            // 휴대전화번호로 찾기
+            FindingIDDataManager().findingIDResultByPhone(FindingIDResultInput(receiver_type: "cellphone", receiver: viewModel.cellPhone, name: viewModel.name),
+                                                          viewController: self)
+        } else {
+            // 이메일로 찾기
+            FindingIDDataManager().findingIDResultByEmail(FindingIDResultInput(receiver_type: "email", receiver: viewModel.email, name: viewModel.name), viewController: self)
+        }
+        
+        
+    }
+    
+    
     func configureUI() {
+        // navigationItem Back button
+        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
+        navigationItem.leftBarButtonItem = backButton
         
         // 이미지
         view.addSubview(mainImage)

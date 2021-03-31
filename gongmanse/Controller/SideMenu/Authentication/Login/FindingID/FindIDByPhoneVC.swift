@@ -12,7 +12,7 @@ class FindIDByPhoneVC: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel = FindingIDByPhoneViewModel()
+    var viewModel = FindingIDViewModel()
     
     var pageIndex: Int! // 상단탭바 구현을 위한 프로퍼티
     var vTimer: Timer?          // 인증번호 타이머

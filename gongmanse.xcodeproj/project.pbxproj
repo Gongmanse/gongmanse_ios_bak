@@ -35,6 +35,7 @@
 		2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */; };
 		257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257459272613FBAA007A2A5D /* FindingIDResultInput.swift */; };
 		2574592B2613FBF8007A2A5D /* FindingIDResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */; };
+		2574592F26143C02007A2A5D /* FindingIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592E26143C02007A2A5D /* FindingIDViewModel.swift */; };
 		257C61372602E86000153BF3 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C61362602E86000153BF3 /* test.swift */; };
 		2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */; };
 		2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */; };
@@ -237,6 +238,7 @@
 		2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneResponse.swift; sourceTree = "<group>"; };
 		257459272613FBAA007A2A5D /* FindingIDResultInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultInput.swift; sourceTree = "<group>"; };
 		2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultResponse.swift; sourceTree = "<group>"; };
+		2574592E26143C02007A2A5D /* FindingIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDViewModel.swift; sourceTree = "<group>"; };
 		257C61362602E86000153BF3 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoVC.swift; sourceTree = "<group>"; };
 		2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationUserInfoVC.xib; sourceTree = "<group>"; };
@@ -602,9 +604,18 @@
 		2568EF052611A24D00CD24B8 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				2574592D26143BE0007A2A5D /* FindingPwd */,
 				253135D32612C2D600B51348 /* FindingID */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		2574592D26143BE0007A2A5D /* FindingPwd */ = {
+			isa = PBXGroup;
+			children = (
+				2574592E26143C02007A2A5D /* FindingIDViewModel.swift */,
+			);
+			path = FindingPwd;
 			sourceTree = "<group>";
 		};
 		257C61352602E85700153BF3 /* test */ = {
@@ -1673,6 +1684,7 @@
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
+				2574592F26143C02007A2A5D /* FindingIDViewModel.swift in Sources */,
 				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
 				25201DB926042894001098AC /* FindIDResultVC.swift in Sources */,
 				259B8C1E26030799009A7146 /* CurriculumCell.swift in Sources */,
