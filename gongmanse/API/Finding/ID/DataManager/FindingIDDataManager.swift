@@ -22,7 +22,7 @@ class FindingIDDataManager {
         ]
         
         // 입력 정보 .PUT
-        AF.request("https://api.gongmanse.com/v1/recovery", method: .put, parameters: param, encoding: JSONEncoding.default, headers: nil)
+        AF.request("\(Constant.BASE_URL)/v1/recovery", method: .put, parameters: param, encoding: JSONEncoding.default, headers: nil)
             .responseDecodable(of: ByPhoneResponse.self) { response in
                 switch response.result {
                 case .success(let response):
@@ -33,6 +33,25 @@ class FindingIDDataManager {
                 }
             }
     }
+    
+    
+    /* 아이디 찾기 결과 - 휴대전화로 찾기 */
+    func findingIDResultByPhone(_ parameters: FindingIDResultInput, viewController: FindIDResultVC) {
+        // viewModel -> paramters 를 통해 값을 전달
+        let data = parameters
+        
+        AF.request("\(Constant.BASE_URL)/v/member/recoverid?receiver_type=cellphone&receiver=\(data.receiver)&name=\(data.name)")
+                    .responseDecodable(of: FindingIDResultResponse.self) { response in
+                        switch response.result {
+                        case .success(let response):
+                            viewController.didSucceedVaildation(response)
+                        case .failure(let error):
+                            print("DEBUG: faild connection \(error.localizedDescription)")
+                        }
+                    }
+    }
+    
+    
     
     
     
@@ -58,7 +77,7 @@ class FindingIDDataManager {
          3. 가져온 response 중에서  "로 시작하는 곳 부터 } 로 끝나는 곳까지 string을 슬라이싱한다.
          4. 그 값과 유저가 받은 인증번호를 비교하여 일치여부를 확인한다,
          */
-        AF.request("https://api.gongmanse.com/v1/recovery", method: .put, parameters: param, encoding: URLEncoding.httpBody, headers: nil, interceptor: nil, requestModifier: nil)
+        AF.request("\(Constant.BASE_URL)/v1/recovery", method: .put, parameters: param, encoding: URLEncoding.httpBody, headers: nil, interceptor: nil, requestModifier: nil)
             .responseData { response in
                 switch response.result {
                 case .success:

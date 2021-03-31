@@ -53,8 +53,8 @@ class FindIDByEmailVC: UIViewController {
         
         // email API Response 에 서버 로그가 안나오도록 수정되거나 새로운 API 추가되면 로직 구현할 예정.
         // viewDidLoad에 둔 이유는 테스트를 위해서 임시적으로 둠.
-        FindingIDDataManager().certificationNumberByEmail(ByEmailInput(receiver_type: "email", receiver: "woosung@gmail.com", name: "woosung"),
-                                                          viewController: self)
+//        FindingIDDataManager().certificationNumberByEmail(ByEmailInput(receiver_type: "email", receiver: "woosung@gmail.com", name: "woosung"),
+//                                                          viewController: self)
         
     }
 

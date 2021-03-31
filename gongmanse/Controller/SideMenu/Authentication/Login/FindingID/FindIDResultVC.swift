@@ -11,6 +11,8 @@ class FindIDResultVC: UIViewController {
     
     // MARK: - Properties
 
+    var viewModel: FindingIDByPhoneViewModel?
+    
     var pageIndex: Int!
     
     // 최상단에 있는 이미지
@@ -91,7 +93,9 @@ class FindIDResultVC: UIViewController {
         super.viewDidLoad()
         configureUI()
         
-        
+        guard let viewModel = viewModel else { return }
+        FindingIDDataManager().findingIDResultByPhone(FindingIDResultInput(receiver: viewModel.cellPhone, name: viewModel.name),
+                                                      viewController: self)
     }
     
     
@@ -102,26 +106,24 @@ class FindIDResultVC: UIViewController {
         let viewControllers: [UIViewController] = self.navigationController!.viewControllers
         for vc in viewControllers {
             if vc is LoginVC {
+                self.tabBarController?.tabBar.isHidden = true
+                self.navigationController?.navigationBar.isHidden = true
                 self.navigationController!.popToViewController(vc, animated: true)
             }
         }
     }
     
-    @objc func handleFindingPwd(closure: @escaping () -> Void) {
-        // TODO: LoginVC로 화면전환을 한 이후에 findingPwd로 해야하므로 클로저 문법을 사용하고 싶음.
-        // 중간 스텍의 컨트롤러로 화면 이동하기 위한 로직
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
-        for vc in viewControllers {
-            if vc is FindingPwdVC {
-                self.navigationController!.popToViewController(vc, animated: true)
-                
-            }
-        }
-        
+    @objc func handleFindingPwd() {
+        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.pushViewController(FindingPwdVC(), animated: true)
     }
     
     
     // MARK: - Helpers
+    
+    func configure() {
+
+    }
     
     func configureUI() {
         
@@ -188,4 +190,15 @@ class FindIDResultVC: UIViewController {
         
     }
 
+}
+
+
+
+// MARK: - API
+
+extension FindIDResultVC {
+    func didSucceedVaildation(_ response: FindingIDResultResponse) {
+        guard let result = response.sUsername else { return }
+        idLabel.text = result
+    }
 }
