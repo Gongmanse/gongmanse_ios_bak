@@ -1,23 +1,3 @@
-//
-//  FindingPwdByPhoneVC.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/03/23.
-//
-//class FindingPwdByPhoneVC: UIViewController {
-//
-//    // MARK: - Properties
-//
-//    var pageIndex: Int!
-//
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        view.backgroundColor = .systemGray
-//        // Do any additional setup after loading the view.
-//    }
-//}
-
 import UIKit
 
 class FindingPwdByPhoneVC: UIViewController {
