@@ -217,6 +217,8 @@
 		A9629D482613FD1A00BBFB55 /* UseGongManseVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629D462613FD1A00BBFB55 /* UseGongManseVC.xib */; };
 		A9629D4C2613FE1900BBFB55 /* IntroduceInstructorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629D4A2613FE1900BBFB55 /* IntroduceInstructorVC.swift */; };
 		A9629D4D2613FE1900BBFB55 /* IntroduceInstructorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629D4B2613FE1900BBFB55 /* IntroduceInstructorVC.xib */; };
+		A9629D51261406AE00BBFB55 /* QuestionListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629D4F261406AE00BBFB55 /* QuestionListCell.swift */; };
+		A9629D52261406AE00BBFB55 /* QuestionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629D50261406AE00BBFB55 /* QuestionListCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -433,6 +435,8 @@
 		A9629D462613FD1A00BBFB55 /* UseGongManseVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseGongManseVC.xib; sourceTree = "<group>"; };
 		A9629D4A2613FE1900BBFB55 /* IntroduceInstructorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceInstructorVC.swift; sourceTree = "<group>"; };
 		A9629D4B2613FE1900BBFB55 /* IntroduceInstructorVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroduceInstructorVC.xib; sourceTree = "<group>"; };
+		A9629D4F261406AE00BBFB55 /* QuestionListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListCell.swift; sourceTree = "<group>"; };
+		A9629D50261406AE00BBFB55 /* QuestionListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionListCell.xib; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1398,6 +1402,8 @@
 				6C4713BF25F8541600D68A2B /* CustomerServiceVC.swift */,
 				A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */,
 				A9629CE12613081100BBFB55 /* FrequentlyAskViewContoler.xib */,
+				A9629D4F261406AE00BBFB55 /* QuestionListCell.swift */,
+				A9629D50261406AE00BBFB55 /* QuestionListCell.xib */,
 				A9629CE62613082200BBFB55 /* OneonOneEnquiryViewController.swift */,
 				A9629CE72613082200BBFB55 /* OneonOneEnquiryViewController.xib */,
 			);
@@ -1554,6 +1560,7 @@
 				259B8B5626030048009A7146 /* NanumSquareRoundL.ttf in Resources */,
 				259B8BFD260305EB009A7146 /* SearchNoteVC.xib in Resources */,
 				A9629D322613F40400BBFB55 /* EventListVC.xib in Resources */,
+				A9629D52261406AE00BBFB55 /* QuestionListCell.xib in Resources */,
 				259B8B8726030148009A7146 /* ProgressPopupCell.xib in Resources */,
 				259B8C3526031C99009A7146 /* StoreVC.xib in Resources */,
 				259B8BBF2603050A009A7146 /* ProgressMainVC.xib in Resources */,
@@ -1690,6 +1697,7 @@
 				6C4C38A525FEFCF600653A61 /* LectureQuestionsTVCell.swift in Sources */,
 				259B8B822603013F009A7146 /* EmptyStateViewCell.swift in Sources */,
 				6CD7C3C725F086E00092D30E /* SceneDelegate.swift in Sources */,
+				A9629D51261406AE00BBFB55 /* QuestionListCell.swift in Sources */,
 				2588F8672609879F0070C2FC /* NewPasswordVC.swift in Sources */,
 				25201DB426042880001098AC /* FindIDByPhoneVC.swift in Sources */,
 				6C576F4D26087962001B28E6 /* SocialStudiesCVCell.swift in Sources */,

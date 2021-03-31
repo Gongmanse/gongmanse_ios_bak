@@ -18,8 +18,19 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2mM-uR-acd">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                </tableView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="2mM-uR-acd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3zU-2e-gSg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2mM-uR-acd" secondAttribute="trailing" id="NaY-Vx-g7f"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2mM-uR-acd" secondAttribute="bottom" id="bE7-HP-SxK"/>
+                <constraint firstItem="2mM-uR-acd" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="oyf-7b-SUf"/>
+            </constraints>
             <point key="canvasLocation" x="14" y="119"/>
         </view>
     </objects>
