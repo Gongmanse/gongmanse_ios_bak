@@ -49,7 +49,7 @@ class NewPasswordVC: UIViewController {
 //            self.navigationController?.pushViewController(vc, animated: true)
 //        }
         
-        self.navigationController?.pushViewController(NewPasswordVC(), animated: true)
+        self.navigationController?.pushViewController(CompleteChangePwdVC(), animated: true)
     }
     
     
