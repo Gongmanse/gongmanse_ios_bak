@@ -69,7 +69,9 @@ class LoginVC: UIViewController {
     
     // 비밀번호 찾기 클릭 시,
     @IBAction func handleFindingPW(_ sender: Any) {
-        print("DEBUG: Clicked Finding Password")
+        self.navigationController?.navigationBar.isHidden = false
+        let vc = FindingPwdVC(nibName: "FindingPwdVC", bundle: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // 회원가입 클릭 시,

@@ -45,7 +45,7 @@ class FindingIDVC: UIViewController {
                         left: view.leftAnchor,
                         right: view.rightAnchor,
                         paddingTop: 5,
-                        height: 55)
+                        height: 47)
     }
     
     func configureNavi() {

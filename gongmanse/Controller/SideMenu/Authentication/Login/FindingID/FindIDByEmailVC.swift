@@ -69,8 +69,9 @@ class FindIDByEmailVC: UIViewController {
     
     func configureUI() {
         /* UITextField Properties and LeftView */
-        
-        let tfWidth = view.frame.width - 107
+        // 크기 비율
+        let tfWidth = Constant.width * 0.73
+        let tfHeight = Constant.height * 0.06
         
         // 이름 TextField leftView
         let nameImage = #imageLiteral(resourceName: "myActivity")
@@ -95,14 +96,14 @@ class FindIDByEmailVC: UIViewController {
         
         /* UITextField setting */
         // 이름 TextField
-        nameTextField.setDimensions(height: 50, width: tfWidth - 20)
+        nameTextField.setDimensions(height: tfHeight, width: tfWidth)
         setupTextField(nameTextField, placehoder: "이름", leftView: nameleftView)
         nameTextField.centerX(inView: view)
         nameTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                              paddingTop: 20)
         
         // 이메일 TextField
-        emailTextField.setDimensions(height: 50, width: tfWidth - 20)
+        emailTextField.setDimensions(height: tfHeight, width: tfWidth)
         setupTextField(emailTextField, placehoder: "이메일", leftView: emailLeftView)
         emailTextField.centerX(inView: view)
         emailTextField.anchor(top: nameTextField.bottomAnchor,
@@ -117,7 +118,7 @@ class FindIDByEmailVC: UIViewController {
                                 paddingBottom: 10)
         
         // 인증번호 TextField
-        CertificationNumberTextField.setDimensions(height: 50, width: tfWidth - 20)
+        CertificationNumberTextField.setDimensions(height: tfHeight, width: tfWidth)
         setupTextField(CertificationNumberTextField, placehoder: "인증번호", leftView: certificationleftView)
         CertificationNumberTextField.keyboardType = .numberPad
         CertificationNumberTextField.centerX(inView: view)

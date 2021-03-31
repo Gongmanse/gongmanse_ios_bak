@@ -30,6 +30,7 @@ extension UIViewController {
         return removedArray
     }
     
+    
     // MARK: - CustonTextField로 동일한 Textfield 구성 시, 공통사항
     
     func custonTextField(tf: UITextField, width: CGFloat, leftImage: UIImage, placehoder: String) {
@@ -79,7 +80,7 @@ extension UIViewController {
         tf.font = UIFont.appBoldFontWith(size: 14)
         tf.placeholder = placehoder
         tf.leftViewMode = .always
-        tf.tintColor = .gray
+        tf.tintColor = .progressBackgroundColor
         tf.leftView = leftView
         tf.keyboardType = .emailAddress
     }

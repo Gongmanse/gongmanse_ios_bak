@@ -11,7 +11,7 @@ class FindIDResultVC: UIViewController {
     
     // MARK: - Properties
 
-    var viewModel: FindingIDByPhoneViewModel?
+    var viewModel: FindingIDByPhoneViewModel?   // FindIDByPhoneVC 의 viewModel을 전달받을 Property
     
     var pageIndex: Int!
     
@@ -121,10 +121,6 @@ class FindIDResultVC: UIViewController {
     
     // MARK: - Helpers
     
-    func configure() {
-
-    }
-    
     func configureUI() {
         
         // 이미지
@@ -182,16 +178,9 @@ class FindIDResultVC: UIViewController {
         findPwdButton.anchor(top: divider.bottomAnchor,
                            right: view.rightAnchor,
                            paddingTop: 50, paddingRight: 50)
-        
-        
-        
-        
-        
-        
     }
 
 }
-
 
 
 // MARK: - API

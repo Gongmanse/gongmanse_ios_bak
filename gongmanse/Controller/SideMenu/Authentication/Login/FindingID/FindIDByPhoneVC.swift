@@ -103,8 +103,9 @@ class FindIDByPhoneVC: UIViewController {
     
     func configureUI() {
         // 기본값
-        let tfHeight = CGFloat(50)
-        let tfWidth = view.frame.width - 107
+        // 크기 비율
+        let tfWidth = Constant.width * 0.73
+        let tfHeight = Constant.height * 0.06
         
         // leftView - 추후에 각각의 텍스트 필드에 맞는 이미지로 변경할 것.
         let nameleftView = addLeftView(image: #imageLiteral(resourceName: "myActivity"))
