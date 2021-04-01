@@ -14,6 +14,10 @@ struct Constant {
     static var token: String = ""
     static var jwtToken: String = ""
     
+    // 화면 크기
+    static let bounds = UIScreen.main.bounds
+    static let width = bounds.width
+    static let height = bounds.height
     
     static let termOfServiceText =
         """

@@ -14,12 +14,12 @@ private extension TimeInterval {
 }
 
 private extension UIColor {
-    static let inactive: UIColor = .gray
+    static let inactive: UIColor = .progressBackgroundColor
 }
 
 private enum Constants {
     static let offset: CGFloat = 8
-    static let placeholderSize: CGFloat = 14
+    static let placeholderSize: CGFloat = 10
 }
 
 final class SloyTextField: UITextField {
@@ -70,7 +70,7 @@ final class SloyTextField: UITextField {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        border.frame = CGRect(x: 0, y: bounds.height - 1, width: bounds.width, height: 1)
+        border.frame = CGRect(x: 0, y: bounds.height - 1, width: bounds.width, height: 2)
         updateLabel(animated: false)
     }
 
@@ -134,13 +134,13 @@ final class SloyTextField: UITextField {
         
         UIView.animate(withDuration: .animation250ms) {
             self.border.backgroundColor = borderColor
-            self.leftView?.tintColor = self.isFirstResponder ? .mainOrange : .gray
+            self.leftView?.tintColor = self.isFirstResponder ? .mainOrange : .progressBackgroundColor
         }
     }
 
     private func updateLabel(animated: Bool = true) {
         let alpha: CGFloat = isEmpty ? 0 : 1
-        let y = isEmpty ? labelHeight * 0.5 : 0
+        let y = isEmpty ? labelHeight * 0.5 : 4
         // MARK: 위로 올라가는 Label의 시작위치 조정, x parameter에 값을 조정할 것.
         let labelFrame = CGRect(x: startingPoint, y: y, width: bounds.width, height: labelHeight)
 
