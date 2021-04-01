@@ -138,7 +138,8 @@ class OneonOneEnquiryViewController: UIViewController {
     }
     
     @objc func floatingButtonAction(_ sender: UIButton) {
-        print("A")
+        let enquiryCategoryVC = EnquiryCategoryVC()
+        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
     }
 }
 

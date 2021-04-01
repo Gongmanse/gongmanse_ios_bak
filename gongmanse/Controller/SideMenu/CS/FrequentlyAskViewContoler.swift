@@ -90,10 +90,8 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         return 40
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if textList[indexPath.section].expandState {
-            return UITableView.automaticDimension
-        }
-        return 0
+
+        return textList[indexPath.section].expandState ? UITableView.automaticDimension : 0
     }
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return 25
@@ -177,7 +175,7 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         
         return headerView
     }
-    
+    // 수정 전
     @objc func tapExpandCell(_ sender: UIButton) {
         
         let sectionNumber = sender.tag
@@ -216,8 +214,8 @@ extension FrequentlyAskViewContoler: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: questionIdentifier, for: indexPath) as? QuestionListCell else { return UITableViewCell() }
         
-        cell.askLabel.text = askList[indexPath.row].askList
-        cell.askMarkLabel.text = askList[indexPath.row].askMark
+        cell.askLabel.text = askList[indexPath.section].askList
+        cell.askMarkLabel.text = askList[indexPath.section].askMark
         
         return cell
     }
