@@ -45,7 +45,7 @@ class FindingIDVC: UIViewController {
                         left: view.leftAnchor,
                         right: view.rightAnchor,
                         paddingTop: 5,
-                        height: 55)
+                        height: 47)
     }
     
     func configureNavi() {
@@ -227,3 +227,21 @@ extension FindingIDVC: UIPageViewControllerDataSource, UIPageViewControllerDeleg
     }
 }
 
+
+// MARK: - TapGesture
+
+private extension FindingIDVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+}

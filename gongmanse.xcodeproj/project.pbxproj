@@ -33,6 +33,9 @@
 		2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */; };
 		2568EEFD26119F7000CD24B8 /* ByPhoneInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */; };
 		2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */; };
+		257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257459272613FBAA007A2A5D /* FindingIDResultInput.swift */; };
+		2574592B2613FBF8007A2A5D /* FindingIDResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */; };
+		2574592F26143C02007A2A5D /* FindingPwdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592E26143C02007A2A5D /* FindingPwdViewModel.swift */; };
 		257C61372602E86000153BF3 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C61362602E86000153BF3 /* test.swift */; };
 		2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */; };
 		2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */; };
@@ -144,6 +147,17 @@
 		259B8C4126032E87009A7146 /* StoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C3F26032E87009A7146 /* StoreCell.xib */; };
 		259B8C4926033EF8009A7146 /* PaymentHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */; };
 		259B8C4A26033EF8009A7146 /* PaymentHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */; };
+		25BD75F626156A8E002B266C /* FindingPwdByPhoneInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD75F526156A8E002B266C /* FindingPwdByPhoneInput.swift */; };
+		25BD75FB26156ADA002B266C /* FindingPwdByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD75FA26156ADA002B266C /* FindingPwdByPhoneResponse.swift */; };
+		25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD75FE26156B15002B266C /* FindingPwdByPhoneDataManager.swift */; };
+		25BD760326157258002B266C /* NewPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD760226157258002B266C /* NewPasswordViewModel.swift */; };
+		25BD760D26157B59002B266C /* NewPasswordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD760C26157B59002B266C /* NewPasswordResponse.swift */; };
+		25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD761026157BDC002B266C /* NewPasswordDataManager.swift */; };
+		25BD761426159199002B266C /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD761326159199002B266C /* LogInViewModel.swift */; };
+		25BD76182615945E002B266C /* NewPasswordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD76172615945E002B266C /* NewPasswordInput.swift */; };
+		25EDAB6E26154E0200D27DB5 /* FindingPwdByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */; };
+		25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */; };
+		25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */; };
 		6C47138325F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47138225F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift */; };
 		6C47138625F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */; };
 		6C47139225F60F0A00D68A2B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47139125F60F0900D68A2B /* MainTabBarController.swift */; };
@@ -237,6 +251,9 @@
 		2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDDataManager.swift; sourceTree = "<group>"; };
 		2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneInput.swift; sourceTree = "<group>"; };
 		2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneResponse.swift; sourceTree = "<group>"; };
+		257459272613FBAA007A2A5D /* FindingIDResultInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultInput.swift; sourceTree = "<group>"; };
+		2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultResponse.swift; sourceTree = "<group>"; };
+		2574592E26143C02007A2A5D /* FindingPwdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdViewModel.swift; sourceTree = "<group>"; };
 		257C61362602E86000153BF3 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoVC.swift; sourceTree = "<group>"; };
 		2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationUserInfoVC.xib; sourceTree = "<group>"; };
@@ -348,6 +365,17 @@
 		259B8C3F26032E87009A7146 /* StoreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoreCell.xib; sourceTree = "<group>"; };
 		259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentHistoryCell.swift; sourceTree = "<group>"; };
 		259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaymentHistoryCell.xib; sourceTree = "<group>"; };
+		25BD75F526156A8E002B266C /* FindingPwdByPhoneInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByPhoneInput.swift; sourceTree = "<group>"; };
+		25BD75FA26156ADA002B266C /* FindingPwdByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByPhoneResponse.swift; sourceTree = "<group>"; };
+		25BD75FE26156B15002B266C /* FindingPwdByPhoneDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByPhoneDataManager.swift; sourceTree = "<group>"; };
+		25BD760226157258002B266C /* NewPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordViewModel.swift; sourceTree = "<group>"; };
+		25BD760C26157B59002B266C /* NewPasswordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordResponse.swift; sourceTree = "<group>"; };
+		25BD761026157BDC002B266C /* NewPasswordDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordDataManager.swift; sourceTree = "<group>"; };
+		25BD761326159199002B266C /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
+		25BD76172615945E002B266C /* NewPasswordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordInput.swift; sourceTree = "<group>"; };
+		25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailInput.swift; sourceTree = "<group>"; };
+		25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailResponse.swift; sourceTree = "<group>"; };
+		25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailDataManager.swift; sourceTree = "<group>"; };
 		6C47138225F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathTitleCVCell.swift; sourceTree = "<group>"; };
 		6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathCVCell.swift; sourceTree = "<group>"; };
 		6C47139125F60F0900D68A2B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -541,6 +569,15 @@
 			path = Registration;
 			sourceTree = "<group>";
 		};
+		25469F5426154F2E00828552 /* IDValidation */ = {
+			isa = PBXGroup;
+			children = (
+				2568EEF226119F0700CD24B8 /* Entity */,
+				2568EEF126119F0600CD24B8 /* DataManager */,
+			);
+			path = IDValidation;
+			sourceTree = "<group>";
+		};
 		2568EEEC26119EDB00CD24B8 /* Finding */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,8 +590,9 @@
 		2568EEED26119EEA00CD24B8 /* password */ = {
 			isa = PBXGroup;
 			children = (
-				2568EEF226119F0700CD24B8 /* Entity */,
-				2568EEF126119F0600CD24B8 /* DataManager */,
+				25BD760526157B0A002B266C /* newPassword */,
+				25EDAB7626154E2500D27DB5 /* Email */,
+				25EDAB7726154E2900D27DB5 /* Phone */,
 			);
 			path = password;
 			sourceTree = "<group>";
@@ -583,6 +621,8 @@
 				2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */,
 				2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */,
 				2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */,
+				257459272613FBAA007A2A5D /* FindingIDResultInput.swift */,
+				2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -590,6 +630,7 @@
 		2568EEF126119F0600CD24B8 /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
+				25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -597,6 +638,8 @@
 		2568EEF226119F0700CD24B8 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */,
+				25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -604,9 +647,20 @@
 		2568EF052611A24D00CD24B8 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				2574592D26143BE0007A2A5D /* FindingPwd */,
 				253135D32612C2D600B51348 /* FindingID */,
+				25BD761326159199002B266C /* LogInViewModel.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		2574592D26143BE0007A2A5D /* FindingPwd */ = {
+			isa = PBXGroup;
+			children = (
+				2574592E26143C02007A2A5D /* FindingPwdViewModel.swift */,
+				25BD760226157258002B266C /* NewPasswordViewModel.swift */,
+			);
+			path = FindingPwd;
 			sourceTree = "<group>";
 		};
 		257C61352602E85700153BF3 /* test */ = {
@@ -1091,6 +1145,66 @@
 				259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */,
 			);
 			path = PassTicketView;
+			sourceTree = "<group>";
+		};
+		25BD75F2261562BD002B266C /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				25BD75FE26156B15002B266C /* FindingPwdByPhoneDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		25BD75F3261562BF002B266C /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				25BD75F526156A8E002B266C /* FindingPwdByPhoneInput.swift */,
+				25BD75FA26156ADA002B266C /* FindingPwdByPhoneResponse.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		25BD760526157B0A002B266C /* newPassword */ = {
+			isa = PBXGroup;
+			children = (
+				25BD760626157B0F002B266C /* Entity */,
+				25BD760726157B15002B266C /* DataManager */,
+			);
+			path = newPassword;
+			sourceTree = "<group>";
+		};
+		25BD760626157B0F002B266C /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				25BD760C26157B59002B266C /* NewPasswordResponse.swift */,
+				25BD76172615945E002B266C /* NewPasswordInput.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		25BD760726157B15002B266C /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				25BD761026157BDC002B266C /* NewPasswordDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		25EDAB7626154E2500D27DB5 /* Email */ = {
+			isa = PBXGroup;
+			children = (
+				25469F5426154F2E00828552 /* IDValidation */,
+			);
+			path = Email;
+			sourceTree = "<group>";
+		};
+		25EDAB7726154E2900D27DB5 /* Phone */ = {
+			isa = PBXGroup;
+			children = (
+				25BD75F3261562BF002B266C /* Entity */,
+				25BD75F2261562BD002B266C /* DataManager */,
+			);
+			path = Phone;
 			sourceTree = "<group>";
 		};
 		6C47139025F60ED800D68A2B /* TabBarController */ = {
@@ -1581,13 +1695,17 @@
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
 				259B8B78260300D6009A7146 /* SearchVideoViewModel.swift in Sources */,
 				6C4713BD25F853EA00D68A2B /* SideMenuNoticeVC.swift in Sources */,
+				25BD760D26157B59002B266C /* NewPasswordResponse.swift in Sources */,
 				6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */,
 				6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */,
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
+				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
+				257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */,
 				253135DB2612C34A00B51348 /* FindingIDByPhoneViewModel.swift in Sources */,
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,
 				6CD7C3C525F086E00092D30E /* AppDelegate.swift in Sources */,
+				25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */,
 				2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */,
 				259B8B6C2603009C009A7146 /* Search.swift in Sources */,
 				257C61372602E86000153BF3 /* test.swift in Sources */,
@@ -1601,6 +1719,7 @@
 				25126D6C2611760600009526 /* LoginResponse.swift in Sources */,
 				259B8C3426031C99009A7146 /* StoreVC.swift in Sources */,
 				6CC1F06E25FA0A3600A909B0 /* RecommendBannerCell.swift in Sources */,
+				25BD760326157258002B266C /* NewPasswordViewModel.swift in Sources */,
 				259B8BCF2603054D009A7146 /* ProgressScienceVC.swift in Sources */,
 				259B8BD92603057A009A7146 /* ProgressOthers.swift in Sources */,
 				259B8B6926030095009A7146 /* ProgressPopupModel.swift in Sources */,
@@ -1608,6 +1727,7 @@
 				6CB83C3C2601A125007AED64 /* ExpertConsultTVC.swift in Sources */,
 				259B8B6026030065009A7146 /* UIViewController.swift in Sources */,
 				6CF2E67125F0C449000FE084 /* ProgressLearningVC.swift in Sources */,
+				25BD76182615945E002B266C /* NewPasswordInput.swift in Sources */,
 				6C4713B125F7247E00D68A2B /* TestVC.swift in Sources */,
 				259B8B6426030065009A7146 /* ConstraintMethod.swift in Sources */,
 				6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */,
@@ -1616,12 +1736,16 @@
 				6C576F5326088506001B28E6 /* OtherSubjectsCRV.swift in Sources */,
 				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,
+				25BD75F626156A8E002B266C /* FindingPwdByPhoneInput.swift in Sources */,
+				2574592B2613FBF8007A2A5D /* FindingIDResultResponse.swift in Sources */,
 				259B8BA3260301CF009A7146 /* SearchNoteCell.swift in Sources */,
 				6C47139E25F61C6200D68A2B /* NoticeTVCell.swift in Sources */,
 				259B8C24260307A0009A7146 /* TeacherPlaylistCell.swift in Sources */,
 				259B8B75260300D2009A7146 /* RecentKeywordViewModel.swift in Sources */,
+				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
 				6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */,
+				25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */,
 				259B8BEF260305CB009A7146 /* SearchAfterVC.swift in Sources */,
 				6C576F5026087A08001B28E6 /* SocialStudiesCRV.swift in Sources */,
 				6CF2E67825F0C498000FE084 /* SearchVC.swift in Sources */,
@@ -1660,6 +1784,7 @@
 				6C4713C325F8548900D68A2B /* SettingsVC.swift in Sources */,
 				25201DAF26042872001098AC /* FindIDByEmailVC.swift in Sources */,
 				6C4C389F25FEE2BA00653A61 /* NoteListTVCell.swift in Sources */,
+				25BD75FB26156ADA002B266C /* FindingPwdByPhoneResponse.swift in Sources */,
 				6C4713B725F8534900D68A2B /* MyCalendarVC.swift in Sources */,
 				25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */,
 				2584E8A926082078000DFA20 /* CheckUserIdentificationVC.swift in Sources */,
@@ -1681,6 +1806,7 @@
 				25201D9D260426C6001098AC /* LoginVC.swift in Sources */,
 				259B8BE5260305B3009A7146 /* PopularKeywordVC.swift in Sources */,
 				6CC1F06B25F9EE9200A909B0 /* RecommendCVCell.swift in Sources */,
+				25BD761426159199002B266C /* LogInViewModel.swift in Sources */,
 				6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */,
 				6CB83C412601B54B007AED64 /* BookMarkTVC.swift in Sources */,
 				6CF2E66825F0AAB7000FE084 /* OtherSubjectsVC.swift in Sources */,
@@ -1688,10 +1814,11 @@
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
+				2574592F26143C02007A2A5D /* FindingPwdViewModel.swift in Sources */,
 				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
 				25201DB926042894001098AC /* FindIDResultVC.swift in Sources */,
 				259B8C1E26030799009A7146 /* CurriculumCell.swift in Sources */,
-				A9629CE82613082200BBFB55 /* OneonOneEnquiryViewController.swift in Sources */,
+				25EDAB6E26154E0200D27DB5 /* FindingPwdByEmailInput.swift in Sources */,
 				6C8852562611CC820006BDB2 /* RecommendVideo.swift in Sources */,
 				6C4713AB25F7103100D68A2B /* SideMenuVC.swift in Sources */,
 				259B8BA7260301D4009A7146 /* SearchConsultCell.swift in Sources */,

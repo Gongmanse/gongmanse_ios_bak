@@ -12,7 +12,7 @@ class FindIDByPhoneVC: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel = FindingIDByPhoneViewModel()
+    var viewModel = FindingPwdViewModel()
     
     var pageIndex: Int! // 상단탭바 구현을 위한 프로퍼티
     var vTimer: Timer?          // 인증번호 타이머
@@ -58,12 +58,54 @@ class FindIDByPhoneVC: UIViewController {
         configureNotificationObservers()
     }
     
+    
+    // MARK: - Actions
+    
+    // 완료 버튼 클릭 시, 호출되는 콜백메소드
+    @objc func handleComplete() {
+        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
+            // Transition Controller
+            let vc = FindIDResultVC()
+            vc.viewModel = self.viewModel
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    
+    // 텍스트필드 콜벡메소드
+    @objc func textDidChange(sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        switch sender {
+        case nameTextField:
+            viewModel.name = text
+        case phoneTextField:
+            viewModel.cellPhone = text
+        case certificationTextField:
+            viewModel.certificationNumber = Int(text) ?? 0
+            // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
+            completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
+            
+        default:
+            print("DEBUG: default in switch Statement...")
+        }
+    }
+    
+    // 텍스트필드에 콜벡메소드 추가
+    func configureNotificationObservers() {
+        nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        phoneTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        certificationTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+    
+    
     // MARK: - Helpers
     
     func configureUI() {
         // 기본값
-        let tfHeight = CGFloat(50)
-        let tfWidth = view.frame.width - 107
+        // 크기 비율
+        let tfWidth = Constant.width * 0.73
+        let tfHeight = Constant.height * 0.06
         
         // leftView - 추후에 각각의 텍스트 필드에 맞는 이미지로 변경할 것.
         let nameleftView = addLeftView(image: #imageLiteral(resourceName: "myActivity"))
@@ -117,43 +159,7 @@ class FindIDByPhoneVC: UIViewController {
         completeButton.addTarget(self, action: #selector(handleComplete), for: .touchUpInside)
         }
     
-    // MARK: - Actions
-    
-    // 완료 버튼 클릭 시, 호출되는 콜백메소드
-    @objc func handleComplete() {
-        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
-            // Transition Controller
-            self.navigationController?.pushViewController(FindIDResultVC(), animated: true)
-        }
-    }
-    
-    
-    // 텍스트필드 콜벡메소드
-    @objc func textDidChange(sender: UITextField) {
-        guard let text = sender.text else { return }
-        
-        switch sender {
-        case nameTextField:
-            viewModel.name = text
-        case phoneTextField:
-            viewModel.cellPhone = text
-        case certificationTextField:
-            viewModel.certificationNumber = Int(text) ?? 0
-            // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
-            completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
-            
-        default:
-            print("DEBUG: default in switch Statement...")
-        }
-    }
-    
-    // 텍스트필드에 콜벡메소드 추가
-    func configureNotificationObservers() {
-        nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        phoneTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        certificationTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
+
 }
 
 
@@ -260,5 +266,23 @@ extension FindIDByPhoneVC {
             }
             
         }
+    }
+}
+
+// MARK: - TapGesture
+
+private extension FindIDByPhoneVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
 }
