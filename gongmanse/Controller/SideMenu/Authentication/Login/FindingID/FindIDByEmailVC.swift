@@ -12,7 +12,7 @@ class FindIDByEmailVC: UIViewController {
 
     // MARK: - Properties
     
-    var viewModel = FindingIDViewModel()
+    var viewModel = FindingPwdViewModel()
     
     var vTimer: Timer?          // 인증번호 타이머
     var totalTime: Int = 180    // 인증번호 시작 03:00
@@ -189,6 +189,7 @@ private extension FindIDByEmailVC {
         
         FindingIDDataManager().certificationNumberByEmail(ByEmailInput(receiver_type: "email", receiver: "\(viewModel.email)", name: "\(viewModel.name)"),
                                                           viewController: self)
+        
     }
     
     /** 타이머 종료버튼 클릭 */
@@ -238,32 +239,7 @@ extension FindIDByEmailVC {
         print("DEBUG: result is \(result)...")
         viewModel.receivedKey = result
     }
-    
-    
-    // String 중에서 Int(1자리) 만 추출하는 메소드
-    func matches(for regex: String, in text: String) -> [String] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: text,
-                                        range: NSRange(text.startIndex..., in: text))
-            return results.map {
-                String(text[Range($0.range, in: text)!])
-            }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    } // 결과예시 ) ["1", "2", "3", "4"]
-    
-    // 반복문을 통한 거듭제곱 메소드
-    func power_for(x: Double, n: Int) -> Double {
-        if n == 0 { return 1 } // 종료
-        else {
-            var result: Double = 1
-            for _ in 1...n { result = result * x }
-            return result
-        }
-    }
+
 }
 
 

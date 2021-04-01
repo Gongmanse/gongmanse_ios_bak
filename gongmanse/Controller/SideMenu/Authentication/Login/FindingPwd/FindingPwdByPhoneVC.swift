@@ -4,8 +4,8 @@ class FindingPwdByPhoneVC: UIViewController {
 
     // MARK: - Properties
     
-//    var viewModel = FindingIDByPhoneViewModel()
-    
+    var viewModel = FindingPwdViewModel()
+
     var pageIndex: Int! // 상단탭바 구현을 위한 프로퍼티
     var vTimer: Timer?          // 인증번호 타이머
     var totalTime: Int = 180    // 인증번호 시작 03:00
@@ -57,14 +57,13 @@ class FindingPwdByPhoneVC: UIViewController {
     
     // 완료 버튼 클릭 시, 호출되는 콜백메소드
     @objc func handleComplete() {
-//        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
-//            // Transition Controller
-//            let vc = NewPasswordVC()
-////            vc.viewModel = self.viewModel
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+        if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
+            // Transition Controller
+            let vc = NewPasswordVC()
+//            vc.viewModel = self.viewModel
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         
-        self.navigationController?.pushViewController(NewPasswordVC(), animated: true)
     }
     
     
@@ -74,14 +73,13 @@ class FindingPwdByPhoneVC: UIViewController {
         
         switch sender {
         case nameTextField:
-            print("DEBUG: test")
-//            viewModel.name = text
+            viewModel.name = text
+        case idTextField:
+            viewModel.typingID = text
         case phoneTextField:
-            print("DEBUG: test")
-//            viewModel.cellPhone = text
+            viewModel.cellPhone = text
         case certificationTextField:
-            print("DEBUG: test")
-//            viewModel.certificationNumber = Int(text) ?? 0
+            viewModel.certificationNumber = Int(text) ?? 0
             // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
             completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
             
@@ -95,6 +93,7 @@ class FindingPwdByPhoneVC: UIViewController {
         nameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         phoneTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         certificationTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        idTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     
@@ -173,29 +172,11 @@ class FindingPwdByPhoneVC: UIViewController {
 // MARK: - Timer
 
 private extension FindingPwdByPhoneVC {
-    /** 타이머 시작버튼 클릭 */
+    /* 타이머 시작버튼 클릭 */
     @objc func onTimerStart(_ sender: Any) {
-        if let timer = vTimer {
-            //timer 객체가 nil 이 아닌경우에는 invalid 상태에만 시작한다.
-            if !timer.isValid {
-                /** 1초마다 timerCallback함수를 호출하는 타이머 */
-                vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
-            } else {    // 타이머 실행중에 다시 타이머를 실행했다면, 기존의 타이머를 멈추고 난 후, 실행한다.
-                timer.invalidate()
-                self.totalTime = 180
-                vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
-            }
-        }else{
-            //timer 객체가 nil 인 경우에 객체를 생성하고 타이머를 시작한다.
-            /** 1초마다 timerCallback함수를 호출하는 타이머 */
-            vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
-        }
-        
-        // 인증번호 발송 - 이곳에 구현할 것.
-        // 인증번호 발송을 클릭했을 때, DataManager method를 호출한다.
-//        let input = ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)")
-        
-        
+        // "인증번호 발송" 을 클릭한 경우, "아이디찾기"API가 호출되어 아이디가 일치하는 아이디인지 확인한다. 타이머 실행은 "MARK: - API 에서 담당하고 있다."
+        // 데이터매니저 새로 만들 것,
+        FindingPwdByPhoneDataManager().findingIDResultByPhone(FindingIDResultInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)"), viewController: self)
     }
     
     /** 타이머 종료버튼 클릭 */
@@ -224,11 +205,41 @@ private extension FindingPwdByPhoneVC {
 // MARK: - API
 
 extension FindingPwdByPhoneVC {
+    func didSucceedSendingID(response: FindingPwdByPhoneResponse) {
+        guard let id = response.sUsername else { return }
+        viewModel.receivedID = id
+        
+        /* 이곳에 타이머를 생성한 이유 : API 데이터 수신 시간과, viewModel.idIsValid 시간을 serial로 하기 위함.*/
+        // 1. 아이디 찾기 API 를 호출하여 작성된 아이디와 일치하는지 여부를 확인한다.
+        // 2-1. 만약 일치하면, 타이머 시작 + 인증번호 API를 호출한다.
+        // 2-2. 만약 불일치하면, 일치하지 않은 메시지를 띄워준다. 그리고 아무것도 호출하지 않는다.
+        if viewModel.idIsValid {
+            if let timer = vTimer {
+                if !timer.isValid {
+                    vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                } else {
+                    timer.invalidate()
+                    self.totalTime = 180
+                    vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                }
+            }else{
+                vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+            }
+            // 타이머 호출과 동시에 인증번호를 발송한다.
+            FindingPwdByPhoneDataManager().certificationNumberByPhone(ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)"), viewController: self)
+        } else {
+            // 불일치한 경우...
+        }
+    }
+    
     func didSucceedCertificationNumber(response: ByPhoneResponse) {
         guard let key = response.key else { return }
-//        viewModel.receivedKey = key
+        viewModel.receivedKey = key
         print("DEBUG: key is \(key)...")
     }
+    
+    
+
 }
 
 // MARK: - Vaildation
