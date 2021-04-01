@@ -221,6 +221,7 @@
 		A9629D52261406AE00BBFB55 /* QuestionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9629D50261406AE00BBFB55 /* QuestionListCell.xib */; };
 		A9753864261551A90079289A /* EnquiryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9753862261551A90079289A /* EnquiryCell.swift */; };
 		A9753865261551A90079289A /* EnquiryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9753863261551A90079289A /* EnquiryCell.xib */; };
+		A975386B261571310079289A /* CustomerServiceQuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A975386A261571310079289A /* CustomerServiceQuestionModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -441,6 +442,7 @@
 		A9629D50261406AE00BBFB55 /* QuestionListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionListCell.xib; sourceTree = "<group>"; };
 		A9753862261551A90079289A /* EnquiryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnquiryCell.swift; sourceTree = "<group>"; };
 		A9753863261551A90079289A /* EnquiryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnquiryCell.xib; sourceTree = "<group>"; };
+		A975386A261571310079289A /* CustomerServiceQuestionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceQuestionModel.swift; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -769,6 +771,7 @@
 		259B8B4D2603001C009A7146 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A9753868261571010079289A /* SideMenu */,
 				259B8B672603008A009A7146 /* Progress */,
 				259B8B662603007B009A7146 /* Search */,
 			);
@@ -1442,6 +1445,22 @@
 			path = WhatisGonManse;
 			sourceTree = "<group>";
 		};
+		A9753868261571010079289A /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				A97538692615710D0079289A /* CS */,
+			);
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		A97538692615710D0079289A /* CS */ = {
+			isa = PBXGroup;
+			children = (
+				A975386A261571310079289A /* CustomerServiceQuestionModel.swift */,
+			);
+			path = CS;
+			sourceTree = "<group>";
+		};
 		E3D6D4DF968EFEE5CE504EFB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1633,6 +1652,7 @@
 				259B8BF3260305E1009A7146 /* SearchVideoVC.swift in Sources */,
 				259B8B8826030148009A7146 /* ProgressPopupCell.swift in Sources */,
 				259B8BE6260305B3009A7146 /* RecentKeywordVC.swift in Sources */,
+				A975386B261571310079289A /* CustomerServiceQuestionModel.swift in Sources */,
 				6CF2E66525F0AA8E000FE084 /* SocialStudiesVC.swift in Sources */,
 				259B8B6226030065009A7146 /* UIImage.swift in Sources */,
 				6CF2E65F25F0AA45000FE084 /* KoreanEnglishMathVC.swift in Sources */,

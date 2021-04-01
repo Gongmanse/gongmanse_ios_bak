@@ -9,20 +9,23 @@ import UIKit
 
 class QuestionListCell: UITableViewCell {
 
-    @IBOutlet weak var questionMarkLabel: UILabel!
-    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var askMarkLabel: UILabel!
+    @IBOutlet weak var askLabel: UILabel!
     
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
-        questionMarkLabel.font = UIFont(name: "NanumSquareRoundEB", size: 14)
-        questionLabel.font = UIFont(name: "NanumSquareRoundE", size: 14)
+        askMarkLabel.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        askMarkLabel.sizeToFit()
+        
+        askLabel.font = UIFont(name: "NanumSquareRoundB", size: 14)
+        askLabel.sizeToFit()
+
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
     }
-    
     
 }
