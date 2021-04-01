@@ -37,7 +37,12 @@ class CustomerServiceVC: UIViewController {
             let contentVC = FrequentlyAskViewContoler(nibName: "FrequentlyAskViewContoler", bundle: nil)
             contentVC.pageIndex = index
             return contentVC
-        }  else {
+        } else if index == 1 {
+
+            let contentVC = OneOnOneEnquiryVC(nibName: "OneOnOneEnquiryVC", bundle: nil)
+            contentVC.pageIndex = index
+            return contentVC
+        } else {
 
             let contentVC = FrequentlyAskViewContoler(nibName: "FrequentlyAskViewContoler", bundle: nil)
             contentVC.pageIndex = index
@@ -46,7 +51,8 @@ class CustomerServiceVC: UIViewController {
     }
 }
 
-// CustomerService 설정관련
+//MARK: - CustomerService 설정관련
+
 extension CustomerServiceVC {
 
     func navigationSetting() {
@@ -75,8 +81,11 @@ extension CustomerServiceVC {
         //TabView 커스텀
         tabsView.titleColor = .black
         tabsView.indicatorColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
-        tabsView.titleFont = UIFont.boldSystemFont(ofSize: 18)
+        tabsView.titleFont = UIFont.boldSystemFont(ofSize: 14)
         tabsView.collectionView.backgroundColor = .white
+        
+        //TabsView Delegate 설정
+        tabsView.delegate = self
         
         
         //앱이 시작될 때 선택될 탭 설정
@@ -85,7 +94,7 @@ extension CustomerServiceVC {
     
     func setupPageViewController() {
         //pageViewController 설정
-        self.pageViewContoller = storyboard?.instantiateViewController(withIdentifier: "TabsPageViewController") as! TabsPageViewController
+        self.pageViewContoller = storyboard?.instantiateViewController(withIdentifier: "TabsPageViewController") as? TabsPageViewController
         self.addChild(self.pageViewContoller)
         self.view.addSubview(self.pageViewContoller.view)
         
@@ -108,8 +117,23 @@ extension CustomerServiceVC {
         self.pageViewContoller.didMove(toParent: self)
     }
 }
+//MARK: - 상단 tap시 뷰컨도 같이 move
+extension CustomerServiceVC: TabsDelegate {
+    func tabsViewDidSelectItemAt(position: Int) {
+        //선택한 탭 셀 위치가 pageController의 현재 위치와 동일한 지 확인하고 그렇지 않은 경우 앞으로 또는 뒤로 이동
+        if position != currentIndex {
+            if position > currentIndex {
+                self.pageViewContoller.setViewControllers([showViewController(position)!], direction: .forward, animated: true, completion: nil)
+            } else {
+                self.pageViewContoller.setViewControllers([showViewController(position)!], direction: .reverse, animated: true, completion: nil)
+            }
+            tabsView.collectionView.scrollToItem(at: IndexPath(item: position, section: 0), at: .centeredHorizontally, animated: true)
+        }
+    }
+}
 
-// Page 관련
+//MARK: - page 관련
+
 extension CustomerServiceVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     //앞으로 갈 때 viewController 반환
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -161,15 +185,15 @@ extension CustomerServiceVC: UIPageViewControllerDataSource, UIPageViewControlle
     func viewControllerPageIndex(_ viewController: UIViewController?) -> Int {
         switch viewController {
         case is FrequentlyAskViewContoler:
-            let vc = viewController as! FrequentlyAskViewContoler
+            guard let vc = viewController as? FrequentlyAskViewContoler else { return 0}
             return vc.pageIndex
             
-//        case is OneonOneEnquiryViewController:
-//            let vc = viewController as! OneonOneEnquiryViewController
-//            return vc.pageIndex
+        case is OneOnOneEnquiryVC:
+            guard let vc = viewController as? OneOnOneEnquiryVC else { return 0}
+            return vc.pageIndex
             
         default:
-            let vc = viewController as! FrequentlyAskViewContoler
+            guard let vc = viewController as? FrequentlyAskViewContoler else { return 0}
             return vc.pageIndex
         }
     }
