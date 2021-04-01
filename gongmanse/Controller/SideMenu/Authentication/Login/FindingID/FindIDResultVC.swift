@@ -210,3 +210,21 @@ extension FindIDResultVC {
         idLabel.text = result
     }
 }
+
+// MARK: - TapGesture
+
+private extension FindIDResultVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+}

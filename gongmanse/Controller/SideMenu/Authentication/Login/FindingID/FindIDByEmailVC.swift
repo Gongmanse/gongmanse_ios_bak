@@ -280,3 +280,21 @@ private extension FindIDByEmailVC {
         certificationNumberTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
 }
+
+// MARK: - TapGesture
+
+private extension FindIDByEmailVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+}

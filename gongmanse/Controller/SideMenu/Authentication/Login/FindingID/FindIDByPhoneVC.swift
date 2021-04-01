@@ -268,3 +268,21 @@ extension FindIDByPhoneVC {
         }
     }
 }
+
+// MARK: - TapGesture
+
+private extension FindIDByPhoneVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+}

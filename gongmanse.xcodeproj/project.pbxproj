@@ -151,6 +151,9 @@
 		25BD75FB26156ADA002B266C /* FindingPwdByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD75FA26156ADA002B266C /* FindingPwdByPhoneResponse.swift */; };
 		25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD75FE26156B15002B266C /* FindingPwdByPhoneDataManager.swift */; };
 		25BD760326157258002B266C /* NewPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD760226157258002B266C /* NewPasswordViewModel.swift */; };
+		25BD760D26157B59002B266C /* NewPasswordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD760C26157B59002B266C /* NewPasswordResponse.swift */; };
+		25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD761026157BDC002B266C /* NewPasswordDataManager.swift */; };
+		25BD761426159199002B266C /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BD761326159199002B266C /* LogInViewModel.swift */; };
 		25EDAB6E26154E0200D27DB5 /* FindingPwdByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */; };
 		25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */; };
 		25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */; };
@@ -361,6 +364,9 @@
 		25BD75FA26156ADA002B266C /* FindingPwdByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByPhoneResponse.swift; sourceTree = "<group>"; };
 		25BD75FE26156B15002B266C /* FindingPwdByPhoneDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByPhoneDataManager.swift; sourceTree = "<group>"; };
 		25BD760226157258002B266C /* NewPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordViewModel.swift; sourceTree = "<group>"; };
+		25BD760C26157B59002B266C /* NewPasswordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordResponse.swift; sourceTree = "<group>"; };
+		25BD761026157BDC002B266C /* NewPasswordDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordDataManager.swift; sourceTree = "<group>"; };
+		25BD761326159199002B266C /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailInput.swift; sourceTree = "<group>"; };
 		25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailResponse.swift; sourceTree = "<group>"; };
 		25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailDataManager.swift; sourceTree = "<group>"; };
@@ -574,6 +580,7 @@
 		2568EEED26119EEA00CD24B8 /* password */ = {
 			isa = PBXGroup;
 			children = (
+				25BD760526157B0A002B266C /* newPassword */,
 				25EDAB7626154E2500D27DB5 /* Email */,
 				25EDAB7726154E2900D27DB5 /* Phone */,
 			);
@@ -632,6 +639,7 @@
 			children = (
 				2574592D26143BE0007A2A5D /* FindingPwd */,
 				253135D32612C2D600B51348 /* FindingID */,
+				25BD761326159199002B266C /* LogInViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1146,6 +1154,31 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
+		25BD760526157B0A002B266C /* newPassword */ = {
+			isa = PBXGroup;
+			children = (
+				25BD760626157B0F002B266C /* Entity */,
+				25BD760726157B15002B266C /* DataManager */,
+			);
+			path = newPassword;
+			sourceTree = "<group>";
+		};
+		25BD760626157B0F002B266C /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				25BD760C26157B59002B266C /* NewPasswordResponse.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		25BD760726157B15002B266C /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				25BD761026157BDC002B266C /* NewPasswordDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
 		25EDAB7626154E2500D27DB5 /* Email */ = {
 			isa = PBXGroup;
 			children = (
@@ -1637,6 +1670,7 @@
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
 				259B8B78260300D6009A7146 /* SearchVideoViewModel.swift in Sources */,
 				6C4713BD25F853EA00D68A2B /* SideMenuNoticeVC.swift in Sources */,
+				25BD760D26157B59002B266C /* NewPasswordResponse.swift in Sources */,
 				6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */,
 				6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */,
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
@@ -1681,6 +1715,7 @@
 				6C47139E25F61C6200D68A2B /* NoticeTVCell.swift in Sources */,
 				259B8C24260307A0009A7146 /* TeacherPlaylistCell.swift in Sources */,
 				259B8B75260300D2009A7146 /* RecentKeywordViewModel.swift in Sources */,
+				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
 				6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */,
 				25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */,
@@ -1744,6 +1779,7 @@
 				25201D9D260426C6001098AC /* LoginVC.swift in Sources */,
 				259B8BE5260305B3009A7146 /* PopularKeywordVC.swift in Sources */,
 				6CC1F06B25F9EE9200A909B0 /* RecommendCVCell.swift in Sources */,
+				25BD761426159199002B266C /* LogInViewModel.swift in Sources */,
 				6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */,
 				6CB83C412601B54B007AED64 /* BookMarkTVC.swift in Sources */,
 				6CF2E66825F0AAB7000FE084 /* OtherSubjectsVC.swift in Sources */,

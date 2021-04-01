@@ -60,7 +60,7 @@ class FindingPwdByPhoneVC: UIViewController {
         if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
             // Transition Controller
             let vc = NewPasswordVC()
-//            vc.viewModel = self.viewModel
+             vc.viewModel.username = self.viewModel.name
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -82,7 +82,6 @@ class FindingPwdByPhoneVC: UIViewController {
             viewModel.certificationNumber = Int(text) ?? 0
             // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
             completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
-            
         default:
             print("DEBUG: default in switch Statement...")
         }
@@ -284,5 +283,23 @@ extension FindingPwdByPhoneVC {
             }
             
         }
+    }
+}
+
+// MARK: - TapGesture
+
+private extension FindingPwdByPhoneVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
 }

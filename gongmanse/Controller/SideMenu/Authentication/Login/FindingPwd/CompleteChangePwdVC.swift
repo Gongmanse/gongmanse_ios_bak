@@ -1,42 +1,8 @@
-//
-//  CompleteChangePwdVC.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/03/23.
-//
-
-//import UIKit
-//
-//class CompleteChangePwdVC: UIViewController {
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        // Do any additional setup after loading the view.
-//    }
-//
-//
-//    /*
-//    // MARK: - Navigation
-//
-//    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        // Pass the selected object to the new view controller.
-//    }
-//    */
-//
-//}
-
 import UIKit
 
 class CompleteChangePwdVC: UIViewController {
     
     // MARK: - Properties
-
-//    var viewModel: FindingIDByPhoneViewModel?   // FindIDByPhoneVC 의 viewModel을 전달받을 Property
-    
-    var pageIndex: Int!
     
     // 최상단에 있는 이미지
     private let mainImage: UIImageView = {
@@ -85,10 +51,6 @@ class CompleteChangePwdVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
-//        guard let viewModel = viewModel else { return }
-//        FindingIDDataManager().findingIDResultByPhone(FindingIDResultInput(receiver: viewModel.cellPhone, name: viewModel.name),
-//                                                      viewController: self)
     }
     
     
@@ -141,12 +103,3 @@ class CompleteChangePwdVC: UIViewController {
 
 }
 
-
-// MARK: - API
-
-extension CompleteChangePwdVC {
-    func didSucceedVaildation(_ response: FindingIDResultResponse) {
-//        guard let result = response.sUsername else { return }
-//        idLabel.text = result
-    }
-}

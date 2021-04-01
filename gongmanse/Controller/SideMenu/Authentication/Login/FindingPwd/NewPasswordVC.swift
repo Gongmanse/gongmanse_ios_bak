@@ -61,7 +61,8 @@ class NewPasswordVC: UIViewController {
     
     // 완료 버튼 클릭 시, 호출되는 콜백메소드
     @objc func handleComplete() {
-        self.navigationController?.pushViewController(CompleteChangePwdVC(), animated: true)
+        // 비밀번호 변경 API 호출; 성공적으로 변경되었다면, "CompleteChangePwdVC" 로 화면전환
+        NewPasswordDataManager().changePassword(NewPasswordInput(username: "\(viewModel.username)", password: "\(viewModel.password)"), viewController: self)
     }
     
     
@@ -157,6 +158,10 @@ class NewPasswordVC: UIViewController {
 
 extension NewPasswordVC {
     // 비밀번호 변경 API 호출
+    func didSucceed(response: NewPasswordResponse) {
+        // 비밀번호 변경 성공
+        self.navigationController?.pushViewController(CompleteChangePwdVC(), animated: true)
+    }
 }
 
 
@@ -219,5 +224,23 @@ extension NewPasswordVC {
             }
             
         }
+    }
+}
+
+// MARK: - TapGesture
+
+private extension NewPasswordVC {
+    
+    @objc func tapGesture() {
+        view.endEditing(true)
+    }
+    
+    func setupUI() {
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
 }

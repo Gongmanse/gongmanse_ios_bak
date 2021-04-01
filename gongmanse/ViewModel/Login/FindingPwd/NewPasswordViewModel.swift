@@ -10,6 +10,7 @@ import UIKit.UIColor
 
 struct NewPasswordViewModel: AuthenticationViewModel {
     
+    var username: String = "" // ID
     var password: String
     var rePassword: String
     

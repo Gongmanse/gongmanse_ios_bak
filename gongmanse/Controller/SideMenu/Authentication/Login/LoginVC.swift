@@ -11,6 +11,9 @@ class LoginVC: UIViewController {
     
     // MARK: - IBOutlet
     
+    var viewModel = LogInViewModel()
+    
+    
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -57,7 +60,7 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func handleLogin(_ sender: Any) {
-        LoginDataManager().sendingLoginInfo(LoginInput(usr: "woosung", pwd: "12341234"), viewController: self)
+        LoginDataManager().sendingLoginInfo(LoginInput(usr: "\(viewModel.username)", pwd: "\(viewModel.password)"), viewController: self)
     }
     
     // 아이디 찾기 클릭 시,
@@ -168,8 +171,18 @@ class LoginVC: UIViewController {
     
 
     @objc func textDidChange(sender: UITextField) {
-        sender.tintColor = .mainOrange
-        sender.leftView?.tintColor = .mainOrange
+        guard let text = sender.text else { return }
+        
+        switch sender {
+        case idTextField:
+            viewModel.username = text
+        case passwordTextField:
+            viewModel.password = text
+        default:
+            print("DEBUG: default Setting")
+        }
+        
+
     }
     
     
@@ -178,19 +191,11 @@ class LoginVC: UIViewController {
         idTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
-    
-//    // textField 공통 세팅 커스텀메소드
-//    private func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
-//        tf.placeholder = placehoder
-//        tf.leftViewMode = .always
-//        tf.tintColor = .gray
-//        tf.leftView = leftView
-//        tf.keyboardType = .emailAddress
-//    }
+
 }
 
 
-// MARK: - CustomTextField
+// MARK: - TapGesture
 
 private extension LoginVC {
     
@@ -206,8 +211,6 @@ private extension LoginVC {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
-    
-
 }
 
 // MARK: - API
