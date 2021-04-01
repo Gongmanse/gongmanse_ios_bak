@@ -51,6 +51,8 @@ class SideMenuNoticeVC: UIViewController {
     
 }
 
+//MARK: - CustomerService 설정관련
+
 extension SideMenuNoticeVC {
     
     func navigationSetting() {
@@ -81,6 +83,9 @@ extension SideMenuNoticeVC {
         tabsView.collectionView.backgroundColor = .white
         
         
+        //TabsView Delegate 설정
+        tabsView.delegate = self
+        
         //앱이 시작될 때 선택될 탭 설정
         tabsView.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
     }
@@ -110,6 +115,24 @@ extension SideMenuNoticeVC {
         self.pageViewContoller.didMove(toParent: self)
     }
 }
+
+//MARK: - 상단 tap시 뷰컨도 같이 move
+extension SideMenuNoticeVC: TabsDelegate {
+    
+    func tabsViewDidSelectItemAt(position: Int) {
+        //선택한 탭 셀 위치가 pageController의 현재 위치와 동일한 지 확인하고 그렇지 않은 경우 앞으로 또는 뒤로 이동
+        if position != currentIndex {
+            if position > currentIndex {
+                self.pageViewContoller.setViewControllers([showViewController(position)!], direction: .forward, animated: true, completion: nil)
+            } else {
+                self.pageViewContoller.setViewControllers([showViewController(position)!], direction: .reverse, animated: true, completion: nil)
+            }
+            tabsView.collectionView.scrollToItem(at: IndexPath(item: position, section: 0), at: .centeredHorizontally, animated: true)
+        }
+    }
+}
+
+//MARK: - page 관련
 extension SideMenuNoticeVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     //앞으로 갈 때 viewController 반환
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
