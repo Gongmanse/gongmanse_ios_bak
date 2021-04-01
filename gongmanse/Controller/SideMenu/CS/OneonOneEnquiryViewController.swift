@@ -55,6 +55,14 @@ class OneonOneEnquiryViewController: UIViewController {
         stack.spacing = 10
         return stack
     }()
+    
+    private let floatingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 56, height: 56)
+        button.setImage(UIImage(named: "floatingBtn"), for: .normal)
+        button.addTarget(self, action: #selector(floatingButtonAction(_:)), for: .touchUpInside)
+        return button
+    }()
     var pageIndex = 0
     
     @IBOutlet weak var tableView: UITableView!
@@ -70,6 +78,27 @@ class OneonOneEnquiryViewController: UIViewController {
         tableView.register(numName, forCellReuseIdentifier: enquiryIdentifier)
         
         emptyStateManage(state: false)
+        
+        view.addSubview(floatingButton)
+        floatingButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+                                        
+            NSLayoutConstraint(item: floatingButton,
+                               attribute: .trailing,
+                               relatedBy: .equal,
+                               toItem: view,
+                               attribute: .trailing,
+                               multiplier: 1,
+                               constant: -20),
+                                             
+            NSLayoutConstraint(item: floatingButton,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: view,
+                               attribute: .bottom,
+                               multiplier: 0.85,
+                               constant: 0)])
     }
 
     
@@ -106,6 +135,10 @@ class OneonOneEnquiryViewController: UIViewController {
 
         emptyStackView.isHidden = state
         
+    }
+    
+    @objc func floatingButtonAction(_ sender: UIButton) {
+        print("A")
     }
 }
 
