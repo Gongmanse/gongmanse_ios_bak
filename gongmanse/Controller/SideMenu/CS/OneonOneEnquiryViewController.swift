@@ -77,7 +77,7 @@ class OneonOneEnquiryViewController: UIViewController {
         let numName = UINib(nibName: enquiryIdentifier, bundle: nil)
         tableView.register(numName, forCellReuseIdentifier: enquiryIdentifier)
         
-        emptyStateManage(state: false)
+//        emptyStateManage(state: false)
         
         view.addSubview(floatingButton)
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
@@ -105,6 +105,7 @@ class OneonOneEnquiryViewController: UIViewController {
     func emptyStateManage(state: Bool) {
         
         tableView.isHidden = !state
+        emptyStackView.isHidden = state
         
         emptyStackView.addArrangedSubview(emptyImage)
         emptyStackView.addArrangedSubview(emptyLabel)
@@ -133,7 +134,6 @@ class OneonOneEnquiryViewController: UIViewController {
                                multiplier: 0.75,
                                constant: 0)])
 
-        emptyStackView.isHidden = state
         
     }
     

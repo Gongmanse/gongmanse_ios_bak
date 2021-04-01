@@ -56,7 +56,6 @@ class FrequentlyAskViewContoler: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
         
         let numName = UINib(nibName: questionIdentifier, bundle: nil)
@@ -143,7 +142,7 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
-        footerView.backgroundColor = UIColor(red: 237/255, green: 237/255, blue: 237/255, alpha: 1.0)
+        footerView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
         return footerView
     }
     
