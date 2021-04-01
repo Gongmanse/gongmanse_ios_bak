@@ -37,12 +37,7 @@ class CustomerServiceVC: UIViewController {
             let contentVC = FrequentlyAskViewContoler(nibName: "FrequentlyAskViewContoler", bundle: nil)
             contentVC.pageIndex = index
             return contentVC
-        } else if index == 1 {
-
-            let contentVC = OneonOneEnquiryViewController(nibName: "OneonOneEnquiryViewController", bundle: nil)
-            contentVC.pageIndex = index
-            return contentVC
-        } else {
+        }  else {
 
             let contentVC = FrequentlyAskViewContoler(nibName: "FrequentlyAskViewContoler", bundle: nil)
             contentVC.pageIndex = index
@@ -169,9 +164,9 @@ extension CustomerServiceVC: UIPageViewControllerDataSource, UIPageViewControlle
             let vc = viewController as! FrequentlyAskViewContoler
             return vc.pageIndex
             
-        case is OneonOneEnquiryViewController:
-            let vc = viewController as! OneonOneEnquiryViewController
-            return vc.pageIndex
+//        case is OneonOneEnquiryViewController:
+//            let vc = viewController as! OneonOneEnquiryViewController
+//            return vc.pageIndex
             
         default:
             let vc = viewController as! FrequentlyAskViewContoler
