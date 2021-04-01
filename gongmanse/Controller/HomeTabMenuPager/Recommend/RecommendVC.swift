@@ -4,6 +4,8 @@ class RecommendVC: UIViewController {
     
     var pageIndex: Int!
     
+    var recommendVideo: RecommendVideoInput?
+    
     let recommendRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
@@ -15,6 +17,24 @@ class RecommendVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         recommendCollection.refreshControl = recommendRC
+        
+        if let url = URL(string: Recommend_Video_URL) {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(RecommendVideoInput.self, from: data) {
+                    print(json.data)
+                    self.recommendVideo = json
+                }
+                DispatchQueue.main.async {
+                    self.recommendCollection.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     @objc private func refresh(sender: UIRefreshControl) {
@@ -25,13 +45,22 @@ class RecommendVC: UIViewController {
 
 extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        guard let data = self.recommendVideo?.data else { return 0}
+        return data.count
+//        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendCVCell", for: indexPath) as? RecommendCVCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendCVCell", for: indexPath) as! RecommendCVCell
+        guard let json = self.recommendVideo else { return cell}
+        
+        let indexData = json.data[indexPath.row]
+
+        cell.videoTitle.text = indexData.sTitle
+        cell.teachersName.text = indexData.sTeacher
+        cell.subjects.text = indexData.sSubject
+        cell.starRating.text = indexData.iRating
+        
         return cell
     }
     
