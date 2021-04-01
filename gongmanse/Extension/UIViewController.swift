@@ -30,5 +30,81 @@ extension UIViewController {
         return removedArray
     }
     
+    // MARK: - CustonTextField로 동일한 Textfield 구성 시, 공통사항
     
+    func custonTextField(tf: UITextField, width: CGFloat, leftImage: UIImage, placehoder: String) {
+        let idImage = leftImage.withTintColor(.mainOrange)
+        tf.leftView = UIImageView(image: idImage)
+        tf.leftViewMode = .always
+        tf.borderStyle = .none
+        tf.placeholder = "  \(placehoder)"
+        tf.clearButtonMode = .whileEditing
+        
+        // Textfield 하단 Divider 추가
+        let dividerView: UIView = {
+            let view = UIView()
+            view.backgroundColor = .mainOrange
+            return view
+        }()
+        
+        view.addSubview(dividerView)
+        dividerView.anchor(top: tf.bottomAnchor, paddingTop: 1)
+        dividerView.setDimensions(height: 1.2, width: width)
+        dividerView.centerX(inView: view)
+    }
+    
+    
+    
+    static func instantiateFromStoryboard() -> Self {
+        let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle(for: self))
+        guard let viewController = storyboard.instantiateInitialViewController() as? Self else {
+            fatalError("Can't instantiate \(self) from storyboard")
+        }
+        return viewController
+    }
+    
+    // UITextField LeftView 추가 메소드
+    func settingLeftViewInTextField(_ textField: UITextField,
+                                           _ image: UIImage,
+                                           y: Int = 10) -> UIView {
+        let view = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: y, width: 20, height: 20))
+        imageView.image = image
+        view.addSubview(imageView)
+        return view
+    }
+    
+    // textField 공통 세팅 커스텀메소드
+    func setupTextField(_ tf: UITextField, placehoder: String, leftView: UIView) {
+        tf.font = UIFont.appBoldFontWith(size: 14)
+        tf.placeholder = placehoder
+        tf.leftViewMode = .always
+        tf.tintColor = .gray
+        tf.leftView = leftView
+        tf.keyboardType = .emailAddress
+    }
+    
+    // textField leftView 추가를 위한 view 내부에 ImageView 추가 커스텀메소드
+    func addLeftView(image: UIImage) -> UIView {
+        let leftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        let leftImageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
+        leftImageView.image = image
+        leftView.addSubview(leftImageView)
+        self.view.addSubview(leftView)
+        return leftView
+    }
+    
+    // 임시저장.
+    func customTextField(placeholder: String, leftImage: UIImage) -> SloyTextField {
+        let tf = SloyTextField()
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let leftImageView = UIImageView(image: leftImage)
+        leftImageView.tintColor = .gray
+        leftImageView.frame = CGRect(x: 0, y: 25, width: 20, height: 20)
+        leftView.addSubview(leftImageView)
+        tf.placeholder = placeholder
+        tf.leftView = leftView
+        tf.leftViewMode = .always
+        return tf
+    }
 }

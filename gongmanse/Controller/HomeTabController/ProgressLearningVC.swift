@@ -10,8 +10,6 @@ class ProgressLearningVC: UIViewController {
     private var pageController: UIPageViewController!
     @IBOutlet weak var tabsView: TabsView!
     
-    
-    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -23,9 +21,11 @@ class ProgressLearningVC: UIViewController {
         setupTabs()
         setupPageViewController()
         
-        navigationItem.title = "진도학습"
-        
         addBottomBorder()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = "진도학습"
         configureNavi()
     }
     //MARK: - Helper functions

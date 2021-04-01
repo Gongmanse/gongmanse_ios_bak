@@ -14,8 +14,6 @@ class HomeVC: UIViewController {
         
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
-        //탭 바 색상 변경
-        tabBarController?.tabBar.barTintColor = UIColor.white
 
         setupTabs()
         setupPageViewController()
@@ -25,7 +23,9 @@ class HomeVC: UIViewController {
         navigationItem.titleView = UIImageView(image: image)
         
         addBottomBorder()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)

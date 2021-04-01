@@ -27,27 +27,17 @@ class LectureByInstructorVC: UIViewController {
         setupTabs()
         setupPageViewController()
         
-        navigationItem.title = "강사별 강의"
-        
         addBottomBorder()
-        configureNavi()
-        
     }
     
-    //MARK: - Actions
-    
-    @objc func handleAlarm() {
-        print("DEBUG: Clicked Alarm Button...")
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = "강사별 강의"
+        configureNavi()
     }
     
     //MARK: - Helper functions
         
     func configureNavi() {
-        // 좌, 우 버튼생성
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "alarm"), style: .plain, target: self, action: #selector(handleAlarm))
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleAlarm))
-        
         //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)

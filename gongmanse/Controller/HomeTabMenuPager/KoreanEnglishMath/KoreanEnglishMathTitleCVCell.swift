@@ -23,9 +23,9 @@ class KoreanEnglishMathTitleCVCell: UICollectionReusableView {
         selectBtn.layer.borderColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
         
         //비디오 총 개수 부분 오렌지 색으로 변경
-        let attributedString = NSMutableAttributedString(string: videoTotalCount.text!, attributes: [.font: UIFont.systemFont(ofSize: 17), .foregroundColor: UIColor.black])
+        let attributedString = NSMutableAttributedString(string: videoTotalCount.text!, attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .medium), .foregroundColor: UIColor.black])
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 17, weight: .regular), range: (videoTotalCount.text! as NSString).range(of: "11,000"))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14, weight: .medium), range: (videoTotalCount.text! as NSString).range(of: "11,000"))
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: "11,000"))
         
         self.videoTotalCount.attributedText = attributedString
