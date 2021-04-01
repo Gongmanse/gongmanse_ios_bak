@@ -9,10 +9,14 @@ import UIKit
 
 class FrequentlyAskViewContoler: UIViewController {
 
+    private let questionIdentifier = "QuestionListCell"
+    private var textList = ["갑자기 자막이 나오지 않아요.","공만세 알림을 받고 싶지 않아요.","이번 달 데이터가 얼마 안 남았는데, 와이파이로 동영상을 볼 수 있나요?","추천 영상에 올라온 강의들은 어떤 강의들인가요?","회원가입 전에 동영상 강의를 먼저 보고 싶은데 방법이 있나요?","키워드 검색은 어떤 키워드들을 검색하게 되나요?","문제를 먼저 검색해서 볼 수 있나요?","동영상 강의 재생이 원활하지 않습니다. 어떻게 해결해야 하나요?"]
+    
+    
+    var pageIndex = 0
     
     @IBOutlet weak var tableView: UITableView!
-    var pageIndex = 0
-    var textList = ["갑자기 자막이 나오지 않아요.","공만세 알림을 받고 싶지 않아요.","이번 달 데이터가 얼마 안 남았는데, 와이파이로 동영상을 볼 수 있나요?","추천 영상에 올라온 강의들은 어떤 강의들인가요?","회원가입 전에 동영상 강의를 먼저 보고 싶은데 방법이 있나요?","키워드 검색은 어떤 키워드들을 검색하게 되나요?","문제를 먼저 검색해서 볼 수 있나요?","동영상 강의 재생이 원활하지 않습니다. 어떻게 해결해야 하나요?"]
+    
         
     var isSeletedCell = false
     /* * 다시 살펴 볼 예정
@@ -55,8 +59,8 @@ class FrequentlyAskViewContoler: UIViewController {
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
         
-        let numName = UINib(nibName: "QuestionListCell", bundle: nil)
-        tableView.register(numName, forCellReuseIdentifier: "QuestionListCell")
+        let numName = UINib(nibName: questionIdentifier, bundle: nil)
+        tableView.register(numName, forCellReuseIdentifier: questionIdentifier)
         
     }
 
@@ -160,7 +164,7 @@ extension FrequentlyAskViewContoler: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionListCell", for: indexPath) as? QuestionListCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: questionIdentifier, for: indexPath) as? QuestionListCell else { return UITableViewCell() }
         
         cell.textLabel?.text = "A"
         return cell
