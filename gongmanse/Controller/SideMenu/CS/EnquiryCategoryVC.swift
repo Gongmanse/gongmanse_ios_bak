@@ -4,7 +4,11 @@
 //
 //  Created by taeuk on 2021/04/01.
 //
-
+/* *
+ 문의하기 기능
+ 카테고리의 텍스트, 질문 텍스트, 오늘 날짜, 유저의 id
+ 
+ */
 import UIKit
 
 class SelectButtonState: UIButton {

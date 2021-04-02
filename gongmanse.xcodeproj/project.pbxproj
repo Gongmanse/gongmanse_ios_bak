@@ -227,11 +227,12 @@
 		A9129EDD2616A24000041CC5 /* UseLectureVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9129EDB2616A24000041CC5 /* UseLectureVC.xib */; };
 		A9129EE12616A26400041CC5 /* IntroduceInstructorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129EDF2616A26400041CC5 /* IntroduceInstructorVC.swift */; };
 		A9129EE22616A26400041CC5 /* IntroduceInstructorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9129EE02616A26400041CC5 /* IntroduceInstructorVC.xib */; };
+		A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */; };
 		A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */; };
 		A9850EE12616123000908BA4 /* FrequentlyAskViewContoler.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EDF2616123000908BA4 /* FrequentlyAskViewContoler.xib */; };
 		A9850EE22616123000908BA4 /* AskListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EE02616123000908BA4 /* AskListCell.xib */; };
 		A9850EE92616126F00908BA4 /* AskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9850EE72616126F00908BA4 /* AskListCell.swift */; };
-		A9850EF12616132B00908BA4 /* CustomerServiceQuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9850EF02616132B00908BA4 /* CustomerServiceQuestionModel.swift */; };
+		A9850EF12616132B00908BA4 /* QustionListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9850EF02616132B00908BA4 /* QustionListModel.swift */; };
 		A9850EF5261613CB00908BA4 /* OneOnOneEnquiryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9850EF3261613CB00908BA4 /* OneOnOneEnquiryVC.swift */; };
 		A9850EF6261613CB00908BA4 /* OneOnOneEnquiryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EF4261613CB00908BA4 /* OneOnOneEnquiryVC.xib */; };
 		A9850EFA261613FE00908BA4 /* EnquiryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9850EF8261613FE00908BA4 /* EnquiryCell.swift */; };
@@ -464,11 +465,12 @@
 		A9129EDB2616A24000041CC5 /* UseLectureVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseLectureVC.xib; sourceTree = "<group>"; };
 		A9129EDF2616A26400041CC5 /* IntroduceInstructorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceInstructorVC.swift; sourceTree = "<group>"; };
 		A9129EE02616A26400041CC5 /* IntroduceInstructorVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroduceInstructorVC.xib; sourceTree = "<group>"; };
+		A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListViewModel.swift; sourceTree = "<group>"; };
 		A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyAskViewContoler.swift; sourceTree = "<group>"; };
 		A9850EDF2616123000908BA4 /* FrequentlyAskViewContoler.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FrequentlyAskViewContoler.xib; sourceTree = "<group>"; };
 		A9850EE02616123000908BA4 /* AskListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AskListCell.xib; sourceTree = "<group>"; };
 		A9850EE72616126F00908BA4 /* AskListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskListCell.swift; sourceTree = "<group>"; };
-		A9850EF02616132B00908BA4 /* CustomerServiceQuestionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceQuestionModel.swift; sourceTree = "<group>"; };
+		A9850EF02616132B00908BA4 /* QustionListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QustionListModel.swift; sourceTree = "<group>"; };
 		A9850EF3261613CB00908BA4 /* OneOnOneEnquiryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneOnOneEnquiryVC.swift; sourceTree = "<group>"; };
 		A9850EF4261613CB00908BA4 /* OneOnOneEnquiryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OneOnOneEnquiryVC.xib; sourceTree = "<group>"; };
 		A9850EF8261613FE00908BA4 /* EnquiryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnquiryCell.swift; sourceTree = "<group>"; };
@@ -818,6 +820,7 @@
 		259B8B4C26030018009A7146 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				A9129EE42616CCF900041CC5 /* Sidemenu */,
 				2568EF052611A24D00CD24B8 /* Login */,
 				253B4EC7260AF021000B7DB9 /* Registration */,
 				259B8B70260300AD009A7146 /* ProgressVM */,
@@ -1547,6 +1550,22 @@
 			path = WhatisTab;
 			sourceTree = "<group>";
 		};
+		A9129EE42616CCF900041CC5 /* Sidemenu */ = {
+			isa = PBXGroup;
+			children = (
+				A9129EE52616CD0100041CC5 /* CS */,
+			);
+			path = Sidemenu;
+			sourceTree = "<group>";
+		};
+		A9129EE52616CD0100041CC5 /* CS */ = {
+			isa = PBXGroup;
+			children = (
+				A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */,
+			);
+			path = CS;
+			sourceTree = "<group>";
+		};
 		A9629CCF2612EB5A00BBFB55 /* CS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1576,7 +1595,7 @@
 		A9850EEF2616130B00908BA4 /* CS */ = {
 			isa = PBXGroup;
 			children = (
-				A9850EF02616132B00908BA4 /* CustomerServiceQuestionModel.swift */,
+				A9850EF02616132B00908BA4 /* QustionListModel.swift */,
 			);
 			name = CS;
 			sourceTree = "<group>";
@@ -1781,6 +1800,7 @@
 				25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */,
 				6CF2E68725F21E2C000FE084 /* PopularCVCell.swift in Sources */,
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
+				A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
@@ -1905,7 +1925,7 @@
 				259B8BE5260305B3009A7146 /* PopularKeywordVC.swift in Sources */,
 				6CC1F06B25F9EE9200A909B0 /* RecommendCVCell.swift in Sources */,
 				25BD761426159199002B266C /* LogInViewModel.swift in Sources */,
-				A9850EF12616132B00908BA4 /* CustomerServiceQuestionModel.swift in Sources */,
+				A9850EF12616132B00908BA4 /* QustionListModel.swift in Sources */,
 				6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */,
 				6CB83C412601B54B007AED64 /* BookMarkTVC.swift in Sources */,
 				6CF2E66825F0AAB7000FE084 /* OtherSubjectsVC.swift in Sources */,
