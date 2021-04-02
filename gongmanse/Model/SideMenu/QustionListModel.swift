@@ -1,5 +1,5 @@
 //
-//  CustomerServiceQuestionModel.swift
+//  QustionListModel.swift
 //  gongmanse
 //
 //  Created by taeuk on 2021/04/01.
@@ -20,4 +20,18 @@ struct CustomerServiceAskModel {
     let askMark: String
     let askList: String
     
+}
+
+
+struct QustionListModel {
+    
+    let data: [QuestionList]
+}
+
+struct QuestionList {
+    
+    let id: String
+    let sQuestion: String
+    let sAnswer: String
+
 }
