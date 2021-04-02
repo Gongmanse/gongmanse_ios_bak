@@ -1,6 +1,6 @@
 import UIKit
 
-class SideMenuNoticeVC: UIViewController {
+class WhatIsGongManseVC: UIViewController {
 
     @IBOutlet weak var tabsView: TabsView!
     var pageViewContoller: UIPageViewController!
@@ -9,11 +9,9 @@ class SideMenuNoticeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         navigationSetting()
         setupTabs()
         setupPageViewController()
-        
     }
     
     func showViewController(_ index: Int) -> UIViewController? {
@@ -25,32 +23,39 @@ class SideMenuNoticeVC: UIViewController {
         
         if index == 0 {
 
-            let contentVC = NoticeListVC(nibName: "NoticeListVC", bundle: nil)
+            let contentVC = GongManseStoryVC(nibName: "GongManseStoryVC", bundle: nil)
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
 
-            let contentVC = EventListVC(nibName: "EventListVC", bundle: nil)
+            let contentVC = UseLectureVC(nibName: "UseLectureVC", bundle: nil)
             contentVC.pageIndex = index
             return contentVC
+            
+        } else if index == 2 {
+            
+            let contentVC = IntroduceInstructorVC(nibName: "IntroduceInstructorVC", bundle: nil)
+            contentVC.pageIndex = index
+            return contentVC
+            
         } else {
 
-            let contentVC = NoticeListVC(nibName: "NoticeListVC", bundle: nil)
+            let contentVC = GongManseStoryVC(nibName: "GongManseStoryVC", bundle: nil)
             contentVC.pageIndex = index
             return contentVC
         }
     }
-    
 }
+
 
 //MARK: - CustomerService 설정관련
 
-extension SideMenuNoticeVC {
+extension WhatIsGongManseVC {
 
     func navigationSetting() {
         
         //네비게이션 바 타이틀 정하기
-        self.navigationItem.title = "공지사항"
+        self.navigationItem.title = "공만세란?"
         
         //네비게이션 바 뒤로가기 버튼 색상 바꾸기
         self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
@@ -63,8 +68,9 @@ extension SideMenuNoticeVC {
     func setupTabs() {
         //탭 추가
         tabsView.tabs = [
-            Tab(title: "공지사항"),
-            Tab(title: "이벤트")
+            Tab(title: "공만세 이야기"),
+            Tab(title: "강의 이용방법"),
+            Tab(title: "강사 소개")
         ]
         
         //TabMode를 화면 전체 너비로 확장 된 탭의 경우 '.fixed'로 설정하고 모든 탭을 보려면 스크롤하려면 '.scrollable'로 설정
@@ -111,7 +117,7 @@ extension SideMenuNoticeVC {
 }
 
 //MARK: - 상단 tap시 뷰컨도 같이 move
-extension SideMenuNoticeVC: TabsDelegate {
+extension WhatIsGongManseVC: TabsDelegate {
     
     func tabsViewDidSelectItemAt(position: Int) {
         //선택한 탭 셀 위치가 pageController의 현재 위치와 동일한 지 확인하고 그렇지 않은 경우 앞으로 또는 뒤로 이동
@@ -128,7 +134,7 @@ extension SideMenuNoticeVC: TabsDelegate {
 
 //MARK: - page 관련
 
-extension SideMenuNoticeVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+extension WhatIsGongManseVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     //앞으로 갈 때 viewController 반환
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let vc = pageViewController.viewControllers?.first
@@ -178,16 +184,20 @@ extension SideMenuNoticeVC: UIPageViewControllerDataSource, UIPageViewController
     //UIPageViewController 에있는 UIViewController에 저장된 현재 위치를 반환
     func viewControllerPageIndex(_ viewController: UIViewController?) -> Int {
         switch viewController {
-        case is NoticeListVC:
-            guard let vc = viewController as? NoticeListVC else { return 0}
+        case is GongManseStoryVC:
+            guard let vc = viewController as? GongManseStoryVC else { return 0}
             return vc.pageIndex
             
-        case is EventListVC:
-            guard let vc = viewController as? EventListVC else { return 0}
+        case is UseLectureVC:
+            guard let vc = viewController as? UseLectureVC else { return 0}
+            return vc.pageIndex
+            
+        case is IntroduceInstructorVC:
+            guard let vc = viewController as? IntroduceInstructorVC else { return 0}
             return vc.pageIndex
             
         default:
-            guard let vc = viewController as? NoticeListVC else { return 0}
+            guard let vc = viewController as? GongManseStoryVC else { return 0}
             return vc.pageIndex
         }
     }
