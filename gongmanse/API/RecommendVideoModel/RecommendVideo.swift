@@ -38,6 +38,10 @@ struct RecommendVideoInput: Codable {
         return self.data[7].iRating
     }
     
+    var sThumbnailUrl: String {
+        return self.data[9].sThumbnail
+    }
+    
     enum CodingKeys: String, CodingKey {
         case totalNum
         case data

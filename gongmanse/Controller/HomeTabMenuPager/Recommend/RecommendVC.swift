@@ -47,7 +47,6 @@ extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let data = self.recommendVideo?.data else { return 0}
         return data.count
-//        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -55,7 +54,11 @@ extension RecommendVC: UICollectionViewDataSource {
         guard let json = self.recommendVideo else { return cell}
         
         let indexData = json.data[indexPath.row]
-
+        let defaultLink = fileBaseURL
+        let completeLink = defaultLink + "/" + indexData.sThumbnail
+        
+        cell.videoThumbnail.contentMode = .scaleAspectFill
+        cell.videoThumbnail.downloadedFrom(link: completeLink)
         cell.videoTitle.text = indexData.sTitle
         cell.teachersName.text = indexData.sTeacher
         cell.subjects.text = indexData.sSubject
@@ -86,5 +89,28 @@ extension RecommendVC: UICollectionViewDelegate {
 extension RecommendVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 360, height: 225)
+    }
+}
+
+//다시 코드 작성해야할듯 안먹힘 ㅡㅡ;;
+extension UIImageView {
+    func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+            else { return }
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }.resume()
+    }
+    
+    func downloadedFrom(link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
+        guard let url = URL(string: link) else { return }
+        downloadedFrom(url: url, contentMode: mode)
     }
 }
