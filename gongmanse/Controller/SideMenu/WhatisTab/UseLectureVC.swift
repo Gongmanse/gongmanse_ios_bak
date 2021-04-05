@@ -10,10 +10,13 @@ import UIKit
 class UseLectureVC: UIViewController {
 
     var pageIndex = 0
+    
+    @IBOutlet weak var images: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .blue
+        
     }
 
 }
