@@ -522,7 +522,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hjm-7H-9Xv">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LQD-2e-qZe">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LQD-2e-qZe">
                                     <size key="itemSize" width="360" height="225"/>
                                     <size key="headerReferenceSize" width="50" height="274"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -565,10 +565,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선생님 이름" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vxm-pd-6LQ">
-                                                    <rect key="frame" x="253" y="205" width="55" height="14"/>
+                                                    <rect key="frame" x="241" y="205" width="67" height="14"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="14" id="Dsw-J7-yfF"/>
-                                                        <constraint firstAttribute="width" constant="55" id="cdg-Hg-TjF"/>
+                                                        <constraint firstAttribute="width" constant="67" id="DnV-Ki-jk3"/>
+                                                        <constraint firstAttribute="height" constant="14" id="fK9-Qa-JyD"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
                                                     <nil key="textColor"/>
@@ -611,10 +611,10 @@
                                                 <constraint firstItem="nUY-sC-5JJ" firstAttribute="leading" secondItem="dj1-Wh-9Aj" secondAttribute="trailing" constant="5" id="B96-eg-SdT"/>
                                                 <constraint firstItem="Sz6-bw-uCm" firstAttribute="leading" secondItem="N2R-Mc-JLG" secondAttribute="leading" constant="5" id="DSm-x3-YID"/>
                                                 <constraint firstItem="Sz6-bw-uCm" firstAttribute="top" secondItem="Eg2-Ud-P2f" secondAttribute="bottom" constant="8" symbolic="YES" id="R9K-Oa-1Dp"/>
-                                                <constraint firstItem="4MI-hI-nEZ" firstAttribute="leading" secondItem="Vxm-pd-6LQ" secondAttribute="trailing" constant="14" id="TC2-y8-chi"/>
                                                 <constraint firstItem="nUY-sC-5JJ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="8" symbolic="YES" id="UqJ-Lh-lC3"/>
                                                 <constraint firstItem="4MI-hI-nEZ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="13" id="f7I-wz-ZOG"/>
-                                                <constraint firstItem="Vxm-pd-6LQ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="14" id="kzu-zr-k82"/>
+                                                <constraint firstItem="Vxm-pd-6LQ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="14" id="hIe-9f-5EG"/>
+                                                <constraint firstItem="4MI-hI-nEZ" firstAttribute="leading" secondItem="Vxm-pd-6LQ" secondAttribute="trailing" constant="14" id="rrX-ya-n8L"/>
                                                 <constraint firstItem="dj1-Wh-9Aj" firstAttribute="leading" secondItem="N2R-Mc-JLG" secondAttribute="leading" constant="5" id="tRl-CH-LyU"/>
                                                 <constraint firstAttribute="trailing" secondItem="Eg2-Ud-P2f" secondAttribute="trailing" id="vFR-SI-7uQ"/>
                                                 <constraint firstItem="Eg2-Ud-P2f" firstAttribute="top" secondItem="N2R-Mc-JLG" secondAttribute="top" id="zwa-GD-KMb"/>

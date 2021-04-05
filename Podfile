@@ -8,5 +8,6 @@ target 'gongmanse' do
   # Pods for gongmanse
   pod 'Alamofire'
   pod 'SideMenu'
+  pod 'SDWebImage', '~>4.4.2'
 
 end

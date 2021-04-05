@@ -135,5 +135,8 @@ extension UIViewController {
         }
     }
     
-    
+    // 한글 인코딩 처리 메소드
+    func makeStringKoreanEncoded(_ string: String) -> String {
+        return string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? string
+    }
 }

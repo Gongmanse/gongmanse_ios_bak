@@ -1,11 +1,12 @@
 import UIKit
+import SDWebImage
 
 class RecommendCRV: UICollectionReusableView {
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageView: UIPageControl!
     @IBOutlet weak var viewTitle: UILabel!
     
-    var images = ["one.png", "two.png", "three.png", "four.png", "five.png"]
+    var recommendBanner: RecommendBannerImage?
     
     var timer = Timer()
     var counter = 0
@@ -16,7 +17,8 @@ class RecommendCRV: UICollectionReusableView {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
-        pageView.numberOfPages = images.count
+//        pageView.numberOfPages = recommendBannerUse.data.count
+        pageView.numberOfPages = 12
         pageView.currentPage = 0
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
@@ -31,10 +33,29 @@ class RecommendCRV: UICollectionReusableView {
         
         self.viewTitle.attributedText = attributedString
         
+        //통신
+        if let url = URL(string: BannerList_URL) {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(RecommendBannerImage.self, from: data) {
+                    print(json.data)
+                    self.recommendBanner = json
+                }
+                DispatchQueue.main.async {
+                    self.sliderCollectionView.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     @objc func changeImage() {
-        if counter < images.count {
+//            if counter < images.count {
+        if counter < 12 {
             let index = IndexPath.init(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
@@ -47,17 +68,25 @@ class RecommendCRV: UICollectionReusableView {
             counter = 1
         }
     }
+        
 }
 
 extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        guard let data = self.recommendBanner?.data else { return 0}
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendBannerCell", for: indexPath) as! RecommendBannerCell
+        guard let json = self.recommendBanner else { return cell }
         
-        cell.bannerImage.image = UIImage(named: images[indexPath.row])
+        let indexData = json.data[indexPath.row]
+        let defaultLink = fileBaseURL
+        let url = URL(string: defaultLink + "/" + indexData.sThumbnail)
+        
+        cell.bannerImage.contentMode = .scaleAspectFill
+        cell.bannerImage.sd_setImage(with: url)
         
         return cell
     }
