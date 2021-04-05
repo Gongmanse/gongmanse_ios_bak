@@ -17,6 +17,12 @@ class RecommendCRV: UICollectionReusableView {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
+//        if #available(iOS 14.0, *) {
+//            self.pageView.allowsContinuousInteraction = false
+//        } else {
+//            //Fallback on earlier versions
+//        }
+        
 //        pageView.numberOfPages = recommendBannerUse.data.count
         pageView.numberOfPages = 12
         pageView.currentPage = 0
@@ -42,7 +48,7 @@ class RecommendCRV: UICollectionReusableView {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendBannerImage.self, from: data) {
-                    print(json.data)
+                    //print(json.data)
                     self.recommendBanner = json
                 }
                 DispatchQueue.main.async {
@@ -85,7 +91,6 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         let defaultLink = fileBaseURL
         let url = URL(string: defaultLink + "/" + indexData.sThumbnail)
         
-        cell.bannerImage.contentMode = .scaleAspectFill
         cell.bannerImage.sd_setImage(with: url)
         
         return cell

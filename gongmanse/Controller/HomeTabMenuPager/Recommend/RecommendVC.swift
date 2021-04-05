@@ -27,7 +27,7 @@ class RecommendVC: UIViewController {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendVideoInput.self, from: data) {
-                    print(json.data)
+                    //print(json.data)
                     self.recommendVideo = json
                 }
                 DispatchQueue.main.async {
