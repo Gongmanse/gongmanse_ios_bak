@@ -1,4 +1,5 @@
 import UIKit
+import SDWebImage
 
 class RecommendVC: UIViewController {
     
@@ -41,6 +42,7 @@ class RecommendVC: UIViewController {
         recommendCollection.reloadData()
         sender.endRefreshing()
     }
+    
 }
 
 extension RecommendVC: UICollectionViewDataSource {
@@ -51,17 +53,18 @@ extension RecommendVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendCVCell", for: indexPath) as! RecommendCVCell
-        guard let json = self.recommendVideo else { return cell}
+        guard let json = self.recommendVideo else { return cell }
         
         let indexData = json.data[indexPath.row]
         let defaultLink = fileBaseURL
-        let completeLink = defaultLink + "/" + indexData.sThumbnail
+        let url = URL(string: makeStringKoreanEncoded(defaultLink + "/" + indexData.sThumbnail))
         
         cell.videoThumbnail.contentMode = .scaleAspectFill
-        cell.videoThumbnail.downloadedFrom(link: completeLink)
+        cell.videoThumbnail.sd_setImage(with: url)
         cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = indexData.sTeacher
+        cell.teachersName.text = indexData.sTeacher + " 선생님"
         cell.subjects.text = indexData.sSubject
+        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
         cell.starRating.text = indexData.iRating
         
         return cell
@@ -88,29 +91,38 @@ extension RecommendVC: UICollectionViewDelegate {
 
 extension RecommendVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         return CGSize(width: 360, height: 225)
     }
 }
 
-//다시 코드 작성해야할듯 안먹힘 ㅡㅡ;;
-extension UIImageView {
-    func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
-        contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-            else { return }
-            DispatchQueue.main.async {
-                self.image = image
-            }
-        }.resume()
+extension UIColor {
+    
+    convenience init(hex: String, alpha: CGFloat = 1.0) {
+        var hexFormatted: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
+
+        if hexFormatted.hasPrefix("#") {
+            hexFormatted = String(hexFormatted.dropFirst())
+        }
+
+        assert(hexFormatted.count == 6, "Invalid hex code used.")
+
+        var rgbValue: UInt64 = 0
+        Scanner(string: hexFormatted).scanHexInt64(&rgbValue)
+
+        self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                  alpha: alpha)
     }
     
-    func downloadedFrom(link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
-        guard let url = URL(string: link) else { return }
-        downloadedFrom(url: url, contentMode: mode)
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format:"#%06x", rgb)
     }
 }
