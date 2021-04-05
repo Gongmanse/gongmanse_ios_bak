@@ -73,7 +73,7 @@ extension NoticeListVC: UICollectionViewDataSource {
 //        print(regexImage[1])
         cell.contentImage.image = UIImage(named: "five")
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
-        cell.contentViewer.text = noticeListArray[indexPath.row].iViews
+        cell.contentViewer.text = noticeListArray[indexPath.row].viewer
         cell.createContentDate.text = noticeListArray[indexPath.row].dtDateCreated
         
         return cell

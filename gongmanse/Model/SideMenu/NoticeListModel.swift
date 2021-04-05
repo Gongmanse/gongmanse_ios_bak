@@ -18,4 +18,8 @@ struct NoticeList: Codable {
     let sContent: String
     let dtDateCreated: String
     let iViews: String
+    
+    var viewer: String {
+        return "조회수 \(iViews)"
+    }
 }
