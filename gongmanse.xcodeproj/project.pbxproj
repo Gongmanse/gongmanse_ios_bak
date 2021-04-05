@@ -230,6 +230,9 @@
 		A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */; };
 		A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9524849261A92DF000F2473 /* NoticeCell.swift */; };
 		A952484C261A92DF000F2473 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A952484A261A92DF000F2473 /* NoticeCell.xib */; };
+		A9524853261A9CC6000F2473 /* RequestNoticeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9524852261A9CC6000F2473 /* RequestNoticeAPI.swift */; };
+		A9524858261A9E13000F2473 /* NoticeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9524857261A9E13000F2473 /* NoticeListModel.swift */; };
+		A952485D261AADE5000F2473 /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A952485C261AADE5000F2473 /* NoticeViewModel.swift */; };
 		A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */; };
 		A9850EE12616123000908BA4 /* FrequentlyAskViewContoler.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EDF2616123000908BA4 /* FrequentlyAskViewContoler.xib */; };
 		A9850EE22616123000908BA4 /* AskListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EE02616123000908BA4 /* AskListCell.xib */; };
@@ -470,6 +473,9 @@
 		A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListViewModel.swift; sourceTree = "<group>"; };
 		A9524849261A92DF000F2473 /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
 		A952484A261A92DF000F2473 /* NoticeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeCell.xib; sourceTree = "<group>"; };
+		A9524852261A9CC6000F2473 /* RequestNoticeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestNoticeAPI.swift; sourceTree = "<group>"; };
+		A9524857261A9E13000F2473 /* NoticeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListModel.swift; sourceTree = "<group>"; };
+		A952485C261AADE5000F2473 /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
 		A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyAskViewContoler.swift; sourceTree = "<group>"; };
 		A9850EDF2616123000908BA4 /* FrequentlyAskViewContoler.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FrequentlyAskViewContoler.xib; sourceTree = "<group>"; };
 		A9850EE02616123000908BA4 /* AskListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AskListCell.xib; sourceTree = "<group>"; };
@@ -765,6 +771,7 @@
 		258B5E9A2609D81600F470B7 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				A9524850261A9C9C000F2473 /* SideMenuAPI */,
 				6C8852582611CDC70006BDB2 /* APIAddress */,
 				6C8852542611CC610006BDB2 /* RecommendVideoModel */,
 				2568EEEC26119EDB00CD24B8 /* Finding */,
@@ -1559,6 +1566,7 @@
 		A9129EE42616CCF900041CC5 /* Sidemenu */ = {
 			isa = PBXGroup;
 			children = (
+				A952485B261AADD3000F2473 /* Notice */,
 				A9129EE52616CD0100041CC5 /* CS */,
 			);
 			path = Sidemenu;
@@ -1570,6 +1578,38 @@
 				A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */,
 			);
 			path = CS;
+			sourceTree = "<group>";
+		};
+		A9524850261A9C9C000F2473 /* SideMenuAPI */ = {
+			isa = PBXGroup;
+			children = (
+				A9524851261A9CA8000F2473 /* Notice */,
+			);
+			path = SideMenuAPI;
+			sourceTree = "<group>";
+		};
+		A9524851261A9CA8000F2473 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				A9524852261A9CC6000F2473 /* RequestNoticeAPI.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		A9524856261A9E04000F2473 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				A9524857261A9E13000F2473 /* NoticeListModel.swift */,
+			);
+			name = Notice;
+			sourceTree = "<group>";
+		};
+		A952485B261AADD3000F2473 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				A952485C261AADE5000F2473 /* NoticeViewModel.swift */,
+			);
+			path = Notice;
 			sourceTree = "<group>";
 		};
 		A9629CCF2612EB5A00BBFB55 /* CS */ = {
@@ -1593,6 +1633,7 @@
 		A9850EEE2616130300908BA4 /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				A9524856261A9E04000F2473 /* Notice */,
 				A9850EEF2616130B00908BA4 /* CS */,
 			);
 			path = SideMenu;
@@ -1825,6 +1866,7 @@
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,
 				6CD7C3C525F086E00092D30E /* AppDelegate.swift in Sources */,
 				25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */,
+				A9524858261A9E13000F2473 /* NoticeListModel.swift in Sources */,
 				2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */,
 				259B8B6C2603009C009A7146 /* Search.swift in Sources */,
 				257C61372602E86000153BF3 /* test.swift in Sources */,
@@ -1847,12 +1889,14 @@
 				259B8B6026030065009A7146 /* UIViewController.swift in Sources */,
 				6CF2E67125F0C449000FE084 /* ProgressLearningVC.swift in Sources */,
 				25BD76182615945E002B266C /* NewPasswordInput.swift in Sources */,
+				A952485D261AADE5000F2473 /* NoticeViewModel.swift in Sources */,
 				6C4713B125F7247E00D68A2B /* TestVC.swift in Sources */,
 				259B8B6426030065009A7146 /* ConstraintMethod.swift in Sources */,
 				6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */,
 				259B8C3926031CBE009A7146 /* PaymentHistoryVC.swift in Sources */,
 				A9850EE92616126F00908BA4 /* AskListCell.swift in Sources */,
 				A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */,
+				A9524853261A9CC6000F2473 /* RequestNoticeAPI.swift in Sources */,
 				6C576F5326088506001B28E6 /* OtherSubjectsCRV.swift in Sources */,
 				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,

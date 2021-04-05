@@ -13,6 +13,7 @@ class NoticeListVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     let NoticeIdentifier = "NoticeCell"
+    var noticeListArray: [NoticeList] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +35,21 @@ class NoticeListVC: UIViewController {
         flowlayout.itemSize = CGSize(width: collectionWidth, height: 234)
         
         self.collectionView.collectionViewLayout = flowlayout
+        
+        requestNoticeListAPI()
     }
 
 
+    func requestNoticeListAPI() {
+        let getList = getNoticeList()
+        getList.requestNoticeList { [weak self] result in
+            self?.noticeListArray = result
+            
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+    }
 }
 
 extension NoticeListVC: UICollectionViewDelegate {
@@ -46,16 +59,22 @@ extension NoticeListVC: UICollectionViewDelegate {
 extension NoticeListVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return noticeListArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoticeIdentifier, for: indexPath) as? NoticeCell else { return UICollectionViewCell() }
         
+        let contentImageName = noticeListArray[indexPath.row].sContent
+        
+        //정규식 아직
+//        let regexImage = contentImageName.getArrayAfterRegex(regex: <img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>")
+        
+//        print(regexImage[1])
         cell.contentImage.image = UIImage(named: "five")
-        cell.contentTitle.text = "AA"
-        cell.contentViewer.text = "2"
-        cell.createContentDate.text = "2017.02.12"
+        cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
+        cell.contentViewer.text = noticeListArray[indexPath.row].iViews
+        cell.createContentDate.text = noticeListArray[indexPath.row].dtDateCreated
         
         return cell
     }
@@ -63,4 +82,22 @@ extension NoticeListVC: UICollectionViewDataSource {
 
 extension NoticeListVC: UICollectionViewDelegateFlowLayout {
     
+}
+extension String{
+    
+    func getArrayAfterRegex(regex: String) -> [String] {
+            
+            do {
+                let regex = try NSRegularExpression(pattern: regex)
+                let results = regex.matches(in: self,
+                                            range: NSRange(self.startIndex..., in: self))
+                return results.map {
+                    String(self[Range($0.range, in: self)!])
+                }
+            } catch let error {
+                print("invalid regex: \(error.localizedDescription)")
+                return []
+            }
+        }
+
 }
