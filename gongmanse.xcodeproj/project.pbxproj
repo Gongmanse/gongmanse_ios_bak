@@ -228,6 +228,8 @@
 		A9129EE12616A26400041CC5 /* IntroduceInstructorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129EDF2616A26400041CC5 /* IntroduceInstructorVC.swift */; };
 		A9129EE22616A26400041CC5 /* IntroduceInstructorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9129EE02616A26400041CC5 /* IntroduceInstructorVC.xib */; };
 		A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */; };
+		A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9524849261A92DF000F2473 /* NoticeCell.swift */; };
+		A952484C261A92DF000F2473 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A952484A261A92DF000F2473 /* NoticeCell.xib */; };
 		A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */; };
 		A9850EE12616123000908BA4 /* FrequentlyAskViewContoler.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EDF2616123000908BA4 /* FrequentlyAskViewContoler.xib */; };
 		A9850EE22616123000908BA4 /* AskListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EE02616123000908BA4 /* AskListCell.xib */; };
@@ -466,6 +468,8 @@
 		A9129EDF2616A26400041CC5 /* IntroduceInstructorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceInstructorVC.swift; sourceTree = "<group>"; };
 		A9129EE02616A26400041CC5 /* IntroduceInstructorVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroduceInstructorVC.xib; sourceTree = "<group>"; };
 		A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionListViewModel.swift; sourceTree = "<group>"; };
+		A9524849261A92DF000F2473 /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
+		A952484A261A92DF000F2473 /* NoticeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeCell.xib; sourceTree = "<group>"; };
 		A9629CE02613081100BBFB55 /* FrequentlyAskViewContoler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyAskViewContoler.swift; sourceTree = "<group>"; };
 		A9850EDF2616123000908BA4 /* FrequentlyAskViewContoler.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FrequentlyAskViewContoler.xib; sourceTree = "<group>"; };
 		A9850EE02616123000908BA4 /* AskListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AskListCell.xib; sourceTree = "<group>"; };
@@ -1532,6 +1536,8 @@
 				A9129ECC26169F4B00041CC5 /* EventListVC.xib */,
 				A9129ECA26169F4A00041CC5 /* NoticeListVC.swift */,
 				A9129ECD26169F4B00041CC5 /* NoticeListVC.xib */,
+				A9524849261A92DF000F2473 /* NoticeCell.swift */,
+				A952484A261A92DF000F2473 /* NoticeCell.xib */,
 			);
 			path = NoticeTab;
 			sourceTree = "<group>";
@@ -1730,6 +1736,7 @@
 				259B8C3526031C99009A7146 /* StoreVC.xib in Resources */,
 				259B8BBF2603050A009A7146 /* ProgressMainVC.xib in Resources */,
 				259B8B99260301B0009A7146 /* PopularKeywordCell.xib in Resources */,
+				A952484C261A92DF000F2473 /* NoticeCell.xib in Resources */,
 				2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */,
 				259B8BE4260305B3009A7146 /* RecentKeywordVC.xib in Resources */,
 				A9129EE22616A26400041CC5 /* IntroduceInstructorVC.xib in Resources */,
@@ -1800,6 +1807,7 @@
 				25201DDE26046BDF001098AC /* SloyTextField.swift in Sources */,
 				6CF2E68725F21E2C000FE084 /* PopularCVCell.swift in Sources */,
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
+				A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */,
 				A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,

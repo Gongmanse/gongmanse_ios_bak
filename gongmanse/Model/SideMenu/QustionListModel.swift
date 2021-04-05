@@ -7,28 +7,26 @@
 
 import Foundation
 
-struct CustomerServiceQuestionModel {
+// 통신 후 다시 넣을 데이터모델
+struct FrequentlyQnA {
     
-    let questionMark: String
-    let questionList: String
-    var expandState: Bool
+    let questionMark = "Q."
+    let AskMark = "A."
     
-}
-
-struct CustomerServiceAskModel {
-    
-    let askMark: String
-    let askList: String
-    
+    let id: String
+    let question: String
+    let Ask: String
+    var expanState: Bool
 }
 
 
-struct QustionListModel {
+// JSON API
+struct QustionListModel: Codable {
     
     let data: [QuestionList]
 }
 
-struct QuestionList {
+struct QuestionList: Codable {
     
     let id: String
     let sQuestion: String
