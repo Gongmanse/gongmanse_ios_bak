@@ -111,12 +111,3 @@ extension CustomMenuBar: UICollectionViewDelegateFlowLayout {
         return 0
     }
 }
-
-
-import Foundation
-
-extension NSObject {
-    static var reusableIdentifier: String {
-        return String(describing: self)
-    }
-}
