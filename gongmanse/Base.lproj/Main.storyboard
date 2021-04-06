@@ -560,7 +560,7 @@
                                                         <constraint firstAttribute="width" constant="50" id="0kg-4u-o6s"/>
                                                         <constraint firstAttribute="height" constant="20" id="BRe-gt-hnW"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -581,7 +581,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="Uno-GV-PvX"/>
                                                         <constraint firstAttribute="width" constant="50" id="pqw-g1-hqh"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -779,7 +779,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="3Ch-AR-PS6"/>
                                                         <constraint firstAttribute="width" constant="50" id="9Ks-PE-OT6"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -790,7 +790,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="YDT-a7-QMN"/>
                                                         <constraint firstAttribute="width" constant="50" id="cgp-iL-CPs"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -922,7 +922,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qVo-db-s3g">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="TqN-rn-0Yy">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="TqN-rn-0Yy">
                                     <size key="itemSize" width="360" height="225"/>
                                     <size key="headerReferenceSize" width="50" height="85"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -960,7 +960,7 @@
                                                         <constraint firstAttribute="width" constant="50" id="3zY-YB-2VS"/>
                                                         <constraint firstAttribute="height" constant="20" id="BKL-WL-iMa"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -971,7 +971,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="OHU-At-qcl"/>
                                                         <constraint firstAttribute="width" constant="50" id="U5U-9u-nyT"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1020,6 +1020,7 @@
                                                 <constraint firstItem="eQo-2Y-VX4" firstAttribute="leading" secondItem="SYl-Pq-2pg" secondAttribute="trailing" constant="5" id="rV5-SA-zeO"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <size key="customSize" width="360" height="225"/>
                                         <connections>
                                             <outlet property="starRating" destination="ZoF-4C-tP4" id="1L8-Zy-Fo6"/>
                                             <outlet property="subjects" destination="SYl-Pq-2pg" id="qzp-wp-XR3"/>

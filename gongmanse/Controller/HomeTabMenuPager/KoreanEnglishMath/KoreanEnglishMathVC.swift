@@ -4,6 +4,8 @@ class KoreanEnglishMathVC: UIViewController {
     
     var pageIndex: Int!
     
+    var koreanEnglishMathVideo: KoreanEnglishVideoInput?
+    
     let koreanEnglishMathRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
@@ -15,6 +17,28 @@ class KoreanEnglishMathVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         koreanEnglishMathCollection.refreshControl = koreanEnglishMathRC
+        
+        getDataFromJson()
+    }
+    
+    func getDataFromJson() {
+        if let url = URL(string: KoreanEnglishMath_Video_URL) {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(KoreanEnglishVideoInput.self, from: data) {
+                    print(json.data)
+                    self.koreanEnglishMathVideo = json
+                }
+                DispatchQueue.main.async {
+                    self.koreanEnglishMathCollection.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     @objc private func refresh(sender: UIRefreshControl) {
@@ -25,13 +49,26 @@ class KoreanEnglishMathVC: UIViewController {
 
 extension KoreanEnglishMathVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        guard let data = self.koreanEnglishMathVideo?.data else { return 0}
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathCVCell", for: indexPath) as? KoreanEnglishMathCVCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathCVCell", for: indexPath) as! KoreanEnglishMathCVCell
+        guard let json = self.koreanEnglishMathVideo else { return cell }
+        
+        let indexData = json.data[indexPath.row]
+        let defaultLink = fileBaseURL
+        let url = URL(string: makeStringKoreanEncoded(defaultLink + "/" + indexData.sThumbnail))
+        
+        cell.videoThumbnail.contentMode = .scaleAspectFill
+        cell.videoThumbnail.sd_setImage(with: url)
+        cell.videoTitle.text = indexData.sTitle
+        cell.teachersName.text = indexData.sTeacher + " 선생님"
+        cell.subjects.text = indexData.sSubject
+        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
+        cell.starRating.text = indexData.iRating
+        
         return cell
     }
     

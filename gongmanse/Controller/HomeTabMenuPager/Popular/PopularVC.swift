@@ -18,6 +18,11 @@ class PopularVC: UIViewController {
         super.viewDidLoad()
         popularCollection.refreshControl = popularRC
         
+        getDataFromJson()
+        
+    }
+    
+    func getDataFromJson() {
         if let url = URL(string: Popular_Video_URL) {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
@@ -26,7 +31,7 @@ class PopularVC: UIViewController {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(PopularVideoInput.self, from: data) {
-                    print(json.data)
+                    //print(json.data)
                     self.popularVideo = json
                 }
                 DispatchQueue.main.async {

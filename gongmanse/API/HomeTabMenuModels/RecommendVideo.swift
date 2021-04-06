@@ -12,7 +12,7 @@ struct RecommendBannerImageData: Codable{
 //추천 동영상
 struct RecommendVideoInput: Codable {
     let totalNum: String
-    let data: [RecommendVideo]
+    var data: [RecommendVideo]
 }
 
 struct RecommendVideo: Codable {

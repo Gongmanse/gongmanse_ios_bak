@@ -1,11 +1,14 @@
 import UIKit
 import SDWebImage
+import Alamofire
 
 class RecommendVC: UIViewController {
     
     var pageIndex: Int!
     
-    var recommendVideo: RecommendVideoInput?
+    var recommendVideo = RecommendVideoInput(totalNum: "", data: [RecommendVideo]())
+    
+    var videoMore = false
     
     let recommendRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
@@ -19,7 +22,14 @@ class RecommendVC: UIViewController {
         super.viewDidLoad()
         recommendCollection.refreshControl = recommendRC
         
-        if let url = URL(string: Recommend_Video_URL) {
+        getDataFromJson()
+        
+    }
+    
+    func getDataFromJson() {
+        var default1 = 0
+        if let url = URL(string: Recommend_Video_URL + "?offset=\(default1)&limit=20") {
+            default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -28,7 +38,8 @@ class RecommendVC: UIViewController {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendVideoInput.self, from: data) {
                     //print(json.data)
-                    self.recommendVideo = json
+//                    self.recommendVideo = json
+                    self.recommendVideo.data.append(contentsOf: json.data)
                 }
                 DispatchQueue.main.async {
                     self.recommendCollection.reloadData()
@@ -42,19 +53,19 @@ class RecommendVC: UIViewController {
         recommendCollection.reloadData()
         sender.endRefreshing()
     }
-    
 }
 
 extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let data = self.recommendVideo?.data else { return 0}
-        return data.count
+//        guard let data = self.recommendVideo?.data else { return 0}
+        let data = self.recommendVideo
+        return data.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendCVCell", for: indexPath) as! RecommendCVCell
-        guard let json = self.recommendVideo else { return cell }
-        
+//        guard let json = self.recommendVideo else { return cell }
+        let json = self.recommendVideo
         let indexData = json.data[indexPath.row]
         let defaultLink = fileBaseURL
         let url = URL(string: makeStringKoreanEncoded(defaultLink + "/" + indexData.sThumbnail))
@@ -67,6 +78,16 @@ extension RecommendVC: UICollectionViewDataSource {
         cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
         cell.starRating.text = indexData.iRating
         
+        if indexData.sUnit == "" {
+            cell.term.backgroundColor = .white
+        } else if indexData.sUnit == "1" {
+            cell.term.text = "i"
+        } else if indexData.sUnit == "2" {
+            cell.term.text = "ii"
+        } else {
+            cell.term.text = indexData.sUnit
+            cell.term.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+        }
         return cell
     }
     
@@ -79,6 +100,22 @@ extension RecommendVC: UICollectionViewDataSource {
             return header
         default:
             return UICollectionReusableView()
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
+            // TODO: 로딩인디케이터
+//            UIView.animate(withDuration: 3) {
+//                // 로딩이미지
+//            } completion: { (_) in
+//                // API 호춣
+//            }
+
+            getDataFromJson()
+            recommendCollection.reloadData()
+            print("zzz")
         }
     }
 }
