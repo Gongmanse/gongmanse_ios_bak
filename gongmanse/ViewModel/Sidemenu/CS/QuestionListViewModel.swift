@@ -8,7 +8,7 @@
 import UIKit
 import Alamofire
 
-let questionURL = "https://api.gongmanse.com/v/setting/faqlist"
+let questionURL = apiBaseURL+"/v/setting/faqlist"
 
 struct requestQuestionListAPI {
     
