@@ -245,6 +245,8 @@
 		A9850EFB261613FE00908BA4 /* EnquiryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EF9261613FE00908BA4 /* EnquiryCell.xib */; };
 		A9850EFF2616141500908BA4 /* EnquiryCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9850EFD2616141500908BA4 /* EnquiryCategoryVC.swift */; };
 		A9850F002616141500908BA4 /* EnquiryCategoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EFE2616141500908BA4 /* EnquiryCategoryVC.xib */; };
+		C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234749E261C02F500453E16 /* PushAlertCell.swift */; };
+		C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C234749F261C02F500453E16 /* PushAlertCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -489,6 +491,8 @@
 		A9850EF9261613FE00908BA4 /* EnquiryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnquiryCell.xib; sourceTree = "<group>"; };
 		A9850EFD2616141500908BA4 /* EnquiryCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnquiryCategoryVC.swift; sourceTree = "<group>"; };
 		A9850EFE2616141500908BA4 /* EnquiryCategoryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnquiryCategoryVC.xib; sourceTree = "<group>"; };
+		C234749E261C02F500453E16 /* PushAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlertCell.swift; sourceTree = "<group>"; };
+		C234749F261C02F500453E16 /* PushAlertCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PushAlertCell.xib; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1317,6 +1321,8 @@
 			isa = PBXGroup;
 			children = (
 				6C4713C225F8548900D68A2B /* SettingsVC.swift */,
+				C234749E261C02F500453E16 /* PushAlertCell.swift */,
+				C234749F261C02F500453E16 /* PushAlertCell.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1767,6 +1773,7 @@
 				25201DA4260426D6001098AC /* RegistrationVC.xib in Resources */,
 				A9850EF6261613CB00908BA4 /* OneOnOneEnquiryVC.xib in Resources */,
 				259B8C1426030640009A7146 /* TeacherPlaylistVC.xib in Resources */,
+				C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */,
 				259B8C4126032E87009A7146 /* StoreCell.xib in Resources */,
 				A9850F002616141500908BA4 /* EnquiryCategoryVC.xib in Resources */,
 				259B8C0D26030632009A7146 /* HighSchoolVC.xib in Resources */,
@@ -1961,6 +1968,7 @@
 				6C4713B725F8534900D68A2B /* MyCalendarVC.swift in Sources */,
 				25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */,
 				2584E8A926082078000DFA20 /* CheckUserIdentificationVC.swift in Sources */,
+				C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */,
 				2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */,
 				6C4713B425F8532500D68A2B /* MyActivityVC.swift in Sources */,
 				6C47138325F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift in Sources */,
