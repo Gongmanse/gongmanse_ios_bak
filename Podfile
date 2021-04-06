@@ -9,5 +9,6 @@ target 'gongmanse' do
   pod 'Alamofire'
   pod 'SideMenu'
   pod 'SDWebImage', '~>4.4.2'
-
+  pod 'BottomPopup'
+  
 end

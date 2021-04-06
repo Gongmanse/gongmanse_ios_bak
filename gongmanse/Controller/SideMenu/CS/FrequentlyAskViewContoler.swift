@@ -10,34 +10,15 @@ import UIKit
 class FrequentlyAskViewContoler: UIViewController {
 
     private let questionIdentifier = "AskListCell"
-    let testList = "공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요.공만세 알림을 받고 싶지 않아요."
-    private var textList = [
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "갑자기 자막이 나오지 않아요.", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "공만세 알림을 받고 싶지 않아요.", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "이번 달 데이터가 얼마 안 남았는데, 와이파이로 동영상을 볼 수 있나요?", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "추천 영상에 올라온 강의들은 어떤 강의들인가요?", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "회원가입 전에 동영상 강의를 먼저 보고 싶은데 방법이 있나요?", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "키워드 검색은 어떤 키워드들을 검색하게 되나요?", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "문제를 먼저 검색해서 볼 수 있나요?", expandState: false),
-        CustomerServiceQuestionModel(questionMark: "Q.", questionList: "동영상 강의 재생이 원활하지 않습니다. 어떻게 해결해야 하나요?", expandState: false)
-    ]
-    private var askList = [
-        CustomerServiceAskModel(askMark: "A.", askList: "갑자기 자막이 나오지 않아요."),
-        CustomerServiceAskModel(askMark: "A.", askList: "공만세 알림을 받고 싶지 않아요."),
-        CustomerServiceAskModel(askMark: "A.", askList: "이번 달 데이터가 얼마 안 남았는데, 와이파이로 동영상을 볼 수 있나요?"),
-        CustomerServiceAskModel(askMark: "A.", askList: "추천 영상에 올라온 강의들은 어떤 강의들인가요?"),
-        CustomerServiceAskModel(askMark: "A.", askList: "회원가입 전에 동영상 강의를 먼저 보고 싶은데 방법이 있나요?"),
-        CustomerServiceAskModel(askMark: "A.", askList: "키워드 검색은 어떤 키워드들을 검색하게 되나요?"),
-        CustomerServiceAskModel(askMark: "A.", askList: "문제를 먼저 검색해서 볼 수 있나요?"),
-        CustomerServiceAskModel(askMark: "A.", askList: "동영상 강의 재생이 원활하지 않습니다. 어떻게 해결해야 하나요?"),
-        CustomerServiceAskModel(askMark: "A.", askList: "문제를 먼저 검색해서 볼 수 있나요?")
-    ]
+    
     var pageIndex = 0
+    //받아오는 곳
+    private var questionAsk: [QuestionList] = []
+    //questionAsk를 넣고 component 추가해서 나타낼 곳
+    private var datamodel: [FrequentlyQnA] = []
     
     @IBOutlet weak var tableView: UITableView!
     
-        
-    var isSeletedCell = false
     /* * 다시 살펴 볼 예정
     let questionMarkLabelSection: UILabel = {
        let label = UILabel()
@@ -80,8 +61,26 @@ class FrequentlyAskViewContoler: UIViewController {
         let numName = UINib(nibName: questionIdentifier, bundle: nil)
         tableView.register(numName, forCellReuseIdentifier: questionIdentifier)
         
+        let requestAPI = requestQuestionListAPI()
+        requestAPI.requestQuetionList { [weak self] result in
+            
+            self?.questionAsk = result
+            
+            DispatchQueue.main.async {
+                self?.configureList()
+                self?.tableView.reloadData()
+            }
+        }
     }
 
+    func configureList() {
+        let modelCount = questionAsk.count
+        for i in 0..<modelCount {
+            let successQnA = FrequentlyQnA(id: questionAsk[i].id, question: questionAsk[i].sQuestion, Ask: questionAsk[i].sAnswer, expanState: false)
+            datamodel.append(successQnA)
+        }
+        
+    }
 }
 
 extension FrequentlyAskViewContoler: UITableViewDelegate {
@@ -91,7 +90,7 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        return textList[indexPath.section].expandState ? UITableView.automaticDimension : 0
+        return datamodel[indexPath.section].expanState ? UITableView.automaticDimension : 0
     }
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return 25
@@ -108,12 +107,13 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         isExpandBackButton.backgroundColor = .clear
         isExpandBackButton.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30)
         isExpandBackButton.addTarget(self, action: #selector(tapExpandCell(_:)), for: .touchUpInside)
-        // section내에서 선택시 tag로 objc함수와 소통
+        // section내에서 선택시 tag로 objc tapExpandCell 함수와 소통
         isExpandBackButton.tag = section
         
         // Q. 라벨
         let questionMarkLabelSections = UILabel()
-        questionMarkLabelSections.text = textList[section].questionMark
+        questionMarkLabelSections.text = datamodel[section].questionMark
+        
         questionMarkLabelSections.font = UIFont(name: "NanumSquareRoundEB", size: 14)
         questionMarkLabelSections.sizeToFit()
         questionMarkLabelSections.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
@@ -128,7 +128,7 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         questionTextLableSections.numberOfLines = 0
         questionTextLableSections.sizeToFit()
         questionTextLableSections.translatesAutoresizingMaskIntoConstraints = false
-        questionTextLableSections.text = textList[section].questionList
+        questionTextLableSections.text = datamodel[section].question
         questionTextLableSections.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
 
         // expand 버튼
@@ -160,9 +160,6 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         sectionLabelStacks.trailingAnchor.constraint(equalTo: expandAllowImage.leadingAnchor, constant: -12).isActive = true
         sectionLabelStacks.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
         sectionLabelStacks.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -10).isActive = true
-//        let constraint = sectionLabelStacks.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
-//        constraint.priority = .defaultLow
-//        constraint.isActive = true
         
         
         expandAllowImage.translatesAutoresizingMaskIntoConstraints = false
@@ -183,9 +180,9 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
     @objc func tapExpandCell(_ sender: UIButton) {
         
         let sectionNumber = sender.tag
-        textList[sectionNumber].expandState = !textList[sectionNumber].expandState
+        datamodel[sectionNumber].expanState = !datamodel[sectionNumber].expanState
         
-        if textList[sender.tag].expandState {
+        if datamodel[sectionNumber].expanState {
             
             
             tableView.reloadSections(IndexSet(sectionNumber...sectionNumber), with: .automatic)
@@ -208,7 +205,7 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
 extension FrequentlyAskViewContoler: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return textList.count
+        return questionAsk.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -218,8 +215,8 @@ extension FrequentlyAskViewContoler: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: questionIdentifier, for: indexPath) as? AskListCell else { return UITableViewCell() }
         
-        cell.askTextLabel.text = askList[indexPath.section].askList
-        cell.askMarkLabel.text = askList[indexPath.section].askMark
+        cell.askTextLabel.text = datamodel[indexPath.section].Ask
+        cell.askMarkLabel.text = datamodel[indexPath.section].AskMark
         
         return cell
     }
