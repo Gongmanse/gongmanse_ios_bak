@@ -17,6 +17,7 @@ class PushAlertCell: UITableViewCell {
         
         pushLabels.font = UIFont(name: "NanumSquareRoundB", size: 14)
         pushLabels.textColor = UIColor.rgb(red: 164, green: 164, blue: 164)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

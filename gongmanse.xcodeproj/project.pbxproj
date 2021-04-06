@@ -247,6 +247,7 @@
 		A9850F002616141500908BA4 /* EnquiryCategoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9850EFE2616141500908BA4 /* EnquiryCategoryVC.xib */; };
 		C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234749E261C02F500453E16 /* PushAlertCell.swift */; };
 		C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C234749F261C02F500453E16 /* PushAlertCell.xib */; };
+		C28B27AE261C421700419E5E /* FilteringPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B27AD261C421700419E5E /* FilteringPopUpVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -493,6 +494,7 @@
 		A9850EFE2616141500908BA4 /* EnquiryCategoryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnquiryCategoryVC.xib; sourceTree = "<group>"; };
 		C234749E261C02F500453E16 /* PushAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlertCell.swift; sourceTree = "<group>"; };
 		C234749F261C02F500453E16 /* PushAlertCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PushAlertCell.xib; sourceTree = "<group>"; };
+		C28B27AD261C421700419E5E /* FilteringPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringPopUpVC.swift; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1323,6 +1325,7 @@
 				6C4713C225F8548900D68A2B /* SettingsVC.swift */,
 				C234749E261C02F500453E16 /* PushAlertCell.swift */,
 				C234749F261C02F500453E16 /* PushAlertCell.xib */,
+				C28B27AD261C421700419E5E /* FilteringPopUpVC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1871,6 +1874,7 @@
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
 				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
+				C28B27AE261C421700419E5E /* FilteringPopUpVC.swift in Sources */,
 				257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */,
 				253135DB2612C34A00B51348 /* FindingIDByPhoneViewModel.swift in Sources */,
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,

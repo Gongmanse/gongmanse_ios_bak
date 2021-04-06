@@ -1,10 +1,17 @@
 import UIKit
+import BottomPopup
 
-class SettingsVC: UIViewController {
+class SettingsVC: UIViewController, BottomPopupDelegate {
     
     var tableView = UITableView()
     let PushAlertCellIdentifier = "PushAlertCell"
     let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
+    
+    var height: CGFloat = 300
+       
+    var presentDuration: Double = 0.2
+       
+    var dismissDuration: Double = 0.5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +50,18 @@ extension SettingsVC {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
                 
     }
+    
+    
+    
     @objc func presentFilterList(_ sender: UIButton) {
         
+        
+        let popupvc = FilteringPopUpVC()
+        popupvc.height = height
+        popupvc.presentDuration = presentDuration
+        popupvc.dismissDuration = dismissDuration
+        popupvc.popupDelegate = self
+        present(popupvc, animated: true)
     }
 }
 
