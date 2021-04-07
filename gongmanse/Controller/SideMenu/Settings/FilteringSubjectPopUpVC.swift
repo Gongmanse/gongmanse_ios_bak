@@ -20,6 +20,8 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     
     var subjectList: [SubjectModel] = []
+    private var acceptToken = ""
+    var subjectFilterText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +87,10 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
         cell.textLabel?.text = subjectList[indexPath.row].sName
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        subjectFilterText = String(indexPath.row)
     }
 }
 

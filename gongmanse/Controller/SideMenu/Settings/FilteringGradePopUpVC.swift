@@ -20,6 +20,9 @@ class FilteringGradePopUpVC: BottomPopupViewController {
     var tableView = UITableView()
     let AllgradeList = ["초등학교 1학년","초등학교 2학년","초등학교 3학년","초등학교 4학년","초등학교 5학년","초등학교 6학년","중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     
+    private var acceptToken = ""
+    var gradeFilterText = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,6 +76,17 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NonCell else { return UITableViewCell() }
         cell.textLabel?.text = AllgradeList[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if 0...5 ~= indexPath.row {
+            gradeFilterText = "초등"
+        } else if 6...8 ~= indexPath.row {
+            gradeFilterText = "중등"
+        } else if 9...11 ~= indexPath.row {
+            gradeFilterText = "고등"
+        }
     }
 }
 

@@ -30,11 +30,14 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         button.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
         return button
     }()
+    private var userToken: String?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
+        if Constant.token != "" {
+            userToken = Constant.token
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
