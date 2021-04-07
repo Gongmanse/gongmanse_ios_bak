@@ -15,7 +15,7 @@ struct getNoticeList {
     let noticeListURL = apiBaseURL+"/v/setting/notice"
     
     func requestNoticeList(complition: @escaping (_ result: [NoticeList]) -> Void) {
-        print(noticeListURL)
+        
         AF.request(noticeListURL)
             .responseDecodable(of: NoticeListModel.self) { response in
                 switch response.result {
