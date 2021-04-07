@@ -87,6 +87,9 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
         } else if 9...11 ~= indexPath.row {
             gradeFilterText = "고등"
         }
+        
+        UserDefaults.standard.setValue(gradeFilterText, forKey: "gradeFilterText")
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

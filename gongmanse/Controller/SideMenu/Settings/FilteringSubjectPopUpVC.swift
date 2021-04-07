@@ -40,7 +40,7 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         let getSubject = getSubjectAPI()
-        getSubject.requestSubjectAPI { [weak self] result in
+        getSubject.performSubjectAPI { [weak self] result in
             self?.subjectList = result
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -91,6 +91,10 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         subjectFilterText = String(indexPath.row)
+        
+        
+        UserDefaults.standard.setValue(String(indexPath.row), forKey: "subjectFilterText")
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
