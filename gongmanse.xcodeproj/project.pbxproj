@@ -45,6 +45,7 @@
 		2580CF5A261A931600D78E4E /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF59261A931600D78E4E /* NSObject.swift */; };
 		2580CF5D261A939D00D78E4E /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF5C261A939D00D78E4E /* VideoController.swift */; };
 		2580CF64261AB8FB00D78E4E /* TeacherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF63261AB8FB00D78E4E /* TeacherInfoCell.swift */; };
+		25832D5C261D77FF00CB63B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25832D5B261D77FF00CB63B8 /* Subtitles.swift */; };
 		2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */; };
 		2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */; };
 		2584E8A926082078000DFA20 /* CheckUserIdentificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A726082078000DFA20 /* CheckUserIdentificationVC.swift */; };
@@ -303,6 +304,7 @@
 		2580CF59261A931600D78E4E /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		2580CF5C261A939D00D78E4E /* VideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
 		2580CF63261AB8FB00D78E4E /* TeacherInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherInfoCell.swift; sourceTree = "<group>"; };
+		25832D5B261D77FF00CB63B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
 		2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoVC.swift; sourceTree = "<group>"; };
 		2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationUserInfoVC.xib; sourceTree = "<group>"; };
 		2584E8A726082078000DFA20 /* CheckUserIdentificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUserIdentificationVC.swift; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 		2580CF42261A900C00D78E4E /* VideoController */ = {
 			isa = PBXGroup;
 			children = (
+				25832D5A261D77F400CB63B8 /* Subtitles */,
 				2580CF55261A924A00D78E4E /* TabBarcell */,
 				2580CF54261A924200D78E4E /* BottomCell */,
 				2580CF56261A927900D78E4E /* VideoMenuBar.swift */,
@@ -779,6 +782,14 @@
 				2580CF4D261A91BA00D78E4E /* VideoUpperTabCell.swift */,
 			);
 			path = TabBarcell;
+			sourceTree = "<group>";
+		};
+		25832D5A261D77F400CB63B8 /* Subtitles */ = {
+			isa = PBXGroup;
+			children = (
+				25832D5B261D77FF00CB63B8 /* Subtitles.swift */,
+			);
+			path = Subtitles;
 			sourceTree = "<group>";
 		};
 		2584E8BE26083C86000DFA20 /* Registration */ = {
@@ -1976,6 +1987,7 @@
 				259B8B6926030095009A7146 /* ProgressPopupModel.swift in Sources */,
 				6C4713BA25F853AB00D68A2B /* WhatIsGongManseVC.swift in Sources */,
 				6CB83C3C2601A125007AED64 /* ExpertConsultTVC.swift in Sources */,
+				25832D5C261D77FF00CB63B8 /* Subtitles.swift in Sources */,
 				259B8B6026030065009A7146 /* UIViewController.swift in Sources */,
 				6CF2E67125F0C449000FE084 /* ProgressLearningVC.swift in Sources */,
 				25BD76182615945E002B266C /* NewPasswordInput.swift in Sources */,
@@ -2250,13 +2262,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5WAUHBZJ8Z;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2270,13 +2283,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5WAUHBZJ8Z;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
