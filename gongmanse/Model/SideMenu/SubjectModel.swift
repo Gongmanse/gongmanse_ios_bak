@@ -39,3 +39,14 @@ struct SubjectGetDataModel: Codable {
     let iPreferCategory: Int
     let sName: String
 }
+
+
+
+//get 방식 서버보내기
+
+struct getFilteringAPIModel: Codable {
+    let token: String
+    let grade: String
+    let subject: String
+    
+}

@@ -80,15 +80,9 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if 0...5 ~= indexPath.row {
-            gradeFilterText = "초등"
-        } else if 6...8 ~= indexPath.row {
-            gradeFilterText = "중등"
-        } else if 9...11 ~= indexPath.row {
-            gradeFilterText = "고등"
-        }
+        let userGrade = AllgradeList[indexPath.row]
         
-        UserDefaults.standard.setValue(gradeFilterText, forKey: "gradeFilterText")
+        UserDefaults.standard.setValue(userGrade, forKey: "gradeFilterText")
         self.dismiss(animated: true, completion: nil)
     }
 }

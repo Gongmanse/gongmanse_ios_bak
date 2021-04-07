@@ -34,51 +34,62 @@ struct getSubjectAPI {
 struct postFilteringAPI {
     
     
-    let header: [String: String] = [
-        "Content-Type": "multipart/form-data"
-    ]
-
+    //Get 방식
+    func performGetFiltering(token: String, grade: String, subject: String) {
+        let urls = "\(apiBaseURL)/v/setting/settingios?token=\(token)&grade=\(grade)&subject=\(subject)"
+        
+        let ttt = urls.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        
+        guard let url = URL(string: ttt) else { return }
+        let req = AF.request(url)
+        req.responseString { (response) in
+            print(response.result)
+        }
+       
+    }
+    
+    
     func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
         let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
         guard let token = token else { return }
         guard let grade = grade else { return }
         guard let subject = subject else { return }
         
-        let parameters = [
-            "token": token,
-            "grade": grade,
-            "subject": subject
-        ]
-        var request = URLRequest(url: URL(string: filterUrl)!)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: [])
+        let parameters = [
+            "token":token,
+            "grade":grade,
+            "subject":subject
+        ]
+        print(parameters)
+        let request = URLRequest(url: URL(string: filterUrl)!)
+        
         AF.request(request)
             .responseString { (response) in
-                print(response)
+                print(response.result)
             }
         
-        // 왜 실패?
-//        AF.upload(multipartFormData: { MultipartFormData in
-//
-//            MultipartFormData.append(tokens.data(using: .utf8) ?? Data(), withName: "token")
-//            MultipartFormData.append(tokens1.data(using: .utf8) ?? Data(), withName: "grade")
-//            MultipartFormData.append(tokens2.data(using: .utf8) ?? Data(), withName: "subject")
-//
-//        }, to: filterUrl)
         
-//        // Result를 Response 타입에 맞게 변환
-//        .responseDecodable(of: SubejectFilterModel.self) { response in
-//            switch response.result {
-//            case .success(let response):
-//                print(response)
-//
-//            case .failure(let error):
-//                // 연결 실패
-//                print("DEBUG: failed connection \(error.localizedDescription)")
-//            }
-//        }
+        // 왜 실패?
+        //        AF.upload(multipartFormData: { MultipartFormData in
+        //
+        //            MultipartFormData.append(tokens.data(using: .utf8) ?? Data(), withName: "token")
+        //            MultipartFormData.append(tokens1.data(using: .utf8) ?? Data(), withName: "grade")
+        //            MultipartFormData.append(tokens2.data(using: .utf8) ?? Data(), withName: "subject")
+        //
+        //        }, to: filterUrl)
+        
+        //        // Result를 Response 타입에 맞게 변환
+        //        .responseDecodable(of: SubejectFilterModel.self) { response in
+        //            switch response.result {
+        //            case .success(let response):
+        //                print(response)
+        //
+        //            case .failure(let error):
+        //                // 연결 실패
+        //                print("DEBUG: failed connection \(error.localizedDescription)")
+        //            }
+        //        }
         
         
     }

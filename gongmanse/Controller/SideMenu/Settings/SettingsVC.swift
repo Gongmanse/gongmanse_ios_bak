@@ -49,7 +49,7 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         navigationSetting()
         setTableView()
         
-        
+        print(Constant.token)
 //        let tt = getFilteringAPI()
 //        tt.getFilteringData { [weak self] result in
 //            self?.dataApi = [result]

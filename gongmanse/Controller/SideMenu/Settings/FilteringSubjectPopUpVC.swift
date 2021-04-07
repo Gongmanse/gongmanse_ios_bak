@@ -90,10 +90,10 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        subjectFilterText = String(indexPath.row)
+        subjectFilterText = String(indexPath.row + 1)
         
         
-        UserDefaults.standard.setValue(String(indexPath.row), forKey: "subjectFilterText")
+        UserDefaults.standard.setValue(subjectFilterText, forKey: "subjectFilterText")
         self.dismiss(animated: true, completion: nil)
     }
 }
