@@ -2,7 +2,7 @@ import Foundation
 
 struct PopularVideoInput: Codable {
     let totalNum: String
-    let data: [PopularVideoData]
+    var data: [PopularVideoData]
 }
 
 struct PopularVideoData: Codable {

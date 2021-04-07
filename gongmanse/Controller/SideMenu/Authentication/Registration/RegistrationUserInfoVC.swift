@@ -104,7 +104,6 @@ class RegistrationUserInfoVC: UIViewController {
         cofigureNavi()                      // navigation 관련 UI
         configureNotificationObservers()    // textField observing 로직
     }
-
     
     // MARK: - Actions
     

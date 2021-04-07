@@ -24,6 +24,15 @@ class FindingPwdVC: UIViewController {
         setupPageViewController()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+    }
+    
     
     //MARK: - Actions
     
@@ -58,13 +67,6 @@ class FindingPwdVC: UIViewController {
         // navigationItem Back button
         let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
-        
-        // 그림자 효과
-        self.navigationController?.navigationBar.layer.masksToBounds = false
-        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.8
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1
     }
     
     func setupTabs() {

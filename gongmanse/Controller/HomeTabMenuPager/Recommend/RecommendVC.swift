@@ -8,8 +8,6 @@ class RecommendVC: UIViewController {
     
     var recommendVideo = RecommendVideoInput(totalNum: "", data: [RecommendVideo]())
     
-    var videoMore = false
-    
     let recommendRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
@@ -58,8 +56,8 @@ class RecommendVC: UIViewController {
 extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        guard let data = self.recommendVideo?.data else { return 0}
-        let data = self.recommendVideo
-        return data.data.count
+        let recommendData = self.recommendVideo
+        return recommendData.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -115,7 +113,6 @@ extension RecommendVC: UICollectionViewDataSource {
 
             getDataFromJson()
             recommendCollection.reloadData()
-            print("zzz")
         }
     }
 }

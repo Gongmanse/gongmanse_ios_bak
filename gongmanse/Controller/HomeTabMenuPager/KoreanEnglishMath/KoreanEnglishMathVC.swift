@@ -69,6 +69,17 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
         cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
         cell.starRating.text = indexData.iRating
         
+        if indexData.sUnit == "" {
+            cell.term.backgroundColor = .white
+        } else if indexData.sUnit == "1" {
+            cell.term.text = "i"
+        } else if indexData.sUnit == "2" {
+            cell.term.text = "ii"
+        } else {
+            cell.term.text = indexData.sUnit
+            cell.term.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+        }
+        
         return cell
     }
     

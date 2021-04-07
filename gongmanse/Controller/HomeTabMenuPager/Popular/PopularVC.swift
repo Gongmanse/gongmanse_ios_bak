@@ -4,7 +4,7 @@ class PopularVC: UIViewController {
     
     var pageIndex: Int!
     
-    var popularVideo: PopularVideoInput?
+    var popularVideo = PopularVideoInput(totalNum: "", data: [PopularVideoData]())
     
     let popularRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
@@ -23,7 +23,9 @@ class PopularVC: UIViewController {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: Popular_Video_URL) {
+        var default1 = 0
+        if let url = URL(string: Popular_Video_URL + "?offset=\(default1)&limit=20") {
+            default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -32,7 +34,7 @@ class PopularVC: UIViewController {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(PopularVideoInput.self, from: data) {
                     //print(json.data)
-                    self.popularVideo = json
+                    self.popularVideo.data.append(contentsOf: json.data)
                 }
                 DispatchQueue.main.async {
                     self.popularCollection.reloadData()
@@ -50,14 +52,16 @@ class PopularVC: UIViewController {
 
 extension PopularVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let data = self.popularVideo?.data else { return 0}
-        return data.count
+        //guard let data = self.popularVideo?.data else { return 0}
+        let popularData = self.popularVideo
+        return popularData.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularCVCell", for: indexPath) as! PopularCVCell
-        guard let json = self.popularVideo else { return cell }
+        //guard let json = self.popularVideo else { return cell }
         
+        let json = self.popularVideo
         let indexData = json.data[indexPath.row]
         let defaultLink = fileBaseURL
         let url = URL(string: makeStringKoreanEncoded(defaultLink + "/" + indexData.sThumbnail))
@@ -70,6 +74,16 @@ extension PopularVC: UICollectionViewDataSource {
         cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
         cell.starRating.text = indexData.iRating
         
+        if indexData.sUnit == "" {
+            cell.term.backgroundColor = .white
+        } else if indexData.sUnit == "1" {
+            cell.term.text = "i"
+        } else if indexData.sUnit == "2" {
+            cell.term.text = "ii"
+        } else {
+            cell.term.text = indexData.sUnit
+            cell.term.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+        }
         
         return cell
     }
@@ -83,6 +97,21 @@ extension PopularVC: UICollectionViewDataSource {
             return header
         default:
             return UICollectionReusableView()
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position == (popularCollection.contentSize.height - scrollView.frame.size.height) {
+            // TODO: 로딩인디케이터
+//            UIView.animate(withDuration: 3) {
+//                // 로딩이미지
+//            } completion: { (_) in
+//                // API 호춣
+//            }
+            getDataFromJson()
+            popularCollection.reloadData()
+            print("hshs")
         }
     }
 }

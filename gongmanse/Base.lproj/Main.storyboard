@@ -2968,7 +2968,7 @@
         <!--Custom Side Menu Navigation-->
         <scene sceneID="BMg-fp-LEd">
             <objects>
-                <navigationController navigationBarHidden="YES" id="hMZ-Bh-xa8" customClass="CustomSideMenuNavigation" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController autoresizesArchivedViewToFullSize="NO" navigationBarHidden="YES" id="hMZ-Bh-xa8" customClass="CustomSideMenuNavigation" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="2sj-u2-ehv"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="OrH-0L-6fy">
                         <autoresizingMask key="autoresizingMask"/>
