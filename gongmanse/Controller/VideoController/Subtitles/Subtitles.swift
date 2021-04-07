@@ -188,6 +188,9 @@ private struct AssociatedKeys {
                 final["to"] = toTime
                 final["text"] = text
                 parsed[index] = final
+                
+                print("DEBUG: endTime is \(parsed[0])...")
+                
             }
             return parsed
             

@@ -33,10 +33,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     // 타임라인 timerSlider
     private let timeSlider: UISlider = {
         let slider = UISlider()
-        let image = UIImage(systemName: "circle.fill")
-        image?.withTintColor(.white)
+        let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
         slider.setThumbImage(image, for: .normal)
+        slider.value = 0.5
         return slider
     }()
     
@@ -68,11 +68,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
-    var player = AVPlayer()
     var playerController = AVPlayerViewController()
+    lazy var playerItem = AVPlayerItem(url: videoUrl! as URL)
+    lazy var player = AVPlayer(playerItem: playerItem)
     
-    let videoUrl = "https://file.gongmanse.com/access/lectures/video?access_key=NTcxOGE1ZjhkYzExODIwODUxNDFjNzI3ZGNhMTk5YzY3NmJjNDAwODI4OTRlZGUyZDMyMDQyOTkyMmU2ZmI0ZjRlZTVlZTEzYmE2MjQxOTU1Y2U1NGNjNTJiYTIxOWFkNTU3OWFhNzFhMzE5MTUwNGRmN2EyYzZjZTNmNmJjMDQ3SXdUMkdHc1dvS1c1RVZReU5RRENnczVQUGJUYzhreFFlSytwMFpockp2cXRSdFZlL3RlTjExeWpRZ09oelk5ckdmN2YwWTRKWVJXWWFiNE5vUXUvYXlSZHFPZHlpdkMwcUVlMDg2enNhQnpsSlpKM0Mya0I1ZDU0d0gzcHg1ZFlnMGk4RFBsT3JyYnlZTHBORWp0VlIvMXB5N0R3U3lBRzcyQjJ1R3V4dHRUckxjMFNheGcrOWlvd25NVWlDMW1RSEE0VEgzVk5nVExvMTd1WkFzSk5NN0Q2bjJ3VlZ6ajBsSUtaR1Z1dHl3ZU03S2pzMnB3QmU3Qis3MGZudUtNeUFqeWtwcCtxalM4YUhDSkRuRHJCS28wTklNcWIrbkhmN3ZFdkR0SThIVjM4RnU0Q2p6M2tVME94ejhla2JwL29waXdTeGdWVm9SY29maHlWQzEyeFJOajE3Y2oxWnExcGkxS1ZpZXFyZ1U9"
-    
+    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=NTcxOGE1ZjhkYzExODIwODUxNDFjNzI3ZGNhMTk5YzY3NmJjNDAwODI4OTRlZGUyZDMyMDQyOTkyMmU2ZmI0ZjRlZTVlZTEzYmE2MjQxOTU1Y2U1NGNjNTJiYTIxOWFkNTU3OWFhNzFhMzE5MTUwNGRmN2EyYzZjZTNmNmJjMDQ3SXdUMkdHc1dvS1c1RVZReU5RRENnczVQUGJUYzhreFFlSytwMFpockp2cXRSdFZlL3RlTjExeWpRZ09oelk5ckdmN2YwWTRKWVJXWWFiNE5vUXUvYXlSZHFPZHlpdkMwcUVlMDg2enNhQnpsSlpKM0Mya0I1ZDU0d0gzcHg1ZFlnMGk4RFBsT3JyYnlZTHBORWp0VlIvMXB5N0R3U3lBRzcyQjJ1R3V4dHRUckxjMFNheGcrOWlvd25NVWlDMW1RSEE0VEgzVk5nVExvMTd1WkFzSk5NN0Q2bjJ3VlZ6ajBsSUtaR1Z1dHl3ZU03S2pzMnB3QmU3Qis3MGZudUtNeUFqeWtwcCtxalM4YUhDSkRuRHJCS28wTklNcWIrbkhmN3ZFdkR0SThIVjM4RnU0Q2p6M2tVME94ejhla2JwL29waXdTeGdWVm9SY29maHlWQzEyeFJOajE3Y2oxWnExcGkxS1ZpZXFyZ1U9")
+
     // 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -131,6 +132,19 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         self.tabBarController?.tabBar.isHidden = false
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func timeSliderValueChanged(_ slider: UISlider) {
+        let seconds: Int64 = Int64(slider.value)
+        let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
+        
+        player.seek(to: targetTime)
+        
+        if player.rate == 0 {
+            player.play()
+        }
+    }
+    
+    
     
     // MARK: - Helpers
     
@@ -270,7 +284,7 @@ extension VideoController {
     // View 최상단 영상 시작 메소드
     func playVideo() {
         // 1 URL을 player에 추가한다
-        let videoURL = NSURL(string: videoUrl)
+        let videoURL = videoUrl
         player = AVPlayer(url: videoURL! as URL)
         playerController.player = player
         self.addChild(playerController)
@@ -326,12 +340,20 @@ extension VideoController {
         
         // 타임라인 timerSlider
         let convertedWidth = convertZeplinWidthToiPhoneWidth(244, standardView: view)
-        
         videoControlContainerView.addSubview(timeSlider)
-        timeSlider.setDimensions(height: 3.5, width: convertedWidth)
-        timeSlider.centerX(inView: view)
+        timeSlider.setDimensions(height: 5, width: convertedWidth)
+        timeSlider.centerX(inView: videoControlContainerView)
         timeSlider.centerY(inView: videoControlContainerView)
-                
+        timeSlider.addTarget(self, action: #selector(timeSliderValueChanged), for: .valueChanged)
+    
+        let duration: CMTime = playerItem.asset.duration
+        let seconds: Float64 = CMTimeGetSeconds(duration)
+        
+        timeSlider.maximumValue = Float(seconds)
+        timeSlider.minimumValue = 0
+        timeSlider.isContinuous = true
+        
     }
+    
     
 }
