@@ -173,11 +173,18 @@ class SideMenuVC: UITableViewController {
             let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
             self.navigationController?.pushViewController(customerServiceVC, animated: true)
         } else if indexPath.row == 5 {
+            
+            // test용 다이렉트
+            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+            self.navigationController?.pushViewController(settingsVC, animated: true)
+            /* *
+            로그인 안하면 실행할 코드
             if Constant.token == "" {
                 let alert = UIAlertController(title: "로그인", message: "로그인 하시겠습니까?", preferredStyle: .alert)
                 
                 let ok = UIAlertAction(title: "확인", style: .default) { _ in
-                    self.dismiss(animated: true, completion: nil)
+                    let vc = LoginVC(nibName: "LoginVC", bundle: nil)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
                 let cancel = UIAlertAction(title: "취소", style: .cancel)
                 alert.addAction(ok)
@@ -187,6 +194,7 @@ class SideMenuVC: UITableViewController {
                 let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
                 self.navigationController?.pushViewController(settingsVC, animated: true)
             }
+            */
         }
     }
 }
