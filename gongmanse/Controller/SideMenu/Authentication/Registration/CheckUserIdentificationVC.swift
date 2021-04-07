@@ -154,7 +154,7 @@ class CheckUserIdentificationVC: UIViewController {
         verificationSendingBtn.addTarget(self, action: #selector(handleSendingBtn), for: .touchUpInside)
         
         // 휴대전화번호 TextField
-        let phoneNumberLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "myActivity"))
+        let phoneNumberLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "phoneNumberOn"))
         setupTextField(phoneNumberTextField, placehoder: "휴대전화 번호", leftView: phoneNumberLeftView)
         phoneNumberTextField.setDimensions(height: 50, width: tfWidth)
         phoneNumberTextField.anchor(top: totalProgressView.bottomAnchor,
@@ -167,7 +167,7 @@ class CheckUserIdentificationVC: UIViewController {
         certificationNumberTextField.rightViewMode = .always
         
         // 인증번호 TextField
-        let certificationNumberTextFieldLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "myActivity"))
+        let certificationNumberTextFieldLeftView = settingLeftViewInTextField(phoneNumberTextField, #imageLiteral(resourceName: "authOn"))
         certificationNumberTextField.setDimensions(height: 50, width: tfWidth)
         setupTextField(certificationNumberTextField, placehoder: "인증번호", leftView: certificationNumberTextFieldLeftView)
         certificationNumberTextField.centerX(inView: view)

@@ -75,14 +75,16 @@ extension PopularVC: UICollectionViewDataSource {
         cell.starRating.text = indexData.iRating
         
         if indexData.sUnit == "" {
-            cell.term.backgroundColor = .white
+            cell.term.isHidden = true
         } else if indexData.sUnit == "1" {
+            cell.term.isHidden = false
             cell.term.text = "i"
         } else if indexData.sUnit == "2" {
+            cell.term.isHidden = false
             cell.term.text = "ii"
         } else {
+            cell.term.isHidden = false
             cell.term.text = indexData.sUnit
-            cell.term.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
         }
         
         return cell

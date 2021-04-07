@@ -73,6 +73,9 @@ class RegistrationVC: UIViewController {
         cofigureNavi()
         setupScrollView()
         setupViews()
+        
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = ""
     }
     
     // MARK: - Actions
@@ -188,8 +191,8 @@ class RegistrationVC: UIViewController {
                                    left: scrollViewContainerView.leftAnchor,
                                    paddingTop: 5,
                                    paddingLeft: 0)
-        termsOfServiceButton.setImage(#imageLiteral(resourceName: "settings").withTintColor(.black), for: .normal)
-        termsOfServiceButton.setImage(#imageLiteral(resourceName: "settings").withTintColor(.mainOrange), for: .selected)
+        termsOfServiceButton.setImage(UIImage(named: "checkFalse"), for: .normal)
+        termsOfServiceButton.setImage(UIImage(named: "checkTrue"), for: .selected)
         
         // termsOfServiceLabel
         // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
@@ -212,8 +215,8 @@ class RegistrationVC: UIViewController {
                                    left: scrollViewContainerView.leftAnchor,
                                    paddingTop: 5,
                                    paddingLeft: 0)
-        termsOfInfoButton.setImage(#imageLiteral(resourceName: "settings").withTintColor(.black), for: .normal)
-        termsOfInfoButton.setImage(#imageLiteral(resourceName: "settings").withTintColor(.mainOrange), for: .selected)
+        termsOfInfoButton.setImage(UIImage(named: "checkFalse"), for: .normal)
+        termsOfInfoButton.setImage(UIImage(named: "checkTrue"), for: .selected)
 
         
         
@@ -237,8 +240,8 @@ class RegistrationVC: UIViewController {
                                    left: termsOfInfoButton.leftAnchor,
                                    paddingTop: 10,
                                    paddingLeft: -15)
-        allAgreeButton.setImage(#imageLiteral(resourceName: "settings").withTintColor(.black), for: .normal)
-        allAgreeButton.setImage(#imageLiteral(resourceName: "settings").withTintColor(.mainOrange), for: .selected)
+        allAgreeButton.setImage(UIImage(named: "checkFalse"), for: .normal)
+        allAgreeButton.setImage(UIImage(named: "checkTrue"), for: .selected)
         
         // allAgreeLabel
         allAgreeLabel.textColor = UIColor.black

@@ -20,12 +20,12 @@ class SideMenuVC: UITableViewController {
     
     //아이콘 데이터 배열
     let icons = [
-        UIImage(named: "myActivity.png"),
-        UIImage(named: "mySchedule.png"),
-        UIImage(named: "whatSGongmanse.png"),
-        UIImage(named: "notice.png"),
-        UIImage(named: "helpCenter.png"),
-        UIImage(named: "settings.png")
+        UIImage(named: "myActivity"),
+        UIImage(named: "mySchedule"),
+        UIImage(named: "whatSGongmanse"),
+        UIImage(named: "notice"),
+        UIImage(named: "helpCenter"),
+        UIImage(named: "settings")
     ]
 
     override func viewDidLoad() {

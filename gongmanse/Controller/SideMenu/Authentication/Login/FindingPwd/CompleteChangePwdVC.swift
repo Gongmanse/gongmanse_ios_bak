@@ -7,7 +7,7 @@ class CompleteChangePwdVC: UIViewController {
     // 최상단에 있는 이미지
     private let mainImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "settings")
+        imageView.image = #imageLiteral(resourceName: "passwordFinish")
         return imageView
     }()
     

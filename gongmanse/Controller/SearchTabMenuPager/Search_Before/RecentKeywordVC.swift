@@ -100,7 +100,7 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
-            let imageView = UIImageView(image: #imageLiteral(resourceName: "settings"))
+            let imageView = UIImageView(image: UIImage(named: "alert"))
             imageView.contentMode = .center
             cell.backgroundView = imageView
             cell.alertMessage.text = "검색 내역이 없습니다."

@@ -32,6 +32,7 @@ class ExpertConsultationVC: UIViewController {
         self.countAll.attributedText = attributedString
         
         floatingButton()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +45,9 @@ class ExpertConsultationVC: UIViewController {
         self.navigationController?.navigationBar.layer.shadowRadius = 1.0
         self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
         self.navigationController?.navigationBar.layer.masksToBounds = false
+        
+        //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     //플로팅 버튼 생성 및 크기 지정 후 뷰 이동

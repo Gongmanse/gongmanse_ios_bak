@@ -90,21 +90,21 @@ class FindIDByEmailVC: UIViewController {
         let tfHeight = Constant.height * 0.06
         
         // 이름 TextField leftView
-        let nameImage = #imageLiteral(resourceName: "myActivity")
+        let nameImage = #imageLiteral(resourceName: "idOn")
         let nameleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         let nameImageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         nameImageView.image = nameImage
         nameleftView.addSubview(nameImageView)
         
         // 이메일 TextField leftView
-        let emailImage = #imageLiteral(resourceName: "myActivity")
+        let emailImage = #imageLiteral(resourceName: "emailOn")
         let emailLeftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         let emailImageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         emailImageView.image = emailImage
         emailLeftView.addSubview(emailImageView)
         
         // 인증번호 TextField leftView
-        let certificationImage = #imageLiteral(resourceName: "myActivity")
+        let certificationImage = #imageLiteral(resourceName: "authOn")
         let certificationleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         let certificationimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         certificationimageView.image = certificationImage

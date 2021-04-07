@@ -101,8 +101,8 @@ class NewPasswordVC: UIViewController {
         let tfHeight = Constant.height * 0.06
         
         // leftView - 추후에 각각의 텍스트 필드에 맞는 이미지로 변경할 것.
-        let passwordleftView = addLeftView(image: #imageLiteral(resourceName: "myActivity"))
-        let rePasswordleftView = addLeftView(image: #imageLiteral(resourceName: "myActivity"))
+        let passwordleftView = addLeftView(image: #imageLiteral(resourceName: "passwordOn"))
+        let rePasswordleftView = addLeftView(image: #imageLiteral(resourceName: "passwordOn"))
     
         // 오토레이아웃 적용
         view.addSubview(newPasswordTextField)
@@ -205,7 +205,7 @@ extension NewPasswordVC {
             /* viewModel 로직에 충족된 경우 */
             if condition {
                 UIView.animate(withDuration: 0.3) {
-                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "checkCorrect").withTintColor(.green))
                     tf.rightView = rightView
                     label.alpha = 0
                     tf.isVailedIndex = true
@@ -214,7 +214,7 @@ extension NewPasswordVC {
             } else {
                 UIView.animate(withDuration: 0.3) {
                     // TextField RightView 이미지
-                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "checkError").withTintColor(.red))
                     tf.rightView = rightView
                     tf.border.backgroundColor = .red
                     label.alpha = 1

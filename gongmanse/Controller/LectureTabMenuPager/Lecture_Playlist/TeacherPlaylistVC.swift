@@ -51,7 +51,7 @@ class TeacherPlaylistVC: UIViewController {
     
     func configureUI() {
         // navigationItem Back button
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
+        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
         navigationItem.title = "강사별 강의"
         
