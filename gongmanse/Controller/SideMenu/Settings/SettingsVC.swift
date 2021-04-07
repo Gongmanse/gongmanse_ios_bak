@@ -13,6 +13,29 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
        
     var dismissDuration: Double = 0.5
     
+    private var gradeButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitle("모든 학년", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+        return button
+    }()
+    
+    private var subjectButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitle("모든 과목", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+        return button
+    }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,16 +76,27 @@ extension SettingsVC {
     
     
     
-    @objc func presentFilterList(_ sender: UIButton) {
+    @objc func presentFilterGradeList(_ sender: UIButton) {
         
         
-        let popupvc = FilteringPopUpVC()
+        let popupvc = FilteringGradePopUpVC()
         popupvc.height = height
         popupvc.presentDuration = presentDuration
         popupvc.dismissDuration = dismissDuration
         popupvc.popupDelegate = self
-        present(popupvc, animated: true)
+        self.present(popupvc, animated: true)
     }
+    
+    @objc func presentFilterSubjectList(_ sender: UIButton) {
+        
+        let popupvc = FilteringSubjectPopUpVC()
+        popupvc.height = height
+        popupvc.presentDuration = presentDuration
+        popupvc.dismissDuration = dismissDuration
+        popupvc.popupDelegate = self
+        self.present(popupvc, animated: true)
+    }
+    
 }
 
 extension SettingsVC: UITableViewDelegate {
@@ -92,7 +126,7 @@ extension SettingsVC: UITableViewDataSource {
         
         
         if section == 2 || section == 3 || section == 4{
-            print(section)
+            
             let switchControl = UISwitch(frame: CGRect(x: 0, y: 0, width: 35, height: 16))
             switchControl.isOn = true
             switchControl.isEnabled = true
@@ -105,14 +139,9 @@ extension SettingsVC: UITableViewDataSource {
             
         }
         
-        if section == 0 || section == 1 {
+        if section == 0 {
             
-            let gradeButton = UIButton(type: .custom)
-            gradeButton.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
-            gradeButton.setTitleColor(UIColor.black, for: .normal)
-            gradeButton.setTitle("모든 학년", for: .normal)
-            gradeButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
-            gradeButton.addTarget(self, action: #selector(presentFilterList(_:)), for: .touchUpInside)
+            gradeButton.addTarget(self, action: #selector(presentFilterGradeList(_:)), for: .touchUpInside)
             headerView.addSubview(gradeButton)
             
             gradeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -121,10 +150,19 @@ extension SettingsVC: UITableViewDataSource {
         
         }
         
+        if section == 1 {
+            
+            subjectButton.addTarget(self, action: #selector(presentFilterSubjectList(_:)), for: .touchUpInside)
+            headerView.addSubview(subjectButton)
+            
+            subjectButton.translatesAutoresizingMaskIntoConstraints = false
+            subjectButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
+            subjectButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        }
+        
         headerView.addSubview(configurationLabel)
         tableView.addSubview(headerView)
         
-                
         configurationLabel.translatesAutoresizingMaskIntoConstraints = false
         configurationLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
         configurationLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true

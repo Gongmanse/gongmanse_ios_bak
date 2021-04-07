@@ -1,8 +1,8 @@
 //
-//  RequestNoticeAPI.swift
+//  RequestSubjectAPI.swift
 //  gongmanse
 //
-//  Created by taeuk on 2021/04/05.
+//  Created by wallter on 2021/04/07.
 //
 
 import Foundation
@@ -10,14 +10,13 @@ import Alamofire
 
 
 
-struct getNoticeList {
+struct getSubjectAPI {
     
-    let noticeListURL = apiBaseURL+"/v/setting/notice"
+    let subjecturl = "\(apiBaseURL)/v/search/subjectnum?offset=0&limit=100"
     
-    func requestNoticeList(complition: @escaping (_ result: [NoticeList]) -> Void) {
-        
-        AF.request(noticeListURL)
-            .responseDecodable(of: NoticeListModel.self) { response in
+    func requestSubjectAPI(complition: @escaping (_ result: [SubjectModel]) -> Void ) {
+        AF.request(subjecturl)
+            .responseDecodable(of: SubjectListModel.self) { response in
                 switch response.result {
                 case .success(let response):
                     // controller code

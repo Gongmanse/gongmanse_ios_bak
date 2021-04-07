@@ -173,8 +173,20 @@ class SideMenuVC: UITableViewController {
             let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
             self.navigationController?.pushViewController(customerServiceVC, animated: true)
         } else if indexPath.row == 5 {
-            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
-            self.navigationController?.pushViewController(settingsVC, animated: true)
+            if Constant.token == "" {
+                let alert = UIAlertController(title: "로그인", message: "로그인 하시겠습니까?", preferredStyle: .alert)
+                
+                let ok = UIAlertAction(title: "확인", style: .default) { _ in
+                    self.dismiss(animated: true, completion: nil)
+                }
+                let cancel = UIAlertAction(title: "취소", style: .cancel)
+                alert.addAction(ok)
+                alert.addAction(cancel)
+                self.present(alert, animated: true)
+            }else{
+                let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+                self.navigationController?.pushViewController(settingsVC, animated: true)
+            }
         }
     }
 }

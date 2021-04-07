@@ -1,15 +1,17 @@
 //
-//  FilteringPopUpVC.swift
+//  FilteringSubjectPopUpVC.swift
 //  gongmanse
 //
-//  Created by wallter on 2021/04/06.
+//  Created by wallter on 2021/04/07.
 //
 
 import UIKit
 import BottomPopup
 
-class FilteringPopUpVC: BottomPopupViewController {
+class FilteringSubjectPopUpVC: BottomPopupViewController {
+
     
+    var tableView = UITableView()
     
     var height: CGFloat?
     var topCornerRadius: CGFloat?
@@ -17,20 +19,33 @@ class FilteringPopUpVC: BottomPopupViewController {
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
     
-    var tableView = UITableView()
+    var subjectList: [SubjectModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .orange
+
         view.addSubview(tableView)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(SubjectCell.self, forCellReuseIdentifier: "Subject")
+        tableView.showsVerticalScrollIndicator = false
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        let getSubject = getSubjectAPI()
+        getSubject.requestSubjectAPI { [weak self] result in
+            self?.subjectList = result
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
+    
     override var popupHeight: CGFloat {
         return height ?? CGFloat(300)
         
@@ -53,23 +68,26 @@ class FilteringPopUpVC: BottomPopupViewController {
     override var popupShouldDismissInteractivelty: Bool {
         return shouldDismissInteractivelty ?? true
     }
-    
+}
+
+extension FilteringSubjectPopUpVC: UITableViewDelegate {
     
 }
 
-extension FilteringPopUpVC: UITableViewDelegate, UITableViewDataSource {
-    
+extension FilteringSubjectPopUpVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return subjectList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NonCell else { return UITableViewCell() }
-        cell.textLabel?.text = "AA"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Subject", for: indexPath) as? SubjectCell else  { return UITableViewCell() }
+        
+        cell.textLabel?.text = subjectList[indexPath.row].sName
+        
         return cell
     }
 }
 
-class NonCell: UITableViewCell {
+class SubjectCell: UITableViewCell {
     
 }
