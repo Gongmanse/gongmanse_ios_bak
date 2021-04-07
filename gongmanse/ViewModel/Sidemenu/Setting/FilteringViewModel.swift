@@ -20,8 +20,8 @@ class FilteringViewModel {
         userSubject = UserDefaults.standard.object(forKey: "subjectFilterText") as? String
         
         let ttt = postFilteringAPI()
-        ttt.performFiltering(userTokenValue, userGrade, userSubject)
-//        ttt.performGetFiltering(token: userTokenValue ?? "", grade: userGrade ?? "", subject: userSubject ?? "")
+//        ttt.performFiltering(userTokenValue, userGrade, userSubject)
+        ttt.performGetFiltering(token: userTokenValue ?? "", grade: userGrade ?? "", subject: userSubject ?? "")
     }
     
     func resetDefaults() {
