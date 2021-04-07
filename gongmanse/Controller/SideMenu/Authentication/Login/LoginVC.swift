@@ -90,14 +90,14 @@ class LoginVC: UIViewController {
         let tfWidth = view.frame.width - 40
         
         // 아이디 TextField leftView
-        let idImage = #imageLiteral(resourceName: "myActivity")
+        let idImage = #imageLiteral(resourceName: "idOn")
         let idleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         let idimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         idimageView.image = idImage
         idleftView.addSubview(idimageView)
         
         // 비밀번호 TextField leftView
-        let passwordImage = #imageLiteral(resourceName: "myActivity")
+        let passwordImage = #imageLiteral(resourceName: "passwordOn")
         let passwordleftView = UIView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         let passwordimageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 20, height: 20))
         passwordimageView.image = passwordImage

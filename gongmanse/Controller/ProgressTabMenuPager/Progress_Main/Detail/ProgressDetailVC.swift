@@ -29,7 +29,7 @@ class ProgressDetailVC: UIViewController {
         autoPlaySwitch.onTintColor = .mainOrange
         
         navigationItem.title = "진도 학습"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(handleBackBtn))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(handleBackBtn))
         
         collectionView.delegate = self
         collectionView.dataSource = self

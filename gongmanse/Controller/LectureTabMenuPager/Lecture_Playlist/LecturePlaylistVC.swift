@@ -71,7 +71,7 @@ class LecturePlaylistVC: UIViewController {
         navigationItem.titleView = title
         
         // navigationItem Back button
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
+        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
     }
     

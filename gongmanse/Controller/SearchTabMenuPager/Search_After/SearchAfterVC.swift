@@ -86,7 +86,7 @@ class SearchAfterVC: UIViewController {
         // SearchBar의 상하 선이 자동으로 생겨서 제거해주기 위한 코드
         let searchBarImage = UIImage()
         searchBar.backgroundImage = searchBarImage
-        searchBar.setImage(#imageLiteral(resourceName: "settings"), for: .search, state: .normal)
+        searchBar.setImage(UIImage(named: "search"), for: .search, state: .normal)
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
@@ -117,7 +117,7 @@ class SearchAfterVC: UIViewController {
         navigationItem.titleView = title
         
         // navigationItem Back button
-        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(dismissVC))
+        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
         backButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         

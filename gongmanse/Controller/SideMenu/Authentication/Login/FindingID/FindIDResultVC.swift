@@ -18,7 +18,7 @@ class FindIDResultVC: UIViewController {
     // 최상단에 있는 이미지
     private let mainImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "settings")
+        imageView.image = #imageLiteral(resourceName: "idFinish")
         return imageView
     }()
     
@@ -139,7 +139,7 @@ class FindIDResultVC: UIViewController {
     
     func configureUI() {
         // navigationItem Back button
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
+        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
         
         // 이미지

@@ -59,11 +59,10 @@ class SearchVC: UIViewController {
         
         searchBar.delegate = self
         
-        
         // SearchBar의 상하 선이 자동으로 생겨서 제거해주기 위한 코드
         let searchBarImage = UIImage()
         searchBar.backgroundImage = searchBarImage
-        searchBar.setImage(#imageLiteral(resourceName: "search_on"), for: .search, state: .normal)
+        searchBar.setImage(UIImage(named: "search"), for: .search, state: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +72,9 @@ class SearchVC: UIViewController {
         self.navigationController?.navigationBar.layer.shadowRadius = 1.0
         self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
         self.navigationController?.navigationBar.layer.masksToBounds = false
+        
+        //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     //MARK: - Helper functions

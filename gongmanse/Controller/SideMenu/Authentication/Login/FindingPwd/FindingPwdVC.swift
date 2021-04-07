@@ -65,7 +65,7 @@ class FindingPwdVC: UIViewController {
         navigationItem.titleView = title
         
         // navigationItem Back button
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dismissVC))
+        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
     }
     

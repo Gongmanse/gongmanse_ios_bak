@@ -164,7 +164,7 @@ class RegistrationUserInfoVC: UIViewController {
         let tfWidth = view.frame.width - 125                                        // textField width 값 기준
     
         // 아이디 TextField
-        let idTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))              // leftView 생성 커스텀메소드 활용
+        let idTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "idOn"))              // leftView 생성 커스텀메소드 활용
         setupTextField(idTextField, placehoder: "아이디", leftView: idTfLeftView)
         idTextField.setDimensions(height: 50, width: tfWidth)                       // 높이 크기 조절 커스텀메소드 활용
         idTextField.centerX(inView: view)                                           // 오토레이아웃 적용
@@ -172,7 +172,7 @@ class RegistrationUserInfoVC: UIViewController {
                            paddingTop: view.frame.height * 0.05)                    // 이하 textField 코드 주석 생략
         
         // 비밀번호 TextField
-        let pwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        let pwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "passwordOn"))
         setupTextField(pwdTextField, placehoder: "비밀번호", leftView: pwdTfLeftView)
         pwdTextField.setDimensions(height: 50, width: tfWidth)
         pwdTextField.isSecureTextEntry = true
@@ -181,7 +181,7 @@ class RegistrationUserInfoVC: UIViewController {
                            paddingTop: view.frame.height * 0.03)
         
         // 비밀번호 재입력 TextField
-        let confirmPwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        let confirmPwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "passwordOn"))
         setupTextField(confirmPwdTextField, placehoder: "비밀번호 재입력", leftView: confirmPwdTfLeftView)
         confirmPwdTextField.setDimensions(height: 50, width: tfWidth)
         confirmPwdTextField.isSecureTextEntry = true                                  // 텍스트필드 작성된 값 보안설정
@@ -190,7 +190,7 @@ class RegistrationUserInfoVC: UIViewController {
                            paddingTop: view.frame.height * 0.03)
         
         // 이름 TextField
-        let nameTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        let nameTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "nameOn"))
         setupTextField(nameTextField, placehoder: "이름", leftView: nameTfLeftView)
         nameTextField.setDimensions(height: 50, width: tfWidth)
         nameTextField.centerX(inView: view)
@@ -198,7 +198,7 @@ class RegistrationUserInfoVC: UIViewController {
                            paddingTop: view.frame.height * 0.03)
         
         // 닉네임 TextField
-        let nicknameLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        let nicknameLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "nicknameOn"))
         setupTextField(nicknameTextField, placehoder: "닉네임", leftView: nicknameLeftView)
         nicknameTextField.setDimensions(height: 50, width: tfWidth)
         nicknameTextField.centerX(inView: view)
@@ -206,7 +206,7 @@ class RegistrationUserInfoVC: UIViewController {
                            paddingTop: view.frame.height * 0.03)
 
         // 이메일 TextField
-        let emailLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "myActivity"))
+        let emailLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "emailOn"))
         setupTextField(emailTextField, placehoder: "이메일", leftView: emailLeftView)
         emailTextField.setDimensions(height: 50, width: tfWidth)
         emailTextField.centerX(inView: view)
@@ -383,7 +383,7 @@ extension RegistrationUserInfoVC {
             /* viewModel 로직에 충족된 경우 */
             if condition {
                 UIView.animate(withDuration: 0.3) {
-                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.green))
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "checkCorrect").withTintColor(.green))
                     tf.rightView = rightView
                     label.alpha = 0
                     tf.isVailedIndex = true
@@ -392,7 +392,7 @@ extension RegistrationUserInfoVC {
             } else {
                 UIView.animate(withDuration: 0.3) {
                     // TextField RightView 이미지
-                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "checkError").withTintColor(.red))
                     tf.rightView = rightView
                     tf.border.backgroundColor = .red
                     label.alpha = 1
@@ -418,7 +418,7 @@ extension RegistrationUserInfoVC {
             if (tf != nicknameTextField) ? (tf.text!.count < 2) : (tf.text!.count < 2 || tf.text!.count > 12) {
                 UIView.animate(withDuration: 0.3) { // 2글자보다 많은 경우 +a
                     // TextField RightView 이미지
-                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(.red))// rightView 생성
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "checkError").withTintColor(.red))// rightView 생성
                     tf.rightView = rightView                                                  // 텍스트필드의 rightView에 생성한 view 할당
                     label.text = first                                                        // 텍스트 기입
                     tf.border.backgroundColor = .red                                          // 하단 borderView 색상
@@ -428,7 +428,7 @@ extension RegistrationUserInfoVC {
                 /* 글자가 3글자 이상 있는경우 + 조건을 만족한 경우 */
             } else {
                 UIView.animate(withDuration: 0.3) {
-                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "settings").withTintColor(condition ? .green : .red))
+                    let rightView = self.settingLeftViewInTextField(tf, #imageLiteral(resourceName: "checkCorrect").withTintColor(condition ? .green : .red))
                     tf.rightView = rightView
                     label.text = condition ? "" : second                      // condition = viewModel에서 로직수행 후 bool값
                     tf.border.backgroundColor = condition ? .mainOrange : .red// condition에 따른 하단 구분선 색상결정

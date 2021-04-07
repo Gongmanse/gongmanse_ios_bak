@@ -62,7 +62,7 @@ class PassTicketVC: UIViewController {
         navigationItem.titleView = title
         
         // 좌, 우 버튼생성
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(dissmissButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(dissmissButton))
 
         // 그림자 효과
         self.navigationController?.navigationBar.layer.masksToBounds = false
