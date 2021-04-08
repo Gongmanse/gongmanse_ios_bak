@@ -17,7 +17,7 @@ class FilteringGradePopUpVC: BottomPopupViewController {
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
     
-    var tableView = UITableView()
+    var tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .plain)
     
     private var acceptToken = ""
     private var gradeFilterText = ""
@@ -30,12 +30,12 @@ class FilteringGradePopUpVC: BottomPopupViewController {
         super.viewDidLoad()
         
         view.addSubview(tableView)
-        
         tableView.delegate = self
         tableView.dataSource = self
         let gradeListNibName = UINib(nibName: GradeListCellIdentifier, bundle: nil)
         tableView.register(gradeListNibName, forCellReuseIdentifier: GradeListCellIdentifier)
         tableView.showsVerticalScrollIndicator = false
+        
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -67,7 +67,9 @@ class FilteringGradePopUpVC: BottomPopupViewController {
         return shouldDismissInteractivelty ?? true
     }
     
-    
+    @objc func headerCancelButton(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
@@ -82,6 +84,48 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        
+        let gradeImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        gradeImage.image = UIImage(named: "popupClass")
+        gradeImage.sizeToFit()
+        gradeImage.contentMode = .scaleAspectFit
+        
+        let gradeLabelText = UILabel(frame: CGRect(x: 0, y: 0, width: 24, height: 10))
+        gradeLabelText.text = "학년"
+        gradeLabelText.textAlignment = .left
+        gradeLabelText.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        
+        let cancelButton = UIButton(type: .custom)
+        cancelButton.setImage(UIImage(named: "smallX"), for: .normal)
+        cancelButton.addTarget(self, action: #selector(headerCancelButton(_:)), for: .touchUpInside)
+        
+        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 5
+        
+        let contourLine = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 2))
+        contourLine.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
+        
+        header.backgroundColor = .white
+        header.addSubview(contourLine)
+        header.addSubview(stackView)
+        stackView.addArrangedSubview(gradeImage)
+        stackView.addArrangedSubview(gradeLabelText)
+        stackView.addArrangedSubview(cancelButton)
+        
+        contourLine.translatesAutoresizingMaskIntoConstraints = false
+        contourLine.leadingAnchor.constraint(equalTo: header.leadingAnchor).isActive = true
+        contourLine.trailingAnchor.constraint(equalTo: header.trailingAnchor).isActive = true
+        contourLine.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        contourLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.topAnchor.constraint(equalTo: header.topAnchor, constant: 8).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 20).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: header.trailingAnchor, constant: -20).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contourLine.bottomAnchor, constant: -8).isActive = true
         
         return header
     }
