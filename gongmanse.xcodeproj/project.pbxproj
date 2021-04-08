@@ -201,6 +201,8 @@
 		6C93F100261DB8890003CE22 /* ScienceVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C93F0FF261DB8890003CE22 /* ScienceVideo.swift */; };
 		6C93F103261DBD070003CE22 /* SocialStudiesVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C93F102261DBD070003CE22 /* SocialStudiesVideo.swift */; };
 		6C93F124261DC8350003CE22 /* OtherSubjectsVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C93F123261DC8340003CE22 /* OtherSubjectsVideo.swift */; };
+		6C93F128261E9BC50003CE22 /* KoreanEnglishMathBottomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C93F127261E9BC50003CE22 /* KoreanEnglishMathBottomPopUpVC.swift */; };
+		6C93F12B261EA18E0003CE22 /* KoreanEnglishMathBottomPopUPTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C93F12A261EA18E0003CE22 /* KoreanEnglishMathBottomPopUPTVCell.swift */; };
 		6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */; };
 		6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */; };
 		6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */; };
@@ -466,6 +468,8 @@
 		6C93F0FF261DB8890003CE22 /* ScienceVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceVideo.swift; sourceTree = "<group>"; };
 		6C93F102261DBD070003CE22 /* SocialStudiesVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialStudiesVideo.swift; sourceTree = "<group>"; };
 		6C93F123261DC8340003CE22 /* OtherSubjectsVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsVideo.swift; sourceTree = "<group>"; };
+		6C93F127261E9BC50003CE22 /* KoreanEnglishMathBottomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathBottomPopUpVC.swift; sourceTree = "<group>"; };
+		6C93F12A261EA18E0003CE22 /* KoreanEnglishMathBottomPopUPTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathBottomPopUPTVCell.swift; sourceTree = "<group>"; };
 		6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationTVCell.swift; sourceTree = "<group>"; };
 		6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationFloatingVC.swift; sourceTree = "<group>"; };
 		6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoTVC.swift; sourceTree = "<group>"; };
@@ -898,7 +902,6 @@
 			isa = PBXGroup;
 			children = (
 				259B8C3C26032E60009A7146 /* SideMenuView */,
-				259B8B7D260300F9009A7146 /* CommonView */,
 				259B8B7C260300F8009A7146 /* ProgressLearningView */,
 				259B8B7B260300F7009A7146 /* SearchView */,
 				259B8B7A260300F5009A7146 /* LetureByInstructorView */,
@@ -1022,13 +1025,6 @@
 				259B8B7E26030129009A7146 /* BottomPopUp */,
 			);
 			path = ProgressLearningView;
-			sourceTree = "<group>";
-		};
-		259B8B7D260300F9009A7146 /* CommonView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CommonView;
 			sourceTree = "<group>";
 		};
 		259B8B7E26030129009A7146 /* BottomPopUp */ = {
@@ -1602,6 +1598,8 @@
 				6CF2E65E25F0AA45000FE084 /* KoreanEnglishMathVC.swift */,
 				6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */,
 				6C47138225F5D3CC00D68A2B /* KoreanEnglishMathTitleCVCell.swift */,
+				6C93F127261E9BC50003CE22 /* KoreanEnglishMathBottomPopUpVC.swift */,
+				6C93F12A261EA18E0003CE22 /* KoreanEnglishMathBottomPopUPTVCell.swift */,
 			);
 			path = KoreanEnglishMath;
 			sourceTree = "<group>";
@@ -2134,6 +2132,7 @@
 				6C93F124261DC8350003CE22 /* OtherSubjectsVideo.swift in Sources */,
 				6C93F103261DBD070003CE22 /* SocialStudiesVideo.swift in Sources */,
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
+				6C93F12B261EA18E0003CE22 /* KoreanEnglishMathBottomPopUPTVCell.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
 				2580CF4B261A917700D78E4E /* BottomPlaylistCell.swift in Sources */,
 				2574592F26143C02007A2A5D /* FindingPwdViewModel.swift in Sources */,
@@ -2154,6 +2153,7 @@
 				259B8BC926030531009A7146 /* ProgressPopupVC.swift in Sources */,
 				A9129ECE26169F4B00041CC5 /* NoticeListVC.swift in Sources */,
 				6CB83C3226018F00007AED64 /* NoteListTVC.swift in Sources */,
+				6C93F128261E9BC50003CE22 /* KoreanEnglishMathBottomPopUpVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

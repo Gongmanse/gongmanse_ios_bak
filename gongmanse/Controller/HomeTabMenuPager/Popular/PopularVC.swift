@@ -23,9 +23,7 @@ class PopularVC: UIViewController {
     }
     
     func getDataFromJson() {
-        var default1 = 0
-        if let url = URL(string: Popular_Video_URL + "?offset=\(default1)&limit=20") {
-            default1 += 20
+        if let url = URL(string: Popular_Video_URL + "?offset=0&limit=30") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -72,7 +70,11 @@ extension PopularVC: UICollectionViewDataSource {
         cell.teachersName.text = indexData.sTeacher + " 선생님"
         cell.subjects.text = indexData.sSubject
         cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
-        cell.starRating.text = indexData.iRating
+        
+        
+        if indexData.iRating == "" {
+            cell.starRating.text = "0.0"
+        }
         
         if indexData.sUnit == "" {
             cell.term.isHidden = true
@@ -102,20 +104,20 @@ extension PopularVC: UICollectionViewDataSource {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        if position == (popularCollection.contentSize.height - scrollView.frame.size.height) {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let position = scrollView.contentOffset.y
+//        if position == (popularCollection.contentSize.height - scrollView.frame.size.height) {
             // TODO: 로딩인디케이터
 //            UIView.animate(withDuration: 3) {
 //                // 로딩이미지
 //            } completion: { (_) in
 //                // API 호춣
 //            }
-            getDataFromJson()
-            popularCollection.reloadData()
-            print("hshs")
-        }
-    }
+//            getDataFromJson()
+//            popularCollection.reloadData()
+//            print("hshs")
+//        }
+//    }
 }
 
 extension PopularVC: UICollectionViewDelegate {
