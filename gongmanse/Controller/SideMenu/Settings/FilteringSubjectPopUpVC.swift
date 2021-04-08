@@ -43,7 +43,9 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
         
         let getSubject = getSubjectAPI()
         getSubject.performSubjectAPI { [weak self] result in
-            self?.subjectList = result
+            self?.subjectList.append(SubjectModel(id: "0", sName: "모든 과목"))
+            self?.subjectList.append(contentsOf: result)
+            print(self?.subjectList)
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -92,7 +94,7 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        subjectFilterNumber = String(indexPath.row + 1)
+        subjectFilterNumber = String(indexPath.row)
         subjectFilterText = subjectList[indexPath.row].sName
         
         UserDefaults.standard.setValue(subjectFilterNumber, forKey: "subjectFilterNumber")
