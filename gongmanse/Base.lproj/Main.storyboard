@@ -911,6 +911,22 @@
             </objects>
             <point key="canvasLocation" x="1048" y="1548"/>
         </scene>
+        <!--Korean English Math Bottom Pop UpVC-->
+        <scene sceneID="Z1u-cF-828">
+            <objects>
+                <viewController storyboardIdentifier="KoreanEnglishMathBottomPopUpVC" id="E22-ln-w4v" customClass="KoreanEnglishMathBottomPopUpVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KMg-qL-iCb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="C2y-4Q-KyB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Uxs-la-boz"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f9Z-iT-Ukr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1947.826086956522" y="1547.5446428571429"/>
+        </scene>
         <!--Korean English MathVC-->
         <scene sceneID="8Ei-a7-2OB">
             <objects>
@@ -1097,6 +1113,9 @@
                                             <state key="normal" title="전체 보기">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="presentPopUpMenu:" destination="eoc-qL-iMQ" eventType="touchUpInside" id="LUP-G4-c0t"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>

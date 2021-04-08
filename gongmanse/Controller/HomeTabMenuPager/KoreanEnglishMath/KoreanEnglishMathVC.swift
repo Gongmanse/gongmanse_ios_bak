@@ -49,6 +49,7 @@ class KoreanEnglishMathVC: UIViewController {
 }
 
 extension KoreanEnglishMathVC: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let data = self.koreanEnglishMathVideo?.data else { return 0}
         return data.count
@@ -92,6 +93,7 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "KoreanEnglishMathTitleCVCell", for: indexPath) as? KoreanEnglishMathTitleCVCell else {
                 return UICollectionReusableView()
             }
+            header.delegate = self
             return header
         default:
             return UICollectionReusableView()
@@ -109,4 +111,13 @@ extension KoreanEnglishMathVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 360, height: 225)
     }
+}
+
+
+extension KoreanEnglishMathVC: KoreanEnglishMathTitleCVCellDelegate {
+    func presentBottomPopUp() {
+        self.present(KoreanEnglishMathBottomPopUpVC(), animated: true)
+    }
+    
+    
 }
