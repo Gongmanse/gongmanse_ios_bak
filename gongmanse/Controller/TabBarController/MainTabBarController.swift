@@ -14,6 +14,7 @@ class MainTabBarController: UITabBarController {
     func setupStyle() {
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 12)
+        self.tabBar.unselectedItemTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
 
 }

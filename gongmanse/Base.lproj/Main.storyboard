@@ -2971,11 +2971,11 @@
             </objects>
             <point key="canvasLocation" x="1948" y="-602"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--홈-->
         <scene sceneID="3c5-YI-dPc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="821-Cl-csQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="home_off" selectedImage="home_on" id="1yf-E1-QZu"/>
+                    <tabBarItem key="tabBarItem" title="홈" image="homeOff" selectedImage="homeOn" id="1yf-E1-QZu"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="w3Q-ci-inh">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -3015,6 +3015,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="0.89803921568627454" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="821-Cl-csQ" kind="relationship" relationship="viewControllers" id="fjg-Id-bK2"/>
@@ -3028,11 +3029,11 @@
             </objects>
             <point key="canvasLocation" x="3713" y="-755"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--진도 학습-->
         <scene sceneID="hzv-hK-mq2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EpX-ri-Qqe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="progress_off" selectedImage="progress_on" id="yRQ-3Z-osK"/>
+                    <tabBarItem key="tabBarItem" title="진도 학습" image="progressOff" selectedImage="progressOn" id="yRQ-3Z-osK"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WXJ-qM-b8H">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -3047,11 +3048,11 @@
             </objects>
             <point key="canvasLocation" x="1947.826086956522" y="118.52678571428571"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--검색-->
         <scene sceneID="wK5-LC-Gd2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mzL-QB-HiM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="search_off" selectedImage="search_on" id="UGv-3y-b2G"/>
+                    <tabBarItem key="tabBarItem" title="검색" image="searchOff" selectedImage="searchOn" id="UGv-3y-b2G"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NON-4Y-X4B">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -3066,11 +3067,11 @@
             </objects>
             <point key="canvasLocation" x="3713.04347826087" y="118.52678571428571"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--전문가상담-->
         <scene sceneID="JUw-SR-OnI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0UR-IO-i41" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="expert_off" selectedImage="expert_on" id="co9-M9-0gQ"/>
+                    <tabBarItem key="tabBarItem" title="전문가상담" image="chatOff" selectedImage="chatOn" id="co9-M9-0gQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WMS-LI-r6C">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -3085,11 +3086,11 @@
             </objects>
             <point key="canvasLocation" x="5497.1014492753629" y="118.52678571428571"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--강사별강의-->
         <scene sceneID="5va-5E-ZEq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="glj-xS-skM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="lecture_off" selectedImage="lecture_on" id="0G4-bC-xhP"/>
+                    <tabBarItem key="tabBarItem" title="강사별강의" image="teacherOff" selectedImage="teacherOn" id="0G4-bC-xhP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Obh-4M-YyL">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -3113,20 +3114,20 @@
         <image name="addPhoto" width="18" height="18"/>
         <image name="alarm" width="22" height="25.5"/>
         <image name="arrowBelowGray" width="8" height="8"/>
-        <image name="expert_off" width="56" height="47"/>
-        <image name="expert_on" width="56" height="47"/>
+        <image name="chatOff" width="27" height="27"/>
+        <image name="chatOn" width="27" height="27"/>
         <image name="extraSmallUserDefault" width="9.5" height="9.5"/>
-        <image name="home_off" width="22.5" height="47"/>
-        <image name="home_on" width="22.5" height="47"/>
-        <image name="lecture_off" width="56" height="47"/>
-        <image name="lecture_on" width="56" height="47"/>
+        <image name="homeOff" width="22.5" height="25.5"/>
+        <image name="homeOn" width="22.5" height="25.5"/>
         <image name="list" width="22" height="20"/>
         <image name="photoDefault" width="50" height="50"/>
-        <image name="progress_off" width="47" height="47"/>
-        <image name="progress_on" width="47" height="47"/>
-        <image name="search_off" width="26" height="45"/>
-        <image name="search_on" width="26" height="45"/>
+        <image name="progressOff" width="23" height="25"/>
+        <image name="progressOn" width="23" height="25"/>
+        <image name="searchOff" width="26" height="26"/>
+        <image name="searchOn" width="26" height="26"/>
         <image name="star" width="10.5" height="9.5"/>
+        <image name="teacherOff" width="26" height="26"/>
+        <image name="teacherOn" width="26" height="26"/>
         <image name="모든학년배경이미지" width="261" height="50"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
