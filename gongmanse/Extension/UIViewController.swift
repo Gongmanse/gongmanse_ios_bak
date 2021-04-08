@@ -52,6 +52,7 @@ extension UIViewController {
         dividerView.anchor(top: tf.bottomAnchor, paddingTop: 1)
         dividerView.setDimensions(height: 1.2, width: width)
         dividerView.centerX(inView: view)
+        
     }
     
     
@@ -141,12 +142,12 @@ extension UIViewController {
     }
     
     // 제플린 높이를 입력하면 비율에 맞게 높이을 리턴
-    func convertZeplinHeightToiPhoneHeight(_ zeplinHeight: CGFloat, standardView: UIView) -> CGFloat {
+    func convertHeight(_ zeplinHeight: CGFloat, standardView: UIView) -> CGFloat {
         return CGFloat((standardView.frame.height * zeplinHeight) / 640)
     }
     
     // 제플린 넓이를 입력하면 비율에 맞게 넓이을 리턴
-    func convertZeplinWidthToiPhoneWidth(_ zeplinWidth: CGFloat, standardView: UIView) -> CGFloat {
+    func convertWidth(_ zeplinWidth: CGFloat, standardView: UIView) -> CGFloat {
         return CGFloat((standardView.frame.width * zeplinWidth) / 360)
     }
 }

@@ -144,7 +144,7 @@ private struct AssociatedKeys {
                     h = Double(hToString!)!                                        // Result: 12
                 }
                 
-                // 2) m 값 입력
+                // 2) m 값 입력e
                 toStr = String(toStr.dropFirst(hToString!.count + 1))          // 12가 아니라 더 길어질 수도 있으므로 .count 사용하고 ":"까지 drop하기위해 +1
                                                                                  // fromStr의 값은 34:56 이 된 상태
                 let toMScanner = Scanner(string: toStr)                          // "34:56" 을 Scanner에 입력
@@ -188,9 +188,6 @@ private struct AssociatedKeys {
                 final["to"] = toTime
                 final["text"] = text
                 parsed[index] = final
-                
-                print("DEBUG: endTime is \(parsed[0])...")
-                
             }
             return parsed
             
@@ -221,7 +218,6 @@ private struct AssociatedKeys {
         }
         
         return text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
     }
     
 }
@@ -230,14 +226,6 @@ private struct AssociatedKeys {
 // MARK: - AVPlayerViewController
 
 public extension AVPlayerViewController {
-    
-//    convenience init(keyword: String) {
-//        self.init()
-//        self.keyword = keyword
-//        print("DEBUG: \(keyword)")
-//    }
-    
-    
     // MARK: - Public properties
     var subtitleLabel: UILabel? {
         get { return objc_getAssociatedObject(self, &AssociatedKeys.SubtitleKey) as? UILabel }
@@ -310,11 +298,9 @@ public extension AVPlayerViewController {
     
     
     func show(subtitles string: String) {
-        
         // Parse
         parsedPayload = Subtitles.parseSubRip(string)
         addPeriodicNotification(parsedPayload: parsedPayload!)
-        
     }
     
     func showByDictionary(dictionaryContent: NSMutableDictionary) {
@@ -322,11 +308,7 @@ public extension AVPlayerViewController {
         // Add Dictionary content direct to Payload
         parsedPayload = dictionaryContent
         addPeriodicNotification(parsedPayload: parsedPayload!)
-        
     }
-    
-    
-    
     
     func addPeriodicNotification(parsedPayload: NSDictionary) {
         
@@ -384,10 +366,6 @@ public extension AVPlayerViewController {
             subtitleLabel?.font = UIFont.appBoldFontWith(size: 15)
             subtitleLabel?.textColor = UIColor.white
             subtitleLabel?.numberOfLines = 0
-//            subtitleLabel?.layer.shadowColor = UIColor.black.cgColor
-//            subtitleLabel?.layer.shadowOffset = CGSize(width: 1.0, height: 1.0);
-//            subtitleLabel?.layer.shadowOpacity = 0.9;
-//            subtitleLabel?.layer.shadowRadius = 1.0;
             subtitleLabel?.layer.shouldRasterize = true
             subtitleLabel?.layer.rasterizationScale = UIScreen.main.scale
             subtitleLabel?.lineBreakMode = .byWordWrapping

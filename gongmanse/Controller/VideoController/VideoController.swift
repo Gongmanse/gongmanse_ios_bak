@@ -13,10 +13,64 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
     
-    private var teacherInfoFoldConstraint: NSLayoutConstraint?     // 최초적용될 제약조건
-    private var teacherInfoUnfoldConstraint: NSLayoutConstraint?   // 클릭 시, 적용될 제약조건
+    /* VideoContainterView */
+    // Constraint 객체 - 세로모드
+    private var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?          // 세로모드 시, 동영상에 적용될 넓이 제약조건
+    private var videoContainerViewPorTraitHeightConstraint: NSLayoutConstraint?         // 세로모드 시, 동영상에 적용될 높이 제약조건
+    private var videoContainerViewPorTraitTopConstraint: NSLayoutConstraint?            // 세로모드 시, 동영상에 적용될 상단 제약조건
+    private var videoContainerViewPorTraitLeftConstraint: NSLayoutConstraint?           // 세로모드 시, 동영상에 적용될 좌측 제약조건
+
+    // Constraint 객체 - 가로모드
+    private var videoContainerViewLandscapeWidthConstraint: NSLayoutConstraint?          // 가로모드 시, 동영상에 적용될 넓이 제약조건
+    private var videoContainerViewLandscapeHeightConstraint: NSLayoutConstraint?         // 가로모드 시, 동영상에 적용될 높이 제약조건
+    private var videoContainerViewLandscapeTopConstraint: NSLayoutConstraint?            // 가로모드 시, 동영상에 적용될 상단 제약조건
+    private var videoContainerViewLandscapeLeftConstraint: NSLayoutConstraint?           // 가로모드 시, 동영상에 적용될 좌측 제약조건
     
-    // MARK: Video 관련 객체
+    /* CustomTabBar */
+    // Constraint 객체 - 세로모드
+    private var customMenuBarPorTraitHeightConstraint: NSLayoutConstraint?                // 세로모드 시, 동영상에 적용될 높이 제약조건
+    private var customMenuBarPorTraitTopConstraint: NSLayoutConstraint?                   // 세로모드 시, 동영상에 적용될 상단 제약조건
+    private var customMenuBarPorTraitLeftConstraint: NSLayoutConstraint?                  // 세로모드 시, 동영상에 적용될 좌측 제약조건
+    private var customMenuBarPorTraitRightConstraint: NSLayoutConstraint?                 // 세로모드 시, 동영상에 적용될 좌측 제약조건
+    // Constraint 객체 - 가로모드
+    private var customMenuBarLandscapeRightConstraint: NSLayoutConstraint?                // 가로모드 시, 동영상에 적용될 넓이 제약조건
+    private var customMenuBarLandscapeHeightConstraint: NSLayoutConstraint?               // 가로모드 시, 동영상에 적용될 높이 제약조건
+    private var customMenuBarLandscapeTopConstraint: NSLayoutConstraint?                  // 가로모드 시, 동영상에 적용될 상단 제약조건
+    private var customMenuBarLandscapeLeftConstraint: NSLayoutConstraint?                 // 가로모드 시, 동영상에 적용될 좌측 제약조건
+    
+    /* teacherInfoView */
+    // Constraint 객체 - 세로모드
+    private var teacherInfoViewPorTraitCenterXConstraint: NSLayoutConstraint?              // 세로모드 시, 동영상에 적용될 넓이 제약조건
+    private var teacherInfoViewPorTraitHeightConstraint: NSLayoutConstraint?             // 세로모드 시, 동영상에 적용될 높이 제약조건
+    private var teacherInfoViewPorTraitTopConstraint: NSLayoutConstraint?                // 세로모드 시, 동영상에 적용될 상단 제약조건
+    private var teacherInfoViewPorTraitWidthConstraint: NSLayoutConstraint?               // 세로모드 시, 동영상에 적용될 좌측 제약조건
+
+    // Constraint 객체 - 가로모드
+    private var teacherInfoViewLandscapeRightConstraint: NSLayoutConstraint?             // 가로모드 시, 동영상에 적용될 넓이 제약조건
+    private var teacherInfoViewLandscapeHeightConstraint: NSLayoutConstraint?            // 가로모드 시, 동영상에 적용될 높이 제약조건
+    private var teacherInfoViewLandscapeTopConstraint: NSLayoutConstraint?               // 가로모드 시, 동영상에 적용될 상단 제약조건
+    private var teacherInfoViewLandscapeLeftConstraint: NSLayoutConstraint?              // 가로모드 시, 동영상에 적용될 좌측 제약조건
+
+    /* pageCollectionView */
+    // Constraint 객체 - 세로모드
+    private var pageCollectionViewPorTraitRightConstraint: NSLayoutConstraint?           // 세로모드 시, 동영상에 적용될 넓이 제약조건
+    private var pageCollectionViewPorTraitBottomConstraint: NSLayoutConstraint?          // 세로모드 시, 동영상에 적용될 높이 제약조건
+    private var pageCollectionViewPorTraitTopConstraint: NSLayoutConstraint?             // 세로모드 시, 동영상에 적용될 상단 제약조건
+    private var pageCollectionViewPorTraitLeftConstraint: NSLayoutConstraint?            // 세로모드 시, 동영상에 적용될 좌측 제약조건
+
+    // Constraint 객체 - 가로모드
+    private var pageCollectionViewLandscapeRightConstraint: NSLayoutConstraint?           // 가로모드 시, 동영상에 적용될 넓이 제약조건
+    private var pageCollectionViewLandscapeBottomConstraint: NSLayoutConstraint?          // 가로모드 시, 동영상에 적용될 높이 제약조건
+    private var pageCollectionViewLandscapeTopConstraint: NSLayoutConstraint?             // 가로모드 시, 동영상에 적용될 상단 제약조건
+    private var pageCollectionViewLandscapeLeftConstraint: NSLayoutConstraint?            // 가로모드 시, 동영상에 적용될 좌측 제약조건
+    
+    
+    // Constraint 객체 - 선생님 정보 및 강의정보 View
+    private var teacherInfoFoldConstraint: NSLayoutConstraint?    // 최초로드 시, 선생님정보 및 강의 정보에 적용될 제약조건
+    private var teacherInfoUnfoldConstraint: NSLayoutConstraint?  // 클릭 시, 선생님정보 및 강의 정보에 적용될 제약조건
+    
+    
+    // MARK: Video Properties
     private let videoContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
@@ -100,31 +154,53 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if UIDevice.current.orientation.isLandscape {
+            print("DEBUG: Landscape")
+            // 세로모드
+            changeConstraintToVideoContainer(isPortraitMode: true) // 가로/세로 모드에 따른 제약조건 변경메소드
+            
+        } else {
+            print("DEBUG: Portrait")
+            // 가로모드
+            changeConstraintToVideoContainer(isPortraitMode: false) // 가로/세로 모드에 따른 제약조건 변경메소드
+            
+        }
+    }
+//    override func viewDidLayoutSubviews() {
+//        if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
+//            // 세로모드
+//            changeConstraintToVideoContainer(isPortraitMode: true) // 가로/세로 모드에 따른 제약조건 변경메소드
+//        } else {
+//            // 가로모드
+//            changeConstraintToVideoContainer(isPortraitMode: false) // 가로/세로 모드에 따른 제약조건 변경메소드
+//
+//        }
+//    }
+
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()                    // 전반적인 UI 구현 메소드
-        setupCustomTabBar()              // "노트보기", "강의 QnA" 그리고 "재생목록" 탭바 구현 메소드
-        setupPageCollectionView()        // View 중단부터 하단에 있는 "노트보기", "강의 QnA" 그리고 "재생목록" 페이지 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         playVideo()                      // 동영상 재생 메소드로 현재 테스트를 위해 이곳에 둠 04.07 추후에 인트로 영상을 호출한 이후에 이 메소드를 호출할 계획
         configureVideoControlView()      // 비디오 상태바 관련 메소드
+        changeConstraintToVideoContainer(isPortraitMode: true)
+        
+        
+        
     }
-    
+
+
     // MARK: - Actions
     
     @objc func handleToggle() {
-        if teacherInfoFoldConstraint?.isActive == true {
-            teacherInfoFoldConstraint?.isActive = false
-            teacherInfoUnfoldConstraint?.isActive = true
-            pageCollectionView.reloadData()
-        } else {
-            teacherInfoFoldConstraint?.isActive = true
-            teacherInfoUnfoldConstraint?.isActive = false
-            pageCollectionView.reloadData()
-        }
-        
+        print("DEBUG: clicked button")
+        teacherInfoFoldConstraint!.isActive = false
+        teacherInfoUnfoldConstraint!.isActive = true
+        pageCollectionView.reloadData()
     }
     
     @objc func handleBackButtonAction() {
@@ -145,53 +221,27 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     
-    
     // MARK: - Helpers
-    
+
+    // 전반적인 UI 구현 메소드
     func configureUI() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = .white
         navigationController?.hidesBarsOnSwipe = true
         
-        // 영상View
-        let convertedHeight = convertZeplinHeightToiPhoneHeight(231, standardView: view)
-        let convertedConstant = convertZeplinHeightToiPhoneHeight(65.45, standardView: view)
+        // 세로모드 제약조건 정의
+        setConstraintInPortrait()
+        setupCustomTabBar()              // "노트보기", "강의 QnA" 그리고 "재생목록" 탭바 구현 메소드
+        setupPageCollectionView()        // View 중단부터 하단에 있는 "노트보기", "강의 QnA" 그리고 "재생목록" 페이지 구현 메소드
+
         
-        
-        view.addSubview(videoContainerView)
-        videoContainerView.setDimensions(height: convertedHeight - convertedConstant,
-                                         width: view.frame.width)
-        videoContainerView.anchor(top: view.safeAreaLayoutGuide.topAnchor)
-        videoContainerView.centerX(inView: view)
-        
+
+
         // 선생님정보 View
     }
     
     func setupCustomTabBar(){
-        self.view.addSubview(customMenuBar)
-        customMenuBar.delegate = self
-        customMenuBar.translatesAutoresizingMaskIntoConstraints = false
-        customMenuBar.anchor(top: videoContainerView.bottomAnchor,
-                             left: view.leftAnchor)
-        customMenuBar.setDimensions(height: view.frame.height * 0.06, width: view.frame.width)
-        //        customMenuBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        //        customMenuBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        //        customMenuBar.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor).isActive = true
-        //        customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06).isActive = true
-        
-        view.addSubview(teacherInfoView)
-        //        teacherInfoView.setDimensions(height: view.frame.height * 0.167, width: view.frame.width)
-        teacherInfoFoldConstraint = teacherInfoView.heightAnchor.constraint(equalToConstant: 0)
-        teacherInfoUnfoldConstraint = teacherInfoView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.28)
-        
-        
-        teacherInfoView.centerX(inView: videoContainerView)
-        teacherInfoView.anchor(top: customMenuBar.bottomAnchor,
-                               width: view.frame.width)
-        teacherInfoFoldConstraint?.isActive = true
-        
-        
-        
+
     }
     
     func customMenuBar(scrollTo index: Int) {
@@ -209,11 +259,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         pageCollectionView.register(BottomNoteCell.self, forCellWithReuseIdentifier: BottomNoteCell.reusableIdentifier)
         pageCollectionView.register(BottomQnACell.self, forCellWithReuseIdentifier: BottomQnACell.reusableIdentifier)
         pageCollectionView.register(BottomPlaylistCell.self, forCellWithReuseIdentifier: BottomPlaylistCell.reusableIdentifier)
-        self.view.addSubview(pageCollectionView)
-        pageCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        pageCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        pageCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        pageCollectionView.topAnchor.constraint(equalTo: self.teacherInfoView.bottomAnchor).isActive = true
+        view.addSubview(pageCollectionView)
     }
     
     
@@ -225,8 +271,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                             paddingRight: 10)
         toggleButton.addTarget(self, action: #selector(handleToggle), for: .touchUpInside)
     }
-    
-    
 }
 
 
@@ -278,7 +322,7 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
 
 
 
-// MARK: - Video
+// MARK: - Video Method
 
 extension VideoController {
     // View 최상단 영상 시작 메소드
@@ -297,12 +341,12 @@ extension VideoController {
         playerController.addSubtitles(controller: self).open(fileFromRemote: subtitleURL!)
         
         // 4 playController 색상 / frame / subview 추가 처리한다
-        self.videoContainerView.addSubview(playerController.view)
+        
         playerController.subtitleLabel?.textColor = .white
-        playerController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor)
-        playerController.view.centerX(inView: view)
-        let convertedHeight = convertZeplinHeightToiPhoneHeight(231, standardView: view)
-        let convertedConstant = convertZeplinHeightToiPhoneHeight(65.45, standardView: view)
+        
+        
+        let convertedHeight = convertHeight(231, standardView: view)
+        let convertedConstant = convertHeight(65.45, standardView: view)
         
         
         playerController.view.setDimensions(height: convertedHeight - convertedConstant, width: view.frame.width)
@@ -322,9 +366,10 @@ extension VideoController {
     }
     
     func configureVideoControlView() {
+        
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
-        let height = convertZeplinHeightToiPhoneHeight(15, standardView: view)
+        let height = convertHeight(15, standardView: view)
         
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
@@ -339,7 +384,7 @@ extension VideoController {
         backButton.setDimensions(height: 20, width: 20)
         
         // 타임라인 timerSlider
-        let convertedWidth = convertZeplinWidthToiPhoneWidth(244, standardView: view)
+        let convertedWidth = convertWidth(244, standardView: view)
         videoControlContainerView.addSubview(timeSlider)
         timeSlider.setDimensions(height: 5, width: convertedWidth)
         timeSlider.centerX(inView: videoControlContainerView)
@@ -356,4 +401,166 @@ extension VideoController {
     }
     
     
+}
+
+// MARK: - Constraint Method
+
+extension VideoController {
+    // 세로모드 제약조건 정의
+    func setConstraintInPortrait() {
+        // 길이 환산: 제플린 값 -> View 값
+        let videoContainerViewHeight = convertHeight(231, standardView: view)
+        let convertedConstant = convertHeight(65.45, standardView: view)
+        
+        /* VideoContainerView */
+        view.addSubview(videoContainerView)
+        videoContainerView.translatesAutoresizingMaskIntoConstraints = false
+        // Portrait 제약조건 정의
+        videoContainerViewPorTraitWidthConstraint = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width)
+        videoContainerViewPorTraitHeightConstraint = videoContainerView.heightAnchor.constraint(equalToConstant: videoContainerViewHeight - convertedConstant)
+        videoContainerViewPorTraitTopConstraint = videoContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        videoContainerViewPorTraitLeftConstraint = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        
+        // Landscape 제약조건 정의
+        videoContainerViewLandscapeWidthConstraint = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width)
+        videoContainerViewLandscapeHeightConstraint = videoContainerView.heightAnchor.constraint(equalToConstant: videoContainerViewHeight - convertedConstant)
+        videoContainerViewLandscapeTopConstraint = videoContainerView.topAnchor.constraint(equalTo: view.topAnchor)
+        videoContainerViewLandscapeLeftConstraint = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        
+        /* CustomTabBar */
+        view.addSubview(customMenuBar)
+        customMenuBar.delegate = self
+        customMenuBar.translatesAutoresizingMaskIntoConstraints = false
+        // Portrait 제약조건 정의
+        customMenuBarPorTraitLeftConstraint = customMenuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        customMenuBarPorTraitRightConstraint = customMenuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        customMenuBarPorTraitTopConstraint = customMenuBar.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
+        customMenuBarPorTraitHeightConstraint = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+        // Landscape 제약조건 정의
+        customMenuBarLandscapeTopConstraint = customMenuBar.topAnchor.constraint(equalTo: view.topAnchor)
+        customMenuBarLandscapeRightConstraint = customMenuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        customMenuBarLandscapeLeftConstraint = customMenuBar.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+        customMenuBarLandscapeHeightConstraint = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+        
+        /* TeacherInfoView */
+        view.addSubview(teacherInfoView)
+        teacherInfoView.translatesAutoresizingMaskIntoConstraints = false
+        teacherInfoFoldConstraint?.priority = UILayoutPriority(rawValue: 999)
+        teacherInfoUnfoldConstraint?.priority = UILayoutPriority(rawValue: 999)
+        teacherInfoFoldConstraint = teacherInfoView.heightAnchor.constraint(equalToConstant: 5)
+        teacherInfoUnfoldConstraint = teacherInfoView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.28)
+        
+        
+        // Portrait 제약조건 정의
+        teacherInfoViewPorTraitTopConstraint = teacherInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
+        teacherInfoViewPorTraitCenterXConstraint = teacherInfoView.centerXAnchor.constraint(equalTo: customMenuBar.centerXAnchor)
+        teacherInfoViewPorTraitWidthConstraint = teacherInfoView.widthAnchor.constraint(equalTo: view.widthAnchor)
+//        teacherInfoView.centerX(inView: videoContainerView)
+//        teacherInfoView.anchor(top: customMenuBar.bottomAnchor,
+//                               width: view.frame.width)
+        // Landscape 제약조건 정의
+        teacherInfoViewLandscapeTopConstraint = teacherInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
+        teacherInfoViewLandscapeLeftConstraint = teacherInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        teacherInfoViewLandscapeRightConstraint = teacherInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+    
+        /* pageCollectionView */
+        // Portrait 제약조건 정의
+        pageCollectionViewPorTraitLeftConstraint = pageCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        pageCollectionViewPorTraitRightConstraint = pageCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        pageCollectionViewPorTraitBottomConstraint = pageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        pageCollectionViewPorTraitTopConstraint = pageCollectionView.topAnchor.constraint(equalTo: teacherInfoView.bottomAnchor)
+        // Landscape 제약조건 정의
+        pageCollectionViewLandscapeLeftConstraint = pageCollectionView.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+        pageCollectionViewLandscapeRightConstraint = pageCollectionView.widthAnchor.constraint(equalToConstant: view.frame.width)
+        pageCollectionViewLandscapeBottomConstraint = pageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        pageCollectionViewLandscapeTopConstraint = pageCollectionView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
+        
+        
+        /* playerController View */
+        self.videoContainerView.addSubview(playerController.view)
+        playerController.view.anchor(top: videoContainerView.topAnchor, left: videoContainerView.leftAnchor)
+        
+    }
+    
+    
+    //  화면전환에 따른 Constraint 적용
+    func changeConstraintToVideoContainer(isPortraitMode: Bool) {
+        if !isPortraitMode { // 세로모드인 경우
+            print("DEBUG: 세로모드")
+            portraitConstraint(true)
+            landscapeConstraint(false)
+        } else {            // 가로모드인 경우
+            print("DEBUG: 가로모드")
+            portraitConstraint(false)
+            landscapeConstraint(true)
+        }
+    }
+    
+    // Portait 제약조건 활성화 메소드
+    func portraitConstraint(_ isActive: Bool) {
+        pageCollectionView.reloadData()
+        print("DEBUG: 여기도호출됨")
+        // "VideoContainerView" 제약조건
+        videoContainerViewPorTraitWidthConstraint?.isActive = isActive
+        videoContainerViewPorTraitHeightConstraint?.isActive = isActive
+        videoContainerViewPorTraitTopConstraint?.isActive = isActive
+        videoContainerViewPorTraitLeftConstraint?.isActive = isActive
+        // "CustomTabBar" 제약조건
+        customMenuBarPorTraitLeftConstraint?.isActive = isActive
+        customMenuBarPorTraitRightConstraint?.isActive = isActive
+        customMenuBarPorTraitTopConstraint?.isActive = isActive
+        customMenuBarPorTraitHeightConstraint?.isActive = isActive
+        
+        // "TeacherInfoView" 제약조건
+        teacherInfoViewPorTraitTopConstraint?.isActive = isActive
+        teacherInfoViewPorTraitCenterXConstraint?.isActive = isActive
+        teacherInfoViewPorTraitWidthConstraint?.isActive = isActive
+        teacherInfoUnfoldConstraint?.isActive = !isActive
+        teacherInfoFoldConstraint?.isActive = isActive
+        // TODO: ToggleButton 제약조건
+        
+        // "CollectionView" 제약조건
+        pageCollectionViewPorTraitLeftConstraint?.isActive = isActive
+        pageCollectionViewPorTraitRightConstraint?.isActive = isActive
+        pageCollectionViewPorTraitBottomConstraint?.isActive = isActive
+        pageCollectionViewPorTraitTopConstraint?.isActive = isActive
+        
+        
+    }
+    
+    // Landscape 제약조건 활성화 메소드
+    func landscapeConstraint(_ isActive: Bool) {
+        pageCollectionView.reloadData()
+
+//        videoContainerViewLandscapeHeightConstraint?.priority = UILayoutPriority(rawValue: 999)
+        videoContainerViewLandscapeWidthConstraint?.isActive = isActive
+        videoContainerViewLandscapeHeightConstraint?.isActive = isActive
+        videoContainerViewLandscapeTopConstraint?.isActive = isActive
+        videoContainerViewLandscapeLeftConstraint?.isActive = isActive
+        // "CustomTabBar" 제약조건
+//        customMenuBarLandscapeTopConstraint?.priority = UILayoutPriority(rawValue: 998)
+        customMenuBarLandscapeRightConstraint?.isActive = isActive
+        customMenuBarLandscapeTopConstraint?.isActive = isActive
+        customMenuBarLandscapeLeftConstraint?.isActive = isActive
+        customMenuBarLandscapeHeightConstraint?.isActive = isActive
+        // "TeacherInfoView" 제약조건
+        teacherInfoUnfoldConstraint?.isActive = isActive
+        teacherInfoFoldConstraint?.isActive = !isActive
+        teacherInfoViewLandscapeTopConstraint?.isActive = isActive
+        teacherInfoViewLandscapeLeftConstraint?.isActive = isActive
+        teacherInfoViewLandscapeRightConstraint?.isActive = isActive
+        // TODO: ToggleButton 제약조건
+
+        
+        // pageCollectionView
+        pageCollectionViewLandscapeLeftConstraint?.isActive = isActive
+        pageCollectionViewLandscapeRightConstraint?.isActive = isActive
+        pageCollectionViewLandscapeBottomConstraint?.isActive = isActive
+        pageCollectionViewLandscapeTopConstraint?.isActive = isActive
+        
+        
+        
+        // TODO: "TeachInfoView" 제약조건
+        // TODO: "CollectionView" 제약조건
+    }
 }
