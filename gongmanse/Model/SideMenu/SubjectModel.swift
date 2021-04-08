@@ -18,6 +18,7 @@ struct SubjectModel: Codable {
     let id: String
     let sName: String
 }
+//
 
 
 // 토큰 학년 과목 보내는 모델
@@ -29,7 +30,7 @@ struct SubejectFilterModel {
     
 }
 
-// 토큰 학년 과목을 보내고 데이터 받아오는 모델
+// post방식 토큰 학년 과목을 보내고 데이터 받아오는 모델
 struct SubjectGetDataListModel: Codable {
     let data: SubjectGetDataModel
 }
@@ -39,7 +40,7 @@ struct SubjectGetDataModel: Codable {
     let iPreferCategory: String
     let sName: String
 }
-
+//
 
 
 //get 방식 서버보내기 ( 현재 사용중 )

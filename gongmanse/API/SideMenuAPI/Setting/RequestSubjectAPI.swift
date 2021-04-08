@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 
-
+// 서버에서 과목List 받아오는 API
 struct getSubjectAPI {
     
     let subjecturl = "\(apiBaseURL)/v/search/subjectnum?offset=0&limit=100"
@@ -31,10 +31,11 @@ struct getSubjectAPI {
     }
 }
 
+// 데이터 서버에 보낼 때
 struct postFilteringAPI {
     
     
-    //Get 방식
+    // Get 방식 현재 사용중인 API
     func performGetFiltering(token: String, grade: String, subject: String) {
         let urls = "\(apiBaseURL)/v/setting/settingios?token=\(token)&grade=\(grade)&subject=\(subject)"
         print(urls)
@@ -48,7 +49,7 @@ struct postFilteringAPI {
        
     }
     
-    
+    // POST방식, 아직 연구중
     func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
         let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
         guard let token = token else { return }
@@ -95,7 +96,7 @@ struct postFilteringAPI {
     }
 }
 
-
+// 보낸 데이터 받아오는 API
 struct getFilteringAPI {
     
     let tokenValue = "YWI0NmU1YzE4MjczOWU4MDYxYWExZWFlNzBmODAxZDg4OWU1ZWU3OGVhYWNmMmExY2Y0YjBjNTZjOTg2NGEwNjcxYTViODI3M2U3NjZiYWE0OGU4NjM1ZWUyNWVmYTI1NDdhM2YwOWMwMDVhMDAxN2E0ZjVjNDQxZmM4ZjlmMTA1VmwwYUNDZjlQVWVyYUplVThSQVgxZkt5N2FUekxjQTFPSUpZUERUZWdLTnVXNjN4TGpaUWg0RUx5OTlOcUdoVm1aK2xnVnl2Yk1PbFJJTHM0TmJ4UT09"

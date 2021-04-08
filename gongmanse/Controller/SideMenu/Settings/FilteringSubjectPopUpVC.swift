@@ -24,6 +24,7 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
     private var acceptToken = ""
     private var subjectFilterNumber = ""
     private var subjectFilterText = ""
+    private let SubjectListCellIdentifier = "SubjectListCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +33,11 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(SubjectCell.self, forCellReuseIdentifier: "Subject")
+        let subjectListNib = UINib(nibName: SubjectListCellIdentifier, bundle: nil)
+        tableView.register(subjectListNib, forCellReuseIdentifier: SubjectListCellIdentifier)
         tableView.showsVerticalScrollIndicator = false
+        
+        
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -45,7 +49,6 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
         getSubject.performSubjectAPI { [weak self] result in
             self?.subjectList.append(SubjectModel(id: "0", sName: "모든 과목"))
             self?.subjectList.append(contentsOf: result)
-            print(self?.subjectList)
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -81,19 +84,26 @@ extension FilteringSubjectPopUpVC: UITableViewDelegate {
 }
 
 extension FilteringSubjectPopUpVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return subjectList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Subject", for: indexPath) as? SubjectCell else  { return UITableViewCell() }
         
-        cell.textLabel?.text = subjectList[indexPath.row].sName
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SubjectListCellIdentifier, for: indexPath) as? SubjectListCell else  { return UITableViewCell() }
+        
+        cell.subjectLabel.text = subjectList[indexPath.row].sName
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         subjectFilterNumber = String(indexPath.row)
         subjectFilterText = subjectList[indexPath.row].sName
         
@@ -103,8 +113,4 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
         NotificationCenter.default.post(name: NSNotification.Name("subjectFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
-}
-
-class SubjectCell: UITableViewCell {
-    
 }

@@ -18,10 +18,13 @@ class FilteringGradePopUpVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     
     var tableView = UITableView()
-    private let AllgradeList = ["모든 학년","초등학교 1학년","초등학교 2학년","초등학교 3학년","초등학교 4학년","초등학교 5학년","초등학교 6학년","중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     
     private var acceptToken = ""
     private var gradeFilterText = ""
+    private let AllgradeList = ["모든 학년","초등학교 1학년","초등학교 2학년","초등학교 3학년","초등학교 4학년","초등학교 5학년","초등학교 6학년","중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
+    private let GradeListCellIdentifier = "GradeListCell"
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +33,8 @@ class FilteringGradePopUpVC: BottomPopupViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(NonCell.self, forCellReuseIdentifier: "Cell")
+        let gradeListNibName = UINib(nibName: GradeListCellIdentifier, bundle: nil)
+        tableView.register(gradeListNibName, forCellReuseIdentifier: GradeListCellIdentifier)
         tableView.showsVerticalScrollIndicator = false
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +50,7 @@ class FilteringGradePopUpVC: BottomPopupViewController {
     }
     
     override var popupTopCornerRadius: CGFloat {
-        return topCornerRadius ?? CGFloat(10)
+        return topCornerRadius ?? CGFloat(0)
         
     }
     
@@ -68,13 +72,34 @@ class FilteringGradePopUpVC: BottomPopupViewController {
 
 extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return AllgradeList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NonCell else { return UITableViewCell() }
-        cell.textLabel?.text = AllgradeList[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: GradeListCellIdentifier, for: indexPath) as? GradeListCell else { return UITableViewCell() }
+        
+        cell.gradeLabel.text = AllgradeList[indexPath.row]
+        
         return cell
     }
     
@@ -87,8 +112,4 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
         NotificationCenter.default.post(name: NSNotification.Name("gradeFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
-}
-
-class NonCell: UITableViewCell {
-    
 }
