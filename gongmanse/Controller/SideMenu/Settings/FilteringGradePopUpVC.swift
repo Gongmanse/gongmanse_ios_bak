@@ -90,20 +90,23 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
         gradeImage.image = UIImage(named: "popupClass")
         gradeImage.sizeToFit()
         gradeImage.contentMode = .scaleAspectFit
+        gradeImage.setContentHuggingPriority(.required, for: .horizontal)
         
         let gradeLabelText = UILabel(frame: CGRect(x: 0, y: 0, width: 24, height: 10))
         gradeLabelText.text = "학년"
         gradeLabelText.textAlignment = .left
         gradeLabelText.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        gradeLabelText.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         let cancelButton = UIButton(type: .custom)
         cancelButton.setImage(UIImage(named: "smallX"), for: .normal)
         cancelButton.addTarget(self, action: #selector(headerCancelButton(_:)), for: .touchUpInside)
+        cancelButton.setContentHuggingPriority(.required, for: .horizontal)
         
         let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
         stackView.axis = .horizontal
         stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.spacing = 5
         
         let contourLine = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 2))
