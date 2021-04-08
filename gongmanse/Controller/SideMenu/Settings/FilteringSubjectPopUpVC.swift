@@ -19,9 +19,11 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
     
-    var subjectList: [SubjectModel] = []
+    private var subjectList: [SubjectModel] = []
+    
     private var acceptToken = ""
-    var subjectFilterText = ""
+    private var subjectFilterNumber = ""
+    private var subjectFilterText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,10 +92,13 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        subjectFilterText = String(indexPath.row + 1)
+        subjectFilterNumber = String(indexPath.row + 1)
+        subjectFilterText = subjectList[indexPath.row].sName
         
-        
+        UserDefaults.standard.setValue(subjectFilterNumber, forKey: "subjectFilterNumber")
         UserDefaults.standard.setValue(subjectFilterText, forKey: "subjectFilterText")
+        
+        NotificationCenter.default.post(name: NSNotification.Name("subjectFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
 }

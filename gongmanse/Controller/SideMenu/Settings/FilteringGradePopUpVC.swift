@@ -18,10 +18,10 @@ class FilteringGradePopUpVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     
     var tableView = UITableView()
-    let AllgradeList = ["초등학교 1학년","초등학교 2학년","초등학교 3학년","초등학교 4학년","초등학교 5학년","초등학교 6학년","중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
+    private let AllgradeList = ["초등학교 1학년","초등학교 2학년","초등학교 3학년","초등학교 4학년","초등학교 5학년","초등학교 6학년","중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     
     private var acceptToken = ""
-    var gradeFilterText = ""
+    private var gradeFilterText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +83,8 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
         let userGrade = AllgradeList[indexPath.row]
         
         UserDefaults.standard.setValue(userGrade, forKey: "gradeFilterText")
+        
+        NotificationCenter.default.post(name: NSNotification.Name("gradeFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
 }

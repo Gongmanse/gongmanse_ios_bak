@@ -21,28 +21,28 @@ struct SubjectModel: Codable {
 
 
 // 토큰 학년 과목 보내는 모델
-struct SubejectFilterModel: Decodable {
+struct SubejectFilterModel {
     
-    var token: String
-    var grade: String
-    var subject: String
+    let token: String
+    let grade: String
+    let subject: String
     
 }
 
-// 토큰 학년 과목을 보내고 다시 받아오는 모델
+// 토큰 학년 과목을 보내고 데이터 받아오는 모델
 struct SubjectGetDataListModel: Codable {
     let data: SubjectGetDataModel
 }
 
 struct SubjectGetDataModel: Codable {
     let sGrade: String
-    let iPreferCategory: Int
+    let iPreferCategory: String
     let sName: String
 }
 
 
 
-//get 방식 서버보내기
+//get 방식 서버보내기 ( 현재 사용중 )
 
 struct getFilteringAPIModel: Codable {
     let token: String

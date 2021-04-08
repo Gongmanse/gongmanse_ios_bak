@@ -3,10 +3,12 @@ import BottomPopup
 
 class SettingsVC: UIViewController, BottomPopupDelegate {
     
-    var tableView = UITableView()
-    let PushAlertCellIdentifier = "PushAlertCell"
-    let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
+    private var tableView = UITableView()
+    private let PushAlertCellIdentifier = "PushAlertCell"
+    private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
+    
     var dataApi: [SubjectGetDataModel] = []
+    
     var height: CGFloat = 300
        
     var presentDuration: Double = 0.2
@@ -30,9 +32,9 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         button.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
         return button
     }()
-    private var userToken: String?
     
-    let filterVM = FilteringViewModel()
+    private var userToken: String?
+    private let filterVM = FilteringViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -50,16 +52,33 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         setTableView()
         
         print(Constant.token)
-//        let tt = getFilteringAPI()
-//        tt.getFilteringData { [weak self] result in
-//            self?.dataApi = [result]
-//            DispatchQueue.main.async {
-//                self?.tableView.reloadData()
-//            }
-//        }
+        let testGetFilter = getFilteringAPI()
+        testGetFilter.getFilteringData { [weak self] result in
+            self?.dataApi = [result]
+            DispatchQueue.main.async {
+                self?.gradeButton.setTitle(self?.dataApi[0].sGrade, for: .normal)
+                self?.subjectButton.setTitle(self?.dataApi[0].sName, for: .normal)
+                self?.tableView.reloadData()
+            }
+        }
         tableView.delegate = self
         tableView.dataSource = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(gradeNoti(_:)), name: NSNotification.Name("gradeFilterText"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(subjectNoti(_:)), name: NSNotification.Name("subjectFilterText"), object: nil)
     }
+    
+    @objc func gradeNoti(_ sender: NotificationCenter) {
+        let gradeButtonTitle = UserDefaults.standard.object(forKey: "gradeFilterText")
+        gradeButton.setTitle(gradeButtonTitle as? String, for: .normal)
+
+    }
+    
+    @objc func subjectNoti(_ sender: NotificationCenter) {
+        let subjectButtonTitle = UserDefaults.standard.object(forKey: "subjectFilterText")
+        subjectButton.setTitle(subjectButtonTitle as? String, for: .normal)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
