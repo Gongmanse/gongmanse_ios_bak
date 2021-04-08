@@ -71,7 +71,7 @@ extension NoticeListVC: UICollectionViewDataSource {
 //        let regexImage = contentImageName.getArrayAfterRegex(regex: <img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>")
         
 //        print(regexImage[1])
-        cell.contentImage.image = UIImage(named: "five")
+        cell.contentImage.image = UIImage(named: "manual_0")
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
         cell.contentViewer.text = noticeListArray[indexPath.row].viewer
         cell.createContentDate.text = noticeListArray[indexPath.row].dtDateCreated
