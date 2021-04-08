@@ -32,6 +32,7 @@ class FilteringGradePopUpVC: BottomPopupViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorInset.left = 0
         let gradeListNibName = UINib(nibName: GradeListCellIdentifier, bundle: nil)
         tableView.register(gradeListNibName, forCellReuseIdentifier: GradeListCellIdentifier)
         tableView.showsVerticalScrollIndicator = false

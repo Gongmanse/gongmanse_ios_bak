@@ -33,6 +33,7 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorInset.left = 0
         let subjectListNib = UINib(nibName: SubjectListCellIdentifier, bundle: nil)
         tableView.register(subjectListNib, forCellReuseIdentifier: SubjectListCellIdentifier)
         tableView.showsVerticalScrollIndicator = false
@@ -61,7 +62,7 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
     }
     
     override var popupTopCornerRadius: CGFloat {
-        return topCornerRadius ?? CGFloat(10)
+        return topCornerRadius ?? CGFloat(0)
         
     }
     
@@ -77,6 +78,11 @@ class FilteringSubjectPopUpVC: BottomPopupViewController {
     override var popupShouldDismissInteractivelty: Bool {
         return shouldDismissInteractivelty ?? true
     }
+    
+    @objc func headerCancelButton(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 extension FilteringSubjectPopUpVC: UITableViewDelegate {
@@ -84,6 +90,58 @@ extension FilteringSubjectPopUpVC: UITableViewDelegate {
 }
 
 extension FilteringSubjectPopUpVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        
+        let gradeImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        gradeImage.image = UIImage(named: "popupClass")
+        gradeImage.sizeToFit()
+        gradeImage.contentMode = .scaleAspectFit
+        
+        let gradeLabelText = UILabel(frame: CGRect(x: 0, y: 0, width: 24, height: 10))
+        gradeLabelText.text = "과목"
+        gradeLabelText.textAlignment = .left
+        gradeLabelText.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        
+        let cancelButton = UIButton(type: .custom)
+        cancelButton.setImage(UIImage(named: "smallX"), for: .normal)
+        cancelButton.addTarget(self, action: #selector(headerCancelButton(_:)), for: .touchUpInside)
+        
+        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 5
+        
+        let contourLine = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 2))
+        contourLine.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
+        
+        headerview.backgroundColor = .white
+        headerview.addSubview(contourLine)
+        headerview.addSubview(stackView)
+        stackView.addArrangedSubview(gradeImage)
+        stackView.addArrangedSubview(gradeLabelText)
+        stackView.addArrangedSubview(cancelButton)
+        
+        contourLine.translatesAutoresizingMaskIntoConstraints = false
+        contourLine.leadingAnchor.constraint(equalTo: headerview.leadingAnchor).isActive = true
+        contourLine.trailingAnchor.constraint(equalTo: headerview.trailingAnchor).isActive = true
+        contourLine.bottomAnchor.constraint(equalTo: headerview.bottomAnchor).isActive = true
+        contourLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.topAnchor.constraint(equalTo: headerview.topAnchor, constant: 8).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: headerview.leadingAnchor, constant: 20).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: headerview.trailingAnchor, constant: -20).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contourLine.bottomAnchor, constant: -8).isActive = true
+        
+        return headerview
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
