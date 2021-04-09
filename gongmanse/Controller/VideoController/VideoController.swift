@@ -140,7 +140,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var playerItem = AVPlayerItem(url: videoUrl! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
     
-    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=Zjg1NmFmOTFkODRhMTdlMjFhMWNiMTAwOTBjNzUxOTRhYWNkZjQ2NzU2ZTQ3ZTQ0NmEwNTczMTY5ZjMzYWY2NmM2ZjE0OTBlMTI4M2RjZjFiNjU2YmNiOTM4NzJjY2NhMDQ4ZjdkMWQxYTExN2ZjZTMxYTUzMDM2MGFlYjZkNmNhQW9TeTcyVzVEK0xwY3dCeCtBb09BZjJNcVlGeHVHWHZ6UzhrYVFRenVYRGdaWVBKOGFvMVFsMkpwRTRJVDB2bEplL2hPM2I1Nkw5dGc2Y2VxeHQ5Yy9kVE91cERGaXZvZ04rbkxuWGRrTy82bmJiMmdYeHFrWUdCZFNiZEZGajhOUDZEeWZtVDA2T01pUzExMy9xL09sOC9rR0tUT3NRZEl6TVlKeUtHODMxamVRUzY5MGJqQ3dQcTlQeVllbFFEL3ZPVjBCdlBVcEJOMTJ3VnA3Y0s3SjJ3d3k5R0VNMURRdTMwTk5LeGprZ3NQZGwvWW5xU200WWl1K0pPSDh4VnU3MXg1VmJkTTc1ZzlRWHF3dkt1ZkJsWXYyc1EzaVJNbEloTGc2Qkl3QnluRkFobG41Y1RYVU1oRnBTSHkzNnl1MmF1OExNaWdTVmJnY2ZERTRZcVBzMkRUeHJNQVVpektvWStyeFZxV2M9")
+    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=M2UzOGRiMmUxZjNhYzFlYWZhZjY5YThjMjAwOTU1ZTEwZDY5Zjk3MTcxYTYwZTM4ZjcwNzhkN2E2YmIyZGY1OTM2NjBhMjhjM2UyNzUyZjQzYzRmOGRjY2NlNTFjZjE4YmYxZGRlZWExZGQ4MWYzNGQwYWVhMjJiODJkNmQyOTV5bkxCb0dCL1BBS2RQV3JwcWR4NG55OGZYTjcvRlYrdS9LeUtvY1o0aHpaMllVNzZhUUNoNjMwb0R4VkEySncvanhNd2ZFa2lCaDA5S1BHMnNPdGhyUU5wRWFtelpOeVdwSytxeUpSR1lvM0VacTdEWk5oQ3kwT2tMVlFITm5ib3k3YytLdkQ0U1hLWDJTU0RiWGdTOVBmU2pUT0cvSGFWK3BiNDlsd3lSTFhaZjU5VWU3eFRiQWNRQVJSZVdyV0tHK2hUTE9qQzhHMVJyQkRLLzBCTk5Gd2FQemFWYkJSNEUxOXp0Z3NYVlNwZWx3YmNMUGVabll3UFh5TnVkdGF3VVRRREx4dlJHZTI4cDUrYldNV2N6cWc0NFFwU3duR2h2VHJwNGlMNEZWLzhSTWdWcERMaDZxdzZBT2xaVytuQ0tiZGoxcWNBSlpvcjVRSURXU1kxR0x2LzJ2OUo0ZkltRm5xVUsyZitNaXM9")
 
     // 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
@@ -220,6 +220,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     @objc func handleBackButtonAction() {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
+        player.pause()
+        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -374,7 +376,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         // 5 실행한다
         player.play()
-        player.isMuted = true
+        player.isMuted = false
         // Setting
         playerController.showsPlaybackControls = false  // 하단 상태표시슬라이드 display 여부
     }
@@ -410,23 +412,49 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.maximumValue = Float(seconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
+        
+        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(targetViewDidTapped))
+        gesture.numberOfTapsRequired = 1
+        playerController.view.isUserInteractionEnabled = true
+        playerController.view.addGestureRecognizer(gesture)
+        
         addPeriodicTimeObserver()
     }
     
+    @objc func targetViewDidTapped() {
+        if videoControlContainerView.alpha == 1 {
+            UIView.animate(withDuration: 0.3) {
+                self.videoControlContainerView.alpha = 0
+            }
+            
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.videoControlContainerView.alpha = 1
+            }
+        }
+    }
+    
     func addPeriodicTimeObserver() {
+        
+        
         // Notify every half second
         let timeScale = CMTimeScale(NSEC_PER_SEC)
         let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
-
-
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: time,
                                                           queue: .main) {
             [weak self] time in
             // update player transport UI
             self?.timeSlider.value = Float(time.seconds)
+
         }
     }
     
+    func removePeriodicTimeObserver() {
+        if let timeObserverToken = timeObserverToken {
+            player.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+    }
     
 }
 
@@ -515,7 +543,6 @@ extension VideoController {
         /* playerController View */
         self.videoContainerView.addSubview(playerController.view)
         playerController.view.anchor(top: videoContainerView.topAnchor, left: videoContainerView.leftAnchor)
-        
     }
     
     
