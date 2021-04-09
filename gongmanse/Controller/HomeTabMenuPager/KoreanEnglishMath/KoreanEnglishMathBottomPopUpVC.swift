@@ -9,7 +9,7 @@ class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
     
-    let firstTitleName = ["카테고리"]
+    let firstTitleName = "카테고리"
     let titleNames = ["전체보기", "시리즈보기", "문제풀이", "노트보기"]
     
     let sections = ["", " "]
@@ -27,7 +27,7 @@ class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
         tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
 
-        tableView.register(KoreanEnglishMathBottomPopUPTVCell.self, forCellReuseIdentifier: "123")
+        tableView.register(KoreanEnglishMathBottomPopUPTVCell.self, forCellReuseIdentifier: "KoreanEnglishMathBottomPopUPTVCell")
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -81,15 +81,13 @@ extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "123")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "KoreanEnglishMathBottomPopUPTVCell")
         
         if indexPath.section == 0 {
-            cell?.textLabel?.text = "\(firstTitleName[indexPath.row])"
+            cell?.textLabel?.text = firstTitleName
         } else if indexPath.section == 1 {
             cell?.textLabel?.text = "\(titleNames[indexPath.row])"
         }
-        
-        cell?.textLabel?.text = titleNames[indexPath.row]
         
         return cell!
     }
