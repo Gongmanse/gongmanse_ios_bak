@@ -220,6 +220,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     @objc func handleBackButtonAction() {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
+        player.pause()
+        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -374,7 +376,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         // 5 실행한다
         player.play()
-        player.isMuted = true
+        player.isMuted = false
         // Setting
         playerController.showsPlaybackControls = false  // 하단 상태표시슬라이드 display 여부
     }
@@ -410,23 +412,49 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.maximumValue = Float(seconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
+        
+        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(targetViewDidTapped))
+        gesture.numberOfTapsRequired = 1
+        playerController.view.isUserInteractionEnabled = true
+        playerController.view.addGestureRecognizer(gesture)
+        
         addPeriodicTimeObserver()
     }
     
+    @objc func targetViewDidTapped() {
+        if videoControlContainerView.alpha == 1 {
+            UIView.animate(withDuration: 0.3) {
+                self.videoControlContainerView.alpha = 0
+            }
+            
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.videoControlContainerView.alpha = 1
+            }
+        }
+    }
+    
     func addPeriodicTimeObserver() {
+        
+        
         // Notify every half second
         let timeScale = CMTimeScale(NSEC_PER_SEC)
         let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
-
-
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: time,
                                                           queue: .main) {
             [weak self] time in
             // update player transport UI
             self?.timeSlider.value = Float(time.seconds)
+
         }
     }
     
+    func removePeriodicTimeObserver() {
+        if let timeObserverToken = timeObserverToken {
+            player.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+    }
     
 }
 
@@ -515,7 +543,6 @@ extension VideoController {
         /* playerController View */
         self.videoContainerView.addSubview(playerController.view)
         playerController.view.anchor(top: videoContainerView.topAnchor, left: videoContainerView.leftAnchor)
-        
     }
     
     
