@@ -140,7 +140,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var playerItem = AVPlayerItem(url: videoUrl! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
     
-    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=M2UzOGRiMmUxZjNhYzFlYWZhZjY5YThjMjAwOTU1ZTEwZDY5Zjk3MTcxYTYwZTM4ZjcwNzhkN2E2YmIyZGY1OTM2NjBhMjhjM2UyNzUyZjQzYzRmOGRjY2NlNTFjZjE4YmYxZGRlZWExZGQ4MWYzNGQwYWVhMjJiODJkNmQyOTV5bkxCb0dCL1BBS2RQV3JwcWR4NG55OGZYTjcvRlYrdS9LeUtvY1o0aHpaMllVNzZhUUNoNjMwb0R4VkEySncvanhNd2ZFa2lCaDA5S1BHMnNPdGhyUU5wRWFtelpOeVdwSytxeUpSR1lvM0VacTdEWk5oQ3kwT2tMVlFITm5ib3k3YytLdkQ0U1hLWDJTU0RiWGdTOVBmU2pUT0cvSGFWK3BiNDlsd3lSTFhaZjU5VWU3eFRiQWNRQVJSZVdyV0tHK2hUTE9qQzhHMVJyQkRLLzBCTk5Gd2FQemFWYkJSNEUxOXp0Z3NYVlNwZWx3YmNMUGVabll3UFh5TnVkdGF3VVRRREx4dlJHZTI4cDUrYldNV2N6cWc0NFFwU3duR2h2VHJwNGlMNEZWLzhSTWdWcERMaDZxdzZBT2xaVytuQ0tiZGoxcWNBSlpvcjVRSURXU1kxR0x2LzJ2OUo0ZkltRm5xVUsyZitNaXM9")
+    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=NDhmYTU0ZmJiMWYyODQ2ZjFlMzEzOTRkZDE3MGYzMzZhM2FkMDRhN2Q3YTMwNGVlMWM3NzVkYWQ2NDRkNTZjZTgyNGNhZjgxOTJiZWZjYTRiMzMyNWNmZDg3YzFjNTAyZTg1ZmFhNWFkZGU0MzA3NmFkOTM4OWI5MjU0Y2I5MWNOOW84QUMwcm9FOU9lZWJaNE9YVFNGbFd0ZnhBZGRLVU00VUFpSFRVL250L1ZTMVlkelJsODgvLzFyeGVKb0hrblVzUGozNW1EdXFHTURFUi9oMXJKZzdWYXd4WG5OK3lpM05oc1kvZFk0b0h2aHhLeG5mZmR6WVJtNTdYMHpPWVg2QlJEeU5hcVpjWHpYZlJPaEJ2NEx0YXZXNm10ZlFxNXBtaGpWODNkT0F6NkhOQlNKdnJ4dVRuTXBXUytGS3NKMmxWa2l2K0dtVmVpZkZGMis4RFBxMCtrc0tFRkd3N2xSQyt3eFdFV04yRDVxbUVkUEM5eWtvSEd3Qnk0NHFJS2JHVElCTGxEckR2SGVVMjd4NERQUT09")
 
     // 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
@@ -353,7 +353,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         self.addChild(playerController)
         
         // 2 자막 파일을 한글 인코딩을 한다
-        let subtitleInKor = makeStringKoreanEncoded("https://file.gongmanse.com/uploads/videos/2017/김샛별/계절이 변하는 까닭/170630_과학_초등_김샛별_083_계절이 변하는 까닭.vtt")
+        let subtitleInKor = makeStringKoreanEncoded("https://file.gongmanse.com/uploads/videos/2017/남윤희/통분/170616_수학_초등_남윤희_067_통분.vtt")
         let subtitleURL = URL(string: subtitleInKor)
         
         // 3 playerController에 자막URL을 추가한다
