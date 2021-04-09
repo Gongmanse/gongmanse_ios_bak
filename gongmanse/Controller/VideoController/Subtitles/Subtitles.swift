@@ -309,11 +309,10 @@ public extension AVPlayerViewController {
         parsedPayload = dictionaryContent
         addPeriodicNotification(parsedPayload: parsedPayload!)
     }
-    
+
     func addPeriodicNotification(parsedPayload: NSDictionary) {
         
 //         let keyword: [String?] // Parameter로 array를 입력받은 후, addAttributedString에 입력(공만세프로젝트)
-        
         // Add periodic notifications
         self.player?.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),
@@ -327,7 +326,7 @@ public extension AVPlayerViewController {
                 // MARK: 텍스트를 받아서 실시간으로 텍스트를 출력
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.parsedPayload, time.seconds) {
                     label.text = subtitleText   // Label에 String을 입력
-                    print("DEBUG: \(String(describing: subtitleText))")
+//                    print("DEBUG: \(String(describing: subtitleText))")
                     
                     let underlineAttriString = NSMutableAttributedString(string: subtitleText)
                     let range1 = (subtitleText as NSString).range(of: (self?.keyword!)!)

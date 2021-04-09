@@ -98,7 +98,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     // 타임라인 timerSlider
-    private let timeSlider: UISlider = {
+    private var timeSlider: UISlider = {
         let slider = UISlider()
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
@@ -136,6 +136,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     var playerController = AVPlayerViewController()
+    var timeObserverToken: Any?
     lazy var playerItem = AVPlayerItem(url: videoUrl! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
     
@@ -222,6 +223,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         self.dismiss(animated: true, completion: nil)
     }
     
+    // 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
     @objc func timeSliderValueChanged(_ slider: UISlider) {
         let seconds: Int64 = Int64(slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
@@ -270,7 +272,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         view.addSubview(pageCollectionView)
     }
     
-    
     func configureToggleButton() {
         view.addSubview(toggleButton)
         toggleButton.setDimensions(height: 32, width: 30)
@@ -281,6 +282,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                             paddingRight: 10)
         toggleButton.addTarget(self, action: #selector(handleToggle), for: .touchUpInside)
     }
+    
+    
+    
 }
 
 
@@ -334,9 +338,12 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Video Method
 
-extension VideoController {
+extension VideoController: AVPlayerViewControllerDelegate {
+    
     // View 최상단 영상 시작 메소드
     func playVideo() {
+        playerController.delegate = self
+        
         // 1 URL을 player에 추가한다
         let videoURL = videoUrl
         player = AVPlayer(url: videoURL! as URL)
@@ -403,6 +410,21 @@ extension VideoController {
         timeSlider.maximumValue = Float(seconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
+        addPeriodicTimeObserver()
+    }
+    
+    func addPeriodicTimeObserver() {
+        // Notify every half second
+        let timeScale = CMTimeScale(NSEC_PER_SEC)
+        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
+
+
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: time,
+                                                          queue: .main) {
+            [weak self] time in
+            // update player transport UI
+            self?.timeSlider.value = Float(time.seconds)
+        }
     }
     
     
