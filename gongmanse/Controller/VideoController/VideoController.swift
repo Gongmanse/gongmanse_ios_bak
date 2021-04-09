@@ -12,7 +12,6 @@ import UIKit
 class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
-    
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     private var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?          // 세로모드 시, 동영상에 적용될 넓이 제약조건
@@ -51,6 +50,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     private var teacherInfoViewLandscapeTopConstraint: NSLayoutConstraint?               // 가로모드 시, 동영상에 적용될 상단 제약조건
     private var teacherInfoViewLandscapeLeftConstraint: NSLayoutConstraint?              // 가로모드 시, 동영상에 적용될 좌측 제약조건
 
+    /* topBorderLine */
+    // Constraint 객체 - 세로모드
+    private var topBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?              // 세로모드 시, 동영상에 적용될 넓이 제약조건
+    private var topBorderLinePorTraitHeightConstraint: NSLayoutConstraint?             // 세로모드 시, 동영상에 적용될 높이 제약조건
+    private var topBorderLinePorTraitTopConstraint: NSLayoutConstraint?                // 세로모드 시, 동영상에 적용될 상단 제약조건
+    private var topBorderLinePorTraitWidthConstraint: NSLayoutConstraint?               // 세로모드 시, 동영상에 적용될 좌측 제약조건
+    /* bottomBorderLine */
+    // Constraint 객체 - 세로모드
+    private var bottomBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?              // 세로모드 시, 동영상에 적용될 넓이 제약조건
+    private var bottomBorderLinePorTraitHeightConstraint: NSLayoutConstraint?             // 세로모드 시, 동영상에 적용될 높이 제약조건
+    private var bottomBorderLinePorTraitBottomConstraint: NSLayoutConstraint?                // 세로모드 시, 동영상에 적용될 상단 제약조건
+    private var bottomBorderLinePorTraitWidthConstraint: NSLayoutConstraint?               // 세로모드 시, 동영상에 적용될 좌측 제약조건
+    
+    
     /* pageCollectionView */
     // Constraint 객체 - 세로모드
     private var pageCollectionViewPorTraitRightConstraint: NSLayoutConstraint?           // 세로모드 시, 동영상에 적용될 넓이 제약조건
@@ -126,7 +139,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var playerItem = AVPlayerItem(url: videoUrl! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
     
-    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=NTcxOGE1ZjhkYzExODIwODUxNDFjNzI3ZGNhMTk5YzY3NmJjNDAwODI4OTRlZGUyZDMyMDQyOTkyMmU2ZmI0ZjRlZTVlZTEzYmE2MjQxOTU1Y2U1NGNjNTJiYTIxOWFkNTU3OWFhNzFhMzE5MTUwNGRmN2EyYzZjZTNmNmJjMDQ3SXdUMkdHc1dvS1c1RVZReU5RRENnczVQUGJUYzhreFFlSytwMFpockp2cXRSdFZlL3RlTjExeWpRZ09oelk5ckdmN2YwWTRKWVJXWWFiNE5vUXUvYXlSZHFPZHlpdkMwcUVlMDg2enNhQnpsSlpKM0Mya0I1ZDU0d0gzcHg1ZFlnMGk4RFBsT3JyYnlZTHBORWp0VlIvMXB5N0R3U3lBRzcyQjJ1R3V4dHRUckxjMFNheGcrOWlvd25NVWlDMW1RSEE0VEgzVk5nVExvMTd1WkFzSk5NN0Q2bjJ3VlZ6ajBsSUtaR1Z1dHl3ZU03S2pzMnB3QmU3Qis3MGZudUtNeUFqeWtwcCtxalM4YUhDSkRuRHJCS28wTklNcWIrbkhmN3ZFdkR0SThIVjM4RnU0Q2p6M2tVME94ejhla2JwL29waXdTeGdWVm9SY29maHlWQzEyeFJOajE3Y2oxWnExcGkxS1ZpZXFyZ1U9")
+    let videoUrl = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=Zjg1NmFmOTFkODRhMTdlMjFhMWNiMTAwOTBjNzUxOTRhYWNkZjQ2NzU2ZTQ3ZTQ0NmEwNTczMTY5ZjMzYWY2NmM2ZjE0OTBlMTI4M2RjZjFiNjU2YmNiOTM4NzJjY2NhMDQ4ZjdkMWQxYTExN2ZjZTMxYTUzMDM2MGFlYjZkNmNhQW9TeTcyVzVEK0xwY3dCeCtBb09BZjJNcVlGeHVHWHZ6UzhrYVFRenVYRGdaWVBKOGFvMVFsMkpwRTRJVDB2bEplL2hPM2I1Nkw5dGc2Y2VxeHQ5Yy9kVE91cERGaXZvZ04rbkxuWGRrTy82bmJiMmdYeHFrWUdCZFNiZEZGajhOUDZEeWZtVDA2T01pUzExMy9xL09sOC9rR0tUT3NRZEl6TVlKeUtHODMxamVRUzY5MGJqQ3dQcTlQeVllbFFEL3ZPVjBCdlBVcEJOMTJ3VnA3Y0s3SjJ3d3k5R0VNMURRdTMwTk5LeGprZ3NQZGwvWW5xU200WWl1K0pPSDh4VnU3MXg1VmJkTTc1ZzlRWHF3dkt1ZkJsWXYyc1EzaVJNbEloTGc2Qkl3QnluRkFobG41Y1RYVU1oRnBTSHkzNnl1MmF1OExNaWdTVmJnY2ZERTRZcVBzMkRUeHJNQVVpektvWStyeFZxV2M9")
 
     // 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
@@ -141,6 +154,19 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var customMenuBar = VideoMenuBar()
     
     // 선생님 정보 View 객체 생성
+    
+    private let topBorderLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .mainOrange
+        return view
+    }()
+    
+    private let bottomBorderLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .mainOrange
+        return view
+    }()
+    
     private let teacherInfoView: UIView = {
         let view = UIView()
         view.backgroundColor = .progressBackgroundColor
@@ -149,35 +175,21 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     private let toggleButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("자세히보기", for: .normal)
+        button.setTitle("", for: .normal)
         button.backgroundColor = .mainOrange
         return button
     }()
     
+    // Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if UIDevice.current.orientation.isLandscape {
-            print("DEBUG: Landscape")
-            // 세로모드
-            changeConstraintToVideoContainer(isPortraitMode: true) // 가로/세로 모드에 따른 제약조건 변경메소드
-            
+            changeConstraintToVideoContainer(isPortraitMode: true)  // 세로모드
         } else {
-            print("DEBUG: Portrait")
-            // 가로모드
-            changeConstraintToVideoContainer(isPortraitMode: false) // 가로/세로 모드에 따른 제약조건 변경메소드
-            
+            changeConstraintToVideoContainer(isPortraitMode: false) // 가로모드
         }
     }
-//    override func viewDidLayoutSubviews() {
-//        if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
-//            // 세로모드
-//            changeConstraintToVideoContainer(isPortraitMode: true) // 가로/세로 모드에 따른 제약조건 변경메소드
-//        } else {
-//            // 가로모드
-//            changeConstraintToVideoContainer(isPortraitMode: false) // 가로/세로 모드에 따른 제약조건 변경메소드
-//
-//        }
-//    }
+
 
     // MARK: - Lifecycle
     
@@ -187,10 +199,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         playVideo()                      // 동영상 재생 메소드로 현재 테스트를 위해 이곳에 둠 04.07 추후에 인트로 영상을 호출한 이후에 이 메소드를 호출할 계획
         configureVideoControlView()      // 비디오 상태바 관련 메소드
-        changeConstraintToVideoContainer(isPortraitMode: true)
-        
-        
-        
     }
 
 
@@ -198,8 +206,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     @objc func handleToggle() {
         print("DEBUG: clicked button")
-        teacherInfoFoldConstraint!.isActive = false
-        teacherInfoUnfoldConstraint!.isActive = true
+        if teacherInfoFoldConstraint!.isActive == true {
+            teacherInfoFoldConstraint!.isActive = false
+            teacherInfoUnfoldConstraint!.isActive = true
+        } else {
+            teacherInfoFoldConstraint!.isActive = true
+            teacherInfoUnfoldConstraint!.isActive = false
+        }
         pageCollectionView.reloadData()
     }
     
@@ -233,15 +246,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         setConstraintInPortrait()
         setupCustomTabBar()              // "노트보기", "강의 QnA" 그리고 "재생목록" 탭바 구현 메소드
         setupPageCollectionView()        // View 중단부터 하단에 있는 "노트보기", "강의 QnA" 그리고 "재생목록" 페이지 구현 메소드
-
-        
-
-
-        // 선생님정보 View
+        changeConstraintToVideoContainer(isPortraitMode: false) // 최초 제약조건 부여
     }
     
     func setupCustomTabBar(){
-
     }
     
     func customMenuBar(scrollTo index: Int) {
@@ -265,9 +273,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     func configureToggleButton() {
         view.addSubview(toggleButton)
-        toggleButton.setDimensions(height: 20, width: 20)
+        toggleButton.setDimensions(height: 32, width: 30)
+        toggleButton.layer.cornerRadius = 8
         toggleButton.anchor(top: teacherInfoView.bottomAnchor,
                             right: teacherInfoView.rightAnchor,
+                            paddingTop: -5,
                             paddingRight: 10)
         toggleButton.addTarget(self, action: #selector(handleToggle), for: .touchUpInside)
     }
@@ -341,22 +351,19 @@ extension VideoController {
         playerController.addSubtitles(controller: self).open(fileFromRemote: subtitleURL!)
         
         // 4 playController 색상 / frame / subview 추가 처리한다
-        
         playerController.subtitleLabel?.textColor = .white
-        
-        
         let convertedHeight = convertHeight(231, standardView: view)
         let convertedConstant = convertHeight(65.45, standardView: view)
-        
         
         playerController.view.setDimensions(height: convertedHeight - convertedConstant, width: view.frame.width)
         playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width, height: convertedHeight)
         playerController.view.contentMode = .scaleToFill
         view.addSubview(playerController.subtitleLabel!)
         //        playerController.subtitleLabel?.setDimensions(height: 40, width: view.frame.width)
-        playerController.subtitleLabel?.anchor(bottom: videoContainerView.bottomAnchor,
+        playerController.subtitleLabel?.anchor(left: videoContainerView.leftAnchor,
+                                               bottom: videoContainerView.bottomAnchor,
                                                width: view.frame.width)
-        playerController.subtitleLabel?.centerX(inView: view)
+//        playerController.subtitleLabel?.centerX(inView: view)
         playerController.didMove(toParent: self)
         // 5 실행한다
         player.play()
@@ -375,14 +382,14 @@ extension VideoController {
         videoControlContainerView.centerX(inView: videoContainerView)
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
                                          paddingBottom: 17)
-        
         // backButton
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left:view.leftAnchor)
+                          left:view.leftAnchor,
+                          paddingTop: 10,
+                          paddingLeft: 10)
         backButton.addTarget(self, action: #selector(handleBackButtonAction), for: .touchUpInside)
         backButton.setDimensions(height: 20, width: 20)
-        
         // 타임라인 timerSlider
         let convertedWidth = convertWidth(244, standardView: view)
         videoControlContainerView.addSubview(timeSlider)
@@ -393,11 +400,9 @@ extension VideoController {
     
         let duration: CMTime = playerItem.asset.duration
         let seconds: Float64 = CMTimeGetSeconds(duration)
-        
         timeSlider.maximumValue = Float(seconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
-        
     }
     
     
@@ -420,7 +425,6 @@ extension VideoController {
         videoContainerViewPorTraitHeightConstraint = videoContainerView.heightAnchor.constraint(equalToConstant: videoContainerViewHeight - convertedConstant)
         videoContainerViewPorTraitTopConstraint = videoContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         videoContainerViewPorTraitLeftConstraint = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
-        
         // Landscape 제약조건 정의
         videoContainerViewLandscapeWidthConstraint = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width)
         videoContainerViewLandscapeHeightConstraint = videoContainerView.heightAnchor.constraint(equalToConstant: videoContainerViewHeight - convertedConstant)
@@ -449,19 +453,30 @@ extension VideoController {
         teacherInfoUnfoldConstraint?.priority = UILayoutPriority(rawValue: 999)
         teacherInfoFoldConstraint = teacherInfoView.heightAnchor.constraint(equalToConstant: 5)
         teacherInfoUnfoldConstraint = teacherInfoView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.28)
-        
-        
         // Portrait 제약조건 정의
         teacherInfoViewPorTraitTopConstraint = teacherInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
         teacherInfoViewPorTraitCenterXConstraint = teacherInfoView.centerXAnchor.constraint(equalTo: customMenuBar.centerXAnchor)
         teacherInfoViewPorTraitWidthConstraint = teacherInfoView.widthAnchor.constraint(equalTo: view.widthAnchor)
-//        teacherInfoView.centerX(inView: videoContainerView)
-//        teacherInfoView.anchor(top: customMenuBar.bottomAnchor,
-//                               width: view.frame.width)
         // Landscape 제약조건 정의
         teacherInfoViewLandscapeTopConstraint = teacherInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         teacherInfoViewLandscapeLeftConstraint = teacherInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         teacherInfoViewLandscapeRightConstraint = teacherInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+        
+        /* TeacherInfoView (top/bottom)BorderLine */
+        teacherInfoView.addSubview(topBorderLine)
+        teacherInfoView.addSubview(bottomBorderLine)
+        topBorderLine.translatesAutoresizingMaskIntoConstraints = false
+        bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
+        topBorderLinePorTraitTopConstraint = topBorderLine.topAnchor.constraint(equalTo: teacherInfoView.topAnchor)
+        topBorderLinePorTraitCenterXConstraint = topBorderLine.centerXAnchor.constraint(equalTo: teacherInfoView.centerXAnchor)
+        topBorderLinePorTraitHeightConstraint = topBorderLine.heightAnchor.constraint(equalToConstant: 5)
+        topBorderLinePorTraitWidthConstraint = topBorderLine.widthAnchor.constraint(equalTo: teacherInfoView.widthAnchor)
+        bottomBorderLinePorTraitBottomConstraint = bottomBorderLine.bottomAnchor.constraint(equalTo: teacherInfoView.bottomAnchor)
+        bottomBorderLinePorTraitCenterXConstraint = bottomBorderLine.centerXAnchor.constraint(equalTo: teacherInfoView.centerXAnchor)
+        bottomBorderLinePorTraitHeightConstraint = bottomBorderLine.heightAnchor.constraint(equalToConstant: 5)
+        bottomBorderLinePorTraitWidthConstraint = bottomBorderLine.widthAnchor.constraint(equalTo: teacherInfoView.widthAnchor)
+        
+        
     
         /* pageCollectionView */
         // Portrait 제약조건 정의
@@ -474,7 +489,6 @@ extension VideoController {
         pageCollectionViewLandscapeRightConstraint = pageCollectionView.widthAnchor.constraint(equalToConstant: view.frame.width)
         pageCollectionViewLandscapeBottomConstraint = pageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         pageCollectionViewLandscapeTopConstraint = pageCollectionView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
-        
         
         /* playerController View */
         self.videoContainerView.addSubview(playerController.view)
@@ -499,27 +513,40 @@ extension VideoController {
     // Portait 제약조건 활성화 메소드
     func portraitConstraint(_ isActive: Bool) {
         pageCollectionView.reloadData()
-        print("DEBUG: 여기도호출됨")
-        // "VideoContainerView" 제약조건
+        // "videoContainerView" 제약조건
         videoContainerViewPorTraitWidthConstraint?.isActive = isActive
         videoContainerViewPorTraitHeightConstraint?.isActive = isActive
         videoContainerViewPorTraitTopConstraint?.isActive = isActive
         videoContainerViewPorTraitLeftConstraint?.isActive = isActive
-        // "CustomTabBar" 제약조건
+        // "customTabBar" 제약조건
         customMenuBarPorTraitLeftConstraint?.isActive = isActive
         customMenuBarPorTraitRightConstraint?.isActive = isActive
         customMenuBarPorTraitTopConstraint?.isActive = isActive
         customMenuBarPorTraitHeightConstraint?.isActive = isActive
         
-        // "TeacherInfoView" 제약조건
+        // "teacherInfoView" 제약조건
         teacherInfoViewPorTraitTopConstraint?.isActive = isActive
         teacherInfoViewPorTraitCenterXConstraint?.isActive = isActive
         teacherInfoViewPorTraitWidthConstraint?.isActive = isActive
         teacherInfoUnfoldConstraint?.isActive = !isActive
         teacherInfoFoldConstraint?.isActive = isActive
-        // TODO: ToggleButton 제약조건
         
-        // "CollectionView" 제약조건
+        // "topBorderLine" 제약조건
+        // "bottomBorderLine" 제약조건
+        topBorderLinePorTraitTopConstraint?.isActive = isActive
+        topBorderLinePorTraitCenterXConstraint?.isActive = isActive
+        topBorderLinePorTraitHeightConstraint?.isActive = isActive
+        topBorderLinePorTraitWidthConstraint?.isActive = isActive
+        bottomBorderLinePorTraitBottomConstraint?.isActive = isActive
+        bottomBorderLinePorTraitCenterXConstraint?.isActive = isActive
+        bottomBorderLinePorTraitHeightConstraint?.isActive = isActive
+        bottomBorderLinePorTraitWidthConstraint?.isActive = isActive
+        
+        
+        
+        
+        
+        // "pageCollectionView" 제약조건
         pageCollectionViewPorTraitLeftConstraint?.isActive = isActive
         pageCollectionViewPorTraitRightConstraint?.isActive = isActive
         pageCollectionViewPorTraitBottomConstraint?.isActive = isActive
@@ -531,28 +558,24 @@ extension VideoController {
     // Landscape 제약조건 활성화 메소드
     func landscapeConstraint(_ isActive: Bool) {
         pageCollectionView.reloadData()
-
-//        videoContainerViewLandscapeHeightConstraint?.priority = UILayoutPriority(rawValue: 999)
         videoContainerViewLandscapeWidthConstraint?.isActive = isActive
         videoContainerViewLandscapeHeightConstraint?.isActive = isActive
         videoContainerViewLandscapeTopConstraint?.isActive = isActive
         videoContainerViewLandscapeLeftConstraint?.isActive = isActive
-        // "CustomTabBar" 제약조건
-//        customMenuBarLandscapeTopConstraint?.priority = UILayoutPriority(rawValue: 998)
+        // "customTabBar" 제약조건
         customMenuBarLandscapeRightConstraint?.isActive = isActive
         customMenuBarLandscapeTopConstraint?.isActive = isActive
         customMenuBarLandscapeLeftConstraint?.isActive = isActive
         customMenuBarLandscapeHeightConstraint?.isActive = isActive
-        // "TeacherInfoView" 제약조건
+        // "teacherInfoView" 제약조건
         teacherInfoUnfoldConstraint?.isActive = isActive
         teacherInfoFoldConstraint?.isActive = !isActive
         teacherInfoViewLandscapeTopConstraint?.isActive = isActive
         teacherInfoViewLandscapeLeftConstraint?.isActive = isActive
         teacherInfoViewLandscapeRightConstraint?.isActive = isActive
         // TODO: ToggleButton 제약조건
-
         
-        // pageCollectionView
+        // "pageCollectionView" 제약조건
         pageCollectionViewLandscapeLeftConstraint?.isActive = isActive
         pageCollectionViewLandscapeRightConstraint?.isActive = isActive
         pageCollectionViewLandscapeBottomConstraint?.isActive = isActive
