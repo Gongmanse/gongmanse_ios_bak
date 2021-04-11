@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -18,18 +21,41 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            // 기본 프로가드 설정
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            // 프로젝트에 필요한 프로가드 설정
+            proguardFile 'proguard-rules.pro'
+            // 디버그에 필요한 프로가드 설정
+            proguardFile 'proguard-debug.pro'
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable = true
+
+            minifyEnabled true
+
+            // 기본 프로가드 설정
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            // 프로젝트에 필요한 프로가드 설정
+            proguardFile 'proguard-rules.pro'
         }
     }
+
+    buildFeatures{
+        viewBinding = true
+        dataBinding = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 dependencies {
@@ -39,7 +65,28 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    // test
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // material
+    implementation 'com.google.android.material:material:1.3.0'
+
+    // glide
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    kapt "com.github.bumptech.glide:compiler:4.11.0"
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Anko
+    implementation "org.jetbrains.anko:anko:0.10.8"
+
+    // retorfit2
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
 }
