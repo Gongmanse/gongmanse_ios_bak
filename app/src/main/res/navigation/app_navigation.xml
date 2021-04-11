@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.gongmanse.app.fragments.main.HomeFragment"
+        android:label="HomeFragment" />
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.gongmanse.app.fragments.main.ProgressFragment"
+        android:label="NewsFragment" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.gongmanse.app.fragments.main.SearchFragment"
+        android:label="ProfileFragment" />
+
+</navigation>
