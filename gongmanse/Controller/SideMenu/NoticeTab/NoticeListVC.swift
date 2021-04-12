@@ -74,16 +74,8 @@ extension NoticeListVC: UICollectionViewDataSource {
         allRegex.append(contentsOf: contentImageName.getArrayAfterRegex(regex: head))
         
         print(allRegex[0])
-        let url = URL(string: allRegex[0])
-        do {
-            let data = try Data(contentsOf: url!)
-            DispatchQueue.main.async {
-                cell.contentImage.image = UIImage(data: data)
-            }
-        }catch{
-            print("Data Err, ", error.localizedDescription)
-        }
-        
+
+        cell.contentImage.setImageUrl(allRegex[0])
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
         cell.contentViewer.text = noticeListArray[indexPath.row].viewer
         cell.createContentDate.text = noticeListArray[indexPath.row].dateViewer
@@ -102,24 +94,6 @@ extension NoticeListVC: UICollectionViewDataSource {
 extension NoticeListVC: UICollectionViewDelegateFlowLayout {
     
 }
-//extension String{
-//
-//    func getArrayAfterRegex(regex: String, text: String) -> [String] {
-//
-//            do {
-//                let regex = try NSRegularExpression(pattern: regex)
-//                let results = regex.matches(in: text,
-//                                            range: NSRange(text.startIndex..., in: text))
-//                return results.map {
-//                    String(text[Range($0.range, in: text)!])
-//                }
-//            } catch let error {
-//                print("invalid regex: \(error.localizedDescription)")
-//                return []
-//            }
-//        }
-//
-//}
 
 extension String{
     func getArrayAfterRegex(regex: String) -> [String] {
@@ -136,4 +110,35 @@ extension String{
             return []
         }
     }
+}
+
+extension UIImageView {
+    func setImageUrl(_ url: String) {
+            
+            let cacheKey = NSString(string: url) // 캐시에 사용될 Key 값
+            
+            if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) { // 해당 Key 에 캐시이미지가 저장되어 있으면 이미지를 사용
+                self.image = cachedImage
+                return
+            }
+            
+            DispatchQueue.global(qos: .background).async {
+                if let imageUrl = URL(string: url) {
+                    URLSession.shared.dataTask(with: imageUrl) { (data, res, err) in
+                        if let _ = err {
+                            DispatchQueue.main.async {
+                                self.image = UIImage()
+                            }
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            if let data = data, let image = UIImage(data: data) {
+                                ImageCacheManager.shared.setObject(image, forKey: cacheKey) // 다운로드된 이미지를 캐시에 저장
+                                self.image = image
+                            }
+                        }
+                    }.resume()
+                }
+            }
+        }
 }
