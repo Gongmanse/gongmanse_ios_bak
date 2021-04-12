@@ -85,6 +85,9 @@ extension NoticeListVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let noticeWebView = NoticeWebViewController(nibName: "NoticeWebViewController", bundle: nil)
+
+        self.navigationController?.pushViewController(noticeWebView, animated: true)
     }
 }
 
