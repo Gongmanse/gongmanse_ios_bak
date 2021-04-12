@@ -66,16 +66,24 @@ extension NoticeListVC: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoticeIdentifier, for: indexPath) as? NoticeCell else { return UICollectionViewCell() }
         
         let contentImageName = noticeListArray[indexPath.row].sContent
-        print("regex: ", contentImageName)
-        //정규식 아직
-        let head = "((http|https)://)?([(w|W)]{3}+\\.)?"
         
-        let regex = try! NSRegularExpression(pattern: head, options: [])
-        let list = regex.matches(in:contentImageName, options: [], range:NSRange.init(location: 0, length:contentImageName.count))
+        //정규식
+        let head = "(http(s?):\\/\\/file\\.gongmanse\\.com\\/uploads\\/editor\\/96\\/[a-z0-9]{0,}\\.(png|jpg))"
         
-//        let regexImage = contentImageName.getArrayAfterRegex(regex: "/(http(s?))/")
-//        print("imageArray: \(regexImage)")
-        cell.contentImage.image = UIImage(named: "manual_0")
+        var allRegex: [String] = []
+        allRegex.append(contentsOf: contentImageName.getArrayAfterRegex(regex: head))
+        
+        print(allRegex[0])
+        let url = URL(string: allRegex[0])
+        do {
+            let data = try Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                cell.contentImage.image = UIImage(data: data)
+            }
+        }catch{
+            print("Data Err, ", error.localizedDescription)
+        }
+        
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
         cell.contentViewer.text = noticeListArray[indexPath.row].viewer
         cell.createContentDate.text = noticeListArray[indexPath.row].dateViewer
@@ -94,21 +102,38 @@ extension NoticeListVC: UICollectionViewDataSource {
 extension NoticeListVC: UICollectionViewDelegateFlowLayout {
     
 }
-extension String{
-    
-    func getArrayAfterRegex(regex: String, text: String) -> [String] {
-            
-            do {
-                let regex = try NSRegularExpression(pattern: regex)
-                let results = regex.matches(in: text,
-                                            range: NSRange(text.startIndex..., in: text))
-                return results.map {
-                    String(text[Range($0.range, in: text)!])
-                }
-            } catch let error {
-                print("invalid regex: \(error.localizedDescription)")
-                return []
-            }
-        }
+//extension String{
+//
+//    func getArrayAfterRegex(regex: String, text: String) -> [String] {
+//
+//            do {
+//                let regex = try NSRegularExpression(pattern: regex)
+//                let results = regex.matches(in: text,
+//                                            range: NSRange(text.startIndex..., in: text))
+//                return results.map {
+//                    String(text[Range($0.range, in: text)!])
+//                }
+//            } catch let error {
+//                print("invalid regex: \(error.localizedDescription)")
+//                return []
+//            }
+//        }
+//
+//}
 
+extension String{
+    func getArrayAfterRegex(regex: String) -> [String] {
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: self,
+                                        range: NSRange(self.startIndex..., in: self))
+            return results.map {
+                String(self[Range($0.range, in: self)!])
+            }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
 }
