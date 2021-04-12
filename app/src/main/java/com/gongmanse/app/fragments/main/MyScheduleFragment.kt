@@ -6,27 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.gongmanse.app.databinding.FragmentProgressBinding
+import com.gongmanse.app.databinding.FragmentMyScheduleBinding
 
 
-class ProgressFragment : Fragment() {
+class MyScheduleFragment : Fragment() {
 
     companion object {
-        private val TAG = ProgressFragment::class.java.simpleName
+        private val TAG = MyScheduleFragment::class.java.simpleName
 
-        fun newInstance() = ProgressFragment().apply {
+        fun newInstance() = MyScheduleFragment().apply {
             arguments = bundleOf()
         }
 
     }
 
-    private lateinit var binding: FragmentProgressBinding
+    private lateinit var binding: FragmentMyScheduleBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProgressBinding.inflate(inflater)
+        binding = FragmentMyScheduleBinding.inflate(inflater)
         return binding.root
     }
 

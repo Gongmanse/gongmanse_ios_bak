@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- My Active -->
     <item
-        android:id="@+id/homeFragment"
-        android:title="@string/navigation_home" />
+        android:id="@+id/myActivityFragment"
+        android:title="@string/navigation_my_activity"
+        android:icon="@drawable/ic_my_activity" />
 
+    <!-- My Calendar -->
     <item
-        android:id="@+id/newsFragment"
-        android:title="@string/navigation_news" />
+        android:id="@+id/myScheduleFragment"
+        android:title="@string/navigation_my_schedule"
+        android:icon="@drawable/ic_my_schedule" />
 
-    <item
-        android:id="@+id/profileFragment"
-        android:title="@string/navigation_profile" />
+    <!--  -->
 
 </menu>

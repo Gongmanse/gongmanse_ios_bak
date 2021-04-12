@@ -6,27 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.gongmanse.app.databinding.FragmentHomeBinding
+import com.gongmanse.app.databinding.FragmentMainBinding
 
 
-class HomeFragment : Fragment() {
+class MainFragment : Fragment() {
 
     companion object {
-        private val TAG = HomeFragment::class.java.simpleName
+        private val TAG = MainFragment::class.java.simpleName
 
-        fun newInstance() = HomeFragment().apply {
+        fun newInstance() = MainFragment().apply {
             arguments = bundleOf()
         }
 
     }
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater)
+        binding = FragmentMainBinding.inflate(inflater)
         return binding.root
     }
 

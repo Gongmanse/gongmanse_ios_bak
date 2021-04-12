@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.gongmanse.app.fragments.main.HomeFragment"
-        android:label="HomeFragment" />
+        android:id="@+id/mainFragment"
+        android:name="com.gongmanse.app.fragments.main.MainFragment"
+        android:label="MainFragment" />
 
     <fragment
-        android:id="@+id/newsFragment"
-        android:name="com.gongmanse.app.fragments.main.ProgressFragment"
-        android:label="NewsFragment" />
+        android:id="@+id/myActivityFragment"
+        android:name="com.gongmanse.app.fragments.main.MyActivityFragment"
+        android:label="@string/navigation_my_activity" />
 
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.gongmanse.app.fragments.main.SearchFragment"
-        android:label="ProfileFragment" />
+        android:id="@+id/myScheduleFragment"
+        android:name="com.gongmanse.app.fragments.main.MyScheduleFragment"
+        android:label="@string/navigation_my_schedule" />
 
 </navigation>

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Gongmanse2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Gongmanse2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -13,4 +13,64 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Navigation Menu Item Font theme. -->
+    <style name="Navigation.Item" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textColor">@color/txtColor</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/black</item>
+    </style>
+
+    <!-- Nanum Square Round B -->
+    <style name="NanumSquareRoundB" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Nanum Square Round EB -->
+    <style name="NanumSquareRoundEB" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_eb</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Nanum Square Round L -->
+    <style name="NanumSquareRoundL" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_l</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Nanum Square Round R -->
+    <style name="NanumSquareRoundR" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_r</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- BottomNavigationView Inactive -->
+    <style name="NanumSquareRoundB.BottomNavigation" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:color">@android:color/transparent</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- BottomNavigationView Active -->
+    <style name="NanumSquareRoundB.BottomNavigation.Active" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

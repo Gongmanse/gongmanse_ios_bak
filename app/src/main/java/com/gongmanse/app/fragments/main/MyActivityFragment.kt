@@ -6,27 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.gongmanse.app.databinding.FragmentSearchBinding
+import com.gongmanse.app.databinding.FragmentMyActivityBinding
 
 
-class SearchFragment : Fragment() {
+class MyActivityFragment : Fragment() {
 
     companion object {
-        private val TAG = SearchFragment::class.java.simpleName
+        private val TAG = MyActivityFragment::class.java.simpleName
 
-        fun newInstance() = SearchFragment().apply {
+        fun newInstance() = MyActivityFragment().apply {
             arguments = bundleOf()
         }
 
     }
 
-    private lateinit var binding: FragmentSearchBinding
+    private lateinit var binding: FragmentMyActivityBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater)
+        binding = FragmentMyActivityBinding.inflate(inflater)
         return binding.root
     }
 
