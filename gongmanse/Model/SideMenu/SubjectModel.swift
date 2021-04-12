@@ -36,9 +36,9 @@ struct SubjectGetDataListModel: Codable {
 }
 
 struct SubjectGetDataModel: Codable {
-    let sGrade: String
-    let iPreferCategory: String
-    let sName: String
+    let sGrade: String?
+    let iPreferCategory: String?
+    let sName: String?
 }
 //
 

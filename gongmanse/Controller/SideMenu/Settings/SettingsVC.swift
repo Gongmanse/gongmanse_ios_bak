@@ -43,15 +43,7 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
             userToken = Constant.token
         }
         filterVM.resetDefaults()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        navigationSetting()
-        setTableView()
         
-        print(Constant.token)
         let testGetFilter = getFilteringAPI()
         testGetFilter.getFilteringData { [weak self] result in
             self?.dataApi = [result]
@@ -61,6 +53,16 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
                 self?.tableView.reloadData()
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        navigationSetting()
+        setTableView()
+        
+        print(Constant.token)
+        
         tableView.delegate = self
         tableView.dataSource = self
         

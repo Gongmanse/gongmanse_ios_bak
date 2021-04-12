@@ -15,10 +15,11 @@ class FilteringViewModel {
     
     
     func postData() {
-        userTokenValue = "YWI0NmU1YzE4MjczOWU4MDYxYWExZWFlNzBmODAxZDg4OWU1ZWU3OGVhYWNmMmExY2Y0YjBjNTZjOTg2NGEwNjcxYTViODI3M2U3NjZiYWE0OGU4NjM1ZWUyNWVmYTI1NDdhM2YwOWMwMDVhMDAxN2E0ZjVjNDQxZmM4ZjlmMTA1VmwwYUNDZjlQVWVyYUplVThSQVgxZkt5N2FUekxjQTFPSUpZUERUZWdLTnVXNjN4TGpaUWg0RUx5OTlOcUdoVm1aK2xnVnl2Yk1PbFJJTHM0TmJ4UT09"
+        userTokenValue = "N2RlNDFkOGVhODYyOGE3MmY5NWZiZGQyZjg5MmIwNDc2YTRiZDIzNzZmNTFhZjZhYmNhMTdhMDc3ZDU0MjI2MjVmYmFlZTlmNTViMzY1ZmUyZjI1Yzg2NWNmMWQyOGJkOTUyYWJhNGUzMzRiYTEwNWQwMGQ3ODMyNjI5ZWMzYjNKanM1ZFlRQkZmdk1LZ2kzMVpsMiswaGczdHVuZG50NVl2Y1JhZmJLeFNtSzVoVVoxb0h0cUEyTWZWRk5VZ0ZOWjU0ek0xbldMMlJUN3hNdGZMN3BZUT09"
         userGrade = UserDefaults.standard.object(forKey: "gradeFilterText") as? String
         userSubject = UserDefaults.standard.object(forKey: "subjectFilterNumber") as? String
-        
+        print(userGrade)
+        print(userSubject)
         let settingFilter = postFilteringAPI()
         // 안됨
 //        settingFilter.performFiltering(userTokenValue, userGrade, userSubject)
