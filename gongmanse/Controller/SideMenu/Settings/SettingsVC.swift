@@ -7,7 +7,7 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
     private let PushAlertCellIdentifier = "PushAlertCell"
     private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
     
-    var dataApi: [SubjectGetDataModel] = []
+    var dataApi: SubjectGetDataModel?
     
     var height: CGFloat = 300
        
@@ -42,14 +42,17 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         if Constant.token != "" {
             userToken = Constant.token
         }
-        filterVM.resetDefaults()
+        
         
         let testGetFilter = getFilteringAPI()
         testGetFilter.getFilteringData { [weak self] result in
-            self?.dataApi = [result]
+            self?.dataApi = result
             DispatchQueue.main.async {
-                self?.gradeButton.setTitle(self?.dataApi[0].sGrade, for: .normal)
-                self?.subjectButton.setTitle(self?.dataApi[0].sName, for: .normal)
+                let allGrade = "모든 학년"
+                self?.gradeButton.setTitle(self?.dataApi?.sGrade == "" ? allGrade : self?.dataApi?.sGrade, for: .normal)
+
+                let allSubject = "모든 과목"
+                self?.subjectButton.setTitle(self?.dataApi?.sName == nil ? allSubject : self?.dataApi?.sName, for: .normal)
                 self?.tableView.reloadData()
             }
         }

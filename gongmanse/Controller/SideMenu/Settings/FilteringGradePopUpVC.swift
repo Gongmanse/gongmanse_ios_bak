@@ -154,7 +154,7 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let userGrade = AllgradeList[indexPath.row]
-        
+        UserDefaults.standard.removeObject(forKey: "gradeFilterText")
         UserDefaults.standard.setValue(userGrade, forKey: "gradeFilterText")
         
         NotificationCenter.default.post(name: NSNotification.Name("gradeFilterText"), object: nil)
