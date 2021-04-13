@@ -1,4 +1,4 @@
-package com.gongmanse.app.fragments.main
+package com.gongmanse.app.feature.notice
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,26 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.gongmanse.app.databinding.FragmentWhatIsGongmanseBinding
+import com.gongmanse.app.databinding.FragmentNoticeBinding
 
 
-class WhatIsGongmanseFragment : Fragment() {
+class NoticeFragment : Fragment() {
     companion object {
-        private val TAG = WhatIsGongmanseFragment::class.java.simpleName
+        private val TAG = NoticeFragment::class.java.simpleName
 
-        fun newInstance() = WhatIsGongmanseFragment().apply {
+        fun newInstance() = NoticeFragment().apply {
             arguments = bundleOf()
         }
 
     }
 
-    private lateinit var binding: FragmentWhatIsGongmanseBinding
+    private lateinit var binding: FragmentNoticeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWhatIsGongmanseBinding.inflate(inflater)
+        binding = FragmentNoticeBinding.inflate(inflater)
         return binding.root
     }
 }

@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

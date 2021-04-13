@@ -1,4 +1,4 @@
-package com.gongmanse.app.activities
+package com.gongmanse.app
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,17 +6,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.gongmanse.app.R
 import com.gongmanse.app.databinding.ActivityMainBinding
-import com.gongmanse.app.fragments.main.MainFragmentDirections
+import com.gongmanse.app.feature.main.MainFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

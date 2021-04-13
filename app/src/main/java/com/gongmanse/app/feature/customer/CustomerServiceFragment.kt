@@ -1,4 +1,4 @@
-package com.gongmanse.app.fragments.main
+package com.gongmanse.app.feature.customer
 
 import android.os.Bundle
 import android.view.LayoutInflater

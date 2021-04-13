@@ -1,4 +1,4 @@
-package com.gongmanse.app.fragments.main
+package com.gongmanse.app.feature.schedule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,26 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.gongmanse.app.databinding.FragmentNoticeBinding
+import com.gongmanse.app.databinding.FragmentMyScheduleBinding
 
 
-class NoticeFragment : Fragment() {
+class MyScheduleFragment : Fragment() {
+
     companion object {
-        private val TAG = NoticeFragment::class.java.simpleName
+        private val TAG = MyScheduleFragment::class.java.simpleName
 
-        fun newInstance() = NoticeFragment().apply {
+        fun newInstance() = MyScheduleFragment().apply {
             arguments = bundleOf()
         }
 
     }
 
-    private lateinit var binding: FragmentNoticeBinding
+    private lateinit var binding: FragmentMyScheduleBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNoticeBinding.inflate(inflater)
+        binding = FragmentMyScheduleBinding.inflate(inflater)
         return binding.root
     }
+
 }
