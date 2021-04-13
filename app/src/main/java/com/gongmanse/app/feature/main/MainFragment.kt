@@ -3,8 +3,6 @@ package com.gongmanse.app.feature.main
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -14,9 +12,6 @@ import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentMainBinding
 import com.gongmanse.app.feature.main.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.jetbrains.anko.singleTop
-import org.jetbrains.anko.support.v4.intentFor
-
 
 @Suppress("DEPRECATION")
 class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +22,6 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         fun newInstance() = MainFragment().apply {
             arguments = bundleOf()
         }
-
     }
 
     private lateinit var binding: FragmentMainBinding
@@ -52,8 +46,6 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         initView()
     }
 
-
-
     private fun initView() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
         setupFragment()
@@ -63,11 +55,18 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     // 화면 생성
     private fun setupFragment() {
         homeFragment = HomeFragment()
-
         val fm: FragmentManager = (context as MainActivity).supportFragmentManager
         fm.beginTransaction()
             .add(R.id.content_layout, homeFragment)
             .hide(homeFragment)
+//            .add(R.id.layout_content, progressFragment)
+//            .hide(progressFragment)
+//            .add(R.id.layout_content, searchFragment)
+//            .hide(searchFragment)
+//            .add(R.id.layout_content, counselFragment)
+//            .hide(counselFragment)
+//            .add(R.id.layout_content, teacherFragment)
+//            .hide(teacherFragment)
             .commit()
     }
 
@@ -82,8 +81,6 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         selectFragment = fragment
     }
 
-
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.v(TAG, "onNavigationItemSelected() => ${item.itemId}")
         return when (item.itemId) {
@@ -91,10 +88,24 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 replaceFragment(homeFragment)
                 true
             }
+            R.id.action_progress -> {
+//                replaceFragment(progressFragment)
+                true
+            }
+            R.id.action_search -> {
+//                replaceFragment(searchFragment)
+                true
+            }
+            R.id.action_counsel -> {
+//                replaceFragment(counselFragment)
+                true
+            }
+            R.id.action_teacher -> {
+//                replaceFragment(teacherFragment)
+                true
+            }
             else -> true
         }
     }
-
-
 
 }
