@@ -1,16 +1,23 @@
 import UIKit
+import BottomPopup
 
-class KoreanEnglishMathVC: UIViewController {
+class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishMathAlignmentVCDelegate {
+        
+    var selectedItem: Int?
     
     var pageIndex: Int!
+    var koreanEnglishMathVideo: KoreanEnglishVideoInput?
+    
+    var height: CGFloat = 240
+    var presentDuration: Double = 0.2
+    var dismissDuration: Double = 0.5
     
     @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var videoTotalCount: UILabel!
     @IBOutlet weak var ratingSequence: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
-    
-    var koreanEnglishMathVideo: KoreanEnglishVideoInput?
+    @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
     
     let koreanEnglishMathRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
@@ -18,7 +25,10 @@ class KoreanEnglishMathVC: UIViewController {
         return refreshControl
     }()
     
-    @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
+    @objc private func refresh(sender: UIRefreshControl) {
+        koreanEnglishMathCollection.reloadData()
+        sender.endRefreshing()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +38,19 @@ class KoreanEnglishMathVC: UIViewController {
         textInput()
         cornerRadius()
         ChangeFontColor()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
+    }
+    
+    @objc func videoFilterNoti(_ sender: NotificationCenter) {
+        let filterButtonTitle = UserDefaults.standard.object(forKey: "videoFilterText")
+        selectBtn.setTitle(filterButtonTitle as? String, for: .normal)
+    }
+    
+    @objc func rateFilterNoti(_ sender: NotificationCenter) {
+        let rateFilterButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
+        ratingSequence.setTitle(rateFilterButtonTitle as? String, for: .normal)
     }
     
     func textInput() {
@@ -38,7 +61,7 @@ class KoreanEnglishMathVC: UIViewController {
     
     func cornerRadius() {
         //전체보기 버튼 Border corner Radius 적용
-        selectBtn.layer.cornerRadius = 11
+        selectBtn.layer.cornerRadius = 10
         //전체보기 버튼 border width 적용
         selectBtn.layer.borderWidth = 2
         //전체보기 버튼 border 색상 적용
@@ -79,9 +102,26 @@ class KoreanEnglishMathVC: UIViewController {
         }
     }
     
-    @objc private func refresh(sender: UIRefreshControl) {
-        koreanEnglishMathCollection.reloadData()
-        sender.endRefreshing()
+    @IBAction func selectMenuBtn(_ sender: UIButton) {
+        let popupVC = self.storyboard?.instantiateViewController(withIdentifier: "KoreanEnglishMathBottomPopUpVC") as! KoreanEnglishMathBottomPopUpVC
+        popupVC.height = height
+        popupVC.presentDuration = presentDuration
+        popupVC.dismissDuration = dismissDuration
+        popupVC.popupDelegate = self
+        popupVC.delegate = self
+        popupVC.selectItem = self.selectedItem
+        present(popupVC, animated: true)
+    }
+    
+    @IBAction func alignment(_ sender: Any) {
+        let popupVC = self.storyboard?.instantiateViewController(identifier: "KoreanEnglishMathAlignmentVC") as! KoreanEnglishMathAlignmentVC
+        popupVC.height = height
+        popupVC.presentDuration = presentDuration
+        popupVC.dismissDuration = dismissDuration
+        popupVC.popupDelegate = self
+        popupVC.delegate = self
+        popupVC.selectItem = self.selectedItem
+        present(popupVC, animated: true)
     }
 }
 
@@ -120,7 +160,6 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             cell.term.isHidden = false
             cell.term.text = indexData.sUnit
         }
-        
         return cell
     }
 }
@@ -143,3 +182,11 @@ extension KoreanEnglishMathVC: UICollectionViewDelegateFlowLayout {
 //        self.present(KoreanEnglishMathBottomPopUpVC(), animated: true)
 //    }
 //}
+
+extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate {
+    func passSecltedRow(_ selectedRowIndex: Int) {
+        self.selectedItem = selectedRowIndex
+    }
+    
+    
+}
