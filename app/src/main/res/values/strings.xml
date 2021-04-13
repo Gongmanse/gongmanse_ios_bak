@@ -19,13 +19,23 @@
     <string name="bottom_navigation_teacher">강사별강의</string>
 
     <!-- image description -->
+
     <string name="description_logo_image">로고 이미지</string>
     <string name="description_profile_image">프로필 이미지</string>
-
+    <string name="description_image_preview">미리보기 이미지</string>
+    <string name="description_note_quick_video">동영상 바로가기</string>
     <string name="option_menu_navigation">네비게이션</string>
-
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+
+    <!-- Content Of Text -->
+
+    <string name="content_text_rating_value_null">0.0</string>
+
+    <!-- Content Of Format Text -->
+
+    <string name="content_format_teacher_name">%s 선생님</string>
+    <string name="content_format_series_video_count">%d</string>
 
 </resources>
