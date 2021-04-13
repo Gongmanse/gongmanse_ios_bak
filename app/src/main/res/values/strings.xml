@@ -29,12 +29,8 @@
     <string name="desc_profile_image">프로필 이미지</string>
     <string name="desc_image_preview">미리보기 이미지</string>
     <string name="desc_note_quick_video">동영상 바로가기</string>
-    <string name="description_logo_image">로고 이미지</string>
-    <string name="description_profile_image">프로필 이미지</string>
-    <string name="description_image_intro">인트로 이미지</string>
-    <string name="description_image_splash">로딩 이미지</string>
-    <string name="description_image_preview">미리보기 이미지</string>
-    <string name="description_note_quick_video">동영상 바로가기</string>
+    <string name="desc_image_intro">인트로 이미지</string>
+    <string name="desc_image_splash">로딩 이미지</string>
 
     <!-- option menu -->
     <string name="option_menu_navigation">네비게이션</string>
