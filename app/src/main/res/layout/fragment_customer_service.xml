@@ -14,7 +14,7 @@
             android:id="@+id/tv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/navigation_customer_service"
+            android:text="@string/nav_customer_service"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

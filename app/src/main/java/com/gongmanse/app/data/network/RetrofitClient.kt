@@ -8,7 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
+    /* Retrofit */
+    // Base
     fun getService(): RetrofitService = retrofit.create(RetrofitService::class.java)
+    // File
+    fun getServiceFile(): RetrofitService = retrofitFile.create(RetrofitService::class.java)
 
     private val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         .setLenient()
@@ -24,5 +28,13 @@ object RetrofitClient {
         .baseUrl(Constants.BASE_DOMAIN)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(client).build()
+
+    private val retrofitFile = Retrofit.Builder()
+        .baseUrl(Constants.FILE_DOMAIN)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .client(client)
+        .build()
+
+
 
 }
