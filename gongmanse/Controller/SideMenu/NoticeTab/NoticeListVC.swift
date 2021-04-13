@@ -15,6 +15,7 @@ class NoticeListVC: UIViewController {
     let NoticeIdentifier = "NoticeCell"
     var noticeListArray: [NoticeList] = []
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,8 +73,6 @@ extension NoticeListVC: UICollectionViewDataSource {
         
         var allRegex: [String] = []
         allRegex.append(contentsOf: contentImageName.getCertificationNumber(regex: imageRegex))
-        
-        print(allRegex[0])
 
         cell.contentImage.setImageUrl(allRegex[0])
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
@@ -86,7 +85,8 @@ extension NoticeListVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let noticeWebView = NoticeWebViewController(nibName: "NoticeWebViewController", bundle: nil)
-
+        noticeWebView.noticeID = noticeListArray[indexPath.row].id
+        
         self.navigationController?.pushViewController(noticeWebView, animated: true)
     }
 }

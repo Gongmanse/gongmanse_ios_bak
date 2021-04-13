@@ -21,9 +21,9 @@ class FilteringViewModel {
        
         
         let settingFilter = postFilteringAPI()
-        // 안됨
+        // POST
 //        settingFilter.performFiltering(userTokenValue, userGrade, userSubject)
-        // 됨
+        // Get
         settingFilter.performGetFiltering(token: userTokenValue ?? "", grade: userGrade ?? "", subject: userSubject ?? "")
         
     }
