@@ -1,4 +1,4 @@
-package com.gongmanse.app
+package com.gongmanse.app.utils
 
 class Constants {
 
@@ -23,6 +23,7 @@ class Constants {
         /* Retrofit REQUEST Body key */
         const val REQUEST_KEY_GRANT_TYPE         = "grant_type"
         const val REQUEST_KEY_REFRESH            = "refresh_token"
+
 
 
 

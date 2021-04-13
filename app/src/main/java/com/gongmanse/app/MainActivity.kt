@@ -1,6 +1,8 @@
 package com.gongmanse.app
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
@@ -13,7 +15,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gongmanse.app.databinding.ActivityMainBinding
+import com.gongmanse.app.feature.Intro.IntroActivity
 import com.gongmanse.app.feature.main.MainFragmentDirections
+import com.gongmanse.app.feature.splash.SplashActivity
+import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,12 +35,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e(TAG, "onCreate to MainActivity")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Intro or Splash
+        showSplash()
 
         // Actionbar
         setSupportActionBar(binding.appBarLayout.toolbar)
         mActionbar = supportActionBar!!
+
 
         val navController = findNavController(R.id.nav_host_fragment)
         mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
@@ -84,5 +94,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showSplash() {
+        val intent = if (Preferences.first) {
+            Intent(this, IntroActivity::class.java)
+        } else {
+            Intent(this, SplashActivity::class.java)
+        }
+        startActivity(intent) // Move loading view after create view
     }
 }
