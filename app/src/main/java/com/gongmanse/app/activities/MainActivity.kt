@@ -18,6 +18,8 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.ActivityMainBinding
+import com.gongmanse.app.fragments.main.MainFragment
+import com.gongmanse.app.fragments.main.MainFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Actionbar
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.appBarLayout.toolbar)
         mActionbar = supportActionBar!!
 
         // Bottom Navigation
@@ -48,11 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         // Navigation Up Button
         mAppBarConfiguration = AppBarConfiguration(mNavController.graph, binding.drawerLayout)
-//        binding.toolbar.setupWithNavController(mNavController, mAppBarConfiguration)
 
-//        NavigationUI.setupWithNavController(binding.toolbar, mNavController, mAppBarConfiguration)
-//        NavigationUI.setupActionBarWithNavController(this, mNavController, binding.drawerLayout)
-
+        // Navigation Controller
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             mNavDestination = destination
             mActionbar.apply {
@@ -61,23 +60,20 @@ class MainActivity : AppCompatActivity() {
                 if (destination.id == R.id.mainFragment) {
                     setHomeAsUpIndicator(R.drawable.ic_notification)
                     mMenu?.setGroupVisible(R.id.menu_group, true)
-                    binding.toolbar.setPadding(10, 0, 0, 10)
-                    binding.title = null
+                    binding.appBarLayout.title = null
                 } else {
                     setHomeAsUpIndicator(R.drawable.ic_left_arrow)
                     mMenu?.setGroupVisible(R.id.menu_group, false)
-                    binding.toolbar.setPadding(10, 0, 0, 40)
-                    binding.title = destination.label.toString()
+                    binding.appBarLayout.title = destination.label.toString()
                 }
-//                setHomeAsUpIndicator(if (destination.id == R.id.mainFragment) R.drawable.ic_notification else R.drawable.ic_left_arrow)
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return if (mNavDestination.id == R.id.mainFragment) {
-            Log.d(TAG, "알람입니다.")
+            val direction = MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
+            mNavController.navigate(direction)
             false
         } else {
             NavigationUI.navigateUp(mNavController, mAppBarConfiguration)
@@ -92,9 +88,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            android.R.id.home -> {
-                Log.d(TAG, "onOptionsItemSelected => android.R.id.home")
-            }
             R.id.action_navigation -> {
                 binding.drawerLayout.openDrawer(GravityCompat.END)
             }

@@ -7,7 +7,17 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.gongmanse.app.fragments.main.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_myNotificationFragment"
+            app:destination="@id/myNotificationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myActivityFragment"
+            app:destination="@id/myActivityFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myScheduleFragment"
+            app:destination="@id/myScheduleFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/myActivityFragment"
@@ -18,5 +28,10 @@
         android:id="@+id/myScheduleFragment"
         android:name="com.gongmanse.app.fragments.main.MyScheduleFragment"
         android:label="@string/navigation_my_schedule" />
+
+    <fragment
+        android:id="@+id/myNotificationFragment"
+        android:name="com.gongmanse.app.fragments.main.MyNotificationFragment"
+        android:label="@string/navigation_my_notification" />
 
 </navigation>
