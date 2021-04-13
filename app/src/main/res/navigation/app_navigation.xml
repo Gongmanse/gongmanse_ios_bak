@@ -17,7 +17,24 @@
         <action
             android:id="@+id/action_mainFragment_to_myScheduleFragment"
             app:destination="@id/myScheduleFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_whatIsGongmanseFragment"
+            app:destination="@id/whatIsGongmanseFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_customerServiceFragment"
+            app:destination="@id/customerServiceFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/myNotificationFragment"
+        android:name="com.gongmanse.app.fragments.main.MyNotificationFragment"
+        android:label="@string/navigation_my_notification" />
 
     <fragment
         android:id="@+id/myActivityFragment"
@@ -30,8 +47,23 @@
         android:label="@string/navigation_my_schedule" />
 
     <fragment
-        android:id="@+id/myNotificationFragment"
-        android:name="com.gongmanse.app.fragments.main.MyNotificationFragment"
-        android:label="@string/navigation_my_notification" />
+        android:id="@+id/whatIsGongmanseFragment"
+        android:name="com.gongmanse.app.fragments.main.WhatIsGongmanseFragment"
+        android:label="@string/navigation_what_is_gongmanse" />
+
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.gongmanse.app.fragments.main.NoticeFragment"
+        android:label="@string/navigation_notice" />
+
+    <fragment
+        android:id="@+id/customerServiceFragment"
+        android:name="com.gongmanse.app.fragments.main.CustomerServiceFragment"
+        android:label="@string/navigation_customer_service" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.gongmanse.app.fragments.main.SettingsFragment"
+        android:label="@string/navigation_settings" />
 
 </navigation>

@@ -6,29 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.gongmanse.app.databinding.FragmentMainBinding
-import com.gongmanse.app.databinding.FragmentWhatIsGongmanseBinding
+import com.gongmanse.app.databinding.FragmentCustomerServiceBinding
 
 
-class MainFragment : Fragment() {
-
+class CustomerServiceFragment : Fragment() {
     companion object {
-        private val TAG = MainFragment::class.java.simpleName
+        private val TAG = CustomerServiceFragment::class.java.simpleName
 
-        fun newInstance() = MainFragment().apply {
+        fun newInstance() = CustomerServiceFragment().apply {
             arguments = bundleOf()
         }
 
     }
 
-    private lateinit var binding: FragmentWhatIsGongmanseBinding
+    private lateinit var binding: FragmentCustomerServiceBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWhatIsGongmanseBinding.inflate(inflater)
+        binding = FragmentCustomerServiceBinding.inflate(inflater)
         return binding.root
     }
-
 }

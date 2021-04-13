@@ -1,23 +1,28 @@
 <resources>
     <string name="app_name">공만세</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- navigation -->
     <string name="navigation_home">HOME</string>
+    <string name="navigation_my_notification">나의 알림</string>
     <string name="navigation_my_activity">나의 활동</string>
     <string name="navigation_my_schedule">나의 일정</string>
-    <string name="navigation_my_notification">나의 알림</string>
+    <string name="navigation_what_is_gongmanse">공만세란?</string>
+    <string name="navigation_notice">공지사항</string>
+    <string name="navigation_customer_service">고객센터</string>
+    <string name="navigation_settings">설정</string>
 
+    <!-- bottom navigation -->
     <string name="bottom_navigation_home">홈</string>
     <string name="bottom_navigation_progress">진도학습</string>
     <string name="bottom_navigation_search">검색</string>
     <string name="bottom_navigation_chat">전문가상담</string>
     <string name="bottom_navigation_teacher">강사별강의</string>
 
-    <string name="option_menu_navigation">네비게이션</string>
-
+    <!-- image description -->
     <string name="description_logo_image">로고 이미지</string>
     <string name="description_profile_image">프로필 이미지</string>
+
+    <string name="option_menu_navigation">네비게이션</string>
 
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
