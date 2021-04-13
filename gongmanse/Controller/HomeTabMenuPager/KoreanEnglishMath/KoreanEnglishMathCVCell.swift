@@ -12,6 +12,10 @@ class KoreanEnglishMathCVCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        cvcellSettings()
+    }
+    
+    func cvcellSettings() {
         //비디오 썸네일 이미지 라운딩 처리
         videoThumbnail.layer.cornerRadius = 13
         

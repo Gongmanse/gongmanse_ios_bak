@@ -1,32 +1,32 @@
 import UIKit
 import BottomPopup
 
-protocol KoreanEnglishMathBottomPopUpVCDelegate: class {
+protocol KoreanEnglishMathAlignmentVCDelegate: class {
     func passSecltedRow(_ selectedRowIndex: Int)
 }
 
-class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
+class KoreanEnglishMathAlignmentVC: BottomPopupViewController {
     
     @IBOutlet weak var lblCategory: UILabel!
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var selectItem: Int?
-    weak var delegate: KoreanEnglishMathBottomPopUpVCDelegate?
+    weak var delegate: KoreanEnglishMathAlignmentVCDelegate?
     var height: CGFloat?
     var topCornerRadius: CGFloat?
     var presentDuration: Double?
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
-    private var videoFilterNumber = ""
-    private var videoFilterText = ""
+    private var rateFilterNumber = ""
+    private var rateFilterText = ""
     
-    var titleNames = ["전체 보기", "시리즈 보기", "문제 풀이", "노트 보기"]
-    
+    var titleNames = ["평점순", "최신순", "이름순", "과목순"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        lblCategory.text = "카테고리"
+
+        lblCategory.text = "정렬"
         categoryView.layer.addBorder([.bottom], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
         tableView.tableFooterView = UIView()
     }
@@ -54,21 +54,17 @@ class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
     override var popupShouldBeganDismiss: Bool {
         return shouldDismissInteractivelty ?? true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        print("사라짐")
-    }
-    
 }
 
-extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
+
+extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titleNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id = "KoreanEnglishMathBottomPopUpTVCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: id) as! KoreanEnglishMathBottomPopUpTVCell
+        let id = "KoreanEnglishMathAlignmentTVCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: id) as! KoreanEnglishMathAlignmentTVCell
         
         cell.selectTitle.text = titleNames[indexPath.row]
         cell.checkImage.isHidden = true
@@ -85,15 +81,15 @@ extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! KoreanEnglishMathBottomPopUpTVCell
+        let cell = tableView.cellForRow(at: indexPath) as! KoreanEnglishMathAlignmentTVCell
         
-        videoFilterNumber = String(indexPath.row)
-        videoFilterText = titleNames[indexPath.row]
+        rateFilterNumber = String(indexPath.row)
+        rateFilterText = titleNames[indexPath.row]
         
-        UserDefaults.standard.setValue(videoFilterNumber, forKey: "videoFilterNumber")
-        UserDefaults.standard.setValue(videoFilterText, forKey: "videoFilterText")
+        UserDefaults.standard.setValue(rateFilterNumber, forKey: "rateFilterNumber")
+        UserDefaults.standard.setValue(rateFilterText, forKey: "rateFilterText")
         
-        NotificationCenter.default.post(name: NSNotification.Name("videoFilterText"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("rateFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)

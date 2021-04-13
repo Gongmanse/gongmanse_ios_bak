@@ -1,17 +1,17 @@
 //
-//  KoreanEnglishMathBottomPopUpTVCell.swift
+//  KoreanEnglishMathAlignmentTVCell.swift
 //  gongmanse
 //
-//  Created by 김현수 on 2021/04/13.
+//  Created by 김현수 on 2021/04/12.
 //
 
 import UIKit
 
-class KoreanEnglishMathBottomPopUpTVCell: UITableViewCell {
-
+class KoreanEnglishMathAlignmentTVCell: UITableViewCell {
+    
     @IBOutlet weak var selectTitle: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
