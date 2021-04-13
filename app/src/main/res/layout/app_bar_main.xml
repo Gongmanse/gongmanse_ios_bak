@@ -55,32 +55,16 @@
                         android:textColor="@color/txtColor"
                         android:textSize="17sp"
                         android:text="@{title}"
-                        tools:text="상담하기"
+                        tools:text="나의 활동"
                         tools:visibility="visible" />
 
                 </LinearLayout>
 
             </com.google.android.material.appbar.MaterialToolbar>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:name="androidx.navigation.fragment.NavHostFragment"
-                    android:id="@+id/host_fragment"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:defaultNavHost="true"
-                    app:navGraph="@navigation/app_navigation"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
         </com.google.android.material.appbar.AppBarLayout>
+
+        <include layout="@layout/content_main" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

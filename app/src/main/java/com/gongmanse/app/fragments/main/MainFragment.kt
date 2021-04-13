@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.gongmanse.app.databinding.FragmentMainBinding
-import com.gongmanse.app.databinding.FragmentWhatIsGongmanseBinding
 
 
 class MainFragment : Fragment() {
@@ -21,13 +20,13 @@ class MainFragment : Fragment() {
 
     }
 
-    private lateinit var binding: FragmentWhatIsGongmanseBinding
+    private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWhatIsGongmanseBinding.inflate(inflater)
+        binding = FragmentMainBinding.inflate(inflater)
         return binding.root
     }
 
