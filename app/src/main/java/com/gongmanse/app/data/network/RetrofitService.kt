@@ -11,8 +11,8 @@ interface RetrofitService {
     @FormUrlEncoded
     @POST("v1/auth/token")
     fun refreshToken(
-        @Field(Constants.REQUEST_KEY_GRANT_TYPE) grantType: String,
-        @Field(Constants.REQUEST_KEY_REFRESH) refreshToken: String
+        @Field(Constants.Request.KEY_GRANT_TYPE) grantType: String,
+        @Field(Constants.Request.KEY_REFRESH_TOKEN) refreshToken: String
     ): Call<Map<String, String>>
 
     //과목별 보기
