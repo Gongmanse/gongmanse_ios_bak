@@ -110,5 +110,6 @@ dependencies {
 
     // third party library
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "gun0912.ted:tedpermission:2.2.2"
 
 }

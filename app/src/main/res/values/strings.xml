@@ -29,12 +29,33 @@
     <string name="desc_profile_image">프로필 이미지</string>
     <string name="desc_image_preview">미리보기 이미지</string>
     <string name="desc_note_quick_video">동영상 바로가기</string>
+    <string name="description_logo_image">로고 이미지</string>
+    <string name="description_profile_image">프로필 이미지</string>
+    <string name="description_image_intro">인트로 이미지</string>
+    <string name="description_image_splash">로딩 이미지</string>
+    <string name="description_image_preview">미리보기 이미지</string>
+    <string name="description_note_quick_video">동영상 바로가기</string>
 
     <!-- option menu -->
     <string name="option_menu_navigation">네비게이션</string>
 
     <!-- Content Of Text -->
     <string name="content_text_rating_value_null">0.0</string>
+    <string name="content_permission_request">앱의 기능을 사용하기 위해서는 권한이 필요합니다.</string>
+    <string name="content_permission_request_settings">[설정] > [권한] 에서 권환을 허용할 수 있습니다.</string>
+    <string name="content_using_mobile_data_when_play_the_video">모바일 데이터 사용시에도 영상을 재생 하시겠습니까?</string>
+    <string name="content_toast_permission_denied">권한 거부</string>
+    <string name="content_toast_plz_check_login_">아이디 또는 비밀번호를 다시 확인해주세요.</string>
+
+    <string name="content_intro_text1">동영상학습 백과사전</string>
+    <string name="content_intro_text2"><font color="#ed7600">동영상 강의\n45,000</font></string>
+    <string name="content_intro_text3"><font color="#ed7600">공만세</font>에 오신 것을 환영합니다.</string>
+
+
+    <!-- Content of button -->
+    <string name="content_alert_positive_of_mobile_data">허용</string>
+    <string name="content_alert_negative_of_mobile_data">허용 안함</string>
+    <string name="content_button_next">다음</string>
 
     <!-- Content Of Format Text -->
     <string name="content_format_teacher_name">%s 선생님</string>

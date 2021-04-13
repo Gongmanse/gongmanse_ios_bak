@@ -1,5 +1,6 @@
 package com.gongmanse.app.data.network
 
+import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.data.model.Video
 import retrofit2.Call
 import retrofit2.http.*
@@ -9,9 +10,9 @@ interface RetrofitService {
     // 토큰 재발급
     @FormUrlEncoded
     @POST("v1/auth/token")
-    fun refresh(
-//        @Field(Constants.REQUEST_KEY_GRANT_TYPE) grantType: String,
-//        @Field(Constants.REQUEST_KEY_REFRESH) refreshToken: String
+    fun refreshToken(
+        @Field(Constants.REQUEST_KEY_GRANT_TYPE) grantType: String,
+        @Field(Constants.REQUEST_KEY_REFRESH) refreshToken: String
     ): Call<Map<String, String>>
 
     //과목별 보기
