@@ -20,6 +20,7 @@
     <color name="gray">#FFC8C8C8</color>
     <color name="dark_gray">#a4a4a4</color>
     <color name="dark_gray2">#808080</color>
+    <color name="light_gray">#EDEDED</color>
 
     <!-- sUnit color -->
     <color name="term_color">#fb6225</color>

@@ -73,4 +73,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- Tab Item -->
+    <style name="NanumSquareRoundB.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>
