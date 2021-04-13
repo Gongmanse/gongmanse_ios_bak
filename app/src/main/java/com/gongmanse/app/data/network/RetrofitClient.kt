@@ -1,5 +1,6 @@
 package com.gongmanse.app.data.network
 
+import com.gongmanse.app.utils.Constants
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -20,8 +21,8 @@ object RetrofitClient {
         .build()
 
     private val retrofit = Retrofit.Builder()
+        .baseUrl(Constants.BASE_DOMAIN)
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(client)
-        .build()
+        .client(client).build()
 
 }

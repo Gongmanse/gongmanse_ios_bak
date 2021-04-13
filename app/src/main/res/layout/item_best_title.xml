@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="String"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/NanumSquareRoundEB"
+            android:textSize="20sp"
+            android:textColor="#020202"
+            android:text="@string/content_home_title_best1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:text="추천"/>
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            style="@style/NanumSquareRoundEB"
+            android:textSize="18sp"
+            android:text="@{@string/content_home_title_best2(data)}"
+            android:textColor="@color/main_color"
+            app:layout_constraintBottom_toBottomOf="@id/text1"
+            app:layout_constraintLeft_toRightOf="@id/text1"
+            tools:text="BEST!"/>
+
+        <TextView
+            style="@style/NanumSquareRoundEB"
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textSize="20sp"
+            android:textColor="#020202"
+            android:text="@string/content_home_title_best3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/text2"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

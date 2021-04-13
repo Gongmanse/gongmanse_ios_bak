@@ -21,6 +21,7 @@
     <color name="dark_gray">#a4a4a4</color>
     <color name="dark_gray2">#808080</color>
     <color name="light_gray">#EDEDED</color>
+    <color name="black_trans20">#99000000</color>
 
     <!-- sUnit color -->
     <color name="term_color">#fb6225</color>
