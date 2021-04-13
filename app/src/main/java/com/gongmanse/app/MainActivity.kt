@@ -41,39 +41,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Intro or Splash
         showSplash()
-
-        // Actionbar
-        setSupportActionBar(binding.appBarLayout.toolbar)
-        mActionbar = supportActionBar!!
-
-
-        val navController = findNavController(R.id.nav_host_fragment)
-        mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
-        setupActionBarWithNavController(navController, mAppBarConfiguration)
-        nav_view.setupWithNavController(navController)
-
-        val view = nav_view.getHeaderView(0)
-        view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
-        view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            mNavDestination = destination
-            mActionbar.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowTitleEnabled(false)
-                if (destination.id == R.id.mainFragment) {
-                    setHomeAsUpIndicator(R.drawable.ic_notification)
-                    mOptionsMenu?.setGroupVisible(R.id.menu_group, true)
-                    binding.appBarLayout.title = null
-                } else {
-                    setHomeAsUpIndicator(R.drawable.ic_left_arrow)
-                    mOptionsMenu?.setGroupVisible(R.id.menu_group, false)
-                    binding.appBarLayout.title = destination.label.toString()
-                }
-            }
-        }
+        setActionbar()
+        setNavigation()
+        hasLogin()
     }
 
     override fun onClick(v: View?) {
@@ -129,12 +100,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setActionbar() {
+        setSupportActionBar(binding.appBarLayout.toolbar)
+        mActionbar = supportActionBar!!
+    }
+
+    private fun setNavigation() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        setupActionBarWithNavController(navController, mAppBarConfiguration)
+        nav_view.setupWithNavController(navController)
+
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            mNavDestination = destination
+            mActionbar.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowTitleEnabled(false)
+                if (destination.id == R.id.mainFragment) {
+                    setHomeAsUpIndicator(R.drawable.ic_notification)
+                    mOptionsMenu?.setGroupVisible(R.id.menu_group, true)
+                    binding.appBarLayout.title = null
+                } else {
+                    setHomeAsUpIndicator(R.drawable.ic_left_arrow)
+                    mOptionsMenu?.setGroupVisible(R.id.menu_group, false)
+                    binding.appBarLayout.title = destination.label.toString()
+                }
+            }
+        }
+    }
+
+    private fun hasLogin() {
+        val view = nav_view.getHeaderView(0)
+        view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
+    }
+
     private fun showSplash() {
         val intent = if (Preferences.first) {
             Intent(this, IntroActivity::class.java)
         } else {
             Intent(this, SplashActivity::class.java)
         }
-        startActivity(intent) // Move loading view after create view
+        // Move loading view after create view
+        startActivity(intent)
     }
 }
