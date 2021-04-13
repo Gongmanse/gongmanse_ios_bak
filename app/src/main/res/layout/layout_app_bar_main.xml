@@ -24,8 +24,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:paddingHorizontal="@dimen/activity_app_bar_horizontal_padding"
                 android:background="@color/white"
                 app:contentInsetStart="0dp"
                 app:navigationIcon="@drawable/ic_notification">
@@ -40,20 +39,17 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingVertical="@dimen/activity_app_bar_vertical_padding"
                         android:visibility="@{title != null ? View.GONE : View.VISIBLE}"
-                        android:contentDescription="@string/description_logo_image"
-                        android:src="@mipmap/ic_logo"
+                        android:contentDescription="@string/desc_logo_image"
+                        android:src="@mipmap/ic_app_title"
                         tools:visibility="gone" />
 
                     <TextView
-                        style="@style/NanumSquareRoundEB"
+                        style="@style/NanumSquareRoundEB.AppbarTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="@{title == null ? View.GONE : View.VISIBLE}"
-                        android:textColor="@color/txtColor"
-                        android:textSize="17sp"
                         android:text="@{title}"
                         tools:text="나의 활동"
                         tools:visibility="visible" />
@@ -64,7 +60,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_main" />
+        <include layout="@layout/layout_content_main" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

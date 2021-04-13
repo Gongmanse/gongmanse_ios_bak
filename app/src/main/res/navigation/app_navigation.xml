@@ -34,36 +34,36 @@
     <fragment
         android:id="@+id/myNotificationFragment"
         android:name="com.gongmanse.app.feature.notification.MyNotificationFragment"
-        android:label="@string/navigation_my_notification" />
+        android:label="@string/nav_my_notification" />
 
     <fragment
         android:id="@+id/myActivityFragment"
         android:name="com.gongmanse.app.feature.active.MyActivityFragment"
-        android:label="@string/navigation_my_activity" />
+        android:label="@string/nav_my_activity" />
 
     <fragment
         android:id="@+id/myScheduleFragment"
         android:name="com.gongmanse.app.feature.schedule.MyScheduleFragment"
-        android:label="@string/navigation_my_schedule" />
+        android:label="@string/nav_my_schedule" />
 
     <fragment
         android:id="@+id/whatIsGongmanseFragment"
         android:name="com.gongmanse.app.feature.whats.WhatIsGongmanseFragment"
-        android:label="@string/navigation_what_is_gongmanse" />
+        android:label="@string/nav_what_is_gongmanse" />
 
     <fragment
         android:id="@+id/noticeFragment"
         android:name="com.gongmanse.app.feature.notice.NoticeFragment"
-        android:label="@string/navigation_notice" />
+        android:label="@string/nav_notice" />
 
     <fragment
         android:id="@+id/customerServiceFragment"
         android:name="com.gongmanse.app.feature.customer.CustomerServiceFragment"
-        android:label="@string/navigation_customer_service" />
+        android:label="@string/nav_customer_service" />
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.gongmanse.app.feature.settings.SettingsFragment"
-        android:label="@string/navigation_settings" />
+        android:label="@string/nav_settings" />
 
 </navigation>
