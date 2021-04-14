@@ -86,7 +86,7 @@ extension NoticeListVC: UICollectionViewDataSource {
         
         let noticeWebView = NoticeWebViewController(nibName: "NoticeWebViewController", bundle: nil)
         noticeWebView.noticeID = noticeListArray[indexPath.row].id
-        
+        noticeWebView.noticeAlert = true
         self.navigationController?.pushViewController(noticeWebView, animated: true)
     }
 }

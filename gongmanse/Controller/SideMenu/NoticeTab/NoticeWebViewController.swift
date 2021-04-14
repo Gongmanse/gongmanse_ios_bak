@@ -15,6 +15,8 @@ class NoticeWebViewController: UIViewController {
     
     // ID 받아옴
     var noticeID = ""
+    var noticeAlert = false
+    var eventAlert = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +26,24 @@ class NoticeWebViewController: UIViewController {
         activityIndicator.center = view.center
         activityIndicator.style = .medium
         
-        // 공지사항 웹뷰 URL 
-        let noticeViewUrl = "/notices/view/"
-        guard let url = URL(string: webBaseURL+noticeViewUrl+noticeID) else { return }
-        let request = URLRequest(url: url)
-        webView.load(request)
-        
+        // 공지사항 웹뷰 URL
+        if noticeAlert {
+            let noticeViewUrl = "/notices/view/"
+            guard let url = URL(string: webBaseURL+noticeViewUrl+noticeID) else { return }
+            let request = URLRequest(url: url)
+            webView.load(request)
+            
+            noticeAlert = false
+        }
+        if eventAlert {
+            let noticeViewUrl = "/events/view/"
+            guard let url = URL(string: webBaseURL+noticeViewUrl+noticeID) else { return }
+            let request = URLRequest(url: url)
+            webView.load(request)
+
+            eventAlert = false
+        }
+                
         webViewConfiguration()
         
     }

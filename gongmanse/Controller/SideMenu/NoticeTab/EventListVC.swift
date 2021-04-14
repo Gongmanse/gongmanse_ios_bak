@@ -37,6 +37,8 @@ class EventListVC: UIViewController {
         flowlayout.itemSize = CGSize(width: collectionWidth, height: 234)
         
         self.collectionView.collectionViewLayout = flowlayout
+        
+        collectionView.delegate = self
         collectionView.dataSource = self
         
         requestEventListAPI()
@@ -54,7 +56,9 @@ class EventListVC: UIViewController {
     }
     
 }
-
+extension EventListVC: UICollectionViewDelegate {
+    
+}
 extension EventListVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -73,5 +77,13 @@ extension EventListVC: UICollectionViewDataSource {
         cell.isDisplayStats.text = "표시 전"
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let noticeWebView = NoticeWebViewController(nibName: "NoticeWebViewController", bundle: nil)
+        noticeWebView.noticeID = eventListArray[indexPath.row].id
+        noticeWebView.eventAlert = true
+        self.navigationController?.pushViewController(noticeWebView, animated: true)
     }
 }
