@@ -28,10 +28,10 @@ class SelectionSheet(private val listener: OnBottomSheetListener, private var se
 
         setCheck()
         mContext.rootView.btn_close.setOnClickListener { dismiss() }
-        mContext.rootView.btn_show_all.setOnClickListener {updateSelection(Constants.CONTENT_VALUE_ALL)}
-        mContext.rootView.btn_show_series.setOnClickListener {updateSelection(Constants.CONTENT_VALUE_SERIES)}
-        mContext.rootView.btn_show_problem.setOnClickListener {updateSelection(Constants.CONTENT_VALUE_PROBLEM)}
-        mContext.rootView.btn_show_note.setOnClickListener {updateSelection(Constants.CONTENT_VALUE_NOTE)}
+        mContext.rootView.btn_show_all.setOnClickListener {updateSelection(Constants.SelectValue.SORT_ALL)}
+        mContext.rootView.btn_show_series.setOnClickListener {updateSelection(Constants.SelectValue.SORT_SERIES)}
+        mContext.rootView.btn_show_problem.setOnClickListener {updateSelection(Constants.SelectValue.SORT_PROBLEM)}
+        mContext.rootView.btn_show_note.setOnClickListener {updateSelection(Constants.SelectValue.SORT_NOTE)}
 
     }
 
@@ -43,24 +43,24 @@ class SelectionSheet(private val listener: OnBottomSheetListener, private var se
     @SuppressLint("ResourceAsColor")
     private fun setCheck(){
         when(selectText){
-            Constants.CONTENT_VALUE_ALL -> {
+            Constants.SelectValue.SORT_ALL -> {
                 mContext.rootView.iv_show_all.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_ALL
+                selectText = Constants.SelectValue.SORT_ALL
                 mContext.rootView.tv_show_all.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
-            Constants.CONTENT_VALUE_SERIES ->{
+            Constants.SelectValue.SORT_SERIES ->{
                 mContext.iv_show_series.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_SERIES
+                selectText = Constants.SelectValue.SORT_SERIES
                 mContext.tv_show_series.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
-            Constants.CONTENT_VALUE_PROBLEM ->{
+            Constants.SelectValue.SORT_PROBLEM ->{
                 mContext.iv_show_problem.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_PROBLEM
+                selectText = Constants.SelectValue.SORT_PROBLEM
                 mContext.rootView.tv_show_problem.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
-            Constants.CONTENT_VALUE_NOTE -> {
+            Constants.SelectValue.SORT_NOTE -> {
                 mContext.iv_show_note.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_NOTE
+                selectText = Constants.SelectValue.SORT_NOTE
                 mContext.rootView.tv_show_note.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
         }

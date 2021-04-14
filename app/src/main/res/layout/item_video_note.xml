@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:contentDescription="@string/description_image_preview" />
+                    android:contentDescription="@string/desc_image_preview" />
 
             </androidx.cardview.widget.CardView>
 
@@ -62,7 +62,7 @@
                 android:elevation="10dp"
                 android:visibility="@{data.videoId == null || data.videoId.empty ? View.GONE : View.VISIBLE}"
                 app:cardUseCompatPadding="false"
-                android:contentDescription="@string/description_note_quick_video"
+                android:contentDescription="@string/desc_note_quick_video"
                 app:layout_constraintTop_toTopOf="@id/tv_title"
                 app:layout_constraintBottom_toBottomOf="@id/tv_title"
                 app:layout_constraintEnd_toEndOf="parent"/>

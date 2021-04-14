@@ -24,7 +24,7 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
-            Constants.VIEW_TYPE_ITEM -> {
+            Constants.Endless.VIEW_TYPE_ITEM -> {
                 val binding = ItemVideoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 VideoViewHolder(binding)
             }
@@ -85,14 +85,14 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     fun addLoading() {
-        val item = Body().apply { this.itemType = Constants.VIEW_TYPE_LOADING }
+        val item = Body().apply { this.itemType = Constants.Endless.VIEW_TYPE_LOADING }
         items.add(item)
         notifyItemInserted(items.size - 1)
     }
 
     fun removeLoading() {
         val position = items.size - 1
-        if (items[position].itemType == Constants.VIEW_TYPE_LOADING) {
+        if (items[position].itemType == Constants.Endless.VIEW_TYPE_LOADING) {
             items.removeAt(position)
             val scrollPosition = items.size
             notifyItemRemoved(scrollPosition)

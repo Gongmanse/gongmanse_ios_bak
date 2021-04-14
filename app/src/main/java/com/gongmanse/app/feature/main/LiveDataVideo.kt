@@ -1,5 +1,6 @@
 package com.gongmanse.app.feature.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,13 +23,15 @@ class LiveDataVideo : ViewModel() {
         _currentValue.value?.clear()
     }
     fun loadVideo(subject : Int?, offset : Int?, limit : Int?, sortId : Int?){
+//        Log.d("TAG", "$subject : $offset : $limit : $sortId ")
         CoroutineScope(Dispatchers.IO).launch {
             RetrofitClient.getService().getSubject(subject, offset, limit, sortId).execute().apply {
                 if (this.isSuccessful) {
+//                    Log.d("TAG", "${this.body()}")
                     this.body()?.let { response ->
                         response.header.totalRows.let {_totalValue.postValue(it.toInt())}
                         response.body.let {
-                            _currentValue.postValue(it as ArrayList<Body>)
+                            _currentValue.postValue(it)
                         }
                     }
                 }
@@ -43,7 +46,7 @@ class LiveDataVideo : ViewModel() {
                     this.body()?.let { response ->
                               response.header.totalRows.let {_totalValue.postValue(it.toInt())}
                        response.body.let {
-                           _currentValue.postValue(it as ArrayList<Body>)
+                           _currentValue.postValue(it)
                        }
                     }
                 }

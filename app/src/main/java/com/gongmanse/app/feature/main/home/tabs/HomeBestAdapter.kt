@@ -19,7 +19,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            Constants.BEST_BANNER_TYPE -> {
+            Constants.BestValue.BANNER_TYPE -> {
                 val binding = ItemBannerBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -27,7 +27,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
                 )
                 return BannerViewHolder(binding)
             }
-            Constants.BEST_TITLE_TYPE -> {
+            Constants.BestValue.TITLE_TYPE -> {
                 val binding = ItemBestTitleBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -35,7 +35,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
                 )
                 return TitleViewHolder(binding)
             }
-            Constants.BEST_LOADING_TYPE -> {
+            Constants.BestValue.LOADING_TYPE -> {
                 val binding = ItemLoadingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -59,11 +59,11 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 //    override fun getItemViewType(position: Int): Int {
 //        items[position].viewType.let {
 //            return when(items[position].viewType){
-//                Constants.BEST_BANNER_TYPE.toString() -> Constants.BEST_BANNER_TYPE
-//                Constants.BEST_TITLE_TYPE.toString() -> Constants.BEST_TITLE_TYPE
-//                Constants.BEST_RV_TYPE.toString() -> Constants.BEST_RV_TYPE
-//                Constants.BEST_LOADING_TYPE.toString() -> Constants.BEST_LOADING_TYPE
-//                else -> Constants.BEST_RV_TYPE
+//                Constants.BestValue.BANNER_TYPE.toString() -> Constants.BestValue.BANNER_TYPE
+//                Constants.BestValue.TITLE_TYPE.toString() -> Constants.BestValue.TITLE_TYPE
+//                Constants.BestValue.RV_TYPE.toString() -> Constants.BestValue.RV_TYPE
+//                Constants.BestValue.LOADING_TYPE.toString() -> Constants.BestValue.LOADING_TYPE
+//                else -> Constants.BestValue.RV_TYPE
 //            }
 //        }
 //    }
@@ -82,7 +82,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
             }
             is TitleViewHolder -> {
                 holder.apply {
-                    bind(Constants.BEST_TITLE_VALUE)
+                    bind(Constants.BestValue.TITLE_VALUE)
                 }
             }
             is RecyclerViewHolder -> {
@@ -150,14 +150,14 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 //    }
 //
 //    fun addLoading() {
-//        val item = VideoData().apply { this.viewType = Constants.BEST_LOADING_TYPE.toString() }
+//        val item = VideoData().apply { this.viewType = Constants.BestValue.LOADING_TYPE.toString() }
 //        items.add(item)
 //        notifyItemInserted(items.size - 1)
 //    }
 
     fun removeLoading() {
 //        val position = items.size - 1
-//        if (items[position].viewType == Constants.BEST_LOADING_TYPE.toString()) {
+//        if (items[position].viewType == Constants.BestValue.LOADING_TYPE.toString()) {
 //            items.removeAt(position)
 //            val scrollPosition = items.size
 //            notifyItemRemoved(scrollPosition)
@@ -183,7 +183,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 //            }
 //        }
 //        private fun loadBanner() {
-//            RetrofitClient.getService().getBannerList(Constants.BEST_BANNER_COUNT).enqueue(object :
+//            RetrofitClient.getService().getBannerList(Constants.BestValue.BANNER_COUNT).enqueue(object :
 //                Callback<VideoList> {
 //                override fun onFailure(call: Call<VideoList>, t: Throwable) {
 //                    Log.e("Retrofit : onFailure ", "Failed API call with call : $call\nexception : $t")

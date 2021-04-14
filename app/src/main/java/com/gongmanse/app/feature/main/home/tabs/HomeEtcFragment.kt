@@ -36,11 +36,11 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var bottomSheet: SelectionSheet
     private lateinit var bottomSheetSpinner: SelectionSheetSpinner
-    private var page: Int = Constants.OFFSET_DEFAULT_INT                                        // api 페이지
+    private var page: Int = Constants.DefaultValue.LIMIT_INT                                 // api 페이지
     private var isLoading = false
     private val type = 3
-    private var selectView: String = Constants.CONTENT_VALUE_ALL         // 선택한 select 박스
-    private var selectOrder: String = Constants.CONTENT_VALUE_AVG        // 선택한 정렬
+    private var selectView: String = Constants.SelectValue.SORT_ALL         // select 박스 기본값
+    private var selectOrder: String = Constants.SelectValue.SORT_AVG        // 정렬 기본값
     private val linearLayoutManager = LinearLayoutManager(context)
 
     private lateinit var viewModel: LiveDataVideo
@@ -68,7 +68,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
 
     private fun initView() {
         binding.refreshLayout.setOnRefreshListener(this)
-        binding.setVariable(BR.title,Constants.HOME_TAB_TITLE_ETC)
+        binding.setVariable(BR.title,Constants.Home.TAB_TITLE_ETC)
         viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
         prepareData()
         viewModel.currentValue.observe(viewLifecycleOwner) {
@@ -137,21 +137,21 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         // 최초 호출
         Log.d(TAG, "prepareData...")
         when(selectView){
-            Constants.CONTENT_VALUE_ALL ->{
+            Constants.SelectValue.SORT_ALL ->{
                 when(selectOrder){
-                    Constants.CONTENT_VALUE_AVG ->  viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT, Constants.CONTENT_RESPONSE_VALUE_AVG)
-                    Constants.CONTENT_VALUE_LATEST ->viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT,Constants.CONTENT_RESPONSE_VALUE_LATEST)
-                    Constants.CONTENT_VALUE_NAME -> viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT,Constants.CONTENT_RESPONSE_VALUE_NAME)
-                    Constants.CONTENT_VALUE_SUBJECT->viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT,Constants.CONTENT_RESPONSE_VALUE_SUBJECT)
+                    Constants.SelectValue.SORT_AVG ->  viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG)
+                    Constants.SelectValue.SORT_LATEST ->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST)
+                    Constants.SelectValue.SORT_NAME -> viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME)
+                    Constants.SelectValue.SORT_SUBJECT->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT)
                 }
             }
-            Constants.CONTENT_VALUE_SERIES ->{
+            Constants.SelectValue.SORT_SERIES ->{
                 //            loadVideoSeries(page)
             }
-            Constants.CONTENT_VALUE_PROBLEM ->{
+            Constants.SelectValue.SORT_PROBLEM ->{
                 //            loadVideoProblem(page,Constants.SUBJECT_COMMENTARY_PROBLEM)
             }
-            Constants.CONTENT_VALUE_NOTE ->{
+            Constants.SelectValue.SORT_NOTE ->{
                 //            loadVideoNote(page)
             }
         }
@@ -176,18 +176,18 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         }
         Handler().postDelayed({
             when(selectView){
-                Constants.CONTENT_VALUE_ALL -> {
+                Constants.SelectValue.SORT_ALL -> {
                     when(selectOrder){
-                        Constants.CONTENT_VALUE_AVG ->  viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT, Constants.CONTENT_RESPONSE_VALUE_AVG)
-                        Constants.CONTENT_VALUE_LATEST ->viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT,Constants.CONTENT_RESPONSE_VALUE_LATEST)
-                        Constants.CONTENT_VALUE_NAME -> viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT,Constants.CONTENT_RESPONSE_VALUE_NAME)
-                        Constants.CONTENT_VALUE_SUBJECT->viewModel.loadVideo( Constants.GRADE_SORT_ID_ETC, page, Constants.LIMIT_DEFAULT_INT,Constants.CONTENT_RESPONSE_VALUE_SUBJECT)
+                        Constants.SelectValue.SORT_AVG ->  viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT,  Constants.SelectValue.SORT_VALUE_AVG)
+                        Constants.SelectValue.SORT_LATEST ->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST)
+                        Constants.SelectValue.SORT_NAME -> viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME)
+                        Constants.SelectValue.SORT_SUBJECT->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT)
                     }
                 }
-//                Constants.CONTENT_VALUE_SERIES -> if(page != totalItemsCount) loadVideoSeries(totalItemsCount)
-//                Constants.CONTENT_VALUE_PROBLEM -> if(page != totalItemsCount) loadVideoProblem(totalItemsCount,Constants.SUBJECT_COMMENTARY_PROBLEM)
-//                Constants.CONTENT_VALUE_NOTE -> if(page != totalItemsCount) loadMoreData(totalItemsCount,loadVideoNote(totalItemsCount))
+//                Constants.SelectValue.SORT_SERIES -> if(page != totalItemsCount) loadVideoSeries(totalItemsCount)
+//                Constants.SelectValue.SORT_PROBLEM -> if(page != totalItemsCount) loadVideoProblem(totalItemsCount,Constants.SUBJECT_COMMENTARY_PROBLEM)
+//                Constants.SelectValue.SORT_NOTE -> if(page != totalItemsCount) loadMoreData(totalItemsCount,loadVideoNote(totalItemsCount))
             }
-        }, Constants.DELAY_VALUE_OF_ENDLESS)
+        }, Constants.Delay.VALUE_OF_ENDLESS)
     }
 }

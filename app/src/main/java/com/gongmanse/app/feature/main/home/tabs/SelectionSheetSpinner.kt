@@ -31,13 +31,13 @@ class SelectionSheetSpinner(private val listener: OnBottomSheetSpinnerListener, 
 
         setCheck()
         mContext.rootView.btn_close.setOnClickListener           { dismiss() }                                          // 닫기
-        mContext.rootView.btn_show_avg.setOnClickListener        { updateSelection(Constants.CONTENT_VALUE_AVG) }       // 평점
-        mContext.rootView.btn_show_latest.setOnClickListener     { updateSelection(Constants.CONTENT_VALUE_LATEST) }    // 최신순
-        mContext.rootView.btn_show_name.setOnClickListener       { updateSelection(Constants.CONTENT_VALUE_NAME) }      // 이름순
-        mContext.rootView.btn_show_subject.setOnClickListener    { updateSelection(Constants.CONTENT_VALUE_SUBJECT) }   // 과목순
-        mContext.rootView.btn_show_views.setOnClickListener      { updateSelection(Constants.CONTENT_VALUE_VIEWS) }     // 조회순
-        mContext.rootView.btn_show_relevance.setOnClickListener  { updateSelection(Constants.CONTENT_VALUE_RELEVANCE) } // 관련순
-        mContext.rootView.btn_show_answer.setOnClickListener     { updateSelection(Constants.CONTENT_VALUE_ANSWER) }    // 답변 완료순
+        mContext.rootView.btn_show_avg.setOnClickListener        { updateSelection(Constants.SelectValue.SORT_AVG) }       // 평점
+        mContext.rootView.btn_show_latest.setOnClickListener     { updateSelection(Constants.SelectValue.SORT_LATEST) }    // 최신순
+        mContext.rootView.btn_show_name.setOnClickListener       { updateSelection(Constants.SelectValue.SORT_NAME) }      // 이름순
+        mContext.rootView.btn_show_subject.setOnClickListener    { updateSelection(Constants.SelectValue.SORT_SUBJECT) }   // 과목순
+        mContext.rootView.btn_show_views.setOnClickListener      { updateSelection(Constants.SelectValue.SORT_VIEWS) }     // 조회순
+        mContext.rootView.btn_show_relevance.setOnClickListener  { updateSelection(Constants.SelectValue.SORT_RELEVANCE) } // 관련순
+        mContext.rootView.btn_show_answer.setOnClickListener     { updateSelection(Constants.SelectValue.SORT_ANSWER) }    // 답변 완료순
 
     }
 
@@ -93,44 +93,44 @@ class SelectionSheetSpinner(private val listener: OnBottomSheetSpinnerListener, 
         when(selectText){
             /* 정렬 */
             // 평점
-            Constants.CONTENT_VALUE_AVG -> {
+            Constants.SelectValue.SORT_AVG -> {
                 mContext.rootView.iv_show_avg.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_AVG
+                selectText = Constants.SelectValue.SORT_AVG
                 mContext.rootView.tv_show_avg.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
             // 최신
-            Constants.CONTENT_VALUE_LATEST ->{
+            Constants.SelectValue.SORT_LATEST ->{
                 mContext.iv_show_latest.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_LATEST
+                selectText = Constants.SelectValue.SORT_LATEST
                 mContext.tv_show_latest.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
             // 이름
-            Constants.CONTENT_VALUE_NAME ->{
+            Constants.SelectValue.SORT_NAME ->{
                 mContext.iv_show_name.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_NAME
+                selectText = Constants.SelectValue.SORT_NAME
                 mContext.rootView.tv_show_name.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
             // 과목
-            Constants.CONTENT_VALUE_SUBJECT ->{
+            Constants.SelectValue.SORT_SUBJECT ->{
                 mContext.iv_show_subject.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_SUBJECT
+                selectText = Constants.SelectValue.SORT_SUBJECT
                 mContext.rootView.tv_show_subject.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
             // 조회순
-            Constants.CONTENT_VALUE_VIEWS -> {
+            Constants.SelectValue.SORT_VIEWS -> {
                 mContext.iv_show_views.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_VIEWS
+                selectText = Constants.SelectValue.SORT_VIEWS
                 mContext.rootView.tv_show_views.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
-            Constants.CONTENT_VALUE_RELEVANCE -> {
+            Constants.SelectValue.SORT_RELEVANCE -> {
                 mContext.iv_show_relevance.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_RELEVANCE
+                selectText = Constants.SelectValue.SORT_RELEVANCE
                 mContext.rootView.tv_show_relevance.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
             // 답변순
-            Constants.CONTENT_VALUE_ANSWER -> {
+            Constants.SelectValue.SORT_ANSWER -> {
                 mContext.iv_show_answer.visibility = View.VISIBLE
-                selectText = Constants.CONTENT_VALUE_ANSWER
+                selectText = Constants.SelectValue.SORT_ANSWER
                 mContext.rootView.tv_show_answer.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_color))
             }
         }
