@@ -2,7 +2,10 @@ package com.gongmanse.app.feature.main
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -11,6 +14,7 @@ import com.gongmanse.app.MainActivity
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentMainBinding
 import com.gongmanse.app.feature.main.home.HomeFragment
+import com.gongmanse.app.feature.main.progress.ProgressFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @Suppress("DEPRECATION")
@@ -26,7 +30,7 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     private lateinit var binding: FragmentMainBinding
     private lateinit var homeFragment: HomeFragment
-//    private lateinit var progressFragment: ProgressFragment
+    private lateinit var progressFragment: ProgressFragment
 //    private lateinit var searchFragment: SearchMainFragment
 //    private lateinit var counselFragment: CounselFragment
 //    private lateinit var teacherFragment: TeacherFragment
@@ -55,12 +59,13 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     // 화면 생성
     private fun setupFragment() {
         homeFragment = HomeFragment()
+        progressFragment = ProgressFragment()
         val fm: FragmentManager = (context as MainActivity).supportFragmentManager
         fm.beginTransaction()
             .add(R.id.content_layout, homeFragment)
             .hide(homeFragment)
-//            .add(R.id.layout_content, progressFragment)
-//            .hide(progressFragment)
+            .add(R.id.content_layout, progressFragment)
+            .hide(progressFragment)
 //            .add(R.id.layout_content, searchFragment)
 //            .hide(searchFragment)
 //            .add(R.id.layout_content, counselFragment)
@@ -89,7 +94,7 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 true
             }
             R.id.action_progress -> {
-//                replaceFragment(progressFragment)
+                replaceFragment(progressFragment)
                 true
             }
             R.id.action_search -> {

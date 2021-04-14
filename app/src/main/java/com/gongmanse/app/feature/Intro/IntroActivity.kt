@@ -2,6 +2,7 @@ package com.gongmanse.app.feature.Intro
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.gongmanse.app.R
@@ -11,7 +12,7 @@ import com.gun0912.tedpermission.PermissionListener
 import kotlinx.android.synthetic.main.activity_intro.*
 import kotlin.system.exitProcess
 
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private val TAG = IntroActivity::class.java.simpleName
@@ -21,7 +22,6 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.e(TAG, "onCreate Intro")
         setContentView(R.layout.activity_intro)
-        initView()
     }
 
     override fun onBackPressed() {
@@ -29,11 +29,12 @@ class IntroActivity : AppCompatActivity() {
         exitProcess(0)
     }
 
-    private fun initView() {
-//        Commons.checkPermission(this, permissionListener)
-        btn_intro_next.setOnClickListener {
-            Preferences.first = false
-            finish()
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.btn_next -> {
+                Preferences.first = false
+                finish()
+            }
         }
     }
 

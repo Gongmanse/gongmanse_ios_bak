@@ -135,6 +135,15 @@ class Constants {
         }
     }
 
+    class Progress{
+        companion object {
+            const val TAB_TITLE_KEM         = "국영수"
+            const val TAB_TITLE_SCIENCE     = "과학"
+            const val TAB_TITLE_SOCIETY     = "사회"
+            const val TAB_TITLE_ETC         = "기타과목"
+        }
+    }
+
 //    class Name{
 //        companion object {
 //

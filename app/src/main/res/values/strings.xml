@@ -115,4 +115,6 @@
     <string name="content_format_subject_background">#%s</string>
     <string name="content_format_series_video_count">%d</string>
     <string name="content_format_home_title">%s 강의</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

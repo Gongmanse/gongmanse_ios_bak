@@ -15,6 +15,7 @@ data class Body(
     val unit: String?,
     val videoId: String?,
     val seriesCount : Int?
+
 )  {
     constructor() : this(0, null,
         null,null,null,
