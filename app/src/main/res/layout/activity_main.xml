@@ -25,7 +25,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:fitsSystemWindows="true"
-            app:headerLayout="@layout/layout_local_header"
             app:menu="@menu/navigation_menu"
             app:itemIconTint="@color/colorPrimary"
             app:itemTextAppearance="@style/Navigation.Item"

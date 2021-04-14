@@ -34,6 +34,7 @@ class Constants {
     // Retrofit REQUEST Body key
     class Request {
         companion object {
+            const val KEY_TOKEN = "token"
             const val KEY_GRANT_TYPE = "grant_type"
             const val KEY_REFRESH_TOKEN = "refresh_token"
 

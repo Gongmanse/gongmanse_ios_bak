@@ -1,5 +1,6 @@
 package com.gongmanse.app.utils
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -8,8 +9,32 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.gongmanse.app.R
 
+// URL Image Binding
+@BindingAdapter("bindProfileURL")
+fun bindViewProfileURL(view: ImageView, value: String?) {
+    Log.v("BindProfileURL", "::: value => $value")
+    if (value == null) {
+        view.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_username_gray))
+    } else {
+        val requestOptions = RequestOptions().apply {
+            override(300, 300)
+            diskCacheStrategy(DiskCacheStrategy.NONE)
+            skipMemoryCache(false)
+            placeholder(R.drawable.ic_username_gray)
+            error(R.drawable.ic_username_gray)
+            centerCrop()
+            circleCrop()
+            signature(ObjectKey(System.currentTimeMillis()))
+        }
+        Glide.with(view.context)
+            .load("${Constants.FILE_DOMAIN}/$value")
+            .apply(requestOptions)
+            .into(view)
+    }
+}
 
 @BindingAdapter("bindURLImage")
 fun bindViewURLImage(view: ImageView, value: String?) {

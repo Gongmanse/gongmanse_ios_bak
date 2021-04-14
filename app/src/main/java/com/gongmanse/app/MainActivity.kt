@@ -10,16 +10,22 @@ import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.gongmanse.app.data.network.member.MemberRepository
 import com.gongmanse.app.databinding.ActivityMainBinding
+import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import com.gongmanse.app.feature.Intro.IntroActivity
 import com.gongmanse.app.feature.main.MainFragmentDirections
 import com.gongmanse.app.feature.member.LoginActivity
+import com.gongmanse.app.feature.member.MemberViewModel
+import com.gongmanse.app.feature.member.MemberViewModelFactory
 import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
@@ -37,6 +43,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAppBarConfiguration: AppBarConfiguration
     private lateinit var mActionbar: ActionBar
     private lateinit var mNavDestination: NavDestination
+    private lateinit var mMemberViewModelFactory: MemberViewModelFactory
+    private lateinit var mMemberViewModel: MemberViewModel
+
     private var mOptionsMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +64,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_login -> {
-                // TODO 로그인 액티비티 생성
                 startActivity(intentFor<LoginActivity>().singleTop())
             }
             R.id.btn_logout -> {
@@ -124,18 +132,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun hasLogin() {
-        if (Preferences.token.isNotEmpty()) {
-            val view = nav_view.getHeaderView(0)
-            view.findViewById<Button>(R.id.btn_logout).setOnClickListener(this)
-            view.findViewById<Button>(R.id.btn_edit_profile).setOnClickListener(this)
-        } else {
-            val view = nav_view.getHeaderView(0)
-            view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
-            view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
-        }
-    }
-
     private fun showSplash() {
         val intent = if (Preferences.first) {
             Intent(this, IntroActivity::class.java)
@@ -154,6 +150,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         navController.navigate(direction)
         drawer_layout.closeDrawer(GravityCompat.END)
+    }
+
+    private fun hasLogin() {
+        mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
+        mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
+        Preferences.token = "NTMzMWY1YmEzZTJmYjJhOTk0NDQzM2VhMDc2NzBhYzAzNzJmNTJjMzU2MzM4YTViMjYzMmYzMTEyNWZmNGY1MDhmNGJmZDcwZjU0YmE0MGQ3OThhZTI5NTRmZDJmZmYyZTM5YTU1ZDMxMzIxNjA5YzJlM2FlMGUxZDczNWE5ZjArblJqTXZXZ2N1ek4wd0dWeFdYTVBxZkxWWDhZc3FMV2doT0YxOUpNK2pYWXlBV0EzL3prZG95cGpNTFRVM1YvTmlRR05iVXo0eXdhWEQ5ZUVJUmNQdz09"
+        if (Preferences.token.isNotEmpty()) {
+            nav_view.removeHeaderView(nav_view.getHeaderView(0))
+            val navBinding = DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false)
+            binding.navView.addHeaderView(navBinding.root)
+            navBinding.btnLogout.setOnClickListener(this)
+            navBinding.btnEditProfile.setOnClickListener(this)
+            mMemberViewModel.getProfile()
+            mMemberViewModel.currentValue.observe(this) {
+                navBinding.member = it.memberBody
+            }
+        } else {
+            nav_view.removeHeaderView(nav_view.getHeaderView(0))
+            val view = nav_view.inflateHeaderView(R.layout.layout_local_header)
+            view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
+            view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
+        }
     }
 
     fun replaceBottomNavigation(title: String?) {
