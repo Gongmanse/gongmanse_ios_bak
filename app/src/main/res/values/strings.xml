@@ -74,6 +74,7 @@
     <string name="content_alert_positive_of_mobile_data">허용</string>
     <string name="content_alert_negative_of_mobile_data">허용 안함</string>
     <string name="content_button_next">다음</string>
+    <string name="content_button_confirm">확인</string>
 
     <!-- Content Of Selector -->
     <string name="content_format_selected">전체보기</string>

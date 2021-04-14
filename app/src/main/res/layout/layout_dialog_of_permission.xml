@@ -32,14 +32,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:fontFamily="@font/nanum_square_round_b"
-            android:text="@string/content_permission_camera"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/iv_permission"
             app:layout_constraintStart_toEndOf="@+id/iv_permission"
             app:layout_constraintTop_toTopOf="@id/iv_permission"
-            tools:text="@string/content_permission_camera" />
+            tools:text="카메라 권한이 필요합니다." />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

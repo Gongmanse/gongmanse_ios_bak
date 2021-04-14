@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.R
-import com.gongmanse.app.feature.splash.SplashActivity
+import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.utils.Preferences
 import com.gun0912.tedpermission.PermissionListener
 import kotlinx.android.synthetic.main.activity_intro.*
-import org.jetbrains.anko.toast
 import kotlin.system.exitProcess
 
 class IntroActivity : AppCompatActivity() {
@@ -32,7 +30,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        Commons.checkPermission(this, permissionListener)
+//        Commons.checkPermission(this, permissionListener)
         btn_intro_next.setOnClickListener {
             Preferences.first = false
             finish()
@@ -46,8 +44,6 @@ class IntroActivity : AppCompatActivity() {
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
             Log.d(TAG, "${deniedPermissions.toString()} ${R.string.content_toast_permission_denied}")
-
-
         }
     }
 
