@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.R
 import com.gongmanse.app.data.network.RetrofitClient
+import com.gongmanse.app.utils.Commons
+import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import com.gun0912.tedpermission.PermissionListener
 import org.jetbrains.anko.toast
@@ -52,11 +52,11 @@ class SplashActivity : AppCompatActivity() {
     private fun nextPage() {
         Handler().postDelayed({
             finish()
-        }, Constants.DELAY_VALUE_OF_SPLASH)
+        }, Constants.Delay.VALUE_OF_SPLASH)
     }
 
     private fun getRefreshToken() {
-        RetrofitClient.getService().refreshToken(Constants.REQUEST_KEY_REFRESH, Preferences.refresh).enqueue( object : Callback<Map<String, String>> {
+        RetrofitClient.getService().refreshToken(Constants.Request.KEY_REFRESH_TOKEN, Preferences.refresh).enqueue( object : Callback<Map<String, String>> {
             override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
                 Log.e(TAG, "Failed API call with call : $call\nexception : $t")
             }
@@ -68,7 +68,7 @@ class SplashActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     response.body()?.apply {
                         Log.d(TAG, "onResponse => ${this["token"]}")
-                        Commons.saveToken(this[Constants.EXTRA_KEY_TOKEN].toString())
+                        Commons.saveToken(this[Constants.Extra.KEY_TOKEN].toString())
                     }
                 } else {
                     Log.e(TAG, "Failed API code : ${response.code()}\n message : ${response.message()}")

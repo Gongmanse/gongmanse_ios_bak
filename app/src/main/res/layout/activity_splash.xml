@@ -13,7 +13,7 @@
         android:layout_marginTop="153dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="153dp"
-        android:contentDescription="@string/description_image_splash"
+        android:contentDescription="@string/desc_image_splash"
         android:src="@mipmap/splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

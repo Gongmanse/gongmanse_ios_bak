@@ -2,14 +2,20 @@
     <string name="app_name">공만세</string>
 
     <!-- navigation -->
-    <string name="navigation_home">HOME</string>
-    <string name="navigation_my_notification">나의 알림</string>
-    <string name="navigation_my_activity">나의 활동</string>
-    <string name="navigation_my_schedule">나의 일정</string>
-    <string name="navigation_what_is_gongmanse">공만세란?</string>
-    <string name="navigation_notice">공지사항</string>
-    <string name="navigation_customer_service">고객센터</string>
-    <string name="navigation_settings">설정</string>
+    <string name="nav_home">HOME</string>
+    <string name="nav_my_notification">나의 알림</string>
+    <string name="nav_my_activity">나의 활동</string>
+    <string name="nav_my_schedule">나의 일정</string>
+    <string name="nav_what_is_gongmanse">공만세란?</string>
+    <string name="nav_notice">공지사항</string>
+    <string name="nav_customer_service">고객센터</string>
+    <string name="nav_settings">설정</string>
+
+    <!-- navigation header -->
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_login">로그인</string>
 
     <!-- bottom navigation -->
     <string name="bottom_navigation_home">홈</string>
@@ -26,15 +32,20 @@
     <string name="description_image_preview">미리보기 이미지</string>
     <string name="description_note_quick_video">동영상 바로가기</string>
     <string name="description_image_permission">권한 이미지</string>
+    <string name="desc_logo_image">로고 이미지</string>
+    <string name="desc_profile_image">프로필 이미지</string>
+    <string name="desc_image_preview">미리보기 이미지</string>
+    <string name="desc_note_quick_video">동영상 바로가기</string>
+    <string name="desc_image_intro">인트로 이미지</string>
+    <string name="desc_image_splash">로딩 이미지</string>
+
     <string name="option_menu_navigation">네비게이션</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="description_image_category_check">스피너 체크 이미지</string>
+    <string name="description_image_category_dismiss">스피너 팝업 닫기 이미지</string>
 
     <!-- Content Of Text -->
     <string name="content_text_rating_value_null">0.0</string>
     <string name="content_permission_request">앱의 기능을 사용하기 위해서는 권한이 필요합니다.</string>
-    <string name="content_permission_camera">카메라 접근 권한 허용이 필요합니다.</string>
     <string name="content_permission_request_settings">[설정] > [권한] 에서 권환을 허용할 수 있습니다.</string>
     <string name="content_using_mobile_data_when_play_the_video">모바일 데이터 사용시에도 영상을 재생 하시겠습니까?</string>
     <string name="content_toast_permission_denied">권한 거부</string>
@@ -50,8 +61,43 @@
     <string name="content_alert_negative_of_mobile_data">허용 안함</string>
     <string name="content_button_next">다음</string>
 
+    <!-- Content Of Selector -->
+    <string name="content_format_selected">전체보기</string>
+    <string name="content_format_selected_note">노트 보기</string>
+    <string name="content_format_selected_series">시리즈 보기</string>
+    <string name="content_format_selected_problem">문제풀이</string>
+    <string name="content_format_selected_title">카테고리</string>
+    <string name="content_format_selected_video_title">영상 제목</string>
+    <string name="content_format_selected_align_title">정렬</string>
+    <string name="content_format_selected_align_avg">평점순</string>
+    <string name="content_format_selected_align_latest">최신순</string>
+    <string name="content_format_selected_align_name">이름순</string>
+    <string name="content_format_selected_align_subject">과목순</string>
+    <string name="content_format_selected_align_views">조회순</string>
+    <string name="content_format_selected_align_relevance">관련순</string>
+    <string name="content_format_selected_align_answer">답변 완료순</string>
+
+    <!-- Content Of Home -->
+    <string name="content_home_title_hot1">인기 </string>
+    <string name="content_home_title_hot2">HOT!</string>
+    <string name="content_home_title_hot3">동영상 강의</string>
+    <string name="content_home_title_kem">국영수 강의</string>
+    <string name="content_home_title_science">과학 강의</string>
+    <string name="content_home_title_society">사회 강의</string>
+    <string name="content_home_title_etc">기타 강의</string>
+    <string name="content_home_switch_text">자동 재생</string>
+    <string name="content_home_title_best1">추천 </string>
+    <string name="content_home_title_best2">%s </string>
+    <string name="content_home_title_best3">동영상 강의</string>
+    <string name="content_home_spinner_default">평점순</string>
+    <string name="content_home_spinner_default_relevance">관련순</string>
+
     <!-- Content Of Format Text -->
     <string name="content_format_teacher_name">%s 선생님</string>
+    <string name="content_format_video_count1">총</string>
+    <string name="content_format_video_count2">%,d</string>
+    <string name="content_format_video_count3">개</string>
+    <string name="content_format_subject_background">#%s</string>
     <string name="content_format_series_video_count">%d</string>
-
+    <string name="content_format_home_title">%s 강의</string>
 </resources>

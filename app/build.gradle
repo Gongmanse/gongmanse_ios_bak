@@ -64,53 +64,55 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    // Test
+    // test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    // Material
+    // material
     implementation 'com.google.android.material:material:1.3.0'
-
-    // Gson
-    implementation 'com.google.code.gson:gson:2.8.6'
 
     // Anko
     implementation "org.jetbrains.anko:anko:0.10.8"
 
-    // Fragment
+    // fragment
     def fragment_version = "1.3.2"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
-    // Navigation
+    // navigation
     def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    // Glide
+    // glide
     def glide_version = "4.11.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    // Retorfit2
+    // retorfit2
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     // ViewModel
     def lifecycle_version = "2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-    // Koin
+    // koin
     def koin_version = "2.1.5"
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-fragment:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
-    // Ted Permission
-    def ted_permission_version = "2.2.2"
-    implementation "gun0912.ted:tedpermission:$ted_permission_version"
+    // third party library
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "gun0912.ted:tedpermission:2.2.2"
+
+    // Auto Slider
+    implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
 
 }

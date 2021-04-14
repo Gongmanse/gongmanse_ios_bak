@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- My Active -->
     <item
         android:id="@+id/myActivityFragment"
-        android:title="@string/navigation_my_activity"
+        android:title="@string/nav_my_activity"
         android:icon="@drawable/ic_my_activity" />
 
-    <!-- My Calendar -->
     <item
         android:id="@+id/myScheduleFragment"
-        android:title="@string/navigation_my_schedule"
+        android:title="@string/nav_my_schedule"
         android:icon="@drawable/ic_my_schedule" />
 
-    <!-- What Is Gongmanse -->
     <item
         android:id="@+id/whatIsGongmanseFragment"
-        android:title="@string/navigation_what_is_gongmanse"
+        android:title="@string/nav_what_is_gongmanse"
         android:icon="@drawable/ic_what_s_gongmanse" />
 
-    <!-- Notice -->
     <item
         android:id="@+id/noticeFragment"
-        android:title="@string/navigation_notice"
+        android:title="@string/nav_notice"
         android:icon="@drawable/ic_notice" />
 
-    <!-- Customer Service -->
     <item
         android:id="@+id/customerServiceFragment"
-        android:title="@string/navigation_customer_service"
+        android:title="@string/nav_customer_service"
         android:icon="@drawable/ic_help_center" />
 
-    <!-- Settings -->
     <item
         android:id="@+id/settingsFragment"
-        android:title="@string/navigation_settings"
+        android:title="@string/nav_settings"
         android:icon="@drawable/ic_settings" />
 
 </menu>

@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.gongmanse.app.R
 
+
 @BindingAdapter("bindURLImage")
 fun bindViewURLImage(view: ImageView, value: String?) {
     if(value != null){

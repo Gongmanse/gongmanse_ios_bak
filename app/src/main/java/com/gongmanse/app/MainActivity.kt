@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -21,7 +23,7 @@ import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -39,33 +41,35 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Intro or Splash
         showSplash()
+        setActionbar()
+        setNavigation()
+        hasLogin()
+    }
 
-        // Actionbar
-        setSupportActionBar(binding.appBarLayout.toolbar)
-        mActionbar = supportActionBar!!
-
-
-        val navController = findNavController(R.id.nav_host_fragment)
-        mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
-        setupActionBarWithNavController(navController, mAppBarConfiguration)
-        nav_view.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            mNavDestination = destination
-            mActionbar.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowTitleEnabled(false)
-                if (destination.id == R.id.mainFragment) {
-                    setHomeAsUpIndicator(R.drawable.ic_notification)
-                    mOptionsMenu?.setGroupVisible(R.id.menu_group, true)
-                    binding.appBarLayout.title = null
-                } else {
-                    setHomeAsUpIndicator(R.drawable.ic_left_arrow)
-                    mOptionsMenu?.setGroupVisible(R.id.menu_group, false)
-                    binding.appBarLayout.title = destination.label.toString()
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.btn_login -> {
+                nav_view.getHeaderView(0).let {
+                    nav_view.removeHeaderView(it)
+                    val view = nav_view.inflateHeaderView(R.layout.layout_login_header)
+                    view.findViewById<Button>(R.id.btn_logout).setOnClickListener(this)
+                    view.findViewById<Button>(R.id.btn_edit_profile).setOnClickListener(this)
                 }
+            }
+            R.id.btn_logout -> {
+                nav_view.getHeaderView(0).let {
+                    nav_view.removeHeaderView(it)
+                    val view = nav_view.inflateHeaderView(R.layout.layout_local_header)
+                    view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
+                    view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
+                }
+            }
+            R.id.btn_sign_up -> {
+
+            }
+            R.id.btn_edit_profile -> {
+
             }
         }
     }
@@ -96,12 +100,49 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setActionbar() {
+        setSupportActionBar(binding.appBarLayout.toolbar)
+        mActionbar = supportActionBar!!
+    }
+
+    private fun setNavigation() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        setupActionBarWithNavController(navController, mAppBarConfiguration)
+        nav_view.setupWithNavController(navController)
+
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            mNavDestination = destination
+            mActionbar.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowTitleEnabled(false)
+                if (destination.id == R.id.mainFragment) {
+                    setHomeAsUpIndicator(R.drawable.ic_notification)
+                    mOptionsMenu?.setGroupVisible(R.id.menu_group, true)
+                    binding.appBarLayout.title = null
+                } else {
+                    setHomeAsUpIndicator(R.drawable.ic_left_arrow)
+                    mOptionsMenu?.setGroupVisible(R.id.menu_group, false)
+                    binding.appBarLayout.title = destination.label.toString()
+                }
+            }
+        }
+    }
+
+    private fun hasLogin() {
+        val view = nav_view.getHeaderView(0)
+        view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
+        view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
+    }
+
     private fun showSplash() {
         val intent = if (Preferences.first) {
             Intent(this, IntroActivity::class.java)
         } else {
             Intent(this, SplashActivity::class.java)
         }
-        startActivity(intent) // Move loading view after create view
+        // Move loading view after create view
+        startActivity(intent)
     }
 }
