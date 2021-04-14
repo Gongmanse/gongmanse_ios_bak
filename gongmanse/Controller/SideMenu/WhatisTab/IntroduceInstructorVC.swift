@@ -10,21 +10,53 @@ import UIKit
 class IntroduceInstructorVC: UIViewController {
 
     var pageIndex = 0
+    private var allLectureThumbnail: [LectureThumbnail]?
+    private let thumbnailCellIdentifier = "LectureThumbnailCell"
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .lightGray
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(LectureThumbnailCell.self, forCellReuseIdentifier: thumbnailCellIdentifier)
+        
+        let ts = RequestLectureListAPI(offset: 0)
+        ts.requestLectureList(complition: { [weak self] result in
+            self?.allLectureThumbnail = result
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        })
     }
 
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension IntroduceInstructorVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
-    */
+}
 
+extension IntroduceInstructorVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return allLectureThumbnail?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: thumbnailCellIdentifier, for: indexPath) as? LectureThumbnailCell else { return UITableViewCell() }
+        
+        
+        let thumbnailList = allLectureThumbnail?[indexPath.row].fullthumbnail ?? ""
+        let thumbnailURL = URL(string: thumbnailList)!
+        print(allLectureThumbnail?[indexPath.row].fullthumbnail ?? "")
+        cell.thumbnail.setImageUrl(allLectureThumbnail?[indexPath.row].fullthumbnail ?? "")
+    
+        return cell
+    }
 }
