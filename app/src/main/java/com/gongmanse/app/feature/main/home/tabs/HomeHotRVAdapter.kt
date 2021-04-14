@@ -3,7 +3,7 @@ package com.gongmanse.app.feature.main.home.tabs
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.gongmanse.app.data.model.Body
+import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.ItemLoadingBinding
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.utils.Constants
