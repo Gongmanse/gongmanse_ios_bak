@@ -28,17 +28,22 @@ class LiveDataVideo : ViewModel() {
     fun loadVideo(subject : Int?, offset : Int?, limit : Int?, sortId : Int?){
 //        Log.d("TAG", "$subject : $offset : $limit : $sortId ")
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.getService().getSubject(subject, offset, limit, sortId).execute().apply {
-                if (this.isSuccessful) {
+            try {
+                RetrofitClient.getService().getSubject(subject, offset, limit, sortId).execute().apply {
+                    if (this.isSuccessful) {
 //                    Log.d("TAG", "${this.body()}")
-                    this.body()?.let { response ->
-                        response.header.totalRows.let {_totalValue.postValue(it.toInt())}
-                        response.body.let {
-                            _currentValue.postValue(it)
+                        this.body()?.let { response ->
+                            response.header.totalRows.let {_totalValue.postValue(it.toInt())}
+                            response.body.let {
+                                _currentValue.postValue(it)
+                            }
                         }
                     }
                 }
+            }catch (e : Exception){
+                Log.e("error" , "$e")
             }
+
         }
     }
     //시리즈

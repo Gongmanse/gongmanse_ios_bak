@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.R
-import com.gongmanse.app.data.model.Body
+import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.FragmentBestBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
 import com.gongmanse.app.utils.Constants
