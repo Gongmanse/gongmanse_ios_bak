@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.gongmanse.app.data.model.Body
+import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.*
 import com.gongmanse.app.utils.Constants
 
@@ -56,17 +56,17 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     override fun getItemCount(): Int = items.size
 
-//    override fun getItemViewType(position: Int): Int {
-//        items[position].viewType.let {
-//            return when(items[position].viewType){
-//                Constants.BestValue.BANNER_TYPE.toString() -> Constants.BestValue.BANNER_TYPE
-//                Constants.BestValue.TITLE_TYPE.toString() -> Constants.BestValue.TITLE_TYPE
-//                Constants.BestValue.RV_TYPE.toString() -> Constants.BestValue.RV_TYPE
-//                Constants.BestValue.LOADING_TYPE.toString() -> Constants.BestValue.LOADING_TYPE
-//                else -> Constants.BestValue.RV_TYPE
-//            }
-//        }
-//    }
+    override fun getItemViewType(position: Int): Int {
+        items[position].itemType.let {
+            return when(items[position].itemType){
+                Constants.BestValue.BANNER_TYPE     -> Constants.BestValue.BANNER_TYPE
+                Constants.BestValue.TITLE_TYPE      -> Constants.BestValue.TITLE_TYPE
+                Constants.BestValue.RV_TYPE         -> Constants.BestValue.RV_TYPE
+                Constants.BestValue.LOADING_TYPE    -> Constants.BestValue.LOADING_TYPE
+                else -> Constants.BestValue.RV_TYPE
+            }
+        }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("홀더 확인","$holder")
@@ -137,31 +137,30 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     }
 
-//    fun addItems(newItems: List<VideoData>) {
-//        val position = items.size
-//        items.addAll(newItems)
-//        notifyItemRangeInserted(position, newItems.size)
-////        notifyDataSetChanged()
-//    }
-//
-//    fun clear(){
-//        items.clear()
-//        notifyDataSetChanged()
-//    }
-//
-//    fun addLoading() {
-//        val item = VideoData().apply { this.viewType = Constants.BestValue.LOADING_TYPE.toString() }
-//        items.add(item)
-//        notifyItemInserted(items.size - 1)
-//    }
+    fun addItems(newItems: List<Body>) {
+        val position = items.size
+        items.addAll(newItems)
+        notifyItemRangeInserted(position, newItems.size)
+    }
+
+    fun clear(){
+        items.clear()
+        notifyDataSetChanged()
+    }
+
+    fun addLoading() {
+        val item = Body().apply { this.itemType = Constants.BestValue.LOADING_TYPE }
+        items.add(item)
+        notifyItemInserted(items.size - 1)
+    }
 
     fun removeLoading() {
-//        val position = items.size - 1
-//        if (items[position].viewType == Constants.BestValue.LOADING_TYPE.toString()) {
-//            items.removeAt(position)
-//            val scrollPosition = items.size
-//            notifyItemRemoved(scrollPosition)
-//        }
+        val position = items.size - 1
+        if (items[position].itemType == Constants.BestValue.LOADING_TYPE) {
+            items.removeAt(position)
+            val scrollPosition = items.size
+            notifyItemRemoved(scrollPosition)
+        }
     }
 
     private class BannerViewHolder(private val binding: ItemBannerBinding) : RecyclerView.ViewHolder(binding.root){

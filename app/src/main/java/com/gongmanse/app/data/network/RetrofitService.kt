@@ -26,7 +26,14 @@ interface RetrofitService {
 
     //배너
     @GET("/v3/video/banner")
-    fun getSubject(): Call<Video>
+    fun getBanner(): Call<Video>
+
+    @GET("/v3/video/recommend/{grade}")
+    fun getBest(
+        @Path("grade") subject: String?,
+        @Query("offset") offset: Int?,
+        @Query("limit") limit: Int?
+    ): Call<Video>
 //
 //    //과목별 보기
 //    @GET("v3/video/recommend/{grade}")

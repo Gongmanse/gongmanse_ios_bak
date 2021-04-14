@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/activity_app_bar_vertical_padding"
                         android:visibility="@{title != null ? View.GONE : View.VISIBLE}"
-                        android:contentDescription="@string/desc_logo_image"
+                        android:contentDescription="@string/desc_image_logo"
                         android:src="@mipmap/ic_app_title"
                         tools:visibility="gone" />
 

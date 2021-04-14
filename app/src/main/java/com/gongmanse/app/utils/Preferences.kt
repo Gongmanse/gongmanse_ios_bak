@@ -12,6 +12,7 @@ object Preferences {
     private const val TOKEN_KEY               = "token"
     private const val REFRESH_KEY             = "refresh"
     private const val MOBILE_DATA_KEY         = "mobileData"
+    private const val GRADE_KEY               = "grade"
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(context.packageName, Activity.MODE_PRIVATE)
@@ -43,5 +44,12 @@ object Preferences {
         get() = prefs.getString(REFRESH_KEY, "") ?: ""
         set(value) = prefs.edit {
             putString(REFRESH_KEY, value).apply()
+        }
+
+    // 체크: 학년 설정
+    var grade: String
+        get() = prefs.getString(GRADE_KEY, "") ?: ""
+        set(value) = prefs.edit {
+            putString(GRADE_KEY, value).apply()
         }
 }

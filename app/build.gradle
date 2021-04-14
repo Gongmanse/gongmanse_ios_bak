@@ -113,8 +113,6 @@ dependencies {
     // third party library
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation "gun0912.ted:tedpermission:2.2.2"
-
-    // Auto Slider
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
 
 }
