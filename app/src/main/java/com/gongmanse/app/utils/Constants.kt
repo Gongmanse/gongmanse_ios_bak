@@ -37,6 +37,10 @@ class Constants {
             const val KEY_TOKEN = "token"
             const val KEY_GRANT_TYPE = "grant_type"
             const val KEY_REFRESH_TOKEN = "refresh_token"
+            const val KEY_USERNAME = "usr"
+            const val KEY_PASSWORD = "pwd"
+            const val VALUE_TYPE_PASSWORD = "password"
+            const val VALUE_TYPE_REFRESH = "refresh_token"
 
         }
     }

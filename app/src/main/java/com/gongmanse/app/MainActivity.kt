@@ -1,12 +1,14 @@
 package com.gongmanse.app
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -20,6 +22,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gongmanse.app.data.network.member.MemberRepository
 import com.gongmanse.app.databinding.ActivityMainBinding
+import com.gongmanse.app.databinding.LayoutLocalHeaderBinding
 import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import com.gongmanse.app.feature.Intro.IntroActivity
 import com.gongmanse.app.feature.main.MainFragmentDirections
@@ -30,8 +33,7 @@ import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.singleTop
+import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -64,10 +66,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_login -> {
-                startActivity(intentFor<LoginActivity>().singleTop())
+                val intent = Intent(this, LoginActivity::class.java)
+                requestActivity.launch(intent)
             }
             R.id.btn_logout -> {
                 // TODO 로그아웃 확인창 -> 로그아웃 (토큰 초기화)
+                alert(message = "로그아웃 하시겠습니까?") {
+                    yesButton {
+                        mMemberViewModel.logout()
+                        it.dismiss()
+                    }
+                    noButton {
+                        it.dismiss()
+                    }
+                }.show()
             }
             R.id.btn_sign_up -> {
                 // TODO 회원가입 액티비티 생성
@@ -153,29 +165,40 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun hasLogin() {
-        mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
-        mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
-        Preferences.token = "NTMzMWY1YmEzZTJmYjJhOTk0NDQzM2VhMDc2NzBhYzAzNzJmNTJjMzU2MzM4YTViMjYzMmYzMTEyNWZmNGY1MDhmNGJmZDcwZjU0YmE0MGQ3OThhZTI5NTRmZDJmZmYyZTM5YTU1ZDMxMzIxNjA5YzJlM2FlMGUxZDczNWE5ZjArblJqTXZXZ2N1ek4wd0dWeFdYTVBxZkxWWDhZc3FMV2doT0YxOUpNK2pYWXlBV0EzL3prZG95cGpNTFRVM1YvTmlRR05iVXo0eXdhWEQ5ZUVJUmNQdz09"
-        if (Preferences.token.isNotEmpty()) {
+        if (::mMemberViewModelFactory.isInitialized.not()) {
+            mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
+        }
+        if (::mMemberViewModel.isInitialized.not()) {
+            mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
+        }
+        Log.d(TAG, "token => ${Preferences.token}")
+        mMemberViewModel.getProfile()
+        mMemberViewModel.currentValue.observe(this) {
             nav_view.removeHeaderView(nav_view.getHeaderView(0))
-            val navBinding = DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false)
-            binding.navView.addHeaderView(navBinding.root)
-            navBinding.btnLogout.setOnClickListener(this)
-            navBinding.btnEditProfile.setOnClickListener(this)
-            mMemberViewModel.getProfile()
-            mMemberViewModel.currentValue.observe(this) {
+            if (it != null) {
+                val navBinding = DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false)
+                binding.navView.addHeaderView(navBinding.root)
+                navBinding.btnLogout.setOnClickListener(this)
+                navBinding.btnEditProfile.setOnClickListener(this)
                 navBinding.member = it.memberBody
+            } else {
+                val navBinding = DataBindingUtil.inflate<LayoutLocalHeaderBinding>(layoutInflater, R.layout.layout_local_header, binding.navView, false)
+                binding.navView.addHeaderView(navBinding.root)
+                navBinding.btnLogin.setOnClickListener(this)
+                navBinding.btnSignUp.setOnClickListener(this)
             }
-        } else {
-            nav_view.removeHeaderView(nav_view.getHeaderView(0))
-            val view = nav_view.inflateHeaderView(R.layout.layout_local_header)
-            view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
-            view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
         }
     }
 
     fun replaceBottomNavigation(title: String?) {
         binding.appBarLayout.title = title
+    }
+
+    private val requestActivity: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+        if (activityResult.resultCode == Activity.RESULT_OK) {
+            Log.d(TAG, "RequestActivity Login")
+            hasLogin()
+        }
     }
 
 }
