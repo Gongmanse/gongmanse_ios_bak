@@ -12,7 +12,7 @@ class IntroduceInstructorVC: UIViewController {
     var pageIndex = 0
     private var allLectureThumbnail: [LectureThumbnail]?
     private let thumbnailCellIdentifier = "LectureThumbnailCell"
-    
+    private var listCount = 0
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,20 +22,34 @@ class IntroduceInstructorVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
         
         let lectureNibName = UINib(nibName: thumbnailCellIdentifier, bundle: nil)
         tableView.register(lectureNibName, forCellReuseIdentifier: thumbnailCellIdentifier)
         
-        let lectureApi = RequestLectureListAPI(offset: 0)
+        requestLectureList(offset: 0)
+    }
+
+    func requestLectureList(offset: Int) {
+        
+        let lectureApi = RequestLectureListAPI(offset: offset)
         lectureApi.requestLectureList(complition: { [weak self] result in
-            self?.allLectureThumbnail = result
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
+            if offset == 0 {
+                
+                self?.allLectureThumbnail = result
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+                
+            }else {
+                
+                self?.allLectureThumbnail?.append(contentsOf: result)
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+
             }
         })
     }
-
 }
 
 extension IntroduceInstructorVC: UITableViewDelegate {
@@ -58,6 +72,12 @@ extension IntroduceInstructorVC: UITableViewDataSource {
         let thumbnailList = allLectureThumbnail?[indexPath.row].fullthumbnail ?? ""
         cell.thumbnail.setImageUrl(thumbnailList)
         cell.selectionStyle = .none
+        
+        let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+        if indexPath.row == totalRows - 1{
+            listCount += 20
+            requestLectureList(offset: listCount)
+        }
         
         return cell
     }
