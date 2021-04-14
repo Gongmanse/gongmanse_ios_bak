@@ -21,11 +21,14 @@ class IntroduceInstructorVC: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         
-        tableView.register(LectureThumbnailCell.self, forCellReuseIdentifier: thumbnailCellIdentifier)
+        let lectureNibName = UINib(nibName: thumbnailCellIdentifier, bundle: nil)
+        tableView.register(lectureNibName, forCellReuseIdentifier: thumbnailCellIdentifier)
         
-        let ts = RequestLectureListAPI(offset: 0)
-        ts.requestLectureList(complition: { [weak self] result in
+        let lectureApi = RequestLectureListAPI(offset: 0)
+        lectureApi.requestLectureList(complition: { [weak self] result in
             self?.allLectureThumbnail = result
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -38,7 +41,7 @@ class IntroduceInstructorVC: UIViewController {
 extension IntroduceInstructorVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 200
     }
 }
 
@@ -53,10 +56,9 @@ extension IntroduceInstructorVC: UITableViewDataSource {
         
         
         let thumbnailList = allLectureThumbnail?[indexPath.row].fullthumbnail ?? ""
-        let thumbnailURL = URL(string: thumbnailList)!
-        print(allLectureThumbnail?[indexPath.row].fullthumbnail ?? "")
-        cell.thumbnail.setImageUrl(allLectureThumbnail?[indexPath.row].fullthumbnail ?? "")
-    
+        cell.thumbnail.setImageUrl(thumbnailList)
+        cell.selectionStyle = .none
+        
         return cell
     }
 }

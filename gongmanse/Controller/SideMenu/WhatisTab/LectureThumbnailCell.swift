@@ -15,6 +15,7 @@ class LectureThumbnailCell: UITableViewCell {
         super.awakeFromNib()
         
         thumbnail.contentMode = .scaleAspectFit
+        thumbnail.sizeToFit()
         
     }
 
