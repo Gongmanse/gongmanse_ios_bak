@@ -12,6 +12,13 @@ class Commons {
     companion object {
 
         private val TAG =  Commons::class.java.simpleName
+        private val permissionList = mutableListOf<String>(
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
 
         // Save Token
         fun saveToken(token: String) {
@@ -19,18 +26,21 @@ class Commons {
             Preferences.token = token
         }
 
-        // Check Permission
+        // Check Permission: 임시 주석
         fun checkPermission(context: Context, permissionListener: PermissionListener) {
+            Log.e(TAG, "checkPermission")
             TedPermission.with(context)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage(R.string.content_permission_request)
-                .setRationaleConfirmText("확인")
-                .setDeniedMessage(R.string.content_permission_request_settings)
+                .setRationaleMessage(R.string.content_permission_request) // 권한 요청 이유
+                .setRationaleConfirmText(R.string.content_button_confirm) // 확인 버튼
+                .setDeniedMessage(R.string.content_permission_request_settings) // 거부했을 때 보여지는 메시지
+                .setDeniedCloseButtonText(R.string.content_alert_negative_of_mobile_data)
+                .setGotoSettingButton(true)
                 .setPermissions(Manifest.permission.INTERNET, Manifest.permission.READ_PHONE_STATE)
                 .check()
         }
 
-        // Check Mobile Data
+        // Check Mobile Data: 임시 주석
         fun checkMobileData(context: Context) {
             context.apply {
                 context.apply {

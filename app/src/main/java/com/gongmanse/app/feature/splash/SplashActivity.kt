@@ -26,8 +26,8 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         Log.e(TAG, "onCreate Splash")
         if (Preferences.refresh.isNotEmpty()) getRefreshToken()
-        Commons.checkPermission(this, permissionListener)
-//        Commons.testPermission(this, permissionListener)
+        nextPage()
+//        Commons.checkPermission(this, permissionListener)
     }
 
     private var permissionListener: PermissionListener = object : PermissionListener {
