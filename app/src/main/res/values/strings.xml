@@ -10,12 +10,16 @@
     <string name="nav_notice">공지사항</string>
     <string name="nav_customer_service">고객센터</string>
     <string name="nav_settings">설정</string>
+    <string name="nav_login">로그인</string>
 
     <!-- navigation header -->
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_login">로그인</string>
+    <string name="nav_header_logout">로그아웃</string>
+    <string name="nav_header_sign_up">회원가입</string>
+    <string name="nav_header_edit_profile">프로필 수정</string>
 
     <!-- bottom navigation -->
     <string name="bottom_navigation_home">홈</string>
@@ -25,23 +29,31 @@
     <string name="bottom_navigation_teacher">강사별강의</string>
 
     <!-- image description -->
-    <string name="description_logo_image">로고 이미지</string>
-    <string name="description_profile_image">프로필 이미지</string>
-    <string name="description_image_intro">인트로 이미지</string>
-    <string name="description_image_splash">로딩 이미지</string>
-    <string name="description_image_preview">미리보기 이미지</string>
-    <string name="description_note_quick_video">동영상 바로가기</string>
-    <string name="description_image_permission">권한 이미지</string>
     <string name="desc_logo_image">로고 이미지</string>
+    <string name="desc_image_close">닫기 이미지</string>
     <string name="desc_profile_image">프로필 이미지</string>
     <string name="desc_image_preview">미리보기 이미지</string>
     <string name="desc_note_quick_video">동영상 바로가기</string>
     <string name="desc_image_intro">인트로 이미지</string>
     <string name="desc_image_splash">로딩 이미지</string>
-
-    <string name="option_menu_navigation">네비게이션</string>
+    <string name="desc_image_username">아이디 이미지</string>
+    <string name="desc_image_password">비밀번호 이미지</string>
+    <string name="description_image_permission">권한 이미지</string>
     <string name="description_image_category_check">스피너 체크 이미지</string>
     <string name="description_image_category_dismiss">스피너 팝업 닫기 이미지</string>
+
+    <!-- option menu -->
+    <string name="option_menu_navigation">네비게이션</string>
+
+    <!-- prompt -->
+    <string name="prompt_username">아이디</string>
+    <string name="prompt_password">비밀번호</string>
+
+    <!-- button context -->
+    <string name="button_login">로그인</string>
+    <string name="button_find_username">아이디 찾기</string>
+    <string name="button_find_password">비밀번호 찾기</string>
+    <string name="button_sign_up">회원가입</string>
 
     <!-- Content Of Text -->
     <string name="content_text_rating_value_null">0.0</string>
