@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.gongmanse.app">
-
     <!-- 권한: 인터넷 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 권한: 카메라 -->
@@ -24,16 +23,16 @@
         android:theme="@style/Theme.Gongmanse2"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-
+        <activity android:name=".feature.permission.PermissionActivity" />
+        <activity android:name=".feature.member.LoginActivity" />
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Gongmanse2.FullScreen" />
-
-        <activity android:name=".feature.Intro.IntroActivity"
+        <activity
+            android:name=".feature.Intro.IntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Gongmanse2.FullScreen" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

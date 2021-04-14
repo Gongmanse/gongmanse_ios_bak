@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gongmanse.app.data.model.Body
+import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.data.network.RetrofitClient
 import com.gongmanse.app.utils.Constants
 import kotlinx.coroutines.CoroutineScope

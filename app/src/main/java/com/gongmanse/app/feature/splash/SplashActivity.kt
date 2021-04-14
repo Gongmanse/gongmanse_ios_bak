@@ -24,22 +24,26 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        Log.e(TAG, "onCreate to Splash")
+        Log.e(TAG, "onCreate Splash")
         if (Preferences.refresh.isNotEmpty()) getRefreshToken()
-        Commons.checkPermission(this, permissionListener)
+        nextPage()
+//        Commons.checkPermission(this, permissionListener)
     }
 
     private var permissionListener: PermissionListener = object : PermissionListener {
+        // 모든 권한을 허가 받았을 경우
         override fun onPermissionGranted() {
             if (Preferences.first) {
                 Commons.checkMobileData(this@SplashActivity)
-            } else {
+            }
+            // 모든 권한 허가를 받지 못했을 경우
+            else {
                 nextPage()
             }
         }
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            Log.d(TAG, "${R.string.content_toast_permission_denied}")
+            Log.d(TAG, "${deniedPermissions.toString()} ${R.string.content_toast_permission_denied}")
             nextPage()
         }
     }

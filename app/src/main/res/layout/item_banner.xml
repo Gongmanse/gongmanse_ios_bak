@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.gongmanse.app.data.model.Body"/>
+            type="com.gongmanse.app.data.model.video.Body"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

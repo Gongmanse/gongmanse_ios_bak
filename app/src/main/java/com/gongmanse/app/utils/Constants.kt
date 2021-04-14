@@ -72,7 +72,7 @@ class Constants {
             const val SORT_VALUE_RELEVANCE              = 7   //관련순
         }
     }
-    
+
     class BestValue{
         companion object {
             const val BANNER_COUNT                      = 10
@@ -84,7 +84,7 @@ class Constants {
             const val TITLE_VALUE                       = "BEST!"
         }
     }
-    
+
     class DefaultValue{
         companion object {
             const val OFFSET                            = "0"
@@ -93,7 +93,7 @@ class Constants {
             const val LIMIT_INT                         = 20
         }
     }
-    
+
     class GradeValue{
         companion object {
             const val KEM                               = 340
@@ -107,6 +107,7 @@ class Constants {
         }
     }
 
+
     class GradeType{
         companion object {
             const val ELEMENTARY       = "초등"
@@ -117,7 +118,7 @@ class Constants {
             const val HIGH_VIEW        = "고"
         }
     }
-    
+
     class Home{
         companion object {
             const val TAB_TITLE_BEST                    = "추천"
@@ -128,25 +129,22 @@ class Constants {
             const val TAB_TITLE_ETC                     = "기타"
         }
     }
-    
+
 //    class Name{
 //        companion object {
 //
 //        }
 //    }
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    // Action
+    class Action {
+        companion object {
+            const val VIEW_LOGIN               = 0
+            const val VIEW_SIGN_UP             = 1
+            const val VIEW_NOTIFICATION        = 2
+            const val VIEW_EDIT_PROFILE        = 3
+            const val VIEW_PASS_TICKET         = 4
+        }
+    }
+
 }

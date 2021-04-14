@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.smarteist.autoimageslider.SliderViewAdapter
-import com.gongmanse.app.data.model.Body
+import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.ItemBannerViewBinding
 
 

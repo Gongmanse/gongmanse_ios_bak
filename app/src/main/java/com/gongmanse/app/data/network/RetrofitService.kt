@@ -1,7 +1,7 @@
 package com.gongmanse.app.data.network
 
 import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.data.model.Video
+import com.gongmanse.app.data.model.video.Video
 import retrofit2.Call
 import retrofit2.http.*
 

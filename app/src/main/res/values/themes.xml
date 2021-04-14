@@ -107,4 +107,46 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <!-- FormInputLayout -->
+    <style name="NanumSquareRoundB.FormInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/selector_text_input_layout</item>
+        <item name="startIconTint">@color/selector_text_input_layout</item>
+        <item name="endIconTint">@color/selector_text_input_layout</item>
+        <item name="hintTextColor">@color/selector_text_input_layout</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <!-- FormInputText -->
+    <style name="NanumSquareRoundB.FormInputText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Login Button -->
+    <style name="LoginButton" parent="NanumSquareRoundB">
+        <item name="android:text">@string/button_login</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Vertical Line -->
+    <style name="VerticalLine" parent="NanumSquareRoundB">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:text">|</item>
+    </style>
+
+    <style name="TextButtonAppearance" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
 </resources>

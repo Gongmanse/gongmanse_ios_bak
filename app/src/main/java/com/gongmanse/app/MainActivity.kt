@@ -19,9 +19,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.gongmanse.app.databinding.ActivityMainBinding
 import com.gongmanse.app.feature.Intro.IntroActivity
 import com.gongmanse.app.feature.main.MainFragmentDirections
+import com.gongmanse.app.feature.member.LoginActivity
 import com.gongmanse.app.feature.splash.SplashActivity
+import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.singleTop
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -45,31 +49,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setActionbar()
         setNavigation()
         hasLogin()
+
     }
 
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_login -> {
-                nav_view.getHeaderView(0).let {
-                    nav_view.removeHeaderView(it)
-                    val view = nav_view.inflateHeaderView(R.layout.layout_login_header)
-                    view.findViewById<Button>(R.id.btn_logout).setOnClickListener(this)
-                    view.findViewById<Button>(R.id.btn_edit_profile).setOnClickListener(this)
-                }
+                // TODO 로그인 액티비티 생성
+                startActivity(intentFor<LoginActivity>().singleTop())
             }
             R.id.btn_logout -> {
-                nav_view.getHeaderView(0).let {
-                    nav_view.removeHeaderView(it)
-                    val view = nav_view.inflateHeaderView(R.layout.layout_local_header)
-                    view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
-                    view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
-                }
+                // TODO 로그아웃 확인창 -> 로그아웃 (토큰 초기화)
             }
             R.id.btn_sign_up -> {
-
+                // TODO 회원가입 액티비티 생성
             }
             R.id.btn_edit_profile -> {
-
+                // TODO 프로필 정보 수정 액티비티 생성
             }
         }
     }
@@ -77,8 +73,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return if (mNavDestination.id == R.id.mainFragment) {
-            val direction = MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
-            navController.navigate(direction)
+            actionNavigator(Constants.Action.VIEW_NOTIFICATION)
             false
         } else {
             navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
@@ -111,7 +106,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setupActionBarWithNavController(navController, mAppBarConfiguration)
         nav_view.setupWithNavController(navController)
 
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             mNavDestination = destination
             mActionbar.apply {
@@ -131,9 +125,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun hasLogin() {
-        val view = nav_view.getHeaderView(0)
-        view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
-        view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
+        if (Preferences.token.isNotEmpty()) {
+            val view = nav_view.getHeaderView(0)
+            view.findViewById<Button>(R.id.btn_logout).setOnClickListener(this)
+            view.findViewById<Button>(R.id.btn_edit_profile).setOnClickListener(this)
+        } else {
+            val view = nav_view.getHeaderView(0)
+            view.findViewById<Button>(R.id.btn_login).setOnClickListener(this)
+            view.findViewById<Button>(R.id.btn_sign_up).setOnClickListener(this)
+        }
     }
 
     private fun showSplash() {
@@ -145,4 +145,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // Move loading view after create view
         startActivity(intent)
     }
+
+    private fun actionNavigator(id: Int) {
+        val navController = findNavController(R.id.nav_host_fragment)
+        val direction = when(id) {
+            Constants.Action.VIEW_NOTIFICATION -> MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
+            else -> MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
+        }
+        navController.navigate(direction)
+        drawer_layout.closeDrawer(GravityCompat.END)
+    }
+
+    fun replaceBottomNavigation(title: String?) {
+        binding.appBarLayout.title = title
+    }
+
 }
