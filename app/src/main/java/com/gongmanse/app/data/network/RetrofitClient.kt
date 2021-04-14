@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    /* Retrofit */
     // Base
     fun getService(): RetrofitService = retrofit.create(RetrofitService::class.java)
     // File

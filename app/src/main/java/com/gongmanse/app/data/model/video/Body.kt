@@ -1,4 +1,4 @@
-package com.gongmanse.app.data.model
+package com.gongmanse.app.data.model.video
 
 data class Body(
     var itemType : Int = 0,

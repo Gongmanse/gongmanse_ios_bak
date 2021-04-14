@@ -62,7 +62,7 @@
                 android:layout_marginHorizontal="@dimen/nav_header_horizontal_spacing_8dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:textAppearance="@style/NavigationHeaderButton"
-                android:text="로그아웃"
+                android:text="@string/nav_header_logout"
                 app:cornerRadius="10dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -72,11 +72,10 @@
                 android:layout_marginHorizontal="@dimen/nav_header_horizontal_spacing_8dp"
                 android:backgroundTint="@color/dark_gray"
                 android:textAppearance="@style/NavigationHeaderButton"
-                android:text="프로필 수정"
+                android:text="@string/nav_header_edit_profile"
                 app:cornerRadius="10dp"/>
 
         </LinearLayout>
-
 
     </LinearLayout>
 

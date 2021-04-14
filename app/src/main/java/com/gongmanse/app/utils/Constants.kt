@@ -39,4 +39,15 @@ class Constants {
         }
     }
 
+    // Action
+    class Action {
+        companion object {
+            const val VIEW_LOGIN               = 0
+            const val VIEW_SIGN_UP             = 1
+            const val VIEW_NOTIFICATION        = 2
+            const val VIEW_EDIT_PROFILE        = 3
+            const val VIEW_PASS_TICKET         = 4
+        }
+    }
+
 }
