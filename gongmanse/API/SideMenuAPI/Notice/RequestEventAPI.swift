@@ -16,7 +16,7 @@ struct RequestEventListAPI {
         eventListUrl = "\(apiBaseURL)/v/setting/settingevent?offset=\(offset)&limit=20"
     }
    
-    func getRequestEvent(complition: @escaping (_ result: EventModel) -> Void) {
+    func getRequestEvent(complition: @escaping (_ result: [EventModel]) -> Void) {
      
         AF.request(eventListUrl, method: .get)
             .responseDecodable(of: EventListModel.self) { response in
@@ -25,7 +25,7 @@ struct RequestEventListAPI {
                 let json = success
                 
                 
-                complition(json.data[0])
+                complition(json.data)
             case .failure(let error):
                 print("DEBUG: ", error.localizedDescription)
             }

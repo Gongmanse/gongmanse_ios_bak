@@ -278,6 +278,8 @@
 		C2A0808D26256D890014C3C0 /* UseLectureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A0808B26256D890014C3C0 /* UseLectureCell.xib */; };
 		C2A4B8952626BBC900173261 /* RequestEventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8942626BBC900173261 /* RequestEventAPI.swift */; };
 		C2A4B8982626BC0000173261 /* EventListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8972626BC0000173261 /* EventListModel.swift */; };
+		C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B89B2626CA6300173261 /* EventListCell.swift */; };
+		C2A4B89E2626CA6300173261 /* EventListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A4B89C2626CA6300173261 /* EventListCell.xib */; };
 		C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F22726261D3DB800559065 /* FilteringSubjectPopUpVC.swift */; };
 		C2F2272B261D3EFE00559065 /* RequestSubjectAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2272A261D3EFE00559065 /* RequestSubjectAPI.swift */; };
 		C2F22730261D3F9B00559065 /* SubjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2272F261D3F9B00559065 /* SubjectModel.swift */; };
@@ -565,6 +567,8 @@
 		C2A0808B26256D890014C3C0 /* UseLectureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseLectureCell.xib; sourceTree = "<group>"; };
 		C2A4B8942626BBC900173261 /* RequestEventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestEventAPI.swift; sourceTree = "<group>"; };
 		C2A4B8972626BC0000173261 /* EventListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListModel.swift; sourceTree = "<group>"; };
+		C2A4B89B2626CA6300173261 /* EventListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListCell.swift; sourceTree = "<group>"; };
+		C2A4B89C2626CA6300173261 /* EventListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventListCell.xib; sourceTree = "<group>"; };
 		C2F22726261D3DB800559065 /* FilteringSubjectPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringSubjectPopUpVC.swift; sourceTree = "<group>"; };
 		C2F2272A261D3EFE00559065 /* RequestSubjectAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSubjectAPI.swift; sourceTree = "<group>"; };
 		C2F2272F261D3F9B00559065 /* SubjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
@@ -1687,14 +1691,16 @@
 			isa = PBXGroup;
 			children = (
 				6C4713BC25F853EA00D68A2B /* SideMenuNoticeVC.swift */,
-				A9129ECB26169F4A00041CC5 /* EventListVC.swift */,
-				A9129ECC26169F4B00041CC5 /* EventListVC.xib */,
 				A9129ECA26169F4A00041CC5 /* NoticeListVC.swift */,
 				A9129ECD26169F4B00041CC5 /* NoticeListVC.xib */,
 				A9524849261A92DF000F2473 /* NoticeCell.swift */,
 				A952484A261A92DF000F2473 /* NoticeCell.xib */,
 				C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */,
 				C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */,
+				A9129ECB26169F4A00041CC5 /* EventListVC.swift */,
+				A9129ECC26169F4B00041CC5 /* EventListVC.xib */,
+				C2A4B89B2626CA6300173261 /* EventListCell.swift */,
+				C2A4B89C2626CA6300173261 /* EventListCell.xib */,
 			);
 			path = NoticeTab;
 			sourceTree = "<group>";
@@ -1935,6 +1941,7 @@
 				259B8C032603062C009A7146 /* LectureTabREADME.md in Resources */,
 				259B8C23260307A0009A7146 /* TeacherPlaylistCell.xib in Resources */,
 				259B8BD82603057A009A7146 /* ProgressOthers.xib in Resources */,
+				C2A4B89E2626CA6300173261 /* EventListCell.xib in Resources */,
 				259B8BB2260301EC009A7146 /* SearchGradeBottomPopupCell.xib in Resources */,
 				259B8BA8260301D4009A7146 /* SearchConsultCell.xib in Resources */,
 				259B8BDE2603059E009A7146 /* Search_README.md in Resources */,
@@ -2140,6 +2147,7 @@
 				6C576F5026087A08001B28E6 /* SocialStudiesCRV.swift in Sources */,
 				6CF2E67825F0C498000FE084 /* SearchVC.swift in Sources */,
 				2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */,
+				C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */,
 				C2657C542624369C0048B92F /* UIImageView.swift in Sources */,
 				A9129ED72616A0B000041CC5 /* GongManseStoryVC.swift in Sources */,
 				259B8BD426030558009A7146 /* ProgressSocialVC.swift in Sources */,

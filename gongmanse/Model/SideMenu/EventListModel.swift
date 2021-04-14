@@ -22,4 +22,19 @@ struct EventModel: Codable {
     let iViews: String
     let sThumbnail: String
 
+    
+    var viewer: String {
+        return "조회수 \(iViews)"
+    }
+    
+    var dateViewer: String {
+        let dateGet = DateFormatter()
+        dateGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let datePrint = DateFormatter()
+        datePrint.dateFormat = "yyyy.MM.dd"
+        let beforeDate = dateGet.date(from: dtDateCreated)
+        let afterDate = datePrint.string(from: beforeDate ?? Date())
+        return afterDate
+    }
+    
 }
