@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.gongmanse.app.utils.Functions" />
+        <variable name="member" type="com.gongmanse.app.data.model.member.MemberBody" />
     </data>
 
     <LinearLayout
@@ -39,15 +41,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:text="@string/nav_header_title"
-            android:textAppearance="@style/NavigationHeaderNickname" />
+            android:text="@{member.nickname}"
+            android:textAppearance="@style/NavigationHeaderNickname"
+            tools:text="@string/nav_header_title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing_5dp"
-            android:text="@string/nav_header_subtitle"
-            android:textAppearance="@style/NavigationHeaderGrade"/>
+            android:text="@{Functions.INSTANCE.getGradeDescription(member)}"
+            android:textAppearance="@style/NavigationHeaderGrade"
+            tools:text="@string/nav_header_subtitle" />
 
         <LinearLayout
             android:layout_width="wrap_content"
