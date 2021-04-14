@@ -1,4 +1,4 @@
-package com.gongmanse.app.fragments.home
+package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,17 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.R
-import com.gongmanse.app.feature.main.home.tabs.HomeBestAdapter
+import com.gongmanse.app.data.model.Body
 import com.gongmanse.app.databinding.FragmentBestBinding
+import com.gongmanse.app.feature.main.LiveDataVideo
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.gongmanse.app.utils.Preferences
 
 @Suppress("DEPRECATION")
 class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -29,8 +30,8 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentBestBinding
     private lateinit var scrollListener: EndlessRVScrollListener
-    private lateinit var query: HashMap<String, String>
-    private val mViewpagerAdapter by lazy { HomeBestAdapter() }
+    private lateinit var mRecyclerAdapter: HomeBestAdapter
+    private lateinit var viewModel: LiveDataVideo
     private val linearLayoutManager = LinearLayoutManager(context)
     private var mOffset: Int = 0
     private var isLoading = false
@@ -50,16 +51,25 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
+        mOffset = 0
+        viewModel.liveDataClear()
+        mRecyclerAdapter.clear()
+        isLoading = false
         binding.refreshLayout.isRefreshing = false
-//        mViewpagerAdapter.clear()
-//        prepareData()
+        prepareData()
     }
 
     private fun initView() {
-        Log.d(TAG, "BestFragment:: initView()")
         binding.refreshLayout.setOnRefreshListener(this)
+        viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
+        viewModel.currentValue.observe(viewLifecycleOwner) {
+            if(isLoading) mRecyclerAdapter.removeLoading()
+            mRecyclerAdapter.addItems(it)
+            Log.d(TAG,"$it")
+            isLoading = false
+        }
         setRVLayout()
-//        prepareData()
+        prepareData()
     }
 
     fun scrollToTop() {
@@ -73,82 +83,58 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             layoutManager = linearLayoutManager
         }
         if (binding.rvVideo.adapter == null) {
-            binding.rvVideo.adapter = mViewpagerAdapter
+            mRecyclerAdapter = HomeBestAdapter()
+            binding.rvVideo.adapter = mRecyclerAdapter
         }
     }
 
-//    private fun loadVideo(offset: Int) {
-//        Log.d(TAG, "loadVideo.grade => $offset")
-//        var sGrade : String? = null
-//        if(Preferences.grade.isEmpty()){
-//            Log.d(TAG, "Preferences.grade => ${Preferences.grade}")
-//        }else {
-//            sGrade = when (Preferences.grade[0]) {
-//                '초' -> Constants.CONTENT_VALUE_ELEMENTARY
-//                '중' -> Constants.CONTENT_VALUE_MIDDLE
-//                '고' -> Constants.CONTENT_VALUE_HIGH
-//                else -> null
-//            }
-//        }
-//        RetrofitClient.getService().getBestList(sGrade, offset).enqueue(object : Callback<VideoList> {
-//            override fun onFailure(call: Call<VideoList>, t: Throwable) {
-//                Log.e("Retrofit : onFailure ", "Failed API call with call : $call\nexception : $t")
-//            }
-//
-//            override fun onResponse(call: Call<VideoList>, response: Response<VideoList>) {
-//                if (!response.isSuccessful) {
-//                    Log.d("Retrofit :responseFail", "Failed API code : ${response.code()}\n message : ${response.message()}")
-//                }
-//                if (response.isSuccessful) {
-//                    Log.d("Retrofit : isSuccessful", "onResponse => $this")
-//                    Log.i("Retrofit : isSuccessful", "onResponse Body => ${response.body()}")
-//                    response.body()?.apply {
-//                        Log.d(TAG, "Retrofit : isLoading => $isLoading")
-//                        if (isLoading) {
-//                            mViewpagerAdapter.removeLoading()
-//                        }
-//                        mViewpagerAdapter.addItems(this.data as List<VideoData>)
-//                        isLoading = false
-//                    }
-//                }
-//            }
-//        })
-//    }
-//
-//    private fun prepareData() {
-//        // 최초 호출
-//        query = hashMapOf(Constants.REQUEST_KEY_OFFSET to Constants.OFFSET_DEFAULT)
-//        val bannerData = VideoData().apply { viewType = Constants.BEST_BANNER_TYPE.toString() }
-//        val titleData = VideoData().apply { viewType = Constants.BEST_TITLE_TYPE.toString() }
-//        mViewpagerAdapter.addItems(listOf(bannerData, titleData))
-//
-//        loadVideo(mOffset)
-//
-//        // 스크롤 이벤트
-//        scrollListener = object : EndlessRVScrollListener(linearLayoutManager) {
-//            override fun onLoadMore(offset: Int, totalItemsCount: Int, view: RecyclerView?) {
-//                if (!isLoading && mOffset != totalItemsCount && totalItemsCount >= 20) {
-//                    isLoading = true
-//                    loadMoreData(totalItemsCount)
-//                }
-//            }
-//        }
-//
-//        // 스크롤 이벤트 초기화
-//        binding.rvVideo.addOnScrollListener(scrollListener)
-//        scrollListener.resetState()
-//    }
-//
-//    private fun loadMoreData(offset: Int) {
-//        Log.e(TAG,"loadMoreData offset => $offset")
-//        if (isLoading) {
-//            mViewpagerAdapter.addLoading()
-//        }
-//        Handler().postDelayed({
-//            mOffset = offset
-//            query[Constants.REQUEST_KEY_OFFSET] = offset.toString()
-//            loadVideo(mOffset)
-//        }, Constants.ENDLESS_DELAY_VALUE)
-//    }
+    private fun loadVideo() {
+        var sGrade : String? = null
+        if(Preferences.grade.isEmpty()){
+            Log.d(TAG, "Preferences.grade => ${Preferences.grade}")
+        }else {
+            sGrade = when (Preferences.grade[0]) {
+                '초' -> Constants.GradeType.ELEMENTARY
+                '중' -> Constants.GradeType.MIDDLE
+                '고' -> Constants.GradeType.HIGH
+                else -> null
+            }
+        }
+        viewModel.loadVideo(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
+    }
+
+    private fun prepareData() {
+        // 최초 호출
+        val bannerData = Body().apply { itemType = Constants.BestValue.BANNER_TYPE }
+        val titleData = Body().apply { itemType = Constants.BestValue.TITLE_TYPE }
+        mRecyclerAdapter.addItems(listOf(bannerData, titleData))
+
+        loadVideo()
+
+        // 스크롤 이벤트
+        scrollListener = object : EndlessRVScrollListener(linearLayoutManager) {
+            override fun onLoadMore(offset: Int, totalItemsCount: Int, view: RecyclerView?) {
+                if (!isLoading && mOffset != totalItemsCount && totalItemsCount >= 20) {
+                    isLoading = true
+                    loadMoreData(totalItemsCount)
+                }
+            }
+        }
+
+        // 스크롤 이벤트 초기화
+        binding.rvVideo.addOnScrollListener(scrollListener)
+        scrollListener.resetState()
+    }
+
+    private fun loadMoreData(offset: Int) {
+        mOffset = offset
+        Log.e(TAG,"loadMoreData offset => $offset")
+        if (isLoading) {
+            mRecyclerAdapter.addLoading()
+        }
+        Handler().postDelayed({
+            loadVideo()
+        }, Constants.Delay.VALUE_OF_ENDLESS)
+    }
 
 }

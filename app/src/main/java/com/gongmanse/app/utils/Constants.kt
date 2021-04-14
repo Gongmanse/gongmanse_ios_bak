@@ -77,10 +77,10 @@ class Constants {
         companion object {
             const val BANNER_COUNT                      = 10
             const val TYPE                              = "viewType"
-            const val BANNER_TYPE                       = 0
-            const val TITLE_TYPE                        = 1
-            const val RV_TYPE                           = 2
-            const val LOADING_TYPE                      = 3
+            const val BANNER_TYPE                       = 2
+            const val TITLE_TYPE                        = 3
+            const val RV_TYPE                           = 4
+            const val LOADING_TYPE                      = 5
             const val TITLE_VALUE                       = "BEST!"
         }
     }
@@ -104,6 +104,17 @@ class Constants {
             const val SOCIETY_PROBLEM                   = 351
             const val SCIENCE_PROBLEM                   = 361
             const val ETC_PROBLEM                       = 371
+        }
+    }
+
+    class GradeType{
+        companion object {
+            const val ELEMENTARY       = "초등"
+            const val ELEMENTARY_VIEW  = "초"
+            const val MIDDLE           = "중등"
+            const val MIDDLE_VIEW      = "중"
+            const val HIGH             = "고등"
+            const val HIGH_VIEW        = "고"
         }
     }
     

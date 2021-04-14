@@ -9,7 +9,7 @@ import com.gongmanse.app.feature.main.home.tabs.HomeEtcFragment
 import com.gongmanse.app.feature.main.home.tabs.HomeHotFragment
 import com.gongmanse.app.feature.main.home.tabs.HomeKEMFragment
 import com.gongmanse.app.feature.main.home.tabs.HomeScienceFragment
-import com.gongmanse.app.fragments.home.HomeBestFragment
+import com.gongmanse.app.feature.main.home.tabs.HomeBestFragment
 import com.gongmanse.app.feature.main.home.tabs.HomeSocietyFragment
 import com.gongmanse.app.utils.Constants
 
