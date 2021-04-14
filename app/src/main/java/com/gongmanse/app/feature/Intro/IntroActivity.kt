@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.R
+import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Preferences
 import com.gun0912.tedpermission.PermissionListener
 import kotlinx.android.synthetic.main.activity_intro.*
@@ -20,8 +21,8 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e(TAG, "onCreate Intro")
         setContentView(R.layout.activity_intro)
-        Log.e(TAG, "onCreate to Intro")
         initView()
     }
 
@@ -44,7 +45,9 @@ class IntroActivity : AppCompatActivity() {
         }
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            toast(R.string.content_toast_permission_denied)
+            Log.d(TAG, "${deniedPermissions.toString()} ${R.string.content_toast_permission_denied}")
+
+
         }
     }
 

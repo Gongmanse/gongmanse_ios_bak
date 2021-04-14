@@ -38,6 +38,9 @@
     <string name="desc_image_splash">로딩 이미지</string>
     <string name="desc_image_username">아이디 이미지</string>
     <string name="desc_image_password">비밀번호 이미지</string>
+    <string name="description_image_permission">권한 이미지</string>
+    <string name="description_image_category_check">스피너 체크 이미지</string>
+    <string name="description_image_category_dismiss">스피너 팝업 닫기 이미지</string>
 
     <!-- option menu -->
     <string name="option_menu_navigation">네비게이션</string>
@@ -70,10 +73,43 @@
     <string name="content_alert_negative_of_mobile_data">허용 안함</string>
     <string name="content_button_next">다음</string>
 
+    <!-- Content Of Selector -->
+    <string name="content_format_selected">전체보기</string>
+    <string name="content_format_selected_note">노트 보기</string>
+    <string name="content_format_selected_series">시리즈 보기</string>
+    <string name="content_format_selected_problem">문제풀이</string>
+    <string name="content_format_selected_title">카테고리</string>
+    <string name="content_format_selected_video_title">영상 제목</string>
+    <string name="content_format_selected_align_title">정렬</string>
+    <string name="content_format_selected_align_avg">평점순</string>
+    <string name="content_format_selected_align_latest">최신순</string>
+    <string name="content_format_selected_align_name">이름순</string>
+    <string name="content_format_selected_align_subject">과목순</string>
+    <string name="content_format_selected_align_views">조회순</string>
+    <string name="content_format_selected_align_relevance">관련순</string>
+    <string name="content_format_selected_align_answer">답변 완료순</string>
+
+    <!-- Content Of Home -->
+    <string name="content_home_title_hot1">인기 </string>
+    <string name="content_home_title_hot2">HOT!</string>
+    <string name="content_home_title_hot3">동영상 강의</string>
+    <string name="content_home_title_kem">국영수 강의</string>
+    <string name="content_home_title_science">과학 강의</string>
+    <string name="content_home_title_society">사회 강의</string>
+    <string name="content_home_title_etc">기타 강의</string>
+    <string name="content_home_switch_text">자동 재생</string>
+    <string name="content_home_title_best1">추천 </string>
+    <string name="content_home_title_best2">%s </string>
+    <string name="content_home_title_best3">동영상 강의</string>
+    <string name="content_home_spinner_default">평점순</string>
+    <string name="content_home_spinner_default_relevance">관련순</string>
+
     <!-- Content Of Format Text -->
     <string name="content_format_teacher_name">%s 선생님</string>
+    <string name="content_format_video_count1">총</string>
+    <string name="content_format_video_count2">%,d</string>
+    <string name="content_format_video_count3">개</string>
+    <string name="content_format_subject_background">#%s</string>
     <string name="content_format_series_video_count">%d</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="content_format_home_title">%s 강의</string>
 </resources>

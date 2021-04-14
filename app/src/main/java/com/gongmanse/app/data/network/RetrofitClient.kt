@@ -26,8 +26,7 @@ object RetrofitClient {
     private val retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_DOMAIN)
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(client)
-        .build()
+        .client(client).build()
 
     private val retrofitFile = Retrofit.Builder()
         .baseUrl(Constants.FILE_DOMAIN)

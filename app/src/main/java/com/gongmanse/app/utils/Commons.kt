@@ -24,6 +24,7 @@ class Commons {
             TedPermission.with(context)
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage(R.string.content_permission_request)
+                .setRationaleConfirmText("확인")
                 .setDeniedMessage(R.string.content_permission_request_settings)
                 .setPermissions(Manifest.permission.INTERNET, Manifest.permission.READ_PHONE_STATE)
                 .check()
