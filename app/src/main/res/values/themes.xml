@@ -102,6 +102,13 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- TabLayout theme. -->
+    <style name="TabLayoutStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <!-- Tab Item -->
     <style name="NanumSquareRoundB.TabLayout" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:textSize">15sp</item>
