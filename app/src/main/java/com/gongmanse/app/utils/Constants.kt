@@ -1,5 +1,7 @@
 package com.gongmanse.app.utils
 
+import java.util.jar.Manifest
+
 class Constants {
 
     companion object {
