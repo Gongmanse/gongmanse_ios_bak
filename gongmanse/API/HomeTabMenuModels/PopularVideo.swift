@@ -1,21 +1,27 @@
 import Foundation
 
 struct PopularVideoInput: Codable {
-    let totalNum: String
-    var data: [PopularVideoData]
+    var header: PopularVideoHeaderData
+    var body: [PopularVideoData]
+}
+
+struct PopularVideoHeaderData: Codable {
+    var resultMsg: String
+    var totalRows: String
+    var isMore: String
 }
 
 struct PopularVideoData: Codable {
-    var sTitle: String
-    var id: String
-    var sTags: String
-    var sFilename: String
-    var dtDateCreated: String
-    var dtLastModified: String
-    var iRating: String
-    var sTeacher: String
-    var sThumbnail: String
-    var sSubjectColor: String
-    var sSubject: String
-    var sUnit: String
+    var videoId: String
+    var title: String
+    var tags: String
+    var teacherName: String
+    var thumbnail: String
+    var subject: String
+    var subjectColor: String
+    var unit: String?
+    var rating: String
+    var isRecommended: String
+    var registrationDate: String
+    var modifiedDate: String
 }
