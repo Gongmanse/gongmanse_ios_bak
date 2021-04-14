@@ -50,18 +50,18 @@ struct postFilteringAPI {
     }
     
     // POST방식, 아직 연구중
-    func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
-        let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
-        guard let token = token else { return }
-        guard let grade = grade else { return }
-        guard let subject = subject else { return }
-        let gradeEncoding = grade.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "@"
-        
-        let parameters = [
-            "token":token,
-            "grade":gradeEncoding,
-            "subject":subject
-        ]
+//    func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
+//        let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
+//        guard let token = token else { return }
+//        guard let grade = grade else { return }
+//        guard let subject = subject else { return }
+//        let gradeEncoding = grade.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "@"
+//
+//        let parameters = [
+//            "token":token,
+//            "grade":gradeEncoding,
+//            "subject":subject
+//        ]
 //
 //        print(parameters)
 //        let request = URLRequest(url: URL(string: filterUrl)!)
@@ -91,9 +91,7 @@ struct postFilteringAPI {
 //                print("DEBUG: failed connection \(error.localizedDescription)")
 //            }
 //        }
-        
-        
-    }
+//    }
 }
 
 // 보낸 데이터 받아오는 API
