@@ -22,20 +22,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWs-0j-6Ee">
-                        <rect key="frame" x="35" y="14" width="250" height="16"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="250" id="BJH-RG-LZ5"/>
-                            <constraint firstAttribute="height" constant="16" id="IVz-NB-0gX"/>
-                        </constraints>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWs-0j-6Ee">
+                        <rect key="frame" x="50" y="12" width="220" height="20"/>
                         <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="bWs-0j-6Ee" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3gV-4R-Mhh"/>
-                    <constraint firstItem="bWs-0j-6Ee" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="tls-CI-RMX"/>
+                    <constraint firstAttribute="trailing" secondItem="bWs-0j-6Ee" secondAttribute="trailing" constant="50" id="Obo-2q-24j"/>
+                    <constraint firstItem="bWs-0j-6Ee" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="ROz-Q2-ypo"/>
+                    <constraint firstItem="bWs-0j-6Ee" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="hdB-eV-dIg"/>
+                    <constraint firstAttribute="bottom" secondItem="bWs-0j-6Ee" secondAttribute="bottom" constant="12" id="wY9-ja-rZx"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

@@ -42,7 +42,8 @@ class ProgressMainVC: UIViewController {
         configureButton()
         configureTableView()
         
-        
+        let requestProgress = ProgressListAPI()
+        requestProgress.requestProgressDataList()
     }
     
     
@@ -146,6 +147,5 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             print("DEBUG: 빈 페이지 클릭중")
         }
-
     }
 }

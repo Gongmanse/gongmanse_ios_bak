@@ -274,6 +274,7 @@
 		C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */; };
 		C2657C542624369C0048B92F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C532624369C0048B92F /* UIImageView.swift */; };
 		C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */; };
+		C282207B26281E8A0066EC9B /* ProgressListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C282207A26281E8A0066EC9B /* ProgressListAPI.swift */; };
 		C28B27AE261C421700419E5E /* FilteringGradePopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B27AD261C421700419E5E /* FilteringGradePopUpVC.swift */; };
 		C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0808A26256D890014C3C0 /* UseLectureCell.swift */; };
 		C2A0808D26256D890014C3C0 /* UseLectureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A0808B26256D890014C3C0 /* UseLectureCell.xib */; };
@@ -564,6 +565,7 @@
 		C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeWebViewController.xib; sourceTree = "<group>"; };
 		C2657C532624369C0048B92F /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuestionWrite.swift; sourceTree = "<group>"; };
+		C282207A26281E8A0066EC9B /* ProgressListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressListAPI.swift; sourceTree = "<group>"; };
 		C28B27AD261C421700419E5E /* FilteringGradePopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringGradePopUpVC.swift; sourceTree = "<group>"; };
 		C2A0808A26256D890014C3C0 /* UseLectureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseLectureCell.swift; sourceTree = "<group>"; };
 		C2A0808B26256D890014C3C0 /* UseLectureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseLectureCell.xib; sourceTree = "<group>"; };
@@ -902,6 +904,7 @@
 		258B5E9A2609D81600F470B7 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C282207926281E0B0066EC9B /* Progress */,
 				A9524850261A9C9C000F2473 /* SideMenuAPI */,
 				6C8852582611CDC70006BDB2 /* APIAddress */,
 				6C8852542611CC610006BDB2 /* HomeTabMenuModels */,
@@ -1824,6 +1827,14 @@
 			path = QuestionWrite;
 			sourceTree = "<group>";
 		};
+		C282207926281E0B0066EC9B /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				C282207A26281E8A0066EC9B /* ProgressListAPI.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
 		C2A4B8A92627BC0400173261 /* Frequently */ = {
 			isa = PBXGroup;
 			children = (
@@ -2175,6 +2186,7 @@
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
 				C28B27AE261C421700419E5E /* FilteringGradePopUpVC.swift in Sources */,
 				257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */,
+				C282207B26281E8A0066EC9B /* ProgressListAPI.swift in Sources */,
 				253135DB2612C34A00B51348 /* FindingIDByPhoneViewModel.swift in Sources */,
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,
 				6CD7C3C525F086E00092D30E /* AppDelegate.swift in Sources */,

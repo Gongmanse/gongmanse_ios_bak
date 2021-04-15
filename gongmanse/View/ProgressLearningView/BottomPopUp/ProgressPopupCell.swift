@@ -36,6 +36,9 @@ class ProgressPopupCell: UITableViewCell {
     func configure() {
         guard let viewModel = viewModel else { return }
         title.text = viewModel.data
+        title.font = UIFont(name: "NanumSquareRoundB", size: 14)
+        
+        
     }
     
 }
