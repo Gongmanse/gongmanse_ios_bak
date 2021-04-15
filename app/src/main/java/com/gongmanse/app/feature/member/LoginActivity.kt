@@ -56,11 +56,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             if (it != null) {
                 Log.d(TAG, "result code => $it")
                 when (it) {
-                    HttpURLConnection.HTTP_OK -> {
+                    in 200..299 -> {
                         setResult(RESULT_OK)
                         finish()
                     }
-                    HttpURLConnection.HTTP_BAD_REQUEST -> {
+                    in 400..499 -> {
                         toast("아이디 또는 비밀번호를 재확인해주세요.")
                     }
                 }
