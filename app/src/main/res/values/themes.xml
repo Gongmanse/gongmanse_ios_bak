@@ -156,4 +156,21 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <!-- Select Box -->
+    <style name="SelectBox" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxWidth">130dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/ic_select_box</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+    </style>
+
+
 </resources>
