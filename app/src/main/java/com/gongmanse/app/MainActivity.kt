@@ -25,7 +25,9 @@ import com.gongmanse.app.databinding.ActivityMainBinding
 import com.gongmanse.app.databinding.LayoutLocalHeaderBinding
 import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import com.gongmanse.app.feature.Intro.IntroActivity
-import com.gongmanse.app.feature.main.MainFragmentDirections
+import com.gongmanse.app.feature.main.EmptyFragment
+import com.gongmanse.app.feature.main.EmptyFragmentDirections
+import com.gongmanse.app.feature.main.MainFragment
 import com.gongmanse.app.feature.member.LoginActivity
 import com.gongmanse.app.feature.member.MemberViewModel
 import com.gongmanse.app.feature.member.MemberViewModelFactory
@@ -88,14 +90,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
-        return if (mNavDestination.id == R.id.mainFragment) {
-            val direction = MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
-            navController.navigate(direction)
+        return if (mNavDestination.id == R.id.emptyFragment) {
+            val action = EmptyFragmentDirections.actionEmptyFragmentToMyNotificationFragment()
+            navController.navigate(action)
             binding.drawerLayout.closeDrawer(GravityCompat.END)
             false
         } else {
             navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
         }
+    }
+
+    override fun onBackPressed() {
+        alert("앱을 종료하시겠습니까?") {
+            yesButton {
+                finish()
+            }
+            noButton {
+                it.dismiss()
+            }
+        }.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -118,6 +131,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
         CoroutineScope(Dispatchers.Main).launch {
             setupActionbar()
+            setupMainFragment()
             setupNavigationController()
             setupMemberProfile()
         }
@@ -129,18 +143,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mActionbar = supportActionBar!!
     }
 
+    private fun setupMainFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_fragment, MainFragment()).commitAllowingStateLoss()
+    }
+
     private fun setupNavigationController() {
         val navController = findNavController(R.id.nav_host_fragment)
         mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         setupActionBarWithNavController(navController, mAppBarConfiguration)
         nav_view.setupWithNavController(navController)
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             mNavDestination = destination
             mActionbar.apply {
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowTitleEnabled(false)
-                if (destination.id == R.id.mainFragment) {
+                if (destination.id == R.id.emptyFragment) {
                     setHomeAsUpIndicator(R.drawable.ic_notification)
                     mOptionsMenu?.setGroupVisible(R.id.menu_group, true)
                     binding.appBarLayout.title = null

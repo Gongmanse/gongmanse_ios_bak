@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -22,10 +21,6 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     companion object {
         private val TAG = MainFragment::class.java.simpleName
-
-        fun newInstance() = MainFragment().apply {
-            arguments = bundleOf()
-        }
     }
 
     private lateinit var binding: FragmentMainBinding
@@ -51,6 +46,7 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     }
 
     private fun initView() {
+        Log.d(TAG, "MainFragment:: initView()")
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
         setupFragment()
         replaceFragment(homeFragment)
@@ -76,14 +72,16 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     }
 
     // 화면 변경
-    private fun replaceFragment(fragment: Fragment) {
-        Log.v(TAG, "replaceFragment() => ${fragment.tag}")
+    private fun replaceFragment(fragment: Fragment?) {
+        Log.v(TAG, "replaceFragment() => ${fragment?.tag}")
         val fm: FragmentTransaction = (context as MainActivity).supportFragmentManager.beginTransaction()
-        selectFragment?.let { fm.hide(it) }
-        fm.show(fragment)
-        fm.addToBackStack(null)
-        fm.commit()
-        selectFragment = fragment
+        if (fragment != null) {
+            selectFragment?.let { fm.hide(it) }
+            fm.show(fragment)
+            fm.addToBackStack(null)
+            fm.commit()
+            selectFragment = fragment
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

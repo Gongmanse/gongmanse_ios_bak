@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ import com.gongmanse.app.R
 import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.FragmentBestBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
+import com.gongmanse.app.feature.main.MainFragment
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences
