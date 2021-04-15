@@ -6,7 +6,7 @@ class RecommendVC: UIViewController {
     
     var pageIndex: Int!
     
-    var recommendVideo = RecommendVideoInput(totalNum: "", data: [RecommendVideo]())
+    var recommendVideo = RecommendVideoInput(header: RecommendHeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [RecommendVideo]())
     
     let recommendRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
@@ -26,7 +26,7 @@ class RecommendVC: UIViewController {
     
     func getDataFromJson() {
         var default1 = 0
-        if let url = URL(string: Recommend_Video_URL + "?offset=\(default1)&limit=20") {
+        if let url = URL(string: makeStringKoreanEncoded(Recommend_Video_URL + "/모든?offset=\(default1)&limit=20")) {
             default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
@@ -35,9 +35,9 @@ class RecommendVC: UIViewController {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendVideoInput.self, from: data) {
-                    //print(json.data)
+                    //print(json.body)
 //                    self.recommendVideo = json
-                    self.recommendVideo.data.append(contentsOf: json.data)
+                    self.recommendVideo.body.append(contentsOf: json.body)
                 }
                 DispatchQueue.main.async {
                     self.recommendCollection.reloadData()
@@ -57,36 +57,36 @@ extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        guard let data = self.recommendVideo?.data else { return 0}
         let recommendData = self.recommendVideo
-        return recommendData.data.count
+        return recommendData.body.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendCVCell", for: indexPath) as! RecommendCVCell
 //        guard let json = self.recommendVideo else { return cell }
+        
         let json = self.recommendVideo
-        let indexData = json.data[indexPath.row]
-        let defaultLink = fileBaseURL
-        let url = URL(string: makeStringKoreanEncoded(defaultLink + "/" + indexData.sThumbnail))
+        let indexData = json.body[indexPath.row]
+        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
         
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = indexData.sTeacher + " 선생님"
-        cell.subjects.text = indexData.sSubject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
-        cell.starRating.text = indexData.iRating
+        cell.videoTitle.text = indexData.title
+        cell.teachersName.text = indexData.teacherName + " 선생님"
+        cell.subjects.text = indexData.subject
+        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor)
+        cell.starRating.text = indexData.rating
         
-        if indexData.sUnit == "" {
-            cell.term.isHidden = true
-        } else if indexData.sUnit == "1" {
+        if indexData.unit != nil {
+            cell.term.isHidden = false
+            cell.term.text = indexData.unit
+        } else if indexData.unit == "1" {
             cell.term.isHidden = false
             cell.term.text = "i"
-        } else if indexData.sUnit == "2" {
+        } else if indexData.unit == "2" {
             cell.term.isHidden = false
             cell.term.text = "ii"
         } else {
-            cell.term.isHidden = false
-            cell.term.text = indexData.sUnit
+            cell.term.isHidden = true
         }
         return cell
     }

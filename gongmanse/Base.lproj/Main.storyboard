@@ -585,44 +585,45 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="4MI-hI-nEZ">
-                                                    <rect key="frame" x="322" y="204" width="32.5" height="16"/>
-                                                    <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="5hY-EX-OdB">
-                                                            <rect key="frame" x="0.0" y="0.0" width="10.5" height="16"/>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yr-Rc-hZz">
-                                                            <rect key="frame" x="13.5" y="0.0" width="19" height="16"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="iLW-58-jUT">
+                                                    <rect key="frame" x="330" y="205" width="12" height="12"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="32.5" id="ndH-nP-3Be"/>
-                                                        <constraint firstAttribute="height" constant="16" id="rkR-Je-CYH"/>
+                                                        <constraint firstAttribute="height" constant="12" id="0C6-Q5-INh"/>
+                                                        <constraint firstAttribute="width" constant="12" id="Tsz-gt-BRJ"/>
                                                     </constraints>
-                                                </stackView>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tUq-rl-5yH">
+                                                    <rect key="frame" x="343" y="205" width="12" height="13"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="13" id="1u7-LO-wqN"/>
+                                                        <constraint firstAttribute="width" constant="12" id="gIm-JC-9zA"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="4MI-hI-nEZ" secondAttribute="trailing" constant="5.5" id="0bh-Fd-cRC"/>
+                                                <constraint firstItem="tUq-rl-5yH" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="14" id="0Hx-QA-1BF"/>
+                                                <constraint firstItem="iLW-58-jUT" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="14" id="12X-5o-OcH"/>
                                                 <constraint firstItem="dj1-Wh-9Aj" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="8" symbolic="YES" id="3Dk-zp-fk1"/>
                                                 <constraint firstItem="Eg2-Ud-P2f" firstAttribute="leading" secondItem="N2R-Mc-JLG" secondAttribute="leading" id="3sP-GO-fMP"/>
                                                 <constraint firstItem="nUY-sC-5JJ" firstAttribute="leading" secondItem="dj1-Wh-9Aj" secondAttribute="trailing" constant="5" id="B96-eg-SdT"/>
                                                 <constraint firstItem="Sz6-bw-uCm" firstAttribute="leading" secondItem="N2R-Mc-JLG" secondAttribute="leading" constant="5" id="DSm-x3-YID"/>
                                                 <constraint firstItem="Sz6-bw-uCm" firstAttribute="top" secondItem="Eg2-Ud-P2f" secondAttribute="bottom" constant="8" symbolic="YES" id="R9K-Oa-1Dp"/>
                                                 <constraint firstItem="nUY-sC-5JJ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="8" symbolic="YES" id="UqJ-Lh-lC3"/>
-                                                <constraint firstItem="4MI-hI-nEZ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="13" id="f7I-wz-ZOG"/>
+                                                <constraint firstAttribute="trailing" secondItem="tUq-rl-5yH" secondAttribute="trailing" constant="5" id="f7z-lb-Lkh"/>
                                                 <constraint firstItem="Vxm-pd-6LQ" firstAttribute="top" secondItem="Sz6-bw-uCm" secondAttribute="bottom" constant="14" id="hIe-9f-5EG"/>
-                                                <constraint firstItem="4MI-hI-nEZ" firstAttribute="leading" secondItem="Vxm-pd-6LQ" secondAttribute="trailing" constant="14" id="rrX-ya-n8L"/>
+                                                <constraint firstItem="iLW-58-jUT" firstAttribute="leading" secondItem="Vxm-pd-6LQ" secondAttribute="trailing" constant="22" id="j5H-to-7EC"/>
                                                 <constraint firstItem="dj1-Wh-9Aj" firstAttribute="leading" secondItem="N2R-Mc-JLG" secondAttribute="leading" constant="5" id="tRl-CH-LyU"/>
                                                 <constraint firstAttribute="trailing" secondItem="Eg2-Ud-P2f" secondAttribute="trailing" id="vFR-SI-7uQ"/>
+                                                <constraint firstItem="tUq-rl-5yH" firstAttribute="leading" secondItem="iLW-58-jUT" secondAttribute="trailing" constant="1" id="xBG-7y-yNa"/>
                                                 <constraint firstItem="Eg2-Ud-P2f" firstAttribute="top" secondItem="N2R-Mc-JLG" secondAttribute="top" id="zwa-GD-KMb"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="360" height="225"/>
                                         <connections>
-                                            <outlet property="starRating" destination="8yr-Rc-hZz" id="b3R-IU-0vp"/>
+                                            <outlet property="starRating" destination="tUq-rl-5yH" id="ofu-R6-ETG"/>
                                             <outlet property="subjects" destination="dj1-Wh-9Aj" id="q0G-wy-3SQ"/>
                                             <outlet property="teachersName" destination="Vxm-pd-6LQ" id="q1P-tC-FzR"/>
                                             <outlet property="term" destination="nUY-sC-5JJ" id="jAO-Fw-1in"/>

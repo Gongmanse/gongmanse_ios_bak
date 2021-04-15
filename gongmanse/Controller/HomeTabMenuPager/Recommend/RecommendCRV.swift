@@ -48,7 +48,7 @@ class RecommendCRV: UICollectionReusableView {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendBannerImage.self, from: data) {
-                    //print(json.data)
+                    //print(json.body)
                     self.recommendBanner = json
                 }
                 DispatchQueue.main.async {
@@ -79,7 +79,7 @@ class RecommendCRV: UICollectionReusableView {
 
 extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let data = self.recommendBanner?.data else { return 0}
+        guard let data = self.recommendBanner?.body else { return 0}
         return data.count
     }
     
@@ -87,9 +87,8 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendBannerCell", for: indexPath) as! RecommendBannerCell
         guard let json = self.recommendBanner else { return cell }
         
-        let indexData = json.data[indexPath.row]
-        let defaultLink = fileBaseURL
-        let url = URL(string: defaultLink + "/" + indexData.sThumbnail)
+        let indexData = json.body[indexPath.row]
+        let url = URL(string: indexData.thumbnail)
         
         cell.bannerImage.sd_setImage(with: url)
         

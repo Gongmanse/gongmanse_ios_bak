@@ -2,8 +2,8 @@ import UIKit
 import BottomPopup
 
 class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishMathAlignmentVCDelegate {
-        
-    var selectedItem: Int?
+    
+    var selectedItem: Int = 0
     
     var pageIndex: Int!
     var koreanEnglishMathVideo: KoreanEnglishVideoInput?
@@ -20,7 +20,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
     @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
     
     let koreanEnglishMathRC: UIRefreshControl = {
-       let refreshControl = UIRefreshControl()
+        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
@@ -29,7 +29,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
         koreanEnglishMathCollection.reloadData()
         sender.endRefreshing()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         koreanEnglishMathCollection.refreshControl = koreanEnglishMathRC
@@ -41,6 +41,10 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
         
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
+        
+        
+        // 셀등록
+        koreanEnglishMathCollection.register(UINib(nibName: "TeacherPlaylistCell", bundle: nil), forCellWithReuseIdentifier: TeacherPlaylistCell.reusableIdentifier)
     }
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -83,7 +87,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
     }
     
     func getDataFromJson() {
-        if let url = URL(string: KoreanEnglishMath_Video_URL) {
+        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=0&limit=20&sortId=3&type=\(selectedItem)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -91,7 +95,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(KoreanEnglishVideoInput.self, from: data) {
-                    //print(json.data)
+                    print(json.body)
                     self.koreanEnglishMathVideo = json
                 }
                 DispatchQueue.main.async {
@@ -128,37 +132,74 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
 extension KoreanEnglishMathVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let data = self.koreanEnglishMathVideo?.data else { return 0}
+        guard let data = self.koreanEnglishMathVideo?.body else { return 0}
         return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathCVCell", for: indexPath) as! KoreanEnglishMathCVCell
         guard let json = self.koreanEnglishMathVideo else { return cell }
+        let indexData = json.body[indexPath.row]
+        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
         
-        let indexData = json.data[indexPath.row]
-        let defaultLink = fileBaseURL
-        let url = URL(string: makeStringKoreanEncoded(defaultLink + "/" + indexData.sThumbnail))
+        if selectedItem == 1 {
+            
+            guard let json = self.koreanEnglishMathVideo else { return cell }
+            let indexData = json.body[indexPath.row]
+            let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
+            
+            // 전체 보기
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.title
+            cell.teachersName.text = indexData.teacherName + " 선생님"
+            cell.subjects.text = indexData.subject
+            cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor)
+            cell.starRating.text = indexData.rating
+            
+            if indexData.unit != nil {
+                cell.term.isHidden = false
+                cell.term.text = indexData.unit
+            } else if indexData.unit == "1" {
+                cell.term.isHidden = false
+                cell.term.text = "i"
+            } else if indexData.unit == "2" {
+                cell.term.isHidden = false
+                cell.term.text = "ii"
+            } else {
+                cell.term.isHidden = true
+            }
+            
+        } else if selectedItem == 2 {
+            // 시리즈 보기
+            
+        } else if selectedItem == 3 {
+            // 문제 풀이
+        } else if selectedItem == 4{
+            // 노트 보기
+            
+        }
         
+        // 전체 보기
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = indexData.sTeacher + " 선생님"
-        cell.subjects.text = indexData.sSubject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
-        cell.starRating.text = indexData.iRating
+        cell.videoTitle.text = indexData.title
+        cell.teachersName.text = indexData.teacherName + " 선생님"
+        cell.subjects.text = indexData.subject
+        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor)
+        cell.starRating.text = indexData.rating
         
-        if indexData.sUnit == "" {
-            cell.term.isHidden = true
-        } else if indexData.sUnit == "1" {
+        if indexData.unit != nil {
+            cell.term.isHidden = false
+            cell.term.text = indexData.unit
+        } else if indexData.unit == "1" {
             cell.term.isHidden = false
             cell.term.text = "i"
-        } else if indexData.sUnit == "2" {
+        } else if indexData.unit == "2" {
             cell.term.isHidden = false
             cell.term.text = "ii"
         } else {
-            cell.term.isHidden = false
-            cell.term.text = indexData.sUnit
+            cell.term.isHidden = true
         }
         return cell
     }
@@ -186,7 +227,6 @@ extension KoreanEnglishMathVC: UICollectionViewDelegateFlowLayout {
 extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate {
     func passSecltedRow(_ selectedRowIndex: Int) {
         self.selectedItem = selectedRowIndex
+        
     }
-    
-    
 }
