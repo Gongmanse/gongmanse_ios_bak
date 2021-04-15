@@ -49,7 +49,7 @@ struct postFilteringAPI {
        
     }
     
-    // POST방식, 아직 연구중
+    // POST방식, 아직 고민중
 //    func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
 //        let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
 //        guard let token = token else { return }

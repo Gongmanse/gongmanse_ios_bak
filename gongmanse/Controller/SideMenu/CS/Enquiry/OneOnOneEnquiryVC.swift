@@ -85,7 +85,7 @@ class OneOnOneEnquiryVC: UIViewController {
         let numName = UINib(nibName: enquiryIdentifier, bundle: nil)
         tableView.register(numName, forCellReuseIdentifier: enquiryIdentifier)
         
-//        emptyStateManage(state: false)
+        emptyStateManage(state: false)
         
         view.addSubview(floatingButton)
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
@@ -107,6 +107,7 @@ class OneOnOneEnquiryVC: UIViewController {
                                attribute: .bottom,
                                multiplier: 0.85,
                                constant: 0)])
+        self.tableView.reloadData()
     }
 
     
@@ -142,13 +143,12 @@ class OneOnOneEnquiryVC: UIViewController {
                                multiplier: 0.75,
                                constant: 0)])
 
-        
+        self.tableView.reloadData()
     }
     
     @objc func floatingButtonAction(_ sender: UIButton) {
         let enquiryCategoryVC = EnquiryCategoryVC()
-//        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
-
+        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
     }
 }
 

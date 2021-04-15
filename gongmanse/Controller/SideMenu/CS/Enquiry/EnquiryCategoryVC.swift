@@ -37,6 +37,10 @@ class EnquiryCategoryVC: UIViewController {
     //textview
     @IBOutlet weak var QuestionTextView: UITextView!
     
+    // 문의하기 작성 파라미터
+    private var categoryButtonTag = 0
+    private var questionText = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,9 +49,6 @@ class EnquiryCategoryVC: UIViewController {
         
         
     }
-
-    
-    
 }
 
 
@@ -74,26 +75,38 @@ extension EnquiryCategoryVC {
         useButton.layer.cornerRadius = 10
         useButton.tintColor = .white
         useButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        useButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         serviceDisorderButton.layer.cornerRadius = 10
         serviceDisorderButton.tintColor = .white
         serviceDisorderButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        serviceDisorderButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         paymentAuthButton.layer.cornerRadius = 10
         paymentAuthButton.tintColor = .white
         paymentAuthButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        paymentAuthButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         lectureRequestButton.layer.cornerRadius = 10
         lectureRequestButton.tintColor = .white
         lectureRequestButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        lectureRequestButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
+        
         
         otherInquiryButton.layer.cornerRadius = 10
         otherInquiryButton.tintColor = .white
         otherInquiryButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        otherInquiryButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
+        
         
         writeButton.tintColor = .white
         writeButton.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
         writeButton.layer.cornerRadius = 10
+        writeButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
+    }
+    
+    @objc func sendTag(_ sender: UIButton) {
+        print(sender.tag)
     }
     
     func initTextView() {

@@ -273,6 +273,7 @@
 		C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */; };
 		C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */; };
 		C2657C542624369C0048B92F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C532624369C0048B92F /* UIImageView.swift */; };
+		C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */; };
 		C28B27AE261C421700419E5E /* FilteringGradePopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B27AD261C421700419E5E /* FilteringGradePopUpVC.swift */; };
 		C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0808A26256D890014C3C0 /* UseLectureCell.swift */; };
 		C2A0808D26256D890014C3C0 /* UseLectureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A0808B26256D890014C3C0 /* UseLectureCell.xib */; };
@@ -562,6 +563,7 @@
 		C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeWebViewController.swift; sourceTree = "<group>"; };
 		C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeWebViewController.xib; sourceTree = "<group>"; };
 		C2657C532624369C0048B92F /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuestionWrite.swift; sourceTree = "<group>"; };
 		C28B27AD261C421700419E5E /* FilteringGradePopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringGradePopUpVC.swift; sourceTree = "<group>"; };
 		C2A0808A26256D890014C3C0 /* UseLectureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseLectureCell.swift; sourceTree = "<group>"; };
 		C2A0808B26256D890014C3C0 /* UseLectureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseLectureCell.xib; sourceTree = "<group>"; };
@@ -1720,6 +1722,7 @@
 			isa = PBXGroup;
 			children = (
 				A9129EE72616DD8900041CC5 /* QuestionListViewModel.swift */,
+				C282206F2627DA9F0066EC9B /* QuestionWrite */,
 			);
 			path = CS;
 			sourceTree = "<group>";
@@ -1727,6 +1730,7 @@
 		A9524850261A9C9C000F2473 /* SideMenuAPI */ = {
 			isa = PBXGroup;
 			children = (
+				C282206E2627D6A60066EC9B /* CS */,
 				C207F5CB26266C8A0020A965 /* WhatIsGongmanse */,
 				C2F22729261D3EEB00559065 /* Setting */,
 				A9524851261A9CA8000F2473 /* Notice */,
@@ -1803,6 +1807,21 @@
 				C207F5D026266CEC0020A965 /* LectureListModel.swift */,
 			);
 			name = WhatIsGongmanse;
+			sourceTree = "<group>";
+		};
+		C282206E2627D6A60066EC9B /* CS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CS;
+			sourceTree = "<group>";
+		};
+		C282206F2627DA9F0066EC9B /* QuestionWrite */ = {
+			isa = PBXGroup;
+			children = (
+				C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */,
+			);
+			path = QuestionWrite;
 			sourceTree = "<group>";
 		};
 		C2A4B8A92627BC0400173261 /* Frequently */ = {
@@ -2323,6 +2342,7 @@
 				6CFA77CB2624417D00040CBD /* KoreanEnglishMathAlignmentVC.swift in Sources */,
 				A9129EE12616A26400041CC5 /* IntroduceInstructorVC.swift in Sources */,
 				259B8C1926030646009A7146 /* LecturePlaylistVC.swift in Sources */,
+				C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */,
 				259B8BC926030531009A7146 /* ProgressPopupVC.swift in Sources */,
 				A9129ECE26169F4B00041CC5 /* NoticeListVC.swift in Sources */,
 				6CB83C3226018F00007AED64 /* NoteListTVC.swift in Sources */,

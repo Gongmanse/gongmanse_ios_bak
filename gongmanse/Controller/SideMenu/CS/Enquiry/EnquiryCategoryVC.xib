@@ -43,7 +43,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="GWD-xp-OrH">
                             <rect key="frame" x="0.0" y="0.0" width="354" height="28"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qby-k9-gRF" customClass="SelectButtonState" customModule="gongmanse" customModuleProvider="target">
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qby-k9-gRF" customClass="SelectButtonState" customModule="gongmanse" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="167" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" priority="750" constant="140" id="YfB-vk-omd"/>
@@ -51,7 +51,7 @@
                                     </constraints>
                                     <state key="normal" title="이용방법"/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8D-3Z-Skf" customClass="SelectButtonState" customModule="gongmanse" customModuleProvider="target">
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8D-3Z-Skf" customClass="SelectButtonState" customModule="gongmanse" customModuleProvider="target">
                                     <rect key="frame" x="187" y="0.0" width="167" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" priority="750" constant="140" id="cR5-xJ-vKb"/>
@@ -64,7 +64,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="deG-HG-zLJ">
                             <rect key="frame" x="0.0" y="38" width="354" height="28"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6d-PW-fkp" customClass="SelectButtonState" customModule="gongmanse" customModuleProvider="target">
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6d-PW-fkp" customClass="SelectButtonState" customModule="gongmanse" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="167" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" priority="750" constant="140" id="8pp-a5-TDM"/>
@@ -72,7 +72,7 @@
                                     </constraints>
                                     <state key="normal" title="결제 및 인증"/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Fy-7d-SGE">
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Fy-7d-SGE">
                                     <rect key="frame" x="187" y="0.0" width="167" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" priority="750" constant="140" id="bMI-jY-LRy"/>
@@ -84,7 +84,7 @@
                         </stackView>
                     </subviews>
                 </stackView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHn-M9-u8C">
+                <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHn-M9-u8C">
                     <rect key="frame" x="30" y="173" width="167" height="28"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="OZi-kJ-kU5"/>
