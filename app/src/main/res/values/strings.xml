@@ -51,11 +51,15 @@
     <string name="prompt_username">아이디</string>
     <string name="prompt_password">비밀번호</string>
 
+    <!-- text context -->
+    <string name="txt_purchase_ticket">이용권을 구매해주세요.</string>
+
     <!-- button context -->
     <string name="button_login">로그인</string>
     <string name="button_find_username">아이디 찾기</string>
     <string name="button_find_password">비밀번호 찾기</string>
     <string name="button_sign_up">회원가입</string>
+    <string name="button_purchase_ticket">이용권 구매</string>
 
     <!-- Content Of Text -->
     <string name="content_text_rating_value_null">0.0</string>

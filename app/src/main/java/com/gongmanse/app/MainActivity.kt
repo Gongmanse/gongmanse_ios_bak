@@ -87,6 +87,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_edit_profile -> {
                 // TODO 프로필 정보 수정 액티비티 생성
             }
+            R.id.cv_purchase_ticket -> {
+                // TODO 이용권 액티비티 생성
+            }
         }
     }
 
@@ -178,6 +181,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false).apply {
                     btnLogout.setOnClickListener(this@MainActivity)
                     btnEditProfile.setOnClickListener(this@MainActivity)
+                    cvPurchaseTicket.setOnClickListener(this@MainActivity)
                     member = it.memberBody
                 }
             } else {
