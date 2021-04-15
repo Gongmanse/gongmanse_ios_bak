@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.graphics.Color" />
+
+        <variable
+            name="progress"
+            type="com.gongmanse.app.data.model.progress.Body" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <!-- Grade and Unit -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_progress_info01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:singleLine="true"
+                android:text="@{progress.title}"
+                android:textColor="@color/light_black2"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_arrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="[초등 - 3학년] 영어 문법" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_back_arrow"
+                android:contentDescription="@string/desc_image_arrow"
+                android:rotation="180"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Subject And Count of Lecture -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_progress_info02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/layout_progress_info01">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                app:cardBackgroundColor="@{Color.parseColor(@string/content_format_subject_background(progress.subjectColor))}"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <!-- 'G'rade-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_grade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_subject"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <!-- Grade -->
+                        <TextView
+                            android:id="@+id/tv_grade"
+                            style="@style/NanumSquareRoundB"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanum_square_round_b"
+                            android:paddingStart="6dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@{Color.parseColor(@string/content_format_subject_background(progress.subjectColor))}"
+                            android:textSize="9sp"
+                            android:textStyle="normal"
+                            tools:ignore="SmallSp"
+                            tools:text="초" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Subject -->
+                    <TextView
+                        android:id="@+id/tv_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/nanum_square_round_b"
+                        android:lineSpacingExtra="-0.04dp"
+                        android:text="@{progress.subject}"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        android:textStyle="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cv_grade"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SmallSp"
+                        tools:text="국어" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Count Lecture -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/main_color"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:paddingStart="15dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="7dp"
+                    android:text="@{@string/content_formatter_video_total_count(progress.totalCount)}"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:textStyle="normal"
+                    tools:ignore="SmallSp"
+                    tools:text="총 32강" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

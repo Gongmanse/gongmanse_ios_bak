@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.gongmanse.app.utils.Functions" />
+        <variable name="member" type="com.gongmanse.app.data.model.member.MemberBody" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/nav_header_local_height"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/android_status_bar_height"
         android:paddingVertical="@dimen/nav_header_vertical_padding"
         android:paddingHorizontal="@dimen/nav_header_horizontal_padding"
@@ -27,11 +29,11 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:contentDescription="@string/nav_header_desc"
-                android:src="@mipmap/ic_app_title" />
+                bindProfileURL="@{member.profile}" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -39,15 +41,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:text="@string/nav_header_title"
-            android:textAppearance="@style/NavigationHeaderNickname" />
+            android:text="@{member.nickname}"
+            android:textAppearance="@style/NavigationHeaderNickname"
+            tools:text="@string/nav_header_title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing_5dp"
-            android:text="@string/nav_header_subtitle"
-            android:textAppearance="@style/NavigationHeaderGrade"/>
+            android:text="@{Functions.INSTANCE.getGradeDescription(member)}"
+            android:textAppearance="@style/NavigationHeaderGrade"
+            tools:text="@string/nav_header_subtitle" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,7 +67,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:textAppearance="@style/NavigationHeaderButton"
                 android:text="@string/nav_header_logout"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="@dimen/button_radius" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_edit_profile"
@@ -73,9 +77,55 @@
                 android:backgroundTint="@color/dark_gray"
                 android:textAppearance="@style/NavigationHeaderButton"
                 android:text="@string/nav_header_edit_profile"
-                app:cornerRadius="10dp"/>
+                app:cornerRadius="@dimen/button_radius"/>
 
         </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_purchase_ticket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing_5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/ticketColor"
+            app:cardCornerRadius="@dimen/button_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/nav_header_horizontal_spacing_5dp"
+                android:layout_marginVertical="@dimen/nav_header_vertical_spacing_5dp"
+                android:gravity="end|center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/NavigationHeaderButton"
+                    android:text="@string/txt_purchase_ticket"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/nav_header_horizontal_spacing_10dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/button_radius">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/nav_header_vertical_spacing_10dp"
+                        android:paddingHorizontal="@dimen/nav_header_vertical_spacing_18dp"
+                        android:textAppearance="@style/NavigationHeaderTicketButton"
+                        android:text="@string/button_purchase_ticket"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

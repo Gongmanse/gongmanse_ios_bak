@@ -13,9 +13,9 @@
     <string name="nav_login">로그인</string>
 
     <!-- navigation header -->
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">로그인을 해주세요.</string>
+    <string name="nav_header_subtitle">로그인하고 더 많은 서비스를 누리세요.</string>
+    <string name="nav_header_desc">로그인 프로필 로고</string>
     <string name="nav_header_login">로그인</string>
     <string name="nav_header_logout">로그아웃</string>
     <string name="nav_header_sign_up">회원가입</string>
@@ -40,6 +40,9 @@
     <string name="desc_image_permission">권한 이미지</string>
     <string name="desc_image_category_check">스피너 체크 이미지</string>
     <string name="desc_image_category_dismiss">스피너 팝업 닫기 이미지</string>
+    <string name="desc_image_no_item">목록 없음 경고 이미지</string>
+    <string name="desc_image_arrow">화살표 이미지</string>
+
 
     <!-- description -->
     <string name="desc_note_quick_video">동영상 바로가기</string>
@@ -51,11 +54,15 @@
     <string name="prompt_username">아이디</string>
     <string name="prompt_password">비밀번호</string>
 
+    <!-- text context -->
+    <string name="txt_purchase_ticket">이용권을 구매해주세요.</string>
+
     <!-- button context -->
     <string name="button_login">로그인</string>
     <string name="button_find_username">아이디 찾기</string>
     <string name="button_find_password">비밀번호 찾기</string>
     <string name="button_sign_up">회원가입</string>
+    <string name="button_purchase_ticket">이용권 구매</string>
 
     <!-- Content Of Text -->
     <string name="content_text_rating_value_null">0.0</string>
@@ -78,6 +85,8 @@
 
     <!-- Content Of Selector -->
     <string name="content_format_selected">전체보기</string>
+    <string name="content_format_selected_all_grade">모든 학년</string>
+    <string name="content_format_selected_all_unit">모든 단원</string>
     <string name="content_format_selected_note">노트 보기</string>
     <string name="content_format_selected_series">시리즈 보기</string>
     <string name="content_format_selected_problem">문제풀이</string>
@@ -109,9 +118,12 @@
 
     <!-- Content Of Format Text -->
     <string name="content_format_teacher_name">%s 선생님</string>
+    <string name="content_formatter_video_total_count">총 %s강</string>
     <string name="content_format_video_count1">총</string>
     <string name="content_format_video_count2">%,d</string>
     <string name="content_format_video_count3">개</string>
     <string name="content_format_subject_background">#%s</string>
     <string name="content_format_home_title">%s 강의</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

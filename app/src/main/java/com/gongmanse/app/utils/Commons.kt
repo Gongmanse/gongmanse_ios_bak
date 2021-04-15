@@ -11,14 +11,7 @@ import org.jetbrains.anko.alert
 class Commons {
     companion object {
 
-        private val TAG =  Commons::class.java.simpleName
-        private val permissionList = mutableListOf<String>(
-            Manifest.permission.INTERNET,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+        private val TAG = Commons::class.java.simpleName
 
         // Save Token
         fun saveToken(token: String) {
@@ -44,20 +37,36 @@ class Commons {
         fun checkMobileData(context: Context) {
             context.apply {
                 context.apply {
-                    alert (title = null, message = getString(R.string.content_using_mobile_data_when_play_the_video)){
+                    alert(
+                        title = null,
+                        message = getString(R.string.content_using_mobile_data_when_play_the_video)
+                    ) {
                         positiveButton(getString(R.string.content_alert_positive_of_mobile_data)) {
                             it.dismiss()
                             Preferences.mobileData = true
                         }
                         negativeButton(getString(R.string.content_alert_negative_of_mobile_data)) {
                             it.dismiss()
-                            Preferences.mobileData =  false
+                            Preferences.mobileData = false
                         }
                     }.show()
                 }
             }
         }
 
+        // Check Permission of camera
+        fun checkCameraPermission(context: Context, permissionListener: PermissionListener) {
+            TedPermission.with(context)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(R.string.content_permission_camera)
+                .setDeniedMessage(R.string.content_permission_request)
+                .setPermissions(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                .check()
+
+        }
     }
 
-    }
+}
