@@ -26,6 +26,14 @@ class OneOnOneEnquiryVC: UIViewController {
             }
         }
     }
+//    tableShardVM.readSections(categoryId: categoryID).subscribe(onNext: { [weak self] category in
+//        if category.count == 0{
+//            self?.state = .hide
+//        }else{
+//            self?.state = .show
+//        }
+//    })
+//    .disposed(by: bag)
     
     private let enquiryIdentifier = "EnquiryCell"
     private let emptyImage: UIImageView = {
@@ -139,7 +147,8 @@ class OneOnOneEnquiryVC: UIViewController {
     
     @objc func floatingButtonAction(_ sender: UIButton) {
         let enquiryCategoryVC = EnquiryCategoryVC()
-        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
+//        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
+
     }
 }
 
