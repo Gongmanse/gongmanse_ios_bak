@@ -49,6 +49,18 @@ class Constants {
 
         }
     }
+
+    // Retrofit RESPONSE Body key
+    class Response {
+        companion object {
+            const val KEY_BODY   = "body"
+            const val KEY_HEADER = "header"
+        }
+    }
+
+
+
+
     class ViewType {
         companion object {
             const val DEFAULT                   = 0
