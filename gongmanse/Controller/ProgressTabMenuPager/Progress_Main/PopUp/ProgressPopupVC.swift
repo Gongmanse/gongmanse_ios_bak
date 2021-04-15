@@ -6,18 +6,24 @@
 //
 
 import UIKit
-//import BottomPop
+import BottomPopup
 
 enum selectedIndex {
     case grade
     case chapter
 }
 
-class ProgressPopupVC: UIViewController {
+class ProgressPopupVC: BottomPopupViewController {
     
     //MARK: - Properties
     
     var selectedBtnIndex: selectedIndex?
+    var height: CGFloat?
+    var topCornerRadius: CGFloat?
+    var presentDuration: Double?
+    var dismissDuration: Double?
+    var shouldDismissInteractivelty: Bool?
+    
     
     // 임시 Input 데이터 추후, 데이터 패칭을 통해 가져올 것.
     let grades = ["모든학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년"]
@@ -32,6 +38,28 @@ class ProgressPopupVC: UIViewController {
         configureTableview()
     }
     
+    override var popupHeight: CGFloat {
+        return height ?? CGFloat(300)
+        
+    }
+    
+    override var popupTopCornerRadius: CGFloat {
+        return topCornerRadius ?? CGFloat(0)
+        
+    }
+    
+    override var popupPresentDuration: Double {
+        return presentDuration ?? 0.2
+        
+    }
+    
+    override var popupDismissDuration: Double {
+        return dismissDuration ?? 0.5
+    }
+    
+    override var popupShouldDismissInteractivelty: Bool {
+        return shouldDismissInteractivelty ?? true
+    }
     
     //MARK: - Helper functions
     

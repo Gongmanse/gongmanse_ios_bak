@@ -21,11 +21,9 @@ struct RequestLectureListAPI {
             .responseDecodable(of: LectureListModel.self) { response in
                 
                 switch response.result {
-                
                 case.success(let json):
-                    let tt = json
-                    let ttt = tt.data
-                    complition(ttt)
+                    let jsonData = json.data
+                    complition(jsonData)
                 case .failure(let err):
                     print("DEBUG: faild connection: ", err.localizedDescription)
             }
