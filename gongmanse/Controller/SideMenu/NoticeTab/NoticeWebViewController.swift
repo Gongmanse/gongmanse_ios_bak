@@ -35,6 +35,7 @@ class NoticeWebViewController: UIViewController {
             
             noticeAlert = false
         }
+        
         if eventAlert {
             let noticeViewUrl = "/events/view/"
             guard let url = URL(string: webBaseURL+noticeViewUrl+noticeID) else { return }
