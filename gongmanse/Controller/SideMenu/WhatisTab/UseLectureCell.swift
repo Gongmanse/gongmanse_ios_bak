@@ -1,20 +1,21 @@
 //
-//  KoreanEnglishMathBottomPopUpTVCell.swift
+//  UseLectureCell.swift
 //  gongmanse
 //
-//  Created by 김현수 on 2021/04/13.
+//  Created by wallter on 2021/04/13.
 //
 
 import UIKit
 
-class KoreanEnglishMathBottomPopUpTVCell: UITableViewCell {
+class UseLectureCell: UITableViewCell {
 
-    @IBOutlet weak var selectTitle: UILabel!
-    @IBOutlet weak var checkImage: UIImageView!
+    @IBOutlet weak var lectureImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        lectureImage.contentMode = .scaleAspectFit
+        lectureImage.sizeToFit()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -22,5 +23,5 @@ class KoreanEnglishMathBottomPopUpTVCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

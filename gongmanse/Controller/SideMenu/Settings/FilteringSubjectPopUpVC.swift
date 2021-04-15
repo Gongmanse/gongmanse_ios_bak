@@ -169,6 +169,8 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
         subjectFilterNumber = String(indexPath.row)
         subjectFilterText = subjectList[indexPath.row].sName
         
+        UserDefaults.standard.removeObject(forKey: "subjectFilterNumber")
+        UserDefaults.standard.removeObject(forKey: "subjectFilterText")
         UserDefaults.standard.setValue(subjectFilterNumber, forKey: "subjectFilterNumber")
         UserDefaults.standard.setValue(subjectFilterText, forKey: "subjectFilterText")
         

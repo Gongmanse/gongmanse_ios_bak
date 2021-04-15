@@ -1,23 +1,27 @@
 //
-//  NoticeListModel.swift
+//  EventListModel.swift
 //  gongmanse
 //
-//  Created by taeuk on 2021/04/05.
+//  Created by wallter on 2021/04/14.
 //
 
-import UIKit
+import Foundation
 
-struct NoticeListModel: Codable {
-    let data: [NoticeList]
+struct EventListModel: Codable {
+    let data: [EventModel]
 }
 
-struct NoticeList: Codable {
+struct EventModel: Codable {
     
     let id: String
-    let sTitle: String
-    let sContent: String
+    let eType: String
+    let sStatus: String
     let dtDateCreated: String
+    let sTitle: String
+    let sDescription: String
     let iViews: String
+    let sThumbnail: String
+
     
     var viewer: String {
         return "조회수 \(iViews)"
@@ -32,4 +36,5 @@ struct NoticeList: Codable {
         let afterDate = datePrint.string(from: beforeDate ?? Date())
         return afterDate
     }
+    
 }

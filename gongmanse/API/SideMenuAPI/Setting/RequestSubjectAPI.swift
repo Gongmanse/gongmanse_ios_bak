@@ -50,18 +50,18 @@ struct postFilteringAPI {
     }
     
     // POST방식, 아직 연구중
-    func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
-        let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
-        guard let token = token else { return }
-        guard let grade = grade else { return }
-        guard let subject = subject else { return }
-        let gradeEncoding = grade.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "@"
-        
-        let parameters = [
-            "token":token,
-            "grade":gradeEncoding,
-            "subject":subject
-        ]
+//    func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
+//        let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
+//        guard let token = token else { return }
+//        guard let grade = grade else { return }
+//        guard let subject = subject else { return }
+//        let gradeEncoding = grade.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "@"
+//
+//        let parameters = [
+//            "token":token,
+//            "grade":gradeEncoding,
+//            "subject":subject
+//        ]
 //
 //        print(parameters)
 //        let request = URLRequest(url: URL(string: filterUrl)!)
@@ -91,15 +91,13 @@ struct postFilteringAPI {
 //                print("DEBUG: failed connection \(error.localizedDescription)")
 //            }
 //        }
-        
-        
-    }
+//    }
 }
 
 // 보낸 데이터 받아오는 API
 struct getFilteringAPI {
     
-    let tokenValue = "YWI0NmU1YzE4MjczOWU4MDYxYWExZWFlNzBmODAxZDg4OWU1ZWU3OGVhYWNmMmExY2Y0YjBjNTZjOTg2NGEwNjcxYTViODI3M2U3NjZiYWE0OGU4NjM1ZWUyNWVmYTI1NDdhM2YwOWMwMDVhMDAxN2E0ZjVjNDQxZmM4ZjlmMTA1VmwwYUNDZjlQVWVyYUplVThSQVgxZkt5N2FUekxjQTFPSUpZUERUZWdLTnVXNjN4TGpaUWg0RUx5OTlOcUdoVm1aK2xnVnl2Yk1PbFJJTHM0TmJ4UT09"
+    let tokenValue = "ZmFlYzFjM2FhM2ZkMzdiYmU0YTFkZWMzYzUxNDJkZWQwNzFkMjQwYWI3YjU0NzE1MDE0MWRhZThhM2Y4ZjJkNzY5ZjU4OWFjZjYxMTBmZTAyZWVhYmY4ZjRjOTQ2YWZlMzhmZGZiODZhYWNlZmQzMWNjODVjZDk1NmUyYzdhYmVCTHBqWmdSZzBDY0lkVUJ5VnBGR05nd1ZPK3V4ck1xd1JuaTROc1NjSkY0NGFVa05wVDcvUVdSclV5WXpyNUh5Z0RuZEJldkZFTUM3RXo5dDg1UnFhUT09"
     
     func getFilteringData(complition: @escaping (_ result: SubjectGetDataModel) -> Void) {
         

@@ -11,12 +11,51 @@ class UseLectureVC: UIViewController {
 
     var pageIndex = 0
     
-    @IBOutlet weak var images: UIImageView!
+    private let lectureImageList = ["manual_0","manual_1","manual_2","manual_3","manual_4","manual_5","manual_6"]
+    private let UseLectureCellIdentifier = "UseLectureCell"
+    private var tableView = UITableView(frame: CGRect.zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
         
+        
+        tableViewSetting()
     }
 
+    func tableViewSetting() {
+        
+        let lectureNib = UINib(nibName: UseLectureCellIdentifier, bundle: nil)
+        tableView.register(lectureNib, forCellReuseIdentifier: UseLectureCellIdentifier)
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+}
+
+extension UseLectureVC: UITableViewDelegate {
+    
+}
+
+extension UseLectureVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return lectureImageList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: UseLectureCellIdentifier, for: indexPath) as? UseLectureCell else { return UITableViewCell() }
+        
+        cell.lectureImage.image = UIImage(named: "\(lectureImageList[indexPath.row])")?.resize(2000)
+        cell.selectionStyle = .none
+        return cell
+    }
 }

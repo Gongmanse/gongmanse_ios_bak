@@ -15,6 +15,7 @@ class NoticeListVC: UIViewController {
     let NoticeIdentifier = "NoticeCell"
     var noticeListArray: [NoticeList] = []
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,37 +68,31 @@ extension NoticeListVC: UICollectionViewDataSource {
         
         let contentImageName = noticeListArray[indexPath.row].sContent
         
-        //정규식 아직
-//        let regexImage = contentImageName.getArrayAfterRegex(regex: <img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>")
+        //정규식
+        let imageRegex = "(http(s?):\\/\\/file\\.gongmanse\\.com\\/uploads\\/editor\\/96\\/[a-z0-9]{0,}\\.(png|jpg))"
         
-//        print(regexImage[1])
-        cell.contentImage.image = UIImage(named: "manual_0")
+        var allRegex: [String] = []
+        allRegex.append(contentsOf: contentImageName.getCertificationNumber(regex: imageRegex))
+
+        cell.contentImage.setImageUrl(allRegex[0])
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
         cell.contentViewer.text = noticeListArray[indexPath.row].viewer
-        cell.createContentDate.text = noticeListArray[indexPath.row].dtDateCreated
+        cell.createContentDate.text = noticeListArray[indexPath.row].dateViewer
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let noticeWebView = NoticeWebViewController(nibName: "NoticeWebViewController", bundle: nil)
+        noticeWebView.noticeID = noticeListArray[indexPath.row].id
+        
+        self.navigationController?.pushViewController(noticeWebView, animated: true)
     }
 }
 
 extension NoticeListVC: UICollectionViewDelegateFlowLayout {
     
 }
-extension String{
-    
-    func getArrayAfterRegex(regex: String) -> [String] {
-            
-            do {
-                let regex = try NSRegularExpression(pattern: regex)
-                let results = regex.matches(in: self,
-                                            range: NSRange(self.startIndex..., in: self))
-                return results.map {
-                    String(self[Range($0.range, in: self)!])
-                }
-            } catch let error {
-                print("invalid regex: \(error.localizedDescription)")
-                return []
-            }
-        }
 
-}
+
