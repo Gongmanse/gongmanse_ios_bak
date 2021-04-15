@@ -11,6 +11,10 @@ class Constants {
         const val NOTICE_EVENT_VALUE_DOMAIN    = "https://webview.gongmanse.com/events/view/"
         const val PRIVACY_POLICY_DOMAIN        = "/users/privacy_policy"
         const val TERMS_OF_SERVICE_DOMAIN      = "/users/toa_read"
+
+        // 초기화
+        const val EMPTY_STRING                 = ""
+
     }
 
     /* Delay Value */
@@ -37,6 +41,10 @@ class Constants {
             const val KEY_TOKEN = "token"
             const val KEY_GRANT_TYPE = "grant_type"
             const val KEY_REFRESH_TOKEN = "refresh_token"
+            const val KEY_USERNAME = "usr"
+            const val KEY_PASSWORD = "pwd"
+            const val VALUE_TYPE_PASSWORD = "password"
+            const val VALUE_TYPE_REFRESH = "refresh_token"
 
         }
     }

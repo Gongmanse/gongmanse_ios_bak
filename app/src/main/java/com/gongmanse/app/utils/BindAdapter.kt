@@ -30,7 +30,7 @@ fun bindViewProfileURL(view: ImageView, value: String?) {
             signature(ObjectKey(System.currentTimeMillis()))
         }
         Glide.with(view.context)
-            .load("${Constants.FILE_DOMAIN}/$value")
+            .load(value)
             .apply(requestOptions)
             .into(view)
     }

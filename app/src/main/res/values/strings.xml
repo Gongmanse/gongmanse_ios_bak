@@ -13,9 +13,9 @@
     <string name="nav_login">로그인</string>
 
     <!-- navigation header -->
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">로그인을 해주세요.</string>
+    <string name="nav_header_subtitle">로그인하고 더 많은 서비스를 누리세요.</string>
+    <string name="nav_header_desc">로그인 프로필 로고</string>
     <string name="nav_header_login">로그인</string>
     <string name="nav_header_logout">로그아웃</string>
     <string name="nav_header_sign_up">회원가입</string>
@@ -54,11 +54,15 @@
     <string name="prompt_username">아이디</string>
     <string name="prompt_password">비밀번호</string>
 
+    <!-- text context -->
+    <string name="txt_purchase_ticket">이용권을 구매해주세요.</string>
+
     <!-- button context -->
     <string name="button_login">로그인</string>
     <string name="button_find_username">아이디 찾기</string>
     <string name="button_find_password">비밀번호 찾기</string>
     <string name="button_sign_up">회원가입</string>
+    <string name="button_purchase_ticket">이용권 구매</string>
 
     <!-- Content Of Text -->
     <string name="content_text_rating_value_null">0.0</string>
