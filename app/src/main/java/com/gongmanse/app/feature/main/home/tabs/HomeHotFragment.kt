@@ -2,6 +2,7 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,7 +22,6 @@ import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences
 
 
-@Suppress("DEPRECATION")
 class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
@@ -120,7 +119,7 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             mOffset = offset
             loadVideo()
         }, Constants.Delay.VALUE_OF_ENDLESS)

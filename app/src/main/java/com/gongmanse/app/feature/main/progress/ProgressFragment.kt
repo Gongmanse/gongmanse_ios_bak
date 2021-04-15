@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentProgressBinding
+import com.gongmanse.app.feature.main.home.HomeFragment
 import com.gongmanse.app.feature.main.progress.adapter.ProgressTabPagerAdapter
 import com.google.android.material.tabs.TabLayout
 

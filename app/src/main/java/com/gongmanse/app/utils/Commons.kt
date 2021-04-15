@@ -4,6 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import com.gongmanse.app.R
+import com.gongmanse.app.feature.main.counsel.CounselFragment
+import com.gongmanse.app.feature.main.home.HomeFragment
+import com.gongmanse.app.feature.main.progress.ProgressFragment
+import com.gongmanse.app.feature.main.teacher.TeacherFragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import org.jetbrains.anko.alert
@@ -66,6 +70,17 @@ class Commons {
                 )
                 .check()
 
+        }
+
+        fun findFragmentAppTitle(fragmentSimpleName: String): String? {
+            return when (fragmentSimpleName) {
+                HomeFragment::class.java.simpleName -> null
+                ProgressFragment::class.java.simpleName -> Constants.Fragment.TYPE_PROGRESS
+//                SearchFragment::class.java.simpleName -> Constants.Fragment.TYPE_PROGRESS
+                CounselFragment::class.java.simpleName -> Constants.Fragment.TYPE_COUNSEL
+                TeacherFragment::class.java.simpleName -> Constants.Fragment.TYPE_TEACHER
+                else -> null
+            }
         }
     }
 

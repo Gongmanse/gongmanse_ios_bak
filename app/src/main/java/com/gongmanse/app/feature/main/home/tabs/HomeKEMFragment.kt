@@ -2,7 +2,7 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.BR
 import com.gongmanse.app.R
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.FragmentSubjectBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
 import com.gongmanse.app.utils.Constants
@@ -24,7 +23,7 @@ import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.listeners.OnBottomSheetListener
 import com.gongmanse.app.utils.listeners.OnBottomSheetSpinnerListener
 
-@Suppress("DEPRECATION")
+
 class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     OnBottomSheetListener,
     OnBottomSheetSpinnerListener {
@@ -74,7 +73,6 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
         prepareData()
         viewModel.currentValue.observe(viewLifecycleOwner) {
-            Log.d("카운트 체크" , " itItem => $it")
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
             isLoading = false
@@ -128,10 +126,10 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         selectView = value
         mOffset = 0
         when(value){
-            Constants.SelectValue.SORT_ALL -> Body.setView(Constants.ViewType.DEFAULT)
-            Constants.SelectValue.SORT_SERIES -> Body.setView(Constants.ViewType.SERIES)
-            Constants.SelectValue.SORT_PROBLEM -> Body.setView(Constants.ViewType.DEFAULT)
-            Constants.SelectValue.SORT_NOTE -> Body.setView(Constants.ViewType.NOTE)
+            Constants.SelectValue.SORT_ALL -> VideoBody.setView(Constants.ViewType.DEFAULT)
+            Constants.SelectValue.SORT_SERIES -> VideoBody.setView(Constants.ViewType.SERIES)
+            Constants.SelectValue.SORT_PROBLEM -> VideoBody.setView(Constants.ViewType.DEFAULT)
+            Constants.SelectValue.SORT_NOTE -> VideoBody.setView(Constants.ViewType.NOTE)
         }
         onRefresh()
     }
@@ -181,7 +179,7 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             when(selectView){
                 Constants.SelectValue.SORT_ALL -> {
                     when(selectOrder){

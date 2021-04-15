@@ -1,4 +1,4 @@
-package com.gongmanse.app.feature.main.home
+package com.gongmanse.app.feature.main.teacher
 
 import android.os.Bundle
 import android.util.Log
@@ -6,37 +6,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.gongmanse.app.R
-import com.gongmanse.app.databinding.FragmentHomeBinding
-import com.gongmanse.app.feature.main.home.tabs.*
+import com.gongmanse.app.databinding.FragmentTeacherBinding
+import com.gongmanse.app.feature.main.teacher.tabs.TeacherEFragment
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_home.view.*
 
-
-class HomeFragment : Fragment() {
+class TeacherFragment : Fragment() {
 
     companion object {
-        private val TAG = HomeFragment::class.java.simpleName
+        private val TAG = TeacherFragment::class.java.simpleName
     }
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentTeacherBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_teacher, container, false)
         initView()
         return binding.root
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        Log.d(TAG, "HomeFragment:: hidden => $hidden")
+        Log.d(TAG, "TeacherFragment:: hidden => $hidden")
+
     }
 
     private fun initView() {
-        Log.d(TAG, "HomeFragment:: initView()")
-        val mAdapter = HomeTabAdapter(childFragmentManager)
+        Log.d(TAG, "TeacherFragment:: initView()")
+        val mAdapter = TeacherTabAdapter(childFragmentManager)
         binding.viewPager.adapter = mAdapter
         binding.viewPager.offscreenPageLimit = mAdapter.count
         binding.tabLayout.setupWithViewPager(binding.viewPager)
@@ -45,12 +43,9 @@ class HomeFragment : Fragment() {
                 tab?.position?.let {
                     Log.d("it","$it")
                     when(it){
-                        0 -> (mAdapter.getItem(it) as HomeBestFragment).scrollToTop()
-                        1 -> (mAdapter.getItem(it) as HomeHotFragment).scrollToTop()
-                        2 -> (mAdapter.getItem(it) as HomeKEMFragment).scrollToTop()
-                        3 -> (mAdapter.getItem(it) as HomeScienceFragment).scrollToTop()
-                        4 -> (mAdapter.getItem(it) as HomeSocietyFragment).scrollToTop()
-                        5 -> (mAdapter.getItem(it) as HomeEtcFragment).scrollToTop()
+                        0 -> (mAdapter.getItem(it) as TeacherEFragment).scrollToTop()
+//                        1 -> (mAdapter.getItem(it) as TeacherMFragment).scrollToTop()
+//                        2 -> (mAdapter.getItem(it) as TeacherHFragment).scrollToTop()
                         else -> null
                     }
                 }

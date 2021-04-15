@@ -6,35 +6,31 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.gongmanse.app.MainActivity
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentMainBinding
+import com.gongmanse.app.feature.main.counsel.CounselFragment
 import com.gongmanse.app.feature.main.home.HomeFragment
 import com.gongmanse.app.feature.main.progress.ProgressFragment
+import com.gongmanse.app.feature.main.teacher.TeacherFragment
+import com.gongmanse.app.utils.Commons
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-@Suppress("DEPRECATION")
 class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     companion object {
         private val TAG = MainFragment::class.java.simpleName
-
-        fun newInstance() = MainFragment().apply {
-            arguments = bundleOf()
-        }
     }
 
     private lateinit var binding: FragmentMainBinding
     private lateinit var homeFragment: HomeFragment
     private lateinit var progressFragment: ProgressFragment
 //    private lateinit var searchFragment: SearchMainFragment
-//    private lateinit var counselFragment: CounselFragment
-//    private lateinit var teacherFragment: TeacherFragment
-//    private var mListener: OnFragmentInteractionListener? = null
+    private lateinit var counselFragment: CounselFragment
+    private lateinit var teacherFragment: TeacherFragment
     private var selectFragment: Fragment? = null
 
     override fun onCreateView(
@@ -45,12 +41,13 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
     private fun initView() {
+        Log.d(TAG, "MainFragment:: initView()")
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
         setupFragment()
         replaceFragment(homeFragment)
@@ -59,31 +56,36 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     // 화면 생성
     private fun setupFragment() {
         homeFragment = HomeFragment()
+        teacherFragment = TeacherFragment()
         progressFragment = ProgressFragment()
-        val fm: FragmentManager = (context as MainActivity).supportFragmentManager
+        counselFragment = CounselFragment()
+        val fm: FragmentManager = (activity as MainActivity).supportFragmentManager
         fm.beginTransaction()
             .add(R.id.content_layout, homeFragment)
             .hide(homeFragment)
             .add(R.id.content_layout, progressFragment)
             .hide(progressFragment)
-//            .add(R.id.layout_content, searchFragment)
+//            .add(R.id.content_layout, searchFragment)
 //            .hide(searchFragment)
-//            .add(R.id.layout_content, counselFragment)
-//            .hide(counselFragment)
-//            .add(R.id.layout_content, teacherFragment)
-//            .hide(teacherFragment)
+            .add(R.id.content_layout, counselFragment)
+            .hide(counselFragment)
+            .add(R.id.content_layout, teacherFragment)
+            .hide(teacherFragment)
             .commit()
     }
 
     // 화면 변경
-    private fun replaceFragment(fragment: Fragment) {
-        Log.v(TAG, "replaceFragment() => ${fragment.tag}")
+    private fun replaceFragment(fragment: Fragment?) {
+        Log.v(TAG, "replaceFragment() => ${fragment?.tag} / ${fragment?.javaClass?.name} / ${HomeFragment::class.java.name}")
         val fm: FragmentTransaction = (context as MainActivity).supportFragmentManager.beginTransaction()
-        selectFragment?.let { fm.hide(it) }
-        fm.show(fragment)
-        fm.addToBackStack(null)
-        fm.commit()
-        selectFragment = fragment
+        if (fragment != null) {
+            selectFragment?.let { fm.hide(it) }
+            (activity as MainActivity).replaceBottomNavigation(Commons.findFragmentAppTitle(fragment.javaClass.simpleName))
+            fm.show(fragment)
+            fm.addToBackStack(null)
+            fm.commit()
+            selectFragment = fragment
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -102,11 +104,11 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 true
             }
             R.id.action_counsel -> {
-//                replaceFragment(counselFragment)
+                replaceFragment(counselFragment)
                 true
             }
             R.id.action_teacher -> {
-//                replaceFragment(teacherFragment)
+                replaceFragment(teacherFragment)
                 true
             }
             else -> true

@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.smarteist.autoimageslider.SliderViewAdapter
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.ItemBannerViewBinding
 
 
 class HomeBestSliderAdapter: SliderViewAdapter<HomeBestSliderAdapter.SliderAdapterVH>() {
 
-    private val items: ArrayList<Body> = ArrayList()
+    private val items: ArrayList<VideoBody> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup?): SliderAdapterVH {
         val binding = ItemBannerViewBinding.inflate(
@@ -103,7 +103,7 @@ class HomeBestSliderAdapter: SliderViewAdapter<HomeBestSliderAdapter.SliderAdapt
         return items.size
     }
 
-    fun addItems(newItems: ArrayList<Body>) {
+    fun addItems(newItems: ArrayList<VideoBody>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
@@ -112,7 +112,7 @@ class HomeBestSliderAdapter: SliderViewAdapter<HomeBestSliderAdapter.SliderAdapt
 
     inner class SliderAdapterVH(private val binding : ItemBannerViewBinding): SliderViewAdapter.ViewHolder(binding.root) {
 
-        fun bind(data: Body,listener: View.OnClickListener) {
+        fun bind(data: VideoBody,listener: View.OnClickListener) {
             binding.apply {
                 this.data = data
                 itemView.setOnClickListener(listener)

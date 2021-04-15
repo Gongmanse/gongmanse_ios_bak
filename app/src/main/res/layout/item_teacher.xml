@@ -3,35 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.graphics.Color"/>
-        <import type="android.view.View"/>
         <variable
             name="data"
             type="com.gongmanse.app.data.model.video.VideoBody"/>
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
         android:clickable="true"
-        android:background="?attr/selectableItemBackground">
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_preview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            android:elevation="1dp"
             app:cardUseCompatPadding="false"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
-                bindURLImage="@{data.thumbnail}"
+                bindURLTeacher="@{data.thumbnail}"
                 android:id="@+id/image_view"
-                android:contentDescription="@string/desc_image_preview"
-                android:adjustViewBounds="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:contentDescription="@string/desc_image_teacher"
+                android:adjustViewBounds="true"
+                android:background="@color/dark_gray2" />
+
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
