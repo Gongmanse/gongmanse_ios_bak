@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentHomeBinding
 import com.gongmanse.app.feature.main.home.tabs.*
-
-
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_home.view.*
 

@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/emptyFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.gongmanse.app.feature.main.MainFragment"
-        android:label="MainFragment">
+        android:id="@+id/emptyFragment"
+        android:name="com.gongmanse.app.feature.main.EmptyFragment"
+        android:label="EmptyFragment">
         <action
-            android:id="@+id/action_mainFragment_to_myNotificationFragment"
+            android:id="@+id/action_emptyFragment_to_myNotificationFragment"
             app:destination="@id/myNotificationFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_myActivityFragment"
+            android:id="@+id/action_emptyFragment_to_myActivityFragment"
             app:destination="@id/myActivityFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_myScheduleFragment"
+            android:id="@+id/action_emptyFragment_to_myScheduleFragment"
             app:destination="@id/myScheduleFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_whatIsGongmanseFragment"
+            android:id="@+id/action_emptyFragment_to_whatIsGongmanseFragment"
             app:destination="@id/whatIsGongmanseFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_noticeFragment"
+            android:id="@+id/action_emptyFragment_to_noticeFragment"
             app:destination="@id/noticeFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_customerServiceFragment"
+            android:id="@+id/action_emptyFragment_to_customerServiceFragment"
             app:destination="@id/customerServiceFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_settingsFragment"
+            android:id="@+id/action_emptyFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
 
