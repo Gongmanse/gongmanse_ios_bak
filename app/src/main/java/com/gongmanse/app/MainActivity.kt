@@ -30,9 +30,11 @@ import com.gongmanse.app.feature.member.LoginActivity
 import com.gongmanse.app.feature.member.MemberViewModel
 import com.gongmanse.app.feature.member.MemberViewModelFactory
 import com.gongmanse.app.feature.splash.SplashActivity
-import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -52,15 +54,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e(TAG, "onCreate to MainActivity")
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        showSplash()
-        setActionbar()
-        setNavigation()
-        hasLogin()
-
+        bindUI()
     }
 
     override fun onClick(v: View?) {
@@ -70,7 +64,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 requestActivity.launch(intent)
             }
             R.id.btn_logout -> {
-                // TODO 로그아웃 확인창 -> 로그아웃 (토큰 초기화)
                 alert(message = "로그아웃 하시겠습니까?") {
                     yesButton {
                         mMemberViewModel.logout()
@@ -96,7 +89,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return if (mNavDestination.id == R.id.mainFragment) {
-            actionNavigator(Constants.Action.VIEW_NOTIFICATION)
+            val direction = MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
+            navController.navigate(direction)
+            binding.drawerLayout.closeDrawer(GravityCompat.END)
             false
         } else {
             navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
@@ -118,12 +113,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setActionbar() {
+    private fun bindUI() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        CoroutineScope(Dispatchers.Main).launch {
+            setupActionbar()
+            setupNavigationController()
+            setupMemberProfile()
+        }
+        showSplash()
+    }
+
+    private fun setupActionbar() {
         setSupportActionBar(binding.appBarLayout.toolbar)
         mActionbar = supportActionBar!!
     }
 
-    private fun setNavigation() {
+    private fun setupNavigationController() {
         val navController = findNavController(R.id.nav_host_fragment)
         mAppBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         setupActionBarWithNavController(navController, mAppBarConfiguration)
@@ -147,27 +153,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showSplash() {
-        val intent = if (Preferences.first) {
-            Intent(this, IntroActivity::class.java)
-        } else {
-            Intent(this, SplashActivity::class.java)
-        }
-        // Move loading view after create view
-        startActivity(intent)
-    }
-
-    private fun actionNavigator(id: Int) {
-        val navController = findNavController(R.id.nav_host_fragment)
-        val direction = when(id) {
-            Constants.Action.VIEW_NOTIFICATION -> MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
-            else -> MainFragmentDirections.actionMainFragmentToMyNotificationFragment()
-        }
-        navController.navigate(direction)
-        drawer_layout.closeDrawer(GravityCompat.END)
-    }
-
-    private fun hasLogin() {
+    private fun setupMemberProfile() {
         Log.w(TAG, "Preferences.token => ${Preferences.token}")
         if (::mMemberViewModelFactory.isInitialized.not()) {
             mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
@@ -197,6 +183,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun showSplash() {
+        val intent = if (Preferences.first) {
+            Intent(this, IntroActivity::class.java)
+        } else {
+            Intent(this, SplashActivity::class.java)
+        }
+        startActivity(intent)
+    }
+
     fun replaceBottomNavigation(title: String?) {
         binding.appBarLayout.title = title
     }
@@ -204,7 +199,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val requestActivity: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
         if (activityResult.resultCode == Activity.RESULT_OK) {
             Log.d(TAG, "RequestActivity Login")
-            hasLogin()
+            setupMemberProfile()
         }
     }
 

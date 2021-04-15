@@ -4,24 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.gongmanse.app.R
 import com.gongmanse.app.data.network.member.MemberRepository
-import com.gongmanse.app.databinding.LayoutLocalHeaderBinding
-import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.OkHttp
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.ResponseBody
-import okhttp3.internal.http.HttpMethod
 import org.jetbrains.anko.toast
-import retrofit2.Retrofit
-import retrofit2.http.HTTP
-import java.net.HttpURLConnection
-import javax.net.ssl.HttpsURLConnection
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -70,17 +57,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     // 회원가입
     private fun signUp() {
-        Log.v(TAG, "onClick => 회원가입")
+        // TODO 회원가입 화면으로 이동 또는 액티비티 생성
     }
 
     // 아이디 찾기
     private fun findByUsername() {
-        Log.v(TAG, "onClick => 아이디 찾기")
+        // TODO 아이디 찾기 화면으로 이동 또는 액티비티 생성
     }
 
     // 비밀번호 찾기
     private fun findByPassword() {
-        Log.v(TAG, "onClick => 비밀번호 찾기")
+        // TODO 비밀번호 찾기 화면으로 이동 또는 액티비티 생성
     }
 
 }
