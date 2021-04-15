@@ -1,24 +1,23 @@
 package com.gongmanse.app.feature.main.home.tabs
 
-import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.ItemBannerViewBinding
 
 
-class HomeBestSliderAdapter(private val context: Context): SliderViewAdapter<HomeBestSliderAdapter.SliderAdapterVH>() {
+class HomeBestSliderAdapter: SliderViewAdapter<HomeBestSliderAdapter.SliderAdapterVH>() {
 
     private val items: ArrayList<Body> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup?): SliderAdapterVH {
         val binding = ItemBannerViewBinding.inflate(
-            LayoutInflater.from(context),
+            LayoutInflater.from(parent?.context),
             parent,
             false
         )
-//        loadBanner()
         return SliderAdapterVH(binding)
     }
 
@@ -28,8 +27,8 @@ class HomeBestSliderAdapter(private val context: Context): SliderViewAdapter<Hom
 //            videoId = item.id!!.toInt()
 //            , position = position
 //        )
-//        holder?.apply {
-//            bind(item, View.OnClickListener {
+        holder?.apply {
+            bind(item, View.OnClickListener {
 //                val wifiState = IsWIFIConnected().check(itemView.context)
 //                itemView.context.apply {
 //                    if (Preferences.token.isEmpty()) {
@@ -91,32 +90,34 @@ class HomeBestSliderAdapter(private val context: Context): SliderViewAdapter<Hom
 //                        }
 //                    }
 //                }
-//            })
-//        }
+            })
+        }
     }
 
-//    fun clear(){
-//        items.clear()
-//        notifyDataSetChanged()
-//    }
+    fun clear(){
+        items.clear()
+        notifyDataSetChanged()
+    }
+
     override fun getCount(): Int {
         return items.size
     }
-//    fun addItems(newItems: List<VideoData>) {
-//        items.clear()
-//        items.addAll(newItems)
-//        notifyDataSetChanged()
-//    }
+
+    fun addItems(newItems: ArrayList<Body>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 
 
     inner class SliderAdapterVH(private val binding : ItemBannerViewBinding): SliderViewAdapter.ViewHolder(binding.root) {
 
-//        fun bind(data: VideoData,listener: View.OnClickListener) {
-//            binding.apply {
-//                this.data = data
-//                itemView.setOnClickListener(listener)
-//            }
-//        }
+        fun bind(data: Body,listener: View.OnClickListener) {
+            binding.apply {
+                this.data = data
+                itemView.setOnClickListener(listener)
+            }
+        }
     }
 
 

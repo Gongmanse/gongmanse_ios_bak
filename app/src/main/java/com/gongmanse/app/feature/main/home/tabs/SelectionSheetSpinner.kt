@@ -43,7 +43,7 @@ class SelectionSheetSpinner(private val listener: OnBottomSheetSpinnerListener, 
 
     // Set selected Text
     private fun updateSelection(string: String) {
-        listener.selectionSpinner(string)
+        listener.selectedSortSpinnerValue(string)
         dismiss()
     }
 

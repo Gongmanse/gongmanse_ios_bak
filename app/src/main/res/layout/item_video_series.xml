@@ -57,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/black_trans20"
                     android:gravity="center"
-                    android:text="@{@string/content_format_series_video_count(data.seriesCount)}"
+                    android:text="@{data.count == null ? String.valueOf(0) : data.count }"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 

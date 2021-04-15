@@ -21,20 +21,31 @@ interface RetrofitService {
         @Path("subject") subject: Int?,
         @Query("offset") offset: Int?,
         @Query("limit") limit: Int?,
-        @Query("sortId") sortId: Int?
+        @Query("sortId") sortId: Int?,
+        @Query("type") type : Int?
     ): Call<Video>
 
     //배너
-    @GET("/v3/video/banner")
-    fun getBanner(): Call<Video>
+    @GET("v3/video/banner")
+    fun getBanner(
+    ): Call<Video>
 
+    //추천
     @GET("/v3/video/recommend/{grade}")
     fun getBest(
         @Path("grade") subject: String?,
         @Query("offset") offset: Int?,
         @Query("limit") limit: Int?
     ): Call<Video>
-//
+
+    // 인기
+    @GET("v3/video/trending/{grade}")
+    fun getHot(
+        @Path("grade") subject: String?,
+        @Query("offset") offset: Int?,
+        @Query("limit") limit: Int?
+    ): Call<Video>
+
 //    //과목별 보기
 //    @GET("v3/video/recommend/{grade}")
 //    fun getSubject(

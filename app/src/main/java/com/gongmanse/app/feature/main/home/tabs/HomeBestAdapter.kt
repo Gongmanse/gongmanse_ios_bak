@@ -3,13 +3,16 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.*
 import com.gongmanse.app.utils.Constants
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
+import com.smarteist.autoimageslider.SliderAnimations
 
-class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
+class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     companion object {
         private val TAG = HomeBestAdapter::class.java.simpleName
@@ -19,7 +22,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            Constants.BestValue.BANNER_TYPE -> {
+            Constants.ViewType.BANNER -> {
                 val binding = ItemBannerBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -27,7 +30,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
                 )
                 return BannerViewHolder(binding)
             }
-            Constants.BestValue.TITLE_TYPE -> {
+            Constants.ViewType.TITLE -> {
                 val binding = ItemBestTitleBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -35,7 +38,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
                 )
                 return TitleViewHolder(binding)
             }
-            Constants.BestValue.LOADING_TYPE -> {
+            Constants.ViewType.LOADING -> {
                 val binding = ItemLoadingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -57,27 +60,25 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
-        items[position].itemType.let {
-            return when(items[position].itemType){
-                Constants.BestValue.BANNER_TYPE     -> Constants.BestValue.BANNER_TYPE
-                Constants.BestValue.TITLE_TYPE      -> Constants.BestValue.TITLE_TYPE
-                Constants.BestValue.RV_TYPE         -> Constants.BestValue.RV_TYPE
-                Constants.BestValue.LOADING_TYPE    -> Constants.BestValue.LOADING_TYPE
-                else -> Constants.BestValue.RV_TYPE
-            }
-        }
+        return items[position].viewType
+//        items[position].viewType.let {
+//            return when(items[position].viewType){
+//                Constants.ViewType.BANNER     -> Constants.ViewType.BANNER
+//                Constants.ViewType.TITLE      -> Constants.ViewType.TITLE
+//                Constants.ViewType.DEFAULT    -> Constants.ViewType.DEFAULT
+//                Constants.ViewType.LOADING    -> Constants.ViewType.LOADING
+//                else -> Constants.ViewType.DEFAULT
+//            }
+//        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("홀더 확인","$holder")
         val item = items[position]
         when(holder) {
-            is LoadingViewHolder -> {
-                showLoadingView(holder, position)
-            }
             is BannerViewHolder -> {
                 holder.apply {
-//                    bind(items)
+                    bind(items,mAdapter)
                 }
             }
             is TitleViewHolder -> {
@@ -88,7 +89,7 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
             is RecyclerViewHolder -> {
                 Log.d("진입 홀더 확인","$holder")
                 holder.apply {
-//                    bind(item, View.OnClickListener {
+                    bind(item, View.OnClickListener {
 //                        val wifiState = IsWIFIConnected().check(holder.itemView.context)
 //                        itemView.context.apply {
 //                            Log.d("입구","어댑터 클릭")
@@ -127,14 +128,10 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 //                                }
 //                            }
 //                        }
-//                    })
+                    })
                 }
             }
         }
-    }
-
-    private fun showLoadingView(holder: LoadingViewHolder, position: Int) {
-
     }
 
     fun addItems(newItems: List<Body>) {
@@ -149,14 +146,14 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     fun addLoading() {
-        val item = Body().apply { this.itemType = Constants.BestValue.LOADING_TYPE }
+        val item = Body().apply { this.viewType = Constants.ViewType.LOADING }
         items.add(item)
         notifyItemInserted(items.size - 1)
     }
 
     fun removeLoading() {
         val position = items.size - 1
-        if (items[position].itemType == Constants.BestValue.LOADING_TYPE) {
+        if (items[position].viewType == Constants.ViewType.LOADING) {
             items.removeAt(position)
             val scrollPosition = items.size
             notifyItemRemoved(scrollPosition)
@@ -164,33 +161,29 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     private class BannerViewHolder(private val binding: ItemBannerBinding) : RecyclerView.ViewHolder(binding.root){
-        val mAdapter = HomeBestSliderAdapter(binding.root.context)
-
-//        fun bind(data : List<VideoData>){
-//            data.let {
-//                loadBanner()
-////                mAdapter.addItems(data)
-//                binding.sliderView.apply {
-//                    setSliderAdapter(mAdapter)
-//                    setIndicatorAnimation(IndicatorAnimationType.SWAP)
-//                    setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
-//                    setSliderAnimationDuration(600)
-//                    setIndicatorAnimationDuration(600)
-//                    scrollTimeInSec =3
-//                    startAutoCycle()
-//                }
-//            }
-//        }
+        fun bind(data : ArrayList<Body>,mAdapter:HomeBestSliderAdapter){
+            data.let {
+                binding.sliderView.apply {
+                    setSliderAdapter(mAdapter)
+                    setIndicatorAnimation(IndicatorAnimationType.SWAP)
+                    setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+                    setSliderAnimationDuration(600)
+                    setIndicatorAnimationDuration(600)
+                    scrollTimeInSec =4
+                    startAutoCycle()
+                }
+            }
+        }
 //        private fun loadBanner() {
-//            RetrofitClient.getService().getBannerList(Constants.BestValue.BANNER_COUNT).enqueue(object :
-//                Callback<VideoList> {
-//                override fun onFailure(call: Call<VideoList>, t: Throwable) {
+//            RetrofitClient.getService().getBanner().enqueue(object :
+//                Callback<Video> {
+//                override fun onFailure(call: Call<Video>, t: Throwable) {
 //                    Log.e("Retrofit : onFailure ", "Failed API call with call : $call\nexception : $t")
 //                }
 //
 //                override fun onResponse(
-//                    call: Call<VideoList>,
-//                    response: Response<VideoList>
+//                    call: Call<Video>,
+//                    response: Response<Video>
 //                ) {
 //                    if (!response.isSuccessful) Log.d(
 //                        "Retrofit :responseFail",
@@ -199,9 +192,12 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 //                    if (response.isSuccessful) {
 //                        Log.d("Retrofit : isSuccessful", "onResponse => $this")
 //                        Log.i("Retrofit : isSuccessful", "onResponse Body => ${response.body()}")
-//                        response.body()?.apply {
-//                            this.data.let {
-//                                mAdapter.addItems(it as List<VideoData>)
+//                        if (response.isSuccessful) {
+//                            response.body()?.apply {
+//                                this.body.let {
+//                                    mAdapter.addItems(it)
+//                                    Log.d("TAG","$it")
+//                                }
 //                            }
 //                        }
 //                    }
@@ -220,13 +216,12 @@ class HomeBestAdapter :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
 
     private class RecyclerViewHolder (private val binding : ItemVideoBinding) : RecyclerView.ViewHolder(binding.root){
-//        fun bind(data : VideoData, listener: View.OnClickListener){
-//            Log.d("홀더 확인","홀더 진입")
-//            binding.apply {
-//                this.data = data
-//                itemView.setOnClickListener(listener)
-//            }
-//        }
+        fun bind(data : Body, listener: View.OnClickListener){
+            binding.apply {
+                this.data = data
+                itemView.setOnClickListener(listener)
+            }
+        }
     }
 
     private class LoadingViewHolder (private val binding : ItemLoadingBinding) : RecyclerView.ViewHolder(binding.root){

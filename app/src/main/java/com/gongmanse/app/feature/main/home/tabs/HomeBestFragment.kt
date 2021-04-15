@@ -31,6 +31,7 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentBestBinding
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var mRecyclerAdapter: HomeBestAdapter
+    private lateinit var mSliderAdapter: HomeBestSliderAdapter
     private lateinit var viewModel: LiveDataVideo
     private val linearLayoutManager = LinearLayoutManager(context)
     private var mOffset: Int = 0
@@ -68,6 +69,10 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             Log.d(TAG,"$it")
             isLoading = false
         }
+        viewModel.currentBannerValue.observe(viewLifecycleOwner) {
+            mSliderAdapter.addItems(it)
+            Log.d(TAG,"$it")
+        }
         setRVLayout()
         prepareData()
     }
@@ -83,7 +88,8 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             layoutManager = linearLayoutManager
         }
         if (binding.rvVideo.adapter == null) {
-            mRecyclerAdapter = HomeBestAdapter()
+            mSliderAdapter = HomeBestSliderAdapter()
+            mRecyclerAdapter = HomeBestAdapter(mSliderAdapter)
             binding.rvVideo.adapter = mRecyclerAdapter
         }
     }
@@ -100,13 +106,14 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 else -> null
             }
         }
-        viewModel.loadVideo(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
+        viewModel.loadBest(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
+        viewModel.loadBanner()
     }
 
     private fun prepareData() {
         // 최초 호출
-        val bannerData = Body().apply { itemType = Constants.BestValue.BANNER_TYPE }
-        val titleData = Body().apply { itemType = Constants.BestValue.TITLE_TYPE }
+        val bannerData = Body().apply { viewType = Constants.ViewType.BANNER }
+        val titleData = Body().apply { viewType = Constants.ViewType.TITLE }
         mRecyclerAdapter.addItems(listOf(bannerData, titleData))
 
         loadVideo()

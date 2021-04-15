@@ -2,7 +2,6 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.BR
 import com.gongmanse.app.R
+import com.gongmanse.app.data.model.video.Body
 import com.gongmanse.app.databinding.FragmentSubjectBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
 import com.gongmanse.app.utils.Constants
@@ -36,7 +36,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var bottomSheet: SelectionSheet
     private lateinit var bottomSheetSpinner: SelectionSheetSpinner
-    private var page: Int = Constants.DefaultValue.LIMIT_INT                                 // api 페이지
+    private var mOffset: Int = Constants.DefaultValue.OFFSET_INT            // api 페이지
     private var isLoading = false
     private val type = 3
     private var selectView: String = Constants.SelectValue.SORT_ALL         // select 박스 기본값
@@ -47,7 +47,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
 
 
     override fun onRefresh() {
-        page = 0
+        mOffset = 0
         viewModel.liveDataClear()
         mRecyclerAdapter.clear()
         isLoading = false
@@ -68,13 +68,12 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
 
     private fun initView() {
         binding.refreshLayout.setOnRefreshListener(this)
-        binding.setVariable(BR.title,Constants.Home.TAB_TITLE_ETC)
+        binding.setVariable(BR.title,Constants.Home.TAB_TITLE_KEM)
         viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
         prepareData()
         viewModel.currentValue.observe(viewLifecycleOwner) {
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
-            Log.d(TAG,"size => ${mRecyclerAdapter.itemCount} it size => ${it.size}")
             isLoading = false
         }
         viewModel.totalValue.observe(viewLifecycleOwner){
@@ -121,44 +120,49 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         binding.rvVideo.smoothScrollToPosition(0)
     }
 
-    override fun selection(value: String) {
+    override fun selectedSortBoxValue(value: String) {
         binding.tvSelectBox.text = value
         selectView = value
-        page = 0
+        mOffset = 0
+        when(value){
+            Constants.SelectValue.SORT_ALL -> Body.setView(Constants.ViewType.DEFAULT)
+            Constants.SelectValue.SORT_SERIES -> Body.setView(Constants.ViewType.SERIES)
+            Constants.SelectValue.SORT_PROBLEM -> Body.setView(Constants.ViewType.DEFAULT)
+            Constants.SelectValue.SORT_NOTE -> Body.setView(Constants.ViewType.NOTE)
+        }
         onRefresh()
     }
 
-    override fun selectionSpinner(value: String) {
+    override fun selectedSortSpinnerValue(value: String) {
         binding.tvVideoCount.tvSpinner.text = value
         selectOrder = value
         onRefresh()
     }
+
     private fun prepareData() {
-        // 최초 호출
-        Log.d(TAG, "prepareData...")
         when(selectView){
             Constants.SelectValue.SORT_ALL ->{
                 when(selectOrder){
-                    Constants.SelectValue.SORT_AVG ->  viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG)
-                    Constants.SelectValue.SORT_LATEST ->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST)
-                    Constants.SelectValue.SORT_NAME -> viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME)
-                    Constants.SelectValue.SORT_SUBJECT->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT)
+                    Constants.SelectValue.SORT_AVG      -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_LATEST   -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_NAME     -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_SUBJECT  -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT, Constants.SubjectType.DEFAULT)
                 }
             }
             Constants.SelectValue.SORT_SERIES ->{
-                //            loadVideoSeries(page)
+                viewModel.loadVideo(Constants.SubjectValue.ETC,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.SERIES)
             }
             Constants.SelectValue.SORT_PROBLEM ->{
-                //            loadVideoProblem(page,Constants.SUBJECT_COMMENTARY_PROBLEM)
+                viewModel.loadVideo(Constants.SubjectValue.ETC,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.PROBLEM)
             }
             Constants.SelectValue.SORT_NOTE ->{
-                //            loadVideoNote(page)
+                viewModel.loadVideo(Constants.SubjectValue.ETC,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.NOTE)
             }
         }
         // 스크롤 이벤트
         scrollListener = object: EndlessRVScrollListener(linearLayoutManager) {
             override fun onLoadMore(offset: Int, totalItemsCount: Int, view: RecyclerView?) {
-                if (!isLoading && page != totalItemsCount && totalItemsCount >= 20) {
+                if (!isLoading && mOffset != totalItemsCount && totalItemsCount >= 20) {
                     isLoading = true
                     load(totalItemsCount)
                 }
@@ -170,7 +174,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
     }
 
     private fun load(totalItemsCount: Int) {
-        page = totalItemsCount
+        mOffset = totalItemsCount
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
@@ -178,15 +182,15 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
             when(selectView){
                 Constants.SelectValue.SORT_ALL -> {
                     when(selectOrder){
-                        Constants.SelectValue.SORT_AVG ->  viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT,  Constants.SelectValue.SORT_VALUE_AVG)
-                        Constants.SelectValue.SORT_LATEST ->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST)
-                        Constants.SelectValue.SORT_NAME -> viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME)
-                        Constants.SelectValue.SORT_SUBJECT->viewModel.loadVideo( Constants.GradeValue.ETC, page, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT)
+                        Constants.SelectValue.SORT_AVG      -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG, Constants.SubjectType.DEFAULT )
+                        Constants.SelectValue.SORT_LATEST   -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST, Constants.SubjectType.DEFAULT)
+                        Constants.SelectValue.SORT_NAME     -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME, Constants.SubjectType.DEFAULT)
+                        Constants.SelectValue.SORT_SUBJECT  -> viewModel.loadVideo( Constants.SubjectValue.ETC, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT, Constants.SubjectType.DEFAULT)
                     }
                 }
-//                Constants.SelectValue.SORT_SERIES -> if(page != totalItemsCount) loadVideoSeries(totalItemsCount)
-//                Constants.SelectValue.SORT_PROBLEM -> if(page != totalItemsCount) loadVideoProblem(totalItemsCount,Constants.SUBJECT_COMMENTARY_PROBLEM)
-//                Constants.SelectValue.SORT_NOTE -> if(page != totalItemsCount) loadMoreData(totalItemsCount,loadVideoNote(totalItemsCount))
+                Constants.SelectValue.SORT_SERIES -> viewModel.loadVideo(Constants.SubjectValue.ETC,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.SERIES)
+                Constants.SelectValue.SORT_PROBLEM -> viewModel.loadVideo(Constants.SubjectValue.ETC,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.PROBLEM)
+                Constants.SelectValue.SORT_NOTE -> viewModel.loadVideo(Constants.SubjectValue.ETC,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.NOTE)
             }
         }, Constants.Delay.VALUE_OF_ENDLESS)
     }

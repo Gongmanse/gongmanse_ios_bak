@@ -15,21 +15,24 @@ import kotlinx.coroutines.launch
 class LiveDataVideo : ViewModel() {
 
     private val _currentValue = MutableLiveData<ArrayList<Body>>()
+    private val _currentBannerValue = MutableLiveData<ArrayList<Body>>()
     private val _totalValue = MutableLiveData<Int>()
     val currentValue : LiveData<ArrayList<Body>>
         get() = _currentValue
     val totalValue : LiveData<Int>
         get() = _totalValue
+    val currentBannerValue : LiveData<ArrayList<Body>>
+        get() = _currentBannerValue
 
     fun liveDataClear(){
         _currentValue.value?.clear()
     }
     //과목별
-    fun loadVideo(subject : Int?, offset : Int?, limit : Int?, sortId : Int?){
+    fun loadVideo(subject : Int?, offset : Int?, limit : Int?, sortId : Int?,type : Int?){
 //        Log.d("TAG", "$subject : $offset : $limit : $sortId ")
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                RetrofitClient.getService().getSubject(subject, offset, limit, sortId).execute().apply {
+                RetrofitClient.getService().getSubject(subject, offset, limit, sortId, type).execute().apply {
                     if (this.isSuccessful) {
 //                    Log.d("TAG", "${this.body()}")
                         this.body()?.let { response ->
@@ -43,63 +46,67 @@ class LiveDataVideo : ViewModel() {
             }catch (e : Exception){
                 Log.e("error" , "$e")
             }
+        }
+    }
 
-        }
-    }
-    //시리즈
-    fun loadSeries(subject : Int?, offset : Int?, limit : Int?, sortId : Int?){
-        CoroutineScope(Dispatchers.IO).launch {
-            //Todo getApi 변경 (시리즈 나오면)
-            RetrofitClient.getService().getSubject(subject, offset, limit, sortId).execute().apply {
-                if (this.isSuccessful) {
-                    this.body()?.let { response ->
-                              response.header.totalRows.let {_totalValue.postValue(it.toInt())}
-                       response.body.let {
-                           _currentValue.postValue(it)
-                       }
-                    }
-                }
-            }
-        }
-    }
     // 배너
-    fun loadVideo(){
+    fun loadBanner(){
         CoroutineScope(Dispatchers.IO).launch {
-            //Todo getApi 변경 (시리즈 나오면)
-            RetrofitClient.getService().getBanner().execute().apply {
-                if (this.isSuccessful) {
-                    this.body()?.let { response ->
-                        response.header.totalRows.let {_totalValue.postValue(it.toInt())}
-                        response.body.let {
-                            _currentValue.postValue(it)
+            try {
+                RetrofitClient.getService().getBanner().execute().apply {
+                    if (this.isSuccessful) {
+                        this.body()?.let { response ->
+                            response.header.totalRows.let {_totalValue.postValue(it.toInt())}
+                            response.body.let {
+                                _currentBannerValue.postValue(it)
+                            }
                         }
                     }
                 }
+            }catch (e : Exception){
+                Log.e("error" , "$e")
             }
         }
     }
     //추천
-    fun loadVideo(grade : String?,offset : Int?, limit : Int?){
+    fun loadBest(grade : String?,offset : Int?, limit : Int?){
         CoroutineScope(Dispatchers.IO).launch {
             //Todo getApi 변경 (시리즈 나오면)
             var sGrade = grade
             if(grade == null){
-                sGrade = Constants.SelectValue.SORT_ALL_GRADE_SERVER
+                sGrade = Constants.SelectValue.SORT_ALL_GRADE_NULL
             }
             RetrofitClient.getService().getBest(sGrade, offset, limit).execute().apply {
                 if (this.isSuccessful) {
                     this.body()?.let { response ->
-                        var isMore = true
                         response.body.let {
                             _currentValue.postValue(it)
                         }
                         response.header.totalRows.let {_totalValue.postValue(it.toInt())}
-                        isMore = response.header.isMore.toBoolean()
                     }
                 }
             }
         }
     }
-
+    // 인기
+    fun loadHot(grade : String?,offset : Int?, limit : Int?){
+        CoroutineScope(Dispatchers.IO).launch {
+            //Todo getApi 변경 (시리즈 나오면)
+            var sGrade = grade
+            if(grade == null){
+                sGrade = Constants.SelectValue.SORT_ALL_GRADE_NULL
+            }
+            RetrofitClient.getService().getBest(sGrade, offset, limit).execute().apply {
+                if (this.isSuccessful) {
+                    this.body()?.let { response ->
+                        response.body.let {
+                            _currentValue.postValue(it)
+                        }
+                        response.header.totalRows.let {_totalValue.postValue(it.toInt())}
+                    }
+                }
+            }
+        }
+    }
 }
 

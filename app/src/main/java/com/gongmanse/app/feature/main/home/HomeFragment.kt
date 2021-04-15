@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
                     Log.d("it","$it")
                     when(it){
                         0 -> (mAdapter.getItem(it) as HomeBestFragment).scrollToTop()
-//                        1 -> (mAdapter.getItem(it) as HomeHotFragment).scrollToTop()
+                        1 -> (mAdapter.getItem(it) as HomeHotFragment).scrollToTop()
                         2 -> (mAdapter.getItem(it) as HomeKEMFragment).scrollToTop()
                         3 -> (mAdapter.getItem(it) as HomeScienceFragment).scrollToTop()
                         4 -> (mAdapter.getItem(it) as HomeSocietyFragment).scrollToTop()

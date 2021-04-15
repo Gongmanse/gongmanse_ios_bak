@@ -1,5 +1,7 @@
 package com.gongmanse.app.utils
 
+import android.icu.text.CaseMap
+
 class Constants {
 
     companion object {
@@ -27,7 +29,6 @@ class Constants {
         companion object {
             const val KEY_TOKEN                = "token"
             const val KEY_REFRESH_TOKEN        = "refresh_token"
-
         }
     }
 
@@ -39,10 +40,14 @@ class Constants {
 
         }
     }
-    class Endless {
+    class ViewType {
         companion object {
-            const val VIEW_TYPE_ITEM                    = 0
-            const val VIEW_TYPE_LOADING                 = 1
+            const val DEFAULT                   = 0
+            const val LOADING                   = 1
+            const val BANNER                    = 2
+            const val SERIES                    = 3
+            const val NOTE                      = 4
+            const val TITLE                     = 5
         }
     }
 
@@ -50,6 +55,7 @@ class Constants {
         companion object {
             const val SORT_ALL                          = "전체보기"
             const val SORT_ALL_GRADE_SERVER             = "전체"
+            const val SORT_ALL_GRADE_NULL               = "모든"
             const val SORT_SERIES                       = "시리즈보기"
             const val SORT_PROBLEM                      = "문제풀이"
             const val SORT_NOTE                         = "노트보기"
@@ -76,11 +82,6 @@ class Constants {
     class BestValue{
         companion object {
             const val BANNER_COUNT                      = 10
-            const val TYPE                              = "viewType"
-            const val BANNER_TYPE                       = 2
-            const val TITLE_TYPE                        = 3
-            const val RV_TYPE                           = 4
-            const val LOADING_TYPE                      = 5
             const val TITLE_VALUE                       = "BEST!"
         }
     }
@@ -94,18 +95,24 @@ class Constants {
         }
     }
 
-    class GradeValue{
+    class SubjectValue{
         companion object {
-            const val KEM                               = 340
-            const val SOCIETY                           = 350
-            const val SCIENCE                           = 360
-            const val ETC                               = 370
-            const val KEM_PROBLEM                       = 341
-            const val SOCIETY_PROBLEM                   = 351
-            const val SCIENCE_PROBLEM                   = 361
-            const val ETC_PROBLEM                       = 371
+            const val KEM                               = 34
+            const val SOCIETY                           = 35
+            const val SCIENCE                           = 36
+            const val ETC                               = 37
         }
     }
+
+    class SubjectType{
+        companion object {
+            const val DEFAULT                           = 0
+            const val PROBLEM                           = 1
+            const val SERIES                            = 2
+            const val NOTE                              = 3
+        }
+    }
+
 
 
     class GradeType{

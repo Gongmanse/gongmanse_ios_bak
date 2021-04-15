@@ -1,7 +1,8 @@
 package com.gongmanse.app.data.model.video
 
+private var type: Int = 0
 data class Body(
-    var itemType : Int = 0,
+    var viewType : Int,
     val isRecommended: String?,
     val modifiedDate: String?,
     val rating: String?,
@@ -14,10 +15,16 @@ data class Body(
     val title: String?,
     val unit: String?,
     val videoId: String?,
-    val seriesCount : Int?
+    val count : String?
 )  {
-    constructor() : this(0, null,
+    constructor() : this(type, null,
         null,null,null,
         null,null,null,null,
         null,null,null,null,null)
+
+    companion object {
+        fun setView(t: Int) {
+            type = t
+        }
+    }
 }

@@ -36,7 +36,7 @@ class SelectionSheet(private val listener: OnBottomSheetListener, private var se
     }
 
     private fun updateSelection(string: String) {
-        listener.selection(string)
+        listener.selectedSortBoxValue(string)
         dismiss()
     }
 

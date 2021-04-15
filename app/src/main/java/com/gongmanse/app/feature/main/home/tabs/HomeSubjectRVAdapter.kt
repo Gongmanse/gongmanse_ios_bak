@@ -24,13 +24,25 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
-            Constants.Endless.VIEW_TYPE_ITEM -> {
+            Constants.ViewType.DEFAULT -> {
                 val binding = ItemVideoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 VideoViewHolder(binding)
             }
-            else ->{
+            Constants.ViewType.LOADING ->{
                 val binding = ItemLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 LoadingViewHolder(binding)
+            }
+            Constants.ViewType.SERIES ->{
+                val binding = ItemVideoSeriesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                SeriesViewHolder(binding)
+            }
+            Constants.ViewType.NOTE ->{
+                val binding = ItemVideoNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                NoteViewHolder(binding)
+            }
+            else ->{
+                val binding = ItemVideoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                VideoViewHolder(binding)
             }
         }
     }
@@ -40,29 +52,34 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     override fun getItemId(position: Int) = position.toLong()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is VideoViewHolder) {
-            populateItemRows(holder, position)
-        } else if (holder is LoadingViewHolder) {
-            showLoadingView(holder, position)
+        val item = items[position]
+        when(holder){
+            is VideoViewHolder -> {
+                holder.apply {
+                    bind(item, View.OnClickListener{
+
+                    })
+                }
+            }
+            is NoteViewHolder -> {
+                holder.apply {
+                    bind(item, View.OnClickListener{
+
+                    })
+                }
+            }
+            is SeriesViewHolder -> {
+                holder.apply {
+                    bind(item, View.OnClickListener{
+
+                    })
+                }
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return items[position].itemType
-    }
-
-    private fun showLoadingView(holder: LoadingViewHolder, position: Int) {
-
-    }
-
-    private fun populateItemRows(holder: VideoViewHolder, position: Int) {
-        val item = items[position]
-
-        holder.apply {
-            bind(item, View.OnClickListener{
-
-            })
-        }
+        return items[position].viewType
     }
 
     fun clear(){
@@ -85,14 +102,14 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     fun addLoading() {
-        val item = Body().apply { this.itemType = Constants.Endless.VIEW_TYPE_LOADING }
+        val item = Body().apply { this.viewType = Constants.ViewType.LOADING }
         items.add(item)
         notifyItemInserted(items.size - 1)
     }
 
     fun removeLoading() {
         val position = items.size - 1
-        if (items[position].itemType == Constants.Endless.VIEW_TYPE_LOADING) {
+        if (items[position].viewType == Constants.ViewType.LOADING) {
             items.removeAt(position)
             val scrollPosition = items.size
             notifyItemRemoved(scrollPosition)
