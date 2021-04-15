@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,7 +25,6 @@ import com.gongmanse.app.databinding.ActivityMainBinding
 import com.gongmanse.app.databinding.LayoutLocalHeaderBinding
 import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import com.gongmanse.app.feature.Intro.IntroActivity
-import com.gongmanse.app.feature.main.EmptyFragment
 import com.gongmanse.app.feature.main.EmptyFragmentDirections
 import com.gongmanse.app.feature.main.MainFragment
 import com.gongmanse.app.feature.member.LoginActivity
@@ -181,7 +179,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
         }
         mMemberViewModel.getProfile()
-        mMemberViewModel.currentMember.observe(this) {
+        mMemberViewModel.currentMember.observe(this, {
             val navBinding = if (it != null) {
                 DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false).apply {
                     btnLogout.setOnClickListener(this@MainActivity)
@@ -199,7 +197,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 removeHeaderView(getHeaderView(0))
                 addHeaderView(navBinding.root)
             }
-        }
+        })
     }
 
     private fun showSplash() {

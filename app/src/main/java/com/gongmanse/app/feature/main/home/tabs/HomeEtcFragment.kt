@@ -2,6 +2,7 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -24,9 +24,8 @@ import com.gongmanse.app.utils.listeners.OnBottomSheetListener
 import com.gongmanse.app.utils.listeners.OnBottomSheetSpinnerListener
 
 
-@Suppress("DEPRECATION")
-class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBottomSheetListener,
-    OnBottomSheetSpinnerListener {
+class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBottomSheetListener, OnBottomSheetSpinnerListener {
+
     companion object {
         private val TAG = HomeEtcFragment::class.java.simpleName
     }
@@ -71,6 +70,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         binding.setVariable(BR.title,Constants.Home.TAB_TITLE_KEM)
         viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
         prepareData()
+
         viewModel.currentValue.observe(viewLifecycleOwner) {
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
@@ -178,7 +178,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             when(selectView){
                 Constants.SelectValue.SORT_ALL -> {
                     when(selectOrder){

@@ -58,9 +58,6 @@ class Constants {
         }
     }
 
-
-
-
     class ViewType {
         companion object {
             const val DEFAULT                   = 0
@@ -97,6 +94,15 @@ class Constants {
             const val SORT_VALUE_VIEWS                  = 5   //조회순
             const val SORT_VALUE_ANSWER                 = 6   //답변완료순?
             const val SORT_VALUE_RELEVANCE              = 7   //관련순
+        }
+    }
+
+    class Fragment {
+        companion object {
+            const val TYPE_PROGRESS                     = "진도학습"
+            const val TYPE_SEARCH                       = "검색"
+            const val TYPE_COUNSEL                      = "전문가상담"
+            const val TYPE_TEACHER                      = "강사별강의"
         }
     }
 

@@ -2,15 +2,14 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,12 +17,11 @@ import com.gongmanse.app.R
 import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.FragmentBestBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
-import com.gongmanse.app.feature.main.MainFragment
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences
 
-@Suppress("DEPRECATION")
+
 class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
@@ -48,8 +46,8 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
@@ -65,16 +63,17 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun initView() {
         binding.refreshLayout.setOnRefreshListener(this)
         viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
-        viewModel.currentValue.observe(viewLifecycleOwner) {
+        viewModel.currentValue.observe(viewLifecycleOwner, {
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
             Log.d(TAG,"$it")
             isLoading = false
-        }
-        viewModel.currentBannerValue.observe(viewLifecycleOwner) {
+        })
+        viewModel.currentBannerValue.observe(viewLifecycleOwner, {
             mSliderAdapter.addItems(it)
             Log.d(TAG,"$it")
-        }
+        })
+
         setRVLayout()
         prepareData()
     }
@@ -141,7 +140,7 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             loadVideo()
         }, Constants.Delay.VALUE_OF_ENDLESS)
     }

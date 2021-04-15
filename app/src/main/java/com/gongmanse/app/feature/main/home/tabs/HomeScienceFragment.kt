@@ -2,7 +2,7 @@ package com.gongmanse.app.feature.main.home.tabs
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,7 +24,6 @@ import com.gongmanse.app.utils.listeners.OnBottomSheetListener
 import com.gongmanse.app.utils.listeners.OnBottomSheetSpinnerListener
 
 
-@Suppress("DEPRECATION")
 class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     OnBottomSheetListener,
     OnBottomSheetSpinnerListener {
@@ -181,7 +179,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             when(selectView){
                 Constants.SelectValue.SORT_ALL -> {
                     when(selectOrder){
