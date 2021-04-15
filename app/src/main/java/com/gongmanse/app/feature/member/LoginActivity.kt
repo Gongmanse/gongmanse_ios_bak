@@ -12,11 +12,16 @@ import com.gongmanse.app.databinding.LayoutLocalHeaderBinding
 import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.OkHttp
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.ResponseBody
 import okhttp3.internal.http.HttpMethod
 import org.jetbrains.anko.toast
 import retrofit2.Retrofit
 import retrofit2.http.HTTP
 import java.net.HttpURLConnection
+import javax.net.ssl.HttpsURLConnection
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -50,11 +55,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         mMemberViewModel.result.observe(this) {
             if (it != null) {
                 Log.d(TAG, "result code => $it")
-                if (it == HttpURLConnection.HTTP_OK) {
-                    setResult(RESULT_OK)
-                    finish()
-                } else {
-                    toast("아이디 또는 비밀번호를 재확인해주세요.")
+                when (it) {
+                    HttpURLConnection.HTTP_OK -> {
+                        setResult(RESULT_OK)
+                        finish()
+                    }
+                    HttpURLConnection.HTTP_BAD_REQUEST -> {
+                        toast("아이디 또는 비밀번호를 재확인해주세요.")
+                    }
                 }
             }
         }

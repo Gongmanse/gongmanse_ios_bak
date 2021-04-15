@@ -6,23 +6,24 @@ import androidx.lifecycle.ViewModel
 import com.gongmanse.app.data.model.member.Member
 import com.gongmanse.app.data.network.member.MemberRepository
 import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MemberViewModel(private val memberRepository: MemberRepository): ViewModel() {
 
-    private val _currentValue = MutableLiveData<Member?>()
-    private val _token = MutableLiveData<String?>()
-    private val _result = MutableLiveData<Int>()
+    private val _currentValue = SingleLiveEvent<Member?>()
+    private val _token = SingleLiveEvent<String?>()
+    private val _result = SingleLiveEvent<Int>()
 
-    val currentValue: LiveData<Member?>
+    val currentValue: SingleLiveEvent<Member?>
         get() = _currentValue
 
-    val token: LiveData<String?>
+    val token: SingleLiveEvent<String?>
         get() = _token
 
-    val result: LiveData<Int>
+    val result: SingleLiveEvent<Int>
         get() = _result
 
     fun login(username: String, password: String) {
@@ -32,9 +33,9 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
                     response.body()?.let { body ->
                         Preferences.token = body.token ?: ""
                         Preferences.refresh = body.refreshToken ?: ""
-                        _token.postValue(Preferences.token)
                     }
                 }
+                _token.postValue(Preferences.token)
                 _result.postValue(response.code())
             }
         }
