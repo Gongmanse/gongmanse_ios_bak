@@ -9,7 +9,7 @@
 
         <variable
             name="progress"
-            type="com.gongmanse.app.data.model.progress.Body" />
+            type="com.gongmanse.app.data.model.progress.ProgressBody" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

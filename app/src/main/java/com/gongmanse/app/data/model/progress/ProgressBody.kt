@@ -1,6 +1,6 @@
 package com.gongmanse.app.data.model.progress
 
-data class Body(
+data class ProgressBody(
     val grade: String,
     val gradeNum: String,
     val gradeNum2: String? = null,

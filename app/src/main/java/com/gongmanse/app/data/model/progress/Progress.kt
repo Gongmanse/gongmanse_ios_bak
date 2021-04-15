@@ -1,6 +1,9 @@
 package com.gongmanse.app.data.model.progress
 
+import com.gongmanse.app.utils.Constants
+import com.google.gson.annotations.SerializedName
+
 data class Progress(
-    val body: List<Body>,
-    val header: Header
+    @SerializedName(Constants.Response.KEY_BODY)   val progressBody: ArrayList<ProgressBody>,
+    @SerializedName(Constants.Response.KEY_HEADER) val progressHeader: ProgressHeader
 )

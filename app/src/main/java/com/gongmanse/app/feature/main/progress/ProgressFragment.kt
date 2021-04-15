@@ -49,6 +49,7 @@ class ProgressFragment : Fragment() {
         Log.v(TAG, "onStart")
     }
 
+
     private fun initView() {
         mAdapter = ProgressTabPagerAdapter(childFragmentManager)
         binding.apply {

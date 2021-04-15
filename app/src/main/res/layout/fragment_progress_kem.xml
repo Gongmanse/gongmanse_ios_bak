@@ -65,7 +65,7 @@
                     android:overScrollMode="never"
                     android:paddingVertical="10dp"
                     android:scrollbars="none"
-                    android:visibility="@{item.body.size() > 0 ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{item.progressBody.size() > 0 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_select"
                     tools:listitem="@layout/item_progress"
@@ -75,7 +75,7 @@
                 <include
                     android:id="@+id/layout_empty"
                     layout="@layout/layout_empty"
-                    android:visibility="@{item.body.size() > 0 ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{item.progressBody.size() > 0 ? View.GONE : View.VISIBLE}"
                     app:layout_constraintTop_toBottomOf="@+id/layout_select"
                     tools:visibility="visible"/>
 
