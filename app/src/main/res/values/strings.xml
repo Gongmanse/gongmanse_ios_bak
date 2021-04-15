@@ -42,6 +42,8 @@
     <string name="desc_image_category_dismiss">스피너 팝업 닫기 이미지</string>
     <string name="desc_image_no_item">목록 없음 경고 이미지</string>
     <string name="desc_image_arrow">화살표 이미지</string>
+    <string name="desc_image_teacher">선생님 이미지</string>
+
 
 
     <!-- description -->

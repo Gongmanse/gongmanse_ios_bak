@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.data.network.RetrofitClient
 import com.gongmanse.app.utils.Constants
 import kotlinx.coroutines.CoroutineScope
@@ -14,14 +14,14 @@ import kotlinx.coroutines.launch
 @Suppress("DEPRECATION")
 class LiveDataVideo : ViewModel() {
 
-    private val _currentValue = MutableLiveData<ArrayList<Body>>()
-    private val _currentBannerValue = MutableLiveData<ArrayList<Body>>()
+    private val _currentValue = MutableLiveData<ArrayList<VideoBody>>()
+    private val _currentBannerValue = MutableLiveData<ArrayList<VideoBody>>()
     private val _totalValue = MutableLiveData<Int>()
-    val currentValue : LiveData<ArrayList<Body>>
+    val currentValue : LiveData<ArrayList<VideoBody>>
         get() = _currentValue
     val totalValue : LiveData<Int>
         get() = _totalValue
-    val currentBannerValue : LiveData<ArrayList<Body>>
+    val currentBannerValue : LiveData<ArrayList<VideoBody>>
         get() = _currentBannerValue
 
     fun liveDataClear(){
@@ -36,8 +36,8 @@ class LiveDataVideo : ViewModel() {
                     if (this.isSuccessful) {
 //                    Log.d("TAG", "${this.body()}")
                         this.body()?.let { response ->
-                            response.header.totalRows.let {_totalValue.postValue(it.toInt())}
-                            response.body.let {
+                            response.videoHeader.totalRows.let {_totalValue.postValue(it.toInt())}
+                            response.videoBody.let {
                                 _currentValue.postValue(it)
                             }
                         }
@@ -56,8 +56,8 @@ class LiveDataVideo : ViewModel() {
                 RetrofitClient.getService().getBanner().execute().apply {
                     if (this.isSuccessful) {
                         this.body()?.let { response ->
-                            response.header.totalRows.let {_totalValue.postValue(it.toInt())}
-                            response.body.let {
+                            response.videoHeader.totalRows.let {_totalValue.postValue(it.toInt())}
+                            response.videoBody.let {
                                 _currentBannerValue.postValue(it)
                             }
                         }
@@ -79,10 +79,10 @@ class LiveDataVideo : ViewModel() {
             RetrofitClient.getService().getBest(sGrade, offset, limit).execute().apply {
                 if (this.isSuccessful) {
                     this.body()?.let { response ->
-                        response.body.let {
+                        response.videoBody.let {
                             _currentValue.postValue(it)
                         }
-                        response.header.totalRows.let {_totalValue.postValue(it.toInt())}
+                        response.videoHeader.totalRows.let {_totalValue.postValue(it.toInt())}
                     }
                 }
             }
@@ -99,10 +99,10 @@ class LiveDataVideo : ViewModel() {
             RetrofitClient.getService().getBest(sGrade, offset, limit).execute().apply {
                 if (this.isSuccessful) {
                     this.body()?.let { response ->
-                        response.body.let {
+                        response.videoBody.let {
                             _currentValue.postValue(it)
                         }
-                        response.header.totalRows.let {_totalValue.postValue(it.toInt())}
+                        response.videoHeader.totalRows.let {_totalValue.postValue(it.toInt())}
                     }
                 }
             }

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.ItemLoadingBinding
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.databinding.ItemVideoNoteBinding
@@ -17,7 +17,7 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
         const val REQUEST_CODE = 9001
     }
 
-    private val items: ArrayList<Body> = ArrayList()
+    private val items: ArrayList<VideoBody> = ArrayList()
     private var auto = false
     private var type : Int? = null
     private var sortId : Int? = null
@@ -95,14 +95,14 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
         auto = bool
     }
 
-    fun addItems(newItems: List<Body>) {
+    fun addItems(newItems: List<VideoBody>) {
         val position = items.size
         items.addAll(newItems)
         notifyItemRangeInserted(position, newItems.size)
     }
 
     fun addLoading() {
-        val item = Body().apply { this.viewType = Constants.ViewType.LOADING }
+        val item = VideoBody().apply { this.viewType = Constants.ViewType.LOADING }
         items.add(item)
         notifyItemInserted(items.size - 1)
     }
@@ -117,7 +117,7 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     private class VideoViewHolder (private val binding : ItemVideoBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data : Body, listener: View.OnClickListener){
+        fun bind(data : VideoBody, listener: View.OnClickListener){
             binding.apply {
                 this.data = data
                 layoutItems.setOnClickListener(listener)
@@ -126,7 +126,7 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     private class NoteViewHolder (private val binding : ItemVideoNoteBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data : Body, listener: View.OnClickListener){
+        fun bind(data : VideoBody, listener: View.OnClickListener){
             binding.apply {
                 this.data = data
                 layoutItems.setOnClickListener(listener)
@@ -136,7 +136,7 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     }
 
     private class SeriesViewHolder (private val binding : ItemVideoSeriesBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data : Body, listener: View.OnClickListener){
+        fun bind(data : VideoBody, listener: View.OnClickListener){
             binding.apply {
                 this.data = data
                 layoutItems.setOnClickListener(listener)

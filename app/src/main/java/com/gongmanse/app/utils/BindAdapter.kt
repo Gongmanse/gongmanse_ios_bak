@@ -6,11 +6,15 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gongmanse.app.R
+import com.gongmanse.app.data.model.video.VideoBody
+import com.gongmanse.app.feature.main.counsel.CounselListAdapter
 
 // URL Image Binding
 @BindingAdapter("bindProfileURL")
@@ -74,4 +78,28 @@ fun bindViewUnitColor(view: CardView, value: String?) {
 //            ContextCompat.getColor(view.context, R.color.term_color))
 //        else view.setCardBackgroundColor(ContextCompat.getColor(view.context, R.color.term_other_than_color))
     }
+}
+
+@BindingAdapter("bindURLTeacher")
+fun bindViewURLTeacher(view: ImageView, value: String?) {
+    value?.let {
+        Glide.with(view.context)
+            .load("${Constants.FILE_DOMAIN}/$it")
+            .override(1018, 548)
+            .thumbnail(0.1f)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .into(view)
+    }
+}
+
+// Search Counsel List Data Binding
+@BindingAdapter("bindSearchCounselData")
+fun bindViewCounselListData (view: RecyclerView, values: ObservableArrayList<VideoBody>?) {
+    Log.d("bindSearchCounselData", " In")
+    val mAdapter = view.adapter
+    if (mAdapter != null) {
+        Log.d("bindSearchCounselData", "=> $mAdapter")
+        values?.let { (mAdapter as CounselListAdapter).addItems(it) }
+    }
+
 }

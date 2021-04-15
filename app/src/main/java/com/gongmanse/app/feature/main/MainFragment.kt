@@ -13,8 +13,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.gongmanse.app.MainActivity
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentMainBinding
+import com.gongmanse.app.feature.main.counsel.CounselFragment
 import com.gongmanse.app.feature.main.home.HomeFragment
 import com.gongmanse.app.feature.main.progress.ProgressFragment
+import com.gongmanse.app.feature.main.teacher.TeacherFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @Suppress("DEPRECATION")
@@ -32,8 +34,8 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     private lateinit var homeFragment: HomeFragment
     private lateinit var progressFragment: ProgressFragment
 //    private lateinit var searchFragment: SearchMainFragment
-//    private lateinit var counselFragment: CounselFragment
-//    private lateinit var teacherFragment: TeacherFragment
+    private lateinit var counselFragment: CounselFragment
+    private lateinit var teacherFragment: TeacherFragment
 //    private var mListener: OnFragmentInteractionListener? = null
     private var selectFragment: Fragment? = null
 
@@ -59,19 +61,21 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     // 화면 생성
     private fun setupFragment() {
         homeFragment = HomeFragment()
+        teacherFragment = TeacherFragment()
         progressFragment = ProgressFragment()
+        counselFragment = CounselFragment()
         val fm: FragmentManager = (context as MainActivity).supportFragmentManager
         fm.beginTransaction()
             .add(R.id.content_layout, homeFragment)
             .hide(homeFragment)
             .add(R.id.content_layout, progressFragment)
             .hide(progressFragment)
-//            .add(R.id.layout_content, searchFragment)
+//            .add(R.id.content_layout, searchFragment)
 //            .hide(searchFragment)
-//            .add(R.id.layout_content, counselFragment)
-//            .hide(counselFragment)
-//            .add(R.id.layout_content, teacherFragment)
-//            .hide(teacherFragment)
+            .add(R.id.content_layout, counselFragment)
+            .hide(counselFragment)
+            .add(R.id.content_layout, teacherFragment)
+            .hide(teacherFragment)
             .commit()
     }
 
@@ -102,11 +106,11 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 true
             }
             R.id.action_counsel -> {
-//                replaceFragment(counselFragment)
+                replaceFragment(counselFragment)
                 true
             }
             R.id.action_teacher -> {
-//                replaceFragment(teacherFragment)
+                replaceFragment(teacherFragment)
                 true
             }
             else -> true

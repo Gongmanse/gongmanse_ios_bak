@@ -1,7 +1,7 @@
 package com.gongmanse.app.data.model.video
 
 private var type: Int = 0
-data class Body(
+data class VideoBody(
     var viewType : Int,
     val isRecommended: String?,
     val modifiedDate: String?,

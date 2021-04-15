@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.*
 import com.gongmanse.app.utils.Constants
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
@@ -18,7 +18,7 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
         private val TAG = HomeBestAdapter::class.java.simpleName
     }
 
-    private val items: ArrayList<Body> = ArrayList()
+    private val items: ArrayList<VideoBody> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
@@ -73,7 +73,6 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("홀더 확인","$holder")
         val item = items[position]
         when(holder) {
             is BannerViewHolder -> {
@@ -87,7 +86,6 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
                 }
             }
             is RecyclerViewHolder -> {
-                Log.d("진입 홀더 확인","$holder")
                 holder.apply {
                     bind(item, View.OnClickListener {
 //                        val wifiState = IsWIFIConnected().check(holder.itemView.context)
@@ -134,7 +132,7 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
         }
     }
 
-    fun addItems(newItems: List<Body>) {
+    fun addItems(newItems: List<VideoBody>) {
         val position = items.size
         items.addAll(newItems)
         notifyItemRangeInserted(position, newItems.size)
@@ -146,7 +144,7 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
     }
 
     fun addLoading() {
-        val item = Body().apply { this.viewType = Constants.ViewType.LOADING }
+        val item = VideoBody().apply { this.viewType = Constants.ViewType.LOADING }
         items.add(item)
         notifyItemInserted(items.size - 1)
     }
@@ -161,7 +159,7 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
     }
 
     private class BannerViewHolder(private val binding: ItemBannerBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data : ArrayList<Body>,mAdapter:HomeBestSliderAdapter){
+        fun bind(data : ArrayList<VideoBody>,mAdapter:HomeBestSliderAdapter){
             data.let {
                 binding.sliderView.apply {
                     setSliderAdapter(mAdapter)
@@ -216,7 +214,7 @@ class HomeBestAdapter(private val mAdapter : HomeBestSliderAdapter) :  RecyclerV
 
 
     private class RecyclerViewHolder (private val binding : ItemVideoBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data : Body, listener: View.OnClickListener){
+        fun bind(data : VideoBody, listener: View.OnClickListener){
             binding.apply {
                 this.data = data
                 itemView.setOnClickListener(listener)

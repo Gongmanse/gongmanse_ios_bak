@@ -158,6 +158,15 @@ class Constants {
         }
     }
 
+    class Teacher{
+        companion object {
+            const val TAB_TITLE_ELEMENTARY       = "초등"
+            const val TAB_TITLE_MIDDLE           = "중등"
+            const val TAB_TITLE_HIGH             = "고등"
+        }
+    }
+
+
     class Progress{
         companion object {
             const val TAB_TITLE_KEM         = "국영수"
@@ -166,12 +175,6 @@ class Constants {
             const val TAB_TITLE_ETC         = "기타과목"
         }
     }
-
-//    class Name{
-//        companion object {
-//
-//        }
-//    }
 
     // Action
     class Action {
@@ -183,5 +186,11 @@ class Constants {
             const val VIEW_PASS_TICKET         = 4
         }
     }
+
+    //    class Name{
+//        companion object {
+//
+//        }
+//    }
 
 }

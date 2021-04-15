@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.BR
 import com.gongmanse.app.R
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.FragmentSubjectBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
 import com.gongmanse.app.utils.Constants
@@ -74,7 +74,6 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
         prepareData()
         viewModel.currentValue.observe(viewLifecycleOwner) {
-            Log.d("카운트 체크" , " itItem => $it")
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
             isLoading = false
@@ -128,10 +127,10 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         selectView = value
         mOffset = 0
         when(value){
-            Constants.SelectValue.SORT_ALL -> Body.setView(Constants.ViewType.DEFAULT)
-            Constants.SelectValue.SORT_SERIES -> Body.setView(Constants.ViewType.SERIES)
-            Constants.SelectValue.SORT_PROBLEM -> Body.setView(Constants.ViewType.DEFAULT)
-            Constants.SelectValue.SORT_NOTE -> Body.setView(Constants.ViewType.NOTE)
+            Constants.SelectValue.SORT_ALL -> VideoBody.setView(Constants.ViewType.DEFAULT)
+            Constants.SelectValue.SORT_SERIES -> VideoBody.setView(Constants.ViewType.SERIES)
+            Constants.SelectValue.SORT_PROBLEM -> VideoBody.setView(Constants.ViewType.DEFAULT)
+            Constants.SelectValue.SORT_NOTE -> VideoBody.setView(Constants.ViewType.NOTE)
         }
         onRefresh()
     }

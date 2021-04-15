@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.R
-import com.gongmanse.app.data.model.video.Body
+import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.databinding.FragmentBestBinding
 import com.gongmanse.app.feature.main.LiveDataVideo
 import com.gongmanse.app.utils.Constants
@@ -112,8 +112,8 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun prepareData() {
         // 최초 호출
-        val bannerData = Body().apply { viewType = Constants.ViewType.BANNER }
-        val titleData = Body().apply { viewType = Constants.ViewType.TITLE }
+        val bannerData = VideoBody().apply { viewType = Constants.ViewType.BANNER }
+        val titleData = VideoBody().apply { viewType = Constants.ViewType.TITLE }
         mRecyclerAdapter.addItems(listOf(bannerData, titleData))
 
         loadVideo()
