@@ -2,8 +2,7 @@ import UIKit
 import BottomPopup
 
 class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishMathAlignmentVCDelegate {
-    
-    var selectedItem: Int = 0
+    var selectedItem: Int?
     
     var pageIndex: Int!
     var koreanEnglishMathVideo: KoreanEnglishVideoInput?
@@ -87,7 +86,27 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, KoreanEnglishM
     }
     
     func getDataFromJson() {
-        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=0&limit=20&sortId=3&type=\(selectedItem)") {
+        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=0&limit=20&sortId=3&type=0") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(KoreanEnglishVideoInput.self, from: data) {
+                    //print(json.body)
+                    self.koreanEnglishMathVideo = json
+                }
+                DispatchQueue.main.async {
+                    self.koreanEnglishMathCollection.reloadData()
+                }
+                
+            }.resume()
+        }
+    }
+    
+    func getDataSeries() {
+        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=0&limit=20&sortId=3&type=2") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -142,7 +161,9 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
         let indexData = json.body[indexPath.row]
         let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
         
-        if selectedItem == 1 {
+        if selectedItem == 0 {
+            
+            getDataFromJson()
             
             guard let json = self.koreanEnglishMathVideo else { return cell }
             let indexData = json.body[indexPath.row]
@@ -170,12 +191,36 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
                 cell.term.isHidden = true
             }
             
-        } else if selectedItem == 2 {
+        } else if selectedItem == 1 {
             // 시리즈 보기
+            getDataSeries()
+            
+            guard let json = self.koreanEnglishMathVideo else { return cell }
+            let indexData = json.body[indexPath.row]
+            let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.title
+            cell.teachersName.text = indexData.teacherName + " 선생님"
+            cell.subjects.text = indexData.subject
+            cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor)
+            
+            if indexData.unit != nil {
+                cell.term.isHidden = false
+                cell.term.text = indexData.unit
+            } else if indexData.unit == "1" {
+                cell.term.isHidden = false
+                cell.term.text = "i"
+            } else if indexData.unit == "2" {
+                cell.term.isHidden = false
+                cell.term.text = "ii"
+            } else {
+                cell.term.isHidden = true
+            }
+        } else if selectedItem == 2 {
             
         } else if selectedItem == 3 {
-            // 문제 풀이
-        } else if selectedItem == 4{
             // 노트 보기
             
         }

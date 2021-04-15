@@ -59,7 +59,6 @@ extension EnquiryCategoryVC {
         initButton()
         initLabel()
         initTextView()
-        
         navigationSetting()
     }
     

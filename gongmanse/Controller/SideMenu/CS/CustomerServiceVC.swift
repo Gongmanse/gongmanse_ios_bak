@@ -9,12 +9,14 @@ class CustomerServiceVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
-        navigationSetting()
         setupTabs()
         setupPageViewController()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationSetting()
     }
 
     override func viewDidLayoutSubviews() {

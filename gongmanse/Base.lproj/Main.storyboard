@@ -2830,7 +2830,7 @@
         <!--My CalendarVC-->
         <scene sceneID="DI2-vy-TEd">
             <objects>
-                <viewController storyboardIdentifier="MyCalendarVC" id="nK8-hL-jJn" customClass="MyCalendarVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyCalendarVC" hidesBottomBarWhenPushed="YES" id="nK8-hL-jJn" customClass="MyCalendarVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZEw-Ph-guu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2845,7 +2845,7 @@
         <!--What Is Gong ManseVC-->
         <scene sceneID="InT-rD-kSy">
             <objects>
-                <viewController storyboardIdentifier="WhatIsGongManseVC" id="7K4-cz-C5M" customClass="WhatIsGongManseVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WhatIsGongManseVC" hidesBottomBarWhenPushed="YES" id="7K4-cz-C5M" customClass="WhatIsGongManseVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5YF-Bp-PDI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2877,7 +2877,7 @@
         <!--Side Menu NoticeVC-->
         <scene sceneID="o1s-Rk-VjU">
             <objects>
-                <viewController storyboardIdentifier="SideMenuNoticeVC" id="fYA-eo-3Ty" customClass="SideMenuNoticeVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SideMenuNoticeVC" hidesBottomBarWhenPushed="YES" id="fYA-eo-3Ty" customClass="SideMenuNoticeVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZWO-L2-5Gz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2909,7 +2909,7 @@
         <!--Customer ServiceVC-->
         <scene sceneID="C30-t3-KYT">
             <objects>
-                <viewController storyboardIdentifier="CustomerServiceVC" id="ZpU-WZ-n7g" customClass="CustomerServiceVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomerServiceVC" hidesBottomBarWhenPushed="YES" id="ZpU-WZ-n7g" customClass="CustomerServiceVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mgu-Q5-q4o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2941,7 +2941,7 @@
         <!--SettingsVC-->
         <scene sceneID="eKx-aA-y4a">
             <objects>
-                <viewController storyboardIdentifier="SettingsVC" id="RcW-J0-UdF" customClass="SettingsVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsVC" hidesBottomBarWhenPushed="YES" id="RcW-J0-UdF" customClass="SettingsVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fhb-Ff-jtb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
