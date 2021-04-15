@@ -165,27 +165,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun hasLogin() {
+        Log.w(TAG, "Preferences.token => ${Preferences.token}")
         if (::mMemberViewModelFactory.isInitialized.not()) {
             mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
         }
         if (::mMemberViewModel.isInitialized.not()) {
             mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
         }
-        Log.d(TAG, "token => ${Preferences.token}")
         mMemberViewModel.getProfile()
-        mMemberViewModel.currentValue.observe(this) {
-            nav_view.removeHeaderView(nav_view.getHeaderView(0))
-            if (it != null) {
-                val navBinding = DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false)
-                binding.navView.addHeaderView(navBinding.root)
-                navBinding.btnLogout.setOnClickListener(this)
-                navBinding.btnEditProfile.setOnClickListener(this)
-                navBinding.member = it.memberBody
+        mMemberViewModel.currentMember.observe(this) {
+            val navBinding = if (it != null) {
+                DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false).apply {
+                    btnLogout.setOnClickListener(this@MainActivity)
+                    btnEditProfile.setOnClickListener(this@MainActivity)
+                    member = it.memberBody
+                }
             } else {
-                val navBinding = DataBindingUtil.inflate<LayoutLocalHeaderBinding>(layoutInflater, R.layout.layout_local_header, binding.navView, false)
-                binding.navView.addHeaderView(navBinding.root)
-                navBinding.btnLogin.setOnClickListener(this)
-                navBinding.btnSignUp.setOnClickListener(this)
+                DataBindingUtil.inflate<LayoutLocalHeaderBinding>(layoutInflater, R.layout.layout_local_header, binding.navView, false).apply {
+                    btnLogin.setOnClickListener(this@MainActivity)
+                    btnSignUp.setOnClickListener(this@MainActivity)
+                }
+            }
+            binding.navView.apply {
+                removeHeaderView(getHeaderView(0))
+                addHeaderView(navBinding.root)
             }
         }
     }

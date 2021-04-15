@@ -1,10 +1,9 @@
 package com.gongmanse.app.feature.member
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gongmanse.app.data.model.member.Member
 import com.gongmanse.app.data.network.member.MemberRepository
+import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import com.gongmanse.app.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
@@ -13,12 +12,12 @@ import kotlinx.coroutines.launch
 
 class MemberViewModel(private val memberRepository: MemberRepository): ViewModel() {
 
-    private val _currentValue = SingleLiveEvent<Member?>()
+    private val _currentMember = SingleLiveEvent<Member?>()
     private val _token = SingleLiveEvent<String?>()
     private val _result = SingleLiveEvent<Int>()
 
-    val currentValue: SingleLiveEvent<Member?>
-        get() = _currentValue
+    val currentMember: SingleLiveEvent<Member?>
+        get() = _currentMember
 
     val token: SingleLiveEvent<String?>
         get() = _token
@@ -42,9 +41,9 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
     }
 
     fun logout() {
-        Preferences.token = ""
+        Preferences.token = Constants.EMPTY_STRING
         _token.value = Preferences.token
-        _currentValue.value = null
+        _currentMember.value = null
     }
 
     fun getProfile() {
@@ -52,10 +51,10 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
             memberRepository.getProfile().let { response ->
                 if (response.isSuccessful) {
                     response.body()?.let { body ->
-                        _currentValue.postValue(body)
+                        _currentMember.postValue(body)
                     }
                 } else {
-                    _currentValue.postValue(null)
+                    _currentMember.postValue(null)
                 }
             }
         }

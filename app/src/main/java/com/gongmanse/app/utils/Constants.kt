@@ -11,6 +11,10 @@ class Constants {
         const val NOTICE_EVENT_VALUE_DOMAIN    = "https://webview.gongmanse.com/events/view/"
         const val PRIVACY_POLICY_DOMAIN        = "/users/privacy_policy"
         const val TERMS_OF_SERVICE_DOMAIN      = "/users/toa_read"
+
+        // 초기화
+        const val EMPTY_STRING                 = ""
+
     }
 
     /* Delay Value */
