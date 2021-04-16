@@ -14,11 +14,19 @@ import kotlinx.coroutines.launch
 class MemberViewModel(private val memberRepository: MemberRepository?): ViewModel() {
 
     private val _currentMember = SingleLiveEvent<Member?>()
+//    private val _username = SingleLiveEvent<String?>()
+//    private val _password = SingleLiveEvent<String?>()
     private val _token = SingleLiveEvent<String?>()
     private val _result = SingleLiveEvent<Int>()
 
     val currentMember: SingleLiveEvent<Member?>
         get() = _currentMember
+
+//    val username: SingleLiveEvent<String?>
+//        get() = _username
+//
+//    val password: SingleLiveEvent<String?>
+//        get() = _password
 
     val token: SingleLiveEvent<String?>
         get() = _token

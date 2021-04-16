@@ -1,146 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".feature.member.LoginActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 닫기 버튼 -->
-    <ImageView
-        android:id="@+id/iv_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginVertical="@dimen/activity_vertical_margin"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:focusable="true"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:contentDescription="@string/desc_image_close"
-        app:srcCompat="@drawable/ic_close"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.gongmanse.app.feature.member.MemberViewModel" />
+    </data>
 
-    <!-- 로고 아이콘 -->
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:contentDescription="@string/desc_image_logo"
-        app:srcCompat="@mipmap/ic_app_title"
-        app:layout_constraintTop_toBottomOf="@id/iv_close"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/login_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:layout_marginHorizontal="@dimen/login_form_layout_horizontal_spacing"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/iv_logo">
+        android:layout_height="match_parent"
+        tools:context=".feature.member.LoginActivity">
 
-        <!-- 아이디 -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/NanumSquareRoundB.FormInputLayout"
-            android:id="@+id/username_layout"
+        <!-- 닫기 버튼 -->
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginVertical="@dimen/activity_vertical_margin"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:focusable="true"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:contentDescription="@string/desc_image_close"
+            app:srcCompat="@drawable/ic_close"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <!-- 로고 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:contentDescription="@string/desc_image_logo"
+            app:srcCompat="@mipmap/ic_app_title"
+            app:layout_constraintTop_toBottomOf="@id/iv_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/login_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/prompt_username"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_username_gray"
-            app:startIconContentDescription="@string/desc_image_username">
+            android:layout_marginTop="37dp"
+            android:layout_marginHorizontal="@dimen/login_form_layout_horizontal_spacing"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/iv_logo">
 
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/NanumSquareRoundB.FormInputText"
-                android:id="@+id/et_username"
+            <!-- 아이디 -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/NanumSquareRoundB.FormInputLayout"
+                android:id="@+id/username_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="text|textNoSuggestions" />
+                android:hint="@string/prompt_username"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_username_gray"
+                app:startIconContentDescription="@string/desc_image_username">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/NanumSquareRoundB.FormInputText"
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text|textNoSuggestions" />
 
-        <!-- 비밀번호 -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/NanumSquareRoundB.FormInputLayout"
-            android:id="@+id/password_layout"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- 비밀번호 -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/NanumSquareRoundB.FormInputLayout"
+                android:id="@+id/password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_form_layout_vertical_spacing"
+                android:hint="@string/prompt_password"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/ic_password_gray"
+                app:startIconContentDescription="@string/desc_image_password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/NanumSquareRoundB.FormInputText"
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword|textNoSuggestions" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!-- 로그인 -->
+        <com.google.android.material.button.MaterialButton
+            style="@style/LoginButton"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_form_layout_vertical_spacing"
-            android:hint="@string/prompt_password"
-            app:endIconMode="password_toggle"
-            app:startIconDrawable="@drawable/ic_password_gray"
-            app:startIconContentDescription="@string/desc_image_password">
+            android:layout_marginTop="49dp"
+            android:layout_marginHorizontal="@dimen/login_button_horizontal_spacing"
+            android:paddingVertical="11dp"
+            android:onClick="onClick"
+            app:cornerRadius="@dimen/button_radius"
+            app:layout_constraintTop_toBottomOf="@id/login_layout" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/NanumSquareRoundB.FormInputText"
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginHorizontal="@dimen/login_form_layout_horizontal_spacing"
+            app:layout_constraintTop_toBottomOf="@id/btn_login">
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/btn_find_by_username"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword|textNoSuggestions" />
+                android:layout_weight="1"
+                android:text="@string/button_find_username"
+                android:textColor="@color/light_black2"
+                android:textAppearance="@style/TextButtonAppearance" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView style="@style/VerticalLine" />
 
-    </LinearLayout>
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/btn_find_by_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_find_password"
+                android:textColor="@color/light_black2"
+                android:textAppearance="@style/TextButtonAppearance" />
 
-    <!-- 로그인 -->
-    <com.google.android.material.button.MaterialButton
-        style="@style/LoginButton"
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="49dp"
-        android:layout_marginHorizontal="@dimen/login_button_horizontal_spacing"
-        android:paddingVertical="11dp"
-        android:onClick="onClick"
-        app:cornerRadius="@dimen/button_radius"
-        app:layout_constraintTop_toBottomOf="@id/login_layout" />
+            <TextView style="@style/VerticalLine" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:layout_marginHorizontal="@dimen/login_form_layout_horizontal_spacing"
-        app:layout_constraintTop_toBottomOf="@id/btn_login">
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:id="@+id/btn_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_sign_up"
+                android:textColor="@color/light_black2"
+                android:textAppearance="@style/TextButtonAppearance" />
 
-        <Button
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:id="@+id/btn_find_by_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_find_username"
-            android:textColor="@color/light_black2"
-            android:textAppearance="@style/TextButtonAppearance"/>
+        </LinearLayout>
 
-        <TextView style="@style/VerticalLine"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:id="@+id/btn_find_by_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_find_password"
-            android:textColor="@color/light_black2"
-            android:textAppearance="@style/TextButtonAppearance" />
-
-        <TextView style="@style/VerticalLine"/>
-
-        <Button
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:id="@+id/btn_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_sign_up"
-            android:textColor="@color/light_black2"
-            android:textAppearance="@style/TextButtonAppearance"/>
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
