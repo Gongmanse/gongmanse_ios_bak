@@ -62,20 +62,32 @@ fun bindViewURLImage(view: ImageView, value: String?) {
     } else view.setImageResource(R.drawable.ic_alert)
 }
 
-@BindingAdapter("bindUnitText")
-fun bindViewUnitText(view: TextView, value: String?) {
-    value?.let {
-//        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.text = value
-//        else view.text = if (value == "1") "ⅰ" else "ⅱ"
-    }
-}
+//@BindingAdapter("bindUnitText")
+//fun bindViewUnitText(view: TextView, value: String?) {
+//    value?.let {
+////        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.text = value
+////        else view.text = if (value == "1") "ⅰ" else "ⅱ"
+//    }
+//}
+//
+//@BindingAdapter("bindUnitColor")
+//fun bindViewUnitColor(view: CardView, value: String?) {
+//    value?.let {
+////        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.setCardBackgroundColor(
+////            ContextCompat.getColor(view.context, R.color.term_color))
+////        else view.setCardBackgroundColor(ContextCompat.getColor(view.context, R.color.term_other_than_color))
+//    }
+//}
 
-@BindingAdapter("bindUnitColor")
-fun bindViewUnitColor(view: CardView, value: String?) {
+@BindingAdapter("bindURLTeacher")
+fun bindViewURLTeacher(view: ImageView, value: String?) {
     value?.let {
-//        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.setCardBackgroundColor(
-//            ContextCompat.getColor(view.context, R.color.term_color))
-//        else view.setCardBackgroundColor(ContextCompat.getColor(view.context, R.color.term_other_than_color))
+        Glide.with(view.context)
+            .load(it)
+            .override(1018, 548)
+            .thumbnail(0.1f)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .into(view)
     }
 }
 
