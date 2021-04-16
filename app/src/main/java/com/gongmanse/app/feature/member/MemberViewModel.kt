@@ -28,7 +28,7 @@ class MemberViewModel(private val memberRepository: MemberRepository?): ViewMode
 
     fun refreshToken(){
         CoroutineScope(Dispatchers.IO).launch {
-            memberRepository.getRefreshToken(Preferences.refresh).let { response ->
+            memberRepository?.getRefreshToken(Preferences.refresh)?.let { response ->
                 if (response.isSuccessful) {
                     response.body()?.apply {
                         Commons.saveToken(this.toString())
