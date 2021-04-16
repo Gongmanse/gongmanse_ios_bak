@@ -13,10 +13,14 @@ class Constants {
         const val NOTICE_EVENT_VALUE_DOMAIN    = "https://webview.gongmanse.com/events/view/"
         const val PRIVACY_POLICY_DOMAIN        = "/users/privacy_policy"
         const val TERMS_OF_SERVICE_DOMAIN      = "/users/toa_read"
+    }
 
-        // 초기화
-        const val EMPTY_STRING                 = ""
-
+    /* Init Value */
+    class Init {
+        companion object {
+            const val INIT_STRING = ""
+            const val INIT_INT    = 0
+        }
     }
 
     /* Delay Value */
@@ -39,19 +43,22 @@ class Constants {
     // Retrofit REQUEST Body key
     class Request {
         companion object {
-            const val KEY_TOKEN = "token"
-            const val KEY_GRANT_TYPE = "grant_type"
-            const val KEY_REFRESH_TOKEN = "refresh_token"
-            const val KEY_USERNAME = "usr"
-            const val KEY_PASSWORD = "pwd"
-            const val KEY_SUBJECT  = "subject"
-            const val KEY_GRADE    = "grade"
-            const val KEY_GRADE_NUM= "gradeNum"
-            const val KEY_OFFSET   = "offset"
-            const val KEY_LIMIT    = "limit"
+            const val KEY_TOKEN                 = "token"
+            const val KEY_GRANT_TYPE            = "grant_type"
+            const val KEY_REFRESH_TOKEN         = "refresh_token"
+            const val KEY_USERNAME              = "usr"
+            const val KEY_PASSWORD              = "pwd"
+            const val KEY_SUBJECT               = "subject"
+            const val KEY_GRADE                 = "grade"
+            const val KEY_GRADE_NUM             = "gradeNum"
+            const val KEY_OFFSET                = "offset"
+            const val KEY_LIMIT                 = "limit"
 
-            const val VALUE_TYPE_PASSWORD = "password"
-            const val VALUE_TYPE_REFRESH = "refresh_token"
+            const val VALUE_TYPE_PASSWORD       = "password"
+            const val VALUE_TYPE_REFRESH        = "refresh_token"
+            const val VALUE_TYPE_SUBJECT        = "subject"
+            const val VALUE_TYPE_GRADE          = "grade"
+            const val VALUE_TYPE_GRADE_NUM      = "gradeNum"
 
         }
     }
@@ -185,6 +192,10 @@ class Constants {
             const val TAB_TITLE_SCIENCE     = "과학"
             const val TAB_TITLE_SOCIETY     = "사회"
             const val TAB_TITLE_ETC         = "기타과목"
+
+            const val VALUE_ELEMENTARY_VIEW  = '초'
+            const val VALUE_MIDDLE_VIEW      = '중'
+            const val VALUE_HIGH_VIEW        = '고'
         }
     }
 

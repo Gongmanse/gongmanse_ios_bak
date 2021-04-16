@@ -3,6 +3,7 @@ package com.gongmanse.app.data.model.progress
 import com.gongmanse.app.utils.Constants
 import java.io.Serializable
 
+//private var type: Int = 0
 data class ProgressBody(
     var viewType: Int,
     val grade: String?,
@@ -13,7 +14,7 @@ data class ProgressBody(
     val subject: String?,
     val subjectColor: String?,
     val title: String?,
-    val totalCount: String?
+    val totalRows: String?
 ) : Serializable {
     constructor() : this(
         Constants.ViewType.DEFAULT,
