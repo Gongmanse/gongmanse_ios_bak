@@ -6,7 +6,7 @@ class RecommendVC: UIViewController {
     
     var pageIndex: Int!
     
-    var recommendVideo = RecommendVideoInput(header: RecommendHeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [RecommendVideo]())
+    var recommendVideo = VideoInput(header: HeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [VideoModels]())
     
     let recommendRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
@@ -35,7 +35,7 @@ class RecommendVC: UIViewController {
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
-                if let json = try? decoder.decode(RecommendVideoInput.self, from: data) {
+                if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
 //                    self.recommendVideo = json
                     self.recommendVideo.body.append(contentsOf: json.body)
@@ -67,14 +67,14 @@ extension RecommendVC: UICollectionViewDataSource {
         
         let json = self.recommendVideo
         let indexData = json.body[indexPath.row]
-        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
+        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
         
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
         cell.videoTitle.text = indexData.title
-        cell.teachersName.text = indexData.teacherName + " 선생님"
+        cell.teachersName.text = indexData.teacherName ?? "nil" + " 선생님"
         cell.subjects.text = indexData.subject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor)
+        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
         cell.starRating.text = indexData.rating
         
         if indexData.unit != nil {

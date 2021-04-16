@@ -3,6 +3,7 @@ import BottomPopup
 
 protocol KoreanEnglishMathAlignmentVCDelegate: class {
     func passSecltedRow(_ selectedRowIndex: Int)
+    func passSortedIdRow(_ sortedIdRowIndex: Int)
 }
 
 class KoreanEnglishMathAlignmentVC: BottomPopupViewController {
@@ -113,6 +114,6 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
         }
         
         selectItem = indexPath.row
-        delegate?.passSecltedRow(indexPath.row)
+        delegate?.passSortedIdRow(indexPath.row)
     }
 }

@@ -88,7 +88,7 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         guard let json = self.recommendBanner else { return cell }
         
         let indexData = json.body[indexPath.row]
-        let url = URL(string: indexData.thumbnail)
+        let url = URL(string: indexData.thumbnail ?? "nil")
         
         cell.bannerImage.sd_setImage(with: url)
         

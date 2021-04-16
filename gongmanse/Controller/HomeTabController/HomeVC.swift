@@ -3,6 +3,10 @@ import SideMenu
 
 class HomeVC: UIViewController {
 
+    var koreanEnglishMathSelectedIndex: Int = 0
+    var koreanEnglishMathSortedIndex: Int = 0
+    
+    
     @IBOutlet weak var tabsView: TabsView!
     
     var currentIndex: Int = 0
@@ -109,7 +113,7 @@ class HomeVC: UIViewController {
         }
         
         currentIndex = index
-        
+        print("새로생성함")
         if index == 0 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecommendVC") as! RecommendVC
             contentVC.pageIndex = index
@@ -119,7 +123,11 @@ class HomeVC: UIViewController {
             contentVC.pageIndex = index
             return contentVC
         } else if index == 2 {
+            // 국영수
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "KoreanEnglishMathVC") as! KoreanEnglishMathVC
+            contentVC.delegate = self
+            contentVC.selectedItem = koreanEnglishMathSelectedIndex
+            contentVC.sortedId = koreanEnglishMathSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 3 {
@@ -256,4 +264,17 @@ extension CALayer {
             self.addSublayer(border)
         }
     }
+}
+
+
+extension HomeVC: KoreanEnglishMathVCDelegate {
+    func passSortedIdSettingValue(_ sortedIndex: Int) {
+        self.koreanEnglishMathSortedIndex = sortedIndex
+    }
+    
+    func passSelectedIndexSettingValue(_ selectedIndex: Int) {
+        self.koreanEnglishMathSelectedIndex = selectedIndex
+    }
+    
+    
 }

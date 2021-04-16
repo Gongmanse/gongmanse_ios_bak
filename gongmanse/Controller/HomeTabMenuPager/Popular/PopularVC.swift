@@ -4,7 +4,7 @@ class PopularVC: UIViewController {
     
     var pageIndex: Int!
     
-    var popularVideo = PopularVideoInput(header: PopularVideoHeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [PopularVideoData]())
+    var popularVideo = VideoInput(header: HeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [VideoModels]())
     
     let popularRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
@@ -30,7 +30,7 @@ class PopularVC: UIViewController {
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
-                if let json = try? decoder.decode(PopularVideoInput.self, from: data) {
+                if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
                     self.popularVideo.body.append(contentsOf: json.body)
                 }
@@ -61,14 +61,14 @@ extension PopularVC: UICollectionViewDataSource {
         
         let json = self.popularVideo
         let indexData = json.body[indexPath.row]
-        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail))
+        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
         
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
         cell.videoTitle.text = indexData.title
-        cell.teachersName.text = indexData.teacherName + " 선생님"
+        cell.teachersName.text = indexData.teacherName ?? "nil" + " 선생님"
         cell.subjects.text = indexData.subject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor)
+        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
         cell.starRating.text = indexData.rating
         
         if indexData.unit != nil {
