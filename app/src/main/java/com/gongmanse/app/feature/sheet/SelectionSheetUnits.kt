@@ -3,15 +3,15 @@
 package com.gongmanse.app.feature.sheet
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.DialogSheetSelectionUnitsBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SelectionSheetUnits : Fragment() {
+class SelectionSheetUnits(type: String?, selectUnit: String? = null) : BottomSheetDialogFragment() {
 
     companion object {
         private val TAG = SelectionSheetUnits::class.java.simpleName

@@ -17,6 +17,7 @@ import com.gongmanse.app.data.model.progress.ProgressBody
 import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.feature.main.counsel.CounselListAdapter
 import com.gongmanse.app.feature.main.progress.adapter.ProgressRVAdapter
+import org.jetbrains.anko.custom.style
 
 // URL Image Binding
 @BindingAdapter("bindProfileURL")
@@ -131,3 +132,5 @@ fun bindViewProgress(view: RecyclerView, value: ArrayList<ProgressBody>?) {
         value?.let { (mAdapter as ProgressRVAdapter).addItems(it) }
     }
 }
+
+// Sheet Units Type

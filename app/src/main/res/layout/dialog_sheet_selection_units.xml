@@ -6,6 +6,12 @@
 
     <data>
         <import type="android.view.View"/>
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="type"
+            type="String" />
         <import type="com.gongmanse.app.data.model.progress.Progress"/>
     </data>
 
@@ -26,6 +32,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            style=""
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
