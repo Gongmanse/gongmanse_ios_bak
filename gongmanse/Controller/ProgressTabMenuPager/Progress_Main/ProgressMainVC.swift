@@ -109,8 +109,6 @@ class ProgressMainVC: UIViewController {
             // 경고창
         }
     }
-    
-    
 }
 
 
@@ -129,10 +127,27 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
         if isLesson {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as? ProgressMainCell else { return UITableViewCell() }
             
+            
+            
             cell.selectionStyle = .none
             cell.gradeTitle.text = progressDataList?[indexPath.row].title
             cell.totalRows.text = progressDataList?[indexPath.row].totalLecture
+//            cell.gradeLabel.text = progressDataList?[indexPath.row].grade
+            cell.gradeLabel.textColor = UIColor(hex: progressDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = progressDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: progressDataList?[indexPath.row].subjectColor ?? "")
+            
+            // 리팩토링 예정
+            if progressDataList?[indexPath.row].grade == "초등" {
+                cell.gradeLabel.text = "초"
+            }else if progressDataList?[indexPath.row].grade == "중등" {
+                cell.gradeLabel.text = "중"
+            }else if progressDataList?[indexPath.row].grade == "고등" {
+                cell.gradeLabel.text = "고"
+            }
+            
             return cell
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
             cell.alertMessage.text = "영상 목록이 없습니다."

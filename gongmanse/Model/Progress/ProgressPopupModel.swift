@@ -4,6 +4,9 @@
 //
 //  Created by 김우성 on 2021/03/08.
 //
+enum subGrade: String {
+    case element = "초등", middle = "중등", high = "고등"
+}
 
 import Foundation
 
@@ -35,4 +38,5 @@ struct ProgressBodyModel: Codable {
     var totalLecture: String {
         return "총 \(totalRows ?? "")강"
     }
+    
 }

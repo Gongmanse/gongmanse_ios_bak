@@ -10,25 +10,27 @@ import UIKit
 /* *
  Label inset 넣기 ( 위, 아래 양옆 여백 넣을 수 있음 )
  
- 예시) @IBOutlet weak var labelName: PaddingLabel!
- 
- labelName.topInset = 4
- labelName.bottomInset = 4
- labelName.leftInset = 6
- labelName.rightInset = 6
+ 예시) 스토리보드에서 label class PaddingLabel 상속받고
+        attribute에서 사용
  
 */
 
 class PaddingLabel: UILabel {
     
-    var topInset: CGFloat = 0.0
-    var bottomInset: CGFloat = 0.0
-    var leftInset: CGFloat = 0.0
-    var rightInset: CGFloat = 0.0
+    @IBInspectable var topInset: CGFloat = 0.0
+    @IBInspectable var bottomInset: CGFloat = 0.0
+    @IBInspectable var leftInset: CGFloat = 0.0
+    @IBInspectable var rightInset: CGFloat = 0.0
     
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         super.drawText(in: rect.inset(by: insets))
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + leftInset + rightInset,
+                      height: size.height + topInset + bottomInset)
     }
     
 }

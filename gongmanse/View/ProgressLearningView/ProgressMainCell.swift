@@ -11,10 +11,15 @@ class ProgressMainCell: UITableViewCell {
 
     @IBOutlet weak var gradeTitle: UILabel!
     @IBOutlet weak var totalRows: PaddingLabel!
+    @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var gradeLabel: PaddingLabel!
+    @IBOutlet weak var subjectColor: UIStackView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        
+        // 오른쪽
         // gradeTitle
         gradeTitle.font = .appBoldFontWith(size: 15)
         
@@ -25,10 +30,22 @@ class ProgressMainCell: UITableViewCell {
         totalRows.layer.cornerRadius = totalRows.frame.size.height / 2
         totalRows.textColor = .white
         
-        totalRows.topInset = 4
-        totalRows.bottomInset = 4
-        totalRows.leftInset = 6
-        totalRows.rightInset = 6
+        // 왼쪽
+        // subjectLabel
+        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.textColor = .white
+
+        // gradeLabel
+        gradeLabel.backgroundColor = .white
+        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.clipsToBounds = true
+        gradeLabel.layer.cornerRadius = gradeLabel.frame.size.height / 2
+        
+        // subjectColor
+        subjectColor.backgroundColor = .mainOrange
+        subjectColor.layer.cornerRadius = subjectColor.frame.size.height / 2
+        subjectColor.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        subjectColor.isLayoutMarginsRelativeArrangement = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

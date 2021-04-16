@@ -57,6 +57,38 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wn3-fS-eDJ">
+                        <rect key="frame" x="20" y="35" width="107" height="25"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="초" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PeF-zH-9BK" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="9" height="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="국어1212121212121" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yNC-kn-IX1">
+                                <rect key="frame" x="19" y="0.0" width="88" height="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </stackView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Eiy-xz-4HT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="2sX-Vi-Opa"/>
@@ -65,11 +97,17 @@
                     <constraint firstAttribute="trailing" secondItem="AWV-Bs-FpI" secondAttribute="trailing" constant="20" id="OyJ-qI-8Ik"/>
                     <constraint firstAttribute="bottom" secondItem="AWV-Bs-FpI" secondAttribute="bottom" constant="10" id="Sff-zC-rGi"/>
                     <constraint firstItem="AWV-Bs-FpI" firstAttribute="top" secondItem="Eiy-xz-4HT" secondAttribute="bottom" constant="5" id="dPZ-Qr-zJn"/>
+                    <constraint firstItem="wn3-fS-eDJ" firstAttribute="leading" secondItem="moc-UT-rQI" secondAttribute="leading" id="j8x-GA-wBg"/>
+                    <constraint firstItem="wn3-fS-eDJ" firstAttribute="height" secondItem="AWV-Bs-FpI" secondAttribute="height" id="lDm-xH-tog"/>
+                    <constraint firstItem="wn3-fS-eDJ" firstAttribute="bottom" secondItem="AWV-Bs-FpI" secondAttribute="bottom" id="qtU-tB-gFe"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="gradeLabel" destination="PeF-zH-9BK" id="FEE-pe-ikq"/>
                 <outlet property="gradeTitle" destination="moc-UT-rQI" id="gpI-Uy-wvk"/>
+                <outlet property="subjectColor" destination="wn3-fS-eDJ" id="8c6-Ym-0Qq"/>
+                <outlet property="subjectLabel" destination="yNC-kn-IX1" id="vKT-al-pxy"/>
                 <outlet property="totalRows" destination="AWV-Bs-FpI" id="L6t-w2-qfb"/>
             </connections>
             <point key="canvasLocation" x="-101.44927536231884" y="97.767857142857139"/>
