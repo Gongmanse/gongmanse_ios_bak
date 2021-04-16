@@ -9,6 +9,8 @@ class MemberRepository {
 
     suspend fun getProfile() = memberClient.getProfile(Preferences.token)
 
+//    suspend fun setProfile(nickname: String, email: String) = memberClient
+
     suspend fun getToken(username: String, password: String) = memberClient.getToken(Constants.Request.VALUE_TYPE_PASSWORD, username, password)
 
     suspend fun getRefreshToken(refresh: String) = memberClient.getRefreshToken(Constants.Request.VALUE_TYPE_REFRESH, refresh)

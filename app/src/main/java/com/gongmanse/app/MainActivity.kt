@@ -40,17 +40,12 @@ import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
-    }
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var mAppBarConfiguration: AppBarConfiguration
     private lateinit var mActionbar: ActionBar
     private lateinit var mNavDestination: NavDestination
     private lateinit var mMemberViewModelFactory: MemberViewModelFactory
     private lateinit var mMemberViewModel: MemberViewModel
-
     private var mOptionsMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +60,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 requestActivity.launch(intent)
             }
             R.id.btn_logout -> {
-                alert(message = "로그아웃 하시겠습니까?") {
+                alert(resources.getString(R.string.alert_msg_logout)) {
                     yesButton {
                         mMemberViewModel.logout()
                         it.dismiss()
@@ -76,13 +71,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }.show()
             }
             R.id.btn_sign_up -> {
-                // TODO 회원가입 액티비티 생성
+                val action = EmptyFragmentDirections.actionEmptyFragmentToSignUpFragment()
+                findNavController(R.id.nav_host_fragment).navigate(action)
+                binding.drawerLayout.closeDrawer(GravityCompat.END)
             }
-            R.id.btn_edit_profile -> {
-                // TODO 프로필 정보 수정 액티비티 생성
+            R.id.btn_update_profile -> {
+                val action = EmptyFragmentDirections.actionEmptyFragmentToUpdateProfileFragment()
+                findNavController(R.id.nav_host_fragment).navigate(action)
+                binding.drawerLayout.closeDrawer(GravityCompat.END)
             }
             R.id.cv_purchase_ticket -> {
-                // TODO 이용권 액티비티 생성
+                val action = EmptyFragmentDirections.actionEmptyFragmentToPurchaseTicketFragment()
+                findNavController(R.id.nav_host_fragment).navigate(action)
+                binding.drawerLayout.closeDrawer(GravityCompat.END)
             }
         }
     }
@@ -95,12 +96,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.END)
             false
         } else {
-            navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
+            val currentDestination = mNavDestination.id
+            val result = navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
+            if (currentDestination != R.id.myNotificationFragment) {
+                binding.drawerLayout.openDrawer(GravityCompat.END)
+            }
+            result
         }
     }
 
     override fun onBackPressed() {
-        alert("앱을 종료하시겠습니까?") {
+        alert(resources.getString(R.string.alert_msg_app_exit)) {
             yesButton {
                 finish()
             }
@@ -171,7 +177,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setupMemberProfile() {
-        Log.w(TAG, "Preferences.token => ${Preferences.token}")
+        Log.v(TAG, "Preferences.token => ${Preferences.token}")
         if (::mMemberViewModelFactory.isInitialized.not()) {
             mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
         }
@@ -183,7 +189,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val navBinding = if (it != null) {
                 DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false).apply {
                     btnLogout.setOnClickListener(this@MainActivity)
-                    btnEditProfile.setOnClickListener(this@MainActivity)
+                    btnUpdateProfile.setOnClickListener(this@MainActivity)
                     cvPurchaseTicket.setOnClickListener(this@MainActivity)
                     member = it.memberBody
                 }
@@ -215,9 +221,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val requestActivity: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
         if (activityResult.resultCode == Activity.RESULT_OK) {
-            Log.d(TAG, "RequestActivity Login")
             setupMemberProfile()
         }
+    }
+
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
     }
 
 }

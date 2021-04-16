@@ -10,14 +10,6 @@ import com.gongmanse.app.databinding.FragmentWhatIsGongmanseBinding
 
 
 class WhatIsGongmanseFragment : Fragment() {
-    companion object {
-        private val TAG = WhatIsGongmanseFragment::class.java.simpleName
-
-        fun newInstance() = WhatIsGongmanseFragment().apply {
-            arguments = bundleOf()
-        }
-
-    }
 
     private lateinit var binding: FragmentWhatIsGongmanseBinding
 
@@ -28,4 +20,9 @@ class WhatIsGongmanseFragment : Fragment() {
         binding = FragmentWhatIsGongmanseBinding.inflate(inflater)
         return binding.root
     }
+
+    companion object {
+        private val TAG = WhatIsGongmanseFragment::class.java.simpleName
+    }
+
 }

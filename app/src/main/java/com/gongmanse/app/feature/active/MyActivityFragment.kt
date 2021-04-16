@@ -11,15 +11,6 @@ import com.gongmanse.app.databinding.FragmentMyActivityBinding
 
 class MyActivityFragment : Fragment() {
 
-    companion object {
-        private val TAG = MyActivityFragment::class.java.simpleName
-
-        fun newInstance() = MyActivityFragment().apply {
-            arguments = bundleOf()
-        }
-
-    }
-
     private lateinit var binding: FragmentMyActivityBinding
 
     override fun onCreateView(
@@ -28,6 +19,10 @@ class MyActivityFragment : Fragment() {
     ): View {
         binding = FragmentMyActivityBinding.inflate(inflater)
         return binding.root
+    }
+
+    companion object {
+        private val TAG = MyActivityFragment::class.java.simpleName
     }
 
 }

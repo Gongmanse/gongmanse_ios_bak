@@ -8,6 +8,7 @@
         android:id="@+id/emptyFragment"
         android:name="com.gongmanse.app.feature.main.EmptyFragment"
         android:label="EmptyFragment">
+
         <action
             android:id="@+id/action_emptyFragment_to_myNotificationFragment"
             app:destination="@id/myNotificationFragment" />
@@ -29,6 +30,16 @@
         <action
             android:id="@+id/action_emptyFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_emptyFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+        <action
+            android:id="@+id/action_emptyFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_emptyFragment_to_purchaseTicketFragment"
+            app:destination="@id/purchaseTicketFragment" />
+
     </fragment>
 
     <fragment
@@ -65,5 +76,20 @@
         android:id="@+id/settingsFragment"
         android:name="com.gongmanse.app.feature.settings.SettingsFragment"
         android:label="@string/nav_settings" />
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.gongmanse.app.feature.member.SignUpFragment"
+        android:label="@string/nav_sign_up" />
+
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.gongmanse.app.feature.member.UpdateProfileFragment"
+        android:label="@string/nav_update_profile" />
+
+    <fragment
+        android:id="@+id/purchaseTicketFragment"
+        android:name="com.gongmanse.app.feature.member.PurchaseTicketFragment"
+        android:label="@string/nav_purchase_ticket" />
 
 </navigation>

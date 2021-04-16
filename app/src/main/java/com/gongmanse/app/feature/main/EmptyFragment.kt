@@ -13,14 +13,6 @@ import com.gongmanse.app.feature.notification.MyNotificationFragment
 
 
 class EmptyFragment : Fragment() {
-    companion object {
-        private val TAG = EmptyFragment::class.java.simpleName
-
-        fun newInstance() = EmptyFragment().apply {
-            arguments = bundleOf()
-        }
-
-    }
 
     private lateinit var binding: FragmentEmptyBinding
 
@@ -30,6 +22,10 @@ class EmptyFragment : Fragment() {
     ): View {
         binding = FragmentEmptyBinding.inflate(inflater)
         return binding.root
+    }
+
+    companion object {
+        private val TAG = EmptyFragment::class.java.simpleName
     }
 
 }

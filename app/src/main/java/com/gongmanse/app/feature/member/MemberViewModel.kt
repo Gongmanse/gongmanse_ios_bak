@@ -60,4 +60,10 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
         }
     }
 
+//    fun setProfile() {
+//        CoroutineScope(Dispatchers.IO).launch {
+//
+//        }
+//    }
+
 }

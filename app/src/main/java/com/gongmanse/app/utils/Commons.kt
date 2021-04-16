@@ -72,13 +72,13 @@ class Commons {
 
         }
 
-        fun findFragmentAppTitle(fragmentSimpleName: String): String? {
+        fun findFragmentAppTitle(context: Context, fragmentSimpleName: String): String? {
             return when (fragmentSimpleName) {
                 HomeFragment::class.java.simpleName -> null
-                ProgressFragment::class.java.simpleName -> Constants.Fragment.TYPE_PROGRESS
-//                SearchFragment::class.java.simpleName -> Constants.Fragment.TYPE_PROGRESS
-                CounselFragment::class.java.simpleName -> Constants.Fragment.TYPE_COUNSEL
-                TeacherFragment::class.java.simpleName -> Constants.Fragment.TYPE_TEACHER
+                ProgressFragment::class.java.simpleName -> context.resources.getString(R.string.bottom_navigation_progress)
+//                SearchFragment::class.java.simpleName -> context.resources.getString(R.string.bottom_navigation_search)
+                CounselFragment::class.java.simpleName -> context.resources.getString(R.string.bottom_navigation_chat)
+                TeacherFragment::class.java.simpleName -> context.resources.getString(R.string.bottom_navigation_teacher)
                 else -> null
             }
         }

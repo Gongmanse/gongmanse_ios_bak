@@ -80,7 +80,9 @@ class MainFragment : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         val fm: FragmentTransaction = (context as MainActivity).supportFragmentManager.beginTransaction()
         if (fragment != null) {
             selectFragment?.let { fm.hide(it) }
-            (activity as MainActivity).replaceBottomNavigation(Commons.findFragmentAppTitle(fragment.javaClass.simpleName))
+            (activity as MainActivity).apply {
+                replaceBottomNavigation(Commons.findFragmentAppTitle(this, fragment.javaClass.simpleName))
+            }
             fm.show(fragment)
             fm.addToBackStack(null)
             fm.commit()

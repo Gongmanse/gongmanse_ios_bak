@@ -11,15 +11,6 @@ import com.gongmanse.app.databinding.FragmentMyScheduleBinding
 
 class MyScheduleFragment : Fragment() {
 
-    companion object {
-        private val TAG = MyScheduleFragment::class.java.simpleName
-
-        fun newInstance() = MyScheduleFragment().apply {
-            arguments = bundleOf()
-        }
-
-    }
-
     private lateinit var binding: FragmentMyScheduleBinding
 
     override fun onCreateView(
@@ -28,6 +19,10 @@ class MyScheduleFragment : Fragment() {
     ): View {
         binding = FragmentMyScheduleBinding.inflate(inflater)
         return binding.root
+    }
+
+    companion object {
+        private val TAG = MyScheduleFragment::class.java.simpleName
     }
 
 }

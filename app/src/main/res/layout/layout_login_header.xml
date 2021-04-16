@@ -70,13 +70,13 @@
                 app:cornerRadius="@dimen/button_radius" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_edit_profile"
+                android:id="@+id/btn_update_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/nav_header_horizontal_spacing_8dp"
                 android:backgroundTint="@color/dark_gray"
                 android:textAppearance="@style/NavigationHeaderButton"
-                android:text="@string/nav_header_edit_profile"
+                android:text="@string/nav_header_update_profile"
                 app:cornerRadius="@dimen/button_radius"/>
 
         </LinearLayout>

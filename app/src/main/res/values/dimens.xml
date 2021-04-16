@@ -34,4 +34,12 @@
     <dimen name="login_form_layout_horizontal_spacing">31dp</dimen>
     <dimen name="login_button_horizontal_spacing">50dp</dimen>
 
+    <dimen name="update_profile_width">94dp</dimen>
+    <dimen name="update_profile_height">94dp</dimen>
+    <dimen name="update_profile_radius">47dp</dimen>
+
+    <dimen name="update_image_icon_width">30dp</dimen>
+    <dimen name="update_image_icon_height">30dp</dimen>
+    <dimen name="update_image_icon_radius">15dp</dimen>
+
 </resources>

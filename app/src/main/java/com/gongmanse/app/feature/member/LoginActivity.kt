@@ -12,10 +12,6 @@ import org.jetbrains.anko.toast
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
-    companion object {
-        private val TAG = LoginActivity::class.java.simpleName
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -68,6 +64,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     // 비밀번호 찾기
     private fun findByPassword() {
         // TODO 비밀번호 찾기 화면으로 이동 또는 액티비티 생성
+    }
+
+    companion object {
+        private val TAG = LoginActivity::class.java.simpleName
     }
 
 }

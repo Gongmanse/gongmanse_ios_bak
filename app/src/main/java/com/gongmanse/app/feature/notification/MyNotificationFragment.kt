@@ -10,15 +10,6 @@ import com.gongmanse.app.databinding.FragmentMyNotificationBinding
 
 class MyNotificationFragment : Fragment() {
 
-    companion object {
-        private val TAG = MyNotificationFragment::class.java.simpleName
-
-        fun newInstance() = MyNotificationFragment().apply {
-            arguments = bundleOf()
-        }
-
-    }
-
     private lateinit var binding: FragmentMyNotificationBinding
 
     override fun onCreateView(
@@ -27,6 +18,10 @@ class MyNotificationFragment : Fragment() {
     ): View {
         binding = FragmentMyNotificationBinding.inflate(inflater)
         return binding.root
+    }
+
+    companion object {
+        private val TAG = MyNotificationFragment::class.java.simpleName
     }
 
 }

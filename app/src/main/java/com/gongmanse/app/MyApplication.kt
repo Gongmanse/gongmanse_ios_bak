@@ -7,11 +7,6 @@ import com.gongmanse.app.utils.Preferences
 
 class MyApplication: Application() {
 
-    companion object {
-        private val TAG = MyApplication::class.java.simpleName
-        var instance: MyApplication? = null
-    }
-
     override fun onCreate() {
         super.onCreate()
         Preferences.init(this)
@@ -33,6 +28,11 @@ class MyApplication: Application() {
         super.onTrimMemory(level)
         Log.v(TAG, "onTrimMemory...")
         Glide.get(this).trimMemory(level)
+    }
+
+    companion object {
+        private val TAG = MyApplication::class.java.simpleName
+        var instance: MyApplication? = null
     }
 
 }
