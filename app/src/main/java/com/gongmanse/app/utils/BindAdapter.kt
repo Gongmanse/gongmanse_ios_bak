@@ -80,18 +80,6 @@ fun bindViewUnitColor(view: CardView, value: String?) {
     }
 }
 
-@BindingAdapter("bindURLTeacher")
-fun bindViewURLTeacher(view: ImageView, value: String?) {
-    value?.let {
-        Glide.with(view.context)
-            .load("${Constants.FILE_DOMAIN}/$it")
-            .override(1018, 548)
-            .thumbnail(0.1f)
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .into(view)
-    }
-}
-
 // Search Counsel List Data Binding
 @BindingAdapter("bindSearchCounselData")
 fun bindViewCounselListData (view: RecyclerView, values: ObservableArrayList<VideoBody>?) {
