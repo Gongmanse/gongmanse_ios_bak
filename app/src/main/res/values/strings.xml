@@ -55,6 +55,10 @@
     <string name="alert_msg_app_exit">앱을 종료하시겠습니까?</string>
     <string name="alert_msg_logout">로그아웃 하시겠습니까?</string>
 
+    <!-- empty message -->
+    <string name="empty_progress">강의 목록이 없습니다.</string>
+
+
     <!-- option menu -->
     <string name="option_menu_navigation">네비게이션</string>
 
@@ -108,6 +112,8 @@
     <string name="content_format_selected_align_views">조회순</string>
     <string name="content_format_selected_align_relevance">관련순</string>
     <string name="content_format_selected_align_answer">답변 완료순</string>
+    <string name="content_format_selected_title_grade">학년</string>
+    <string name="content_format_selected_title_unit">단원</string>
 
     <!-- Content Of Home -->
     <string name="content_home_title_hot1">인기 </string>

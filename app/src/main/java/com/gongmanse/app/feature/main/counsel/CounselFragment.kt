@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableArrayList
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentCounselBinding
-import com.gongmanse.app.feature.main.home.tabs.SelectionSheetSpinner
+import com.gongmanse.app.feature.sheet.SelectionSheetSpinner
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences

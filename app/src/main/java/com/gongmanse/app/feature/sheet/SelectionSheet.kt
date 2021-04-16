@@ -1,4 +1,4 @@
-package com.gongmanse.app.feature.main.home.tabs
+package com.gongmanse.app.feature.sheet
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,7 +18,7 @@ class SelectionSheet(private val listener: OnBottomSheetListener, private var se
     private lateinit var mContext: View
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mContext = inflater.inflate(R.layout.dialog_sheet_selection, container, false)
         return mContext
     }

@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.graphics.Color" />
-
-        <variable
-            name="progress"
-            type="com.gongmanse.app.data.model.progress.ProgressBody" />
+        <variable name="data" type="com.gongmanse.app.data.model.progress.ProgressBody" />
     </data>
 
     <!-- Layout Root -->
@@ -39,7 +35,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:singleLine="true"
-                android:text="@{progress.title}"
+                android:text="@{data.title}"
                 android:textColor="@color/light_black2"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                app:cardBackgroundColor="@{Color.parseColor(@string/content_format_subject_background(progress.subjectColor))}"
+                app:cardBackgroundColor="@{data.subjectColor == null ? @color/main_color : Color.parseColor(data.subjectColor)}"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -109,7 +105,8 @@
                             android:paddingTop="5dp"
                             android:paddingEnd="6dp"
                             android:paddingBottom="5dp"
-                            android:textColor="@{Color.parseColor(@string/content_format_subject_background(progress.subjectColor))}"
+                            bindGradeTextOfProgress="@{data.grade}"
+                            android:textColor="@{data.subjectColor == null ? @color/main_color : Color.parseColor(data.subjectColor)}"
                             android:textSize="9sp"
                             android:textStyle="normal"
                             tools:ignore="SmallSp"
@@ -125,7 +122,7 @@
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/nanum_square_round_b"
                         android:lineSpacingExtra="-0.04dp"
-                        android:text="@{progress.subject}"
+                        android:text="@{data.subject}"
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         android:textStyle="normal"
@@ -160,7 +157,7 @@
                     android:paddingTop="7dp"
                     android:paddingEnd="15dp"
                     android:paddingBottom="7dp"
-                    android:text="@{@string/content_formatter_video_total_count(progress.totalCount)}"
+                    android:text="@{@string/content_formatter_video_total_count(data.totalRows)}"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     android:textStyle="normal"

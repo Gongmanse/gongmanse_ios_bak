@@ -13,8 +13,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gongmanse.app.R
+import com.gongmanse.app.data.model.progress.ProgressBody
 import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.feature.main.counsel.CounselListAdapter
+import com.gongmanse.app.feature.main.progress.adapter.ProgressRVAdapter
 
 // URL Image Binding
 @BindingAdapter("bindProfileURL")
@@ -42,7 +44,7 @@ fun bindViewProfileURL(view: ImageView, value: String?) {
 
 @BindingAdapter("bindURLImage")
 fun bindViewURLImage(view: ImageView, value: String?) {
-    if(value != null){
+    if (value != null) {
         if (value.endsWith(".mp4")) {
             val options = RequestOptions()
             options.isMemoryCacheable
@@ -61,6 +63,21 @@ fun bindViewURLImage(view: ImageView, value: String?) {
                 .into(view)
         }
     } else view.setImageResource(R.drawable.ic_alert)
+}
+
+@BindingAdapter("bindGradeTextOfProgress")
+fun bindViewGradeTextOfProgress(view: TextView, value: String?) {
+    if (value.isNullOrEmpty()) Log.e("bindView", " progress grade value is null ")
+    else {
+        value.let {
+            view.text = when (value[0]) {
+                Constants.Progress.VALUE_ELEMENTARY_VIEW -> Constants.Progress.VALUE_ELEMENTARY_VIEW.toString()
+                Constants.Progress.VALUE_MIDDLE_VIEW -> Constants.Progress.VALUE_MIDDLE_VIEW.toString()
+                Constants.Progress.VALUE_HIGH_VIEW -> Constants.Progress.VALUE_ELEMENTARY_VIEW.toString()
+                else -> null
+            }
+        }
+    }
 }
 
 @BindingAdapter("bindUnitText")
@@ -94,12 +111,22 @@ fun bindViewURLTeacher(view: ImageView, value: String?) {
 
 // Search Counsel List Data Binding
 @BindingAdapter("bindSearchCounselData")
-fun bindViewCounselListData (view: RecyclerView, values: ObservableArrayList<VideoBody>?) {
+fun bindViewCounselListData(view: RecyclerView, values: ObservableArrayList<VideoBody>?) {
     Log.d("bindSearchCounselData", " In")
     val mAdapter = view.adapter
     if (mAdapter != null) {
         Log.d("bindSearchCounselData", "=> $mAdapter")
         values?.let { (mAdapter as CounselListAdapter).addItems(it) }
     }
+}
 
+// Progress List Binding
+@BindingAdapter("bindProgress")
+fun bindViewProgress(view: RecyclerView, value: ArrayList<ProgressBody>?) {
+    Log.d("bindProgress", " value => $value")
+    val mAdapter = view.adapter
+    if (mAdapter != null) {
+        Log.d("bindProgressList", "=> $mAdapter")
+        value?.let { (mAdapter as ProgressRVAdapter).addItems(it) }
+    }
 }
