@@ -30,6 +30,7 @@ import com.gongmanse.app.feature.main.MainFragment
 import com.gongmanse.app.feature.member.LoginActivity
 import com.gongmanse.app.feature.member.MemberViewModel
 import com.gongmanse.app.feature.member.MemberViewModelFactory
+import com.gongmanse.app.feature.member.UpdateMemberActivity
 import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
@@ -56,8 +57,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.btn_login -> {
-                val intent = Intent(this, LoginActivity::class.java)
-                requestActivity.launch(intent)
+                Intent(this, LoginActivity::class.java).apply {
+                    requestActivity.launch(this)
+                }
+
             }
             R.id.btn_logout -> {
                 alert(resources.getString(R.string.alert_msg_logout)) {
@@ -71,14 +74,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }.show()
             }
             R.id.btn_sign_up -> {
-                val action = EmptyFragmentDirections.actionEmptyFragmentToSignUpFragment()
-                findNavController(R.id.nav_host_fragment).navigate(action)
-                binding.drawerLayout.closeDrawer(GravityCompat.END)
+
             }
             R.id.btn_update_profile -> {
-                val action = EmptyFragmentDirections.actionEmptyFragmentToUpdateProfileFragment()
-                findNavController(R.id.nav_host_fragment).navigate(action)
-                binding.drawerLayout.closeDrawer(GravityCompat.END)
+                Intent(this, UpdateMemberActivity::class.java).apply {
+                    requestActivity.launch(this)
+                }
             }
             R.id.cv_purchase_ticket -> {
                 val action = EmptyFragmentDirections.actionEmptyFragmentToPurchaseTicketFragment()
@@ -96,12 +97,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.END)
             false
         } else {
-            val currentDestination = mNavDestination.id
-            val result = navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
-            if (currentDestination != R.id.myNotificationFragment) {
+            if (mNavDestination.id != R.id.myNotificationFragment) {
                 binding.drawerLayout.openDrawer(GravityCompat.END)
             }
-            result
+            navController.navigateUp(mAppBarConfiguration) || super.onSupportNavigateUp()
         }
     }
 
@@ -146,6 +145,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setupActionbar() {
         setSupportActionBar(binding.appBarLayout.toolbar)
         mActionbar = supportActionBar!!
+        mActionbar.setDisplayShowTitleEnabled(false)
+        mActionbar.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setupMainFragment() {
@@ -161,8 +162,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             mNavDestination = destination
             mActionbar.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowTitleEnabled(false)
                 if (destination.id == R.id.emptyFragment) {
                     setHomeAsUpIndicator(R.drawable.ic_notification)
                     mOptionsMenu?.setGroupVisible(R.id.menu_group, true)

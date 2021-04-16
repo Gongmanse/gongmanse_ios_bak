@@ -136,10 +136,99 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <!-- FormTextInputLayout -->
+    <style name="FormTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/selector_text_input_layout</item>
+        <item name="startIconTint">@color/selector_text_input_layout</item>
+        <item name="endIconTint">@color/selector_text_input_layout</item>
+        <item name="hintTextColor">@color/selector_text_input_layout</item>
+        <item name="boxCornerRadiusTopStart">@dimen/txt_input_layout_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/txt_input_layout_radius</item>
+    </style>
+
+    <style name="FormTextInputLayout.Disabled">
+        <item name="android:enabled">false</item>
+    </style>
+
+    <style name="FormTextInputLayout.Username">
+        <item name="android:hint">@string/prompt_username</item>
+        <item name="startIconDrawable">@drawable/ic_username_gray</item>
+        <item name="startIconContentDescription">@string/desc_image_username</item>
+    </style>
+
+    <style name="FormTextInputLayout.Username.Disabled">
+        <item name="android:enabled">false</item>
+    </style>
+
+    <style name="FormTextInputLayout.Password">
+        <item name="android:hint">@string/prompt_password</item>
+        <item name="startIconDrawable">@drawable/ic_password_gray</item>
+        <item name="startIconContentDescription">@string/desc_image_password</item>
+    </style>
+
+    <style name="FormTextInputLayout.PasswordConfirm">
+        <item name="android:hint">@string/prompt_password_confirm</item>
+        <item name="startIconDrawable">@drawable/ic_password_gray</item>
+        <item name="startIconContentDescription">@string/desc_image_password</item>
+    </style>
+
+    <style name="FormTextInputLayout.Name">
+        <item name="android:hint">@string/prompt_name</item>
+        <item name="startIconDrawable">@drawable/ic_name_gray</item>
+        <item name="startIconContentDescription">@string/desc_image_name</item>
+    </style>
+
+    <style name="FormTextInputLayout.Name.Disabled">
+        <item name="android:enabled">false</item>
+    </style>
+
+    <style name="FormTextInputLayout.Nickname">
+        <item name="android:hint">@string/prompt_nickname</item>
+        <item name="startIconDrawable">@drawable/ic_nickname_gray</item>
+        <item name="startIconContentDescription">@string/desc_image_nickname</item>
+    </style>
+
+    <style name="FormTextInputLayout.Email">
+        <item name="android:hint">@string/prompt_email</item>
+        <item name="startIconDrawable">@drawable/ic_email_gray</item>
+        <item name="startIconContentDescription">@string/desc_image_email</item>
+    </style>
+
     <!-- FormInputText -->
     <style name="NanumSquareRoundB.FormInputText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/light_black2</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- FormInputEditText -->
+    <style name="FormInputEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="singleLine">true</item>
+        <item name="android:inputType">text|textNoSuggestions</item>
+    </style>
+
+    <style name="FormInputEditText.Password">
+        <item name="android:inputType">textPassword|textNoSuggestions</item>
+    </style>
+
+    <style name="FormInputEditText.Email">
+        <item name="android:inputType">textEmailAddress|textNoSuggestions</item>
+    </style>
+
+    <style name="FormInputEditText.Disabled">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:enabled">false</item>
     </style>
 
     <!-- Login Button -->
@@ -147,6 +236,15 @@
         <item name="android:text">@string/button_login</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Exit Button -->
+    <style name="ImageButton">
+        <item name="android:paddingStart">@dimen/horizontal_spacing_30dp</item>
+        <item name="android:paddingEnd">@dimen/horizontal_spacing_10dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
     </style>
 
     <!-- Vertical Line -->

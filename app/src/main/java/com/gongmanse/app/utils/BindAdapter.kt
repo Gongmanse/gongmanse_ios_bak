@@ -19,16 +19,15 @@ import com.gongmanse.app.feature.main.counsel.CounselListAdapter
 // URL Image Binding
 @BindingAdapter("bindProfileURL")
 fun bindViewProfileURL(view: ImageView, value: String?) {
-    Log.v("BindProfileURL", "::: value => $value")
     if (value == null) {
-        view.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_username_gray))
+        view.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_profile_gray))
     } else {
         val requestOptions = RequestOptions().apply {
             override(300, 300)
             diskCacheStrategy(DiskCacheStrategy.NONE)
             skipMemoryCache(false)
-            placeholder(R.drawable.ic_username_gray)
-            error(R.drawable.ic_username_gray)
+            placeholder(R.drawable.ic_profile_gray)
+            error(R.drawable.ic_profile_gray)
             centerCrop()
             circleCrop()
             signature(ObjectKey(System.currentTimeMillis()))
