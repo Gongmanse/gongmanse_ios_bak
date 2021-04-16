@@ -13,7 +13,7 @@ interface ProgressApi {
     // 진도 탐색 리스트
     @GET("v3/progress/record/{${Constants.Request.KEY_SUBJECT}}")
     suspend fun getProgressList(
-        @Path(Constants.Request.KEY_SUBJECT) subject: Int,
+        @Path(Constants.Request.KEY_SUBJECT) subject: Int?,
         @Query(Constants.Request.KEY_GRADE)  grade: String,
         @Query(Constants.Request.KEY_GRADE_NUM) gradeNum: Int,
         @Query(Constants.Request.KEY_OFFSET) offset: Int,

@@ -68,10 +68,7 @@ class ProgressFragment : Fragment() {
 
         override fun onTabReselected(tab: TabLayout.Tab?) {
             when(currentFragment) {
-                is ProgressKEMFragment     -> (currentFragment as ProgressKEMFragment).scrollToTop()
-                is ProgressScienceFragment -> {}
-                is ProgressSocietyFragment -> {}
-                is ProgressEtcFragment     -> {}
+                is ProgressListFragment     -> (currentFragment as ProgressListFragment).scrollToTop()
             }
         }
 

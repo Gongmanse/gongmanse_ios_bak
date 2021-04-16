@@ -5,7 +5,7 @@ class ProgressRepository {
     private val progressClient = ProgressService.client
 
     suspend fun getProgressList(
-        subject: Int,
+        subject: Int?,
         grade: String,
         gradeNum: Int,
         offset: Int,

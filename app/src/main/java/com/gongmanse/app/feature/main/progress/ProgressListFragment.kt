@@ -6,32 +6,31 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.R
-import com.gongmanse.app.data.model.progress.ProgressBody
 import com.gongmanse.app.data.network.progress.ProgressRepository
-import com.gongmanse.app.databinding.FragmentProgressKemBinding
+import com.gongmanse.app.databinding.FragmentProgressListBinding
 import com.gongmanse.app.feature.main.progress.adapter.ProgressRVAdapter
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 
-class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
-        private val TAG = ProgressFragment::class.java.simpleName
+        private val TAG = ProgressListFragment::class.java.simpleName
     }
 
-    private lateinit var binding: FragmentProgressKemBinding
+    private lateinit var binding: FragmentProgressListBinding
     private lateinit var mAdapter: ProgressRVAdapter
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var mProgressViewModel: ProgressViewModel
@@ -48,7 +47,8 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_progress_kem, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_progress_list, container, false)
         return binding.root
     }
 
@@ -59,13 +59,12 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         mAdapter.clear()
-//        mProgressViewModel.dataClear()
         isLoading = false
         binding.layoutRefresh.isRefreshing = false
         prepareData()
     }
 
-    fun scrollToTop() = binding.rvKemList.smoothScrollToPosition(0)
+    fun scrollToTop() = binding.rvProgressList.smoothScrollToPosition(0)
 
     private fun initView() {
         binding.layoutRefresh.setOnRefreshListener(this)
@@ -75,6 +74,7 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         initRVLayout()
         prepareData()
     }
+
 
     private fun initViewModel() {
         if (::mProgressViewModelFactory.isInitialized.not()) mProgressViewModelFactory = ProgressViewModelFactory(ProgressRepository())
@@ -92,14 +92,7 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun selectedSetting() {}
 
     private fun initRVLayout() {
-//        val items = ArrayList<ProgressBody>()
-//        mAdapter = ProgressRVAdapter().apply { addItems(items) }
-//        if (binding.rvKemList.adapter == null) {
-//            Log.e(TAG, "rvKemList adapter is null")
-//            mAdapter = ProgressRVAdapter()
-//            binding.rvKemList.adapter = mAdapter
-//        }
-        binding.rvKemList.apply {
+        binding.rvProgressList.apply {
             setHasFixedSize(true)
             setItemViewCacheSize(20)
             mAdapter = ProgressRVAdapter()
@@ -123,7 +116,7 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         // 스크롤: 이벤트 초기화
-        binding.rvKemList.addOnScrollListener(scrollListener)
+        binding.rvProgressList.addOnScrollListener(scrollListener)
         scrollListener.resetState()
     }
 
@@ -138,10 +131,12 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     }
 
+
     private fun loadProgressList() {
         Log.e(TAG, "loadProgressList")
         grade = "모든"
         gradeNum = 0
-        mProgressViewModel.loadProgressList(Constants.SubjectValue.KEM, grade, gradeNum, mOffset)
+        mProgressViewModel.loadProgressList(subject, grade, gradeNum, mOffset)
     }
+
 }
