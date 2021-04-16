@@ -5,16 +5,10 @@ import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.gongmanse.app.R
-import com.gongmanse.app.data.network.member.MemberRepository
-import com.gongmanse.app.feature.member.MemberViewModel
 import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import com.gun0912.tedpermission.PermissionListener
-import org.jetbrains.anko.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SplashActivity : AppCompatActivity() {
 
@@ -25,9 +19,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        Log.e(TAG, "onCreate Splash")
         nextPage()
-//        Commons.checkPermission(this, permissionListener)
     }
 
     private var permissionListener: PermissionListener = object : PermissionListener {

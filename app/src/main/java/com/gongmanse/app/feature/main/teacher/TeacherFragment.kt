@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentTeacherBinding
-import com.gongmanse.app.feature.main.teacher.tabs.TeacherEFragment
+import com.gongmanse.app.feature.main.teacher.tabs.TeacherListFragment
 import com.google.android.material.tabs.TabLayout
 
 class TeacherFragment : Fragment() {
@@ -43,7 +43,7 @@ class TeacherFragment : Fragment() {
                 tab?.position?.let {
                     Log.d("it","$it")
                     when(it){
-                        0 -> (mAdapter.getItem(it) as TeacherEFragment).scrollToTop()
+                        0 -> (mAdapter.getItem(it) as TeacherListFragment).scrollToTop()
 //                        1 -> (mAdapter.getItem(it) as TeacherMFragment).scrollToTop()
 //                        2 -> (mAdapter.getItem(it) as TeacherHFragment).scrollToTop()
                         else -> null

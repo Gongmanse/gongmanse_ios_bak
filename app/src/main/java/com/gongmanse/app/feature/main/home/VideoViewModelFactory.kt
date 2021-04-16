@@ -1,4 +1,4 @@
-package com.gongmanse.app.feature.main.home.tabs
+package com.gongmanse.app.feature.main.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

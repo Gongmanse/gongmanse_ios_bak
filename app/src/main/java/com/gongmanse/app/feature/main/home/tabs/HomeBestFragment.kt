@@ -17,7 +17,8 @@ import com.gongmanse.app.R
 import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.data.network.home.VideoRepository
 import com.gongmanse.app.databinding.FragmentBestBinding
-import com.gongmanse.app.feature.main.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModelFactory
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences

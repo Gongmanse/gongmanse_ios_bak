@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MemberViewModel(private val memberRepository: MemberRepository): ViewModel() {
+class MemberViewModel(private val memberRepository: MemberRepository?): ViewModel() {
 
     private val _currentMember = SingleLiveEvent<Member?>()
     private val _token = SingleLiveEvent<String?>()
@@ -26,9 +26,21 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
     val result: SingleLiveEvent<Int>
         get() = _result
 
+    fun refreshToken(){
+        CoroutineScope(Dispatchers.IO).launch {
+            memberRepository?.getRefreshToken(Preferences.refresh)?.let { response ->
+                if (response.isSuccessful) {
+                    response.body()?.apply {
+                        Commons.saveToken(this.toString())
+                    }
+                }
+            }
+        }
+    }
+
     fun login(username: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            memberRepository.getToken(username, password).let { response ->
+            memberRepository?.getToken(username, password)?.let { response ->
                 if (response.isSuccessful) {
                     response.body()?.let { body ->
                         Preferences.token = body.token ?: ""
@@ -49,7 +61,7 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
 
     fun getProfile() {
         CoroutineScope(Dispatchers.IO).launch {
-            memberRepository.getProfile().let { response ->
+            memberRepository?.getProfile()?.let { response ->
                 if (response.isSuccessful) {
                     response.body()?.let { body ->
                         _currentMember.postValue(body)
@@ -60,15 +72,11 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
             }
         }
     }
-    fun refreshToken(){
+
+    fun setProfile() {
         CoroutineScope(Dispatchers.IO).launch {
-            memberRepository.getRefreshToken(Preferences.refresh).let { response ->
-                if (response.isSuccessful) {
-                    response.body()?.apply {
-                        Commons.saveToken(this.toString())
-                    }
-                }
-            }
+
         }
     }
+
 }

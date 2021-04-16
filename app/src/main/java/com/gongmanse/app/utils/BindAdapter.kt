@@ -21,16 +21,15 @@ import com.gongmanse.app.feature.main.progress.adapter.ProgressRVAdapter
 // URL Image Binding
 @BindingAdapter("bindProfileURL")
 fun bindViewProfileURL(view: ImageView, value: String?) {
-    Log.v("BindProfileURL", "::: value => $value")
     if (value == null) {
-        view.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_username_gray))
+        view.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_profile_gray))
     } else {
         val requestOptions = RequestOptions().apply {
             override(300, 300)
             diskCacheStrategy(DiskCacheStrategy.NONE)
             skipMemoryCache(false)
-            placeholder(R.drawable.ic_username_gray)
-            error(R.drawable.ic_username_gray)
+            placeholder(R.drawable.ic_profile_gray)
+            error(R.drawable.ic_profile_gray)
             centerCrop()
             circleCrop()
             signature(ObjectKey(System.currentTimeMillis()))
@@ -94,18 +93,6 @@ fun bindViewUnitColor(view: CardView, value: String?) {
 //        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.setCardBackgroundColor(
 //            ContextCompat.getColor(view.context, R.color.term_color))
 //        else view.setCardBackgroundColor(ContextCompat.getColor(view.context, R.color.term_other_than_color))
-    }
-}
-
-@BindingAdapter("bindURLTeacher")
-fun bindViewURLTeacher(view: ImageView, value: String?) {
-    value?.let {
-        Glide.with(view.context)
-            .load("${Constants.FILE_DOMAIN}/$it")
-            .override(1018, 548)
-            .thumbnail(0.1f)
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .into(view)
     }
 }
 
