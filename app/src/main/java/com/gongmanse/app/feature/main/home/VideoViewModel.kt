@@ -1,4 +1,4 @@
-package com.gongmanse.app.feature.main
+package com.gongmanse.app.feature.main.home
 
 
 import android.util.Log
@@ -11,7 +11,6 @@ import com.gongmanse.app.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 
 class VideoViewModel(private val videoRepository: VideoRepository) : ViewModel() {
 
@@ -49,7 +48,6 @@ class VideoViewModel(private val videoRepository: VideoRepository) : ViewModel()
             }
         }
     }
-
     // 배너
     fun loadBanner(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -97,7 +95,7 @@ class VideoViewModel(private val videoRepository: VideoRepository) : ViewModel()
             if(grade == null){
                 sGrade = Constants.SelectValue.SORT_ALL_GRADE_NULL
             }
-            videoRepository.getBest(sGrade, offset, limit).apply {
+            videoRepository.getHot(sGrade, offset, limit).apply {
                 if (this.isSuccessful) {
                     this.body()?.let { response ->
                         response.videoBody.let {

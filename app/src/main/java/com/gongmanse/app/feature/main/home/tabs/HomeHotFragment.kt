@@ -17,7 +17,8 @@ import com.gongmanse.app.BR
 import com.gongmanse.app.R
 import com.gongmanse.app.data.network.home.VideoRepository
 import com.gongmanse.app.databinding.FragmentHotBinding
-import com.gongmanse.app.feature.main.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModelFactory
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences
@@ -122,7 +123,6 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun loadMoreData(offset: Int) {
-        Log.d(TAG, "loadMoreData : isLoading => $isLoading")
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }

@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.gongmanse.app.R
 import com.gongmanse.app.databinding.FragmentHomeBinding
 import com.gongmanse.app.feature.main.home.tabs.*
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
 class HomeFragment : Fragment() {
@@ -47,10 +45,10 @@ class HomeFragment : Fragment() {
                     when(it){
                         0 -> (mAdapter.getItem(it) as HomeBestFragment).scrollToTop()
                         1 -> (mAdapter.getItem(it) as HomeHotFragment).scrollToTop()
-                        2 -> (mAdapter.getItem(it) as HomeKEMFragment).scrollToTop()
-                        3 -> (mAdapter.getItem(it) as HomeScienceFragment).scrollToTop()
-                        4 -> (mAdapter.getItem(it) as HomeSocietyFragment).scrollToTop()
-                        5 -> (mAdapter.getItem(it) as HomeEtcFragment).scrollToTop()
+                        2 -> (mAdapter.getItem(it) as HomeListFragment).scrollToTop()
+                        3 -> (mAdapter.getItem(it) as HomeListFragment).scrollToTop()
+                        4 -> (mAdapter.getItem(it) as HomeListFragment).scrollToTop()
+                        5 -> (mAdapter.getItem(it) as HomeListFragment).scrollToTop()
                         else -> null
                     }
                 }

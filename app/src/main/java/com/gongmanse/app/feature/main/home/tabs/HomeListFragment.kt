@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,19 +19,20 @@ import com.gongmanse.app.R
 import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.data.network.home.VideoRepository
 import com.gongmanse.app.databinding.FragmentSubjectBinding
-import com.gongmanse.app.feature.main.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModelFactory
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.listeners.OnBottomSheetListener
 import com.gongmanse.app.utils.listeners.OnBottomSheetSpinnerListener
 
 
-class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+class HomeListFragment(private val subject : Int?) : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     OnBottomSheetListener,
     OnBottomSheetSpinnerListener {
 
     companion object {
-        private val TAG = HomeScienceFragment::class.java.simpleName
+        private val TAG = HomeListFragment::class.java.simpleName
     }
 
     private lateinit var mRecyclerAdapter: HomeSubjectRVAdapter
@@ -40,7 +42,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private lateinit var bottomSheetSpinner: SelectionSheetSpinner
     private lateinit var videoViewModel : VideoViewModel
     private lateinit var mVideoViewModelFactory: VideoViewModelFactory
-    private var mOffset: Int = Constants.DefaultValue.OFFSET_INT                                 // api 페이지
+    private var mOffset: Int = Constants.DefaultValue.OFFSET_INT               // api Offset
     private var isLoading = false
     private val type = 3
     private var selectView: String = Constants.SelectValue.SORT_ALL         // select 박스 기본값
@@ -68,8 +70,10 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun initView() {
+
         binding.refreshLayout.setOnRefreshListener(this)
-        binding.setVariable(BR.title,Constants.Home.TAB_TITLE_KEM)
+
+        binding.setVariable(BR.title,returnTitle())
         if (::mVideoViewModelFactory.isInitialized.not()) {
             mVideoViewModelFactory = VideoViewModelFactory(VideoRepository())
         }
@@ -83,10 +87,20 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             mRecyclerAdapter.addItems(it)
             isLoading = false
         }
-        videoViewModel.totalValue.observe( viewLifecycleOwner) {
+        videoViewModel.totalValue.observe( viewLifecycleOwner){
             binding.tvVideoCount.setVariable(BR.totalNum, it)
         }
         selectionsControl()
+    }
+
+    private fun returnTitle() : String{
+        return when(subject){
+            Constants.SubjectValue.KEM ->{Constants.Home.TAB_TITLE_KEM}
+            Constants.SubjectValue.SCIENCE ->{Constants.Home.TAB_TITLE_SCIENCE}
+            Constants.SubjectValue.SOCIETY ->{Constants.Home.TAB_TITLE_SOCIETY}
+            Constants.SubjectValue.ETC ->{Constants.Home.TAB_TITLE_ETC}
+            else -> Constants.Home.TAB_TITLE_KEM
+        }
     }
 
     private fun selectionsControl(){
@@ -150,20 +164,20 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         when(selectView){
             Constants.SelectValue.SORT_ALL ->{
                 when(selectOrder){
-                    Constants.SelectValue.SORT_AVG      -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG, Constants.SubjectType.DEFAULT)
-                    Constants.SelectValue.SORT_LATEST   -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST, Constants.SubjectType.DEFAULT)
-                    Constants.SelectValue.SORT_NAME     -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME, Constants.SubjectType.DEFAULT)
-                    Constants.SelectValue.SORT_SUBJECT  -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_AVG      -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_LATEST   -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_NAME     -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME, Constants.SubjectType.DEFAULT)
+                    Constants.SelectValue.SORT_SUBJECT  -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT, Constants.SubjectType.DEFAULT)
                 }
             }
             Constants.SelectValue.SORT_SERIES ->{
-                videoViewModel.loadVideo(Constants.SubjectValue.SCIENCE,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.SERIES)
+                videoViewModel.loadVideo(subject,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.SERIES)
             }
             Constants.SelectValue.SORT_PROBLEM ->{
-                videoViewModel.loadVideo(Constants.SubjectValue.SCIENCE,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.PROBLEM)
+                videoViewModel.loadVideo(subject,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.PROBLEM)
             }
             Constants.SelectValue.SORT_NOTE ->{
-                videoViewModel.loadVideo(Constants.SubjectValue.SCIENCE,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.NOTE)
+                videoViewModel.loadVideo(subject,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.NOTE)
             }
         }
         // 스크롤 이벤트
@@ -189,15 +203,15 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             when(selectView){
                 Constants.SelectValue.SORT_ALL -> {
                     when(selectOrder){
-                        Constants.SelectValue.SORT_AVG      -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG, Constants.SubjectType.DEFAULT )
-                        Constants.SelectValue.SORT_LATEST   -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST, Constants.SubjectType.DEFAULT)
-                        Constants.SelectValue.SORT_NAME     -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME, Constants.SubjectType.DEFAULT)
-                        Constants.SelectValue.SORT_SUBJECT  -> videoViewModel.loadVideo( Constants.SubjectValue.SCIENCE, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT, Constants.SubjectType.DEFAULT)
+                        Constants.SelectValue.SORT_AVG      -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_AVG, Constants.SubjectType.DEFAULT )
+                        Constants.SelectValue.SORT_LATEST   -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_LATEST, Constants.SubjectType.DEFAULT)
+                        Constants.SelectValue.SORT_NAME     -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_NAME, Constants.SubjectType.DEFAULT)
+                        Constants.SelectValue.SORT_SUBJECT  -> videoViewModel.loadVideo( subject, mOffset, Constants.DefaultValue.LIMIT_INT, Constants.SelectValue.SORT_VALUE_SUBJECT, Constants.SubjectType.DEFAULT)
                     }
                 }
-                Constants.SelectValue.SORT_SERIES -> videoViewModel.loadVideo(Constants.SubjectValue.SCIENCE,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.SERIES)
-                Constants.SelectValue.SORT_PROBLEM -> videoViewModel.loadVideo(Constants.SubjectValue.SCIENCE,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.PROBLEM)
-                Constants.SelectValue.SORT_NOTE -> videoViewModel.loadVideo(Constants.SubjectValue.SCIENCE,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.NOTE)
+                Constants.SelectValue.SORT_SERIES -> videoViewModel.loadVideo(subject,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.SERIES)
+                Constants.SelectValue.SORT_PROBLEM -> videoViewModel.loadVideo(subject,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.PROBLEM)
+                Constants.SelectValue.SORT_NOTE -> videoViewModel.loadVideo(subject,mOffset, Constants.DefaultValue.LIMIT_INT,null,Constants.SubjectType.NOTE)
             }
         }, Constants.Delay.VALUE_OF_ENDLESS)
     }
