@@ -1,18 +1,19 @@
 package com.gongmanse.app.feature.main
 
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gongmanse.app.data.model.video.VideoBody
-import com.gongmanse.app.data.network.RetrofitClient
+import com.gongmanse.app.data.network.home.VideoRepository
 import com.gongmanse.app.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Suppress("DEPRECATION")
-class LiveDataVideo : ViewModel() {
+
+class VideoViewModel(private val videoRepository: VideoRepository) : ViewModel() {
 
     private val _currentValue = MutableLiveData<ArrayList<VideoBody>>()
     private val _currentBannerValue = MutableLiveData<ArrayList<VideoBody>>()
@@ -32,7 +33,7 @@ class LiveDataVideo : ViewModel() {
 //        Log.d("TAG", "$subject : $offset : $limit : $sortId ")
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                RetrofitClient.getService().getSubject(subject, offset, limit, sortId, type).execute().apply {
+                videoRepository.getSubject(subject, offset, limit, sortId, type).apply {
                     if (this.isSuccessful) {
 //                    Log.d("TAG", "${this.body()}")
                         this.body()?.let { response ->
@@ -53,7 +54,7 @@ class LiveDataVideo : ViewModel() {
     fun loadBanner(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                RetrofitClient.getService().getBanner().execute().apply {
+                videoRepository.getBanner().apply {
                     if (this.isSuccessful) {
                         this.body()?.let { response ->
                             response.videoHeader.totalRows.let {_totalValue.postValue(it.toInt())}
@@ -76,7 +77,7 @@ class LiveDataVideo : ViewModel() {
             if(grade == null){
                 sGrade = Constants.SelectValue.SORT_ALL_GRADE_NULL
             }
-            RetrofitClient.getService().getBest(sGrade, offset, limit).execute().apply {
+            videoRepository.getBest(sGrade, offset, limit).apply {
                 if (this.isSuccessful) {
                     this.body()?.let { response ->
                         response.videoBody.let {
@@ -96,7 +97,7 @@ class LiveDataVideo : ViewModel() {
             if(grade == null){
                 sGrade = Constants.SelectValue.SORT_ALL_GRADE_NULL
             }
-            RetrofitClient.getService().getBest(sGrade, offset, limit).execute().apply {
+            videoRepository.getBest(sGrade, offset, limit).apply {
                 if (this.isSuccessful) {
                     this.body()?.let { response ->
                         response.videoBody.let {

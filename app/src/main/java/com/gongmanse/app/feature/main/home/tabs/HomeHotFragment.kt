@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.BR
 import com.gongmanse.app.R
+import com.gongmanse.app.data.network.home.VideoRepository
 import com.gongmanse.app.databinding.FragmentHotBinding
-import com.gongmanse.app.feature.main.LiveDataVideo
+import com.gongmanse.app.feature.main.VideoViewModel
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences
@@ -31,14 +32,15 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentHotBinding
     private lateinit var mRecyclerAdapter: HomeSubjectRVAdapter
     private lateinit var scrollListener: EndlessRVScrollListener
-    private lateinit var viewModel: LiveDataVideo
+    private lateinit var videoViewModel : VideoViewModel
+    private lateinit var mVideoViewModelFactory: VideoViewModelFactory
     private val linearLayoutManager = LinearLayoutManager(context)
     private var mOffset: Int = Constants.DefaultValue.OFFSET_INT
     private var isLoading = false
 
     override fun onRefresh() {
         mOffset = 0
-        viewModel.liveDataClear()
+        videoViewModel.liveDataClear()
         mRecyclerAdapter.clear()
         isLoading = false
         binding.refreshLayout.isRefreshing = false
@@ -55,9 +57,14 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun initView() {
         binding.refreshLayout.setOnRefreshListener(this)
         binding.setVariable(BR.title,Constants.Home.TAB_TITLE_ETC)
-        viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
-
-        viewModel.currentValue.observe(viewLifecycleOwner) {
+        if (::mVideoViewModelFactory.isInitialized.not()) {
+            mVideoViewModelFactory = VideoViewModelFactory(VideoRepository())
+        }
+        if (::videoViewModel.isInitialized.not()) {
+            videoViewModel = ViewModelProvider(this, mVideoViewModelFactory).get(VideoViewModel::class.java)
+        }
+        videoViewModel = ViewModelProvider(this).get(VideoViewModel::class.java)
+        videoViewModel.currentValue.observe(viewLifecycleOwner) {
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
             Log.d(TAG,"$it")
@@ -92,7 +99,7 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 else -> null
             }
         }
-        viewModel.loadHot(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
+        videoViewModel.loadHot(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
     }
     private fun prepareData() {
         // 최초 호출

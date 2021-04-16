@@ -3,6 +3,7 @@ package com.gongmanse.app.feature.member
 import androidx.lifecycle.ViewModel
 import com.gongmanse.app.data.model.member.Member
 import com.gongmanse.app.data.network.member.MemberRepository
+import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
 import com.gongmanse.app.utils.SingleLiveEvent
@@ -59,11 +60,15 @@ class MemberViewModel(private val memberRepository: MemberRepository): ViewModel
             }
         }
     }
-
-//    fun setProfile() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//
-//        }
-//    }
-
+    fun refreshToken(){
+        CoroutineScope(Dispatchers.IO).launch {
+            memberRepository.getRefreshToken(Preferences.refresh).let { response ->
+                if (response.isSuccessful) {
+                    response.body()?.apply {
+                        Commons.saveToken(this.toString())
+                    }
+                }
+            }
+        }
+    }
 }

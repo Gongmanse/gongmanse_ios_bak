@@ -57,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/black_trans20"
                     android:gravity="center"
-                    android:text="@{data.count == null ? String.valueOf(0) : data.count }"
+                    android:text="@{data.totalRows == null ? String.valueOf(0) : data.totalRows }"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 

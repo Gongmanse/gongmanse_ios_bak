@@ -15,7 +15,7 @@ data class VideoBody(
     val title: String?,
     val unit: String?,
     val videoId: String?,
-    val count : String?
+    val totalRows : String?
 )  {
     constructor() : this(type, null,
         null,null,null,

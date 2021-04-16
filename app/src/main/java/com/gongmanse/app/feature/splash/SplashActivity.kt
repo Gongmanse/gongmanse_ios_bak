@@ -5,7 +5,8 @@ import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.gongmanse.app.R
-import com.gongmanse.app.data.network.RetrofitClient
+import com.gongmanse.app.data.network.member.MemberRepository
+import com.gongmanse.app.feature.member.MemberViewModel
 import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
@@ -25,7 +26,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         Log.e(TAG, "onCreate Splash")
-        if (Preferences.refresh.isNotEmpty()) getRefreshToken()
         nextPage()
 //        Commons.checkPermission(this, permissionListener)
     }
@@ -53,29 +53,5 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             finish()
         }, Constants.Delay.VALUE_OF_SPLASH)
-    }
-
-    private fun getRefreshToken() {
-        RetrofitClient.getService().refreshToken(Constants.Request.KEY_REFRESH_TOKEN, Preferences.refresh).enqueue( object : Callback<Map<String, String>> {
-            override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
-                Log.e(TAG, "Failed API call with call : $call\nexception : $t")
-            }
-
-            override fun onResponse(
-                call: Call<Map<String, String>>,
-                response: Response<Map<String, String>>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.apply {
-                        Log.d(TAG, "onResponse => ${this["token"]}")
-                        Commons.saveToken(this[Constants.Extra.KEY_TOKEN].toString())
-                    }
-                } else {
-                    Log.e(TAG, "Failed API code : ${response.code()}\n message : ${response.message()}")
-                    toast(R.string.content_toast_plz_check_login_)
-                }
-
-            }
-        })
     }
 }
