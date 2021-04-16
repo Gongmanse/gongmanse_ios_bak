@@ -170,7 +170,7 @@ extension SettingsVC: UITableViewDataSource {
         
         
         
-        if section == 2 || section == 3 || section == 4{
+        if 2...4 ~= section {
             
             let switchControl = UISwitch(frame: CGRect(x: 0, y: 0, width: 35, height: 16))
             switchControl.isOn = true

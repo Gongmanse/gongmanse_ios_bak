@@ -16,6 +16,8 @@ class ProgressDetailVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!    
     @IBOutlet weak var autoPlaySwitch: UISwitch!
   
+    var progressBodyData: [ProgressDetailBody] = []
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -37,6 +39,13 @@ class ProgressDetailVC: UIViewController {
         
         collectionView.register(UINib(nibName: "ProgressDetailCell", bundle: nil), forCellWithReuseIdentifier: "ProgressDetailCell")
         
+        let requestDetailData = ProgressDetailListAPI(progressId: 104, limit: 20, offset: 20)
+        requestDetailData.requestDetailList { [weak self] result in
+            self?.progressBodyData = result
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
     }
     
     //MARK: - Actions
@@ -71,12 +80,20 @@ class ProgressDetailVC: UIViewController {
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return progressBodyData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProgressDetailCell", for: indexPath) as! ProgressDetailCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProgressDetailCell", for: indexPath) as? ProgressDetailCell else { return UICollectionViewCell() }
+        
+        let progressIndexPath = progressBodyData[indexPath.row]
+        
+        let urlEncoding = progressIndexPath.thumbnail?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        
+        cell.lessonImage.setImageUrl(urlEncoding ?? "")
+        cell.lessonTitle.text = progressIndexPath.title
         return cell
     }
 }

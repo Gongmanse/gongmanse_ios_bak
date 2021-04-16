@@ -28,6 +28,9 @@ class ProgressMainVC: UIViewController {
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
     var isLesson: Bool = true
     
+    var progressDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
+    var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
+    
     var pageIndex: Int!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
@@ -36,14 +39,31 @@ class ProgressMainVC: UIViewController {
     
     //MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        // 서버에서 학년 받아오기
+        let getfilter = getFilteringAPI()
+        getfilter.getFilteringData { [weak self] result in
+            self?.getGradeData = result
+            // 버튼 타이틀 데이터
+            self?.configureButton()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configureButton()
+        
         configureTableView()
         
         let requestProgress = ProgressListAPI()
-        requestProgress.requestProgressDataList()
+        requestProgress.requestProgressDataList { [weak self] result in
+            self?.progressDataList = result
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+            }
+        }
     }
     
     
@@ -66,12 +86,14 @@ class ProgressMainVC: UIViewController {
         let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
         
         gradeBtn.layer.borderWidth = CGFloat(borderWidth)
-        chapterBtn.layer.borderWidth = CGFloat(borderWidth)
-        
+        gradeBtn.setTitle(getGradeData?.sGrade, for: .normal)
+        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 12)
         gradeBtn.layer.borderColor = borderColor.cgColor
-        chapterBtn.layer.borderColor = borderColor.cgColor
-        
         gradeBtn.layer.cornerRadius = 13
+        
+        chapterBtn.layer.borderWidth = CGFloat(borderWidth)
+        chapterBtn.layer.borderColor = borderColor.cgColor
+        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 12)
         chapterBtn.layer.cornerRadius = 13
     }
     
@@ -102,8 +124,6 @@ class ProgressMainVC: UIViewController {
             // 경고창
         }
     }
-    
-    
 }
 
 
@@ -112,7 +132,7 @@ class ProgressMainVC: UIViewController {
 extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return 3
+            return progressDataList?.count ?? 0
         } else {
             return 1
         }
@@ -120,9 +140,29 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isLesson {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as! ProgressMainCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as? ProgressMainCell else { return UITableViewCell() }
+            
+            
+            
             cell.selectionStyle = .none
+            cell.gradeTitle.text = progressDataList?[indexPath.row].title
+            cell.totalRows.text = progressDataList?[indexPath.row].totalLecture
+            
+            cell.gradeLabel.textColor = UIColor(hex: progressDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = progressDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: progressDataList?[indexPath.row].subjectColor ?? "")
+            
+            // 리팩토링 예정
+            if progressDataList?[indexPath.row].grade == "초등" {
+                cell.gradeLabel.text = "초"
+            }else if progressDataList?[indexPath.row].grade == "중등" {
+                cell.gradeLabel.text = "중"
+            }else if progressDataList?[indexPath.row].grade == "고등" {
+                cell.gradeLabel.text = "고"
+            }
+            
             return cell
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
             cell.alertMessage.text = "영상 목록이 없습니다."
