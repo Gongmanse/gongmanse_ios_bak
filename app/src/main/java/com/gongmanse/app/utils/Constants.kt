@@ -210,7 +210,13 @@ class Constants {
         }
     }
 
-    //    class Name{
+    class UnitValue{
+        companion object {
+            const val TERM                     ="용어"
+        }
+    }
+
+//        class Name{
 //        companion object {
 //
 //        }
