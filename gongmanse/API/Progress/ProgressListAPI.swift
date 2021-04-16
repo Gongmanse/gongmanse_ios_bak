@@ -10,7 +10,7 @@ import Alamofire
 
 struct ProgressListAPI {
     
-    func requestProgressDataList() {
+    func requestProgressDataList(complition: @escaping (_ result: [ProgressBodyModel]) -> Void) {
         
         let url = "\(apiBaseURL)/v3/progress/record/34?grade&gradeNum&offset&limit"
         
@@ -18,7 +18,7 @@ struct ProgressListAPI {
             .responseDecodable(of: ProgressPopupModel.self) { response in
                 switch response.result {
                 case .success(let json):
-                    print(json.header)
+                    complition(json.body!)
                 case .failure(let error):
                     print("DEBUG: ", error.localizedDescription)
                 }

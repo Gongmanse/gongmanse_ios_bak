@@ -270,6 +270,7 @@
 		C207F5D6262676620020A965 /* LectureThumbnailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C207F5D4262676620020A965 /* LectureThumbnailCell.xib */; };
 		C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234749E261C02F500453E16 /* PushAlertCell.swift */; };
 		C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C234749F261C02F500453E16 /* PushAlertCell.xib */; };
+		C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C6126292912008CE4A1 /* PaddingLabel.swift */; };
 		C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */; };
 		C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */; };
 		C2657C542624369C0048B92F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C532624369C0048B92F /* UIImageView.swift */; };
@@ -561,6 +562,7 @@
 		C207F5D4262676620020A965 /* LectureThumbnailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LectureThumbnailCell.xib; sourceTree = "<group>"; };
 		C234749E261C02F500453E16 /* PushAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlertCell.swift; sourceTree = "<group>"; };
 		C234749F261C02F500453E16 /* PushAlertCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PushAlertCell.xib; sourceTree = "<group>"; };
+		C2448C6126292912008CE4A1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeWebViewController.swift; sourceTree = "<group>"; };
 		C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeWebViewController.xib; sourceTree = "<group>"; };
 		C2657C532624369C0048B92F /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
@@ -986,6 +988,7 @@
 		259B8B4E26030020009A7146 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				C2448C60262928CF008CE4A1 /* Label */,
 				25201DD926046BC2001098AC /* CustomTextField */,
 				259B8B5F26030065009A7146 /* ConstraintMethod.swift */,
 				259B8B5E26030065009A7146 /* UIColor.swift */,
@@ -1812,6 +1815,14 @@
 			name = WhatIsGongmanse;
 			sourceTree = "<group>";
 		};
+		C2448C60262928CF008CE4A1 /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				C2448C6126292912008CE4A1 /* PaddingLabel.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
 		C282206E2627D6A60066EC9B /* CS */ = {
 			isa = PBXGroup;
 			children = (
@@ -2187,6 +2198,7 @@
 				C28B27AE261C421700419E5E /* FilteringGradePopUpVC.swift in Sources */,
 				257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */,
 				C282207B26281E8A0066EC9B /* ProgressListAPI.swift in Sources */,
+				C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */,
 				253135DB2612C34A00B51348 /* FindingIDByPhoneViewModel.swift in Sources */,
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,
 				6CD7C3C525F086E00092D30E /* AppDelegate.swift in Sources */,

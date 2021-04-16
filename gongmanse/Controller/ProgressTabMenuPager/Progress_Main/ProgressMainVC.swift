@@ -28,6 +28,8 @@ class ProgressMainVC: UIViewController {
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
     var isLesson: Bool = true
     
+    var progressDataList: [ProgressBodyModel]?
+    
     var pageIndex: Int!
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
@@ -43,7 +45,12 @@ class ProgressMainVC: UIViewController {
         configureTableView()
         
         let requestProgress = ProgressListAPI()
-        requestProgress.requestProgressDataList()
+        requestProgress.requestProgressDataList { [weak self] result in
+            self?.progressDataList = result
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+            }
+        }
     }
     
     
@@ -112,7 +119,7 @@ class ProgressMainVC: UIViewController {
 extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return 3
+            return progressDataList?.count ?? 0
         } else {
             return 1
         }
@@ -120,8 +127,11 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isLesson {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as! ProgressMainCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as? ProgressMainCell else { return UITableViewCell() }
+            
             cell.selectionStyle = .none
+            cell.gradeTitle.text = progressDataList?[indexPath.row].title
+            cell.totalRows.text = progressDataList?[indexPath.row].totalLecture
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
