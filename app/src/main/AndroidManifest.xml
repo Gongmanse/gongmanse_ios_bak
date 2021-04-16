@@ -23,7 +23,6 @@
         android:theme="@style/Theme.Gongmanse2"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".feature.permission.PermissionActivity" />
         <activity android:name=".feature.member.LoginActivity" />
         <activity
             android:name=".feature.splash.SplashActivity"

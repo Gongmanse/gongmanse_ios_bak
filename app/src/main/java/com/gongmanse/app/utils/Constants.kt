@@ -44,6 +44,12 @@ class Constants {
             const val KEY_REFRESH_TOKEN = "refresh_token"
             const val KEY_USERNAME = "usr"
             const val KEY_PASSWORD = "pwd"
+            const val KEY_SUBJECT  = "subject"
+            const val KEY_GRADE    = "grade"
+            const val KEY_GRADE_NUM= "gradeNum"
+            const val KEY_OFFSET   = "offset"
+            const val KEY_LIMIT    = "limit"
+
             const val VALUE_TYPE_PASSWORD = "password"
             const val VALUE_TYPE_REFRESH = "refresh_token"
 

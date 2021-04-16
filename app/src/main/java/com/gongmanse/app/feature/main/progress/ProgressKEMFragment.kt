@@ -22,7 +22,7 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private lateinit var binding: FragmentProgressKemBinding
-    private lateinit var mAdapter : ProgressRVAdapter
+    private lateinit var mAdapter: ProgressRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +39,22 @@ class ProgressKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         binding.layoutRefresh.isRefreshing = false
-        mAdapter
+        mAdapter.clear()
+        prepareData()
     }
+
+    fun scrollToTop() = binding.rvKemList.smoothScrollToPosition(0)
 
     private fun initView() {
+        selectedSetting()
+        initRVLayout()
+        prepareData()
 
     }
 
-    //    fun scrollToTop() = binding.rvKemList.smoothScrollToPosition(0)
+    private fun selectedSetting() {}
+
+    private fun initRVLayout() {}
+
+    private fun prepareData() {}
 }

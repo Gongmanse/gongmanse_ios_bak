@@ -12,6 +12,7 @@
             type="com.gongmanse.app.data.model.progress.ProgressBody" />
     </data>
 
+    <!-- Layout Root -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
