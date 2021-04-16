@@ -5,10 +5,7 @@ package com.gongmanse.app.feature.main.progress.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.gongmanse.app.feature.main.progress.ProgressEtcFragment
-import com.gongmanse.app.feature.main.progress.ProgressKEMFragment
-import com.gongmanse.app.feature.main.progress.ProgressScienceFragment
-import com.gongmanse.app.feature.main.progress.ProgressSocietyFragment
+import com.gongmanse.app.feature.main.progress.*
 import com.gongmanse.app.utils.Constants
 
 
@@ -17,10 +14,10 @@ class ProgressTabPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(f
     private val fragment = ArrayList<Fragment>()
 
     init {
-        fragment.add(ProgressKEMFragment())
-        fragment.add(ProgressScienceFragment())
-        fragment.add(ProgressSocietyFragment())
-        fragment.add(ProgressEtcFragment())
+        fragment.add(ProgressListFragment(Constants.SubjectValue.KEM))
+        fragment.add(ProgressListFragment(Constants.SubjectValue.SCIENCE))
+        fragment.add(ProgressListFragment(Constants.SubjectValue.SOCIETY))
+        fragment.add(ProgressListFragment(Constants.SubjectValue.ETC))
     }
 
     override fun getCount() = fragment.size

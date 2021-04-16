@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".feature.main.progress.ProgressKEMFragment">
+    tools:context=".feature.main.progress.ProgressListFragment">
+
 
     <data>
         <import type="android.view.View" />
@@ -58,27 +59,28 @@
 
                 <!-- RecyclerView of Progress -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_kem_list"
+                    android:id="@+id/rv_progress_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     android:overScrollMode="never"
                     android:paddingVertical="10dp"
                     android:scrollbars="none"
-                    android:visibility="@{item.progressBody.size() > 0 ? View.VISIBLE : View.GONE}"
+                    bindProgress="@{item.progressBody}"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_select"
                     tools:listitem="@layout/item_progress"
                     tools:visibility="visible"/>
-
+                <!--                android:visibility="@{item.progressBody.size() > 0 ? View.VISIBLE : View.GONE}"-->
                 <!-- Layout Empty -->
                 <include
                     android:id="@+id/layout_empty"
                     layout="@layout/layout_empty"
-                    android:visibility="@{item.progressBody.size() > 0 ? View.GONE : View.VISIBLE}"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/layout_select"
                     tools:visibility="visible"/>
-
+                <!--                android:visibility="@{item.progressBody.size() > 0 ? View.GONE : View.VISIBLE}"-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

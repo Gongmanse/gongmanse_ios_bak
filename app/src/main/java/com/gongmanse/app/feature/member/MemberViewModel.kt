@@ -62,7 +62,7 @@ class MemberViewModel(private val memberRepository: MemberRepository?): ViewMode
     }
 
     fun logout() {
-        Preferences.token = Constants.EMPTY_STRING
+        Preferences.token = Constants.Init.INIT_STRING
         _token.value = Preferences.token
         _currentMember.value = null
     }

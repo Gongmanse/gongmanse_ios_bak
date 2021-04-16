@@ -79,7 +79,7 @@ class ProgressRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private class ItemViewHolder (private val binding : ItemProgressBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ProgressBody, listener: View.OnClickListener) {
             binding.apply {
-                this.progress = data
+                this.data = data
                 itemView.setOnClickListener(listener)
             }
         }

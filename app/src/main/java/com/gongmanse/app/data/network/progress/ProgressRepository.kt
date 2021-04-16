@@ -4,5 +4,18 @@ class ProgressRepository {
 
     private val progressClient = ProgressService.client
 
-    suspend fun getProgressList() = progressClient
+    suspend fun getProgressList(
+        subject: Int?,
+        grade: String,
+        gradeNum: Int,
+        offset: Int,
+        limit: Int
+    ) = progressClient.getProgressList(
+        subject,
+        grade,
+        gradeNum,
+        offset,
+        limit
+    )
+
 }
