@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="com.gongmanse.app.data.model.video.VideoBody"/>
+            type="com.gongmanse.app.data.model.teacher.TeacherBody"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                bindURLTeacher="@{data.thumbnail}"
+                bindURLImage="@{data.thumbnail}"
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

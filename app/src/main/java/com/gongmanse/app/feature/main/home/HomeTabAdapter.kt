@@ -5,12 +5,9 @@ package com.gongmanse.app.feature.main.home
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.gongmanse.app.feature.main.home.tabs.HomeEtcFragment
 import com.gongmanse.app.feature.main.home.tabs.HomeHotFragment
-import com.gongmanse.app.feature.main.home.tabs.HomeKEMFragment
-import com.gongmanse.app.feature.main.home.tabs.HomeScienceFragment
+import com.gongmanse.app.feature.main.home.tabs.HomeListFragment
 import com.gongmanse.app.feature.main.home.tabs.HomeBestFragment
-import com.gongmanse.app.feature.main.home.tabs.HomeSocietyFragment
 import com.gongmanse.app.utils.Constants
 
 class HomeTabAdapter (fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -20,10 +17,10 @@ class HomeTabAdapter (fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVI
     init {
         fragments.add(HomeBestFragment())
         fragments.add(HomeHotFragment())
-        fragments.add(HomeKEMFragment())
-        fragments.add(HomeScienceFragment())
-        fragments.add(HomeSocietyFragment())
-        fragments.add(HomeEtcFragment())
+        fragments.add(HomeListFragment(Constants.SubjectValue.KEM))
+        fragments.add(HomeListFragment(Constants.SubjectValue.SCIENCE))
+        fragments.add(HomeListFragment(Constants.SubjectValue.SOCIETY))
+        fragments.add(HomeListFragment(Constants.SubjectValue.ETC))
     }
 
     override fun getItem(position: Int): Fragment {

@@ -184,6 +184,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
         }
         mMemberViewModel.getProfile()
+        if (Preferences.refresh.isNotEmpty()) mMemberViewModel.refreshToken()
         mMemberViewModel.currentMember.observe(this, {
             val navBinding = if (it != null) {
                 DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false).apply {

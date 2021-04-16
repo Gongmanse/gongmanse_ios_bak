@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.R
 import com.gongmanse.app.data.model.video.VideoBody
+import com.gongmanse.app.data.network.home.VideoRepository
 import com.gongmanse.app.databinding.FragmentBestBinding
-import com.gongmanse.app.feature.main.LiveDataVideo
+import com.gongmanse.app.feature.main.home.VideoViewModel
+import com.gongmanse.app.feature.main.home.VideoViewModelFactory
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import com.gongmanse.app.utils.Preferences
@@ -32,7 +34,8 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var mRecyclerAdapter: HomeBestAdapter
     private lateinit var mSliderAdapter: HomeBestSliderAdapter
-    private lateinit var viewModel: LiveDataVideo
+    private lateinit var mVideoViewModelFactory: VideoViewModelFactory
+    private lateinit var videoViewModel: VideoViewModel
     private val linearLayoutManager = LinearLayoutManager(context)
     private var mOffset: Int = 0
     private var isLoading = false
@@ -53,7 +56,7 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         mOffset = 0
-        viewModel.liveDataClear()
+        videoViewModel.liveDataClear()
         mRecyclerAdapter.clear()
         isLoading = false
         binding.refreshLayout.isRefreshing = false
@@ -61,18 +64,24 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun initView() {
+        if (::mVideoViewModelFactory.isInitialized.not()) {
+            mVideoViewModelFactory = VideoViewModelFactory(VideoRepository())
+        }
+        if (::videoViewModel.isInitialized.not()) {
+            videoViewModel = ViewModelProvider(this, mVideoViewModelFactory).get(VideoViewModel::class.java)
+        }
         binding.refreshLayout.setOnRefreshListener(this)
-        viewModel = ViewModelProvider(this).get(LiveDataVideo::class.java)
-        viewModel.currentValue.observe(viewLifecycleOwner, {
+        videoViewModel = ViewModelProvider(this).get(VideoViewModel::class.java)
+        videoViewModel.currentValue.observe( viewLifecycleOwner) {
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
             Log.d(TAG,"$it")
             isLoading = false
-        })
-        viewModel.currentBannerValue.observe(viewLifecycleOwner, {
+        }
+        videoViewModel.currentBannerValue.observe(viewLifecycleOwner) {
             mSliderAdapter.addItems(it)
             Log.d(TAG,"$it")
-        })
+        }
 
         setRVLayout()
         prepareData()
@@ -107,8 +116,8 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 else -> null
             }
         }
-        viewModel.loadBest(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
-        viewModel.loadBanner()
+        videoViewModel.loadBest(sGrade,mOffset,Constants.DefaultValue.LIMIT_INT)
+        videoViewModel.loadBanner()
     }
 
     private fun prepareData() {
