@@ -80,22 +80,22 @@ fun bindViewGradeTextOfProgress(view: TextView, value: String?) {
     }
 }
 
-//@BindingAdapter("bindUnitText")
-//fun bindViewUnitText(view: TextView, value: String?) {
-//    value?.let {
-////        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.text = value
-////        else view.text = if (value == "1") "ⅰ" else "ⅱ"
-//    }
-//}
-//
-//@BindingAdapter("bindUnitColor")
-//fun bindViewUnitColor(view: CardView, value: String?) {
-//    value?.let {
-////        if (it == Constants.CONTENT_VALUE_ACTIVE_UNIT_TERM) view.setCardBackgroundColor(
-////            ContextCompat.getColor(view.context, R.color.term_color))
-////        else view.setCardBackgroundColor(ContextCompat.getColor(view.context, R.color.term_other_than_color))
-//    }
-//}
+@BindingAdapter("bindUnitText")
+fun bindViewUnitText(view: TextView, value: String?) {
+    value?.let {
+        if (it == Constants.UnitValue.TERM) view.text = value
+        else view.text = if (value == "1") "ⅰ" else "ⅱ"
+    }
+}
+
+@BindingAdapter("bindUnitColor")
+fun bindViewUnitColor(view: CardView, value: String?) {
+    value?.let {
+        if (it == Constants.UnitValue.TERM) view.setCardBackgroundColor(
+            ContextCompat.getColor(view.context, R.color.term_color))
+        else view.setCardBackgroundColor(ContextCompat.getColor(view.context, R.color.term_other_than_color))
+    }
+}
 
 @BindingAdapter("bindURLTeacher")
 fun bindViewURLTeacher(view: ImageView, value: String?) {
