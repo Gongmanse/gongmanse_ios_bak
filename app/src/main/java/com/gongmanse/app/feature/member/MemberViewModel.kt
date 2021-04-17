@@ -2,6 +2,7 @@ package com.gongmanse.app.feature.member
 
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.ViewModel
 import com.gongmanse.app.data.model.member.Member
 import com.gongmanse.app.data.network.member.MemberRepository
@@ -103,7 +104,15 @@ class MemberViewModel(private val memberRepository: MemberRepository?): ViewMode
         }
     }
 
-    
+    fun onPasswordChanged(s: CharSequence) {
+        password.set(s.toString())
+    }
+
+    fun onPasswordConfirmChanged(s: CharSequence) {
+        passwordConfirm.set(s.toString())
+        val check = password.get().toString() == passwordConfirm.get().toString()
+        _disposables.postValue(check)
+    }
 
     companion object {
         private val TAG = MemberViewModel::class.java.simpleName
