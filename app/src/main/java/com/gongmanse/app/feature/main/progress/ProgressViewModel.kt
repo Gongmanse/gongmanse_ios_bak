@@ -30,13 +30,11 @@ class ProgressViewModel (private val progressRepository: ProgressRepository) : V
 
     // 진도 학습 리스트
     fun loadProgressList(subject: Int?, grade: String, gradeNum: Int, offset: Int) {
-        Log.i(TAG, "subject: $subject, grade: $grade, gradeNum: $gradeNum")
         CoroutineScope(Dispatchers.IO).launch {
             progressRepository.getProgressList(subject, grade, gradeNum, offset, Constants.DefaultValue.LIMIT_INT ).let { response ->
                 if (response.isSuccessful) {
                     response.body()?.let {
                         currentProgress.postValue(it.progressBody)
-                        Log.e(TAG, "Progress => $it")
                     }
                 } else Log.e(TAG, "Failed Network")
             }
