@@ -47,8 +47,7 @@ class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefres
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_progress_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_progress_list, container, false)
         return binding.root
     }
 
@@ -83,7 +82,6 @@ class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefres
         mProgressViewModel.currentProgress.observe( this, {
             if (isLoading) mAdapter.removeLoading()
             mAdapter.addItems(it)
-            Log.i(TAG, "ProgressBody => $it")
             isLoading = false
         })
 
@@ -133,7 +131,6 @@ class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefres
 
 
     private fun loadProgressList() {
-        Log.e(TAG, "loadProgressList")
         grade = "모든"
         gradeNum = 0
         mProgressViewModel.loadProgressList(subject, grade, gradeNum, mOffset)
