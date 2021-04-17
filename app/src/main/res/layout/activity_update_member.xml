@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="member" type="com.gongmanse.app.data.model.member.MemberBody"/>
         <variable
             name="viewModel"
             type="com.gongmanse.app.feature.member.MemberViewModel" />
@@ -138,7 +137,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/FormInputEditText.Password"
                         android:id="@+id/et_password"
-                        android:text="@={viewModel.password}"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onPasswordChanged(text)}"
                         tools:text="paddword" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -154,7 +153,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/FormInputEditText.Password"
                         android:id="@+id/et_password_confirm"
-                        android:text="@={viewModel.passwordConfirm}"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onPasswordConfirmChanged(text)}"
                         tools:text="paddword" />
 
                 </com.google.android.material.textfield.TextInputLayout>

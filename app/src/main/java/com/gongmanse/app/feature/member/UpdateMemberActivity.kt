@@ -1,10 +1,13 @@
 package com.gongmanse.app.feature.member
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.gongmanse.app.R
 import com.gongmanse.app.data.network.member.MemberRepository
