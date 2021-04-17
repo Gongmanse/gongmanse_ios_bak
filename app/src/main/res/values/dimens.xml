@@ -18,11 +18,14 @@
     <dimen name="horizontal_spacing_5dp">5dp</dimen>
     <dimen name="horizontal_spacing_8dp">8dp</dimen>
     <dimen name="horizontal_spacing_10dp">10dp</dimen>
+    <dimen name="horizontal_spacing_11dp">11dp</dimen>
     <dimen name="horizontal_spacing_12dp">12dp</dimen>
     <dimen name="horizontal_spacing_14dp">14dp</dimen>
     <dimen name="horizontal_spacing_21dp">21dp</dimen>
     <dimen name="horizontal_spacing_28dp">28dp</dimen>
+    <dimen name="horizontal_spacing_29dp">29dp</dimen>
     <dimen name="horizontal_spacing_30dp">30dp</dimen>
+    <dimen name="horizontal_spacing_49dp">49dp</dimen>
     <dimen name="horizontal_spacing_52dp">52dp</dimen>
 
     <dimen name="nav_header_height">176dp</dimen>

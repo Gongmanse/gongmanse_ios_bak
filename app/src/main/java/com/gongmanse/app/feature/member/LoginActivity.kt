@@ -7,34 +7,46 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.gongmanse.app.R
 import com.gongmanse.app.data.network.member.MemberRepository
+import com.gongmanse.app.databinding.ActivityLoginBinding
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.toast
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var mMemberViewModel: MemberViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        bindUI()
     }
 
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.iv_close -> finish()
-            R.id.btn_login -> login()
-            R.id.btn_sign_up -> signUp()
-            R.id.btn_find_by_username -> findByUsername()
-            R.id.btn_find_by_password -> findByPassword()
+        }
+    }
+
+    private fun bindUI() {
+        binding = ActivityLoginBinding.inflate(layoutInflater).apply {
+            this@LoginActivity.let { context ->
+                val mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
+                mMemberViewModel = ViewModelProvider(context, mMemberViewModelFactory).get(MemberViewModel::class.java)
+                viewModel = mMemberViewModel
+                lifecycleOwner = context
+            }
+        }
+        setContentView(binding.root)
+        CoroutineScope(Dispatchers.Main).launch {
+            setupLogin()
         }
     }
 
     // 로그인
-    private fun login() {
-        Log.v(TAG, "onClick => 로그인")
-        val mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
-        val mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
-        val username = et_username.text.toString()
-        val password = et_password.text.toString()
-        mMemberViewModel.login(username, password)
+    private fun setupLogin() {
         mMemberViewModel.result.observe(this) {
             if (it != null) {
                 Log.d(TAG, "result code => $it")

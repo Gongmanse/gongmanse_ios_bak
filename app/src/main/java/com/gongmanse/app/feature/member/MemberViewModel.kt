@@ -1,5 +1,6 @@
 package com.gongmanse.app.feature.member
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import com.gongmanse.app.data.model.member.Member
 import com.gongmanse.app.data.network.member.MemberRepository
@@ -14,25 +15,28 @@ import kotlinx.coroutines.launch
 class MemberViewModel(private val memberRepository: MemberRepository?): ViewModel() {
 
     private val _currentMember = SingleLiveEvent<Member?>()
-//    private val _username = SingleLiveEvent<String?>()
-//    private val _password = SingleLiveEvent<String?>()
     private val _token = SingleLiveEvent<String?>()
     private val _result = SingleLiveEvent<Int>()
 
+    var username = ObservableField<String?>()
+    var password = ObservableField<String?>()
+
     val currentMember: SingleLiveEvent<Member?>
         get() = _currentMember
-
-//    val username: SingleLiveEvent<String?>
-//        get() = _username
-//
-//    val password: SingleLiveEvent<String?>
-//        get() = _password
 
     val token: SingleLiveEvent<String?>
         get() = _token
 
     val result: SingleLiveEvent<Int>
         get() = _result
+
+    private fun getUsername(): String {
+        return username.get().toString()
+    }
+
+    private fun getPassword(): String {
+        return password.get().toString()
+    }
 
     fun refreshToken(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -46,9 +50,9 @@ class MemberViewModel(private val memberRepository: MemberRepository?): ViewMode
         }
     }
 
-    fun login(username: String, password: String) {
+    fun login() {
         CoroutineScope(Dispatchers.IO).launch {
-            memberRepository?.getToken(username, password)?.let { response ->
+            memberRepository?.getToken(getUsername(), getPassword())?.let { response ->
                 if (response.isSuccessful) {
                     response.body()?.let { body ->
                         Preferences.token = body.token ?: ""
