@@ -1,43 +1,53 @@
 package com.gongmanse.app.feature.member
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.gongmanse.app.R
 import com.gongmanse.app.data.network.member.MemberRepository
+import com.gongmanse.app.databinding.ActivityLoginBinding
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.toast
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var mMemberViewModel: MemberViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        bindUI()
     }
 
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.iv_close -> finish()
-            R.id.btn_login -> login()
-            R.id.btn_sign_up -> signUp()
-            R.id.btn_find_by_username -> findByUsername()
-            R.id.btn_find_by_password -> findByPassword()
+        }
+    }
+
+    private fun bindUI() {
+        binding = ActivityLoginBinding.inflate(layoutInflater).apply {
+            this@LoginActivity.let { context ->
+                val mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
+                mMemberViewModel = ViewModelProvider(context, mMemberViewModelFactory).get(MemberViewModel::class.java)
+                viewModel = mMemberViewModel
+                lifecycleOwner = context
+            }
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            setContentView(binding.root)
+            setupLogin()
         }
     }
 
     // 로그인
-    private fun login() {
-        Log.v(TAG, "onClick => 로그인")
-        val mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
-        val mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
-        val username = et_username.text.toString()
-        val password = et_password.text.toString()
-        mMemberViewModel.login(username, password)
-        mMemberViewModel.result.observe(this) {
+    private fun setupLogin() {
+        mMemberViewModel.resultCode.observe(this) {
             if (it != null) {
-                Log.d(TAG, "result code => $it")
                 when (it) {
                     in 200..299 -> {
                         setResult(RESULT_OK)
@@ -64,10 +74,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     // 비밀번호 찾기
     private fun findByPassword() {
         // TODO 비밀번호 찾기 화면으로 이동 또는 액티비티 생성
-    }
-
-    companion object {
-        private val TAG = LoginActivity::class.java.simpleName
     }
 
 }

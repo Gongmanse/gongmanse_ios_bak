@@ -5,14 +5,14 @@ import com.gongmanse.app.utils.Preferences
 
 class MemberRepository {
 
-    private val memberClient = MemberService.client
+    private val client = MemberService.client
 
-    suspend fun getProfile() = memberClient.getProfile(Preferences.token)
+    suspend fun getProfile() = client.getProfile(Preferences.token)
 
-//    suspend fun setProfile(nickname: String, email: String) = memberClient
+//    suspend fun setProfile(nickname: String, email: String) = client
 
-    suspend fun getToken(username: String, password: String) = memberClient.getToken(Constants.Request.VALUE_TYPE_PASSWORD, username, password)
+    suspend fun getToken(username: String, password: String) = client.getToken(Constants.Request.VALUE_TYPE_PASSWORD, username, password)
 
-    suspend fun getRefreshToken(refresh: String) = memberClient.getRefreshToken(Constants.Request.VALUE_TYPE_REFRESH, refresh)
+    suspend fun getToken(refresh: String) = client.getToken(Constants.Request.VALUE_TYPE_REFRESH, refresh)
 
 }

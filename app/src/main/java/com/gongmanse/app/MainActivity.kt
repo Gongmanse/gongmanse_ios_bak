@@ -27,10 +27,7 @@ import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
 import com.gongmanse.app.feature.Intro.IntroActivity
 import com.gongmanse.app.feature.main.EmptyFragmentDirections
 import com.gongmanse.app.feature.main.MainFragment
-import com.gongmanse.app.feature.member.LoginActivity
-import com.gongmanse.app.feature.member.MemberViewModel
-import com.gongmanse.app.feature.member.MemberViewModelFactory
-import com.gongmanse.app.feature.member.UpdateMemberActivity
+import com.gongmanse.app.feature.member.*
 import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,7 +42,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAppBarConfiguration: AppBarConfiguration
     private lateinit var mActionbar: ActionBar
     private lateinit var mNavDestination: NavDestination
-    private lateinit var mMemberViewModelFactory: MemberViewModelFactory
     private lateinit var mMemberViewModel: MemberViewModel
     private var mOptionsMenu: Menu? = null
 
@@ -131,15 +127,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun bindUI() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+            this@MainActivity.let { context ->
+                val mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
+                mMemberViewModel = ViewModelProvider(context, mMemberViewModelFactory).get(MemberViewModel::class.java)
+            }
+        }
         CoroutineScope(Dispatchers.Main).launch {
+            setContentView(binding.root)
             setupActionbar()
             setupMainFragment()
             setupNavigationController()
             setupMemberProfile()
         }
-        showSplash()
     }
 
     private fun setupActionbar() {
@@ -176,15 +176,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setupMemberProfile() {
-        Log.v(TAG, "Preferences.token => ${Preferences.token}")
-        if (::mMemberViewModelFactory.isInitialized.not()) {
-            mMemberViewModelFactory = MemberViewModelFactory(MemberRepository())
-        }
-        if (::mMemberViewModel.isInitialized.not()) {
-            mMemberViewModel = ViewModelProvider(this, mMemberViewModelFactory).get(MemberViewModel::class.java)
+        if (Preferences.refresh.isNotEmpty()) {
+            mMemberViewModel.refreshToken()
         }
         mMemberViewModel.getProfile()
-        if (Preferences.refresh.isNotEmpty()) mMemberViewModel.refreshToken()
         mMemberViewModel.currentMember.observe(this, {
             val navBinding = if (it != null) {
                 DataBindingUtil.inflate<LayoutLoginHeaderBinding>(layoutInflater, R.layout.layout_login_header, binding.navView, false).apply {
@@ -206,27 +201,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun showSplash() {
-        val intent = if (Preferences.first) {
-            Intent(this, IntroActivity::class.java)
-        } else {
-            Intent(this, SplashActivity::class.java)
-        }
-        startActivity(intent)
-    }
-
     fun replaceBottomNavigation(title: String?) {
         binding.appBarLayout.title = title
     }
 
     private val requestActivity: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
         if (activityResult.resultCode == Activity.RESULT_OK) {
-            setupMemberProfile()
+            mMemberViewModel.getProfile()
         }
-    }
-
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
     }
 
 }

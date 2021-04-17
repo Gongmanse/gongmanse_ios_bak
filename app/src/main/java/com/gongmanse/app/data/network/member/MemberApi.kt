@@ -18,7 +18,7 @@ interface MemberApi {
 
     @FormUrlEncoded
     @POST("v1/auth/token")
-    suspend fun getRefreshToken(
+    suspend fun getToken(
         @Field(Constants.Request.KEY_GRANT_TYPE) type: String,
         @Field(Constants.Request.KEY_REFRESH_TOKEN) refreshToken: String
     ): Response<Token?>
