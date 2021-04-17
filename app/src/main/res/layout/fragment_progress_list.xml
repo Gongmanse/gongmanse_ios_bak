@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature.main.progress.ProgressListFragment">
 
-
     <data>
         <import type="android.view.View" />
         <import type="com.gongmanse.app.data.model.progress.Progress" />

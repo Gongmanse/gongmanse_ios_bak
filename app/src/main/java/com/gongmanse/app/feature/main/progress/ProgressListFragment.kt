@@ -19,6 +19,8 @@ import com.gongmanse.app.R
 import com.gongmanse.app.data.network.progress.ProgressRepository
 import com.gongmanse.app.databinding.FragmentProgressListBinding
 import com.gongmanse.app.feature.main.progress.adapter.ProgressRVAdapter
+import com.gongmanse.app.feature.sheet.SelectionSheetUnits
+import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.EndlessRVScrollListener
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -35,6 +37,8 @@ class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefres
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var mProgressViewModel: ProgressViewModel
     private lateinit var mProgressViewModelFactory: ProgressViewModelFactory
+    private lateinit var bottomSheetUnits: SelectionSheetUnits
+
     private var isLoading = false
     private var mOffset: Int = 0
     private var grade: String = Constants.Init.INIT_STRING
@@ -68,6 +72,9 @@ class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefres
     private fun initView() {
         binding.layoutRefresh.setOnRefreshListener(this)
         binding.layoutEmpty.title = resources.getString(R.string.empty_progress)
+
+        binding.tvSelectGrade.setOnClickListener { Commons.bottomSheetManager(Constants.SelectValue.SORT_ITEM_TYPE_GRADE, gradeTitle, binding.root.context) }
+
         initViewModel()
         selectedSetting()
         initRVLayout()
@@ -98,6 +105,8 @@ class ProgressListFragment(private val subject : Int?) : Fragment(), SwipeRefres
             layoutManager = linearLayoutManager
         }
     }
+
+
 
     private fun prepareData() {
         // 최초 호출

@@ -122,6 +122,8 @@
     <string name="content_format_selected_align_answer">답변 완료순</string>
     <string name="content_format_selected_title_grade">학년</string>
     <string name="content_format_selected_title_unit">단원</string>
+    <string name="content_format_selected_subject">과목</string>
+
 
     <!-- Content Of Home -->
     <string name="content_home_title_hot1">인기 </string>

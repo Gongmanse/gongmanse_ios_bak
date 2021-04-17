@@ -280,4 +280,41 @@
         <item name="android:fontFamily">@font/nanum_square_round_b</item>
     </style>
 
+    <!-- Selection Sheet Unit Type -->
+
+    <style name="SheetTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HomeSheetSelection" parent="SheetTextStyle">
+        <item name="android:text">@string/content_format_selected_title</item>
+        <item name="android:drawableLeft">@drawable/ic_popup_category</item>
+    </style>
+
+    <style name="HomeSheetSpinner" parent="SheetTextStyle">
+        <item name="android:text">@string/content_format_selected_align_title</item>
+        <item name="android:drawableLeft">@drawable/ic_popup_align</item>
+    </style>
+
+    <style name="GradeSheetSelection" parent="SheetTextStyle">
+        <item name="android:text">@string/content_format_selected_title_grade</item>
+        <item name="android:drawableLeft">@drawable/ic_popup_class</item>
+    </style>
+
+    <style name="SubjectSheetSelection" parent="SheetTextStyle">
+        <item name="android:text">@string/content_format_selected_subject</item>
+        <item name="android:drawableLeft">@drawable/ic_popup_subject</item>
+    </style>
+
+    <style name="UnitSheetSelection" parent="SheetTextStyle">
+        <item name="android:text">@string/content_format_selected_title_unit</item>
+        <item name="android:drawableLeft">@drawable/ic_popup_unit</item>
+    </style>
+
 </resources>

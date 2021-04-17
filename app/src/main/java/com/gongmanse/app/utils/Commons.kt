@@ -3,11 +3,14 @@ package com.gongmanse.app.utils
 import android.Manifest
 import android.content.Context
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import com.gongmanse.app.R
 import com.gongmanse.app.feature.main.counsel.CounselFragment
 import com.gongmanse.app.feature.main.home.HomeFragment
 import com.gongmanse.app.feature.main.progress.ProgressFragment
 import com.gongmanse.app.feature.main.teacher.TeacherFragment
+import com.gongmanse.app.feature.sheet.SelectionSheetUnits
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import org.jetbrains.anko.alert
@@ -82,6 +85,32 @@ class Commons {
                 else -> null
             }
         }
+
+        fun bottomSheetManager(
+            item_type: Int,
+            select_text: String?,
+            context: Context
+        ) {
+            val bottomSheetUnits = SelectionSheetUnits(item_type, select_text)
+            val supportManager = (context as FragmentActivity).supportFragmentManager
+            bottomSheetUnits.show(supportManager, bottomSheetUnits.tag)
+        }
+
+        fun checkSelectionSheetType(type: Int): Int? {
+            return when (type) {
+                Constants.SelectValue.SORT_ITEM_TYPE_GRADE           -> R.array.itemGrade
+                Constants.SelectValue.SORT_ITEM_TYPE_GRADE_SEARCH    -> R.array.itemGradeSearch
+                Constants.SelectValue.SORT_ITEM_TYPE_HOME            -> R.array.itemHome
+                Constants.SelectValue.SORT_ITEM_TYPE_SPINNER         -> R.array.itemSpinner
+                Constants.SelectValue.SORT_ITEM_TYPE_SPINNER_VIDEO   -> R.array.itemSpinnerVideo
+                Constants.SelectValue.SORT_ITEM_TYPE_SPINNER_COUNSEL -> R.array.itemSpinnerCounsel
+                else -> null
+            }
+        }
+
+
+
+
     }
 
 }

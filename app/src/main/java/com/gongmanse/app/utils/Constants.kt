@@ -20,6 +20,7 @@ class Constants {
         companion object {
             const val INIT_STRING = ""
             const val INIT_INT    = 0
+            const val INIT_BOOLEAN= false
         }
     }
 
@@ -107,6 +108,13 @@ class Constants {
             const val SORT_VALUE_VIEWS                  = 5   //조회순
             const val SORT_VALUE_ANSWER                 = 6   //답변완료순?
             const val SORT_VALUE_RELEVANCE              = 7   //관련순
+
+            const val SORT_ITEM_TYPE_GRADE              = 0
+            const val SORT_ITEM_TYPE_GRADE_SEARCH       = 1
+            const val SORT_ITEM_TYPE_HOME               = 2
+            const val SORT_ITEM_TYPE_SPINNER            = 3
+            const val SORT_ITEM_TYPE_SPINNER_VIDEO      = 4
+            const val SORT_ITEM_TYPE_SPINNER_COUNSEL    = 5
         }
     }
 
@@ -153,8 +161,6 @@ class Constants {
         }
     }
 
-
-
     class GradeType{
         companion object {
             const val ELEMENTARY       = "초등"
@@ -184,7 +190,6 @@ class Constants {
             const val TAB_TITLE_HIGH             = "고등"
         }
     }
-
 
     class Progress{
         companion object {

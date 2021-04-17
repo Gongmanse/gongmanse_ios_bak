@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Progress & Setting -->
+    <string-array name="itemGrade">
+        <item>모든 학년</item>
+        <item>초등학교 1학년</item>
+        <item>초등학교 2학년</item>
+        <item>초등학교 3학년</item>
+        <item>초등학교 4학년</item>
+        <item>초등학교 5학년</item>
+        <item>초등학교 6학년</item>
+        <item>중학교 1학년</item>
+        <item>중학교 2학년</item>
+        <item>중학교 3학년</item>
+        <item>고등학교 1학년</item>
+        <item>고등학교 2학년</item>
+        <item>고등학교 3학년</item>
+    </string-array>
+
+    <!-- Search -->
+    <string-array name="itemGradeSearch">
+        <item>모든 학년</item>
+        <item>초등</item>
+        <item>중등</item>
+        <item>고등</item>
+    </string-array>
+
+    <!-- Home -->
+    <string-array name="itemHome">
+        <item>전체 보기</item>
+        <item>시리즈 보기</item>
+        <item>문제 풀이</item>
+        <item>노트 보기</item>
+    </string-array>
+
+    <!-- Spinner Type -->
+    <!-- Base Spinner
+     HOME / SearchNote / MyActive (Video, Note, Q&A, Favorite) -->
+    <string-array name="itemSpinner">
+        <item>평점순</item>
+        <item>최신순</item>
+        <item>이름순</item>
+        <item>과목순</item>
+    </string-array>
+
+    <!-- SearchVideo -->
+    <string-array name="itemSpinnerVideo">
+        <item>평점순</item>
+        <item>최신순</item>
+        <item>이름순</item>
+        <item>과목순</item>
+        <item>관련순</item>
+    </string-array>
+
+    <!-- SearchCounsel & MyActiveCounsel -->
+    <string-array name="itemSpinnerCounsel">
+        <item>최신순</item>
+        <item>조회순</item>
+        <item>답변 완료순</item>
+    </string-array>
+
+</resources>
