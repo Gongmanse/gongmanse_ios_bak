@@ -1,7 +1,6 @@
 package com.gongmanse.app.feature.member
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -39,17 +38,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 lifecycleOwner = context
             }
         }
-        setContentView(binding.root)
         CoroutineScope(Dispatchers.Main).launch {
+            setContentView(binding.root)
             setupLogin()
         }
     }
 
     // 로그인
     private fun setupLogin() {
-        mMemberViewModel.result.observe(this) {
+        mMemberViewModel.resultCode.observe(this) {
             if (it != null) {
-                Log.d(TAG, "result code => $it")
                 when (it) {
                     in 200..299 -> {
                         setResult(RESULT_OK)
@@ -76,10 +74,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     // 비밀번호 찾기
     private fun findByPassword() {
         // TODO 비밀번호 찾기 화면으로 이동 또는 액티비티 생성
-    }
-
-    companion object {
-        private val TAG = LoginActivity::class.java.simpleName
     }
 
 }

@@ -75,12 +75,12 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         videoViewModel.currentValue.observe( viewLifecycleOwner) {
             if(isLoading) mRecyclerAdapter.removeLoading()
             mRecyclerAdapter.addItems(it)
-            Log.d(TAG,"$it")
+//            Log.d(TAG,"$it")
             isLoading = false
         }
         videoViewModel.currentBannerValue.observe(viewLifecycleOwner) {
             mSliderAdapter.addItems(it)
-            Log.d(TAG,"$it")
+//            Log.d(TAG,"$it")
         }
 
         setRVLayout()
@@ -145,7 +145,7 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun loadMoreData(offset: Int) {
         mOffset = offset
-        Log.e(TAG,"loadMoreData offset => $offset")
+//        Log.e(TAG,"loadMoreData offset => $offset")
         if (isLoading) {
             mRecyclerAdapter.addLoading()
         }
