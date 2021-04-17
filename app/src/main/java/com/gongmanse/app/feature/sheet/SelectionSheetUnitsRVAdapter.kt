@@ -64,7 +64,7 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
             positions = 0
             positions
         } else {
-            positions = items.withIndex().filter { it.value.units.toString() == selectUnit }.map { it.index }.first()
+//            positions = items.withIndex().filter { it.value.units.toString() == selectUnit }.map { it.index }.first()
             positions
         }
     }
@@ -73,7 +73,7 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
         Log.v(TAG,"position => $currentPosition")
         // xml -> isCurrent = true
         // ImgView Visibility, TextView Change Color
-        items[currentPosition].isCurrent = true
+//        items[currentPosition].isCurrent = true
     }
 
 
