@@ -9,6 +9,26 @@ import UIKit
 
 extension String {
     
+    // regex의 조건에 따라서 필터링한 값을 array<String>으로 리턴하는 메소드
+    func getOnlyText(regex: String) -> [String] {
+        do {
+            // 입력받은 조건문을 표현식 객체에 넣는다.
+            let regex = try NSRegularExpression(pattern: regex)
+            // self. String의 시작부터 끝까지 정규표현식에 맞게 필터링한 후 "result" 객체에 할당한다.
+            let results = regex.matches(in: self, range: NSRange(self.startIndex..., in: self))
+            // 각 array의 element를 String으로 캐스팅한다.
+            return results.map {
+                String(self[Range($0.range, in: self)!])
+            }
+        } catch let error {
+            print("DEBUG: invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
+}
+
+extension String {
+    
     // 이메일 정규식
     // @를 사용했는지 여부
     func validateEmail() -> Bool {

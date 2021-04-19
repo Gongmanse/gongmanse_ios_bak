@@ -2,7 +2,6 @@ import UIKit
 import BottomPopup
 
 protocol KoreanEnglishMathAlignmentVCDelegate: class {
-    func passSecltedRow(_ selectedRowIndex: Int)
     func passSortedIdRow(_ sortedIdRowIndex: Int)
 }
 
@@ -84,10 +83,8 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! KoreanEnglishMathAlignmentTVCell
         
-        rateFilterNumber = String(indexPath.row)
         rateFilterText = titleNames[indexPath.row]
         
-        UserDefaults.standard.setValue(rateFilterNumber, forKey: "rateFilterNumber")
         UserDefaults.standard.setValue(rateFilterText, forKey: "rateFilterText")
         
         NotificationCenter.default.post(name: NSNotification.Name("rateFilterText"), object: nil)

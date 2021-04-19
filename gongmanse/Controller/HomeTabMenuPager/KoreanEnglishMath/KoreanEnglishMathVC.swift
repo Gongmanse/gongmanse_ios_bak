@@ -244,8 +244,6 @@ extension KoreanEnglishMathVC: UICollectionViewDelegateFlowLayout {
 extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAlignmentVCDelegate {
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
-        
-        
         if sortedIdRowIndex == 0 {          // 1 번째 Cell
             self.sortedId = 3 // 평점순
         } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
@@ -262,8 +260,18 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
     }
     
     func passSecltedRow(_ selectedRowIndex: Int) {
+        
+        if selectedRowIndex == 0 {
+            self.selectedItem = 0 // 전체 보기
+        } else if selectedRowIndex == 1 {
+            self.selectedItem = 2 // 시리즈 보기
+        } else if selectedRowIndex == 2 {
+            self.selectedItem = 1 // 문제 풀이
+        } else {
+            self.selectedItem = 3 // 노트 보기
+        }
         // 클릭한 indexRow에 맞는 index를 "KoreanEnglishMathVC"의 프로퍼티에 전달한다.
-        self.selectedItem = selectedRowIndex
+//        self.selectedItem = selectedRowIndex
         delegate?.passSelectedIndexSettingValue(selectedRowIndex)
         // 변경된 selectedItem으로 다시 API를 호출한다.
 //        getDataFromJson()

@@ -187,10 +187,8 @@
 		6C4C38A525FEFCF600653A61 /* LectureQuestionsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38A425FEFCF600653A61 /* LectureQuestionsTVCell.swift */; };
 		6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38AA25FF4C0A00653A61 /* ExpertConsultTVCell.swift */; };
 		6C4C38AF26004F8900653A61 /* BookMarkTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38AE26004F8900653A61 /* BookMarkTVCell.swift */; };
-		6C576F4726083C49001B28E6 /* ScienceCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4626083C49001B28E6 /* ScienceCRV.swift */; };
 		6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4926083C77001B28E6 /* ScienceCVCell.swift */; };
 		6C576F4D26087962001B28E6 /* SocialStudiesCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */; };
-		6C576F5026087A08001B28E6 /* SocialStudiesCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4F26087A08001B28E6 /* SocialStudiesCRV.swift */; };
 		6C576F5326088506001B28E6 /* OtherSubjectsCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F5226088506001B28E6 /* OtherSubjectsCRV.swift */; };
 		6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */; };
 		6C8852562611CC820006BDB2 /* VideoCellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852552611CC820006BDB2 /* VideoCellModels.swift */; };
@@ -477,10 +475,8 @@
 		6C4C38A425FEFCF600653A61 /* LectureQuestionsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureQuestionsTVCell.swift; sourceTree = "<group>"; };
 		6C4C38AA25FF4C0A00653A61 /* ExpertConsultTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultTVCell.swift; sourceTree = "<group>"; };
 		6C4C38AE26004F8900653A61 /* BookMarkTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkTVCell.swift; sourceTree = "<group>"; };
-		6C576F4626083C49001B28E6 /* ScienceCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceCRV.swift; sourceTree = "<group>"; };
 		6C576F4926083C77001B28E6 /* ScienceCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceCVCell.swift; sourceTree = "<group>"; };
 		6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialStudiesCVCell.swift; sourceTree = "<group>"; };
-		6C576F4F26087A08001B28E6 /* SocialStudiesCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialStudiesCRV.swift; sourceTree = "<group>"; };
 		6C576F5226088506001B28E6 /* OtherSubjectsCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsCRV.swift; sourceTree = "<group>"; };
 		6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsCVCell.swift; sourceTree = "<group>"; };
 		6C8852552611CC820006BDB2 /* VideoCellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCellModels.swift; sourceTree = "<group>"; };
@@ -1664,7 +1660,6 @@
 			isa = PBXGroup;
 			children = (
 				6CF2E66125F0AA53000FE084 /* ScienceVC.swift */,
-				6C576F4626083C49001B28E6 /* ScienceCRV.swift */,
 				6C576F4926083C77001B28E6 /* ScienceCVCell.swift */,
 			);
 			path = Science;
@@ -1674,7 +1669,6 @@
 			isa = PBXGroup;
 			children = (
 				6CF2E66425F0AA8E000FE084 /* SocialStudiesVC.swift */,
-				6C576F4F26087A08001B28E6 /* SocialStudiesCRV.swift */,
 				6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */,
 			);
 			path = SocialStudies;
@@ -2259,7 +2253,6 @@
 				6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */,
 				25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */,
 				259B8BEF260305CB009A7146 /* SearchAfterVC.swift in Sources */,
-				6C576F5026087A08001B28E6 /* SocialStudiesCRV.swift in Sources */,
 				6CF2E67825F0C498000FE084 /* SearchVC.swift in Sources */,
 				2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */,
 				C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */,
@@ -2270,7 +2263,6 @@
 				6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */,
 				6C4713C025F8541600D68A2B /* CustomerServiceVC.swift in Sources */,
 				2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */,
-				6C576F4726083C49001B28E6 /* ScienceCRV.swift in Sources */,
 				6CF2E64E25F08B2A000FE084 /* TabsView.swift in Sources */,
 				25126D5D26115D1500009526 /* RegistrationVCViewModel.swift in Sources */,
 				259B8C0E26030632009A7146 /* ElementaryVC.swift in Sources */,

@@ -87,10 +87,8 @@ extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! KoreanEnglishMathBottomPopUpTVCell
         
-        videoFilterNumber = String(indexPath.row)
         videoFilterText = titleNames[indexPath.row]
         
-        UserDefaults.standard.setValue(videoFilterNumber, forKey: "videoFilterNumber")
         UserDefaults.standard.setValue(videoFilterText, forKey: "videoFilterText")
         
         NotificationCenter.default.post(name: NSNotification.Name("videoFilterText"), object: nil)
