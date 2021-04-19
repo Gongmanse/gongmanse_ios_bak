@@ -2,7 +2,7 @@ import UIKit
 import BottomPopup
 
 protocol KoreanEnglishMathBottomPopUpVCDelegate: class {
-    func passSecltedRow(_ selectedRowIndex: Int)
+    func passSelectedRow(_ selectedRowIndex: Int)
 }
 
 class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
@@ -115,6 +115,6 @@ extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSo
         }
         
         selectItem = indexPath.row
-        delegate?.passSecltedRow(indexPath.row)
+        delegate?.passSelectedRow(indexPath.row)
     }
 }
