@@ -30,6 +30,8 @@ class ProgressSocialVC: UIViewController {
     
     var pageIndex: Int!
     
+    private var socialDataList: [ProgressBodyModel]?
+    
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
@@ -44,7 +46,13 @@ class ProgressSocialVC: UIViewController {
         configureButton()
         configureTableView()
         
-        
+        let socialProgress = ProgressListAPI(subject: 36, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        socialProgress.requestProgressDataList { [weak self] result in
+            self?.socialDataList = result
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+            }
+        }
     }
     
     
@@ -113,7 +121,7 @@ class ProgressSocialVC: UIViewController {
 extension ProgressSocialVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return 3
+            return socialDataList?.count ?? 0
         } else {
             return 1
         }
@@ -122,7 +130,14 @@ extension ProgressSocialVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isLesson {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as! ProgressMainCell
+            
             cell.selectionStyle = .none
+            cell.totalRows.text = socialDataList?[indexPath.row].totalLecture
+            cell.gradeTitle.text = socialDataList?[indexPath.row].title
+            cell.gradeLabel.textColor = UIColor(hex: socialDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = socialDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: socialDataList?[indexPath.row].subjectColor ?? "")
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell

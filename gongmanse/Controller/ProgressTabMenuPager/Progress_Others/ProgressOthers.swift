@@ -30,6 +30,8 @@ class ProgressOthers: UIViewController {
     
     var pageIndex: Int!
     
+    private var othersDataList: [ProgressBodyModel]?
+    
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
@@ -43,7 +45,13 @@ class ProgressOthers: UIViewController {
         configureButton()
         configureTableView()
         
-        
+        let othersProgress = ProgressListAPI(subject: 37, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        othersProgress.requestProgressDataList { [weak self] result in
+            self?.othersDataList = result
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+            }
+        }
     }
     
     
@@ -111,7 +119,7 @@ class ProgressOthers: UIViewController {
 extension ProgressOthers: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return 3
+            return othersDataList?.count ?? 0
         } else {
             return 1
         }
@@ -121,6 +129,12 @@ extension ProgressOthers: UITableViewDelegate, UITableViewDataSource {
         if isLesson {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as! ProgressMainCell
             cell.selectionStyle = .none
+            cell.totalRows.text = othersDataList?[indexPath.row].totalLecture
+            cell.gradeTitle.text = othersDataList?[indexPath.row].title
+            cell.gradeLabel.textColor = UIColor(hex: othersDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = othersDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: othersDataList?[indexPath.row].subjectColor ?? "")
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell

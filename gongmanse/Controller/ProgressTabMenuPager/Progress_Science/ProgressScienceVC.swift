@@ -29,6 +29,9 @@ class ProgressScienceVC: UIViewController {
     var isLesson: Bool = true
     
     var pageIndex: Int!
+    
+    private var scienceDataList: [ProgressBodyModel]?
+    
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
@@ -44,7 +47,13 @@ class ProgressScienceVC: UIViewController {
         configureButton()
         configureTableView()
         
-        
+        let scienceProgress = ProgressListAPI(subject: 35, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        scienceProgress.requestProgressDataList { [weak self] result in
+            self?.scienceDataList = result
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+            }
+        }
     }
     
     
@@ -113,7 +122,7 @@ class ProgressScienceVC: UIViewController {
 extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return 3
+            return scienceDataList?.count ?? 0
         } else {
             return 1
         }
@@ -123,6 +132,13 @@ extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
         if isLesson {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as! ProgressMainCell
             cell.selectionStyle = .none
+            
+            cell.totalRows.text = scienceDataList?[indexPath.row].totalLecture
+            cell.gradeTitle.text = scienceDataList?[indexPath.row].title
+            cell.gradeLabel.textColor = UIColor(hex: scienceDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = scienceDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: scienceDataList?[indexPath.row].subjectColor ?? "")
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
