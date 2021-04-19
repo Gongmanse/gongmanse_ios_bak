@@ -17,7 +17,10 @@ class ProgressDetailVC: UIViewController {
     @IBOutlet weak var autoPlaySwitch: UISwitch!
   
     var progressBodyData: [ProgressDetailBody] = []
-    var progressIdentifier = ""
+    var progressIdentifier = ""                             // 서버와 통신할 progressID
+    var detailViewTitle = ""
+    var detailViewRows = ""
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {

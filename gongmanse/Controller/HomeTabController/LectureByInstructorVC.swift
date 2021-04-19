@@ -229,7 +229,7 @@ extension LectureByInstructorVC: UIPageViewControllerDataSource, UIPageViewContr
 
 extension LectureByInstructorVC: ProgressPresenterDelegate {
     
-    func pushCellVC(indexPath: IndexPath, progressID: String) {
+    func pushCellVC(indexPath: IndexPath, progressID: String, viewTitle: String, viewRows: String) {
         // indexPath 파라미터를 통해서 선택된 Cell에 맞는 데이터를 보여줄 예정.
         
 //        let vc = ProgressDetailController(collectionViewLayout: UICollectionViewFlowLayout())
