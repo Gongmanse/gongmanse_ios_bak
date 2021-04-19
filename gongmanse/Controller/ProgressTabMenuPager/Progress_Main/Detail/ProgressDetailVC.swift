@@ -92,8 +92,15 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         let urlEncoding = progressIndexPath.thumbnail?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
+        cell.subjectSecond.isHidden = progressIndexPath.unit != nil ? false : true
+        
         cell.lessonImage.setImageUrl(urlEncoding ?? "")
         cell.lessonTitle.text = progressIndexPath.title
+        cell.subjectFirst.text = progressIndexPath.subject
+        cell.subjectSecond.text = progressIndexPath.unit
+        cell.starRating.text = progressIndexPath.rating
+        cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath.subjectColor ?? "")
+        cell.subjectSecond.backgroundColor = .mainOrange
         return cell
     }
 }

@@ -38,44 +38,82 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="심민경 선생님" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUq-3E-nTV">
-                                        <rect key="frame" x="0.0" y="30" width="76.5" height="13"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="초국어" translatesAutoresizingMaskIntoConstraints="NO" id="tWS-Lv-oBc">
-                                        <rect key="frame" x="262" y="0.0" width="56" height="23"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="56" id="MmD-Bk-pGz"/>
-                                            <constraint firstAttribute="height" constant="23" id="YT9-LI-qct"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gur-ZL-WFI">
-                                        <rect key="frame" x="301.5" y="32" width="16.5" height="11"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="Dkw-kK-F29">
-                                        <rect key="frame" x="289.5" y="32" width="11" height="11"/>
-                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="s3e-XN-BCA">
+                                        <rect key="frame" x="208.5" y="26" width="109.5" height="17"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="심민경 선생님" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUq-3E-nTV">
+                                                <rect key="frame" x="0.0" y="0.0" width="76.5" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="Dkw-kK-F29">
+                                                <rect key="frame" x="79.5" y="0.0" width="10.5" height="17"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gur-ZL-WFI">
+                                                <rect key="frame" x="93" y="0.0" width="16.5" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="C96-gX-KED">
+                                        <rect key="frame" x="0.0" y="26" width="52" height="17"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="국어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-zX-vIT" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="21" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                        <real key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                        <real key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="용어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7eD-iN-aqy" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
+                                                <rect key="frame" x="31" y="0.0" width="21" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                        <real key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                        <real key="value" value="3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="3oj-hl-sLx" firstAttribute="leading" secondItem="bM1-QB-Fit" secondAttribute="leading" id="52k-yD-0n0"/>
-                                    <constraint firstItem="tWS-Lv-oBc" firstAttribute="top" secondItem="bM1-QB-Fit" secondAttribute="top" id="5pT-5A-a2Z"/>
-                                    <constraint firstAttribute="bottom" secondItem="Gur-ZL-WFI" secondAttribute="bottom" id="CxG-E2-fmh"/>
-                                    <constraint firstItem="nUq-3E-nTV" firstAttribute="top" secondItem="3oj-hl-sLx" secondAttribute="bottom" constant="12" id="FAc-AF-Tif"/>
-                                    <constraint firstItem="Gur-ZL-WFI" firstAttribute="leading" secondItem="Dkw-kK-F29" secondAttribute="trailing" constant="1" id="G66-Wn-IvO"/>
-                                    <constraint firstAttribute="trailing" secondItem="Gur-ZL-WFI" secondAttribute="trailing" id="Ggc-D5-c3X"/>
+                                    <constraint firstAttribute="bottom" secondItem="s3e-XN-BCA" secondAttribute="bottom" id="7Iy-RB-8Da"/>
+                                    <constraint firstItem="C96-gX-KED" firstAttribute="height" secondItem="s3e-XN-BCA" secondAttribute="height" id="Asp-ol-Uhi"/>
+                                    <constraint firstItem="s3e-XN-BCA" firstAttribute="leading" relation="lessThanOrEqual" secondItem="C96-gX-KED" secondAttribute="trailing" constant="156.5" id="DjX-m8-Jwb"/>
                                     <constraint firstItem="3oj-hl-sLx" firstAttribute="top" secondItem="bM1-QB-Fit" secondAttribute="top" id="KPz-hJ-1UF"/>
-                                    <constraint firstItem="Dkw-kK-F29" firstAttribute="centerY" secondItem="Gur-ZL-WFI" secondAttribute="centerY" id="O5x-63-fIA"/>
-                                    <constraint firstItem="Gur-ZL-WFI" firstAttribute="top" secondItem="tWS-Lv-oBc" secondAttribute="bottom" constant="9" id="O7B-nU-J1j"/>
-                                    <constraint firstAttribute="trailing" secondItem="tWS-Lv-oBc" secondAttribute="trailing" id="W0b-Bl-45b"/>
-                                    <constraint firstItem="Dkw-kK-F29" firstAttribute="height" secondItem="Gur-ZL-WFI" secondAttribute="height" id="afa-7T-WBl"/>
-                                    <constraint firstAttribute="bottom" secondItem="nUq-3E-nTV" secondAttribute="bottom" id="aw3-et-hDs"/>
-                                    <constraint firstItem="nUq-3E-nTV" firstAttribute="leading" secondItem="bM1-QB-Fit" secondAttribute="leading" id="eTK-QS-IA3"/>
+                                    <constraint firstItem="s3e-XN-BCA" firstAttribute="bottom" secondItem="C96-gX-KED" secondAttribute="bottom" id="Lv4-Yq-8df"/>
+                                    <constraint firstItem="C96-gX-KED" firstAttribute="leading" secondItem="3oj-hl-sLx" secondAttribute="leading" id="Z4q-eg-oaQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="s3e-XN-BCA" secondAttribute="trailing" id="elq-ae-ZRb"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -106,6 +144,9 @@
                 <outlet property="lessonImage" destination="Xlo-yH-z4X" id="2iU-gq-qwN"/>
                 <outlet property="lessonRating" destination="Gur-ZL-WFI" id="iDJ-OG-Rvv"/>
                 <outlet property="lessonTitle" destination="3oj-hl-sLx" id="2J4-iv-gaa"/>
+                <outlet property="starRating" destination="Gur-ZL-WFI" id="kEb-vJ-XaI"/>
+                <outlet property="subjectFirst" destination="bgg-zX-vIT" id="BPz-xj-o5S"/>
+                <outlet property="subjectSecond" destination="7eD-iN-aqy" id="CDa-dO-UMA"/>
                 <outlet property="teathername" destination="nUq-3E-nTV" id="lUr-IV-Fzo"/>
             </connections>
             <point key="canvasLocation" x="352.17391304347831" y="83.705357142857139"/>
@@ -114,7 +155,6 @@
     <resources>
         <image name="star" width="10.5" height="9.5"/>
         <image name="임시이미지" width="1276" height="639"/>
-        <image name="초국어" width="116" height="47"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

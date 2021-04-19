@@ -16,10 +16,15 @@ class ProgressDetailCell: UICollectionViewCell {
     @IBOutlet weak var teathername: UILabel!
     @IBOutlet weak var lessonRating: UILabel!
     
+    @IBOutlet weak var subjectFirst: UILabel!
+    @IBOutlet weak var subjectSecond: UILabel!
+    @IBOutlet weak var starRating: UILabel!
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         
     }
  
@@ -33,7 +38,25 @@ class ProgressDetailCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        
         lessonImage.layer.cornerRadius = 15
+        
+        lessonTitle.font = .appBoldFontWith(size: 15)
+        starRating.font = .appBoldFontWith(size: 13)
+        teathername.font = .appBoldFontWith(size: 13)
+        
+        subjectFirst.font = .appBoldFontWith(size: 12)
+        subjectFirst.textColor = .white
+        subjectFirst.textAlignment = .center
+        subjectFirst.clipsToBounds = true
+        subjectFirst.layer.cornerRadius = subjectFirst.frame.size.height / 2
+        
+        
+        subjectSecond.font = .appBoldFontWith(size: 12)
+        subjectSecond.textColor = .white
+        subjectSecond.textAlignment = .center
+        subjectSecond.clipsToBounds = true
+        subjectSecond.layer.cornerRadius = subjectSecond.frame.size.height / 2
         
         
     }
