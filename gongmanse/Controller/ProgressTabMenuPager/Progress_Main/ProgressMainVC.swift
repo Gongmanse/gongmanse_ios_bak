@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProgressMainVCDelegate: class {
-    func pushCellVC(indexPath: IndexPath)
+    func pushCellVC(indexPath: IndexPath, progressID: String)
 }
 
 
@@ -184,7 +184,8 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isLesson {
             print("DEBUG: 상세페이지 이동")
-            self.delegate?.pushCellVC(indexPath: indexPath)
+            let indexID = progressDataList?[indexPath.row].progressId ?? ""
+            self.delegate?.pushCellVC(indexPath: indexPath, progressID: indexID)
         } else {
             print("DEBUG: 빈 페이지 클릭중")
         }

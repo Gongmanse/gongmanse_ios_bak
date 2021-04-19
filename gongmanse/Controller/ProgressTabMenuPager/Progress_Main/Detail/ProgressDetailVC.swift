@@ -17,12 +17,12 @@ class ProgressDetailVC: UIViewController {
     @IBOutlet weak var autoPlaySwitch: UISwitch!
   
     var progressBodyData: [ProgressDetailBody] = []
-    
+    var progressIdentifier = ""
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(progressIdentifier)
         // 총 강의 개수 텍스트 속성 설정
         configurelabel(value: 32) 
         
@@ -39,7 +39,7 @@ class ProgressDetailVC: UIViewController {
         
         collectionView.register(UINib(nibName: "ProgressDetailCell", bundle: nil), forCellWithReuseIdentifier: "ProgressDetailCell")
         
-        let requestDetailData = ProgressDetailListAPI(progressId: 104, limit: 20, offset: 20)
+        let requestDetailData = ProgressDetailListAPI(progressId: progressIdentifier, limit: 20, offset: 0)
         requestDetailData.requestDetailList { [weak self] result in
             self?.progressBodyData = result
             DispatchQueue.main.async {

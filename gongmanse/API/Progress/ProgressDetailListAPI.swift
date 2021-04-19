@@ -11,10 +11,10 @@ import Alamofire
 struct ProgressDetailListAPI {
     
     var detailURL = "\(apiBaseURL)/\(ProgressAPI.progress)/detail/"
-    var progressIdentifier = 0
+    var progressIdentifier = ""
     
     // 초기값
-    init(progressId: Int, limit: Int, offset: Int) {
+    init(progressId: String, limit: Int, offset: Int) {
         detailURL +=  "\(progressId)?offset=\(offset)&limit=\(limit)"
         progressIdentifier = progressId
     }
