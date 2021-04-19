@@ -1,0 +1,30 @@
+PODS:
+  - Alamofire (5.4.1)
+  - BottomPopup (0.6.0)
+  - SDWebImage (4.4.8):
+    - SDWebImage/Core (= 4.4.8)
+  - SDWebImage/Core (4.4.8)
+  - SideMenu (6.5.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - BottomPopup
+  - SDWebImage (~> 4.4.2)
+  - SideMenu
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - BottomPopup
+    - SDWebImage
+    - SideMenu
+
+SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  BottomPopup: 1d5649a3b29396238f0e8f3c82075a7bfcf37ba7
+  SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
+  SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
+
+PODFILE CHECKSUM: 94645fd9728e8e78702b0ccf39f5a5025d18df88
+
+COCOAPODS: 1.10.1
