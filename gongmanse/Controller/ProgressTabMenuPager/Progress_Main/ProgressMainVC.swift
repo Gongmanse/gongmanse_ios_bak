@@ -28,8 +28,8 @@ class ProgressMainVC: UIViewController {
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
     var isLesson: Bool = true
     
-    var progressDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
-    var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
+    private var progressDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
+    private var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
     
     var pageIndex: Int!
     @IBOutlet weak var tableview: UITableView!
@@ -57,7 +57,7 @@ class ProgressMainVC: UIViewController {
         
         configureTableView()
         
-        let requestProgress = ProgressListAPI()
+        let requestProgress = ProgressListAPI(subject: 34, grade: "모든", gradeNum: 0, offset: 0, limit: 20)
         requestProgress.requestProgressDataList { [weak self] result in
             self?.progressDataList = result
             DispatchQueue.main.async {
@@ -71,6 +71,7 @@ class ProgressMainVC: UIViewController {
     
     // TableView
     func configureTableView() {
+        
         tableview.delegate = self
         tableview.dataSource = self
         tableview.tableFooterView = UIView() 

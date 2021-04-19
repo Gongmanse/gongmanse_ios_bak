@@ -39,6 +39,8 @@ class ProgressScienceVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        
         configureButton()
         configureTableView()
         

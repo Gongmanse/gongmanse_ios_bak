@@ -97,11 +97,11 @@ struct postFilteringAPI {
 // 보낸 데이터 받아오는 API
 struct getFilteringAPI {
     
-    let tokenValue = "NjZmOWQ4ODUwNzZhYjM5NDQxM2ZmMWJjZjZmOGQ5N2JjOTNmZjVjYWJiNjkzNjY0YWE2MDFiNmI4MDAyZGFlYzI3OTRmNzY1MTk3ODY5ZTgzNzY2YzBlZmRhY2Q3MmIwZGQ3MjA2ZDVhNDZjNzM0NGM4NmVjZDdlMTBiMGRjYjdjNGZZOGtYRTBIeTg5QVRKWU5DME8yM0M0WjArZUlacW9mNWxtTWhZS2FqUWdHekJYN09IQmw3K0FZQ1QxY0xXWTd2bVJlcDlnQmJGMkphVmFabTgrUT09"
+    let token = "YzE3MjZkOWE0MmE3MTUzNWUyOTI1NTFiNjIyYTM4NzM1MGNiM2YxMTA0ZjhmOGZhZmFmNWQzYzhmZTEwNTY3MzZiOTM5ZGMxZWFiZjlhOWUxYTE2NjNkOTllYmM5NWFmZmNiYTAyOGMwODZkMWVhZTAzMDEyMzVmNjdkOWI1NWQ5bGJvOWRSb1dEMGllanJGblR5Y0k0TnhsMmdoTUFqQVVrTkNpaVI2U2MvOHZ1Nk5ndmRuMUdhOUVXNlJibWJRMnRpUng5Z2J5RDRiR2l6a3dUY1U4UT09"
     
     func getFilteringData(complition: @escaping (_ result: SubjectGetDataModel) -> Void) {
         
-        let getfilterUrl = "\(apiBaseURL)/v/setting/searchsetting?token=\(tokenValue)"
+        let getfilterUrl = "\(apiBaseURL)/v/setting/searchsetting?token=\(token)"
         print(getfilterUrl)
         
         AF.request(getfilterUrl)

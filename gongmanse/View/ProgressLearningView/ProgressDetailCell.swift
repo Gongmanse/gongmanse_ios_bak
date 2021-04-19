@@ -21,7 +21,6 @@ class ProgressDetailCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
     }
  
     required init?(coder: NSCoder) {
@@ -34,9 +33,8 @@ class ProgressDetailCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        lessonImage.clipsToBounds = true
         lessonImage.layer.cornerRadius = 15
-        lessonImage.addShadow()
+        
         
     }
 }
