@@ -17,7 +17,7 @@ struct RequestLectureListAPI {
     }
     
     func requestLectureList(complition: @escaping (_ result: [LectureThumbnail]) -> Void ) {
-        AF.request(lectureUrl ?? "not url", method: .get)
+        AF.request(lectureUrl ?? "", method: .get)
             .responseDecodable(of: LectureListModel.self) { response in
                 
                 switch response.result {
