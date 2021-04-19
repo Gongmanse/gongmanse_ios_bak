@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ProgressMainVCDelegate: class {
+protocol ProgressPresenterDelegate: class {
     func pushCellVC(indexPath: IndexPath, progressID: String)
 }
 
@@ -20,7 +20,7 @@ class ProgressMainVC: UIViewController {
     // 항목이 없다면 -> Views > ProgressLearning > EmptyStateView 에 있는 Cell을 보여준다.
     // init 메소드를 활용하여 ProgressLearningVC로부터 받을 예정.
     
-    weak var delegate: ProgressMainVCDelegate?
+    weak var delegate: ProgressPresenterDelegate?
     
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
     var isChooseGrade: Bool = false

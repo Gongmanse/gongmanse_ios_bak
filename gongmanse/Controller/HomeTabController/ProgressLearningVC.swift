@@ -127,18 +127,22 @@ class ProgressLearningVC: UIViewController {
             return contentVC
         } else if index == 1 {
             let contentVC = ProgressScienceVC()
+            contentVC.delegate = self
             contentVC.pageIndex = index
             return contentVC
         } else if index == 2 {
             let contentVC = ProgressSocialVC()
+            contentVC.delegate = self
             contentVC.pageIndex = index
             return contentVC
         } else if index == 3 {
             let contentVC = ProgressOthers()
+            contentVC.delegate = self
             contentVC.pageIndex = index
             return contentVC
         } else {
             let contentVC = ProgressMainVC()
+            contentVC.delegate = self
             contentVC.pageIndex = index
             return contentVC
         }
@@ -228,7 +232,7 @@ extension ProgressLearningVC: UIPageViewControllerDataSource, UIPageViewControll
     }
 }
 
-extension ProgressLearningVC: ProgressMainVCDelegate {
+extension ProgressLearningVC: ProgressPresenterDelegate {
     func pushCellVC(indexPath: IndexPath, progressID: String) {
         // indexPath 파라미터를 통해서 선택된 Cell에 맞는 데이터를 보여줄 예정.
         

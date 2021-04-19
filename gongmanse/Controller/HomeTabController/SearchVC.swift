@@ -357,7 +357,7 @@ extension SearchVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate
 
 //MARK: - ProgressMainVCDelegate
 
-extension SearchVC: ProgressMainVCDelegate {
+extension SearchVC: ProgressPresenterDelegate {
     
     func pushCellVC(indexPath: IndexPath, progressID: String) {
         // indexPath 파라미터를 통해서 선택된 Cell에 맞는 데이터를 보여줄 예정.
