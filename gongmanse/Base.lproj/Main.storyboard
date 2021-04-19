@@ -1268,9 +1268,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IjQ-fH-fBS">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IjQ-fH-fBS">
                                 <rect key="frame" x="0.0" y="128" width="414" height="734"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FoO-Bg-vBF">
                                     <size key="itemSize" width="360" height="225"/>
@@ -1425,7 +1424,7 @@
                                     <constraint firstAttribute="width" constant="44" id="qew-ZE-hv0"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dP7-d3-mqS">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dP7-d3-mqS">
                                 <rect key="frame" x="289" y="65" width="107" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="9ol-BK-Lcl"/>
@@ -1461,10 +1460,15 @@
                             <constraint firstItem="wBr-HZ-n6Y" firstAttribute="top" secondItem="mFb-fz-DSP" secondAttribute="top" constant="20" id="K6M-Jk-srx"/>
                             <constraint firstItem="0tn-cz-kxG" firstAttribute="leading" secondItem="mFb-fz-DSP" secondAttribute="leading" constant="21" id="L6S-43-WQD"/>
                             <constraint firstItem="3rj-zf-sQz" firstAttribute="leading" secondItem="7uk-RL-khF" secondAttribute="trailing" constant="-2" id="P1c-0s-cu1"/>
+                            <constraint firstItem="IjQ-fH-fBS" firstAttribute="bottom" secondItem="mFb-fz-DSP" secondAttribute="bottom" id="Q0a-GS-lq5"/>
                             <constraint firstItem="dP7-d3-mqS" firstAttribute="top" secondItem="mFb-fz-DSP" secondAttribute="top" constant="21" id="RFD-Ea-KqP"/>
+                            <constraint firstItem="IjQ-fH-fBS" firstAttribute="leading" secondItem="mFb-fz-DSP" secondAttribute="leading" id="WfG-d1-FBM"/>
                             <constraint firstItem="7uk-RL-khF" firstAttribute="top" secondItem="dP7-d3-mqS" secondAttribute="bottom" constant="11" id="erd-mH-rhw"/>
+                            <constraint firstItem="IjQ-fH-fBS" firstAttribute="top" secondItem="0tn-cz-kxG" secondAttribute="bottom" constant="17" id="gQd-Wg-PYG"/>
                             <constraint firstItem="0tn-cz-kxG" firstAttribute="top" secondItem="wBr-HZ-n6Y" secondAttribute="bottom" constant="10" id="gr9-3L-PGQ"/>
+                            <constraint firstItem="IjQ-fH-fBS" firstAttribute="trailing" secondItem="mFb-fz-DSP" secondAttribute="trailing" id="mie-as-GCt"/>
                             <constraint firstItem="wBr-HZ-n6Y" firstAttribute="leading" secondItem="mFb-fz-DSP" secondAttribute="leading" constant="20" id="rwF-sj-JHS"/>
+                            <constraint firstItem="mFb-fz-DSP" firstAttribute="trailing" secondItem="dP7-d3-mqS" secondAttribute="trailing" constant="18" id="tpt-YR-n86"/>
                         </constraints>
                     </view>
                     <connections>
