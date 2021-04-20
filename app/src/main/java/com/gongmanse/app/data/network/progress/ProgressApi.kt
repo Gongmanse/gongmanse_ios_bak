@@ -2,6 +2,7 @@ package com.gongmanse.app.data.network.progress
 
 import com.gongmanse.app.data.model.progress.Progress
 import com.gongmanse.app.data.model.progress.ProgressBody
+import com.gongmanse.app.data.model.sheet.Units
 import com.gongmanse.app.utils.Constants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -19,5 +20,14 @@ interface ProgressApi {
         @Query(Constants.Request.KEY_OFFSET) offset: Int,
         @Query(Constants.Request.KEY_LIMIT) limit: Int
     ): Response<Progress>
+
+    // 진도 탐색
+    @GET("v3/progress/title/{${Constants.Request.KEY_SUBJECT}}")
+    suspend fun getProgressUnits(
+        @Path(Constants.Request.KEY_SUBJECT) subject: Int?,
+        @Query(Constants.Request.KEY_GRADE)  grade: String,
+        @Query(Constants.Request.KEY_GRADE_NUM) gradeNum: Int
+    ): Response<Units>
+
 
 }

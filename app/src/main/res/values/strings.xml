@@ -102,6 +102,7 @@
     <string name="content_using_mobile_data_when_play_the_video">모바일 데이터 사용시에도 영상을 재생 하시겠습니까?</string>
     <string name="content_toast_permission_denied">권한 거부</string>
     <string name="content_toast_plz_check_login_">아이디 또는 비밀번호를 다시 확인해주세요.</string>
+    <string name="content_toast_plz_check_grade">아이디 또는 비밀번호를 다시 확인해주세요.</string>
 
     <string name="content_intro_text1">동영상학습 백과사전</string>
     <string name="content_intro_text2"><font color="#ed7600">동영상 강의\n45,000</font></string>

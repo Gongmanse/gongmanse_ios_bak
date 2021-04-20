@@ -1,6 +1,7 @@
 package com.gongmanse.app.utils
 
 import android.icu.text.CaseMap
+import java.security.AllPermission
 
 class Constants {
 
@@ -38,6 +39,11 @@ class Constants {
         companion object {
             const val KEY_TOKEN                = "token"
             const val KEY_REFRESH_TOKEN        = "refresh_token"
+
+            const val KEY_GRADE                = "grade"
+            const val KEY_GRADE_NUM            = "gradeNum"
+            const val KEY_UNIT                 = "unit"
+            const val KEY_SUBJECT              = "subject"
         }
     }
 
@@ -109,12 +115,25 @@ class Constants {
             const val SORT_VALUE_ANSWER                 = 6   //답변완료순?
             const val SORT_VALUE_RELEVANCE              = 7   //관련순
 
+            /* Item */
+            // list type of array
             const val SORT_ITEM_TYPE_GRADE              = 0
             const val SORT_ITEM_TYPE_GRADE_SEARCH       = 1
             const val SORT_ITEM_TYPE_HOME               = 2
             const val SORT_ITEM_TYPE_SPINNER            = 3
             const val SORT_ITEM_TYPE_SPINNER_VIDEO      = 4
             const val SORT_ITEM_TYPE_SPINNER_COUNSEL    = 5
+
+            // list type of server
+            const val SORT_ITEM_TYPE_UNITS              = 6
+            const val SORT_ITEM_TYPE_SUBJECT            = 7
+
+            // style type
+            const val SORT_ITEM_STYLE_GRADE             = 0 // Grade Type 0, 1
+            const val SORT_ITEM_STYLE_HOME_SELECTION    = 1 // Home Type 2
+            const val SORT_ITEM_STYLE_HOME_SPINNER      = 2 // Spinner 3, 4, 5
+            const val SORT_ITEM_STYLE_SUBJECT           = 3 // Subject -> 서버
+            const val SORT_ITEM_STYLE_UNITS             = 4 // Units   -> 서버
         }
     }
 
@@ -163,12 +182,23 @@ class Constants {
 
     class GradeType{
         companion object {
+            // Type
+            const val All_GRADE        = "모든 학년"
+            const val All_VIEW         = '모'
             const val ELEMENTARY       = "초등"
-            const val ELEMENTARY_VIEW  = "초"
+            const val ELEMENTARY_VIEW  = '초'
             const val MIDDLE           = "중등"
-            const val MIDDLE_VIEW      = "중"
+            const val MIDDLE_VIEW      = '중'
             const val HIGH             = "고등"
-            const val HIGH_VIEW        = "고"
+            const val HIGH_VIEW        = '고'
+
+            // Grade Value Num: String
+            const val VALUE_GRADE_STRING_NUM_FIRST  = "1"
+            const val VALUE_GRADE_STRING_NUM_SECOND = "2"
+            const val VALUE_GRADE_STRING_NUM_THIRD  = "3"
+            const val VALUE_GRADE_STRING_NUM_FOURTH = "4"
+            const val VALUE_GRADE_STRING_NUM_FIFTH  = "5"
+            const val VALUE_GRADE_STRING_NUM_SIXTH  = "6"
         }
     }
 
@@ -198,9 +228,7 @@ class Constants {
             const val TAB_TITLE_SOCIETY     = "사회"
             const val TAB_TITLE_ETC         = "기타과목"
 
-            const val VALUE_ELEMENTARY_VIEW  = '초'
-            const val VALUE_MIDDLE_VIEW      = '중'
-            const val VALUE_HIGH_VIEW        = '고'
+            const val SORT_ALL_UNIT         = "모든 단원"
         }
     }
 

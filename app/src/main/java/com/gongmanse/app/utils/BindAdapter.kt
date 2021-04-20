@@ -76,14 +76,58 @@ fun bindViewGradeTextOfProgress(view: TextView, value: String?) {
     else {
         value.let {
             view.text = when (value[0]) {
-                Constants.Progress.VALUE_ELEMENTARY_VIEW -> Constants.Progress.VALUE_ELEMENTARY_VIEW.toString()
-                Constants.Progress.VALUE_MIDDLE_VIEW -> Constants.Progress.VALUE_MIDDLE_VIEW.toString()
-                Constants.Progress.VALUE_HIGH_VIEW -> Constants.Progress.VALUE_ELEMENTARY_VIEW.toString()
+                Constants.GradeType.ELEMENTARY_VIEW -> Constants.GradeType.ELEMENTARY
+                Constants.GradeType.MIDDLE_VIEW     -> Constants.GradeType.MIDDLE
+                Constants.GradeType.HIGH_VIEW       -> Constants.GradeType.HIGH
                 else -> null
             }
         }
     }
 }
+
+
+@BindingAdapter("bindUnitsType")
+fun bindViewUnitsType(view: TextView, type: Int?) {
+    if (type!= null) {
+        Constants.SelectValue.apply {
+            when(type) {
+                SORT_ITEM_TYPE_GRADE           -> {
+                    view.apply {
+                        text = context.getString(R.string.content_format_selected_title_grade)
+                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_popup_class, 0, 0, 0)
+                    }
+                }
+                SORT_ITEM_TYPE_GRADE_SEARCH    -> {
+                    view.apply {
+                        text = context.getString(R.string.content_format_selected_title_grade)
+                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_popup_class, 0, 0, 0)
+                    }
+                }
+                SORT_ITEM_TYPE_HOME            -> {
+                    view.apply {
+                        text = context.getString(R.string.content_format_selected_title)
+                        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_popup_category, 0, 0, 0)
+                    }
+                }
+
+                SORT_ITEM_TYPE_UNITS -> {
+                     view.apply {
+                         text = context.getString(R.string.content_format_selected_title_unit)
+                         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_popup_unit, 0, 0, 0)
+                     }
+                 }
+                // SORT_ITEM_TYPE_UNITS   -> {}
+
+                else -> {
+                    view.apply {
+                        text = context.getString(R.string.content_format_selected_align_title)
+                    }
+                }
+            }
+        }
+    } else Log.e("bindUnits", " Type is null")
+}
+
 
 @BindingAdapter("bindUnitText")
 fun bindViewUnitText(view: TextView, value: String?) {

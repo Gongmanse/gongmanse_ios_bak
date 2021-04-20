@@ -10,6 +10,7 @@ import com.gongmanse.app.feature.main.home.HomeFragment
 import com.gongmanse.app.feature.main.progress.ProgressFragment
 import com.gongmanse.app.feature.main.teacher.TeacherFragment
 import com.gongmanse.app.feature.sheet.SelectionSheetUnits
+import com.gongmanse.app.utils.listeners.OnBottomSheetToUnitListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -86,16 +87,7 @@ class Commons {
             }
         }
 
-        fun bottomSheetManager(
-            item_type: Int,
-            select_text: String?,
-            context: Context
-        ) {
-            val bottomSheetUnits = SelectionSheetUnits(item_type, select_text)
-            val supportManager = (context as FragmentActivity).supportFragmentManager
-            bottomSheetUnits.show(supportManager, bottomSheetUnits.tag)
-        }
-
+        // BottomSheet Type, Add an item according to type
         fun checkSelectionSheetType(type: Int): Int? {
             return when (type) {
                 Constants.SelectValue.SORT_ITEM_TYPE_GRADE           -> R.array.itemGrade
@@ -108,9 +100,36 @@ class Commons {
             }
         }
 
+        fun checkGrade(grade: String?): String? {
+            Constants.GradeType.apply {
+                return when (grade?.get(0)) {
+                    All_VIEW        -> All_GRADE
+                    ELEMENTARY_VIEW -> ELEMENTARY
+                    MIDDLE_VIEW     -> MIDDLE
+                    HIGH_VIEW       -> HIGH
+                    else            -> null
+                }
+            }
+        }
 
+        fun checkGradeNum(grade: String?) : Int? {
+            val regexInt = "[^0-9]".toRegex()
+            Constants.GradeType.apply {
+                return when (grade?.replace(regexInt, "")) {
+                    VALUE_GRADE_STRING_NUM_FIRST  -> VALUE_GRADE_STRING_NUM_FIRST.toInt()
+                    VALUE_GRADE_STRING_NUM_SECOND -> VALUE_GRADE_STRING_NUM_SECOND.toInt()
+                    VALUE_GRADE_STRING_NUM_THIRD  -> VALUE_GRADE_STRING_NUM_THIRD.toInt()
+                    VALUE_GRADE_STRING_NUM_FOURTH -> VALUE_GRADE_STRING_NUM_FOURTH.toInt()
+                    VALUE_GRADE_STRING_NUM_FIFTH  -> VALUE_GRADE_STRING_NUM_FIFTH.toInt()
+                    VALUE_GRADE_STRING_NUM_SIXTH  -> VALUE_GRADE_STRING_NUM_SIXTH.toInt()
+                    else                          -> Constants.Init.INIT_INT
+                }
+            }
 
+        }
 
     }
 
-}
+    }
+
+

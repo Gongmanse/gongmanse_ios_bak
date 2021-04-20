@@ -307,22 +307,26 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-    </style>
 
-    <style name="HomeSheetSelection" parent="SheetTextStyle">
-        <item name="android:text">@string/content_format_selected_title</item>
-        <item name="android:drawableLeft">@drawable/ic_popup_category</item>
-    </style>
-
-    <style name="HomeSheetSpinner" parent="SheetTextStyle">
-        <item name="android:text">@string/content_format_selected_align_title</item>
-        <item name="android:drawableLeft">@drawable/ic_popup_align</item>
-    </style>
-
-    <style name="GradeSheetSelection" parent="SheetTextStyle">
         <item name="android:text">@string/content_format_selected_title_grade</item>
         <item name="android:drawableLeft">@drawable/ic_popup_class</item>
+
     </style>
+
+<!--    <style name="HomeSheetSelection" parent="SheetTextStyle">-->
+<!--        <item name="android:text">@string/content_format_selected_title</item>-->
+<!--        <item name="android:drawableLeft">@drawable/ic_popup_category</item>-->
+<!--    </style>-->
+
+<!--    <style name="HomeSheetSpinner" parent="SheetTextStyle">-->
+<!--        <item name="android:text">@string/content_format_selected_align_title</item>-->
+<!--        <item name="android:drawableLeft">@drawable/ic_popup_align</item>-->
+<!--    </style>-->
+
+<!--    <style name="GradeSheetSelection" parent="SheetTextStyle">-->
+<!--        <item name="android:text">@string/content_format_selected_title_grade</item>-->
+<!--        <item name="android:drawableLeft">@drawable/ic_popup_class</item>-->
+<!--    </style>-->
 
     <style name="SubjectSheetSelection" parent="SheetTextStyle">
         <item name="android:text">@string/content_format_selected_subject</item>
