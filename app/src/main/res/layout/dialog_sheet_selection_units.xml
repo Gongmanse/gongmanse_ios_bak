@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature.sheet.SelectionSheetUnits">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="title"
             type="String" />
+
         <variable
             name="type"
-            type="String" />
-        <import type="com.gongmanse.app.data.model.progress.Progress"/>
+            type="Integer" />
+
+        <import type="com.gongmanse.app.data.model.progress.Progress" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,21 +36,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style=""
             android:id="@+id/tv_title"
+            bindUnitsType="@{type}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:drawableLeft="@drawable/ic_popup_unit"
+            android:layout_marginStart="16dp"
             android:drawablePadding="10dp"
-            android:text="@string/content_format_selected_title_unit"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/btn_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_close"
-            tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:drawableLeft="@drawable/ic_popup_unit"
+            tools:text="@string/content_format_selected_title_unit" />
 
         <View
             android:id="@+id/view_divider"
@@ -54,7 +58,7 @@
             android:layout_height="2dp"
             android:layout_marginVertical="9dp"
             android:background="@color/main_color"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -64,11 +68,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_unit"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:overScrollMode="never"
                 android:scrollbars="none"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_units" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

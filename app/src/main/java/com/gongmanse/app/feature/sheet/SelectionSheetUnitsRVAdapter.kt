@@ -22,6 +22,7 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
 
 //    private val items: ArrayList<Units> = ArrayList()
     private val items: ArrayList<UnitsBody> = ArrayList()
+    private var type: Int? = Constants.Init.INIT_INT
     private var positions: Int = Constants.Init.INIT_INT
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,8 +37,8 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.apply {
-            bind(item, View.OnClickListener {
-
+            bind(item, View.OnClickListener{
+                updateUnits(item)
             })
         }
     }
@@ -46,13 +47,16 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
 
     inner class ViewHolder(private val binding: ItemUnitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-//        fun bind(data: Units, listener: View.OnClickListener) {
         fun bind(data: UnitsBody, listener: View.OnClickListener) {
             binding.apply {
                 this.data = data
                 layoutUnits.setOnClickListener(listener)
             }
         }
+    }
+
+    fun addType(types: Int?) {
+        type = types
     }
 
     fun addItem(newItem: UnitsBody) {
@@ -67,7 +71,7 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
             positions = 0
             positions
         } else {
-//            positions = items.withIndex().filter { it.value.units.toString() == selectUnit }.map { it.index }.first()
+            positions = items.withIndex().filter { it.value.units.toString() == selectUnit }.map { it.index }.first()
             positions
         }
     }
@@ -76,8 +80,18 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
         Log.v(TAG,"position => $currentPosition")
         // xml -> isCurrent = true
         // ImgView Visibility, TextView Change Color
-//        items[currentPosition].isCurrent = true
+        items[currentPosition].isCurrent = true
     }
 
+
+    private fun updateUnits(unitsBody: UnitsBody) {
+        Constants.SelectValue.apply {
+            when(type) {
+                SORT_ITEM_TYPE_GRADE   -> listener.onSelectionUnits(type, null, unitsBody.units)
+                SORT_ITEM_TYPE_UNITS   -> listener.onSelectionUnits(type, unitsBody.id, unitsBody.units)
+                SORT_ITEM_TYPE_SUBJECT -> listener.onSelectionUnits(type, unitsBody.id, unitsBody.units)
+            }
+        }
+    }
 
 }

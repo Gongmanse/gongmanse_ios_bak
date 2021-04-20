@@ -18,4 +18,14 @@ class ProgressRepository {
         limit
     )
 
+    suspend fun getProgressUnits(
+        subject: Int?,
+        grade: String,
+        gradeNum: Int,
+    ) = progressClient.getProgressUnits(
+        subject,
+        grade,
+        gradeNum
+    )
+
 }

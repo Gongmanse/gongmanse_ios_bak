@@ -6,20 +6,12 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="progressTitle"
-            type="com.gongmanse.app.data.model.progress.ProgressBody" />
-        <variable
-            name="subject"
-            type="com.gongmanse.app.data.model.sheet.SubjectListBody" />
-        <variable
-            name="grade"
-            type="String" />
-        <variable
             name="data"
             type="com.gongmanse.app.data.model.sheet.UnitsBody" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -39,15 +31,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{data.units}"
-
                 android:textSize="16sp"
+                android:text="@{data.units}"
+                android:textColor="@{data.current ? @color/main_color : @color/black}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_show_check"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:textColor= "@color/black"
                 tools:text="초등학교 1학년" />
-<!--android:textColor="@{data.current ? @color/main_color : @color/black}"-->
+
             <ImageView
                 android:id="@+id/iv_show_check"
                 android:layout_width="wrap_content"
@@ -55,13 +47,20 @@
                 android:layout_marginStart="10dp"
                 android:contentDescription="@string/desc_image_category_check"
                 android:src="@drawable/ic_popup_check"
+                android:visibility="@{data.current ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_unit_title"
                 app:layout_constraintEnd_toStartOf="@+id/tv_unit_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_unit_title" />
-<!--android:visibility="@{data.current ?  View.VISIBLE : View.INVISIBLE }"-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_gray"
+            app:layout_constraintTop_toBottomOf="@+id/layout_units" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
