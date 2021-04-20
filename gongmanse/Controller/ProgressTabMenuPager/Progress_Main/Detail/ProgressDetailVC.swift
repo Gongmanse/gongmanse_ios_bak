@@ -85,7 +85,7 @@ class ProgressDetailVC: UIViewController {
         gradeLabel.backgroundColor = .white
         gradeLabel.font = .appBoldFontWith(size: 12)
         gradeLabel.clipsToBounds = true
-        gradeLabel.layer.cornerRadius = 8.5
+        gradeLabel.layer.cornerRadius = 8
         
         
         // subjectColor
