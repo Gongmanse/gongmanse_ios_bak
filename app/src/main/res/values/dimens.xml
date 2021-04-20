@@ -9,10 +9,12 @@
 
     <dimen name="vertical_spacing">27dp</dimen>
     <dimen name="vertical_spacing_5dp">5dp</dimen>
+    <dimen name="vertical_spacing_9dp">9dp</dimen>
     <dimen name="vertical_spacing_10dp">10dp</dimen>
     <dimen name="vertical_spacing_13dp">13dp</dimen>
     <dimen name="vertical_spacing_18dp">18dp</dimen>
     <dimen name="vertical_spacing_20dp">20dp</dimen>
+    <dimen name="vertical_spacing_25dp">25dp</dimen>
     <dimen name="vertical_spacing_30dp">30dp</dimen>
     <dimen name="vertical_spacing_40dp">40dp</dimen>
 

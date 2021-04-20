@@ -33,6 +33,12 @@
         <action
             android:id="@+id/action_emptyFragment_to_purchaseTicketFragment"
             app:destination="@id/purchaseTicketFragment" />
+        <action
+            android:id="@+id/action_emptyFragment_to_termsOfServiceFragment"
+            app:destination="@id/termsOfServiceFragment" />
+        <action
+            android:id="@+id/action_emptyFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
 
     </fragment>
 
@@ -75,5 +81,15 @@
         android:id="@+id/purchaseTicketFragment"
         android:name="com.gongmanse.app.feature.member.PurchaseTicketFragment"
         android:label="@string/nav_purchase_ticket" />
+
+    <fragment
+        android:id="@+id/termsOfServiceFragment"
+        android:name="com.gongmanse.app.feature.privacy.TermsOfServiceFragment"
+        android:label="@string/nav_terms_of_service"/>
+
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.gongmanse.app.feature.privacy.PrivacyPolicyFragment"
+        android:label="@string/nav_privacy_policy"/>
 
 </navigation>

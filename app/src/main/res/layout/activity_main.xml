@@ -31,7 +31,37 @@
             tools:ignore="RtlHardcoded">
 
             <!-- Footer View -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/light_gray"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        style="@style/SideMenuItem"
+                        android:id="@+id/btn_terms_of_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        android:text="@string/button_terms_of_service"/>
+
+                    <TextView
+                        style="@style/SideMenuItem"
+                        android:id="@+id/btn_privacy_policy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        android:text="@string/button_privacy"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.navigation.NavigationView>
 

@@ -3,7 +3,6 @@ package com.gongmanse.app
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +14,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -24,11 +24,9 @@ import com.gongmanse.app.data.network.member.MemberRepository
 import com.gongmanse.app.databinding.ActivityMainBinding
 import com.gongmanse.app.databinding.LayoutLocalHeaderBinding
 import com.gongmanse.app.databinding.LayoutLoginHeaderBinding
-import com.gongmanse.app.feature.Intro.IntroActivity
 import com.gongmanse.app.feature.main.EmptyFragmentDirections
 import com.gongmanse.app.feature.main.MainFragment
 import com.gongmanse.app.feature.member.*
-import com.gongmanse.app.feature.splash.SplashActivity
 import com.gongmanse.app.utils.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
@@ -78,9 +76,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.cv_purchase_ticket -> {
-                val action = EmptyFragmentDirections.actionEmptyFragmentToPurchaseTicketFragment()
-                findNavController(R.id.nav_host_fragment).navigate(action)
-                binding.drawerLayout.closeDrawer(GravityCompat.END)
+                actionNavigator(EmptyFragmentDirections.actionEmptyFragmentToPurchaseTicketFragment())
+            }
+            R.id.btn_terms_of_service -> {
+                actionNavigator(EmptyFragmentDirections.actionEmptyFragmentToTermsOfServiceFragment())
+            }
+            R.id.btn_privacy_policy -> {
+                actionNavigator(EmptyFragmentDirections.actionEmptyFragmentToPrivacyPolicyFragment())
             }
         }
     }
@@ -199,6 +201,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 addHeaderView(navBinding.root)
             }
         })
+    }
+
+    private fun actionNavigator(action: NavDirections) {
+        findNavController(R.id.nav_host_fragment).navigate(action)
+        binding.drawerLayout.closeDrawer(GravityCompat.END)
     }
 
     fun replaceBottomNavigation(title: String?) {

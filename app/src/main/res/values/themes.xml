@@ -264,6 +264,19 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <!-- SideMenu -->
+    <style name="SideMenuItem" parent="NanumSquareRoundB">
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">@dimen/vertical_spacing_9dp</item>
+        <item name="android:paddingBottom">@dimen/vertical_spacing_9dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!-- Select Box -->
     <style name="SelectBox" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">wrap_content</item>
@@ -280,8 +293,12 @@
         <item name="android:fontFamily">@font/nanum_square_round_b</item>
     </style>
 
-    <!-- Selection Sheet Unit Type -->
+    <!-- TabLayout -->
+    <style name="MyActiveTabLayoutStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">13sp</item>
+    </style>
 
+    <!-- Selection Sheet Unit Type -->
     <style name="SheetTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

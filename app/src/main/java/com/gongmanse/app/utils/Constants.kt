@@ -217,7 +217,32 @@ class Constants {
 
     class UnitValue{
         companion object {
-            const val TERM                     ="용어"
+            const val TERM                     = "용어"
+        }
+    }
+
+    class Regex {
+        companion object {
+            const val REGEX_PASSWORD = "^[A-Za-z0-9!@.#$%^&*?_~]*$"
+            const val REGEX_NICKNAME = "^[A-Za-z0-9가-힣]*$"
+            const val REGEX_EMAIL = "[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}"
+        }
+    }
+
+    class WebView {
+        companion object {
+            const val WEB_TERMS_OF_SERVICE = "https://webview.gongmanse.com/users/toa_read"
+            const val WEB_PRIVACY_POLICY = "https://webview.gongmanse.com/users/privacy_policy"
+        }
+    }
+
+    class Activity {
+        companion object {
+            const val ACTIVITY_RECENT_VIDEO = "최근 영상"
+            const val ACTIVITY_NOTE = "노트 목록"
+            const val ACTIVITY_QNA = "강의 Q&A"
+            const val ACTIVITY_QUESTION = "전문가 영상"
+            const val ACTIVITY_BOOK_MARK = "즐겨찾기"
         }
     }
 

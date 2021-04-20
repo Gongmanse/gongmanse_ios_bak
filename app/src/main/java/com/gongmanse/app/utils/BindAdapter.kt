@@ -1,6 +1,10 @@
 package com.gongmanse.app.utils
 
 import android.util.Log
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -17,6 +21,7 @@ import com.gongmanse.app.data.model.progress.ProgressBody
 import com.gongmanse.app.data.model.video.VideoBody
 import com.gongmanse.app.feature.main.counsel.CounselListAdapter
 import com.gongmanse.app.feature.main.progress.adapter.ProgressRVAdapter
+import com.google.android.material.textfield.TextInputLayout
 import org.jetbrains.anko.custom.style
 
 // URL Image Binding
@@ -134,3 +139,36 @@ fun bindViewProgress(view: RecyclerView, value: ArrayList<ProgressBody>?) {
 }
 
 // Sheet Units Type
+
+
+
+// Error Validation
+@BindingAdapter("errorText")
+fun setErrorMessage(view: TextInputLayout, errorMessage: String?) {
+    view.error = errorMessage
+}
+
+@BindingAdapter("webViewUrl")
+fun loadWebViewUrl(view: WebView, url: String?) {
+    /* 웹 세팅 작업하기*/
+    view.settings.apply {
+        javaScriptEnabled = true
+        javaScriptCanOpenWindowsAutomatically = true // window.open()을 사용하기 위함
+        allowFileAccessFromFileURLs = true
+        saveFormData = false
+        savePassword = false
+        useWideViewPort = true // html 컨테츠가 웹뷰에 맞게
+        setSupportMultipleWindows(true)
+        layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
+    }
+
+    view.apply {
+        /* 리다이렉트 할 때 브라우저 열리는 것 방지*/
+        webViewClient = WebViewClient()
+        webChromeClient = WebChromeClient()
+
+        /* 웹 뷰 띄우기 */
+        url?.let { loadUrl(it) }
+    }
+
+}
