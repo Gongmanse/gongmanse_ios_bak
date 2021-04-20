@@ -18,7 +18,7 @@ import com.gongmanse.app.utils.listeners.OnBottomSheetToUnitListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SelectionSheetUnits(
-    private val listener: OnBottomSheetToUnitListener,
+//    private val listener: OnBottomSheetToUnitListener,
     private var type: Int?,
     selectUnit: String? = null
 ) : BottomSheetDialogFragment() {
@@ -69,7 +69,7 @@ class SelectionSheetUnits(
 
     private fun setRVLayout() {
         binding.rvUnit.apply {
-            mAdapter = SelectionSheetUnitsRVAdapter(listener)
+//            mAdapter = SelectionSheetUnitsRVAdapter(listener)
             adapter  = mAdapter
             linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
             layoutManager = linearLayoutManager
