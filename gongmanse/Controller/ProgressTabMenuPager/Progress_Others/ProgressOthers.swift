@@ -151,12 +151,9 @@ extension ProgressOthers: UITableViewDelegate, UITableViewDataSource {
         if isLesson {
             print("DEBUG: 상세페이지 이동")
             let indexID = othersDataList?[indexPath.row].progressId ?? ""
-            let viewtitle = othersDataList?[indexPath.row].title ?? ""
-            let viewrows = othersDataList?[indexPath.row].totalRows ?? ""
-            self.delegate?.pushCellVC(indexPath: indexPath,
-                                      progressID: indexID,
-                                      viewTitle: viewtitle,
-                                      viewRows: viewrows)
+
+            
+            self.delegate?.pushCellVC(indexPath: indexPath, progressID: indexID)
         } else {
             print("DEBUG: 빈 페이지 클릭중")
         }

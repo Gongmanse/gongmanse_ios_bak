@@ -24,14 +24,14 @@ struct ProgressDetailListAPI {
         detailURL += "\(progressIdentifier)?offset=\(offset)&limit=\(limit)"
     }
     
-    func requestDetailList(complition: @escaping (_ result: [ProgressDetailBody]) -> Void) {
+    func requestDetailList(complition: @escaping (_ result: ProgressDetailModel) -> Void) {
         
         AF.request(detailURL, method: .get)
             .responseDecodable(of: ProgressDetailModel.self) { response in
                 switch response.result {
                 case .success(let data):
                     
-                    complition(data.body!)
+                    complition(data)
                 case .failure(let error):
                     print("DEBUG == ", error.localizedDescription)
                 }
