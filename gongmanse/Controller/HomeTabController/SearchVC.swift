@@ -357,14 +357,16 @@ extension SearchVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate
 
 //MARK: - ProgressMainVCDelegate
 
-extension SearchVC: ProgressMainVCDelegate {
+extension SearchVC: ProgressPresenterDelegate {
     
-    func pushCellVC(indexPath: IndexPath, progressID: String) {
+    func pushCellVC(indexPath: IndexPath, progressID: String, viewTitle: String, viewRows: String) {
         // indexPath 파라미터를 통해서 선택된 Cell에 맞는 데이터를 보여줄 예정.
         
 //        let vc = ProgressDetailController(collectionViewLayout: UICollectionViewFlowLayout())
         let vc = ProgressDetailVC()
         vc.progressIdentifier = progressID
+        vc.detailViewTitle = viewTitle
+        vc.detailViewRows = viewRows
         navigationController?.pushViewController(vc, animated: true)
     }
     

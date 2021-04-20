@@ -17,7 +17,10 @@ class ProgressDetailVC: UIViewController {
     @IBOutlet weak var autoPlaySwitch: UISwitch!
   
     var progressBodyData: [ProgressDetailBody] = []
-    var progressIdentifier = ""
+    var progressIdentifier = ""                             // 서버와 통신할 progressID
+    var detailViewTitle = ""
+    var detailViewRows = ""
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -92,8 +95,15 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         let urlEncoding = progressIndexPath.thumbnail?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
+        cell.subjectSecond.isHidden = progressIndexPath.unit != nil ? false : true
+        
         cell.lessonImage.setImageUrl(urlEncoding ?? "")
         cell.lessonTitle.text = progressIndexPath.title
+        cell.subjectFirst.text = progressIndexPath.subject
+        cell.subjectSecond.text = progressIndexPath.unit
+        cell.starRating.text = progressIndexPath.rating
+        cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath.subjectColor ?? "")
+        cell.subjectSecond.backgroundColor = .mainOrange
         return cell
     }
 }
