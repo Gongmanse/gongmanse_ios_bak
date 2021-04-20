@@ -29,6 +29,7 @@ class ProgressLearningVC: UIViewController {
         navigationItem.title = "진도학습"
         configureNavi()
     }
+    
     //MARK: - Helper functions
     
     func configureNavi() {
@@ -239,6 +240,8 @@ extension ProgressLearningVC: ProgressPresenterDelegate {
 //        let vc = ProgressDetailController(collectionViewLayout: UICollectionViewFlowLayout())
         let vc = ProgressDetailVC()
         vc.progressIdentifier = progressID
+        vc.detailViewTitle = viewTitle
+        vc.detailViewRows = viewRows
         navigationController?.pushViewController(vc, animated: true)
     }
     

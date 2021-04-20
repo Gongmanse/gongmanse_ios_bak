@@ -25,9 +25,10 @@ class ProgressDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(progressIdentifier)
+        
+        
         // 총 강의 개수 텍스트 속성 설정
-        configurelabel(value: 32) 
+        configurelabel(value: detailViewRows)
         
         // UISwitch 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -59,7 +60,11 @@ class ProgressDetailVC: UIViewController {
     
     //MARK: - Helper functions
     
-    func configurelabel(value: Int) {
+    func configurelabel(value: String) {
+        
+        // 제목 타이틀 텍스트
+        lessonTitle.text = detailViewTitle
+        
         // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
         let attributedString = NSMutableAttributedString(string: "총 ",
                                                          attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)])
