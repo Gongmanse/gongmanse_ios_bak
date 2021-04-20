@@ -42,7 +42,7 @@ class ProgressSocialVC: UIViewController {
         configureButton()
         configureTableView()
         
-        let socialProgress = ProgressListAPI(subject: 36, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        let socialProgress = ProgressListAPI(subject: 35, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
         socialProgress.requestProgressDataList { [weak self] result in
             self?.socialDataList = result
             DispatchQueue.main.async {
