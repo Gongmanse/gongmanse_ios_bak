@@ -106,5 +106,11 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if selectedBtnIndex! == .grade {
+            print(grades[indexPath.row])
+        } else {
+            print(chapters[indexPath.row])
+        }
+    }
 } 

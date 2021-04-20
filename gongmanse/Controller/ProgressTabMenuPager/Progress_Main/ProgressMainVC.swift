@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProgressPresenterDelegate: class {
-    func pushCellVC(indexPath: IndexPath, progressID: String, viewTitle: String, viewRows: String)
+    func pushCellVC(indexPath: IndexPath, progressID: String)
 }
 
 
@@ -23,11 +23,13 @@ class ProgressMainVC: UIViewController {
     weak var delegate: ProgressPresenterDelegate?
     
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
-    var isChooseGrade: Bool = false
+    private var isChooseGrade: Bool = false
     
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
-    var isLesson: Bool = true
+    private var isLesson: Bool = true
     
+    private let mainCellIdentifier = "ProgressMainCell"
+    private let emptyCellIdentifier = "EmptyStateViewCell"
     private var progressDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
     private var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
     
@@ -77,8 +79,8 @@ class ProgressMainVC: UIViewController {
         tableview.tableFooterView = UIView() 
         
         // Cell 등록
-        tableview.register(UINib(nibName: "ProgressMainCell", bundle: nil), forCellReuseIdentifier: "ProgressMainCell")
-        tableview.register(UINib(nibName: "EmptyStateViewCell", bundle: nil), forCellReuseIdentifier: "EmptyStateViewCell")
+        tableview.register(UINib(nibName: mainCellIdentifier, bundle: nil), forCellReuseIdentifier: mainCellIdentifier)
+        tableview.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
     }
     
     // Button
@@ -141,7 +143,7 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isLesson {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as? ProgressMainCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: mainCellIdentifier, for: indexPath) as? ProgressMainCell else { return UITableViewCell() }
             
             
             
@@ -165,7 +167,7 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath) as! EmptyStateViewCell
             cell.alertMessage.text = "영상 목록이 없습니다."
             tableView.isScrollEnabled = false
             cell.selectionStyle = .none
@@ -185,12 +187,8 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
         if isLesson {
             print("DEBUG: 상세페이지 이동")
             let indexID = progressDataList?[indexPath.row].progressId ?? ""
-            let viewtitle = progressDataList?[indexPath.row].title ?? ""
-            let viewrows = progressDataList?[indexPath.row].totalRows ?? ""
-            self.delegate?.pushCellVC(indexPath: indexPath,
-                                      progressID: indexID,
-                                      viewTitle: viewtitle,
-                                      viewRows: viewrows)
+            
+            self.delegate?.pushCellVC(indexPath: indexPath, progressID: indexID)
         } else {
             print("DEBUG: 빈 페이지 클릭중")
         }

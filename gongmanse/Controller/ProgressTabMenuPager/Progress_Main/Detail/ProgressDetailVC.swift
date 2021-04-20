@@ -16,18 +16,19 @@ class ProgressDetailVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!    
     @IBOutlet weak var autoPlaySwitch: UISwitch!
   
-    var progressBodyData: [ProgressDetailBody] = []
+    @IBOutlet weak var subjectColor: UIStackView!
+    @IBOutlet weak var gradeLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
+    
+    private var progressBodyData: [ProgressDetailBody]?
+    private var progressHeaderData: ProgressDetailHeader?
+    private let detailCellIdentifier = "ProgressDetailCell"
     var progressIdentifier = ""                             // 서버와 통신할 progressID
-    var detailViewTitle = ""
-    var detailViewRows = ""
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(progressIdentifier)
-        // 총 강의 개수 텍스트 속성 설정
-        configurelabel(value: 32) 
         
         // UISwitch 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -40,12 +41,15 @@ class ProgressDetailVC: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .white
         
-        collectionView.register(UINib(nibName: "ProgressDetailCell", bundle: nil), forCellWithReuseIdentifier: "ProgressDetailCell")
+        collectionView.register(UINib(nibName: detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: detailCellIdentifier)
         
         let requestDetailData = ProgressDetailListAPI(progressId: progressIdentifier, limit: 20, offset: 0)
         requestDetailData.requestDetailList { [weak self] result in
-            self?.progressBodyData = result
+            self?.progressBodyData = result.body
+            self?.progressHeaderData = result.header
             DispatchQueue.main.async {
+                // 상단 오른쪽 스택뷰
+                self?.stackConfiguration()
                 self?.collectionView.reloadData()
             }
         }
@@ -59,12 +63,51 @@ class ProgressDetailVC: UIViewController {
     
     //MARK: - Helper functions
     
-    func configurelabel(value: Int) {
+    func stackConfiguration() {
+        
+        
+        let headerData = progressHeaderData?.label
+        
+        if headerData?.grade == "초등" {
+            gradeLabel.text = "초"
+        }else if headerData?.grade == "중등" {
+            gradeLabel.text = "중"
+        }else if headerData?.grade == "고등" {
+            gradeLabel.text = "고"
+        }
+        
+        // subjectLabel
+        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.textColor = .white
+        subjectLabel.text = headerData?.subject
+        
+        // gradeLabel
+        gradeLabel.textColor = UIColor(hex: headerData?.subjectColor ?? "")
+        gradeLabel.backgroundColor = .white
+        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.clipsToBounds = true
+        gradeLabel.layer.cornerRadius = 8
+        
+        
+        // subjectColor
+        subjectColor.backgroundColor = UIColor(hex: headerData?.subjectColor ?? "")
+        subjectColor.layer.cornerRadius = subjectColor.frame.size.height / 2
+        subjectColor.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        subjectColor.isLayoutMarginsRelativeArrangement = true
+        
+        configurelabel(rows: progressHeaderData?.totalRows ?? "", title: headerData?.title ?? "")
+    }
+    
+    func configurelabel(rows: String, title: String) {
+        
+        // 제목 타이틀 텍스트
+        lessonTitle.text = title
+        lessonTitle.font = .appBoldFontWith(size: 17)
         // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
         let attributedString = NSMutableAttributedString(string: "총 ",
                                                          attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)])
         
-        attributedString.append(NSAttributedString(string: "\(value)",
+        attributedString.append(NSAttributedString(string: "\(rows)",
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
         
         attributedString.append(NSAttributedString(string: "개",
@@ -77,33 +120,33 @@ class ProgressDetailVC: UIViewController {
 
 
 
-
-
-
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return progressBodyData.count
+        return progressBodyData?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProgressDetailCell", for: indexPath) as? ProgressDetailCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailCellIdentifier, for: indexPath) as? ProgressDetailCell else { return UICollectionViewCell() }
         
-        let progressIndexPath = progressBodyData[indexPath.row]
+        let progressIndexPath = progressBodyData?[indexPath.row]
         
-        let urlEncoding = progressIndexPath.thumbnail?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let urlEncoding = progressIndexPath?.thumbnail?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
-        cell.subjectSecond.isHidden = progressIndexPath.unit != nil ? false : true
+        cell.subjectSecond.isHidden = progressIndexPath?.unit != nil ? false : true
         
         cell.lessonImage.setImageUrl(urlEncoding ?? "")
-        cell.lessonTitle.text = progressIndexPath.title
-        cell.subjectFirst.text = progressIndexPath.subject
-        cell.subjectSecond.text = progressIndexPath.unit
-        cell.starRating.text = progressIndexPath.rating
-        cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath.subjectColor ?? "")
+        cell.lessonTitle.text = progressIndexPath?.title
+        cell.subjectFirst.text = progressIndexPath?.subject
+        cell.subjectSecond.text = progressIndexPath?.unit
+        cell.starRating.text = progressIndexPath?.rating
+        
+        cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath?.subjectColor ?? "")
         cell.subjectSecond.backgroundColor = .mainOrange
+        
+        
         return cell
     }
 }

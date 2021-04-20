@@ -18,10 +18,13 @@ class ProgressScienceVC: UIViewController {
     weak var delegate: ProgressPresenterDelegate?
     
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
-    var isChooseGrade: Bool = false
+    private var isChooseGrade: Bool = false
     
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
-    var isLesson: Bool = true
+    private var isLesson: Bool = true
+    
+    private let mainCellIdentifier = "ProgressMainCell"
+    private let emptyCellIdentifier = "EmptyStateViewCell"
     
     var pageIndex: Int!
     
@@ -42,7 +45,7 @@ class ProgressScienceVC: UIViewController {
         configureButton()
         configureTableView()
         
-        let scienceProgress = ProgressListAPI(subject: 35, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        let scienceProgress = ProgressListAPI(subject: 36, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
         scienceProgress.requestProgressDataList { [weak self] result in
             self?.scienceDataList = result
             DispatchQueue.main.async {
@@ -61,8 +64,8 @@ class ProgressScienceVC: UIViewController {
         tableview.tableFooterView = UIView() 
         
         // Cell 등록
-        tableview.register(UINib(nibName: "ProgressMainCell", bundle: nil), forCellReuseIdentifier: "ProgressMainCell")
-        tableview.register(UINib(nibName: "EmptyStateViewCell", bundle: nil), forCellReuseIdentifier: "EmptyStateViewCell")
+        tableview.register(UINib(nibName: mainCellIdentifier, bundle: nil), forCellReuseIdentifier: mainCellIdentifier)
+        tableview.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
     }
     
     // Button
@@ -125,7 +128,7 @@ extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isLesson {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressMainCell", for: indexPath) as! ProgressMainCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: mainCellIdentifier, for: indexPath) as! ProgressMainCell
             cell.selectionStyle = .none
             
             cell.totalRows.text = scienceDataList?[indexPath.row].totalLecture
@@ -136,7 +139,7 @@ extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath) as! EmptyStateViewCell
             tableView.isScrollEnabled = false
             cell.selectionStyle = .none
             return cell
@@ -155,12 +158,8 @@ extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
         if isLesson {
             print("DEBUG: 상세페이지 이동")
             let indexID = scienceDataList?[indexPath.row].progressId ?? ""
-            let viewtitle = scienceDataList?[indexPath.row].title ?? ""
-            let viewrows = scienceDataList?[indexPath.row].totalRows ?? ""
-            self.delegate?.pushCellVC(indexPath: indexPath,
-                                      progressID: indexID,
-                                      viewTitle: viewtitle,
-                                      viewRows: viewrows)
+            
+            self.delegate?.pushCellVC(indexPath: indexPath, progressID: indexID)
         } else {
             print("DEBUG: 빈 페이지 클릭중")
         }

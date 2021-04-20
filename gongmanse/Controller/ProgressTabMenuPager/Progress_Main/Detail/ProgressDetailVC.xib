@@ -13,8 +13,11 @@
             <connections>
                 <outlet property="autoPlaySwitch" destination="eJm-SO-T11" id="sZC-b6-3RM"/>
                 <outlet property="collectionView" destination="MEQ-LU-Otl" id="2n0-2m-RIv"/>
+                <outlet property="gradeLabel" destination="wQd-ei-vPh" id="Evl-ra-qcv"/>
                 <outlet property="lessonTitle" destination="cPJ-wy-3kB" id="Bxa-ul-QSb"/>
                 <outlet property="numberOfLesson" destination="E9b-iU-tGN" id="Dou-bi-6YQ"/>
+                <outlet property="subjectColor" destination="gpW-lx-cKP" id="1mT-4u-VtB"/>
+                <outlet property="subjectLabel" destination="cCe-tL-Y4B" id="W4h-fB-J7E"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -26,30 +29,59 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQD-j3-hhh">
                     <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[초등 - 전학년] 국어용어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPJ-wy-3kB">
-                            <rect key="frame" x="20" y="16" width="165.5" height="18"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4Rk-9o-fXu">
+                            <rect key="frame" x="27" y="15" width="360" height="19"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="[초등 - 전학년] 국어용어1231231231232323232323232" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPJ-wy-3kB">
+                                    <rect key="frame" x="0.0" y="0.0" width="310.5" height="19"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gpW-lx-cKP">
+                                    <rect key="frame" x="320.5" y="0.0" width="39.5" height="19"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="초" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQd-ei-vPh" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="10" height="19"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="국어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCe-tL-Y4B">
+                                            <rect key="frame" x="20" y="0.0" width="19.5" height="19"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="18" id="HG7-lQ-G5Y"/>
+                                <constraint firstAttribute="height" constant="19" id="u7J-Ni-SFl"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="초국어" translatesAutoresizingMaskIntoConstraints="NO" id="tGr-f2-Pwi">
-                            <rect key="frame" x="338" y="13.5" width="56" height="23"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="56" id="OaY-gG-rdz"/>
-                                <constraint firstAttribute="height" constant="23" id="WYj-b2-9FY"/>
-                            </constraints>
-                        </imageView>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="cPJ-wy-3kB" firstAttribute="leading" secondItem="iQD-j3-hhh" secondAttribute="leading" constant="20" id="LeF-ru-TPQ"/>
-                        <constraint firstItem="cPJ-wy-3kB" firstAttribute="centerY" secondItem="iQD-j3-hhh" secondAttribute="centerY" id="Zun-hD-aSs"/>
-                        <constraint firstAttribute="trailing" secondItem="tGr-f2-Pwi" secondAttribute="trailing" constant="20" id="alF-vY-M0m"/>
-                        <constraint firstItem="tGr-f2-Pwi" firstAttribute="centerY" secondItem="iQD-j3-hhh" secondAttribute="centerY" id="rGX-wY-Obp"/>
+                        <constraint firstAttribute="trailing" secondItem="4Rk-9o-fXu" secondAttribute="trailing" constant="27" id="Mse-KH-xSK"/>
+                        <constraint firstItem="4Rk-9o-fXu" firstAttribute="top" secondItem="iQD-j3-hhh" secondAttribute="top" constant="15" id="P48-oO-yKR"/>
+                        <constraint firstAttribute="bottom" secondItem="4Rk-9o-fXu" secondAttribute="bottom" constant="16" id="rce-vQ-AFP"/>
                         <constraint firstAttribute="height" constant="50" id="wY5-Yx-iXC"/>
+                        <constraint firstItem="4Rk-9o-fXu" firstAttribute="leading" secondItem="iQD-j3-hhh" secondAttribute="leading" constant="27" id="xuv-rv-S3V"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="MEQ-LU-Otl">
@@ -69,7 +101,7 @@
                             <rect key="frame" x="20" y="16" width="50" height="18"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="18" id="RdM-ze-ZeG"/>
-                                <constraint firstAttribute="width" constant="50" id="h5V-gv-EQ2"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="h5V-gv-EQ2"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="textColor"/>
@@ -121,7 +153,6 @@
         </view>
     </objects>
     <resources>
-        <image name="초국어" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
