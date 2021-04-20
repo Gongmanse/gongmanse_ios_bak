@@ -1,5 +1,5 @@
 package com.gongmanse.app.data.model.sheet
 
 data class Units(
-    val body: UnitsBody
+    val body: ArrayList<UnitsBody>
 )

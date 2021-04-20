@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gongmanse.app.R
 import com.gongmanse.app.data.model.sheet.Units
+import com.gongmanse.app.data.model.sheet.UnitsBody
 import com.gongmanse.app.databinding.ItemUnitsBinding
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.listeners.OnBottomSheetToUnitListener
@@ -19,7 +20,8 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
         private val TAG = SelectionSheetUnitsRVAdapter::class.java.simpleName
     }
 
-    private val items: ArrayList<Units> = ArrayList()
+//    private val items: ArrayList<Units> = ArrayList()
+    private val items: ArrayList<UnitsBody> = ArrayList()
     private var positions: Int = Constants.Init.INIT_INT
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,7 +46,8 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
 
     inner class ViewHolder(private val binding: ItemUnitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Units, listener: View.OnClickListener) {
+//        fun bind(data: Units, listener: View.OnClickListener) {
+        fun bind(data: UnitsBody, listener: View.OnClickListener) {
             binding.apply {
                 this.data = data
                 layoutUnits.setOnClickListener(listener)
@@ -52,7 +55,7 @@ class SelectionSheetUnitsRVAdapter(private val listener: OnBottomSheetToUnitList
         }
     }
 
-    fun addItem(newItem: Units) {
+    fun addItem(newItem: UnitsBody) {
         Log.v(TAG, "addItem => $newItem")
         items.add(newItem)
         notifyDataSetChanged()

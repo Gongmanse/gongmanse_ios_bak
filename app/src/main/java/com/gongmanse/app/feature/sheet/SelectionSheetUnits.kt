@@ -62,7 +62,7 @@ class SelectionSheetUnits(
 
     private fun initItemList(itemType: Int?) {
         val itemList = itemType?.let { typeList -> resources.getStringArray(typeList) }
-//        val units = Units(UnitsBody(itemList))
+//        val units = UnitsBody(itemList, false)
 //        mAdapter.addItem(itemList)
         Log.e(TAG, "itemType => $itemList")
     }
