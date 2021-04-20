@@ -171,6 +171,8 @@
 		25EDAB6E26154E0200D27DB5 /* FindingPwdByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */; };
 		25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */; };
 		25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */; };
+		6C3F7BB3262E698D00475DB4 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C3F7BB2262E698D00475DB4 /* Onboarding.storyboard */; };
+		6C3F7BB8262E6AE500475DB4 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3F7BB7262E6AE500475DB4 /* OnboardingViewController.swift */; };
 		6C47138625F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */; };
 		6C47139225F60F0A00D68A2B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47139125F60F0900D68A2B /* MainTabBarController.swift */; };
 		6C47139A25F6192600D68A2B /* NoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47139925F6192600D68A2B /* NoticeVC.swift */; };
@@ -189,7 +191,6 @@
 		6C4C38AF26004F8900653A61 /* BookMarkTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C38AE26004F8900653A61 /* BookMarkTVCell.swift */; };
 		6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4926083C77001B28E6 /* ScienceCVCell.swift */; };
 		6C576F4D26087962001B28E6 /* SocialStudiesCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */; };
-		6C576F5326088506001B28E6 /* OtherSubjectsCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F5226088506001B28E6 /* OtherSubjectsCRV.swift */; };
 		6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */; };
 		6C8852562611CC820006BDB2 /* VideoCellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852552611CC820006BDB2 /* VideoCellModels.swift */; };
 		6C88525A2611CDE20006BDB2 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852592611CDE20006BDB2 /* Address.swift */; };
@@ -458,6 +459,8 @@
 		25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailInput.swift; sourceTree = "<group>"; };
 		25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailResponse.swift; sourceTree = "<group>"; };
 		25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailDataManager.swift; sourceTree = "<group>"; };
+		6C3F7BB2262E698D00475DB4 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
+		6C3F7BB7262E6AE500475DB4 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		6C47138525F5D3E100D68A2B /* KoreanEnglishMathCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathCVCell.swift; sourceTree = "<group>"; };
 		6C47139125F60F0900D68A2B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		6C47139925F6192600D68A2B /* NoticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeVC.swift; sourceTree = "<group>"; };
@@ -477,7 +480,6 @@
 		6C4C38AE26004F8900653A61 /* BookMarkTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkTVCell.swift; sourceTree = "<group>"; };
 		6C576F4926083C77001B28E6 /* ScienceCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceCVCell.swift; sourceTree = "<group>"; };
 		6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialStudiesCVCell.swift; sourceTree = "<group>"; };
-		6C576F5226088506001B28E6 /* OtherSubjectsCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsCRV.swift; sourceTree = "<group>"; };
 		6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsCVCell.swift; sourceTree = "<group>"; };
 		6C8852552611CC820006BDB2 /* VideoCellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCellModels.swift; sourceTree = "<group>"; };
 		6C8852592611CDE20006BDB2 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
@@ -1395,6 +1397,14 @@
 			path = Phone;
 			sourceTree = "<group>";
 		};
+		6C3F7BB6262E6ACF00475DB4 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				6C3F7BB7262E6AE500475DB4 /* OnboardingViewController.swift */,
+			);
+			path = Intro;
+			sourceTree = "<group>";
+		};
 		6C47139025F60ED800D68A2B /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1547,6 +1557,7 @@
 		6CD7C3C325F086E00092D30E /* gongmanse */ = {
 			isa = PBXGroup;
 			children = (
+				6C3F7BB6262E6ACF00475DB4 /* Intro */,
 				258B5E9A2609D81600F470B7 /* API */,
 				2584E8CA260840F9000DFA20 /* Cofiguration */,
 				259B8B4F26030026009A7146 /* Font */,
@@ -1561,6 +1572,7 @@
 				6CD7C3CA25F086E00092D30E /* Main.storyboard */,
 				6CD7C3CD25F086E60092D30E /* Assets.xcassets */,
 				6CD7C3CF25F086E60092D30E /* LaunchScreen.storyboard */,
+				6C3F7BB2262E698D00475DB4 /* Onboarding.storyboard */,
 				6CD7C3D225F086E60092D30E /* Info.plist */,
 				6C4713B025F7247E00D68A2B /* TestVC.swift */,
 			);
@@ -1678,7 +1690,6 @@
 			isa = PBXGroup;
 			children = (
 				6CF2E66725F0AAB7000FE084 /* OtherSubjectsVC.swift */,
-				6C576F5226088506001B28E6 /* OtherSubjectsCRV.swift */,
 				6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */,
 			);
 			path = OtherSubjects;
@@ -2039,6 +2050,7 @@
 				A9129ED82616A0B000041CC5 /* GongManseStoryVC.xib in Resources */,
 				C2F2274B261EA02900559065 /* GradeListCell.xib in Resources */,
 				A9129EDD2616A24000041CC5 /* UseLectureVC.xib in Resources */,
+				6C3F7BB3262E698D00475DB4 /* Onboarding.storyboard in Resources */,
 				259B8BCE2603054D009A7146 /* ProgressScienceVC.xib in Resources */,
 				259B8C3A26031CBE009A7146 /* PaymentHistoryVC.xib in Resources */,
 				2588F86D260987B30070C2FC /* CompleteChangePwdVC.xib in Resources */,
@@ -2197,6 +2209,7 @@
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,
 				6CD7C3C525F086E00092D30E /* AppDelegate.swift in Sources */,
 				25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */,
+				6C3F7BB8262E6AE500475DB4 /* OnboardingViewController.swift in Sources */,
 				A9524858261A9E13000F2473 /* NoticeListModel.swift in Sources */,
 				2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */,
 				259B8B6C2603009C009A7146 /* Search.swift in Sources */,
@@ -2236,7 +2249,6 @@
 				A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */,
 				C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */,
 				A9524853261A9CC6000F2473 /* RequestNoticeAPI.swift in Sources */,
-				6C576F5326088506001B28E6 /* OtherSubjectsCRV.swift in Sources */,
 				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,
 				25BD75F626156A8E002B266C /* FindingPwdByPhoneInput.swift in Sources */,
@@ -2510,7 +2522,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 32393TXF79;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2531,7 +2543,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 32393TXF79;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

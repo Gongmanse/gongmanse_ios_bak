@@ -57,6 +57,7 @@ class SocialStudiesVC: UIViewController {
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
     }
     
+    //api
     func getDataFromJson() {
         if let url = URL(string: SocialStudies_Video_URL) {
             var request = URLRequest.init(url: url)

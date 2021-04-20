@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
+        //setRootViewController(scene)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -32,5 +33,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+}
+
+extension SceneDelegate {
+    private func setRootViewController(_ scene: UIScene) {
+        if Storage.isFirstTime() {
+            setRootViewController(scene, name: "Onboarding", identifier: "OnboardingViewController")
+        } else {
+            setRootViewController(scene, name: "Main", identifier: "HomeVC")
+        }
+    }
+    
+    private func setRootViewController(_ scene: UIScene, name: String, identifier: String) {
+        if let windowScene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
+            let storyboard = UIStoryboard(name: name, bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
+            window.rootViewController = viewController
+            self.window = window
+            window.makeKeyAndVisible()
+        }
+    }
 }
 
