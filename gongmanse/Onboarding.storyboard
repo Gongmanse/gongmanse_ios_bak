@@ -97,6 +97,7 @@
                             <constraint firstItem="jIb-sV-ewo" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="88" id="zX0-Lm-ZAe"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="X4R-GL-9uM"/>
                     <connections>
                         <outlet property="firstTitleLabel" destination="eAF-8l-d1n" id="hiE-LY-M0F"/>
                         <outlet property="mobileImage" destination="aGu-qG-6sk" id="Fm2-2E-kq0"/>
@@ -108,7 +109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hHp-eR-JZm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="207.69230769230768" y="162.79620853080567"/>
+            <point key="canvasLocation" x="1136.9230769230769" y="162.79620853080567"/>
         </scene>
     </scenes>
     <resources>

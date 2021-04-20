@@ -1,5 +1,6 @@
 import UIKit
 
+
 class OnboardingViewController: UIViewController {
 
     @IBOutlet weak var firstTitleLabel: UILabel!
@@ -42,12 +43,8 @@ class OnboardingViewController: UIViewController {
     }
 
     @IBAction func nextButton(_ sender: Any) {
-        presentMainHomeVC()
-    }
-    
-    private func presentMainHomeVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! MainTabBarController
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false, completion: nil)
     }
