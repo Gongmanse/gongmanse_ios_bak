@@ -14,3 +14,10 @@ struct ProgressPopupViewModel {
         self.data = data
     }
 }
+
+class ProgressPassingModel {
+    static let shared = ProgressPassingModel()
+    
+    var gradeText: String?
+    
+}
