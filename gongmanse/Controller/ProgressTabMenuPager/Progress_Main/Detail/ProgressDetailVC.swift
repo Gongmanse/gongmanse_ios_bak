@@ -20,8 +20,9 @@ class ProgressDetailVC: UIViewController {
     @IBOutlet weak var gradeLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     
-    var progressBodyData: [ProgressDetailBody]?
-    var progressHeaderData: ProgressDetailHeader?
+    private var progressBodyData: [ProgressDetailBody]?
+    private var progressHeaderData: ProgressDetailHeader?
+    private let detailCellIdentifier = "ProgressDetailCell"
     var progressIdentifier = ""                             // 서버와 통신할 progressID
     
     //MARK: - Lifecycle
@@ -40,7 +41,7 @@ class ProgressDetailVC: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .white
         
-        collectionView.register(UINib(nibName: "ProgressDetailCell", bundle: nil), forCellWithReuseIdentifier: "ProgressDetailCell")
+        collectionView.register(UINib(nibName: detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: detailCellIdentifier)
         
         let requestDetailData = ProgressDetailListAPI(progressId: progressIdentifier, limit: 20, offset: 0)
         requestDetailData.requestDetailList { [weak self] result in
@@ -128,7 +129,7 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProgressDetailCell", for: indexPath) as? ProgressDetailCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: detailCellIdentifier, for: indexPath) as? ProgressDetailCell else { return UICollectionViewCell() }
         
         let progressIndexPath = progressBodyData?[indexPath.row]
         
