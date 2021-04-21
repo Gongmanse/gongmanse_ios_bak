@@ -864,7 +864,8 @@ extension VideoController {
         customMenuBarPorTraitTopConstraint
             = customMenuBar.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         customMenuBarPorTraitHeightConstraint
-            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+//            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+            = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         customMenuBarPorTraitWidthConstraint
             = customMenuBar.widthAnchor.constraint(equalToConstant: view.frame.width)
         
@@ -876,7 +877,8 @@ extension VideoController {
         customMenuBarLandscapeLeftConstraint
             = customMenuBar.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         customMenuBarLandscapeHeightConstraint
-            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+//            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+            = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         
         /* TeacherInfoView */
         view.addSubview(teacherInfoView)
@@ -890,7 +892,7 @@ extension VideoController {
         
         // Portrait 제약조건 정의
         teacherInfoViewPorTraitTopConstraint
-            = teacherInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor, constant: 10)
+            = teacherInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
         teacherInfoViewPorTraitCenterXConstraint
             = teacherInfoView.centerXAnchor.constraint(equalTo: customMenuBar.centerXAnchor)
         teacherInfoViewPorTraitWidthConstraint

@@ -206,6 +206,7 @@ private extension FindingPwdByPhoneVC {
 extension FindingPwdByPhoneVC {
     func didSucceedSendingID(response: FindingPwdByPhoneResponse) {
         guard let id = response.sUsername else { return }
+        print("DEBUG: \(id)")
         viewModel.receivedID = id
         
         /* 이곳에 타이머를 생성한 이유 : API 데이터 수신 시간과, viewModel.idIsValid 시간을 serial로 하기 위함.*/
