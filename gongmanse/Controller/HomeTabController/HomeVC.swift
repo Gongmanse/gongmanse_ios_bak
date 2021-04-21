@@ -6,7 +6,12 @@ class HomeVC: UIViewController {
 
     var koreanEnglishMathSelectedIndex: Int = 0
     var koreanEnglishMathSortedIndex: Int = 0
-    
+    var scienceSelectedIndex: Int = 0
+    var scienceSortedIndex: Int = 0
+    var socialStudiesSelectedIndex: Int = 0
+    var socialStudiesSortedIndex: Int = 0
+    var otherSubjectsSelectedIndex: Int = 0
+    var otherSubjectsSortedIndex: Int = 0
     
     @IBOutlet weak var tabsView: TabsView!
     
@@ -114,7 +119,6 @@ class HomeVC: UIViewController {
         }
         
         currentIndex = index
-        print("새로생성함")
         if index == 0 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecommendVC") as! RecommendVC
             contentVC.pageIndex = index
@@ -132,15 +136,27 @@ class HomeVC: UIViewController {
             contentVC.pageIndex = index
             return contentVC
         } else if index == 3 {
+            // 과학
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "ScienceVC") as! ScienceVC
+            contentVC.delegate = self
+            contentVC.selectedItem = scienceSelectedIndex
+            contentVC.sortedId = scienceSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 4 {
+            // 사회
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "SocialStudiesVC") as! SocialStudiesVC
+            contentVC.delegate = self
+            contentVC.selectedItem = socialStudiesSelectedIndex
+            contentVC.sortedId = socialStudiesSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 5 {
+            // 기타 과목
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "OtherSubjectsVC") as! OtherSubjectsVC
+            contentVC.delegate = self
+            contentVC.selectedItem = otherSubjectsSelectedIndex
+            contentVC.sortedId = otherSubjectsSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else {
@@ -268,14 +284,37 @@ extension CALayer {
 }
 
 
-extension HomeVC: KoreanEnglishMathVCDelegate {
-    func passSortedIdSettingValue(_ sortedIndex: Int) {
+extension HomeVC: KoreanEnglishMathVCDelegate, ScienceVCDelegate, SocialStudiesVCDelegate, OtherSubjectsVCDelegate {
+    
+    func koreanPassSortedIdSettingValue(_ sortedIndex: Int) {
         self.koreanEnglishMathSortedIndex = sortedIndex
     }
     
-    func passSelectedIndexSettingValue(_ selectedIndex: Int) {
+    func koreanPassSelectedIndexSettingValue(_ selectedIndex: Int) {
         self.koreanEnglishMathSelectedIndex = selectedIndex
     }
     
+    func sciencePassSortedIdSettingValue(_ sortedIndex: Int) {
+        self.scienceSortedIndex = sortedIndex
+    }
     
+    func sciencePassSelectedIndexSettingValue(_ selectedIndex: Int) {
+        self.scienceSelectedIndex = selectedIndex
+    }
+    
+    func socialStudiesPassSortedIdSettingValue(_ sortedIndex: Int) {
+        self.socialStudiesSortedIndex = sortedIndex
+    }
+    
+    func socialStudiesPassSelectedIndexSettingValue(_ selectedIndex: Int) {
+        self.socialStudiesSelectedIndex = selectedIndex
+    }
+    
+    func otherSubjectsPassSortedIdSettingValue(_ sortedIndex: Int) {
+        self.otherSubjectsSortedIndex = sortedIndex
+    }
+    
+    func otherSubjectsPassSelectedIndexSettingValue(_ selectedIndex: Int) {
+        self.otherSubjectsSelectedIndex = selectedIndex
+    }
 }
