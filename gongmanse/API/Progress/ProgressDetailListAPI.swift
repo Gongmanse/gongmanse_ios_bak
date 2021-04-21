@@ -11,18 +11,18 @@ import Alamofire
 struct ProgressDetailListAPI {
     
     var detailURL = "\(apiBaseURL)/\(ProgressAPI.progress)/detail/"
-    var progressIdentifier = ""
     
     // 초기값
     init(progressId: String, limit: Int, offset: Int) {
         detailURL +=  "\(progressId)?offset=\(offset)&limit=\(limit)"
-        progressIdentifier = progressId
+        
     }
     
-    // 초기 이후 offset개수에 따른 무한스크롤
-    init(limit: Int, offset: Int) {
-        detailURL += "\(progressIdentifier)?offset=\(offset)&limit=\(limit)"
-    }
+//    // 초기 이후 offset개수에 따른 무한스크롤
+//    init(limit: Int, offset: Int) {
+//        detailURL += "\(progressIdentifier)?offset=\(offset)&limit=\(limit)"
+//        print(detailURL)
+//    }
     
     func requestDetailList(complition: @escaping (_ result: ProgressDetailModel) -> Void) {
         
@@ -30,7 +30,7 @@ struct ProgressDetailListAPI {
             .responseDecodable(of: ProgressDetailModel.self) { response in
                 switch response.result {
                 case .success(let data):
-                    
+                    print(data)
                     complition(data)
                 case .failure(let error):
                     print("DEBUG == ", error.localizedDescription)

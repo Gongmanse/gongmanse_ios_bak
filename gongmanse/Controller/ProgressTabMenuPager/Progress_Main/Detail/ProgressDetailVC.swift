@@ -23,6 +23,7 @@ class ProgressDetailVC: UIViewController {
     private var progressBodyData: [ProgressDetailBody]?
     private var progressHeaderData: ProgressDetailHeader?
     private let detailCellIdentifier = "ProgressDetailCell"
+    private var cellCount = 0
     var progressIdentifier = ""                             // 서버와 통신할 progressID
     
     //MARK: - Lifecycle
@@ -43,18 +44,29 @@ class ProgressDetailVC: UIViewController {
         
         collectionView.register(UINib(nibName: detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: detailCellIdentifier)
         
-        let requestDetailData = ProgressDetailListAPI(progressId: progressIdentifier, limit: 20, offset: 0)
+        progressDataManager(progressID: progressIdentifier, limit: 20, offset: 0)
+    }
+    
+    func progressDataManager(progressID: String, limit: Int, offset: Int) {
+        
+        let requestDetailData = ProgressDetailListAPI(progressId: progressID, limit: limit, offset: offset)
         requestDetailData.requestDetailList { [weak self] result in
-            self?.progressBodyData = result.body
-            self?.progressHeaderData = result.header
-            DispatchQueue.main.async {
-                // 상단 오른쪽 스택뷰
-                self?.stackConfiguration()
-                self?.collectionView.reloadData()
+            if offset == 0 {
+                self?.progressBodyData = result.body
+                self?.progressHeaderData = result.header
+                DispatchQueue.main.async {
+                    // 상단 오른쪽 스택뷰
+                    self?.stackConfiguration()
+                    self?.collectionView.reloadData()
+                }
+            }else {
+                self?.progressBodyData?.append(contentsOf: result.body!)
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
             }
         }
     }
-    
     //MARK: - Actions
     
     @objc func handleBackBtn() {
@@ -146,7 +158,11 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath?.subjectColor ?? "")
         cell.subjectSecond.backgroundColor = .mainOrange
         
-        
+        let totalRows = collectionView.numberOfItems(inSection: indexPath.section)
+        if indexPath.row == totalRows - 1{
+            cellCount += 20
+            progressDataManager(progressID: progressIdentifier, limit: 20, offset: cellCount)
+        }
         return cell
     }
 }

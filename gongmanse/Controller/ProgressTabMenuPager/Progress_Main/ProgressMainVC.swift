@@ -48,8 +48,17 @@ class ProgressMainVC: UIViewController {
         let getfilter = getFilteringAPI()
         getfilter.getFilteringData { [weak self] result in
             self?.getGradeData = result
-            // 버튼 타이틀 데이터
-            self?.configureButton()
+            self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+            
+            let changeGrade = self?.changeGrade(string: self?.getGradeData?.sGrade ?? "")
+            let changeGradeNumber = self?.changeGradeNumber(string: self?.getGradeData?.sGrade ?? "")
+            
+            self?.requestProgressList(subject: 34,
+                                      grade: changeGrade ?? "",
+                                      gradeNum: changeGradeNumber ?? 0,
+                                      offset: 0,
+                                      limit: 20)
+            
         }
     }
     
@@ -58,8 +67,38 @@ class ProgressMainVC: UIViewController {
         view.backgroundColor = .white
         
         configureTableView()
+        // 버튼 타이틀 데이터
+        configureButton()
         
-        let requestProgress = ProgressListAPI(subject: 34, grade: "모든", gradeNum: 0, offset: 0, limit: 20)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: NSNotification.Name.getGrade, object: nil)
+    }
+    
+    
+    @objc func changeGradeTitle(_ sender: Notification) {
+        
+        guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
+        let gradeTitle = changeGrade(string: getGradeTitle)
+        let gradeNumber = changeGradeNumber(string: getGradeTitle)
+        
+        let progressLecture = ProgressListAPI(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
+        progressLecture.requestProgressDataList { [weak self] result in
+            self?.progressDataList = result
+            
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+                self?.gradeBtn.setTitle(getGradeTitle, for: .normal)
+            }
+        }
+    }
+    
+    
+    func requestProgressList(subject: Int, grade: String, gradeNum: Int, offset: Int, limit: Int) {
+        let requestProgress = ProgressListAPI(subject: subject,
+                                              grade: grade,
+                                              gradeNum: gradeNum,
+                                              offset: offset,
+                                              limit: limit)
+        print(requestProgress)
         requestProgress.requestProgressDataList { [weak self] result in
             self?.progressDataList = result
             DispatchQueue.main.async {
@@ -68,7 +107,32 @@ class ProgressMainVC: UIViewController {
         }
     }
     
+    // ViewModel로 이사 전
+    func changeGrade(string: String) -> String {
+        var title = ""
+        if string.hasPrefix("초등") {
+            title = "초등"
+        }else if string.hasPrefix("중학") {
+            title = "중등"
+        }else if string.hasPrefix("고등") {
+            title = "고등"
+        }else {
+            title = "모든"
+        }
+        return title
+    }
     
+    func changeGradeNumber(string: String) -> Int {
+        var numbers = 0
+        let arr = ["1","2","3","4","5","6"]
+        for i in arr {
+            numbers = Int(string.filter{String($0) == String(i)}) ?? 0
+            if numbers != 0 {
+                break
+            }
+        }
+        return numbers
+    }
     //MARK: - Helper functions
     
     // TableView
@@ -90,14 +154,15 @@ class ProgressMainVC: UIViewController {
         
         gradeBtn.layer.borderWidth = CGFloat(borderWidth)
         gradeBtn.setTitle(getGradeData?.sGrade, for: .normal)
-        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 12)
+        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         
         chapterBtn.layer.borderWidth = CGFloat(borderWidth)
         chapterBtn.layer.borderColor = borderColor.cgColor
-        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 12)
+        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
+        chapterBtn.setTitle("모든 단원", for: .normal)
     }
     
     
