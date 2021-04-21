@@ -19,7 +19,11 @@ class ProgressPopupCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
   
     
-    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        title.font = .appBoldFontWith(size: 14)
+    }
     //MARK: - Lifecylce
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

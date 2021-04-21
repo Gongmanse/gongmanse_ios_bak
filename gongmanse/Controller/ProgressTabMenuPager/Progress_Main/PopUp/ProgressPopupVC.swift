@@ -24,10 +24,9 @@ class ProgressPopupVC: BottomPopupViewController {
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
     
-    
+    var chapters: [String] = []
     // 임시 Input 데이터 추후, 데이터 패칭을 통해 가져올 것.
     let grades = ["모든학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년", "중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
-    let chapters = ["[초3]국어교과", "[초3]국어문법", "[초3]영어문법", "[초3,4]영어표현 & 어휘", "[초 - 전학년]영어발음", "[초4]영어문법"]
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -95,12 +94,12 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressPopupCell", for: indexPath) as! ProgressPopupCell
-        cell.title.text = grades[indexPath.row]
+//        cell.title.text = grades[indexPath.row]
         
         if selectedBtnIndex! == .grade {
-            cell.viewModel = ProgressPopupViewModel(data: grades[indexPath.row])
+            cell.title.text = grades[indexPath.row]
         } else {
-            cell.viewModel = ProgressPopupViewModel(data: chapters[indexPath.row])
+            cell.title.text = chapters[indexPath.row]
         }
         
         return cell

@@ -15,9 +15,3 @@ struct ProgressPopupViewModel {
     }
 }
 
-class ProgressPassingModel {
-    static let shared = ProgressPassingModel()
-    
-    var gradeText: String?
-    
-}

@@ -34,6 +34,8 @@ class ProgressMainVC: UIViewController {
     private var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
     
     var pageIndex: Int!
+    var sendChapter: [String] = []
+    
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
@@ -80,15 +82,18 @@ class ProgressMainVC: UIViewController {
         let gradeTitle = changeGrade(string: getGradeTitle)
         let gradeNumber = changeGradeNumber(string: getGradeTitle)
         
-        let progressLecture = ProgressListAPI(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
-        progressLecture.requestProgressDataList { [weak self] result in
-            self?.progressDataList = result
-            
-            DispatchQueue.main.async {
-                self?.tableview.reloadData()
-                self?.gradeBtn.setTitle(getGradeTitle, for: .normal)
-            }
-        }
+        
+        gradeBtn.setTitle(getGradeTitle, for: .normal)
+        requestProgressList(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
+//        let progressLecture = ProgressListAPI(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
+//        progressLecture.requestProgressDataList { [weak self] result in
+//            self?.progressDataList = result
+//
+//            DispatchQueue.main.async {
+//                self?.tableview.reloadData()
+//                self?.
+//            }
+//        }
     }
     
     
@@ -98,9 +103,16 @@ class ProgressMainVC: UIViewController {
                                               gradeNum: gradeNum,
                                               offset: offset,
                                               limit: limit)
-        print(requestProgress)
+        // 넘겨줄 주소
+        
         requestProgress.requestProgressDataList { [weak self] result in
             self?.progressDataList = result
+            self?.sendChapter.removeAll()
+            for i in 0..<(self?.progressDataList!.count)! {
+                let tt = self?.progressDataList?[i].title ?? ""
+                self?.sendChapter.append(tt)
+            }
+            
             DispatchQueue.main.async {
                 self?.tableview.reloadData()
             }
@@ -184,7 +196,7 @@ class ProgressMainVC: UIViewController {
         if isChooseGrade {
             let popupVC = ProgressPopupVC()
             popupVC.selectedBtnIndex = .chapter
-            
+            popupVC.chapters = sendChapter
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)
