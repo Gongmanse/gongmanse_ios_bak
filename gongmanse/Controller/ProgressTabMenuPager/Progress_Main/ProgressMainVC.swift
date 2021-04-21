@@ -48,8 +48,17 @@ class ProgressMainVC: UIViewController {
         let getfilter = getFilteringAPI()
         getfilter.getFilteringData { [weak self] result in
             self?.getGradeData = result
-            // 버튼 타이틀 데이터
-            self?.configureButton()
+            self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+            
+            let changeGrade = self?.changeGrade(string: self?.getGradeData?.sGrade ?? "")
+            let changeGradeNumber = self?.changeGradeNumber(string: self?.getGradeData?.sGrade ?? "")
+            
+            self?.requestProgressList(subject: 34,
+                                      grade: changeGrade ?? "",
+                                      gradeNum: changeGradeNumber ?? 0,
+                                      offset: 0,
+                                      limit: 20)
+            
         }
     }
     
@@ -58,17 +67,12 @@ class ProgressMainVC: UIViewController {
         view.backgroundColor = .white
         
         configureTableView()
-        
-        let requestProgress = ProgressListAPI(subject: 34, grade: "모든", gradeNum: 0, offset: 0, limit: 20)
-        requestProgress.requestProgressDataList { [weak self] result in
-            self?.progressDataList = result
-            DispatchQueue.main.async {
-                self?.tableview.reloadData()
-            }
-        }
+        // 버튼 타이틀 데이터
+        configureButton()
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: NSNotification.Name.getGrade, object: nil)
     }
+    
     
     @objc func changeGradeTitle(_ sender: Notification) {
         
@@ -87,12 +91,28 @@ class ProgressMainVC: UIViewController {
         }
     }
     
+    
+    func requestProgressList(subject: Int, grade: String, gradeNum: Int, offset: Int, limit: Int) {
+        let requestProgress = ProgressListAPI(subject: subject,
+                                              grade: grade,
+                                              gradeNum: gradeNum,
+                                              offset: offset,
+                                              limit: limit)
+        print(requestProgress)
+        requestProgress.requestProgressDataList { [weak self] result in
+            self?.progressDataList = result
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+            }
+        }
+    }
+    
     // ViewModel로 이사 전
     func changeGrade(string: String) -> String {
         var title = ""
         if string.hasPrefix("초등") {
             title = "초등"
-        }else if string.hasPrefix("중등") {
+        }else if string.hasPrefix("중학") {
             title = "중등"
         }else if string.hasPrefix("고등") {
             title = "고등"
