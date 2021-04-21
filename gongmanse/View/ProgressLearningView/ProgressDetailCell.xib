@@ -58,7 +58,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="C96-gX-KED">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="C96-gX-KED">
                                         <rect key="frame" x="0.0" y="26" width="52" height="17"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="국어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-zX-vIT" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
@@ -68,16 +68,16 @@
                                                 <nil key="highlightedColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="topInset">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                                        <real key="value" value="3"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                                        <real key="value" value="3"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
@@ -88,20 +88,23 @@
                                                 <nil key="highlightedColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="topInset">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                                        <real key="value" value="3"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                                        <real key="value" value="3"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="rRv-UV-HSv"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -109,7 +112,6 @@
                                     <constraint firstItem="3oj-hl-sLx" firstAttribute="leading" secondItem="bM1-QB-Fit" secondAttribute="leading" id="52k-yD-0n0"/>
                                     <constraint firstAttribute="bottom" secondItem="s3e-XN-BCA" secondAttribute="bottom" id="7Iy-RB-8Da"/>
                                     <constraint firstItem="C96-gX-KED" firstAttribute="height" secondItem="s3e-XN-BCA" secondAttribute="height" id="Asp-ol-Uhi"/>
-                                    <constraint firstItem="s3e-XN-BCA" firstAttribute="leading" relation="lessThanOrEqual" secondItem="C96-gX-KED" secondAttribute="trailing" constant="156.5" id="DjX-m8-Jwb"/>
                                     <constraint firstItem="3oj-hl-sLx" firstAttribute="top" secondItem="bM1-QB-Fit" secondAttribute="top" id="KPz-hJ-1UF"/>
                                     <constraint firstItem="s3e-XN-BCA" firstAttribute="bottom" secondItem="C96-gX-KED" secondAttribute="bottom" id="Lv4-Yq-8df"/>
                                     <constraint firstItem="C96-gX-KED" firstAttribute="leading" secondItem="3oj-hl-sLx" secondAttribute="leading" id="Z4q-eg-oaQ"/>

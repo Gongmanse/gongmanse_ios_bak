@@ -47,6 +47,7 @@ class ProgressMainCell: UITableViewCell {
         subjectColor.layer.cornerRadius = subjectColor.frame.size.height / 2
         subjectColor.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
         subjectColor.isLayoutMarginsRelativeArrangement = true
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
