@@ -71,12 +71,47 @@ class ProgressMainVC: UIViewController {
     }
     
     @objc func changeGradeTitle(_ sender: Notification) {
-        let tt = sender.userInfo
         
-        guard let getGrade: String = sender.userInfo?["grade"] as? String else { return }
-        guard let getNumber: Int = sender.userInfo?["gradeNumber"] as? Int else { return }
+        guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
+        let gradeTitle = changeGrade(string: getGradeTitle)
+        let gradeNumber = changeGradeNumber(string: getGradeTitle)
         
-        
+        let progressLecture = ProgressListAPI(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
+        progressLecture.requestProgressDataList { [weak self] result in
+            self?.progressDataList = result
+            
+            DispatchQueue.main.async {
+                self?.tableview.reloadData()
+                self?.gradeBtn.setTitle(getGradeTitle, for: .normal)
+            }
+        }
+    }
+    
+    // ViewModel로 이사 전
+    func changeGrade(string: String) -> String {
+        var title = ""
+        if string.hasPrefix("초등") {
+            title = "초등"
+        }else if string.hasPrefix("중등") {
+            title = "중등"
+        }else if string.hasPrefix("고등") {
+            title = "고등"
+        }else {
+            title = "모든"
+        }
+        return title
+    }
+    
+    func changeGradeNumber(string: String) -> Int {
+        var numbers = 0
+        let arr = ["1","2","3","4","5","6"]
+        for i in arr {
+            numbers = Int(string.filter{String($0) == String(i)}) ?? 0
+            if numbers != 0 {
+                break
+            }
+        }
+        return numbers
     }
     //MARK: - Helper functions
     

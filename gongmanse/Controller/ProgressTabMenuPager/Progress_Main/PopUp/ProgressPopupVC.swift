@@ -26,7 +26,7 @@ class ProgressPopupVC: BottomPopupViewController {
     
     
     // 임시 Input 데이터 추후, 데이터 패칭을 통해 가져올 것.
-    let grades = ["모든학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년", "중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
+    let grades = ["모든학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년", "중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     let chapters = ["[초3]국어교과", "[초3]국어문법", "[초3]영어문법", "[초3,4]영어표현 & 어휘", "[초 - 전학년]영어발음", "[초4]영어문법"]
     
     @IBOutlet weak var tableView: UITableView!
@@ -109,43 +109,14 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedBtnIndex! == .grade {
             
-            let gradeTitle = changeGrade(string: grades[indexPath.row])
-            let gradeNumber = changeGradeNumber(string: grades[indexPath.row])
-            
             let hashable: [AnyHashable : Any] = [
-                "grade": gradeTitle,
-                "gradeNumber": gradeNumber
+                "grade": grades[indexPath.row]
             ]
             NotificationCenter.default.post(name: NSNotification.Name.getGrade, object: nil, userInfo: hashable)
+            self.dismiss(animated: true, completion: nil)
         } else {
             print(chapters[indexPath.row])
         }
     }
     
-    // ViewModel로 이사 전
-    func changeGrade(string: String) -> String {
-        var title = ""
-        if string.hasPrefix("초등") {
-            title = "초등"
-        }else if string.hasPrefix("중등") {
-            title = "중등"
-        }else if string.hasPrefix("고등") {
-            title = "고등"
-        }else {
-            title = "모든"
-        }
-        return title
-    }
-    
-    func changeGradeNumber(string: String) -> Int {
-        var numbers = 0
-        let arr = ["1","2","3","4","5","6"]
-        for i in arr {
-            numbers = Int(string.filter{String($0) == String(i)}) ?? 0
-            if numbers != 0 {
-                break
-            }
-        }
-        return numbers
-    }
 } 
