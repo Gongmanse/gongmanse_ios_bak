@@ -50,7 +50,7 @@ class VideoMenuBar: UIView {
         videoMenuBarTabBarCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         videoMenuBarTabBarCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         videoMenuBarTabBarCollectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        videoMenuBarTabBarCollectionView.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        videoMenuBarTabBarCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
     
 }
@@ -80,7 +80,7 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.frame.width / 3 , height: 55)
+        return CGSize(width: self.frame.width / 3 , height: 44)
         
     }
     

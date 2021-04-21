@@ -68,6 +68,8 @@ class FindIDByPhoneVC: UIViewController {
             let vc = FindIDResultVC()
             vc.viewModel = self.viewModel
             self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            presentAlert(message: "기입한 정보를 확인해주세요.")
         }
     }
     
@@ -168,27 +170,41 @@ class FindIDByPhoneVC: UIViewController {
 private extension FindIDByPhoneVC {
     /** 타이머 시작버튼 클릭 */
     @objc func onTimerStart(_ sender: Any) {
-        if let timer = vTimer {
-            //timer 객체가 nil 이 아닌경우에는 invalid 상태에만 시작한다.
-            if !timer.isValid {
+        
+        if viewModel.name.count > 1 && viewModel.cellPhone.count > 10 {
+            
+            if let timer = vTimer {
+                //timer 객체가 nil 이 아닌경우에는 invalid 상태에만 시작한다.
+                if !timer.isValid {
+                    /** 1초마다 timerCallback함수를 호출하는 타이머 */
+                    vTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                  target: self,
+                                                  selector: #selector(timerCallback),
+                                                  userInfo: nil,
+                                                  repeats: true)
+                } else {    // 타이머 실행중에 다시 타이머를 실행했다면, 기존의 타이머를 멈추고 난 후, 실행한다.
+                    timer.invalidate()
+                    self.totalTime = 180
+                    self.sendingNumButton.setTitle("재발송", for: .normal)
+                    vTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                  target: self,
+                                                  selector: #selector(timerCallback),
+                                                  userInfo: nil,
+                                                  repeats: true)
+                }
+            }else{
+                //timer 객체가 nil 인 경우에 객체를 생성하고 타이머를 시작한다.
                 /** 1초마다 timerCallback함수를 호출하는 타이머 */
                 vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
-            } else {    // 타이머 실행중에 다시 타이머를 실행했다면, 기존의 타이머를 멈추고 난 후, 실행한다.
-                timer.invalidate()
-                self.totalTime = 180
-                vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
             }
-        }else{
-            //timer 객체가 nil 인 경우에 객체를 생성하고 타이머를 시작한다.
-            /** 1초마다 timerCallback함수를 호출하는 타이머 */
-            vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+            
+            // 인증번호 발송 - 이곳에 구현할 것.
+            // 인증번호 발송을 클릭했을 때, DataManager method를 호출한다.
+            let input = ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)")
+            FindingIDDataManager().certificationNumberByPhone(input, viewController: self)
+        } else {
+            presentAlert(message: "이름과 휴대전화를 확인해주세요.")
         }
-        
-        // 인증번호 발송 - 이곳에 구현할 것.
-        // 인증번호 발송을 클릭했을 때, DataManager method를 호출한다.
-        let input = ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)") 
-        FindingIDDataManager().certificationNumberByPhone(input, viewController: self)
-        
     }
     
     /** 타이머 종료버튼 클릭 */
