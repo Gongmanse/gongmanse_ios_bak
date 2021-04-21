@@ -40,8 +40,10 @@ class FindingIDDataManager {
         // viewModel -> paramters 를 통해 값을 전달
         let data = parameters
         
+        let url = "\(Constant.BASE_URL)/v/member/recoverid?receiver_type=cellphone&receiver=\(data.receiver)&name=\(data.name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        
         // 휴대전화로 찾기
-        AF.request("\(Constant.BASE_URL)/v/member/recoverid?receiver_type=cellphone&receiver=\(data.receiver)&name=\(data.name)")
+        AF.request(url)
                     .responseDecodable(of: FindingIDResultResponse.self) { response in
                         switch response.result {
                         case .success(let response):
@@ -60,7 +62,7 @@ class FindingIDDataManager {
         
         // 이메일로 찾기
         let urlString = "https://api.gongmanse.com/v/member/recoverid?receiver_type=email&receiver=\(data.receiver)&name=\(data.name)"
-        if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),let url = URL(string: encoded)
+        if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),let url = URL(string: encoded)
          {
              AF.request(url)
 //                .responseJSON { (json) in

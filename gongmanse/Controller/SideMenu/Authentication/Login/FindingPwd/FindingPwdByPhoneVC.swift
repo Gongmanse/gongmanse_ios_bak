@@ -62,6 +62,8 @@ class FindingPwdByPhoneVC: UIViewController {
             let vc = NewPasswordVC()
              vc.viewModel.username = self.viewModel.name
             self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            presentAlert(message: "기입한 정보를 확인해주세요.")
         }
         
     }
@@ -220,6 +222,7 @@ extension FindingPwdByPhoneVC {
                 } else {
                     timer.invalidate()
                     self.totalTime = 180
+                    self.sendingNumButton.setTitle("재발송", for: .normal)
                     vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
                 }
             }else{
@@ -229,7 +232,12 @@ extension FindingPwdByPhoneVC {
             FindingPwdByPhoneDataManager().certificationNumberByPhone(ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)"), viewController: self)
         } else {
             // 불일치한 경우...
+            presentAlert(message: "아이디를 확인해주세요.")
         }
+    }
+    
+    func didFaildSendingCertificationNumber() {
+        presentAlert(message: "입력하신 이름, 아이디, 휴대전화 번호를 확인해주세요.")
     }
     
     func didSucceedCertificationNumber(response: ByPhoneResponse) {

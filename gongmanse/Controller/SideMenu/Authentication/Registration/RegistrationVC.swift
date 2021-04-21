@@ -86,6 +86,7 @@ class RegistrationVC: UIViewController {
             self.navigationController?.pushViewController(RegistrationUserInfoVC(), animated: false)
         } else {
             // 모두 동의를 하지 않은 경우,
+            presentAlert(message: "약관에 모두 동의해주세요.")
         }
     }
 
@@ -152,7 +153,7 @@ class RegistrationVC: UIViewController {
         
         nextButton.backgroundColor = UIColor.progressBackgroundColor
         nextButton.layer.cornerRadius = 10
-        
+        nextButton.addShadow()
         // ProgressView 오토레이아웃
         totalProgressView.centerX(inView: view)
         totalProgressView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -238,8 +239,7 @@ class RegistrationVC: UIViewController {
                                            width: termsOfServiceLabel.frame.height)
         allAgreeButton.anchor(top: termsOfInfoButton.bottomAnchor,
                                    left: termsOfInfoButton.leftAnchor,
-                                   paddingTop: 10,
-                                   paddingLeft: -15)
+                                   paddingTop: 17)
         allAgreeButton.setImage(UIImage(named: "checkFalse"), for: .normal)
         allAgreeButton.setImage(UIImage(named: "checkTrue"), for: .selected)
         
@@ -274,7 +274,7 @@ private extension RegistrationVC {
     func setupScrollView() {
         // top
         //  ScrollView container (그림자 효과를 주기 위해서)
-        scrollViewContainerView.setDimensions(height: view.frame.height * 0.27,
+        scrollViewContainerView.setDimensions(height: view.frame.height * 0.23,
                                     width: view.frame.width * 0.74)
         scrollViewContainerView.centerX(inView: view)
         scrollViewContainerView.anchor(top: totalProgressView.bottomAnchor,
@@ -301,7 +301,7 @@ private extension RegistrationVC {
         
         // bottom
         // ScrollView container (그림자 효과를 주기 위해서)
-        bottomScrollViewContainerView.setDimensions(height: view.frame.height * 0.27,
+        bottomScrollViewContainerView.setDimensions(height: view.frame.height * 0.23,
                                     width: view.frame.width * 0.74)
         bottomScrollViewContainerView.centerX(inView: view)
         bottomScrollViewContainerView.anchor(top: termsOfServiceLabel.bottomAnchor,

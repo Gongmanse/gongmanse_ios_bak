@@ -35,7 +35,7 @@ class FindingPwdByEmailDataManager {
     /* 이메일로 찾기 - 인증번호 */
     func certificationNumberByEmail(_ parameters: ByEmailInput, viewController: FindingPwdByEmailVC) {
         // 이메일 및 유저정보를 받아온다.
-        let data = ByEmailInput(receiver_type: "email", receiver: "gahyunlee1119@gmail.com", name: "이가현") // parameters
+        let data = parameters
         
         let param: Parameters = [
             "receiver_type": "email",
@@ -57,7 +57,10 @@ class FindingPwdByEmailDataManager {
                 case .success:
                     let text = response.debugDescription            // 서버 로그까지 포함된 데이터
                     viewController.didSucceedReceiveNumber(response: text)
+                    
                 case .failure:
+                    // 이름이나 이메일을 잘못 작성한 경우 해당 로직이 실행된다.
+                    viewController.didFaildSendingCertificationNumber()
                     print("DEBUG: failure")
                 }
             }
@@ -84,6 +87,7 @@ class FindingPwdByEmailDataManager {
                     viewController.didSucceedCertificationNumber(response: response)
                     
                 case .failure(let error):
+                    // 이름, 아이디, 휴대전화 번호을 잘못 작성한 경우, 해당 로직을 실행한다.
                     print("DEBUG: faild connection \(error.localizedDescription)")
                 }
             }
