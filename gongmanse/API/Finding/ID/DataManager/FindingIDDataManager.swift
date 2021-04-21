@@ -29,6 +29,7 @@ class FindingIDDataManager {
                     viewController.didSucceedCertificationNumber(response: response)
                     
                 case .failure(let error):
+                    
                     print("DEBUG: faild connection \(error.localizedDescription)")
                 }
             }
@@ -74,6 +75,7 @@ class FindingIDDataManager {
                     case .success(let response):
                         viewController.didSucceedVaildation(response)
                     case .failure(let error):
+                        
                         print("DEBUG: faild connection \(error.localizedDescription)")
                     }
                 }
