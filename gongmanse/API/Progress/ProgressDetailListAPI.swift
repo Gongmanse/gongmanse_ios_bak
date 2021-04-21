@@ -11,7 +11,6 @@ import Alamofire
 struct ProgressDetailListAPI {
     
     var detailURL = "\(apiBaseURL)/\(ProgressAPI.progress)/detail/"
-    var progressIdentifier = ""
     
     // 초기값
     init(progressId: String, limit: Int, offset: Int) {
@@ -31,7 +30,7 @@ struct ProgressDetailListAPI {
             .responseDecodable(of: ProgressDetailModel.self) { response in
                 switch response.result {
                 case .success(let data):
-                    
+                    print(data)
                     complition(data)
                 case .failure(let error):
                     print("DEBUG == ", error.localizedDescription)

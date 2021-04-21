@@ -66,9 +66,18 @@ class ProgressMainVC: UIViewController {
                 self?.tableview.reloadData()
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: NSNotification.Name.getGrade, object: nil)
     }
     
-    
+    @objc func changeGradeTitle(_ sender: Notification) {
+        let tt = sender.userInfo
+        
+        guard let getGrade: String = sender.userInfo?["grade"] as? String else { return }
+        guard let getNumber: Int = sender.userInfo?["gradeNumber"] as? Int else { return }
+        
+        
+    }
     //MARK: - Helper functions
     
     // TableView
@@ -90,14 +99,15 @@ class ProgressMainVC: UIViewController {
         
         gradeBtn.layer.borderWidth = CGFloat(borderWidth)
         gradeBtn.setTitle(getGradeData?.sGrade, for: .normal)
-        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 12)
+        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         
         chapterBtn.layer.borderWidth = CGFloat(borderWidth)
         chapterBtn.layer.borderColor = borderColor.cgColor
-        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 12)
+        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
+        chapterBtn.setTitle("모든 단원", for: .normal)
     }
     
     
