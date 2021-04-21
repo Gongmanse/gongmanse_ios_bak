@@ -78,7 +78,7 @@ class CheckUserIdentificationVC: UIViewController {
             CertificationDataManager().sendingNumber(CertificationNumberInput(phone_number: input), viewController: self)
             onTimerStart()  // 인증번호 유효기간 Timer 실행
         } else {
-            print("DEBUG: 휴대전화 textField에 잘못된 값을 입력했습니다.")
+            presentAlert(message: "휴대전화 번호를 확인해주세요.")
         }
     }
     
@@ -122,13 +122,26 @@ class CheckUserIdentificationVC: UIViewController {
         if let timer = numberTimer {
                    //timer 객체가 nil 이 아닌경우에는 invalid 상태에만 시작한다
                    if !timer.isValid {
-                       /** 1초마다 timerCallback함수를 호출하는 타이머 */
-                    numberTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                       /* 1초마다 timerCallback함수를 호출하는 타이머 */
+                    numberTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                       target: self,
+                                                       selector: #selector(timerCallback),
+                                                       userInfo: nil, repeats: true)
+                   } else {
+                    timer.invalidate()
+                    self.totalTime = 180
+                    numberTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                       target: self,
+                                                       selector: #selector(timerCallback),
+                                                       userInfo: nil, repeats: true)
                    }
                } else {
                    //timer 객체가 nil 인 경우에 객체를 생성하고 타이머를 시작한다
-                   /** 1초마다 timerCallback함수를 호출하는 타이머 */
-                numberTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                   /* 1초마다 timerCallback함수를 호출하는 타이머 */
+                numberTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                   target: self,
+                                                   selector: #selector(timerCallback),
+                                                   userInfo: nil, repeats: true)
                }
     }
     
@@ -144,6 +157,8 @@ class CheckUserIdentificationVC: UIViewController {
         
         let tfWidth = view.frame.width - 125
         nextButton.backgroundColor = UIColor.progressBackgroundColor
+        nextButton.layer.cornerRadius = 10
+        nextButton.addShadow()
         
         // "인증번호 발송" 버튼 (이메일 TextField의 rightView)
         view.addSubview(verificationSendingBtn)
@@ -228,7 +243,8 @@ class CheckUserIdentificationVC: UIViewController {
         switch sender {
         case phoneNumberTextField:
             self.viewModel?.phone_number = text
-            verificationSendingBtn.backgroundColor = self.viewModel!.phoneNumberIsValid ? .mainOrange : .gray // 010-0000-0000 OR 01000000000 형식인 경우 true
+            verificationSendingBtn.backgroundColor
+                = self.viewModel!.phoneNumberIsValid ? .mainOrange : .gray // 010-0000-0000 OR 01000000000 형식인 경우 true
         case certificationNumberTextField:
             // 인증번호가 String 타입인지 Int 타입인지에 따라서 코드 변경할 예정.
             self.viewModel?.verification_code = Int(text)
@@ -245,13 +261,6 @@ class CheckUserIdentificationVC: UIViewController {
         } else {
             nextButton.backgroundColor = .gray
         }
-        
-        #warning("추후 다시 진행예정.")
-        /*
-         인증번호 관련해서 API 새로 만들 우려가 있으므로 작업하던거 중지.
-         현재 : 가입정보를 전송해야 가입된 휴대폰인지 결과를 알 수 있음
-         개선한다면 : 휴대전화 인증번호 보낼때, 이미 가입된 휴대전화인지 결과를 알려준다.
-        */
     }
         
     func configureNotificationObservers() {
@@ -271,15 +280,9 @@ extension CheckUserIdentificationVC {
     }
     
     func failedToRequest(message: RegistrationResponse) {
-        // TODO: 회원가입 실패 시, 진행할 로직 작성할 것.
-        // 가입이 실패한 이유에 대해서 알려주어야하는 데, 알려주는 방법이 Alert인지 아니면 다른방법인지 안드로이드와 맞출 것.
-        UIView.animate(withDuration: 0.33) {
-            self.errorMessageView.alpha = 1
-            self.errorMessageView.text = "\(message.message)"
-        }
-        
-    
-        
+
+        let alertMessage = message.message.getOnlyText(regex: "[가-힣]{1,}")
+        presentAlert(message: "\(alertMessage.joined(separator: " "))")
         print("DEBUG: 회원가입이 실패했습니다.")
         print("DEBUG: message is \(message.message)")
         print("DEBUG: errors is \(message.errors!)")
@@ -287,7 +290,7 @@ extension CheckUserIdentificationVC {
     
     func didSendingNumber(response: CertificationNumberResponses) {
         // 인증번호 전송 시, 진행할 로직 작성할 것.
-        // TODO: 정상적으로 API는 동작하는데, 실제 휴대폰으로 인증번호가 오지 않음.
+        verificationSendingBtn.setTitle("재발송", for: .normal)
         print("DEBUG: 정상적으로 인증번호 전송됨.")
         print("DEBUG: 인증번호id는 \(String(describing: response.data!)) 입니다.")
     }

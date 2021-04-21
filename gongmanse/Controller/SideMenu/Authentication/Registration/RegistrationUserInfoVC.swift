@@ -114,6 +114,8 @@ class RegistrationUserInfoVC: UIViewController {
         
         if viewModel.formIsValid {
             self.navigationController?.pushViewController(vc, animated: false)  // push를 통한 화면전환
+        } else {
+            presentAlert(message: "회원 정보를 모두 기입해주세요.")
         }
     }
     
@@ -125,7 +127,7 @@ class RegistrationUserInfoVC: UIViewController {
         
         nextButton.backgroundColor = UIColor.progressBackgroundColor        // 제플린 설정된 색상값 적용
         nextButton.layer.cornerRadius = 10                                  // 제플린 설정된 value
-        
+        nextButton.addShadow()
         // ProgressView 오토레이아웃(화면 최상단에 있는 회색 View)
         totalProgressView.centerX(inView: view)
         totalProgressView.anchor(top: view.safeAreaLayoutGuide.topAnchor,

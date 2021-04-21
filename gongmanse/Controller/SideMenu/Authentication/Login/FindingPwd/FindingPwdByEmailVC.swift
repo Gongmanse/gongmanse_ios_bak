@@ -68,6 +68,8 @@ class FindingPwdByEmailVC: UIViewController {
             let vc = NewPasswordVC()
             vc.viewModel.username = self.viewModel.name
             self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            presentAlert(message: "기입한 정보를 확인해주세요.")
         }
     }
         
@@ -154,15 +156,18 @@ private extension FindingPwdByEmailVC {
         switch sender {
         case nameTextField:
             viewModel.name = text
+            
         case idTextField:
-            print("DEBUG: idTextField is \(text)")
             viewModel.typingID = text
+            
         case emailTextField:
             viewModel.email = text
+            
         case certificationTextField:
             viewModel.certificationNumber = Int(text) ?? 0
             // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
             completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray
+            
         default:
             print("DEBUG: default in switch Statement...")
         }
@@ -231,6 +236,7 @@ extension FindingPwdByEmailVC {
                 } else {
                     timer.invalidate()
                     self.totalTime = 180
+                    self.sendingNumButton.setTitle("재발송", for: .normal)
                     vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
                 }
             }else{
@@ -240,7 +246,12 @@ extension FindingPwdByEmailVC {
             FindingPwdByEmailDataManager().certificationNumberByEmail(ByEmailInput(receiver: "\(viewModel.email)", name: "\(viewModel.name)"), viewController: self)
         } else {
             // 불일치한 경우...
+            presentAlert(message: "이름을 확인해주세요.")
         }
+    }
+    
+    func didFaildSendingCertificationNumber() {
+        presentAlert(message: "입력하신 이름, 아이디, 이메일을 확인해주세요.")
     }
     
     func didSucceedReceiveNumber(response: String) {        // response 값에 서버 로그와 key:123456 이 함께 전달됨.

@@ -362,12 +362,24 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         }
     }
     
+    /// 동영상 앞으로 가기 기능을 담당하는 콜백 메소드
     @objc func moveForwardPlayer() {
-        print("DEBUG: Clicked playPause Button...")
+        /// 10초를 계산하기 위한 프로퍼티
+        let seconds = Double(230) / Double(23.98)
+        /// 23 프레임을 기준으로 10초를 입력한 CMTime 프로퍼티
+        let oneFrame = CMTime(seconds: seconds, preferredTimescale: 600)
+        /// CMTimeAdd를 적용한 프로퍼티
+        let addTime = CMTimeAdd(player.currentTime(), oneFrame)
+        player.seek(to: addTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
     
+    /// 동영상 뒤로 가기 기능을 담당하는 콜백 메소드
     @objc func moveBackwardPlayer() {
-        print("DEBUG: Clicked playPause Button...")
+        // 앞으로 가기 주석으로 대체
+        let seconds = Double(230) / Double(23.98)
+        let oneFrame = CMTime(seconds: seconds, preferredTimescale: 60)
+        let subTractTime = CMTimeSubtract(player.currentTime(), oneFrame)
+        player.seek(to: subTractTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
     
     
@@ -738,7 +750,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
         gesture.numberOfTapsRequired = 1
         playerController.view.isUserInteractionEnabled = true
         playerController.view.addGestureRecognizer(gesture)
-        
         addPeriodicTimeObserver()
     }
     
@@ -853,7 +864,8 @@ extension VideoController {
         customMenuBarPorTraitTopConstraint
             = customMenuBar.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         customMenuBarPorTraitHeightConstraint
-            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+//            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+            = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         customMenuBarPorTraitWidthConstraint
             = customMenuBar.widthAnchor.constraint(equalToConstant: view.frame.width)
         
@@ -865,7 +877,8 @@ extension VideoController {
         customMenuBarLandscapeLeftConstraint
             = customMenuBar.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         customMenuBarLandscapeHeightConstraint
-            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+//            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+            = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         
         /* TeacherInfoView */
         view.addSubview(teacherInfoView)
