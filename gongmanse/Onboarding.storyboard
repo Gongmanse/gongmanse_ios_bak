@@ -8,6 +8,11 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumSquareRoundB.ttf">
+            <string>NanumSquareRoundB</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Onboarding View Controller-->
         <scene sceneID="MgE-js-Enw">
@@ -18,50 +23,55 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="동영상학습 백과사전" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAF-8l-d1n">
-                                <rect key="frame" x="106" y="149" width="178" height="25"/>
+                                <rect key="frame" x="16" y="149" width="358" height="24.333333333333343"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="G9z-Lo-g58"/>
-                                    <constraint firstAttribute="width" constant="178" id="cKn-Uj-qTd"/>
+                                    <constraint firstAttribute="width" constant="358" id="BNj-Oh-Qjw"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="동영상 강의" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jIb-sV-ewo">
-                                <rect key="frame" x="88" y="189" width="214" height="44"/>
+                                <rect key="frame" x="16" y="187" width="358" height="43.333333333333343"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="KyA-jG-0W5"/>
-                                    <constraint firstAttribute="width" constant="214" id="g2G-fD-JRS"/>
+                                    <constraint firstAttribute="width" constant="358" id="OPY-AA-5gi"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="40"/>
                                 <color key="textColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45,000개" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRJ-a4-jvo">
-                                <rect key="frame" x="78" y="241" width="234" height="63"/>
+                                <rect key="frame" x="16" y="234.33333333333334" width="358" height="55.333333333333343"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="63" id="JNi-hA-E63"/>
-                                    <constraint firstAttribute="width" constant="234" id="RHB-IH-8u7"/>
+                                    <constraint firstAttribute="width" constant="358" id="iGi-sx-IFT"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="50"/>
                                 <color key="textColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="396" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-qG-6sk">
-                                <rect key="frame" x="109" y="361" width="182" height="345"/>
+                                <rect key="frame" x="124" y="345.66666666666663" width="152" height="270.66666666666663"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="345" id="8G6-s1-exO"/>
-                                    <constraint firstAttribute="width" constant="182" id="vNF-f8-MtE"/>
+                                    <constraint firstAttribute="width" constant="152" id="2of-mq-EBU"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="공만세에 오신 것을 환영합니다." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJw-xA-6kH">
+                                <rect key="frame" x="16" y="300.66666666666669" width="358" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="358" id="brx-fd-7Re"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkZ-Ke-ztw">
-                                <rect key="frame" x="55" y="770" width="290" height="40"/>
+                                <rect key="frame" x="34" y="735" width="332" height="40"/>
                                 <color key="backgroundColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="1cg-fs-AfA"/>
-                                    <constraint firstAttribute="width" constant="290" id="yck-Cr-JDb"/>
+                                    <constraint firstAttribute="width" constant="332" id="4Os-u4-jEv"/>
+                                    <constraint firstAttribute="height" constant="40" id="qCl-5o-y9X"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
                                 <state key="normal" title="다음">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -69,34 +79,31 @@
                                     <action selector="nextButton:" destination="jDW-mx-YA7" eventType="touchUpInside" id="fOD-MO-52j"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="공만세에 오신 것을 환영합니다." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJw-xA-6kH">
-                                <rect key="frame" x="80" y="312" width="240" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="5Ej-fY-qla"/>
-                                    <constraint firstAttribute="height" constant="20" id="83j-IZ-tvA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jvY-Gf-Gke"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="eAF-8l-d1n" firstAttribute="top" secondItem="jvY-Gf-Gke" secondAttribute="top" constant="105" id="Ily-oa-kkd"/>
-                            <constraint firstItem="VJw-xA-6kH" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="80" id="fBx-gd-i15"/>
-                            <constraint firstItem="rkZ-Ke-ztw" firstAttribute="top" secondItem="aGu-qG-6sk" secondAttribute="bottom" constant="64" id="hjl-Wa-WRg"/>
-                            <constraint firstItem="aGu-qG-6sk" firstAttribute="top" secondItem="VJw-xA-6kH" secondAttribute="bottom" constant="29" id="kIj-xS-4Ez"/>
-                            <constraint firstItem="eAF-8l-d1n" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="106" id="ke6-ko-XYo"/>
-                            <constraint firstItem="jIb-sV-ewo" firstAttribute="top" secondItem="eAF-8l-d1n" secondAttribute="bottom" constant="15" id="nNl-fS-4AA"/>
-                            <constraint firstItem="YRJ-a4-jvo" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="78" id="pOW-4j-MxZ"/>
-                            <constraint firstItem="YRJ-a4-jvo" firstAttribute="top" secondItem="jIb-sV-ewo" secondAttribute="bottom" constant="8" symbolic="YES" id="t9C-Sa-mbW"/>
-                            <constraint firstItem="rkZ-Ke-ztw" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="55" id="xya-LH-61v"/>
-                            <constraint firstItem="VJw-xA-6kH" firstAttribute="top" secondItem="YRJ-a4-jvo" secondAttribute="bottom" constant="8" symbolic="YES" id="yf8-wu-pvC"/>
-                            <constraint firstItem="aGu-qG-6sk" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="109" id="zIO-un-K6Y"/>
-                            <constraint firstItem="jIb-sV-ewo" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="88" id="zX0-Lm-ZAe"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="trailing" secondItem="VJw-xA-6kH" secondAttribute="trailing" constant="16" id="1hI-Qk-77w"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="trailing" secondItem="YRJ-a4-jvo" secondAttribute="trailing" constant="16" id="BUC-vb-Dig"/>
+                            <constraint firstItem="VJw-xA-6kH" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="16" id="BfK-cn-5ji"/>
+                            <constraint firstItem="aGu-qG-6sk" firstAttribute="top" secondItem="VJw-xA-6kH" secondAttribute="bottom" constant="23" id="EQn-IP-OHo"/>
+                            <constraint firstItem="eAF-8l-d1n" firstAttribute="top" secondItem="jvY-Gf-Gke" secondAttribute="top" constant="105" id="F45-iU-6dM"/>
+                            <constraint firstItem="YRJ-a4-jvo" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="16" id="Kk5-E9-fcE"/>
+                            <constraint firstItem="rkZ-Ke-ztw" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="34" id="O3c-nn-y3q"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="trailing" secondItem="eAF-8l-d1n" secondAttribute="trailing" constant="16" id="QuV-Ku-VOY"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="trailing" secondItem="aGu-qG-6sk" secondAttribute="trailing" constant="114" id="Uqm-MK-bpT"/>
+                            <constraint firstItem="aGu-qG-6sk" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="124" id="ZKN-uP-qnw"/>
+                            <constraint firstItem="VJw-xA-6kH" firstAttribute="top" secondItem="YRJ-a4-jvo" secondAttribute="bottom" constant="11" id="cNz-m2-rd5"/>
+                            <constraint firstItem="eAF-8l-d1n" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="16" id="li9-df-b8X"/>
+                            <constraint firstItem="jIb-sV-ewo" firstAttribute="top" secondItem="eAF-8l-d1n" secondAttribute="bottom" constant="13.666666666666657" id="lkv-XT-5SB"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="trailing" secondItem="rkZ-Ke-ztw" secondAttribute="trailing" constant="24" id="ok5-io-xoU"/>
+                            <constraint firstItem="jIb-sV-ewo" firstAttribute="leading" secondItem="jvY-Gf-Gke" secondAttribute="leading" constant="16" id="rjA-EQ-SkZ"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="bottom" secondItem="rkZ-Ke-ztw" secondAttribute="bottom" constant="35" id="uCF-nl-8kC"/>
+                            <constraint firstItem="jvY-Gf-Gke" firstAttribute="trailing" secondItem="jIb-sV-ewo" secondAttribute="trailing" constant="16" id="vef-Yu-hiP"/>
+                            <constraint firstItem="YRJ-a4-jvo" firstAttribute="top" secondItem="jIb-sV-ewo" secondAttribute="bottom" constant="4" id="wdG-H6-jfD"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="X4R-GL-9uM"/>
                     <connections>
                         <outlet property="firstTitleLabel" destination="eAF-8l-d1n" id="hiE-LY-M0F"/>
                         <outlet property="mobileImage" destination="aGu-qG-6sk" id="Fm2-2E-kq0"/>
@@ -108,7 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hHp-eR-JZm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="207.69230769230768" y="162.79620853080567"/>
+            <point key="canvasLocation" x="1136.9230769230769" y="162.79620853080567"/>
         </scene>
     </scenes>
     <resources>

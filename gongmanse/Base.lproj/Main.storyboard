@@ -1644,6 +1644,9 @@
                                         <state key="normal" title="평점순">
                                             <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="alignment:" destination="xNm-MF-amQ" eventType="touchUpInside" id="DrN-d1-vlL"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowBelowGray" translatesAutoresizingMaskIntoConstraints="NO" id="YRj-aN-Vrz">
                                         <rect key="frame" x="36" y="0.0" width="8" height="27"/>
@@ -1664,6 +1667,9 @@
                                 <state key="normal" title="전체 보기">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="selectMenuBtn:" destination="xNm-MF-amQ" eventType="touchUpInside" id="ixM-JV-bYC"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eng-xC-6oM">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
@@ -1722,7 +1728,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ksI-OV-71X">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ksI-OV-71X">
                                 <rect key="frame" x="0.0" y="128" width="414" height="734"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="p2K-yi-IUZ">
@@ -1868,6 +1874,9 @@
                                         <state key="normal" title="평점순">
                                             <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="alignment:" destination="a08-0C-hcH" eventType="touchUpInside" id="Awe-kC-x6J"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowBelowGray" translatesAutoresizingMaskIntoConstraints="NO" id="XCN-9N-9sC">
                                         <rect key="frame" x="36" y="0.0" width="8" height="27"/>
@@ -1898,6 +1907,9 @@
                                 <state key="normal" title="전체 보기">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="selectMenuBtn:" destination="a08-0C-hcH" eventType="touchUpInside" id="FkN-PA-YAE"/>
+                                </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yQm-n5-TYD">
                                 <rect key="frame" x="354" y="87" width="51" height="31"/>
@@ -1919,6 +1931,7 @@
                             <constraint firstItem="uR0-cQ-Vlh" firstAttribute="leading" secondItem="fKM-Q0-4H0" secondAttribute="leading" constant="20" id="gz0-L0-nqz"/>
                             <constraint firstItem="fKM-Q0-4H0" firstAttribute="trailing" secondItem="bfQ-ZY-y2X" secondAttribute="trailing" constant="18" id="iNa-qp-6bC"/>
                             <constraint firstItem="yQm-n5-TYD" firstAttribute="top" secondItem="bfQ-ZY-y2X" secondAttribute="bottom" constant="2" id="lD7-m5-TXH"/>
+                            <constraint firstItem="ksI-OV-71X" firstAttribute="top" secondItem="pYm-U1-23m" secondAttribute="bottom" constant="17" id="m1d-kP-eu8"/>
                             <constraint firstItem="IOH-7c-LhJ" firstAttribute="top" secondItem="uR0-cQ-Vlh" secondAttribute="bottom" constant="4" id="m5M-ja-waW"/>
                             <constraint firstItem="fKM-Q0-4H0" firstAttribute="trailing" secondItem="yQm-n5-TYD" secondAttribute="trailing" constant="11" id="qby-G9-Fsv"/>
                             <constraint firstItem="IOH-7c-LhJ" firstAttribute="leading" secondItem="pYm-U1-23m" secondAttribute="trailing" constant="15" id="xdx-nb-tOv"/>

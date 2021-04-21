@@ -2,8 +2,8 @@ import UIKit
 import BottomPopup
 
 protocol ScienceVCDelegate: class {
-    func passSelectedIndexSettingValue(_ selectedIndex: Int)
-    func passSortedIdSettingValue(_ sortedIndex: Int)
+    func sciencePassSelectedIndexSettingValue(_ selectedIndex: Int)
+    func sciencePassSortedIdSettingValue(_ sortedIndex: Int)
 }
 
 class ScienceVC: UIViewController, BottomPopupDelegate {
@@ -248,7 +248,7 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
             self.sortedId = 2 // 과목순
         }
         
-        self.delegate?.passSortedIdSettingValue(sortedIdRowIndex)
+        self.delegate?.sciencePassSortedIdSettingValue(sortedIdRowIndex)
         self.scienceCollection.reloadData()
         
     }
@@ -266,7 +266,7 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         }
         // 클릭한 indexRow에 맞는 index를 "KoreanEnglishMathVC"의 프로퍼티에 전달한다.
 //        self.selectedItem = selectedRowIndex
-        self.delegate?.passSelectedIndexSettingValue(selectedRowIndex)
+        self.delegate?.sciencePassSelectedIndexSettingValue(selectedRowIndex)
         // 변경된 selectedItem으로 다시 API를 호출한다.
 //        getDataFromJson()
         // collectionview를 업데이트한다.

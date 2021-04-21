@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
-        //setRootViewController(scene)
+        setRootViewController(scene)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -40,7 +40,7 @@ extension SceneDelegate {
         if Storage.isFirstTime() {
             setRootViewController(scene, name: "Onboarding", identifier: "OnboardingViewController")
         } else {
-            setRootViewController(scene, name: "Main", identifier: "HomeVC")
+            setRootViewController(scene, name: "Main", identifier: "MainTabBarController")
         }
     }
     
@@ -55,4 +55,3 @@ extension SceneDelegate {
         }
     }
 }
-

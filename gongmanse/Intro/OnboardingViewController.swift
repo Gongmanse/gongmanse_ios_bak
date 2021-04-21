@@ -1,5 +1,6 @@
 import UIKit
 
+
 class OnboardingViewController: UIViewController {
 
     @IBOutlet weak var firstTitleLabel: UILabel!
@@ -14,15 +15,15 @@ class OnboardingViewController: UIViewController {
         
         fontColorPartEdit()
         btnCornerRadius()
-        fontChange()
+        //fontChange()
     }
     
-    func fontChange() {
-        firstTitleLabel.font = UIFont.appEBFontWith(size: 22)
-        videoLectureLabel.font = UIFont.appEBFontWith(size: 40)
-        videoCountLabel.font = UIFont.appEBFontWith(size: 50)
-        nextBtn.titleLabel?.font = UIFont.appBoldFontWith(size: 17)
-    }
+//    func fontChange() {
+//        firstTitleLabel.font = UIFont.appEBFontWith(size: 22)
+//        videoLectureLabel.font = UIFont.appEBFontWith(size: 40)
+//        videoCountLabel.font = UIFont.appEBFontWith(size: 50)
+//        nextBtn.titleLabel?.font = UIFont.appBoldFontWith(size: 17)
+//    }
     
     func fontColorPartEdit() {
         let attributedString = NSMutableAttributedString(string: welcomeLabel.text!, attributes: [.font: UIFont.appBoldFontWith(size: 18), .foregroundColor: UIColor.black])
@@ -42,13 +43,9 @@ class OnboardingViewController: UIViewController {
     }
 
     @IBAction func nextButton(_ sender: Any) {
-        presentMainHomeVC()
-    }
-    
-    private func presentMainHomeVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! MainTabBarController
         vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: false, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
 }

@@ -53,6 +53,7 @@ class RegistrationCompletionVC: UIViewController {
         
         nextButton.backgroundColor = UIColor.mainOrange
         nextButton.layer.cornerRadius = 10
+        nextButton.addShadow()
         
         // ProgressView 오토레이아웃
         totalProgressView.centerX(inView: view)
