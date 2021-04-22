@@ -101,7 +101,7 @@ class ProgressMainVC: UIViewController {
         requestProgress.requestProgressDataList { [weak self] result in
             self?.progressBodyDataList = result.body
             self?.progressHeaderData = result.header
-            self?.isLesson = self?.progressHeaderData?.isMore == "false" ? false : true
+            self?.isLesson = self?.progressHeaderData?.totalRows == "0" ? false : true
             self?.sendChapter.removeAll()
             for i in 0..<(self?.progressBodyDataList!.count)! {
                 let tt = self?.progressBodyDataList?[i].title ?? ""
