@@ -23,7 +23,7 @@ class ProgressMainVC: UIViewController {
     weak var delegate: ProgressPresenterDelegate?
     
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
-    private var isChooseGrade: Bool = false
+    private var chooseGrade: String = "모든 학년"
     
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
     private var isLesson: Bool = true
@@ -101,6 +101,7 @@ class ProgressMainVC: UIViewController {
         requestProgress.requestProgressDataList { [weak self] result in
             self?.progressBodyDataList = result.body
             self?.progressHeaderData = result.header
+            // totalRows = 0 이면 빈 화면 출력
             self?.isLesson = self?.progressHeaderData?.totalRows == "0" ? false : true
             self?.sendChapter.removeAll()
             for i in 0..<(self?.progressBodyDataList!.count)! {
@@ -177,10 +178,9 @@ class ProgressMainVC: UIViewController {
     //MARK: - Actions
     
     // 모든 학년
-    @IBAction func selectedGrade(_ sender: Any) {
+    @IBAction func selectedGrade(_ sender: UIButton) {
         let popupVC = ProgressPopupVC()
         popupVC.selectedBtnIndex = .grade
-        isChooseGrade = true
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
         popupVC.view.frame = self.view.bounds
@@ -188,16 +188,18 @@ class ProgressMainVC: UIViewController {
     }
     
     // 모든 단원
-    @IBAction func selectedChapter(_ sender: Any) {
-        if isChooseGrade {
+    @IBAction func selectedChapter(_ sender: UIButton) {
+                
+        if gradeBtn.titleLabel?.text == "모든 학년" {
+            presentAlert(message: "학년을 먼저 선택해 주세요.")
+        } else {
+            
             let popupVC = ProgressPopupVC()
             popupVC.selectedBtnIndex = .chapter
             popupVC.chapters = sendChapter
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)
-        } else {
-            // 경고창
         }
     }
 }
