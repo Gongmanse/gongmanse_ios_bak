@@ -34,7 +34,7 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
     }()
     
     private var userToken: String?
-    private let filterVM = FilteringViewModel()
+    private var filterVM: FilteringViewModel? = FilteringViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -88,7 +88,13 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         super.viewWillDisappear(animated)
         
         
-        filterVM.postData()
+        filterVM?.postData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        filterVM = nil
     }
 }
 

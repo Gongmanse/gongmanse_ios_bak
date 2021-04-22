@@ -30,7 +30,8 @@ class ProgressMainVC: UIViewController {
     
     private let mainCellIdentifier = "ProgressMainCell"
     private let emptyCellIdentifier = "EmptyStateViewCell"
-    private var progressDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
+    private var progressBodyDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
+    private var progressHeaderData: ProgressHeaderModel?
     private var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
     
     var pageIndex: Int!
@@ -85,15 +86,7 @@ class ProgressMainVC: UIViewController {
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
         requestProgressList(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
-//        let progressLecture = ProgressListAPI(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
-//        progressLecture.requestProgressDataList { [weak self] result in
-//            self?.progressDataList = result
-//
-//            DispatchQueue.main.async {
-//                self?.tableview.reloadData()
-//                self?.
-//            }
-//        }
+
     }
     
     
@@ -106,14 +99,17 @@ class ProgressMainVC: UIViewController {
         // 넘겨줄 주소
         
         requestProgress.requestProgressDataList { [weak self] result in
-            self?.progressDataList = result
+            self?.progressBodyDataList = result.body
+            self?.progressHeaderData = result.header
+            self?.isLesson = self?.progressHeaderData?.isMore == "false" ? false : true
             self?.sendChapter.removeAll()
-            for i in 0..<(self?.progressDataList!.count)! {
-                let tt = self?.progressDataList?[i].title ?? ""
+            for i in 0..<(self?.progressBodyDataList!.count)! {
+                let tt = self?.progressBodyDataList?[i].title ?? ""
                 self?.sendChapter.append(tt)
             }
             
             DispatchQueue.main.async {
+
                 self?.tableview.reloadData()
             }
         }
@@ -212,7 +208,7 @@ class ProgressMainVC: UIViewController {
 extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return progressDataList?.count ?? 0
+            return progressBodyDataList?.count ?? 0
         } else {
             return 1
         }
@@ -225,19 +221,19 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
             
             
             cell.selectionStyle = .none
-            cell.gradeTitle.text = progressDataList?[indexPath.row].title
-            cell.totalRows.text = progressDataList?[indexPath.row].totalLecture
+            cell.gradeTitle.text = progressBodyDataList?[indexPath.row].title
+            cell.totalRows.text = progressBodyDataList?[indexPath.row].totalLecture
             
-            cell.gradeLabel.textColor = UIColor(hex: progressDataList?[indexPath.row].subjectColor ?? "")
-            cell.subjectLabel.text = progressDataList?[indexPath.row].subject
-            cell.subjectColor.backgroundColor = UIColor(hex: progressDataList?[indexPath.row].subjectColor ?? "")
+            cell.gradeLabel.textColor = UIColor(hex: progressBodyDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = progressBodyDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: progressBodyDataList?[indexPath.row].subjectColor ?? "")
             
             // 리팩토링 예정
-            if progressDataList?[indexPath.row].grade == "초등" {
+            if progressBodyDataList?[indexPath.row].grade == "초등" {
                 cell.gradeLabel.text = "초"
-            }else if progressDataList?[indexPath.row].grade == "중등" {
+            }else if progressBodyDataList?[indexPath.row].grade == "중등" {
                 cell.gradeLabel.text = "중"
-            }else if progressDataList?[indexPath.row].grade == "고등" {
+            }else if progressBodyDataList?[indexPath.row].grade == "고등" {
                 cell.gradeLabel.text = "고"
             }
             
@@ -263,7 +259,7 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isLesson {
             print("DEBUG: 상세페이지 이동")
-            let indexID = progressDataList?[indexPath.row].progressId ?? ""
+            let indexID = progressBodyDataList?[indexPath.row].progressId ?? ""
             
             self.delegate?.pushCellVC(indexPath: indexPath, progressID: indexID)
         } else {

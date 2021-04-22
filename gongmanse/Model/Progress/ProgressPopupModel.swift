@@ -12,11 +12,11 @@ import Foundation
 
 // 프로그레스 전체 모델
 struct ProgressPopupModel: Codable {
-    let header: ResultProgressModel?
+    let header: ProgressHeaderModel?
     let body: [ProgressBodyModel]?
 }
 // 반환값 받아오는 모델
-struct ResultProgressModel: Codable {
+struct ProgressHeaderModel: Codable {
     let resultMsg: String
     let totalRows: String
     let isMore: String

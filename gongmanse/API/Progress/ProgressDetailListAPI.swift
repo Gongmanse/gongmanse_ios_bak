@@ -18,12 +18,6 @@ struct ProgressDetailListAPI {
         
     }
     
-//    // 초기 이후 offset개수에 따른 무한스크롤
-//    init(limit: Int, offset: Int) {
-//        detailURL += "\(progressIdentifier)?offset=\(offset)&limit=\(limit)"
-//        print(detailURL)
-//    }
-    
     func requestDetailList(complition: @escaping (_ result: ProgressDetailModel) -> Void) {
         
         AF.request(detailURL, method: .get)

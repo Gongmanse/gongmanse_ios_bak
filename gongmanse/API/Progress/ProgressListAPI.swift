@@ -26,7 +26,7 @@ struct ProgressListAPI {
         url = "\(apiBaseURL)/\(ProgressAPI.progress)/record/\(subject)?grade=\(grade)&gradeNum=\(gradeNum)&offset=\(offset)&limit=\(limit)"
     }
     
-    func requestProgressDataList(complition: @escaping (_ result: [ProgressBodyModel]) -> Void) {
+    func requestProgressDataList(completion: @escaping (_ result: ProgressPopupModel) -> Void) {
         
         guard let urlEncoded = url?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             return
@@ -36,7 +36,7 @@ struct ProgressListAPI {
             .responseDecodable(of: ProgressPopupModel.self) { response in
                 switch response.result {
                 case .success(let json):
-                    complition(json.body!)
+                    completion(json)
                 case .failure(let error):
                     print("DEBUG: ", error.localizedDescription)
                 }

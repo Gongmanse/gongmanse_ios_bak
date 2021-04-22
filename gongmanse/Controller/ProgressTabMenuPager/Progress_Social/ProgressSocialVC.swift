@@ -47,7 +47,7 @@ class ProgressSocialVC: UIViewController {
         
         let socialProgress = ProgressListAPI(subject: 35, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
         socialProgress.requestProgressDataList { [weak self] result in
-            self?.socialDataList = result
+            self?.socialDataList = result.body
             DispatchQueue.main.async {
                 self?.tableview.reloadData()
             }

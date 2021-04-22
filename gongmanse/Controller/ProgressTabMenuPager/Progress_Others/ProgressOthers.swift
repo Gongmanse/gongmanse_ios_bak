@@ -46,7 +46,7 @@ class ProgressOthers: UIViewController {
         
         let othersProgress = ProgressListAPI(subject: 37, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
         othersProgress.requestProgressDataList { [weak self] result in
-            self?.othersDataList = result
+            self?.othersDataList = result.body
             DispatchQueue.main.async {
                 self?.tableview.reloadData()
             }
