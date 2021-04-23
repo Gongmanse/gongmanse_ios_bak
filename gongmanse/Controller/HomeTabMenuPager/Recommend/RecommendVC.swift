@@ -72,7 +72,7 @@ extension RecommendVC: UICollectionViewDataSource {
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
         cell.videoTitle.text = indexData.title
-        cell.teachersName.text = indexData.teacherName ?? "nil" + " 선생님"
+        cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
         cell.subjects.text = indexData.subject
         cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
         cell.starRating.text = indexData.rating
