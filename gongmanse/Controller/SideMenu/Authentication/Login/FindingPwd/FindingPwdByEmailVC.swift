@@ -222,7 +222,10 @@ private extension FindingPwdByEmailVC {
 
 extension FindingPwdByEmailVC {
     func didSucceedSendingID(response: FindingPwdByEmailResponse) {
-        guard let id = response.sUsername else { return }
+        
+        guard let id = response.sUsername else {
+            return presentAlert(message: "입력하신 정보를 확인해주세요.")
+        }
         viewModel.receivedID = id
         
         /* 이곳에 타이머를 생성한 이유 : API 데이터 수신 시간과, viewModel.idIsValid 시간을 serial로 하기 위함.*/

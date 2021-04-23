@@ -86,6 +86,7 @@ class FindingPwdByEmailDataManager {
                 case .success(let response):
                     viewController.didSucceedCertificationNumber(response: response)
                     
+                    
                 case .failure(let error):
                     // 이름, 아이디, 휴대전화 번호을 잘못 작성한 경우, 해당 로직을 실행한다.
                     print("DEBUG: faild connection \(error.localizedDescription)")

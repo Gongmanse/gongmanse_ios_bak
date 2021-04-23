@@ -11,6 +11,8 @@
 		25126D66261175EA00009526 /* LoginInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25126D65261175EA00009526 /* LoginInput.swift */; };
 		25126D69261175F100009526 /* LoginDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25126D68261175F100009526 /* LoginDataManager.swift */; };
 		25126D6C2611760600009526 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25126D6B2611760600009526 /* LoginResponse.swift */; };
+		251D55D126310571005A00DE /* SideMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251D55D026310571005A00DE /* SideMenuHeaderView.swift */; };
+		251FFD07263256E0007A75FF /* SideMenuHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251FFD06263256E0007A75FF /* SideMenuHeaderViewModel.swift */; };
 		25201D9D260426C6001098AC /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201D9B260426C6001098AC /* LoginVC.swift */; };
 		25201D9E260426C6001098AC /* LoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25201D9C260426C6001098AC /* LoginVC.xib */; };
 		25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25201DA1260426D6001098AC /* RegistrationVC.swift */; };
@@ -299,6 +301,8 @@
 		25126D65261175EA00009526 /* LoginInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInput.swift; sourceTree = "<group>"; };
 		25126D68261175F100009526 /* LoginDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataManager.swift; sourceTree = "<group>"; };
 		25126D6B2611760600009526 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		251D55D026310571005A00DE /* SideMenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderView.swift; sourceTree = "<group>"; };
+		251FFD06263256E0007A75FF /* SideMenuHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderViewModel.swift; sourceTree = "<group>"; };
 		25201D9B260426C6001098AC /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		25201D9C260426C6001098AC /* LoginVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginVC.xib; sourceTree = "<group>"; };
 		25201DA1260426D6001098AC /* RegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationVC.swift; sourceTree = "<group>"; };
@@ -632,6 +636,14 @@
 				25126D6B2611760600009526 /* LoginResponse.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		251FFD04263256BA007A75FF /* HeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				251FFD06263256E0007A75FF /* SideMenuHeaderViewModel.swift */,
+			);
+			path = HeaderView;
 			sourceTree = "<group>";
 		};
 		25201D9A26042656001098AC /* Authentication */ = {
@@ -1436,6 +1448,7 @@
 				6C4713C525F87B1800D68A2B /* MyActivity */,
 				6C4713A225F70E5900D68A2B /* CustomSideMenuNavigation.swift */,
 				6C4713AA25F7103100D68A2B /* SideMenuVC.swift */,
+				251D55D026310571005A00DE /* SideMenuHeaderView.swift */,
 				A9129ED32616A08F00041CC5 /* WhatisTab */,
 				A9129EC826169F3200041CC5 /* NoticeTab */,
 			);
@@ -1724,6 +1737,7 @@
 		A9129EE42616CCF900041CC5 /* Sidemenu */ = {
 			isa = PBXGroup;
 			children = (
+				251FFD04263256BA007A75FF /* HeaderView */,
 				C2F22732261D4FCC00559065 /* Setting */,
 				A952485B261AADD3000F2473 /* Notice */,
 				A9129EE52616CD0100041CC5 /* CS */,
@@ -2172,6 +2186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				259B8BFE260305EB009A7146 /* SearchNoteVC.swift in Sources */,
+				251D55D126310571005A00DE /* SideMenuHeaderView.swift in Sources */,
 				2568EEFD26119F7000CD24B8 /* ByPhoneInput.swift in Sources */,
 				259B8BF3260305E1009A7146 /* SearchVideoVC.swift in Sources */,
 				259B8B8826030148009A7146 /* ProgressPopupCell.swift in Sources */,
@@ -2333,6 +2348,7 @@
 				6CF2E66C25F0AB9B000FE084 /* HomeVC.swift in Sources */,
 				259B8BAC260301D8009A7146 /* SearchVideoCell.swift in Sources */,
 				259B8B6326030065009A7146 /* UIColor.swift in Sources */,
+				251FFD07263256E0007A75FF /* SideMenuHeaderViewModel.swift in Sources */,
 				A9850EFA261613FE00908BA4 /* EnquiryCell.swift in Sources */,
 				2580CF4E261A91BA00D78E4E /* VideoUpperTabCell.swift in Sources */,
 				2580CF48261A916E00D78E4E /* BottomQnACell.swift in Sources */,

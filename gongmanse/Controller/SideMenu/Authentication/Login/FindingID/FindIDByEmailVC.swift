@@ -241,6 +241,10 @@ private extension FindIDByEmailVC {
 // MARK: - API
 
 extension FindIDByEmailVC {
+    
+    /// 네트워크 통신에 성공하면 호출되는 메소드
+    /// - 회원정보가 있는 경우 : 웹로그와 함께 인증번호가 넘어옴. 그래서 아래와 같이 정규표현식을 통해 값을 추출한다.
+    /// - 회원정보가 없는 경우 : "message" : 텍스트... 이런식으로 넘어옴. 이때는 데이터를 또 가져와야한다.
     func didSucceed(response: String) { // response 값에 서버 로그와 key:123456 이 함께 전달됨.
         let findIndex = response.firstIndex(of: "\"")!      // " 가 사용된 첫번째 텍스트 부터
         let lastIndex = response.lastIndex(of: "}")!        // } 가 사용된 마지막 텍스트 까지
@@ -260,6 +264,15 @@ extension FindIDByEmailVC {
         }
         print("DEBUG: result is \(result)...")
         viewModel.receivedKey = result
+        
+        if response.contains("입력하신 정보") {
+            presentAlert(message: "입력하신 정보가 회원정보와 일치하지 않습니다.")
+        }
+    }
+    
+    func didFaild(response: String) {
+        presentAlert(message: "네트워크 상태를 확인해주세요.")
+        vTimer?.invalidate()
     }
 
 }

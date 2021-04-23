@@ -232,11 +232,24 @@ private extension FindIDByPhoneVC {
 
 // MARK: - API
 
+/// 인증번호 API
 extension FindIDByPhoneVC {
     func didSucceedCertificationNumber(response: ByPhoneResponse) {
-        guard let key = response.key else { return }
+        guard let key = response.key else {
+            return presentAlert(message: "입력하신 정보를 확인해주세요.")
+        }
         viewModel.receivedKey = key
         print("DEBUG: key is \(key)...")
+        
+        if let message = response.message {
+            presentAlert(message: message)
+            vTimer?.invalidate()
+        }
+    }
+    
+    func didFaildCertificationNumber(response: ByPhoneResponse) {
+        vTimer?.invalidate()
+        presentAlert(message: "\(String(describing: response.message))")
     }
 }
 

@@ -218,18 +218,31 @@ extension FindingPwdByPhoneVC {
         if viewModel.idIsValid {
             if let timer = vTimer {
                 if !timer.isValid {
-                    vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                    vTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                  target: self,
+                                                  selector: #selector(timerCallback),
+                                                  userInfo: nil, repeats: true)
                 } else {
                     timer.invalidate()
                     self.totalTime = 180
                     self.sendingNumButton.setTitle("재발송", for: .normal)
-                    vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                    vTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                  target: self,
+                                                  selector: #selector(timerCallback),
+                                                  userInfo: nil, repeats: true)
                 }
             }else{
-                vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
+                vTimer = Timer.scheduledTimer(timeInterval: 1,
+                                              target: self,
+                                              selector: #selector(timerCallback),
+                                              userInfo: nil, repeats: true)
             }
+            
             // 타이머 호출과 동시에 인증번호를 발송한다.
-            FindingPwdByPhoneDataManager().certificationNumberByPhone(ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)"), viewController: self)
+            let inputData = ByPhoneInput(receiver: "\(viewModel.cellPhone)",
+                                         name: "\(viewModel.name)")
+            FindingPwdByPhoneDataManager().certificationNumberByPhone(inputData,
+                                                                      viewController: self)
         } else {
             // 불일치한 경우...
             presentAlert(message: "아이디를 확인해주세요.")
@@ -308,7 +321,8 @@ private extension FindingPwdByPhoneVC {
     }
     
     func setupTapGesture() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                          action: #selector(tapGesture))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
 }
