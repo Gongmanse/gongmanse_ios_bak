@@ -4,6 +4,8 @@ class SideMenuVC: UITableViewController {
     
     // MARK: - Properties
 
+    var viewModel = SideMenuHeaderViewModel(token: Constant.token)
+    
     ///목록 데이터 배열
     let titles = ["나의 활동", "나의 일정", "공만세란?", "공지사항", "고객센터", "설정"]
     
@@ -16,7 +18,15 @@ class SideMenuVC: UITableViewController {
         UIImage(named: "helpCenter"),
         UIImage(named: "settings")
     ]
-
+    
+    /// HeaderView 높이
+    lazy var headerViewHeight = view.frame.height * 0.31 {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -24,20 +34,17 @@ class SideMenuVC: UITableViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        // viewWillAppear에 로그인 여부 로직을 작성한 이유)
+        // 혹시 추후에 sideMenu를 종료한 이후에 sideMenu가 들어가지 않도록 해달라는 요구까지 대응하기 위함이다.
+        viewModel.headerViewHeight = view.frame.height
+        headerViewHeight = viewModel.isHeaderHeight
+    }
+    
     
     // MARK: - Actions
 
-    @objc func handleLoginButton() {
-        // TODO: 로그인 이후에는 이용권이 나타날 수 있도록 처리해둘 것
-        
-        
-    }
-    
-
-    @objc func handleRegistration() {
-        
-    }
-    
 
     // MARK: - Helpers
     
@@ -45,7 +52,9 @@ class SideMenuVC: UITableViewController {
         
         // tableView 설정
         tableView.isScrollEnabled = false
+        tableView.tableFooterView = UIView()
     }
+    
     
     
     
@@ -115,22 +124,26 @@ class SideMenuVC: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView,
+                            viewForHeaderInSection section: Int) -> UIView? {
+        
         let frame = CGRect(x: 0, y: 0,
-                           width: tableView.frame.width,
-                           height: 230)
+                           width: Int(tableView.frame.width),
+                           height: Int(headerViewHeight))
         let headerView = SideMenuHeaderView(frame: frame)
-        headerView.delegate = self
-//        headerView.passTicketContainerView.anchor(bottom: headerView.bottomAnchor,
-//                                                  height: 0)
-        headerView.passTicketContainerView.isHidden = true
+        headerView.viewModel = viewModel
+        // "headerView"에서 UIController을 대신해주기 위해 delegate를 설정한다.
+        headerView.sideMenuHeaderViewDelegate = self
+        headerView.passTicketContainerView.isHidden = viewModel.isLogin ? false : true
         return headerView
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 230
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat(headerViewHeight)
     }
 }
+
 
 extension SideMenuVC: SideMenuHeaderViewDelegate {
     
@@ -143,6 +156,13 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func clickedLogoutButton() {
+        Constant.token = ""
+        viewModel.token = Constant.token
+        headerViewHeight = viewModel.isHeaderHeight
+        tableView.reloadData()
+    }
+    
     func clickedRegistrationButton() {
         let vc = RegistrationVC(nibName: "RegistrationVC", bundle: nil)
         self.navigationController?.pushViewController(vc, animated: true)
@@ -152,4 +172,6 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         let vc = PassTicketVC(nibName: "PassTicketVC", bundle: nil)
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    
 }

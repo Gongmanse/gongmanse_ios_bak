@@ -11,15 +11,21 @@ import UIKit
 protocol SideMenuHeaderViewDelegate: class {
     func handleDismiss()
     func clickedLoginButton()
+    func clickedLogoutButton()
     func clickedRegistrationButton()
     func clickedBuyingPassTicketButton()
+    
 }
 
 class SideMenuHeaderView: UIView {
     
     // MARK: - Properties
     
-    weak var delegate: SideMenuHeaderViewDelegate?
+    var viewModel: SideMenuHeaderViewModel? {
+        didSet { commonInit() }
+    }
+    
+    weak var sideMenuHeaderViewDelegate: SideMenuHeaderViewDelegate?
     
     /// "X" 버튼
     private let closeButton: UIButton = {
@@ -131,27 +137,50 @@ class SideMenuHeaderView: UIView {
     
     // MARK: - Actions
     
-    @objc func handleDismiss() {
-        delegate?.handleDismiss()
+    @objc
+    func handleDismiss() {
+        sideMenuHeaderViewDelegate?.handleDismiss()
     }
     
     
-    @objc func clickedLoginButton() {
-        delegate?.clickedLoginButton()
+    @objc
+    func clickedLoginButton() {
+        if let viewModel = viewModel {
+            if viewModel.isLogin {
+                sideMenuHeaderViewDelegate?.clickedLogoutButton()
+            } else {
+                sideMenuHeaderViewDelegate?.clickedLoginButton()
+            }
+        }
+        
     }
     
-    @objc func clickedRegistrationButton() {
-        delegate?.clickedRegistrationButton()
+    @objc
+    func handleLogout() {
+        sideMenuHeaderViewDelegate?.clickedLogoutButton()
     }
     
-    @objc func clickedBuyingPassTicketButton() {
-        delegate?.clickedBuyingPassTicketButton()
+    @objc
+    func clickedRegistrationButton() {
+        sideMenuHeaderViewDelegate?.clickedRegistrationButton()
+    }
+    
+    @objc
+    func clickedBuyingPassTicketButton() {
+        sideMenuHeaderViewDelegate?.clickedBuyingPassTicketButton()
     }
     
     
     // MARK: - Helpers
     
     func commonInit() {
+        
+        configureUI()
+        updateUI()
+    }
+    
+    /// 최초 초기화 시, UI구현을 위한 메소드
+    func configureUI() {
         
         self.addSubview(closeButton)
         self.addSubview(profileImage)
@@ -234,4 +263,22 @@ class SideMenuHeaderView: UIView {
         bottomBorderView.anchor(bottom: self.bottomAnchor)
     }
     
+    /// 로그인 여부에 따른 UI 업데이트를 위한 메소드
+    func updateUI() {
+        
+        guard let viewModel = viewModel else { return }
+        
+        if viewModel.isLogin {
+            
+            nickName.text = viewModel.name
+            
+            loginBtn.setTitle("로그아웃", for: .normal)
+            
+            signUpBtn.setTitle("프로필 수정", for: .normal)
+            
+            buyingPassTicketLabel.text = "이용권 20일 남음"
+            
+            buyingPassTicketButton.setTitle("사용 기간 연장", for: .normal)
+        }
+    }
 }
