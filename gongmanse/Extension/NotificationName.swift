@@ -8,6 +8,7 @@
 import Foundation
 
 extension Notification.Name {
+    // 진도학습
     static let getGrade = Notification.Name("getGrade")
     static let getSubject = Notification.Name("getSubject")
 }

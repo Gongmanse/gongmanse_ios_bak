@@ -34,6 +34,13 @@ class ProgressMainVC: UIViewController {
     private var progressHeaderData: ProgressHeaderModel?
     private var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
     
+    
+    private var isListMore: Bool?
+    private var listCount = 0
+    private var localGradeTitle = ""
+    private var localGradeNumber = 0
+        
+        
     var pageIndex: Int!
     var sendChapter: [String] = []
     
@@ -91,6 +98,10 @@ class ProgressMainVC: UIViewController {
     
     
     func requestProgressList(subject: Int, grade: String, gradeNum: Int, offset: Int, limit: Int) {
+        
+        localGradeTitle = grade
+        localGradeNumber = gradeNum
+        
         let requestProgress = ProgressListAPI(subject: subject,
                                               grade: grade,
                                               gradeNum: gradeNum,
@@ -99,19 +110,44 @@ class ProgressMainVC: UIViewController {
         // 넘겨줄 주소
         
         requestProgress.requestProgressDataList { [weak self] result in
-            self?.progressBodyDataList = result.body
+            
             self?.progressHeaderData = result.header
             // totalRows = 0 이면 빈 화면 출력
             self?.isLesson = self?.progressHeaderData?.totalRows == "0" ? false : true
-            self?.sendChapter.removeAll()
-            for i in 0..<(self?.progressBodyDataList!.count)! {
-                let tt = self?.progressBodyDataList?[i].title ?? ""
-                self?.sendChapter.append(tt)
+            self?.isListMore = Bool(self?.progressHeaderData?.isMore ?? "")
+            
+            if self?.isListMore == false {
+                self?.listCount = 0
             }
             
-            DispatchQueue.main.async {
+            if offset == 0 {
+                self?.progressBodyDataList = result.body
+                
+                
+                self?.sendChapter.removeAll()
+                for i in 0..<(self?.progressBodyDataList!.count)! {
+                    let tt = self?.progressBodyDataList?[i].title ?? ""
+                    self?.sendChapter.append(tt)
+                }
+                
+                DispatchQueue.main.async {
+                    self?.tableview.reloadData()
+                }
+            }else {
+                
+                self?.progressBodyDataList?.append(contentsOf: result.body!)
+                
+                DispatchQueue.main.async {
+                    let startTime = CFAbsoluteTimeGetCurrent()
 
-                self?.tableview.reloadData()
+                    self?.tableview.reloadData()
+                    let processTime = CFAbsoluteTimeGetCurrent() - startTime
+                    print("수행 시간 = \(processTime)")
+
+//                    self?.tableview.beginUpdates()
+//                    self?.tableview.insertRows(at: [IndexPath(row: 20, section: 0)], with: .automatic)
+//                    self?.tableview.endUpdates()
+                }
             }
         }
     }
@@ -237,6 +273,18 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
                 cell.gradeLabel.text = "중"
             }else if progressBodyDataList?[indexPath.row].grade == "고등" {
                 cell.gradeLabel.text = "고"
+            }
+            
+            let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+            
+            if isListMore == true && indexPath.row == totalRows - 1 {
+                listCount += 20
+                requestProgressList(subject: 34,
+                                    grade: localGradeTitle,
+                                    gradeNum: localGradeNumber,
+                                    offset: listCount,
+                                    limit: 20)
+                
             }
             
             return cell
