@@ -122,7 +122,10 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //나중에 추가
+        let vc = VideoController()
+        vc.id = recommendVideo.body[indexPath.row].videoId
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 }
 

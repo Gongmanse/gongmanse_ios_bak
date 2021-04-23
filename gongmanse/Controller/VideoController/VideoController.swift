@@ -13,6 +13,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
     
+    var id: String?
+    
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     private var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -197,7 +199,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 자막을 클릭 했을 때, 제스쳐로 인지할 제스쳐 인스턴스
     lazy var gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedSubtitle))
 
-    let videoURL = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=ZWRhNTFiYmEyYTFhNDYyMDg2Y2RjMjcyYjAyOTZjNWFiOTU2MDk1MmNlYjJmMzUyZTgzYzhmYmE5NTFiNjM3NzBiYzMzYTliMWMzMWQxZTM2ZmYyN2IzNjQyYTdhNzViZWVkY2JiMGNkYzhkNmI1NTdiMjlhNTYxM2IzNDE2YjBZdUZnbHdteGM4Y1JWVksrM0JnNUxERGlXd2IrZUNaS0JNV2lWdzhrMnQ2NVFOSU9ycWJ6T3ZyZzFoRUVvVG95N3ZOcFpRSWVxN1VoRUpoMzZDT1UvVHBLVFIxeUhiZlRxNW0zaUQrTmxJM0tlc0szZTVjcklzaFkzbUs0Nko5L0hDNWZpa3Z0aThNMkJJTXJkK084YWFWRFBSMW11cnhnUzg4QXY2YWEzTHpqTzUzTlBkOFNZaTIzTzZzakp4bks5MGZpd1orTktqZEtqYnVEVFFBVUdNTm1NcHhvVGdSQVYvM2w2cUJmNmJMYTVQcEJRaExlSTdqYW5tb2FkK1V1UGhsajQxbEl4SE1GajNCb1hVSjZ3NEJRTWxpMWpVcS9taVRoVkFBSVJqbzVWWG9TdzdHMURlTlZaTlB0ME5yNEFIdmVCVDNlUTRaSXVwaW1ldEUwSWVGUTdBbW1YU3NPNGI4a3F3Q1JGREk9")
+    let videoURL = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MGZlNjc3MGVmZTViZmFmNWRkZDcyMjNlNzM5ZTdkYjE5ODM3ODJiYzRjY2Q0ZjJiNDRhMGJmYmE4ZjBhZTQxNDhlZmNhODA5YmYyYTcxODBhN2QxNmMwNTQ1M2E3NmM1MTlhZTlhMDRkYjI1MTMyYWY3MzE5MzkwMmMwZDc3ZWFSblZITXhHcFcvYlZSem5XR29OMDFYaUs0dVF6OWNIQ2Irbzg1dzNHUUt5bzEwazluTElHcXdsU1dlc2psbVRXTk00M29Xb3JPeS9lTG9KOUJKNnIxcnJ3a1JQOHBwRWhjUDA2eHpZRnEwQVdBWE9mUEpPckxHL0hnR21UbFNmclhGODRrYjJTa0FmQUYzcXJMTFdWUkROcmNQNEdJaGRITllBVUgwdHpacjRKYkRWT2JxNHYzTTlHb3VsNU0rZyttVlVodzNSQUpCZEZ6RkxSNCtlTWJhcHJQeCt3QzNLOWdJRDE2T05QNkNMZW83OHo1VmJlZWFXQWNmamxNME1GN3I4ZFM3NUsrRW9MYjBNZGwzQldRVjdXRkVEdGwvLzlDd2MwL0hiaENyTG1TUkNtTy80Q3dNUzBHOWZKYWxpK0duMjVseEFRNWh0b2dHWkpERlU5U2FPOWsvQjl5ZEtQc2pHQjBJcTVJaHc9")
 
     /// 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
@@ -268,7 +270,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         playVideo()                      // 동영상 재생 메소드로 현재 테스트를 위해 이곳에 둠 04.07 추후에 인트로 영상을 호출한 이후에 이 메소드를 호출할 계획
         configureVideoControlView()      // 비디오 상태바 관련 메소드
     }
-
 
     // MARK: - Actions
     
