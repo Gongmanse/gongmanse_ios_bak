@@ -11,7 +11,7 @@ class FindIDResultVC: UIViewController {
     
     // MARK: - Properties
 
-    var viewModel: FindingPwdViewModel?   // FindIDByPhoneVC 의 viewModel을 전달받을 Property
+    var viewModel: FindingViewModel?   // FindIDByPhoneVC 의 viewModel을 전달받을 Property
     
     var pageIndex: Int!
     

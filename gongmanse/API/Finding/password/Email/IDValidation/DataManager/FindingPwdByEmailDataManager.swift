@@ -26,6 +26,7 @@ class FindingPwdByEmailDataManager {
                         // controller code
                         viewController.didSucceedSendingID(response: response)
                     case .failure(let error):
+                        viewController.didFaildNetworingAPI()
                         print("DEBUG: faild connection \(error.localizedDescription)")
                     }
                 }
@@ -60,7 +61,7 @@ class FindingPwdByEmailDataManager {
                     
                 case .failure:
                     // 이름이나 이메일을 잘못 작성한 경우 해당 로직이 실행된다.
-                    viewController.didFaildSendingCertificationNumber()
+                    viewController.didFaildNetworingAPI()
                     print("DEBUG: failure")
                 }
             }

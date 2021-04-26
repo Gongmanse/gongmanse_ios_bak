@@ -11,7 +11,7 @@ class FindingPwdByEmailVC: UIViewController {
 
     // MARK: - Properties
     
-    var viewModel = FindingPwdViewModel()
+    var viewModel = FindingViewModel()
         
     var pageIndex: Int! // 상단탭바 구현을 위한 프로퍼티
     var vTimer: Timer?          // 인증번호 타이머
@@ -61,13 +61,15 @@ class FindingPwdByEmailVC: UIViewController {
     
     // MARK: - Actions
     
-    // 완료 버튼 클릭 시, 호출되는 콜백메소드
+    /// 완료 버튼 클릭 시, 호출되는 콜백메소드
     @objc func handleComplete() {
+        
         if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
             // Transition Controller
             let vc = NewPasswordVC()
             vc.viewModel.username = self.viewModel.name
             self.navigationController?.pushViewController(vc, animated: true)
+            
         } else {
             presentAlert(message: "기입한 정보를 확인해주세요.")
         }
@@ -233,6 +235,9 @@ extension FindingPwdByEmailVC {
         // 2-1. 만약 일치하면, 타이머 시작 + 인증번호 API를 호출한다.
         // 2-2. 만약 불일치하면, 일치하지 않은 메시지를 띄워준다. 그리고 아무것도 호출하지 않는다.
         if viewModel.idIsValid {
+            
+            sendingNumButton.setTitle("재발송", for: .normal)
+
             if let timer = vTimer {
                 if !timer.isValid {
                     vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
@@ -253,7 +258,7 @@ extension FindingPwdByEmailVC {
         }
     }
     
-    func didFaildSendingCertificationNumber() {
+    func didFaildNetworingAPI() {
         presentAlert(message: "입력하신 이름, 아이디, 이메일을 확인해주세요.")
     }
     

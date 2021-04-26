@@ -12,7 +12,7 @@ class FindIDByPhoneVC: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel = FindingPwdViewModel()
+    var viewModel = FindingViewModel()
     
     var pageIndex: Int! // 상단탭바 구현을 위한 프로퍼티
     var vTimer: Timer?          // 인증번호 타이머
@@ -63,11 +63,13 @@ class FindIDByPhoneVC: UIViewController {
     
     // 완료 버튼 클릭 시, 호출되는 콜백메소드
     @objc func handleComplete() {
+        
         if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
             // Transition Controller
             let vc = FindIDResultVC()
             vc.viewModel = self.viewModel
             self.navigationController?.pushViewController(vc, animated: true)
+            
         } else {
             presentAlert(message: "기입한 정보를 확인해주세요.")
         }
@@ -168,10 +170,12 @@ class FindIDByPhoneVC: UIViewController {
 // MARK: - Timer
 
 private extension FindIDByPhoneVC {
+    
     /** 타이머 시작버튼 클릭 */
     @objc func onTimerStart(_ sender: Any) {
         
-        if viewModel.name.count > 1 && viewModel.cellPhone.count > 10 {
+        if viewModel.isNotNilTextField
+            && viewModel.cellPhone.validatePhoneNumber() {
             
             if let timer = vTimer {
                 //timer 객체가 nil 이 아닌경우에는 invalid 상태에만 시작한다.
@@ -185,7 +189,6 @@ private extension FindIDByPhoneVC {
                 } else {    // 타이머 실행중에 다시 타이머를 실행했다면, 기존의 타이머를 멈추고 난 후, 실행한다.
                     timer.invalidate()
                     self.totalTime = 180
-                    self.sendingNumButton.setTitle("재발송", for: .normal)
                     vTimer = Timer.scheduledTimer(timeInterval: 1,
                                                   target: self,
                                                   selector: #selector(timerCallback),
@@ -235,7 +238,12 @@ private extension FindIDByPhoneVC {
 /// 인증번호 API
 extension FindIDByPhoneVC {
     func didSucceedCertificationNumber(response: ByPhoneResponse) {
+        
+        self.sendingNumButton.setTitle("재발송", for: .normal)
+
         guard let key = response.key else {
+            self.sendingNumButton.setTitle("인증번호 발송", for: .normal)
+            vTimer?.invalidate()
             return presentAlert(message: "입력하신 정보를 확인해주세요.")
         }
         viewModel.receivedKey = key
