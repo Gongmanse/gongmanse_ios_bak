@@ -11,29 +11,8 @@ protocol ProgressPresenterDelegate: class {
     func pushCellVC(indexPath: IndexPath, progressID: String)
 }
 
-protocol ProgressInfinityScroll: class {
-    var islistMore: Bool? { get set }
-    var listCount: Int { get set }
-    func isScrollMethod()
-}
 
-extension ProgressInfinityScroll {
-    func reloadData(table: UITableView) {
-        DispatchQueue.main.async {
-            table.reloadData()
-        }
-    }
-    
-    func reloadData(collection: UICollectionView) {
-        DispatchQueue.main.async {
-            collection.reloadData()
-        }
-    }
-}
 class ProgressMainVC: UIViewController, ProgressInfinityScroll {
-    
-    
-    
     
     //MARK: - Properties
     
@@ -55,9 +34,11 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     private var progressHeaderData: ProgressHeaderModel?         // 리스트 받아오는 모델 header
     private var getGradeData: SubjectGetDataModel?               // 서버에서 학년 받아오는모델
     
+    // 전역변수 사용하기 위한 변수들
     private var localGradeTitle = ""
     private var localGradeNumber = 0
     
+    // API 통신 시 고정 값
     private let mainSubjectNumber = 34
     private let mainLimitNumber = 20
     
@@ -69,6 +50,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
      
+    // infinity Protocol
     var islistMore: Bool?
     
     var listCount: Int = 0

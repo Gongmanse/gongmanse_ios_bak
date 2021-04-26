@@ -74,15 +74,18 @@ class ProgressScienceVC: UIViewController {
         let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
         
         gradeBtn.layer.borderWidth = CGFloat(borderWidth)
-        chapterBtn.layer.borderWidth = CGFloat(borderWidth)
-        
+        gradeBtn.setTitle("모든 학년", for: .normal)
+        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeBtn.layer.borderColor = borderColor.cgColor
-        chapterBtn.layer.borderColor = borderColor.cgColor
-        
         gradeBtn.layer.cornerRadius = 13
+        
+        
+        chapterBtn.layer.borderWidth = CGFloat(borderWidth)
+        chapterBtn.layer.borderColor = borderColor.cgColor
+        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
+        chapterBtn.setTitle("모든 단원", for: .normal)
     }
-    
     
     //MARK: - Actions
     

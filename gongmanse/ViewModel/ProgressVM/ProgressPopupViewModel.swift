@@ -22,6 +22,26 @@ struct ProgressPopupViewModel {
         self.data = data
     }
 }
+protocol ProgressInfinityScroll: class {
+    var islistMore: Bool? { get set }
+    var listCount: Int { get set }
+    func isScrollMethod()
+}
+
+extension ProgressInfinityScroll {
+    
+    func reloadData(table: UITableView) {
+        DispatchQueue.main.async {
+            table.reloadData()
+        }
+    }
+    
+    func reloadData(collection: UICollectionView) {
+        DispatchQueue.main.async {
+            collection.reloadData()
+        }
+    }
+}
 
 class ProgressMainViewModel {
     
