@@ -11,8 +11,29 @@ protocol ProgressPresenterDelegate: class {
     func pushCellVC(indexPath: IndexPath, progressID: String)
 }
 
+protocol ProgressInfinityScroll: class {
+    var islistMore: Bool? { get set }
+    var listCount: Int { get set }
+    func isScrollMethod()
+}
 
-class ProgressMainVC: UIViewController {
+extension ProgressInfinityScroll {
+    func reloadData(table: UITableView) {
+        DispatchQueue.main.async {
+            table.reloadData()
+        }
+    }
+    
+    func reloadData(collection: UICollectionView) {
+        DispatchQueue.main.async {
+            collection.reloadData()
+        }
+    }
+}
+class ProgressMainVC: UIViewController, ProgressInfinityScroll {
+    
+    
+    
     
     //MARK: - Properties
     
@@ -30,17 +51,16 @@ class ProgressMainVC: UIViewController {
     
     private let mainCellIdentifier = "ProgressMainCell"
     private let emptyCellIdentifier = "EmptyStateViewCell"
-    private var progressBodyDataList: [ProgressBodyModel]?      // 리스트 받아오는 모델
-    private var progressHeaderData: ProgressHeaderModel?
-    private var getGradeData: SubjectGetDataModel?          // 서버에서 학년 받아오는모델
+    private var progressBodyDataList: [ProgressBodyModel]?       // 리스트 받아오는 모델 body
+    private var progressHeaderData: ProgressHeaderModel?         // 리스트 받아오는 모델 header
+    private var getGradeData: SubjectGetDataModel?               // 서버에서 학년 받아오는모델
     
-    
-    private var isListMore: Bool?
-    private var listCount = 0
     private var localGradeTitle = ""
     private var localGradeNumber = 0
-        
-        
+    
+    private let mainSubjectNumber = 34
+    private let mainLimitNumber = 20
+    
     var pageIndex: Int!
     var sendChapter: [String] = []
     private let mainViewModel = ProgressMainViewModel()
@@ -49,33 +69,52 @@ class ProgressMainVC: UIViewController {
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
      
+    var islistMore: Bool?
+    
+    var listCount: Int = 0
+    
+    func isScrollMethod() {
+        listCount += 20
+        requestProgressList(subject: mainSubjectNumber,
+                            grade: localGradeTitle,
+                            gradeNum: localGradeNumber,
+                            offset: listCount,
+                            limit: mainLimitNumber)
+    }
     
     //MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
-        // 서버에서 학년 받아오기
-        let getfilter = getFilteringAPI()
-        getfilter.getFilteringData { [weak self] result in
-            self?.getGradeData = result
-            self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+        
+        // 토큰 있을 때 없을 때
+        if Constant.token.isEmpty {
+            gradeBtn.setTitle("모든 학년", for: .normal)
+            requestProgressList(subject: mainSubjectNumber, grade: "모든", gradeNum: 0, offset: 0, limit: mainLimitNumber)
             
-            let changeGrade = self?.mainViewModel.changeGrade(string: self?.getGradeData?.sGrade ?? "")
-            let changeGradeNumber = self?.mainViewModel.changeGradeNumber(string: self?.getGradeData?.sGrade ?? "")
-            
-            self?.requestProgressList(subject: 34,
-                                      grade: changeGrade ?? "",
-                                      gradeNum: changeGradeNumber ?? 0,
-                                      offset: 0,
-                                      limit: 20)
-            
+        } else {
+            // 서버에서 학년 받아오기, 토큰 필요
+            let getfilter = getFilteringAPI()
+            getfilter.getFilteringData { [weak self] result in
+                self?.getGradeData = result
+                self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+                
+                let changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
+                let changeGradeNumber = self?.mainViewModel.transformGradeNumber(string: self?.getGradeData?.sGrade ?? "")
+                
+                self?.requestProgressList(subject: self?.mainSubjectNumber ?? 0,
+                                          grade: changeGrade ?? "",
+                                          gradeNum: changeGradeNumber ?? 0,
+                                          offset: 0,
+                                          limit: self?.mainLimitNumber ?? 0)
+            }
+
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        
         
         configureTableView()
         // 버튼 타이틀 데이터
@@ -84,16 +123,22 @@ class ProgressMainVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: NSNotification.Name.getGrade, object: nil)
     }
     
-    
+    // 학년 popup에서 선택 시 API불러올 메소드
     @objc func changeGradeTitle(_ sender: Notification) {
-        
+        // ex) 모든학년 받아옴
         guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
-        let gradeTitle = mainViewModel.changeGrade(string: getGradeTitle)
-        let gradeNumber = mainViewModel.changeGradeNumber(string: getGradeTitle)
+        // 모든에 해당하는 강의 나타냄
+        let gradeTitle = mainViewModel.transformGrade(string: getGradeTitle)
+        let gradeNumber = mainViewModel.transformGradeNumber(string: getGradeTitle)
         
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
-        requestProgressList(subject: 34, grade: gradeTitle, gradeNum: gradeNumber, offset: 0, limit: 20)
+        
+        requestProgressList(subject: mainSubjectNumber,
+                            grade: gradeTitle,
+                            gradeNum: gradeNumber,
+                            offset: 0,
+                            limit: mainLimitNumber)
 
     }
     
@@ -115,11 +160,12 @@ class ProgressMainVC: UIViewController {
             self?.progressHeaderData = result.header
             // totalRows = 0 이면 빈 화면 출력
             self?.isLesson = self?.progressHeaderData?.totalRows == "0" ? false : true
-            self?.isListMore = Bool(self?.progressHeaderData?.isMore ?? "")
+            self?.islistMore = Bool(self?.progressHeaderData?.isMore ?? "")
             
-            if self?.isListMore == false {
+            if self?.islistMore == false {
                 self?.listCount = 0
             }
+            
             
             if offset == 0 {
                 self?.progressBodyDataList = result.body
@@ -130,25 +176,17 @@ class ProgressMainVC: UIViewController {
                     let tt = self?.progressBodyDataList?[i].title ?? ""
                     self?.sendChapter.append(tt)
                 }
-                
-                DispatchQueue.main.async {
-                    self?.tableview.reloadData()
-                }
+                self?.reloadData(table: self?.tableview ?? UITableView())
+
             }else {
                 
                 self?.progressBodyDataList?.append(contentsOf: result.body!)
                 
-                DispatchQueue.main.async {
-                    let startTime = CFAbsoluteTimeGetCurrent()
-
-                    self?.tableview.reloadData()
-                    let processTime = CFAbsoluteTimeGetCurrent() - startTime
-                    print("수행 시간 = \(processTime)")
-
-//                    self?.tableview.beginUpdates()
-//                    self?.tableview.insertRows(at: [IndexPath(row: 20, section: 0)], with: .automatic)
-//                    self?.tableview.endUpdates()
-                }
+                self?.reloadData(table: self?.tableview ?? UITableView())
+                
+//                self?.tableview.beginUpdates()
+//                self?.tableview.insertRows(at: [IndexPath(row: 20, section: 0)], with: .automatic)
+//                self?.tableview.endUpdates()
             }
         }
     }
@@ -253,13 +291,9 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
             
             let totalRows = tableView.numberOfRows(inSection: indexPath.section)
             
-            if isListMore == true && indexPath.row == totalRows - 1 {
-                listCount += 20
-                requestProgressList(subject: 34,
-                                    grade: localGradeTitle,
-                                    gradeNum: localGradeNumber,
-                                    offset: listCount,
-                                    limit: 20)
+            
+            if islistMore == true && indexPath.row == totalRows - 1 {
+                isScrollMethod()
                 
             }
             

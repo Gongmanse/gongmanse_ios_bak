@@ -25,8 +25,8 @@ struct ProgressPopupViewModel {
 
 class ProgressMainViewModel {
     
-    // ViewModel로 이사 전
-    func changeGrade(string: String) -> String {
+    
+    func transformGrade(string: String) -> String {
         var title = ""
         
         if string.hasPrefix("초등") {
@@ -41,7 +41,7 @@ class ProgressMainViewModel {
         return title
     }
     
-    func changeGradeNumber(string: String) -> Int {
+    func transformGradeNumber(string: String) -> Int {
         var numbers = 0
         let arr = ["1","2","3","4","5","6"]
         for i in arr {
