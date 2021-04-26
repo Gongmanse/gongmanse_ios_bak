@@ -97,7 +97,7 @@ struct postFilteringAPI {
 // 보낸 데이터 받아오는 API
 struct getFilteringAPI {
     
-    let token = "MzcyMjFmZDExYTEzZDA2MmFkZTE1ZDRiNjhiNDZkOTlkYzhjZWFlZmZkOGE3NWJmYmViMGIwZTJkNzU0MmZlNWQyNmIxMDJkYjdiZmUxZTliMTg4OGRlODg4Zjc0NzI4MGM1OWQyNTA5ZjlmODgwZGIzODA3NTNhYzA2MTg1MjY4OXdJRnMwM3lLTEFDOTlSNXMvMjVKLzZqd2lCNGZlbjJBYTNydFJsWXJGZkhTN0NteEJFaW1tUlR0UGwyc0p5dXBkSmJRYXB0OFhOOGg5MmRMVDhFQT09"
+    let token = "ZWNmNzczNjYyMDgzZmQ1ZGU3ODZkNzI2MmU2NGEwY2RhMDliNTM4NWQ3NzhmNDNjYjZiZTE1NzYzYTlkN2M4N2U2YWQxZTdhNjU5ZDI0NDI0YzY5NmIyZGRkOTA2ZDhjNjdlNWJkOWQ5MGE0ODhlZWIzOGMwMThhMGYzN2YxYjI5Zk00OTUzODlhVWRxSHp4dks3UGlKa3laa1lqR2grMUNValdlMkMvMG5HdEZ6b0dyZTB2K0dQZFpoUmhRb0IzcHViTytWSk92cVFxbll2TVNuK1NpZz09"
     
     func getFilteringData(complition: @escaping (_ result: SubjectGetDataModel) -> Void) {
         

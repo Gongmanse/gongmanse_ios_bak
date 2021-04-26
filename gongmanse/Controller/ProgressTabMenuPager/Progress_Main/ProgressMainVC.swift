@@ -43,6 +43,7 @@ class ProgressMainVC: UIViewController {
         
     var pageIndex: Int!
     var sendChapter: [String] = []
+    private let mainViewModel = ProgressMainViewModel()
     
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
@@ -60,8 +61,8 @@ class ProgressMainVC: UIViewController {
             self?.getGradeData = result
             self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
             
-            let changeGrade = self?.changeGrade(string: self?.getGradeData?.sGrade ?? "")
-            let changeGradeNumber = self?.changeGradeNumber(string: self?.getGradeData?.sGrade ?? "")
+            let changeGrade = self?.mainViewModel.changeGrade(string: self?.getGradeData?.sGrade ?? "")
+            let changeGradeNumber = self?.mainViewModel.changeGradeNumber(string: self?.getGradeData?.sGrade ?? "")
             
             self?.requestProgressList(subject: 34,
                                       grade: changeGrade ?? "",
@@ -87,8 +88,8 @@ class ProgressMainVC: UIViewController {
     @objc func changeGradeTitle(_ sender: Notification) {
         
         guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
-        let gradeTitle = changeGrade(string: getGradeTitle)
-        let gradeNumber = changeGradeNumber(string: getGradeTitle)
+        let gradeTitle = mainViewModel.changeGrade(string: getGradeTitle)
+        let gradeNumber = mainViewModel.changeGradeNumber(string: getGradeTitle)
         
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
@@ -152,32 +153,7 @@ class ProgressMainVC: UIViewController {
         }
     }
     
-    // ViewModel로 이사 전
-    func changeGrade(string: String) -> String {
-        var title = ""
-        if string.hasPrefix("초등") {
-            title = "초등"
-        }else if string.hasPrefix("중학") {
-            title = "중등"
-        }else if string.hasPrefix("고등") {
-            title = "고등"
-        }else {
-            title = "모든"
-        }
-        return title
-    }
     
-    func changeGradeNumber(string: String) -> Int {
-        var numbers = 0
-        let arr = ["1","2","3","4","5","6"]
-        for i in arr {
-            numbers = Int(string.filter{String($0) == String(i)}) ?? 0
-            if numbers != 0 {
-                break
-            }
-        }
-        return numbers
-    }
     //MARK: - Helper functions
     
     // TableView
