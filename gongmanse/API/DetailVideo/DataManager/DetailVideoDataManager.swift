@@ -32,7 +32,7 @@ class DetailVideoDataManager {
                 case .success(let response):
                     print("DEBUG: 영상 API 통신 성공")
                     print("DEBUG: 통신한 데이텨 결과 \(response.data)")
-                    viewController.didSucceedNetworking()
+                    viewController.didSucceedNetworking(response: response)
                     
                 case .failure(let error):
                     print("DEBUG: 영상 API 통신 실패")

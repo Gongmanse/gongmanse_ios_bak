@@ -1249,15 +1249,25 @@ extension VideoController {
 
 extension VideoController {
     
-    func didSucceedNetworking() {
+    func didSucceedNetworking(response: DetailVideoResponse) {
         
         print("DEBUG: API가 호출되었습니다.")
         // TODO: API 호출 이후, 각 프로퍼티에 데이터를 업데이트한다.
+        
         // source_url -> VideoURL
+        if let sourceURL = response.data.source_url {
+            self.videoURL = URL(string: sourceURL) as NSURL?
+        }
         
         // sSubtitles -> vttURL
+//        if let sSubtitlesURL = response.data.sSubtitle {
+//            self.vttURL = URL(string: sSubtitlesURL) as NSURL?
+//        }
         
         // sTags -> sTagsArray
-        
+        // String을 배열로 바꾸자 04.26퇴근직전에 작성
+//        if let sTagsString = response.data.sTags {
+//            self.videoURL = sourceURL
+//        }
     }
 }

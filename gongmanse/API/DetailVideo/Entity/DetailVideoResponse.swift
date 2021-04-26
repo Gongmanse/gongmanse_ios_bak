@@ -34,7 +34,7 @@ struct DetailVideoData: Decodable {
     var sUnit: String           // 과목 코드
     var iUserRating: String?    // 사용자 평가
     var sSubject: String        // 과목 태그
-    var sSubjectColor: String   // 과목 태그 색상
+    var sSubjectColor: String   // 과목 태그 색상x
     var iCategoryId: String     // 카테고리 ID
     var source_url: String?      // 영상 URL
     
