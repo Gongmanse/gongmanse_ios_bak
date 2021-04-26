@@ -20,7 +20,7 @@ struct DetailVideoData: Decodable {
     var iHasCommentary: String  // 댓글 수
     var iSeriesId: String       // 시리즈 ID
     var iCommentaryId: String   // 댓글 ID
-    var sTags: String         // 영상에 있는 태그
+    var sTags: String           // 영상에 있는 태그
     var sTeacher: String        // 선생님 이름
     var dtDateCreated: String   // 영상 생성일자
     var dtLastModified: String  // 영상 수정일자
@@ -37,4 +37,6 @@ struct DetailVideoData: Decodable {
     var sSubjectColor: String   // 과목 태그 색상
     var iCategoryId: String     // 카테고리 ID
     var source_url: String      // 영상 URL
+    
+
 }
