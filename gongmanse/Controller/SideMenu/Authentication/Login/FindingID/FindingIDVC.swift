@@ -72,6 +72,9 @@ class FindingIDVC: UIViewController {
     }
     
     func setupTabs() {
+        
+        addBottomLine(superView: tabsView, height: 0.5)
+        
         //탭 추가
         tabsView.tabs = [
             Tab(title: "이메일로 찾기"),

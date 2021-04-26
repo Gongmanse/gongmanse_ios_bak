@@ -6,6 +6,9 @@ class RecommendVC: UIViewController {
     
     var pageIndex: Int!
     
+    var loadingView: FooterCRV?
+    var isLoading = false
+    
     var recommendVideo = VideoInput(header: HeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [VideoModels]())
     
     let recommendRC: UIRefreshControl = {
@@ -36,7 +39,7 @@ class RecommendVC: UIViewController {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.body)
+                    print(json.body)
 //                    self.recommendVideo = json
                     self.recommendVideo.body.append(contentsOf: json.body)
                 }
@@ -72,7 +75,7 @@ extension RecommendVC: UICollectionViewDataSource {
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
         cell.videoTitle.text = indexData.title
-        cell.teachersName.text = indexData.teacherName ?? "nil" + " 선생님"
+        cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
         cell.subjects.text = indexData.subject
         cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
         cell.starRating.text = indexData.rating
@@ -92,6 +95,30 @@ extension RecommendVC: UICollectionViewDataSource {
         return cell
     }
     
+    func loadMoreData() {
+        if !self.isLoading {
+            self.isLoading = true
+            DispatchQueue.global().async {
+                sleep(2)
+                
+                DispatchQueue.main.async {
+                    self.recommendCollection.reloadData()
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+    
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        
+        return footerView
+    }
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -99,21 +126,56 @@ extension RecommendVC: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
             return header
+        case UICollectionView.elementKindSectionFooter:
+            if kind == UICollectionView.elementKindSectionFooter {
+                let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterView", for: indexPath) as! FooterCRV
+                
+                loadingView = aFooterView
+                loadingView?.backgroundColor = UIColor.clear
+                return aFooterView
+            }
+            return UICollectionReusableView()
         default:
             return UICollectionReusableView()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        
+        if self.isLoading {
+            return CGSize.zero
+        } else {
+            return CGSize(width: recommendCollection.bounds.size.width, height: 50)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionView.elementKindSectionFooter {
+            self.loadingView?.indicator.startAnimating()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionView.elementKindSectionFooter {
+            self.loadingView?.indicator.stopAnimating()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == self.recommendVideo.body.count - 20 && !self.isLoading {
+            loadMoreData()
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
-            // TODO: 로딩인디케이터
+//            /// TODO: 로딩인디케이터
 //            UIView.animate(withDuration: 3) {
 //                // 로딩이미지
 //            } completion: { (_) in
-//                // API 호춣
+//                // API 호출
 //            }
-
             getDataFromJson()
             recommendCollection.reloadData()
         }
@@ -122,7 +184,10 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //나중에 추가
+        let vc = VideoController()
+        vc.id = recommendVideo.body[indexPath.row].videoId
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 }
 

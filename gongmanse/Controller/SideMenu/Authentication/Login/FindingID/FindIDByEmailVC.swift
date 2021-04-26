@@ -12,7 +12,7 @@ class FindIDByEmailVC: UIViewController {
 
     // MARK: - Properties
     
-    var viewModel = FindingPwdViewModel()
+    var viewModel = FindingViewModel()
     
     var vTimer: Timer?          // 인증번호 타이머
     var totalTime: Int = 180    // 인증번호 시작 03:00
@@ -70,13 +70,15 @@ class FindIDByEmailVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    // 완료 버튼 클릭 시, 호출되는 콜백메소드
+    /// 완료 버튼 클릭 시, 호출되는 콜백메소드
     @objc func handleComplete() {
+        
         if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
             // Transition Controller
             let vc = FindIDResultVC()
             vc.viewModel = self.viewModel
             self.navigationController?.pushViewController(vc, animated: false)
+            
         } else {
             presentAlert(message: "기입한 정보를 확인해주세요.")
         }
@@ -175,7 +177,7 @@ private extension FindIDByEmailVC {
     /** 타이머 시작버튼 클릭 */
     @objc func onTimerStart(_ sender: Any) {
         
-        if viewModel.name.count > 1 && viewModel.email.count > 4 {
+        if viewModel.isNotNilTextField {
             
             if let timer = vTimer {
                 //timer 객체가 nil 이 아닌경우에는 invalid 상태에만 시작한다.
@@ -189,7 +191,6 @@ private extension FindIDByEmailVC {
                 } else {    // 타이머 실행중에 다시 타이머를 실행했다면, 기존의 타이머를 멈추고 난 후, 실행한다.
                     timer.invalidate()
                     self.totalTime = 180
-                    self.sendingNumButton.setTitle("재발송", for: .normal)
                     vTimer = Timer.scheduledTimer(timeInterval: 1,
                                                   target: self,
                                                   selector: #selector(timerCallback),
@@ -211,6 +212,8 @@ private extension FindIDByEmailVC {
                                          name: "\(viewModel.name)")
             FindingIDDataManager().certificationNumberByEmail(inputData,
                                                               viewController: self)
+        } else {
+            presentAlert(message: "이름과 이메일을 기입해주세요.")
         }
     }
     
@@ -246,6 +249,11 @@ extension FindIDByEmailVC {
     /// - 회원정보가 있는 경우 : 웹로그와 함께 인증번호가 넘어옴. 그래서 아래와 같이 정규표현식을 통해 값을 추출한다.
     /// - 회원정보가 없는 경우 : "message" : 텍스트... 이런식으로 넘어옴. 이때는 데이터를 또 가져와야한다.
     func didSucceed(response: String) { // response 값에 서버 로그와 key:123456 이 함께 전달됨.
+        
+        // 글자가 1 글자라도 있다면, API에서 인증번호를 발송하는 상태이다.
+        // 그러므로 발송에 대한 정보를 사용자에게 알려주기 위해 버튼의 title을 변경한다.
+        self.sendingNumButton.setTitle("재발송", for: .normal)
+        
         let findIndex = response.firstIndex(of: "\"")!      // " 가 사용된 첫번째 텍스트 부터
         let lastIndex = response.lastIndex(of: "}")!        // } 가 사용된 마지막 텍스트 까지
         let responseData = response[findIndex..<lastIndex]   // 위 조건 텍스트를 저장
@@ -292,7 +300,6 @@ private extension FindIDByEmailVC {
             viewModel.email = text
         case certificationNumberTextField:
             viewModel.certificationNumber = Int(text) ?? 0
-            print("DEBUG: typing is \(Int(text))")
             
             // 입력값이 nil 일 때, .gray 입력값이 있다면, .mainOrange
             completeButton.backgroundColor = textFieldNullCheck(sender) ? .mainOrange : .gray

@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 
 class FindingIDDataManager {
+    
     /* 휴대전화로 찾기 - 인증번호 */
     func certificationNumberByPhone(_ parameters: ByPhoneInput, viewController: FindIDByPhoneVC) {
         // viewModel -> paramters 를 통해 값을 전달

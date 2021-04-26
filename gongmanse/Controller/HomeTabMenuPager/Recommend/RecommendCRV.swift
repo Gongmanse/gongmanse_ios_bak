@@ -7,12 +7,16 @@ class RecommendCRV: UICollectionReusableView {
     @IBOutlet weak var viewTitle: UILabel!
     
     var recommendBanner: RecommendBannerImage?
+    var recommendBannerImage: RecommendBannerCell?
     
     var timer = Timer()
     var counter = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        changeFontColor()
+        getDataFromJson()
         
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
@@ -27,9 +31,11 @@ class RecommendCRV: UICollectionReusableView {
         pageView.numberOfPages = 12
         pageView.currentPage = 0
         DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
-        
+    }
+    
+    func changeFontColor() {
         viewTitle.text = "추천BEST! 동영상 강의"
         
         let attributedString = NSMutableAttributedString(string: viewTitle.text!, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold), .foregroundColor: UIColor.black])
@@ -38,7 +44,9 @@ class RecommendCRV: UICollectionReusableView {
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (viewTitle.text! as NSString).range(of: "BEST!"))
         
         self.viewTitle.attributedText = attributedString
-        
+    }
+    
+    func getDataFromJson() {
         //통신
         if let url = URL(string: BannerList_URL) {
             var request = URLRequest.init(url: url)
@@ -71,7 +79,7 @@ class RecommendCRV: UICollectionReusableView {
             let index = IndexPath.init(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
             pageView.currentPage = counter
-            counter = 1
+            //counter = 1
         }
     }
         
@@ -93,6 +101,11 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.bannerImage.sd_setImage(with: url)
         
         return cell
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / self.frame.width)
+        self.pageView.currentPage = page
     }
 }
 

@@ -78,6 +78,7 @@ class FindingPwdByPhoneDataManager {
             case .success(let response):
                 viewController.didSucceedSendingID(response: response)
             case .failure(let error):
+                viewController.didFaildSendingCertificationNumber()
                 print("DEBUG: faild connection \(error.localizedDescription)")
             }
         }
