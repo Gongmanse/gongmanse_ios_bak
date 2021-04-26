@@ -31,7 +31,7 @@ class RecommendCRV: UICollectionReusableView {
         pageView.numberOfPages = 12
         pageView.currentPage = 0
         DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
     }
     
@@ -77,12 +77,11 @@ class RecommendCRV: UICollectionReusableView {
         } else {
             counter = 0
             let index = IndexPath.init(item: counter, section: 0)
-            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
-            //counter = 1
+            counter = 1
         }
     }
-        
 }
 
 extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
