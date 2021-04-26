@@ -5,7 +5,15 @@
 //  Created by 김우성 on 2021/03/08.
 //
 
-import Foundation
+import UIKit
+enum GradeText: String {
+    case element = "초등"
+    case middle = "중학"
+    case high = "고등"
+    case all = "모든"
+    
+    
+}
 
 struct ProgressPopupViewModel {
     let data: String
@@ -14,4 +22,55 @@ struct ProgressPopupViewModel {
         self.data = data
     }
 }
+protocol ProgressInfinityScroll: class {
+    var islistMore: Bool? { get set }
+    var listCount: Int { get set }
+    func isScrollMethod()
+}
 
+extension ProgressInfinityScroll {
+    
+    func reloadData(table: UITableView) {
+        DispatchQueue.main.async {
+            table.reloadData()
+        }
+    }
+    
+    func reloadData(collection: UICollectionView) {
+        DispatchQueue.main.async {
+            collection.reloadData()
+        }
+    }
+}
+
+class ProgressMainViewModel {
+    
+    
+    func transformGrade(string: String) -> String {
+        var title = ""
+        
+        if string.hasPrefix("초등") {
+            title = "초등"
+        }else if string.hasPrefix("중학") {
+            title = "중등"
+        }else if string.hasPrefix("고등") {
+            title = "고등"
+        }else {
+            title = "모든"
+        }
+        return title
+    }
+    
+    func transformGradeNumber(string: String) -> Int {
+        var numbers = 0
+        let arr = ["1","2","3","4","5","6"]
+        for i in arr {
+            numbers = Int(string.filter{String($0) == String(i)}) ?? 0
+            if numbers != 0 {
+                break
+            }
+        }
+        return numbers
+    }
+    
+}
