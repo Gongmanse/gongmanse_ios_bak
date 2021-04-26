@@ -192,4 +192,14 @@ extension UIViewController {
                        })
     }
     
+    /// View의 하단에 경계선을 추가하는 메소드
+    func addBottomLine(superView: UIView, height: CGFloat) {
+        
+        let line = UIView()
+        superView.addSubview(line)
+        line.backgroundColor = .progressBackgroundColor
+        line.setDimensions(height: height,
+                           width: superView.frame.width)
+        line.anchor(bottom: superView.bottomAnchor)
+    }
 }
