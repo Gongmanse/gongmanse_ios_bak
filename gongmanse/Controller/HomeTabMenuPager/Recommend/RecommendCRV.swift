@@ -2,15 +2,17 @@ import UIKit
 import SDWebImage
 
 class RecommendCRV: UICollectionReusableView {
-    @IBOutlet weak var sliderCollectionView: UICollectionView!
-    @IBOutlet weak var pageView: UIPageControl!
-    @IBOutlet weak var viewTitle: UILabel!
+    
+    private var timer: Timer?
+    private var onlyOnce = true
     
     var recommendBanner: RecommendBannerImage?
     var recommendBannerImage: RecommendBannerCell?
+    let infiniteSize = 10000000
     
-    var timer = Timer()
-    var counter = 0
+    @IBOutlet weak var sliderCollectionView: UICollectionView!
+    @IBOutlet weak var pageView: UIPageControl!
+    @IBOutlet weak var viewTitle: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,18 +23,9 @@ class RecommendCRV: UICollectionReusableView {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
-//        if #available(iOS 14.0, *) {
-//            self.pageView.allowsContinuousInteraction = false
-//        } else {
-//            //Fallback on earlier versions
-//        }
-        
-//        pageView.numberOfPages = recommendBannerUse.data.count
         pageView.numberOfPages = 12
         pageView.currentPage = 0
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
-        }
+        
     }
     
     func changeFontColor() {
@@ -68,33 +61,25 @@ class RecommendCRV: UICollectionReusableView {
     }
     
     @objc func changeImage() {
-//            if counter < images.count {
-        if counter < 12 {
-            let index = IndexPath.init(item: counter, section: 0)
-            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-            pageView.currentPage = counter
-            counter += 1
-        } else {
-            counter = 0
-            let index = IndexPath.init(item: counter, section: 0)
-            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-            pageView.currentPage = counter
-            counter = 1
-        }
+        
+        guard let currentItemNumber = sliderCollectionView.indexPathsForVisibleItems.first?.item else { return }
+        let nextItemNumber = currentItemNumber + 1
+        let nextIndexPath = IndexPath(item: nextItemNumber, section: 0)
+        sliderCollectionView.scrollToItem(at: nextIndexPath, at: .left, animated: true)
     }
 }
 
 extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let data = self.recommendBanner?.body else { return 0}
-        return data.count
+        return infiniteSize
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendBannerCell", for: indexPath) as! RecommendBannerCell
         guard let json = self.recommendBanner else { return cell }
+        guard let data = self.recommendBanner?.body else { return UICollectionViewCell()}
         
-        let indexData = json.body[indexPath.row]
+        let indexData = json.body[indexPath.row % data.count]
         let url = URL(string: indexData.thumbnail ?? "nil")
         
         cell.bannerImage.sd_setImage(with: url)
@@ -102,9 +87,45 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if onlyOnce {
+            let middleIndex = IndexPath(item: Int(infiniteSize / 2), section: 0)
+            sliderCollectionView.scrollToItem(at: middleIndex, at: .centeredHorizontally, animated: false)
+            startTimer()
+            onlyOnce = false
+        }
+    }
+    
+    func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(changeImage), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        updatePageControl(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        updatePageControl(scrollView: scrollView)
+    }
+    
+    func updatePageControl(scrollView: UIScrollView) {
+        let pageNumber = round(scrollView.contentOffset.x / scrollView.bounds.size.width)
+        guard let count = self.recommendBanner?.body.count else { return }
+        let currentPageNumber = Int(pageNumber) % count
+        pageView.currentPage = currentPageNumber
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        stopTimer()
+    }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let page = Int(targetContentOffset.pointee.x / self.frame.width)
-        self.pageView.currentPage = page
+        startTimer()
     }
 }
 
