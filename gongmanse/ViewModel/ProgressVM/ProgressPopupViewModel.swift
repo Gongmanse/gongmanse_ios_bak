@@ -25,7 +25,7 @@ struct ProgressPopupViewModel {
 protocol ProgressInfinityScroll: class {
     var islistMore: Bool? { get set }
     var listCount: Int { get set }
-    func isScrollMethod()
+    func scrollMethod()
 }
 
 extension ProgressInfinityScroll {

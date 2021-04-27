@@ -118,27 +118,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yZ9-EL-Yq3">
-                                <rect key="frame" x="0.0" y="158" width="414" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wmb-SI-qDG">
-                                        <rect key="frame" x="33" y="0.0" width="149" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="모든 학년  " backgroundImage="모든학년배경이미지">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih7-Vv-TnW">
-                                        <rect key="frame" x="238" y="0.0" width="149" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="모든 과목  " backgroundImage="모든학년배경이미지">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hJk-S9-esz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -161,10 +140,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="buttonContainerView" destination="yZ9-EL-Yq3" id="jpF-VW-W4f"/>
-                        <outlet property="gradeButton" destination="Wmb-SI-qDG" id="4bI-QT-oBW"/>
                         <outlet property="searchBar" destination="gdP-5X-sc0" id="ChN-II-Irq"/>
-                        <outlet property="subjectButton" destination="Ih7-Vv-TnW" id="tcZ-3i-jF2"/>
                         <outlet property="tabsView" destination="IJM-Ft-RZW" id="dkF-4x-E3h"/>
                     </connections>
                 </viewController>
@@ -3329,8 +3305,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="udz-fJ-IHO"/>
-        <segue reference="0yR-3d-1cH"/>
+        <segue reference="amk-EG-qGo"/>
+        <segue reference="jHT-2c-ryc"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addPhoto" width="18" height="18"/>
@@ -3354,7 +3330,6 @@
         <image name="star" width="10.5" height="9.5"/>
         <image name="teacherOff" width="26" height="26"/>
         <image name="teacherOn" width="26" height="26"/>
-        <image name="모든학년배경이미지" width="261" height="50"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
