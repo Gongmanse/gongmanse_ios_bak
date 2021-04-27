@@ -27,6 +27,8 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     
     // 진도학습 목록에 데이터가 있는지 여부를 판단할 Index
     private var isLesson: Bool = true
+    private var activity: UIActivityIndicatorView!
+    
     
     private let mainCellIdentifier = "ProgressMainCell"
     private let emptyCellIdentifier = "EmptyStateViewCell"
@@ -49,13 +51,13 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
-     
+
     // infinity Protocol
     var islistMore: Bool?
     
     var listCount: Int = 0
     
-    func isScrollMethod() {
+    func scrollMethod() {
         listCount += 20
         requestProgressList(subject: mainSubjectNumber,
                             grade: localGradeTitle,
@@ -121,7 +123,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
                             gradeNum: gradeNumber,
                             offset: 0,
                             limit: mainLimitNumber)
-
+        
     }
     
     
@@ -161,10 +163,18 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
                 self?.reloadData(table: self?.tableview ?? UITableView())
 
             }else {
+                DispatchQueue.global().async {
+                    sleep(1)
+                    
+                    self?.progressBodyDataList?.append(contentsOf: result.body!)
+                    
+                    DispatchQueue.main.async {
+                        self?.tableview.reloadData()
+                        self?.tableview.tableFooterView?.isHidden = true
+                    }
+                    
+                }
                 
-                self?.progressBodyDataList?.append(contentsOf: result.body!)
-                
-                self?.reloadData(table: self?.tableview ?? UITableView())
                 
 //                self?.tableview.beginUpdates()
 //                self?.tableview.insertRows(at: [IndexPath(row: 20, section: 0)], with: .automatic)
@@ -240,6 +250,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
             return progressBodyDataList?.count ?? 0
@@ -275,7 +286,7 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
             
             
             if islistMore == true && indexPath.row == totalRows - 1 {
-                isScrollMethod()
+                scrollMethod()
                 
             }
             
@@ -308,4 +319,20 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
             print("DEBUG: 빈 페이지 클릭중")
         }
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex && islistMore == true{
+           // print("this is the last cell")
+            let spinner = UIActivityIndicatorView(style: .large)
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+
+            self.tableview.tableFooterView = spinner
+            self.tableview.tableFooterView?.isHidden = false
+        }
+        
+    }
+    
 }
