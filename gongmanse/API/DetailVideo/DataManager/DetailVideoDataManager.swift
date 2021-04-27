@@ -8,23 +8,26 @@
 import Foundation
 import Alamofire
 
-
+/// 상세화면 - 동영상
+/// - 동영상관련 API를 처리하는 클래스
 class DetailVideoDataManager {
     
-    /* 상세화면 동영상 */
+    /// 상세화면에서 호출할 DataManager
+    /// - 동영상 링크: 동영상 재생을 위한 URL을 받아온다.
+    /// - 자막 링크: .vtt 확장자로 URL을 받아온다.
+    /// - 태그 String: sTags 라는 항목으로 받아온다.
     func DetailVideoDataManager(_ parameters: DetailVideoInput, viewController: VideoController) {
-        // viewModel -> paramters 를 통해 값을 전달
+        
+        // viewModel -> paramters 를 통해 값을 전달한다.
         let data = parameters
         
-        print("DEBUG: 입력받은 비디오ID는 \"\(data.video_id)\" 입니다.")
-        print("DEBUG: 입력받은 토큰은 \"\(data.token)\" 입니다.")
+        // URL을 구성한다.
+//        let url = Constant.BASE_URL + "/v/video/details?video_id=\(data.video_id)&token=\(data.token)"
         
         let url = Constant.BASE_URL + "/v/video/details?video_id=\(data.video_id)&token=\(data.token)"
-//        let url = "\(Constant.BASE_URL)/v/video/details?video_id=11375&token=NWEwODAxNjhjYWE0ODJkOGIwMzkyY2MxMDJiOWYyYTBhMGQ1M2Q1NjAwMWI2OWYzZGE5OTljNDRlY2I2N2ViMGUwYTVkZGIwYTJmOGNkY2Y3MzFjYWJmMDY5ZWUxYmViMGIzMWFlYjExYzQ5ZjMwNTgxNTA3MmQzZTQyZDc5YmZnQW5VdXZQdmVpK3Vrd0Y1eDlxWlpjbExvYno0OGhSRkM4Z2VuZ2YvaTJZNU85RERiNDZzbzhWZ2x3TGJsQU1zcTBPMFJLSWdSVVJqdWJCSDRoNFhNdz09"
         
-        print("DEBUG: URL은 \(url) 입니다.")
-        
-        // 휴대전화로 찾기
+        /// HTTP Method: GET
+        /// API 명: "02008. 동영상 상세 정보"
         AF.request(url)
             .responseDecodable(of: DetailVideoResponse.self) { response in
                 
