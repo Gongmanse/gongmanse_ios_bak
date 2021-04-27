@@ -181,10 +181,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var timeObserverToken: Any?
     lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
-    var videoURL = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MGZlNjc3MGVmZTViZmFmNWRkZDcyMjNlNzM5ZTdkYjE5ODM3ODJiYzRjY2Q0ZjJiNDRhMGJmYmE4ZjBhZTQxNDhlZmNhODA5YmYyYTcxODBhN2QxNmMwNTQ1M2E3NmM1MTlhZTlhMDRkYjI1MTMyYWY3MzE5MzkwMmMwZDc3ZWFSblZITXhHcFcvYlZSem5XR29OMDFYaUs0dVF6OWNIQ2Irbzg1dzNHUUt5bzEwazluTElHcXdsU1dlc2psbVRXTk00M29Xb3JPeS9lTG9KOUJKNnIxcnJ3a1JQOHBwRWhjUDA2eHpZRnEwQVdBWE9mUEpPckxHL0hnR21UbFNmclhGODRrYjJTa0FmQUYzcXJMTFdWUkROcmNQNEdJaGRITllBVUgwdHpacjRKYkRWT2JxNHYzTTlHb3VsNU0rZyttVlVodzNSQUpCZEZ6RkxSNCtlTWJhcHJQeCt3QzNLOWdJRDE2T05QNkNMZW83OHo1VmJlZWFXQWNmamxNME1GN3I4ZFM3NUsrRW9MYjBNZGwzQldRVjdXRkVEdGwvLzlDd2MwL0hiaENyTG1TUkNtTy80Q3dNUzBHOWZKYWxpK0duMjVseEFRNWh0b2dHWkpERlU5U2FPOWsvQjl5ZEtQc2pHQjBJcTVJaHc9")
-    var vttURL = "https://file.gongmanse.com/uploads/videos/2017/김샛별/계절이 변하는 까닭/170630_과학_초등_김샛별_083_계절이 변하는 까닭.vtt"
+    var videoURL = NSURL(string: "")
+    var vttURL = ""
     var sTagsArray = [String]()
-
+    var tempsTagsArray = [String]()
     
     
     /// AVPlayer 자막역햘을 할 UILabel
@@ -272,7 +272,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureData()
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
-        playVideo()                      // 동영상 재생 메소드로 현재 테스트를 위해 이곳에 둠 04.07 추후에 인트로 영상을 호출한 이후에 이 메소드를 호출할 계획
         configureVideoControlView()      // 비디오 상태바 관련 메소드
     }
 
@@ -308,9 +307,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             print("DEBUG: 지금 sTag가 1 개입니까?")
+            let vc = TestSearchController(clickedText: currentKeywords[0])
+            present(vc, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             print("DEBUG: \(currentKeywords[2])?")
+            let vc = TestSearchController(clickedText: currentKeywords[2])
+            present(vc, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             print("DEBUG: \(currentKeywords[4])?")
@@ -338,7 +341,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
-        removePeriodicTimeObserver()
+//        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -607,7 +610,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 guard let strongSelf = self else { return }
                 let label = strongSelf.subtitleLabel
                 
-                // "Subtitles"에서 필터링한 자막값을 옵셔널언랩핑한다.
+                // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
                                                                 time.seconds) {
                     /// 슬라이싱한 최종결과를 저장할 프로퍼티
@@ -618,11 +621,13 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     let numberOfsTags = Int(Double(tagCounter.count) * 0.5)
                     /// ">"값을 기준으로 자막을 슬라이싱한 텍스트
                     let firstSlicing = subtitleText.split(separator: ">")
-                    
+                    print("DEBUG: subtitleText \(subtitleText)")
                     // "<"값을 기준으로 자막을 슬라이싱한 후, "subtitleFinal에 결과를 입력한다.
                     if numberOfsTags >= 1 {
-                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
-                                                                     arrayIndex: numberOfsTags * 2)
+                        subtitleFinal = strongSelf.filteringFontTagInSubtitleText(text: subtitleText)
+                            
+//                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
+//                                                                     arrayIndex: numberOfsTags * 2)
                     } else {
                         subtitleFinal = subtitleText
                     }
@@ -644,20 +649,11 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     let keywordAttriString = NSMutableAttributedString(string: subtitleFinal)
                     
                     /* API에서 sTag 값을 받아올 위치 */
-                    strongSelf.sTagsArray.append("계절")
-                    strongSelf.sTagsArray.append("자전")
-                    strongSelf.sTagsArray.append("공전")
-                    strongSelf.sTagsArray.append("북극")
-                    strongSelf.sTagsArray.append("남극")
-                    strongSelf.sTagsArray.append("공전")
-                    strongSelf.sTagsArray.append("궤도면")
-                    strongSelf.sTagsArray.append("태양")
-                    strongSelf.sTagsArray.append("남중 고도")
-                    strongSelf.sTagsArray.append("수용론")
-                    strongSelf.sTagsArray.append("서술자")
-                    strongSelf.sTagsArray.append("내재적 분석")
-                    strongSelf.sTagsArray.append("외재적 준거")
-                    
+                    strongSelf.sTagsArray.removeAll()
+                    for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
+                        strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
+                    }
+                                        
                     // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
                     /* 자막에 "#"가 존재하는 경우 */
                     if subtitleFinal.contains("#") {
@@ -811,6 +807,216 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
 }
 
+// MARK: - Subtitles Methond
+/// 동영상 자막 keyword 색상 변경 및 클릭 시 호출을 위한 커스텀 메소드
+extension VideoController {
+    
+    func setUpAttributeString(_ attributedString: NSMutableAttributedString,
+                              text: String,
+                              array: [String],
+                              arrayIndex aIndex: Int,
+                              label: UILabel) {
+        
+        // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
+        attributedString
+            .addAttribute(NSAttributedString.Key.font,
+                          value: UIFont.systemFont(ofSize: 16),
+                          range: (text as NSString).range(of: ("\(array[aIndex])")))
+        attributedString
+            .addAttribute(NSAttributedString.Key.foregroundColor,
+                          value: UIColor.orange,
+                          range: (text as NSString).range(of: ("\(array[aIndex])")))
+        
+        // 설정한 값을 UILabel에 추가한다.
+        label.attributedText = attributedString
+    }
+    
+    
+    func sliceSubtitleText(slicedText: [String.SubSequence], arrayIndex index: Int) -> String {
+        
+        /// "<" 기준으로 슬라이싱한 array[i]를 입력받을 프로퍼티
+        var textArray = [String?]()
+        
+        /// "textArray"의 옵셔널 해제한 element를 입력받을 프로퍼티
+        var optionalUnwrappingArray = [String]()
+        
+        for i in 0...index {
+            /// ">" 기준으로 슬라이싱한 array[i]를 입력한 scanner
+            let scanner = Scanner(string: String(slicedText[i]))
+            
+            /// "textArray"의 옵셔널 해제한 element를 입력받을 프로퍼티
+            textArray.append(scanner.scanUpToString("<"))
+        }
+        
+        for j in 0...index {
+            if let element = textArray[j] {
+                optionalUnwrappingArray.append(element)
+            }
+        }
+        
+        let result = optionalUnwrappingArray.joined()
+        return result
+    }
+    
+    func detectSTagsAndChangeColor(text: String, sTagsArray: [String], j: Int, i: Int) {
+        
+            // (클래스의 전역변수에 해당하는)"keywordRanges"로 클릭된 텍스트위 range 값을 전달한다.
+            let keywordRangeInstance = (text as NSString).range(of: ("\(sTagsArray[j])"))
+            
+            // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
+            if let rangeOfKeywordTapped = Range(keywordRangeInstance) {
+                self.sTagsRanges[i] = rangeOfKeywordTapped
+            }
+            // keywordRanges의 index가 "i"인 이유는 2나 4 모두를 포함하기위해서 i로 코드를 줄였다.
+            self.keywordRanges[i] = keywordRangeInstance
+    }
+    
+    func detectKeywrodAndTapRange(subtitleArray: [String.SubSequence],
+                                  i: Int,
+                                  sTagsArray: [String],
+                                  keywordAttriString: NSMutableAttributedString,
+                                  subtitleFinal: String,
+                                  label: UILabel) {
+        
+        // "#" 가 있는 인덱스는 무조건 "2"와 "4" 이므로 "2"와 "4"일 때만 제한을 둔다.
+        /// `#` 를 가지고 있는 텍스트
+        let textAfterHashtag = subtitleArray[i]
+        // 그 인덱스 값을 String으로 캐스팅 후, Scanner에 입력한다.
+        /// `#` 를 가지고 있는 텍스트를 입력받은 Scanner
+        let scanner = Scanner(string: String(textAfterHashtag))
+        // "<" 이전까지의 값을 가져온다. 이 때 그 값은 keyword가 된다.
+        /// `#` 이후 keyword를 추출한 텍스트
+        let keyword = scanner.scanUpToString("<")
+        
+        // #keyword 와 일치하는 값이 sTags 중 있는지 확인한다.
+        for j in 0...sTagsArray.count-1 {
+            
+            /* #이후에 있는 단어와 API로부터 받은 sTags와 동일한 경우 */
+            if ("#" + keyword!) == sTagsArray[j] {
+                // "Stags" 글자색 변경 및 폰트를 변경한다.
+                setUpAttributeString(keywordAttriString,
+                                     text: subtitleFinal,
+                                     array: sTagsArray,
+                                     arrayIndex: j,
+                                     label: label)
+                
+                if let keyword = keyword {
+                    self.currentKeywords[i] = keyword
+                }
+                
+                detectSTagsAndChangeColor(text: subtitleFinal,
+                                          sTagsArray: sTagsArray,
+                                          j: j,
+                                          i: i)
+            }
+        }
+    }
+    
+    func manageTextInSubtitle(numberOfHasgtags: Int,
+                              subtitleArray: [String.SubSequence],
+                              sTagsArray: [String],
+                              keywordAttriString: NSMutableAttributedString,
+                              subtitleFinal: String,
+                              label: UILabel) {
+        
+        for i in 0...(2 * numberOfHasgtags) {
+            // "#"가 있는 (subtitleArray의)인덱스는 2와 4 이므로 2와 4일 때만 아래 로직을 실행한다.
+            // sTagsRange 저장위치도 2와 4로 통일한다. 같은 for문에서 순회하기 때문이다.
+            if i % 2 == 0 && i > 0 {
+                detectKeywrodAndTapRange(subtitleArray: subtitleArray,
+                                         i: i,
+                                         sTagsArray: sTagsArray,
+                                         keywordAttriString: keywordAttriString,
+                                         subtitleFinal: subtitleFinal,
+                                         label: label)
+            }
+        }
+    }
+    
+}
+
+
+// MARK: - API
+
+extension VideoController {
+    
+    func didSucceedNetworking(response: DetailVideoResponse) {
+        
+        print("DEBUG: API가 호출되었습니다.")
+        
+        // source_url -> VideoURL
+        if let sourceURL = response.data.source_url {
+            self.videoURL = URL(string: sourceURL) as NSURL?
+        }
+        
+        // sSubtitles -> vttURL
+        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
+        
+        // sTags -> sTagsArray
+        let receivedsTagsData = response.data.sTags
+        let sTagsArray = receivedsTagsData.split(separator: ",")
+        
+        // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
+        self.sTagsArray.removeAll()
+        
+        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.
+        for index in 0 ... sTagsArray.count - 1 {
+            let inputData = String(sTagsArray[index])
+            self.tempsTagsArray.append(inputData)
+        }
+        
+        // 값을 모두 받아왔으므로 player를 실행한다.
+        playVideo()
+        
+    }
+}
+
+extension UITapGestureRecognizer {
+
+    /*
+     * "didTapAttributedTexxtInLabel() 메소드의 로직
+     * label의 전체 크기만큼 textContainer를 크기를 설정한다.
+     * 좌표와 글자크기를 동기화 시켜서 좌표 == 글자 순서로 변환한다.
+     */
+    func didTapAttributedTextInLabel(label: UILabel,
+                                     inRange targetRange: NSRange) -> Bool {
+        
+        // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
+        let layoutManager = NSLayoutManager()
+        let textContainer = NSTextContainer(size: CGSize.zero)
+        let textStorage = NSTextStorage(attributedString: label.attributedText!)
+
+        // Configure layoutManager and textStorage
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+
+        // Configure textContainer
+        textContainer.lineFragmentPadding = 0.0
+        textContainer.lineBreakMode = label.lineBreakMode
+        textContainer.maximumNumberOfLines = 0
+        
+        let labelSize = label.bounds.size
+        textContainer.size = labelSize
+
+        // Find the tapped character location and compare it to the specified range
+        let locationOfTouchInLabel = self.location(in: label)
+        let textBoundingBox = layoutManager.usedRect(for: textContainer)
+        
+        let textContainerOffset
+            = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
+                      y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
+        
+        let locationOfTouchInTextContainer
+            = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x,
+                      y: locationOfTouchInLabel.y - textContainerOffset.y)
+        
+        let indexOfCharacter
+            = layoutManager.characterIndex(for: locationOfTouchInTextContainer,
+                                           in: textContainer,
+                                           fractionOfDistanceBetweenInsertionPoints: nil)
+        return NSLocationInRange(indexOfCharacter, targetRange)
+    }
+}
 
 // MARK: - Constraint Method
 
@@ -1070,194 +1276,22 @@ extension VideoController {
     }
 }
 
-
-extension UITapGestureRecognizer {
-
-    /*
-     * "didTapAttributedTexxtInLabel() 메소드의 로직
-     * label의 전체 크기만큼 textContainer를 크기를 설정한다.
-     * 좌표와 글자크기를 동기화 시켜서 좌표 == 글자 순서로 변환한다.
-     */
-    func didTapAttributedTextInLabel(label: UILabel,
-                                     inRange targetRange: NSRange) -> Bool {
-        
-        // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
-        let layoutManager = NSLayoutManager()
-        let textContainer = NSTextContainer(size: CGSize.zero)
-        let textStorage = NSTextStorage(attributedString: label.attributedText!)
-
-        // Configure layoutManager and textStorage
-        layoutManager.addTextContainer(textContainer)
-        textStorage.addLayoutManager(layoutManager)
-
-        // Configure textContainer
-        textContainer.lineFragmentPadding = 0.0
-        textContainer.lineBreakMode = label.lineBreakMode
-        textContainer.maximumNumberOfLines = 0
-        
-        let labelSize = label.bounds.size
-        textContainer.size = labelSize
-
-        // Find the tapped character location and compare it to the specified range
-        let locationOfTouchInLabel = self.location(in: label)
-        let textBoundingBox = layoutManager.usedRect(for: textContainer)
-        
-        let textContainerOffset
-            = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
-                      y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
-        
-        let locationOfTouchInTextContainer
-            = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x,
-                      y: locationOfTouchInLabel.y - textContainerOffset.y)
-        
-        let indexOfCharacter
-            = layoutManager.characterIndex(for: locationOfTouchInTextContainer,
-                                           in: textContainer,
-                                           fractionOfDistanceBetweenInsertionPoints: nil)
-        return NSLocationInRange(indexOfCharacter, targetRange)
-    }
-}
-
-
-// MARK: - Subtitles Methond
-/// 동영상 자막 keyword 색상 변경 및 클릭 시 호출을 위한 커스텀 메소드
 extension VideoController {
     
-    func setUpAttributeString(_ attributedString: NSMutableAttributedString,
-                              text: String,
-                              array: [String],
-                              arrayIndex aIndex: Int,
-                              label: UILabel) {
-        // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
-        attributedString
-            .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.systemFont(ofSize: 16),
-                          range: (text as NSString).range(of: ("#\(array[aIndex])")))
-        attributedString
-            .addAttribute(NSAttributedString.Key.foregroundColor,
-                          value: UIColor.orange,
-                          range: (text as NSString).range(of: ("#\(array[aIndex])")))
+    /// .vtt 내용 중 Text만 받아서 font Tag를 제거하는 메소드
+    func filteringFontTagInSubtitleText(text: String) -> String {
         
-        // 설정한 값을 UILabel에 추가한다.
-        label.attributedText = attributedString
-    }
-    
-    
-    func sliceSubtitleText(slicedText: [String.SubSequence], arrayIndex index: Int) -> String {
+        let text = text
         
-        /// "<" 기준으로 슬라이싱한 array[i]를 입력받을 프로퍼티
-        var textArray = [String?]()
+        /// 1차 필터링: #에 있는 font tag 제거
+        let firstFilteringText = text.replacingOccurrences(of: "<font color=\"#ffff00\">", with: "")
         
-        /// "textArray"의 옵셔널 해제한 element를 입력받을 프로퍼티
-        var optionalUnwrappingArray = [String]()
+        /// 2차 필터링: 이 외 font tag 제거
+        let secondFilteringText = firstFilteringText.replacingOccurrences(of: "<font color=\"#ff8000\">", with: "")
         
-        for i in 0...index {
-            /// ">" 기준으로 슬라이싱한 array[i]를 입력한 scanner
-            let scanner = Scanner(string: String(slicedText[i]))
-            
-            /// "textArray"의 옵셔널 해제한 element를 입력받을 프로퍼티
-            textArray.append(scanner.scanUpToString("<"))
-        }
+        /// 3차 필터링: </font> tag 제거
+        let thirdFilteringText = secondFilteringText.replacingOccurrences(of: "</font>", with: "")
         
-        for j in 0...index {
-            if let element = textArray[j] {
-                optionalUnwrappingArray.append(element)
-            }
-        }
-        
-        let result = optionalUnwrappingArray.joined()
-        return result
-    }
-    
-    func detectSTagsAndChangeColor(text: String, sTagsArray: [String], j: Int, i: Int) {
-        
-            // (클래스의 전역변수에 해당하는)"keywordRanges"로 클릭된 텍스트위 range 값을 전달한다.
-            let keywordRangeInstance = (text as NSString).range(of: ("#\(sTagsArray[j])"))
-            
-            // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
-            if let rangeOfKeywordTapped = Range(keywordRangeInstance) {
-                self.sTagsRanges[i] = rangeOfKeywordTapped
-            }
-            // keywordRanges의 index가 "i"인 이유는 2나 4 모두를 포함하기위해서 i로 코드를 줄였다.
-            self.keywordRanges[i] = keywordRangeInstance
-    }
-    
-    func detectKeywrodAndTapRange(subtitleArray: [String.SubSequence],
-                                  i: Int,
-                                  sTagsArray: [String],
-                                  keywordAttriString: NSMutableAttributedString,
-                                  subtitleFinal: String,
-                                  label: UILabel) {
-        
-        // "#" 가 있는 인덱스는 무조건 "2"와 "4" 이므로 "2"와 "4"일 때만 제한을 둔다.
-        /// `#` 를 가지고 있는 텍스트
-        let textAfterHashtag = subtitleArray[i]
-        // 그 인덱스 값을 String으로 캐스팅 후, Scanner에 입력한다.
-        /// `#` 를 가지고 있는 텍스트를 입력받은 Scanner
-        let scanner = Scanner(string: String(textAfterHashtag))
-        // "<" 이전까지의 값을 가져온다. 이 때 그 값은 keyword가 된다.
-        /// `#` 이후 keyword를 추출한 텍스트
-        let keyword = scanner.scanUpToString("<")
-        
-        // #keyword 와 일치하는 값이 sTags 중 있는지 확인한다.
-        for j in 0...sTagsArray.count-1 {
-            /* #이후에 있는 단어와 API로부터 받은 sTags와 동일한 경우 */
-            if keyword == sTagsArray[j] {
-                // "Stags" 글자색 변경 및 폰트를 변경한다.
-                setUpAttributeString(keywordAttriString,
-                                     text: subtitleFinal,
-                                     array: sTagsArray,
-                                     arrayIndex: j,
-                                     label: label)
-                if let keyword = keyword {
-                    self.currentKeywords[i] = keyword
-                }
-                
-                detectSTagsAndChangeColor(text: subtitleFinal,
-                                          sTagsArray: sTagsArray,
-                                          j: j,
-                                          i: i)
-            }
-        }
-    }
-    
-    func manageTextInSubtitle(numberOfHasgtags: Int,
-                              subtitleArray: [String.SubSequence],
-                              sTagsArray: [String],
-                              keywordAttriString: NSMutableAttributedString,
-                              subtitleFinal: String,
-                              label: UILabel) {
-        
-        for i in 0...(2 * numberOfHasgtags) {
-            // "#"가 있는 (subtitleArray의)인덱스는 2와 4 이므로 2와 4일 때만 아래 로직을 실행한다.
-            // sTagsRange 저장위치도 2와 4로 통일한다. 같은 for문에서 순회하기 때문이다.
-            if i % 2 == 0 && i > 0 {
-                detectKeywrodAndTapRange(subtitleArray: subtitleArray,
-                                         i: i,
-                                         sTagsArray: sTagsArray,
-                                         keywordAttriString: keywordAttriString,
-                                         subtitleFinal: subtitleFinal,
-                                         label: label)
-            }
-        }
-    }
-    
-}
-
-
-// MARK: - API
-
-extension VideoController {
-    
-    func didSucceedNetworking() {
-        
-        print("DEBUG: API가 호출되었습니다.")
-        // TODO: API 호출 이후, 각 프로퍼티에 데이터를 업데이트한다.
-        // source_url -> VideoURL
-        
-        // sSubtitles -> vttURL
-        
-        // sTags -> sTagsArray
-        
+        return thirdFilteringText
     }
 }
