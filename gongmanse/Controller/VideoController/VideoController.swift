@@ -181,6 +181,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var timeObserverToken: Any?
     lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
+    var videoURL = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MGZlNjc3MGVmZTViZmFmNWRkZDcyMjNlNzM5ZTdkYjE5ODM3ODJiYzRjY2Q0ZjJiNDRhMGJmYmE4ZjBhZTQxNDhlZmNhODA5YmYyYTcxODBhN2QxNmMwNTQ1M2E3NmM1MTlhZTlhMDRkYjI1MTMyYWY3MzE5MzkwMmMwZDc3ZWFSblZITXhHcFcvYlZSem5XR29OMDFYaUs0dVF6OWNIQ2Irbzg1dzNHUUt5bzEwazluTElHcXdsU1dlc2psbVRXTk00M29Xb3JPeS9lTG9KOUJKNnIxcnJ3a1JQOHBwRWhjUDA2eHpZRnEwQVdBWE9mUEpPckxHL0hnR21UbFNmclhGODRrYjJTa0FmQUYzcXJMTFdWUkROcmNQNEdJaGRITllBVUgwdHpacjRKYkRWT2JxNHYzTTlHb3VsNU0rZyttVlVodzNSQUpCZEZ6RkxSNCtlTWJhcHJQeCt3QzNLOWdJRDE2T05QNkNMZW83OHo1VmJlZWFXQWNmamxNME1GN3I4ZFM3NUsrRW9MYjBNZGwzQldRVjdXRkVEdGwvLzlDd2MwL0hiaENyTG1TUkNtTy80Q3dNUzBHOWZKYWxpK0duMjVseEFRNWh0b2dHWkpERlU5U2FPOWsvQjl5ZEtQc2pHQjBJcTVJaHc9")
+    var vttURL = "https://file.gongmanse.com/uploads/videos/2017/김샛별/계절이 변하는 까닭/170630_과학_초등_김샛별_083_계절이 변하는 까닭.vtt"
+    var sTagsArray = [String]()
+
+    
     
     /// AVPlayer 자막역햘을 할 UILabel
     private var subtitleLabel: UILabel = {
@@ -196,10 +201,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 자막 기능을 담고 있는 자막 인스턴스(subtitleTextLabel에 text를 넣어줌)
     lazy var subtitles = Subtitles(subtitles: "")
+    
     /// 자막을 클릭 했을 때, 제스쳐로 인지할 제스쳐 인스턴스
     lazy var gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedSubtitle))
-
-    let videoURL = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MGZlNjc3MGVmZTViZmFmNWRkZDcyMjNlNzM5ZTdkYjE5ODM3ODJiYzRjY2Q0ZjJiNDRhMGJmYmE4ZjBhZTQxNDhlZmNhODA5YmYyYTcxODBhN2QxNmMwNTQ1M2E3NmM1MTlhZTlhMDRkYjI1MTMyYWY3MzE5MzkwMmMwZDc3ZWFSblZITXhHcFcvYlZSem5XR29OMDFYaUs0dVF6OWNIQ2Irbzg1dzNHUUt5bzEwazluTElHcXdsU1dlc2psbVRXTk00M29Xb3JPeS9lTG9KOUJKNnIxcnJ3a1JQOHBwRWhjUDA2eHpZRnEwQVdBWE9mUEpPckxHL0hnR21UbFNmclhGODRrYjJTa0FmQUYzcXJMTFdWUkROcmNQNEdJaGRITllBVUgwdHpacjRKYkRWT2JxNHYzTTlHb3VsNU0rZyttVlVodzNSQUpCZEZ6RkxSNCtlTWJhcHJQeCt3QzNLOWdJRDE2T05QNkNMZW83OHo1VmJlZWFXQWNmamxNME1GN3I4ZFM3NUsrRW9MYjBNZGwzQldRVjdXRkVEdGwvLzlDd2MwL0hiaENyTG1TUkNtTy80Q3dNUzBHOWZKYWxpK0duMjVseEFRNWh0b2dHWkpERlU5U2FPOWsvQjl5ZEtQc2pHQjBJcTVJaHc9")
 
     /// 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
@@ -210,7 +214,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return collectionView
     }()
     
-    // 상단 탭바 객체 생성
+    /// 상단 탭바 객체 생성
     var customMenuBar = VideoMenuBar()
     
     /// tearchInfoView의 상단 오랜지색 구분선
@@ -265,6 +269,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureData()
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         playVideo()                      // 동영상 재생 메소드로 현재 테스트를 위해 이곳에 둠 04.07 추후에 인트로 영상을 호출한 이후에 이 메소드를 호출할 계획
@@ -386,6 +391,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Helpers
 
+    /// 데이터 구성을 위한 메소드
+    func configureData() {
+        
+        guard let id = id else { return }
+        let inputData = DetailVideoInput(video_id: id, token: Constant.token)
+        
+        // "상세화면 영상 API"를 호출한다.
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+    }
+    
     // 전반적인 UI 구현 메소드
     func configureUI() {
         // 내비게이션 조건을 설정한다.
@@ -583,7 +598,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
             // Default 값을 "100...103" 임의로 부여한다.
             self.sTagsRanges.append(Range<Int>(100...103))
         }
-        
+
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.player.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),
@@ -629,20 +644,19 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     let keywordAttriString = NSMutableAttributedString(string: subtitleFinal)
                     
                     /* API에서 sTag 값을 받아올 위치 */
-                    var sTagsArray = [String]()
-                    sTagsArray.append("계절")
-                    sTagsArray.append("자전")
-                    sTagsArray.append("공전")
-                    sTagsArray.append("북극")
-                    sTagsArray.append("남극")
-                    sTagsArray.append("공전")
-                    sTagsArray.append("궤도면")
-                    sTagsArray.append("태양")
-                    sTagsArray.append("남중 고도")
-                    sTagsArray.append("수용론")
-                    sTagsArray.append("서술자")
-                    sTagsArray.append("내재적 분석")
-                    sTagsArray.append("외재적 준거")
+                    strongSelf.sTagsArray.append("계절")
+                    strongSelf.sTagsArray.append("자전")
+                    strongSelf.sTagsArray.append("공전")
+                    strongSelf.sTagsArray.append("북극")
+                    strongSelf.sTagsArray.append("남극")
+                    strongSelf.sTagsArray.append("공전")
+                    strongSelf.sTagsArray.append("궤도면")
+                    strongSelf.sTagsArray.append("태양")
+                    strongSelf.sTagsArray.append("남중 고도")
+                    strongSelf.sTagsArray.append("수용론")
+                    strongSelf.sTagsArray.append("서술자")
+                    strongSelf.sTagsArray.append("내재적 분석")
+                    strongSelf.sTagsArray.append("외재적 준거")
                     
                     // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
                     /* 자막에 "#"가 존재하는 경우 */
@@ -660,7 +674,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                         /// - "subtitleLabel" 클릭 시, 클릭한 키워드 판별로직
                         strongSelf.manageTextInSubtitle(numberOfHasgtags: numberOfHasgtags,
                                                         subtitleArray: subtitleArray,
-                                                        sTagsArray: sTagsArray,
+                                                        sTagsArray: strongSelf.sTagsArray,
                                                         keywordAttriString: keywordAttriString,
                                                         subtitleFinal: subtitleFinal,
                                                         label: label)
@@ -683,7 +697,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
         self.addChild(playerController)
         
         /// 공만세 적용 한글 인코딩 결과 값
-        let vttURL = "https://file.gongmanse.com/uploads/videos/2017/김샛별/계절이 변하는 까닭/170630_과학_초등_김샛별_083_계절이 변하는 까닭.vtt"
         let subtitleInKor = makeStringKoreanEncoded(vttURL)
         let subtitleRemoteUrl = URL(string: subtitleInKor)
         
@@ -1229,4 +1242,22 @@ extension VideoController {
         }
     }
     
+}
+
+
+// MARK: - API
+
+extension VideoController {
+    
+    func didSucceedNetworking() {
+        
+        print("DEBUG: API가 호출되었습니다.")
+        // TODO: API 호출 이후, 각 프로퍼티에 데이터를 업데이트한다.
+        // source_url -> VideoURL
+        
+        // sSubtitles -> vttURL
+        
+        // sTags -> sTagsArray
+        
+    }
 }
