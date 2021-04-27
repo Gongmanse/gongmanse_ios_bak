@@ -8,7 +8,7 @@ class RecommendCRV: UICollectionReusableView {
     
     var recommendBanner: RecommendBannerImage?
     var recommendBannerImage: RecommendBannerCell?
-    let infiniteSize = 10000000
+    let infiniteSize = 96
     
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageView: UIPageControl!
@@ -25,6 +25,7 @@ class RecommendCRV: UICollectionReusableView {
         
         pageView.numberOfPages = 12
         pageView.currentPage = 0
+        pageView.isEnabled = false
         
     }
     

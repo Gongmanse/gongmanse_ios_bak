@@ -39,7 +39,7 @@ class RecommendVC: UIViewController {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    print(json.body)
+                    //print(json.body)
 //                    self.recommendVideo = json
                     self.recommendVideo.body.append(contentsOf: json.body)
                 }
