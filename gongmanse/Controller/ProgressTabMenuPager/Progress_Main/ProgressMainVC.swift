@@ -126,7 +126,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         
     }
     
-    
+    // 진도학습 목록 API 받아오는 메소드
     func requestProgressList(subject: Int, grade: String, gradeNum: Int, offset: Int, limit: Int) {
         
         localGradeTitle = grade
@@ -203,9 +203,10 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         let borderWidth = 2
         let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
         
-        gradeBtn.layer.borderWidth = CGFloat(borderWidth)
+        
         gradeBtn.setTitle(getGradeData?.sGrade, for: .normal)
         gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
+        gradeBtn.layer.borderWidth = CGFloat(borderWidth)
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         
@@ -324,10 +325,10 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex && islistMore == true{
-           // print("this is the last cell")
+            // print("this is the last cell")
             let spinner = UIActivityIndicatorView(style: .large)
             spinner.startAnimating()
-            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
 
             self.tableview.tableFooterView = spinner
             self.tableview.tableFooterView?.isHidden = false

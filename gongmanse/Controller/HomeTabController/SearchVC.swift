@@ -33,9 +33,9 @@ class SearchVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabsView: TabsView!
-    @IBOutlet weak var buttonContainerView: UIView!
-    @IBOutlet weak var gradeButton: UIButton!
-    @IBOutlet weak var subjectButton: UIButton!
+    let buttonContainerView = UIView()
+    let gradeButton = UIButton(type: .system)
+    let subjectButton = UIButton(type: .system)
     
     
 
@@ -116,6 +116,9 @@ class SearchVC: UIViewController {
         
     func configureConstraint() {
         
+        let borderWidth = 2
+        let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
+        
         // addSubview
         view.addSubview(buttonContainerView)
         view.addSubview(gradeButton)
@@ -133,16 +136,34 @@ class SearchVC: UIViewController {
         buttonContainerView.addSubview(gradeButton)
         buttonContainerView.addSubview(subjectButton)
         
+        gradeButton.setTitle("모든 학년", for: .normal)
+        subjectButton.setTitle("모든 과목", for: .normal)
+        
+        gradeButton.setTitleColor(.black, for: .normal)
+        subjectButton.setTitleColor(.black, for: .normal)
+        
+        
+        
+        gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
+        gradeButton.layer.borderWidth = CGFloat(borderWidth)
+        gradeButton.layer.borderColor = borderColor.cgColor
+        gradeButton.layer.cornerRadius = 13
+        
+        subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
+        subjectButton.layer.borderWidth = CGFloat(borderWidth)
+        subjectButton.layer.borderColor = borderColor.cgColor
+        subjectButton.layer.cornerRadius = 13
+        
         gradeButton.anchor(top: buttonContainerView.topAnchor,
                            left: view.leftAnchor,
                            bottom:buttonContainerView.bottomAnchor,
                            paddingLeft: 25)
-        gradeButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.42)
+        gradeButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
         
         subjectButton.anchor(top: buttonContainerView.topAnchor,
                              bottom: buttonContainerView.bottomAnchor, right: view.rightAnchor,
                              paddingRight: 25)
-        subjectButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.42)
+        subjectButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
         
         // tabsView Contraint
         tabsView.anchor(top: buttonContainerView.bottomAnchor,
