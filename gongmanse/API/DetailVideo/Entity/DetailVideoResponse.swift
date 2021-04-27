@@ -27,14 +27,14 @@ struct DetailVideoData: Decodable {
     var iRating: String         // 영상 평점
     var iRatingNum: String      // 영상 평가 수
     var sHighlight: String?     // 자막 중, 하이라이트 된 문장
-    var sBookmarks: String      // 북마크 인덱스
+    var sBookmarks: Bool      // 북마크 인덱스
     var sThumbnail: String      // 썸네일 이미지
     var sVideopath: String      // 영상파일 URL
     var sSubtitle: String       // 자막 URL
     var sUnit: String           // 과목 코드
     var iUserRating: String?    // 사용자 평가
     var sSubject: String        // 과목 태그
-    var sSubjectColor: String   // 과목 태그 색상x
+    var sSubjectColor: String   // 과목 태그 색상
     var iCategoryId: String     // 카테고리 ID
     var source_url: String?      // 영상 URL
     

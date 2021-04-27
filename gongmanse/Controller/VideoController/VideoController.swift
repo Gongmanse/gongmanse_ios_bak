@@ -610,7 +610,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 guard let strongSelf = self else { return }
                 let label = strongSelf.subtitleLabel
                 
-                // "Subtitles"에서 필터링한 자막값을 옵셔널언랩핑한다.
+                // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
                                                                 time.seconds) {
                     /// 슬라이싱한 최종결과를 저장할 프로퍼티
@@ -621,11 +621,13 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     let numberOfsTags = Int(Double(tagCounter.count) * 0.5)
                     /// ">"값을 기준으로 자막을 슬라이싱한 텍스트
                     let firstSlicing = subtitleText.split(separator: ">")
-                    
+                    print("DEBUG: subtitleText \(subtitleText)")
                     // "<"값을 기준으로 자막을 슬라이싱한 후, "subtitleFinal에 결과를 입력한다.
                     if numberOfsTags >= 1 {
-                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
-                                                                     arrayIndex: numberOfsTags * 2)
+                        subtitleFinal = strongSelf.filteringFontTagInSubtitleText(text: subtitleText)
+                            
+//                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
+//                                                                     arrayIndex: numberOfsTags * 2)
                     } else {
                         subtitleFinal = subtitleText
                     }
@@ -805,13 +807,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
 }
 
-
-
-
-
-
-
-
 // MARK: - Subtitles Methond
 /// 동영상 자막 keyword 색상 변경 및 클릭 시 호출을 위한 커스텀 메소드
 extension VideoController {
@@ -844,7 +839,7 @@ extension VideoController {
         
         /// "textArray"의 옵셔널 해제한 element를 입력받을 프로퍼티
         var optionalUnwrappingArray = [String]()
-        print("DEBUG: slicedText \(slicedText)")
+        
         for i in 0...index {
             /// ">" 기준으로 슬라이싱한 array[i]를 입력한 scanner
             let scanner = Scanner(string: String(slicedText[i]))
@@ -960,7 +955,7 @@ extension VideoController {
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags
         let sTagsArray = receivedsTagsData.split(separator: ",")
-        print("DEBUG: sTagsArray \(sTagsArray)")
+        
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
@@ -1278,5 +1273,25 @@ extension VideoController {
         
         // TODO: "TeachInfoView" 제약조건
         // TODO: "CollectionView" 제약조건
+    }
+}
+
+extension VideoController {
+    
+    /// .vtt 내용 중 Text만 받아서 font Tag를 제거하는 메소드
+    func filteringFontTagInSubtitleText(text: String) -> String {
+        
+        let text = text
+        
+        /// 1차 필터링: #에 있는 font tag 제거
+        let firstFilteringText = text.replacingOccurrences(of: "<font color=\"#ffff00\">", with: "")
+        
+        /// 2차 필터링: 이 외 font tag 제거
+        let secondFilteringText = firstFilteringText.replacingOccurrences(of: "<font color=\"#ff8000\">", with: "")
+        
+        /// 3차 필터링: </font> tag 제거
+        let thirdFilteringText = secondFilteringText.replacingOccurrences(of: "</font>", with: "")
+        
+        return thirdFilteringText
     }
 }
