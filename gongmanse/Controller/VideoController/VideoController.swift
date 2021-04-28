@@ -144,7 +144,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
         slider.setThumbImage(image, for: .normal)
-        slider.value = 0.5
+        slider.value = 1
         return slider
     }()
     
@@ -269,7 +269,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureData()
+        configureDataAndNoti()
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
@@ -341,6 +341,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
+        NotificationCenter.default.removeObserver(self)
 //        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
@@ -391,11 +392,22 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         player.seek(to: subTractTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
     
+    // 알림 호출 시, 호출될 콜백 메소드
+    @objc func playerItemDidReachEnd(notification: NSNotification) {
+        print("DEBUG: 영상이 종료되었고, 다시 시작됩니다.")
+        player.seek(to: CMTime.zero)
+        player.pause()
+    }
     
     // MARK: - Helpers
 
     /// 데이터 구성을 위한 메소드
-    func configureData() {
+    func configureDataAndNoti() {
+        
+        // 관찰자를 추가한다.
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: nil)
         
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
@@ -568,6 +580,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
     }
     
     
+    
     func show(subtitles string: String) {
         // Parse
         subtitles.parsedPayload = Subtitles.parseSubRip(string)
@@ -581,9 +594,18 @@ extension VideoController: AVPlayerViewControllerDelegate {
     }
     
     
+    
     /* keyword 텍스트에 적절한 변화를 주고, 클릭 시 action이 호출될 수 있도록 관리하는 메소드 */
     /// "Player"가 호출된 후, 일정시간마다 호출되는 메소드
     func addPeriodicNotification(parsedPayload: NSDictionary) {
+        
+        // 영상 시간을 나타내는 UISlider에 최대 * 최소값을 주기 위해서 아래 프로퍼티를 할당한다.
+        let duration: CMTime = playerItem.asset.duration
+        let seconds: Float64 = CMTimeGetSeconds(duration)
+        timeSlider.maximumValue = Float(seconds)
+        timeSlider.minimumValue = 0
+        timeSlider.isContinuous = true
+        
         // gesture 관련 속성을 설정한다.
         gesture.numberOfTapsRequired = 1
         subtitleLabel.isUserInteractionEnabled = true
@@ -601,7 +623,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
             // Default 값을 "100...103" 임의로 부여한다.
             self.sTagsRanges.append(Range<Int>(100...103))
         }
-
+        
+        
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.player.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),
@@ -609,6 +632,14 @@ extension VideoController: AVPlayerViewControllerDelegate {
             using: { [weak self] (time) -> Void in
                 guard let strongSelf = self else { return }
                 let label = strongSelf.subtitleLabel
+                
+                strongSelf.timeSlider.value = Float(time.seconds)
+                
+                if time.seconds >= seconds {
+                    NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                                    object: nil)
+                }
+                
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
@@ -621,7 +652,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     let numberOfsTags = Int(Double(tagCounter.count) * 0.5)
                     /// ">"값을 기준으로 자막을 슬라이싱한 텍스트
                     let firstSlicing = subtitleText.split(separator: ">")
-                    print("DEBUG: subtitleText \(subtitleText)")
+                    
                     // "<"값을 기준으로 자막을 슬라이싱한 후, "subtitleFinal에 결과를 입력한다.
                     if numberOfsTags >= 1 {
                         subtitleFinal = strongSelf.filteringFontTagInSubtitleText(text: subtitleText)
@@ -677,11 +708,17 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     }
                 }
             })
+        
     }
+    
+    
     
     
     /// View 최상단 영상 시작 메소드
     func playVideo() {
+        
+
+        
         playerController.delegate = self
         
         // AVPlayer에 외부 URL을 포함한 값을 입력한다.
@@ -749,18 +786,13 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
     
-        let duration: CMTime = playerItem.asset.duration
-        let seconds: Float64 = CMTimeGetSeconds(duration)
-        timeSlider.maximumValue = Float(seconds)
-        timeSlider.minimumValue = 0
-        timeSlider.isContinuous = true
-        
+
         let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                     action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
         playerController.view.isUserInteractionEnabled = true
         playerController.view.addGestureRecognizer(gesture)
-        addPeriodicTimeObserver()
+        
     }
     
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
@@ -784,19 +816,21 @@ extension VideoController: AVPlayerViewControllerDelegate {
         }
     }
     
-    
-    func addPeriodicTimeObserver() {
-        
-        // Notify every half second
-        let timeScale = CMTimeScale(NSEC_PER_SEC)
-        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: time,
-                                                          queue: .main) {
-            [weak self] time in
-            // update player transport UI
-            self?.timeSlider.value = Float(time.seconds)
-        }
-    }
+//
+//    func addPeriodicTimeObserver() {
+//
+//        // Notify every half second
+//        let timeScale = CMTimeScale(NSEC_PER_SEC)
+//        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
+//        timeObserverToken = player.addPeriodicTimeObserver(forInterval: time,
+//                                                          queue: .main) {
+//            [weak self] time in
+//            // update player transport UI
+//            self?.timeSlider.value = Float(time.seconds)
+//            print("DEBUG: time.seconds \(time.seconds)")
+//
+//        }
+//    }
     
     func removePeriodicTimeObserver() {
         if let timeObserverToken = timeObserverToken {
@@ -1294,4 +1328,8 @@ extension VideoController {
         
         return thirdFilteringText
     }
+}
+
+extension Notification.Name {
+    static let detectVideoEnded = Notification.Name("videoEnded")
 }
