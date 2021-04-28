@@ -110,7 +110,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 재생 및 일시정지 버튼
     let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "play.circle")?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(systemName: "play.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setBackgroundImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
@@ -191,7 +191,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let image = UIImage(systemName: "slider.horizontal.3")?
             .withRenderingMode(.alwaysOriginal)
         button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
         return button
     }()
     
@@ -378,7 +378,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
     @objc func playPausePlayer() {
         
-        let playImage = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let playImage = UIImage(systemName: "play.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         let pauseImage = UIImage(systemName: "pause.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         
         /// 연산프로퍼티 "isPlaying" 에 따라서 플레이어를 정지 혹은 재생시킨다.
@@ -394,7 +394,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 동영상 앞으로 가기 기능을 담당하는 콜백 메소드
     @objc func moveForwardPlayer() {
-        
+         
         /// 10초를 계산하기 위한 프로퍼티
         let seconds = Double(230) / Double(23.98)
         
@@ -461,7 +461,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     @objc func handleSubtitleToggle() {
         
-        
         if self.isClickedSubtitleToggleButton {
             self.isClickedSubtitleToggleButton = false
             UIView.animate(withDuration: 0.22) {
@@ -475,10 +474,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             }
             
         }
-        
-        
     }
     
+    /// 클릭 시, 속도가 1.25배 빨라지는 메소드 (추후 변경 예정)
+    @objc func handleSettingButton() {
+        player.playImmediately(atRate: 1.25)
+    }
     
     // MARK: - Helpers
     
@@ -787,7 +788,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // AVPlayer에 외부 URL을 포함한 값을 입력한다.
         player = AVPlayer(url: videoURL! as URL)
-        
         playerController.player = player
         
         // AVPlayerController를 "ViewController" childController로 등록한다.
@@ -815,7 +815,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         
         player.play()
-        player.isMuted = true
+        player.isMuted = false
     }
     
     
