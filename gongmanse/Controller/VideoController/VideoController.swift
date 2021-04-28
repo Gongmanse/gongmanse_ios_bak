@@ -17,99 +17,98 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
-     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
-     var videoContainerViewPorTraitHeightConstraint: NSLayoutConstraint?
-     var videoContainerViewPorTraitTopConstraint: NSLayoutConstraint?
-     var videoContainerViewPorTraitLeftConstraint: NSLayoutConstraint?
-
+    var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
+    var videoContainerViewPorTraitHeightConstraint: NSLayoutConstraint?
+    var videoContainerViewPorTraitTopConstraint: NSLayoutConstraint?
+    var videoContainerViewPorTraitLeftConstraint: NSLayoutConstraint?
+    
     // Constraint 객체 - 가로모드
-     var videoContainerViewLandscapeWidthConstraint: NSLayoutConstraint?
-     var videoContainerViewLandscapeHeightConstraint: NSLayoutConstraint?
-     var videoContainerViewLandscapeTopConstraint: NSLayoutConstraint?
-     var videoContainerViewLandscapeLeftConstraint: NSLayoutConstraint?
+    var videoContainerViewLandscapeWidthConstraint: NSLayoutConstraint?
+    var videoContainerViewLandscapeHeightConstraint: NSLayoutConstraint?
+    var videoContainerViewLandscapeTopConstraint: NSLayoutConstraint?
+    var videoContainerViewLandscapeLeftConstraint: NSLayoutConstraint?
     
     /* CustomTabBar */
     // Constraint 객체 - 세로모드
-     var customMenuBarPorTraitHeightConstraint: NSLayoutConstraint?
-     var customMenuBarPorTraitTopConstraint: NSLayoutConstraint?
-     var customMenuBarPorTraitLeftConstraint: NSLayoutConstraint?
-     var customMenuBarPorTraitRightConstraint: NSLayoutConstraint?
-     var customMenuBarPorTraitWidthConstraint: NSLayoutConstraint?
+    var customMenuBarPorTraitHeightConstraint: NSLayoutConstraint?
+    var customMenuBarPorTraitTopConstraint: NSLayoutConstraint?
+    var customMenuBarPorTraitLeftConstraint: NSLayoutConstraint?
+    var customMenuBarPorTraitRightConstraint: NSLayoutConstraint?
+    var customMenuBarPorTraitWidthConstraint: NSLayoutConstraint?
     
     // Constraint 객체 - 가로모드
-     var customMenuBarLandscapeRightConstraint: NSLayoutConstraint?
-     var customMenuBarLandscapeHeightConstraint: NSLayoutConstraint?
-     var customMenuBarLandscapeTopConstraint: NSLayoutConstraint?
-     var customMenuBarLandscapeLeftConstraint: NSLayoutConstraint?
-     var customMenuBarLandscapeWidthConstraint: NSLayoutConstraint?
+    var customMenuBarLandscapeRightConstraint: NSLayoutConstraint?
+    var customMenuBarLandscapeHeightConstraint: NSLayoutConstraint?
+    var customMenuBarLandscapeTopConstraint: NSLayoutConstraint?
+    var customMenuBarLandscapeLeftConstraint: NSLayoutConstraint?
+    var customMenuBarLandscapeWidthConstraint: NSLayoutConstraint?
     
     /* teacherInfoView */
     // Constraint 객체 - 세로모드
-     var teacherInfoViewPorTraitCenterXConstraint: NSLayoutConstraint?
-     var teacherInfoViewPorTraitHeightConstraint: NSLayoutConstraint?
-     var teacherInfoViewPorTraitTopConstraint: NSLayoutConstraint?
-     var teacherInfoViewPorTraitWidthConstraint: NSLayoutConstraint?
-
+    var teacherInfoViewPorTraitCenterXConstraint: NSLayoutConstraint?
+    var teacherInfoViewPorTraitHeightConstraint: NSLayoutConstraint?
+    var teacherInfoViewPorTraitTopConstraint: NSLayoutConstraint?
+    var teacherInfoViewPorTraitWidthConstraint: NSLayoutConstraint?
+    
     // Constraint 객체 - 가로모드
-     var teacherInfoViewLandscapeRightConstraint: NSLayoutConstraint?
-     var teacherInfoViewLandscapeHeightConstraint: NSLayoutConstraint?
-     var teacherInfoViewLandscapeTopConstraint: NSLayoutConstraint?
-     var teacherInfoViewLandscapeLeftConstraint: NSLayoutConstraint?
-
+    var teacherInfoViewLandscapeRightConstraint: NSLayoutConstraint?
+    var teacherInfoViewLandscapeHeightConstraint: NSLayoutConstraint?
+    var teacherInfoViewLandscapeTopConstraint: NSLayoutConstraint?
+    var teacherInfoViewLandscapeLeftConstraint: NSLayoutConstraint?
+    
     /* topBorderLine */
     // Constraint 객체 - 세로모드
-     var topBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?
-     var topBorderLinePorTraitHeightConstraint: NSLayoutConstraint?
-     var topBorderLinePorTraitTopConstraint: NSLayoutConstraint?
-     var topBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
+    var topBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?
+    var topBorderLinePorTraitHeightConstraint: NSLayoutConstraint?
+    var topBorderLinePorTraitTopConstraint: NSLayoutConstraint?
+    var topBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
     
     /* bottomBorderLine */
     // Constraint 객체 - 세로모드
-     var bottomBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?
-     var bottomBorderLinePorTraitHeightConstraint: NSLayoutConstraint?
-     var bottomBorderLinePorTraitBottomConstraint: NSLayoutConstraint?
-     var bottomBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
+    var bottomBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?
+    var bottomBorderLinePorTraitHeightConstraint: NSLayoutConstraint?
+    var bottomBorderLinePorTraitBottomConstraint: NSLayoutConstraint?
+    var bottomBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
     
     
     /* pageCollectionView */
     // Constraint 객체 - 세로모드
-     var pageCollectionViewPorTraitRightConstraint: NSLayoutConstraint?
-     var pageCollectionViewPorTraitBottomConstraint: NSLayoutConstraint?
-     var pageCollectionViewPorTraitTopConstraint: NSLayoutConstraint?
-     var pageCollectionViewPorTraitLeftConstraint: NSLayoutConstraint?
-
+    var pageCollectionViewPorTraitRightConstraint: NSLayoutConstraint?
+    var pageCollectionViewPorTraitBottomConstraint: NSLayoutConstraint?
+    var pageCollectionViewPorTraitTopConstraint: NSLayoutConstraint?
+    var pageCollectionViewPorTraitLeftConstraint: NSLayoutConstraint?
+    
     // Constraint 객체 - 가로모드
-     var pageCollectionViewLandscapeRightConstraint: NSLayoutConstraint?
-     var pageCollectionViewLandscapeBottomConstraint: NSLayoutConstraint?
-     var pageCollectionViewLandscapeTopConstraint: NSLayoutConstraint?
-     var pageCollectionViewLandscapeLeftConstraint: NSLayoutConstraint?
+    var pageCollectionViewLandscapeRightConstraint: NSLayoutConstraint?
+    var pageCollectionViewLandscapeBottomConstraint: NSLayoutConstraint?
+    var pageCollectionViewLandscapeTopConstraint: NSLayoutConstraint?
+    var pageCollectionViewLandscapeLeftConstraint: NSLayoutConstraint?
     
     /* Constraint 객체 - 선생님 정보 및 강의정보 View */
     /// 최초로드 시, 선생님정보 및 강의 정보에 적용될 제약조건
-     var teacherInfoFoldConstraint: NSLayoutConstraint?
+    var teacherInfoFoldConstraint: NSLayoutConstraint?
     /// 클릭 시, 선생님정보 및 강의 정보에 적용될 제약조건
-     var teacherInfoUnfoldConstraint: NSLayoutConstraint?
+    var teacherInfoUnfoldConstraint: NSLayoutConstraint?
     
     // MARK: Video Properties
     
     /// AVPlayerController를 담을 UIView
-     let videoContainerView: UIView = {
+    let videoContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
         return view
     }()
     
     /// 영상 ProgressView / 현재시간 ~ 종료시간 Label / 화면전환 객체 상위 Container View
-     let videoControlContainerView: UIView = {
+    let videoControlContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
     // MARK: Video Player Control Button
-    
     /// 재생 및 일시정지 버튼
-     let playPauseButton: UIButton = {
+    let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "play.circle")?.withRenderingMode(.alwaysOriginal)
         button.setBackgroundImage(image, for: .normal)
@@ -119,7 +118,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 동영상 앞으로 가기
-     let videoForwardTimeButton: UIButton = {
+    let videoForwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "goforward.10")?.withRenderingMode(.alwaysOriginal)
         button.setImage(image, for: .normal)
@@ -129,7 +128,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 동영상 뒤로 가기
-     let videoBackwardTimeButton: UIButton = {
+    let videoBackwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "gobackward.10")?.withRenderingMode(.alwaysOriginal)
         button.setBackgroundImage(image, for: .normal)
@@ -139,7 +138,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 타임라인 timerSlider
-     var timeSlider: UISlider = {
+    var timeSlider: UISlider = {
         let slider = UISlider()
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
@@ -149,7 +148,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// ProgressView 좌측에 위치한 현재시간 레이블
-     let currentTimeLabel: UILabel = {
+    let currentTimeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.appBoldFontWith(size: 11)
         label.text = "0:00"
@@ -158,7 +157,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// ProgressView 우측에 위치한 종료시간 레이블
-     let endTimeTimeLabel: UILabel = {
+    let endTimeTimeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.appBoldFontWith(size: 11)
         label.text = "03:00"
@@ -167,7 +166,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 가로화면(전체화면)으로 전환되는 버튼
-     let changeOrientationButton: UIButton = {
+    let changeOrientationButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?
             .withRenderingMode(.alwaysOriginal)
@@ -176,8 +175,28 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
+    let subtitleToggleButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "textbox")?
+            .withRenderingMode(.alwaysOriginal)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
+        return button
+    }()
+    
+    var isClickedSubtitleToggleButton: Bool = false
+    
+    let videoSettingButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "slider.horizontal.3")?
+            .withRenderingMode(.alwaysOriginal)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
+        return button
+    }()
+    
     /// 뒤로가기버튼
-     let backButton: UIButton = {
+    let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.down.circle"), for: .normal)
         button.tintColor = .lightGray
@@ -198,7 +217,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     
     /// AVPlayer 자막역햘을 할 UILabel
-     var subtitleLabel: UILabel = {
+    var subtitleLabel: UILabel = {
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
@@ -214,7 +233,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 자막을 클릭 했을 때, 제스쳐로 인지할 제스쳐 인스턴스
     lazy var gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedSubtitle))
-
+    
     /// 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     var pageCollectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -228,40 +247,39 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var customMenuBar = VideoMenuBar()
     
     /// tearchInfoView의 상단 오랜지색 구분선
-     let topBorderLine: UIView = {
+    let topBorderLine: UIView = {
         let view = UIView()
         view.backgroundColor = .mainOrange
         return view
     }()
     
     /// tearchInfoView의 하단 오랜지색 구분선
-     let bottomBorderLine: UIView = {
+    let bottomBorderLine: UIView = {
         let view = UIView()
         view.backgroundColor = .mainOrange
         return view
     }()
     
     /// 강의 및 선생님 정보를 담을 뷰
-     let teacherInfoView: UIView = {
+    let teacherInfoView: UIView = {
         let view = UIView()
         view.backgroundColor = .progressBackgroundColor
         return view
     }()
     
     /// "teachInfoView" 하단에 토글 기능을 담당할 UIButton
-     let toggleButton: UIButton = {
+    let toggleButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("", for: .normal)
         button.backgroundColor = .mainOrange
         return button
     }()
     
-
-    
     var isPlaying: Bool {
         player.rate != 0 && player.error == nil
     }
-
+    
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -271,7 +289,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
     }
-
+    
     // MARK: - Actions
     
     // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
@@ -281,7 +299,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsRanges = [Range<Int>]()
     /// 현재 자막에 있는 keyword Array
     var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
-    
     
     /// "subtitleLabel"을 클릭 시, 호출될 콜백메소드
     @objc func didTappedSubtitle(sender: UITapGestureRecognizer) {
@@ -295,10 +312,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         print("DEBUG: 2Rangs is \(keywordRanges[2])")
         print("DEBUG: 3Rangs is \(keywordRanges[3])")
         print("DEBUG: 4Rangs is \(keywordRanges[4])")
-        print("DEBUG: 4Rangs is \(keywordRanges[5])")
-        print("DEBUG: 4Rangs is \(keywordRanges[6])")
-        print("DEBUG: 4Rangs is \(keywordRanges[7])")
-
+        print("DEBUG: 5Rangs is \(keywordRanges[5])")
+        print("DEBUG: 6Rangs is \(keywordRanges[6])")
+        print("DEBUG: 7Rangs is \(keywordRanges[7])")
+        
         /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
@@ -314,7 +331,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             print("DEBUG: \(currentKeywords[4])?")
-            print("DEBUG: 지금 sTag가 2 개입니까?")
+            let vc = TestSearchController(clickedText: currentKeywords[4])
+            present(vc, animated: true)
             
         } else {
             print("DEBUG: 키워드가 없나요?")
@@ -323,7 +341,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 강의 및 선생님 정보 View 하단에 있는 버튼 toggle 기능담당 메소드
     @objc func handleToggle() {
-        print("DEBUG: clicked button")
+        
         if teacherInfoFoldConstraint!.isActive == true {
             teacherInfoFoldConstraint!.isActive = false
             teacherInfoUnfoldConstraint!.isActive = true
@@ -334,20 +352,22 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         pageCollectionView.reloadData()
     }
     
+    /// 우측상단에 뒤로가기 버튼 로직
     @objc func handleBackButtonAction() {
+        
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
-//        removePeriodicTimeObserver()
+        //        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
     
-    // 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
+    /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
     @objc func timeSliderValueChanged(_ slider: UISlider) {
+        
         let seconds: Int64 = Int64(slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
-        
         player.seek(to: targetTime)
         
         if player.rate == 0 {
@@ -357,6 +377,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
     @objc func playPausePlayer() {
+        
         let playImage = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         let pauseImage = UIImage(systemName: "pause.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         
@@ -373,10 +394,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 동영상 앞으로 가기 기능을 담당하는 콜백 메소드
     @objc func moveForwardPlayer() {
+        
         /// 10초를 계산하기 위한 프로퍼티
         let seconds = Double(230) / Double(23.98)
+        
         /// 23 프레임을 기준으로 10초를 입력한 CMTime 프로퍼티
         let oneFrame = CMTime(seconds: seconds, preferredTimescale: 600)
+        
         /// CMTimeAdd를 적용한 프로퍼티
         let addTime = CMTimeAdd(player.currentTime(), oneFrame)
         player.seek(to: addTime, toleranceBefore: .zero, toleranceAfter: .zero)
@@ -384,16 +408,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 동영상 뒤로 가기 기능을 담당하는 콜백 메소드
     @objc func moveBackwardPlayer() {
-        // 앞으로 가기 주석으로 대체
+        
         let seconds = Double(230) / Double(23.98)
         let oneFrame = CMTime(seconds: seconds, preferredTimescale: 60)
         let subTractTime = CMTimeSubtract(player.currentTime(), oneFrame)
         player.seek(to: subTractTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
     
-    // 알림 호출 시, 호출될 콜백메소드
+    /// 알림 호출 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-        print("DEBUG: 영상이 종료되었고, 다시 시작됩니다.")
+        
         player.seek(to: CMTime.zero)
         player.pause()
     }
@@ -401,12 +425,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
+        
         // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
         pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
                                         at: UICollectionView.ScrollPosition.left,
                                         animated: true)
-        
         super.viewWillTransition(to: size, with: coordinator)
+        
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
             changeConstraintToVideoContainer(isPortraitMode: true)
@@ -434,9 +459,29 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         }
     }
     
+    @objc func handleSubtitleToggle() {
+        
+        
+        if self.isClickedSubtitleToggleButton {
+            self.isClickedSubtitleToggleButton = false
+            UIView.animate(withDuration: 0.22) {
+                self.subtitleLabel.alpha = 1
+            }
+            
+        } else {
+            self.isClickedSubtitleToggleButton = true
+            UIView.animate(withDuration: 0.22) {
+                self.subtitleLabel.alpha = 0
+            }
+            
+        }
+        
+        
+    }
+    
     
     // MARK: - Helpers
-
+    
     /// 데이터 구성을 위한 메소드
     func configureDataAndNoti() {
         
@@ -444,7 +489,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: nil)
-        
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
         
@@ -452,21 +496,21 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
     }
     
-    // 전반적인 UI 구현 메소드
+    /// 전반적인 UI 구현 메소드
     func configureUI() {
-        // 내비게이션 조건을 설정한다.
+        
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = .white
         navigationController?.hidesBarsOnSwipe = true
         
         // 세로모드 제약조건 정의한다.
         setConstraintInPortrait()
-        setupPageCollectionView()        // View 중단부터 하단에 있는 "노트보기", "강의 QnA" 그리고 "재생목록" 페이지 구현 메소드
+        setupPageCollectionView() // View 중단부터 하단에 있는 "노트보기", "강의 QnA" 그리고 "재생목록" 페이지 구현 메소드
         changeConstraintToVideoContainer(isPortraitMode: false) // 최초 제약조건 부여
         
         // 영상 플레이어컨트롤러 하단 상태표시슬라이드 display 여부
         playerController.showsPlaybackControls = false
-
+        
     }
     
     /// customMenuBar의 sroll관련 로직을 처리하는 메소드
@@ -509,7 +553,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 }
 
 
-
 //MARK:- UICollectionViewDelegate, UICollectionViewDataSource
 
 extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -541,9 +584,6 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         return 3
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    }
-    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView,
                                    withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -569,9 +609,7 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
 }
-
 
 
 // MARK: - Video Method
@@ -590,36 +628,36 @@ extension VideoController: AVPlayerViewControllerDelegate {
         subtitleLabel.text = "..."
         URLSession.shared.dataTask(with: filePath,
                                    completionHandler: { (data, response, error) -> Void in
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                let statusCode = httpResponse.statusCode
-                //Check status code
-                if statusCode != 200 {
-                    NSLog("Subtitle Error: \(httpResponse.statusCode) - \(error?.localizedDescription ?? "")")
-                    return
-                }
-            }
-            
-            // Update UI elements on main thread
-            DispatchQueue.main.async(execute: {
-                self.subtitleLabel.text = ""
-                if let checkData = data as Data? {
-                    if let contents = String(data: checkData, encoding: encoding) {
-                        self.show(subtitles: contents)
-                    }
-                }
-            })
-        }).resume()
+                                    
+                                    if let httpResponse = response as? HTTPURLResponse {
+                                        let statusCode = httpResponse.statusCode
+                                        // 정상적으로 네트워킹이 되었는지 확인한다.
+                                        if statusCode != 200 {
+                                            NSLog("Subtitle Error: \(httpResponse.statusCode) - \(error?.localizedDescription ?? "")")
+                                            return
+                                        }
+                                    }
+                                    
+                                    // UI를 메인스레드에서 업데이트한다.
+                                    DispatchQueue.main.async(execute: {
+                                        self.subtitleLabel.text = ""
+                                        if let checkData = data as Data? {
+                                            if let contents = String(data: checkData, encoding: encoding) {
+                                                self.show(subtitles: contents)
+                                            }
+                                        }
+                                    })
+                                   }).resume()
     }
     
     func show(subtitles string: String) {
-        // Parse
+        // subtitle에 파싱한 값을 넣는다.
         subtitles.parsedPayload = Subtitles.parseSubRip(string)
         addPeriodicNotification(parsedPayload: (subtitles.parsedPayload!))
     }
     
     func showByDictionary(dictionaryContent: NSMutableDictionary) {
-        // Add Dictionary content direct to Payload
+        // 파싱한 데이터가 Dictionary이고 해당 값을 넣는다.
         subtitles.parsedPayload = dictionaryContent
         addPeriodicNotification(parsedPayload: (subtitles.parsedPayload!))
     }
@@ -640,20 +678,16 @@ extension VideoController: AVPlayerViewControllerDelegate {
         gesture.numberOfTapsRequired = 1
         subtitleLabel.isUserInteractionEnabled = true
         subtitleLabel.addGestureRecognizer(gesture)
+        
         /// keyword의 숫자만큼 "keywordRanges" 인덱스를 생성한다.
         /// - 여기서 추가된 element만큼 클릭 시, keyword 위치를 받을 수 있다.
         /// - 10개를 만든다면 10의 키워드 위치를 저장할 수 있다.
         /// - 키워드 위치를 저장할 프로퍼티에 공간을 확보한다
-        for _ in 0...11 {
-            // Default 값을 "100,100" 임의로 부여한다.
-            self.keywordRanges.append(NSRange(location: 100, length: 100))
-        }
+        // Default 값을 "100,100" 임의로 부여한다.
+        for _ in 0...11 {self.keywordRanges.append(NSRange(location: 100, length: 100))}
         
-        for _  in 0...11 {
-            // Default 값을 "100...103" 임의로 부여한다.
-            self.sTagsRanges.append(Range<Int>(100...103))
-        }
-        
+        // Default 값을 "100...103" 임의로 부여한다.
+        for _  in 0...11 {self.sTagsRanges.append(Range<Int>(100...103))}
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.player.addPeriodicTimeObserver(
@@ -671,12 +705,10 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 strongSelf.currentTimeLabel.text
                     = strongSelf.convertTimeToFitText(time: currentTimeInt)
                 
-                
                 if time.seconds >= endSeconds {
                     NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                     object: nil)
                 }
-                
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
@@ -693,9 +725,9 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     // "<"값을 기준으로 자막을 슬라이싱한 후, "subtitleFinal에 결과를 입력한다.
                     if numberOfsTags >= 1 {
                         subtitleFinal = strongSelf.filteringFontTagInSubtitleText(text: subtitleText)
-                            
-//                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
-//                                                                     arrayIndex: numberOfsTags * 2)
+                        
+                        //                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
+                        //                                                                     arrayIndex: numberOfsTags * 2)
                     } else {
                         subtitleFinal = subtitleText
                     }
@@ -710,7 +742,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                             strongSelf.keywordRanges[rangeIndex] = NSRange(location: 100, length: 100)
                         }
                     }
-
+                    
                     // 필터링된 최종 값을 label.text에 입력한다.
                     label.text = subtitleFinal
                     /// sTag값에 해당하는 text에 색상과 폰트를 설정하기 위한 프로퍼티
@@ -721,7 +753,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
                         strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
                     }
-                                        
+                    
                     // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
                     /* 자막에 "#"가 존재하는 경우 */
                     if subtitleFinal.contains("#") {
@@ -748,12 +780,9 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
     }
     
-    
-    
-    
     /// View 최상단 영상 시작 메소드
     func playVideo() {
-    
+        
         playerController.delegate = self
         
         // AVPlayer에 외부 URL을 포함한 값을 입력한다.
@@ -769,9 +798,9 @@ extension VideoController: AVPlayerViewControllerDelegate {
         let subtitleRemoteUrl = URL(string: subtitleInKor)
         
         // 자막URL을 포함한 값을 AVPlayer와 연동한다.
-         open(fileFromRemote: subtitleRemoteUrl!)
+        open(fileFromRemote: subtitleRemoteUrl!)
         
-        // MARK: Text 색상 변경값 입력
+        // Text 색상 변경값 입력한다.
         subtitleLabel.textColor = UIColor.white
         subtitleLabel.textColor = .white
         let convertedHeight = convertHeight(231, standardView: view)
@@ -782,7 +811,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
                                              height: convertedHeight - convertedConstant)
         playerController.view.contentMode = .scaleToFill
-
+        
         playerController.didMove(toParent: self)
         
         player.play()
@@ -819,7 +848,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.centerY(inView: videoControlContainerView)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
-    
+        
         // 현재시간을 나타내는 레이블
         videoControlContainerView.addSubview(currentTimeLabel)
         currentTimeLabel.centerY(inView: timeSlider)
@@ -833,19 +862,35 @@ extension VideoController: AVPlayerViewControllerDelegate {
         endTimeTimeLabel.anchor(left: timeSlider.rightAnchor,
                                 paddingLeft: 5,
                                 height: 13)
-
+        
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 5)
         
+        // VideoSettingButton
+        videoContainerView.addSubview(videoSettingButton)
+        videoSettingButton.anchor(top: videoContainerView.topAnchor,
+                                  right: videoContainerView.rightAnchor,
+                                  paddingTop: 10,
+                                  paddingRight: 10)
+        
+        
+        // 자막 생성 및 제거 버튼
+        videoContainerView.addSubview(subtitleToggleButton)
+        subtitleToggleButton.centerY(inView: videoSettingButton)
+        subtitleToggleButton.anchor(right: videoSettingButton.leftAnchor,
+                                    paddingRight: 3)
+        
+        
+        
+        
         let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                     action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
         playerController.view.isUserInteractionEnabled = true
         playerController.view.addGestureRecognizer(gesture)
-        
     }
     
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
@@ -857,6 +902,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.playPauseButton.alpha = 0
                 self.videoForwardTimeButton.alpha = 0
                 self.videoBackwardTimeButton.alpha = 0
+                self.videoSettingButton.alpha = 0
+                self.subtitleToggleButton.alpha = 0
             }
             
         } else {
@@ -865,6 +912,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
+                self.videoSettingButton.alpha = 1
+                self.subtitleToggleButton.alpha = 1
             }
         }
     }
@@ -883,8 +932,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
 extension VideoController {
     
     func didSucceedNetworking(response: DetailVideoResponse) {
-        
-        print("DEBUG: API가 호출되었습니다.")
         
         // source_url -> VideoURL
         if let sourceURL = response.data.source_url {
@@ -906,10 +953,7 @@ extension VideoController {
             let inputData = String(sTagsArray[index])
             self.tempsTagsArray.append(inputData)
         }
-        
-        // 값을 모두 받아왔으므로 player를 실행한다.
         playVideo()
-        
     }
 }
 
