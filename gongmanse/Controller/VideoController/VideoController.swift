@@ -151,7 +151,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// ProgressView 좌측에 위치한 현재시간 레이블
     private let currentTimeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.appBoldFontWith(size: 13)
+        label.font = UIFont.appBoldFontWith(size: 11)
         label.text = "0:00"
         label.textColor = .white
         return label
@@ -160,11 +160,19 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// ProgressView 우측에 위치한 종료시간 레이블
     private let endTimeTimeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.appBoldFontWith(size: 13)
+        label.font = UIFont.appBoldFontWith(size: 11)
         label.text = "03:00"
         label.textColor = .white
         return label
     }()
+    
+    /// 가로화면(전체화면)으로 전환되는 버튼
+    private let changeLandscapeModeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: <#T##String#>), for: .normal)
+        return button
+    }()
+    
     
     /// 뒤로가기버튼
     private let backButton: UIButton = {
@@ -544,7 +552,6 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
 
 extension VideoController: AVPlayerViewControllerDelegate {
     
-    // MARK: - Public methods
     func open(fileFromLocal filePath: URL,
               encoding: String.Encoding = String.Encoding.utf8) {
         
@@ -601,8 +608,9 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // 영상 시간을 나타내는 UISlider에 최대 * 최소값을 주기 위해서 아래 프로퍼티를 할당한다.
         let duration: CMTime = playerItem.asset.duration
-        let seconds: Float64 = CMTimeGetSeconds(duration)
-        timeSlider.maximumValue = Float(seconds)
+        let endSeconds: Float64 = CMTimeGetSeconds(duration)
+        endTimeTimeLabel.text = convertTimeToFitText(time: Int(endSeconds))
+        timeSlider.maximumValue = Float(endSeconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
         
@@ -633,9 +641,16 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 guard let strongSelf = self else { return }
                 let label = strongSelf.subtitleLabel
                 
+                // 영상의 시간이 흐름에 따라 UISlider가 이동하도록한다.
                 strongSelf.timeSlider.value = Float(time.seconds)
                 
-                if time.seconds >= seconds {
+                // 영상의 시간이 흐름에 따라 Slider 좌측 Label의 텍스트를 변경한다.
+                let currentTimeInt = Int(time.seconds)
+                strongSelf.currentTimeLabel.text
+                    = strongSelf.convertTimeToFitText(time: currentTimeInt)
+                
+                
+                if time.seconds >= endSeconds {
                     NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                     object: nil)
                 }
@@ -786,6 +801,19 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
     
+        // 현재시간을 나타내는 레이블
+        videoControlContainerView.addSubview(currentTimeLabel)
+        currentTimeLabel.centerY(inView: timeSlider)
+        currentTimeLabel.anchor(right: timeSlider.leftAnchor,
+                                paddingRight: 5,
+                                height: 13)
+        
+        // 종료시간을 나타내는 레이블
+        videoControlContainerView.addSubview(endTimeTimeLabel)
+        endTimeTimeLabel.centerY(inView: timeSlider)
+        endTimeTimeLabel.anchor(left: timeSlider.rightAnchor,
+                                paddingLeft: 5,
+                                height: 13)
 
         let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                     action: #selector(targetViewDidTapped))
@@ -1333,3 +1361,23 @@ extension VideoController {
 extension Notification.Name {
     static let detectVideoEnded = Notification.Name("videoEnded")
 }
+
+extension VideoController {
+    /// 1,2,....100과 같은 값을 받았을 때, 00:00 의 형식으로 출력해주는 메소드
+    func convertTimeToFitText(time: Int) -> String {
+      
+      // 초와 분을 나눈다.
+      let minute = time / 60
+      let sec = time % 60
+      
+      // 1분이 넘는 경우
+      if minute > 0 {
+        return "\(minute):\(sec < 10 ? "0\(sec)" : "\(sec)")"
+        
+      // 1 분이 넘지 않는 경우
+      } else {
+        return "0:\(sec < 10 ? "0\(sec)" : "\(sec)")"
+      }
+    }
+}
+
