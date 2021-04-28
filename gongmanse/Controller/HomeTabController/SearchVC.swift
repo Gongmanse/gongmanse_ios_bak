@@ -104,8 +104,8 @@ class SearchVC: UIViewController {
     }
     
     @objc func handelGradePopup() {
-        let popupVC = ProgressPopupVC()
-        popupVC.selectedBtnIndex = .grade
+        let popupVC = SearchMainPopupVC()
+        popupVC.mainList = .grade
         isChooseGrade = true
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
@@ -114,8 +114,8 @@ class SearchVC: UIViewController {
     }
     
     @objc func handleSubjectPopup() {
-        let popupVC = ProgressPopupVC()
-        popupVC.selectedBtnIndex = .chapter
+        let popupVC = SearchMainPopupVC()
+        popupVC.mainList = .subject
         isChooseGrade = true
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
