@@ -17,7 +17,7 @@ class SearchMainPopupVC: BottomPopupViewController {
     private let searchCellIdentifier = "SearchMainCell"
     
     var gradeList: [String] = ["모든 학년", "초등", "중등", "고등"]
-    var subjectList: [String] = ["1"]
+    var subjectList: [String] = []
     
     var mainList: SearchMainButtonState?
     var subjectModel: [SubjectModel] = []
@@ -41,6 +41,9 @@ class SearchMainPopupVC: BottomPopupViewController {
         }
     }
 
+    @IBAction func dismissButton(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
