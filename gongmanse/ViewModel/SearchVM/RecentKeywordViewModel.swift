@@ -13,3 +13,4 @@ struct RecentKeywordViewModel {
     let indexPath: IndexPath    // 몇 번째 cell인지 indexPath를 넘김
     
 }
+

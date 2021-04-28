@@ -1,3 +1,14 @@
+
+/* *
+ ? = Optional
+ 검색어?, 학년?, 과목? 전달할 메소드 작성
+ 검색어 isEmpty or nil 이면 에러처리할 alert 구현
+ 
+ 최근 검색어 전달할 메소드 분리
+ 
+ */
+
+
 protocol ReloadDataInRecentKeywordVCDelegate: class {
     func finalReload()
 }
