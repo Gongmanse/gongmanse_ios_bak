@@ -15,6 +15,8 @@ protocol PopularKeywordVCDelegate: class {
 }
 
 class PopularKeywordVC: UIViewController {
+    
+    
 
     //MARK: - Properties
     
@@ -22,6 +24,9 @@ class PopularKeywordVC: UIViewController {
     
     var pageIndex: Int!
     var dummy = searchs     // TODO: 추후에 검색어 순위 데이터 받아올 프로퍼티
+    
+    var popularVM = PopularKeywordViewModel()
+    var popularKeywoard: PopularKeywordModel? = nil
     
     //MARK: - IBOutlet
     
@@ -39,21 +44,25 @@ class PopularKeywordVC: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
         self.tableView.separatorStyle = .none
+        
+        popularVM.delegate = self
+        popularVM.requestKeywordData()
     }
-
+    
+    
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dummy.count
+        return popularVM.popularKeywoard?.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PopularKeywordCell
         cell.selectionStyle = .none
-        cell.keyword.text = dummy[indexPath.row].title
+        cell.keyword.text = popularVM.popularKeywoard?.data[indexPath.row].keywords
         
         // cell 좌측 숫자 UI 구현 (SFSymbol 이용)
         let numbering = indexPath.row + 1
@@ -75,5 +84,13 @@ extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.filterKeyword(keyword: dummy[indexPath.row].title)
 
+    }
+}
+
+extension PopularKeywordVC: PopularReloadData {
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

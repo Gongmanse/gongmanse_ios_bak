@@ -25,3 +25,14 @@ let searchs = [
     Search(title: "상도", writer: "임상옥"),
     Search(title: "상상더하기", writer: "라붐")
 ]
+
+// 인기 검색어 
+struct PopularKeywordModel: Codable {
+    let dtLastUpdated: String
+    let data: [PopularKeywordDataModel]
+}
+
+struct PopularKeywordDataModel: Codable {
+    let id: Int
+    let keywords: String
+}
