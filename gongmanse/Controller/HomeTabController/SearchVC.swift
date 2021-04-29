@@ -33,7 +33,6 @@ class SearchVC: UIViewController {
         return removeDuplicate(keywordLog)
     }
     
-    
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
     private var isChooseGrade: Bool = false
     
@@ -53,6 +52,20 @@ class SearchVC: UIViewController {
     
 
     //MARK: - Lifecylce
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+        
+        //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
+        self.tabBarController?.tabBar.isHidden = false
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,20 +90,24 @@ class SearchVC: UIViewController {
         let searchBarImage = UIImage()
         searchBar.backgroundImage = searchBarImage
         searchBar.setImage(UIImage(named: "search"), for: .search, state: .normal)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
-        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
-        self.navigationController?.navigationBar.layer.masksToBounds = false
         
-        //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
-        self.tabBarController?.tabBar.isHidden = false
+        NotificationCenter.default.addObserver(self, selector: #selector(searchGradeAction(_:)), name: .searchGradeNoti, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(searchSubjectAction(_:)), name: .searchSubjectNoti, object: nil)
     }
 
+    @objc func searchGradeAction(_ sender: Notification) {
+        
+        if let gradeText = sender.object as? String{
+            gradeButton.setTitle(gradeText, for: .normal)
+        }
+    }
+    
+    @objc func searchSubjectAction(_ sender: Notification) {
+        if let subjectText = sender.object as? String{
+            subjectButton.setTitle(subjectText, for: .normal)
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
