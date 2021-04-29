@@ -28,6 +28,7 @@ class SearchMainPopupVC: BottomPopupViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         
         let nib = UINib(nibName: searchCellIdentifier, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: searchCellIdentifier)
