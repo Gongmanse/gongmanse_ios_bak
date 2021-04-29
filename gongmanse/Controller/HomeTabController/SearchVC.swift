@@ -65,7 +65,8 @@ class SearchVC: UIViewController {
         setupTabs()
         setupPageViewController()
         addBottomBorder()
-        configureConstraint()
+        viewConfigure()
+        autoLayout()
         
         // BottomPopup Setting
         configurePopupView()
@@ -90,6 +91,12 @@ class SearchVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tabsView.collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
     //MARK: - Helper functions
 
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
@@ -100,10 +107,7 @@ class SearchVC: UIViewController {
         })
     }
     
-    func configurePopupView() {
-        gradeButton.addTarget(self, action: #selector(handelGradePopup), for: .touchUpInside)
-        subjectButton.addTarget(self, action: #selector(handleSubjectPopup), for: .touchUpInside)
-    }
+    
     
     @objc func handelGradePopup() {
         let popupVC = SearchMainPopupVC()
@@ -126,152 +130,6 @@ class SearchVC: UIViewController {
     }
     
     
-        
-    func configureConstraint() {
-        
-        let borderWidth = 2
-        let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
-        
-        // addSubview
-        view.addSubview(buttonContainerView)
-        view.addSubview(gradeButton)
-        view.addSubview(subjectButton)
-        view.addSubview(tabsView)
-        
-        // buttonContainerView Constraint
-        buttonContainerView.anchor(top: searchBar.bottomAnchor,
-                                   left: view.leftAnchor,
-                                   right: view.rightAnchor,
-                                   paddingTop: 20, height: 30)
-        
-        // gradeButton, subjetButton Contstraint
-        // (in "buttonContainerView")
-        buttonContainerView.addSubview(gradeButton)
-        buttonContainerView.addSubview(subjectButton)
-        
-        gradeButton.setTitle("모든 학년", for: .normal)
-        subjectButton.setTitle("모든 과목", for: .normal)
-        
-        gradeButton.setTitleColor(.black, for: .normal)
-        subjectButton.setTitleColor(.black, for: .normal)
-        
-        searchBarButton.backgroundColor = .mainOrange
-        searchBarButton.setTitle("검색", for: .normal)
-        searchBarButton.setTitleColor(.white, for: .normal)
-        searchBarButton.layer.cornerRadius = 20
-        
-        
-        searchBar.searchTextField.layer.cornerRadius = 20
-        searchBar.searchTextField.layer.masksToBounds = true
-        
-        gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
-        gradeButton.layer.borderWidth = CGFloat(borderWidth)
-        gradeButton.layer.borderColor = borderColor.cgColor
-        gradeButton.layer.cornerRadius = 13
-        
-        subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
-        subjectButton.layer.borderWidth = CGFloat(borderWidth)
-        subjectButton.layer.borderColor = borderColor.cgColor
-        subjectButton.layer.cornerRadius = 13
-        
-        gradeButton.anchor(top: buttonContainerView.topAnchor,
-                           left: view.leftAnchor,
-                           bottom:buttonContainerView.bottomAnchor,
-                           paddingLeft: 25)
-        gradeButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
-        
-        subjectButton.anchor(top: buttonContainerView.topAnchor,
-                             bottom: buttonContainerView.bottomAnchor, right: view.rightAnchor,
-                             paddingRight: 25)
-        subjectButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
-        
-        // tabsView Contraint
-        tabsView.anchor(top: buttonContainerView.bottomAnchor,
-                        left: view.leftAnchor,
-                        right: view.rightAnchor,
-                        height: 55)
-        
-        
-    }
-    
-    func configureNavi() {
-        let title = UILabel()
-        title.text = "검색"
-        title.font = UIFont.appBoldFontWith(size: 17)
-        navigationItem.titleView = title
-    }
-    
-    func addBottomBorder() {
-        let thickness: CGFloat = 0.5
-        let bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(
-            x:0,
-            y: self.tabsView.frame.size.height - thickness,
-            width: self.tabsView.frame.size.width,
-            height:thickness
-            )
-        bottomBorder.backgroundColor = UIColor.systemGray4.cgColor
-        tabsView.layer.addSublayer(bottomBorder)
-    }
-        
-    func setupTabs() {
-        //탭 추가
-        tabsView.tabs = [
-            Tab(title: "인기 검색어"),
-            Tab(title: "최근 검색어")
-        ]
-        
-        
-        //TabMode를 화면 전체 너비로 확장 된 탭의 경우 '.fixed'로 설정하고 모든 탭을 보려면 스크롤하려면 '.scrollable'로 설정
-        tabsView.tabMode = .fixed
-        
-        //TabView 커스텀
-        tabsView.titleColor = .black
-        tabsView.indicatorColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
-        tabsView.titleFont = UIFont.boldSystemFont(ofSize: 18)
-        tabsView.collectionView.backgroundColor = .white
-        
-        //TabsView Delegate 설정
-        tabsView.delegate = self
-        
-        //앱이 시작될 때 선택될 탭 설정
-        tabsView.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
-        self.isRecentPage = false
-    }
-    
-    func setupPageViewController() {
-        //pageViewController 설정
-        self.pageController = storyboard?.instantiateViewController(withIdentifier: "TabsPageViewController") as! TabsPageViewController
-        self.addChild(self.pageController)
-        self.view.addSubview(self.pageController.view)
-        
-        //pageViewController Delegate 와 Datasource 설정
-        pageController.delegate = self
-        pageController.dataSource = self
-        
-        //앱이 시작될 때 PageViewController 에서 선택한 ViewController를 설정
-        pageController.setViewControllers([showViewController(0)!], direction: .forward, animated: true, completion: nil)
-        
-        // 화면 전환 시, 최종 페이지 확인하기 위한 Index
-        self.isRecentPage = false
-        
-        //pageViewController 제약조건 추가
-        self.pageController.view.translatesAutoresizingMaskIntoConstraints = false
-       
-        NSLayoutConstraint.activate([
-            self.pageController.view.topAnchor.constraint(equalTo: self.tabsView.bottomAnchor),
-            self.pageController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.pageController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-        self.pageController.didMove(toParent: self)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        tabsView.collectionView.collectionViewLayout.invalidateLayout()
-    }
 
     func showViewController(_ index: Int) -> UIViewController? {
         if (self.tabsView.tabs.count == 0) || (index >= self.tabsView.tabs.count) {
@@ -525,5 +383,163 @@ extension SearchVC: ReloadDataRecentKeywordDelegate {
         pageControllForreloadData()
     }
     
+    
+}
+
+//MARK: - UI && setting
+
+extension SearchVC {
+    
+    func configureNavi() {
+        let title = UILabel()
+        title.text = "검색"
+        title.font = UIFont.appBoldFontWith(size: 17)
+        navigationItem.titleView = title
+    }
+    
+    
+    
+    func viewConfigure() {
+        
+        let borderWidth = 2
+        let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
+        
+        // addSubview
+        view.addSubview(buttonContainerView)
+        view.addSubview(gradeButton)
+        view.addSubview(subjectButton)
+        view.addSubview(tabsView)
+        
+        // gradeButton, subjetButton Contstraint
+        // (in "buttonContainerView")
+        buttonContainerView.addSubview(gradeButton)
+        buttonContainerView.addSubview(subjectButton)
+        
+        
+        // 서치바 옆 버튼
+        searchBarButton.backgroundColor = .mainOrange
+        searchBarButton.setTitle("검색", for: .normal)
+        searchBarButton.setTitleColor(.white, for: .normal)
+        searchBarButton.layer.cornerRadius = 20
+        
+        // 서치바 cornerRadius
+        searchBar.searchTextField.layer.cornerRadius = 20
+        searchBar.searchTextField.layer.masksToBounds = true
+        
+        //학년 버튼
+        gradeButton.setTitle("모든 학년", for: .normal)
+        gradeButton.setTitleColor(.black, for: .normal)
+        gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
+        gradeButton.layer.borderWidth = CGFloat(borderWidth)
+        gradeButton.layer.borderColor = borderColor.cgColor
+        gradeButton.layer.cornerRadius = 13
+        
+        // 과목 버튼
+        subjectButton.setTitle("모든 과목", for: .normal)
+        subjectButton.setTitleColor(.black, for: .normal)
+        subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
+        subjectButton.layer.borderWidth = CGFloat(borderWidth)
+        subjectButton.layer.borderColor = borderColor.cgColor
+        subjectButton.layer.cornerRadius = 13
+        
+    }
+    
+    func autoLayout() {
+        
+        // buttonContainerView Constraint
+        buttonContainerView.anchor(top: searchBar.bottomAnchor,
+                                   left: view.leftAnchor,
+                                   right: view.rightAnchor,
+                                   paddingTop: 20, height: 30)
+        // 학년 버튼
+        gradeButton.anchor(top: buttonContainerView.topAnchor,
+                           left: view.leftAnchor,
+                           bottom:buttonContainerView.bottomAnchor,
+                           paddingLeft: 25)
+        gradeButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
+        
+        // 과목 버튼
+        subjectButton.anchor(top: buttonContainerView.topAnchor,
+                             bottom: buttonContainerView.bottomAnchor, right: view.rightAnchor,
+                             paddingRight: 25)
+        subjectButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
+        
+        // tabsView Contraint
+        tabsView.anchor(top: buttonContainerView.bottomAnchor,
+                        left: view.leftAnchor,
+                        right: view.rightAnchor,
+                        height: 55)
+    }
+    
+    func configurePopupView() {
+        gradeButton.addTarget(self, action: #selector(handelGradePopup), for: .touchUpInside)
+        subjectButton.addTarget(self, action: #selector(handleSubjectPopup), for: .touchUpInside)
+    }
+    
+    func addBottomBorder() {
+        let thickness: CGFloat = 0.5
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(
+            x:0,
+            y: self.tabsView.frame.size.height - thickness,
+            width: self.tabsView.frame.size.width,
+            height:thickness
+            )
+        bottomBorder.backgroundColor = UIColor.systemGray4.cgColor
+        tabsView.layer.addSublayer(bottomBorder)
+    }
+        
+    func setupTabs() {
+        //탭 추가
+        tabsView.tabs = [
+            Tab(title: "인기 검색어"),
+            Tab(title: "최근 검색어")
+        ]
+        
+        
+        //TabMode를 화면 전체 너비로 확장 된 탭의 경우 '.fixed'로 설정하고 모든 탭을 보려면 스크롤하려면 '.scrollable'로 설정
+        tabsView.tabMode = .fixed
+        
+        //TabView 커스텀
+        tabsView.titleColor = .black
+        tabsView.indicatorColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+        tabsView.titleFont = UIFont.boldSystemFont(ofSize: 18)
+        tabsView.collectionView.backgroundColor = .white
+        
+        //TabsView Delegate 설정
+        tabsView.delegate = self
+        
+        //앱이 시작될 때 선택될 탭 설정
+        tabsView.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
+        self.isRecentPage = false
+    }
+    
+    func setupPageViewController() {
+        //pageViewController 설정
+        self.pageController = storyboard?.instantiateViewController(withIdentifier: "TabsPageViewController") as! TabsPageViewController
+        self.addChild(self.pageController)
+        self.view.addSubview(self.pageController.view)
+        
+        //pageViewController Delegate 와 Datasource 설정
+        pageController.delegate = self
+        pageController.dataSource = self
+        
+        //앱이 시작될 때 PageViewController 에서 선택한 ViewController를 설정
+        pageController.setViewControllers([showViewController(0)!], direction: .forward, animated: true, completion: nil)
+        
+        // 화면 전환 시, 최종 페이지 확인하기 위한 Index
+        self.isRecentPage = false
+        
+        //pageViewController 제약조건 추가
+        self.pageController.view.translatesAutoresizingMaskIntoConstraints = false
+       
+        NSLayoutConstraint.activate([
+            self.pageController.view.topAnchor.constraint(equalTo: self.tabsView.bottomAnchor),
+            self.pageController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.pageController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        self.pageController.didMove(toParent: self)
+    }
     
 }
