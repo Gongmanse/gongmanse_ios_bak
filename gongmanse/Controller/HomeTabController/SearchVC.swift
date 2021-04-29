@@ -456,13 +456,13 @@ extension SearchVC {
                            left: view.leftAnchor,
                            bottom:buttonContainerView.bottomAnchor,
                            paddingLeft: 25)
-        gradeButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
+        gradeButton.setDimensions(height: 30, width: view.frame.width * 0.38)
         
         // 과목 버튼
         subjectButton.anchor(top: buttonContainerView.topAnchor,
                              bottom: buttonContainerView.bottomAnchor, right: view.rightAnchor,
                              paddingRight: 25)
-        subjectButton.setDimensions(height: buttonContainerView.frame.height, width: view.frame.width * 0.38)
+        subjectButton.setDimensions(height: 30, width: view.frame.width * 0.38)
         
         // tabsView Contraint
         tabsView.anchor(top: buttonContainerView.bottomAnchor,
