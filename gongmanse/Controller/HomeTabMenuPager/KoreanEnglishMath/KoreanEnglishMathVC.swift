@@ -143,7 +143,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
         popupVC.dismissDuration = dismissDuration
         popupVC.popupDelegate = self
         popupVC.delegate = self
-        popupVC.selectItem = self.selectedItem
+        popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
 }
@@ -216,7 +216,6 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             addKeywordToCell()
             return cell
         }
-        
     }
 }
 

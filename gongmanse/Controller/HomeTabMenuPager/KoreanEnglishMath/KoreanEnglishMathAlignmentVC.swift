@@ -11,7 +11,7 @@ class KoreanEnglishMathAlignmentVC: BottomPopupViewController {
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    var selectItem: Int?
+    var sortedItem: Int?
     weak var delegate: KoreanEnglishMathAlignmentVCDelegate?
     var height: CGFloat?
     var topCornerRadius: CGFloat?
@@ -69,9 +69,9 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
         cell.selectTitle.text = titleNames[indexPath.row]
         cell.checkImage.isHidden = true
         
-        if let selectedItem = selectItem {
-            print("\(#function) \(selectedItem)")
-            if selectedItem == indexPath.row {
+        if let sortedItem = sortedItem {
+            print("\(#function) \(sortedItem)")
+            if sortedItem == indexPath.row {
                 cell.selectTitle.textColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
                 cell.checkImage.isHidden = false
             }
@@ -110,7 +110,7 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
             self.dismiss(animated: true)
         }
         
-        selectItem = indexPath.row
+        sortedItem = indexPath.row
         delegate?.passSortedIdRow(indexPath.row)
     }
 }

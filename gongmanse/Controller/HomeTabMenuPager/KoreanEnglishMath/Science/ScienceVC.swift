@@ -144,7 +144,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate {
         popupVC.dismissDuration = dismissDuration
         popupVC.popupDelegate = self
         popupVC.delegate = self
-        popupVC.selectItem = self.selectedItem
+        popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
 }

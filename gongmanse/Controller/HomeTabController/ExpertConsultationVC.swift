@@ -5,28 +5,23 @@ protocol ExpertConsultationVCDelegate: class {
     func expertConsultationPassSortedIdSettingValue(_ sortedIndex: Int)
 }
 
-class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
+class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsultationVCDelegate {
+    func expertConsultationPassSortedIdSettingValue(_ sortedIndex: Int) {
+        self.expertConsultSortedIndex = sortedIndex
+    }
     
-    private var refreshControl = UIRefreshControl()
-    
-    var consultModels: VideoInput?
-    
+    var expertConsultSortedIndex: Int = 0
+    var consultModels: ExpertModels?
     var delegate: ExpertConsultationVCDelegate?
-
+    
+    var height: CGFloat = 200
+    var presentDuration: Double = 0.2
+    var dismissDuration: Double = 0.5
+    
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var ExpertConsultationTV: UITableView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
-    
-    var height: CGFloat = 240
-    var presentDuration: Double = 0.2
-    var dismissDuration: Double = 0.5
-    
-    var selectedItem: Int? {
-        didSet {
-            getDataFromJson()
-        }
-    }
     
     var sortedId: Int? {
         didSet {
@@ -44,11 +39,14 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
         //테이블 뷰 빈칸 숨기기
         ExpertConsultationTV.tableFooterView = UIView()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(sortFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sortFilterNoti(_:)), name: NSNotification.Name("consultFilterText"), object: nil)
+        
+        delegate = self
+        self.sortedId = expertConsultSortedIndex
     }
     
     @objc func sortFilterNoti(_ sender: NotificationCenter) {
-        let sortedButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
+        let sortedButtonTitle = UserDefaults.standard.object(forKey: "consultFilterText")
         filteringBtn.setTitle(sortedButtonTitle as? String, for: .normal)
     }
     
@@ -66,14 +64,14 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: ExpertConsultation_URL + "offset=0&limit=56") {
+        if let url = URL(string: ExpertConsultation_URL + "limit=56&offset=0&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
-                if let json = try? decoder.decode(VideoInput.self, from: data) {
+                if let json = try? decoder.decode(ExpertModels.self, from: data) {
                     //print(json.body)
                     self.consultModels = json
                 }
@@ -91,7 +89,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
         popupVC.dismissDuration = dismissDuration
         popupVC.popupDelegate = self
         popupVC.delegate = self
-        popupVC.selectItem = self.selectedItem
+        //popupVC.sortedItem = sortedId
         present(popupVC, animated: true)
     }
     
@@ -131,49 +129,79 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
 
 extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let data = self.consultModels?.body else { return 0 }
+        guard let data = self.consultModels?.data else { return 0 }
         return data.count
+        //        guard let data = self.consultModels?.body else { return 0 }
+        //        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        let cellId = row.question == consultTitle.numberOfRowsInSection = 0 ? "ExpertConsultationVC" : "ExpertConsultationTwoLines"
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpertConsultationTVCell") as! ExpertConsultationTVCell
         
         guard let json = self.consultModels else { return cell }
         
-        let indexData = json.body[indexPath.row]
-        let url = URL(string: indexData.thumbnail ?? "nil")
-        let profileImageURL = indexData.profile ?? ""
+        let indexData = json.data[indexPath.row]
+        let defaultLink = fileBaseURL
+        let thumbnailImageURL = indexData.sFilepaths ?? ""
+        let thumbnailURL = URL(string: defaultLink + "/" + thumbnailImageURL)
+        let profileImageURL = indexData.sProfile ?? ""
         let profileURL = URL(string: fileBaseURL + "/" + profileImageURL)
         
-        cell.consultThumbnail.contentMode = .scaleAspectFill
-        cell.consultThumbnail.sd_setImage(with: url)
-        cell.consultTitle.text = indexData.question
-        cell.nickName.text = indexData.nickname
-        cell.answerStatus.text = indexData.answerComplete
-        cell.profileImage.contentMode = .scaleAspectFill
-//        cell.profileImage.sd_setImage(with: profileURL)
-        cell.upLoadDate.text = indexData.registerDate
-        
-        if indexData.answerComplete == "1" {
-            cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
-            cell.answerStatus.text = "답변 완료 >"
-        } else {
-            cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
-            cell.answerStatus.text = "대기중 >"
+        /// cell UI업데이트를 위한 메소드
+        func setUpDefaultCellSetting() {
+            cell.consultThumbnail.contentMode = .scaleAspectFill
+            cell.consultThumbnail.sd_setImage(with: thumbnailURL)
+            cell.consultTitle.text = indexData.sQuestion
+            cell.nickName.text = indexData.sNickname
+            cell.answerStatus.text = indexData.iAnswer
+            cell.profileImage.contentMode = .scaleAspectFill
+            cell.upLoadDate.text = indexData.dtRegister
         }
         
-        DispatchQueue.main.async {
-            if profileImageURL == ""{
-                cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
-            }else {
-                cell.profileImage.sd_setImage(with: profileURL)
+        
+        /// 답변 상태에 따른 label 표시
+        func answerLabelStatus() {
+            if indexData.iAnswer == "1" {
+                cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+                cell.answerStatus.text = "답변 완료 >"
+            } else {
+                cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+                cell.answerStatus.text = "대기중 >"
+            }
+            
+            DispatchQueue.main.async {
+                if profileImageURL == ""{
+                    cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+                }else {
+                    cell.profileImage.sd_setImage(with: profileURL)
+                }
             }
         }
         
-        return cell
+        if sortedId == 4 {
+            // 최신순
+            setUpDefaultCellSetting()
+            answerLabelStatus()
+            return cell
+            
+        } else if sortedId == 5 {
+            // 조회순
+            setUpDefaultCellSetting()
+            answerLabelStatus()
+            return cell
+            
+        } else if sortedId == 6 {
+            // 답변순
+            setUpDefaultCellSetting()
+            answerLabelStatus()
+            return cell
+        } else {
+            // 최신순
+            setUpDefaultCellSetting()
+            answerLabelStatus()
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -184,6 +212,17 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
 /// 필터 메뉴를 클릭하면, 호출되는 메소드 구현을 위한 `extension`
 extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate {
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
+        
+        if sortedIdRowIndex == 0 {          // 1 번째 Cell
+            self.sortedId = 4 // 평점순
+        } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
+            self.sortedId = 5 // 최신순
+        } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
+            self.sortedId = 6 // 이름순
+        } else {                            // Default 값
+            self.sortedId = 4 // 최신순
+        }
+        
         self.delegate?.expertConsultationPassSortedIdSettingValue(sortedIdRowIndex)
         self.ExpertConsultationTV.reloadData()
     }

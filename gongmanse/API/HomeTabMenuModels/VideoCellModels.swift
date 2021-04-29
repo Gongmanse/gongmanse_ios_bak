@@ -32,16 +32,6 @@ struct HeaderData: Codable {
 struct VideoModels: Codable {
     var seriesId: String?
     var videoId: String?
-    var counselId: String?
-    var userId: String?
-    var view: String?
-    var question: String?
-    var nickname: String?
-    var profile: String?
-    var answer: String?
-    var answerComplete: String?
-    var answerRegisterDate: String?
-    var registerDate: String?
     var title: String?
     var tags: String?
     var teacherName: String?

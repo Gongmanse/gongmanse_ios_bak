@@ -11,7 +11,7 @@ class ExpertConsultationBottomPopUpVC: BottomPopupViewController {
     @IBOutlet weak var sortView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    var selectItem: Int?
+    var sortedItem: Int?
     weak var delegate: ExpertConsultationBottomPopUpVCDelegate?
     var height: CGFloat?
     var topCornerRadius: CGFloat?
@@ -36,7 +36,7 @@ class ExpertConsultationBottomPopUpVC: BottomPopupViewController {
     }
     
     override var popupHeight: CGFloat {
-        return height ?? CGFloat(240)
+        return height ?? CGFloat(200)
     }
     
     override var popupTopCornerRadius: CGFloat {
@@ -68,9 +68,9 @@ extension ExpertConsultationBottomPopUpVC: UITableViewDelegate, UITableViewDataS
         cell.selectTitle.text = titleNames[indexPath.row]
         cell.checkImage.isHidden = true
         
-        if let selectedItem = selectItem {
-            print("\(#function) \(selectedItem)")
-            if selectedItem == indexPath.row {
+        if let sortedItem = sortedItem {
+            print("\(#function) \(sortedItem)")
+            if sortedItem == indexPath.row {
                 cell.selectTitle.textColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
                 cell.checkImage.isHidden = false
             }
@@ -105,7 +105,7 @@ extension ExpertConsultationBottomPopUpVC: UITableViewDelegate, UITableViewDataS
             self.dismiss(animated: true)
         }
         
-        selectItem = indexPath.row
+        sortedItem = indexPath.row
         delegate?.passSortedIdRow(indexPath.row)
     }
 }

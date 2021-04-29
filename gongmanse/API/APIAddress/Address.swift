@@ -12,6 +12,6 @@ let webBaseURL = "https://webview.gongmanse.com"
 let Science_Video_URL = apiBaseURL + "/v3/video/subject/35?"
 let SocialStudies_Video_URL = apiBaseURL + "/v3/video/subject/36?"
 let OtherSubjects_Video_URL = apiBaseURL + "/v3/video/subject/37?"
-let ExpertConsultation_URL = apiBaseURL + "/v3/counsel?"
+let ExpertConsultation_URL = apiBaseURL + "/v/consultation/conlist?"
 
 
