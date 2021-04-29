@@ -70,7 +70,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var bottomBorderLinePorTraitBottomConstraint: NSLayoutConstraint?
     var bottomBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
     
-    
     /* pageCollectionView */
     // Constraint 객체 - 세로모드
     var pageCollectionViewPorTraitRightConstraint: NSLayoutConstraint?
@@ -475,7 +474,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 클릭 시, 속도가 1.25배 빨라지는 메소드 (추후 변경 예정)
     @objc func handleSettingButton() {
 //        player.playImmediately(atRate: 1.25)
-        present(VideoSettingBottomPopupController(), animated: true, completion: nil)
+        present(VideoSettingPopupController(), animated: true, completion: nil)
         
     }
     
