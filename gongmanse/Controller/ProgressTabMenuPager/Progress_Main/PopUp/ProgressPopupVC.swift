@@ -111,7 +111,7 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
             let hashable: [AnyHashable : Any] = [
                 "grade": grades[indexPath.row]
             ]
-            NotificationCenter.default.post(name: NSNotification.Name.getGrade, object: nil, userInfo: hashable)
+            NotificationCenter.default.post(name: .getGrade, object: nil, userInfo: hashable)
             self.dismiss(animated: true, completion: nil)
         } else {
             print(chapters[indexPath.row])

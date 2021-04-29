@@ -10,19 +10,19 @@ import UIKit
 extension VideoController {
     /// 1,2,....100과 같은 값을 받았을 때, 00:00 의 형식으로 출력해주는 메소드
     func convertTimeToFitText(time: Int) -> String {
-      
-      // 초와 분을 나눈다.
-      let minute = time / 60
-      let sec = time % 60
-      
-      // 1분이 넘는 경우
-      if minute > 0 {
-        return "\(minute):\(sec < 10 ? "0\(sec)" : "\(sec)")"
         
-      // 1 분이 넘지 않는 경우
-      } else {
-        return "0:\(sec < 10 ? "0\(sec)" : "\(sec)")"
-      }
+        // 초와 분을 나눈다.
+        let minute = time / 60
+        let sec = time % 60
+        
+        // 1분이 넘는 경우
+        if minute > 0 {
+            return "\(minute):\(sec < 10 ? "0\(sec)" : "\(sec)")"
+            
+            // 1 분이 넘지 않는 경우
+        } else {
+            return "0:\(sec < 10 ? "0\(sec)" : "\(sec)")"
+        }
     }
 }
 // MARK: - Subtitles Methond
@@ -78,15 +78,16 @@ extension VideoController {
     
     func detectSTagsAndChangeColor(text: String, sTagsArray: [String], j: Int, i: Int) {
         
-            // (클래스의 전역변수에 해당하는)"keywordRanges"로 클릭된 텍스트위 range 값을 전달한다.
-            let keywordRangeInstance = (text as NSString).range(of: ("\(sTagsArray[j])"))
-            
-            // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
-            if let rangeOfKeywordTapped = Range(keywordRangeInstance) {
-                self.sTagsRanges[i] = rangeOfKeywordTapped
-            }
-            // keywordRanges의 index가 "i"인 이유는 2나 4 모두를 포함하기위해서 i로 코드를 줄였다.
-            self.keywordRanges[i] = keywordRangeInstance
+        // (클래스의 전역변수에 해당하는)"keywordRanges"로 클릭된 텍스트위 range 값을 전달한다.
+        let keywordRangeInstance = (text as NSString).range(of: ("\(sTagsArray[j])"))
+        print("DEBUG: keywordRangeInstance \(keywordRangeInstance)")
+        
+        // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
+        if let rangeOfKeywordTapped = Range(keywordRangeInstance) {
+            self.sTagsRanges[i] = rangeOfKeywordTapped
+        }
+        // keywordRanges의 index가 "i"인 이유는 2나 4 모두를 포함하기위해서 i로 코드를 줄였다.
+        self.keywordRanges[i] = keywordRangeInstance
     }
     
     func detectKeywrodAndTapRange(subtitleArray: [String.SubSequence],
@@ -178,7 +179,7 @@ extension Notification.Name {
 }
 
 extension UITapGestureRecognizer {
-
+    
     /*
      * "didTapAttributedTexxtInLabel() 메소드의 로직
      * label의 전체 크기만큼 textContainer를 크기를 설정한다.
@@ -191,11 +192,11 @@ extension UITapGestureRecognizer {
         let layoutManager = NSLayoutManager()
         let textContainer = NSTextContainer(size: CGSize.zero)
         let textStorage = NSTextStorage(attributedString: label.attributedText!)
-
+        
         // Configure layoutManager and textStorage
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
-
+        
         // Configure textContainer
         textContainer.lineFragmentPadding = 0.0
         textContainer.lineBreakMode = label.lineBreakMode
@@ -203,7 +204,7 @@ extension UITapGestureRecognizer {
         
         let labelSize = label.bounds.size
         textContainer.size = labelSize
-
+        
         // Find the tapped character location and compare it to the specified range
         let locationOfTouchInLabel = self.location(in: label)
         let textBoundingBox = layoutManager.usedRect(for: textContainer)
@@ -271,13 +272,13 @@ extension VideoController {
         videoBackwardTimeButton.setDimensions(height: 20, width: 20)
         videoBackwardTimeButton.centerY(inView: videoContainerView)
         videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor,
-                                      paddingRight: 10)
+                                       paddingRight: 10)
         
         /* subtitleLabel(자막) */
         view.addSubview(subtitleLabel)
         subtitleLabel.anchor(left: videoContainerView.leftAnchor,
-                                               bottom: videoContainerView.bottomAnchor,
-                                               width: view.frame.width)
+                             bottom: videoContainerView.bottomAnchor,
+                             width: view.frame.width)
         
         /* CustomTabBar */
         view.addSubview(customMenuBar)
@@ -292,7 +293,7 @@ extension VideoController {
         customMenuBarPorTraitTopConstraint
             = customMenuBar.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         customMenuBarPorTraitHeightConstraint
-//            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+            //            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
             = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         customMenuBarPorTraitWidthConstraint
             = customMenuBar.widthAnchor.constraint(equalToConstant: view.frame.width)
@@ -305,7 +306,7 @@ extension VideoController {
         customMenuBarLandscapeLeftConstraint
             = customMenuBar.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         customMenuBarLandscapeHeightConstraint
-//            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
+            //            = customMenuBar.heightAnchor.constraint(equalToConstant: view.frame.height * 0.06)
             = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         
         /* TeacherInfoView */

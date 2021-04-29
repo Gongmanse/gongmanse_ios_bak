@@ -9,6 +9,17 @@ import Foundation
 
 extension Notification.Name {
     // 진도학습
-    static let getGrade = Notification.Name("getGrade")
-    static let getSubject = Notification.Name("getSubject")
+    static let getGrade = Notification.Name(NotificationKey.getGradeKey)
+    static let getSubject = Notification.Name(NotificationKey.getSubjectKey)
+    
+    static let searchGradeNoti = Notification.Name(NotificationKey.searchGradeKey)
+    static let searchSubjectNoti = Notification.Name(NotificationKey.searchSubjectkey)
+}
+
+struct NotificationKey {
+    static let getGradeKey = "getGrade"
+    static let getSubjectKey = "getSubject"
+    // searchVC 관련
+    static let searchGradeKey = "searchGrade"
+    static let searchSubjectkey = "searchSubject"
 }

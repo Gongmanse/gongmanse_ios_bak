@@ -104,7 +104,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         // 버튼 타이틀 데이터
         configureButton()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: NSNotification.Name.getGrade, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
     }
     
     // 학년 popup에서 선택 시 API불러올 메소드

@@ -11,7 +11,10 @@ import BottomPopup
 enum SearchMainButtonState {
     case grade, subject
 }
+
+
 class SearchMainPopupVC: BottomPopupViewController {
+    
 
     @IBOutlet weak var tableView: UITableView!
     private let searchCellIdentifier = "SearchMainCell"
@@ -28,6 +31,7 @@ class SearchMainPopupVC: BottomPopupViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         
         let nib = UINib(nibName: searchCellIdentifier, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: searchCellIdentifier)
@@ -58,12 +62,27 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: searchCellIdentifier, for: indexPath) as? SearchMainCell else { return UITableViewCell() }
+        
+        cell.selectionStyle = .none
+        
         if mainList! == .grade {
             cell.titleLabel.text = gradeList[indexPath.row]
         } else {
             cell.titleLabel.text = subjectModel[indexPath.row].sName
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if mainList! == .grade {
+            let selectGrade = gradeList[indexPath.row]
+            NotificationCenter.default.post(name: .searchGradeNoti, object: selectGrade)
+            
+        }else {
+            let selectSubject = subjectModel[indexPath.row].sName
+            NotificationCenter.default.post(name: .searchSubjectNoti, object: selectSubject)
+        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 extension SearchMainPopupVC: PopularReloadData {

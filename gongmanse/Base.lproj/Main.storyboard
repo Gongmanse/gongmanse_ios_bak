@@ -106,13 +106,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="검색어를 입력하세요" translatesAutoresizingMaskIntoConstraints="NO" id="gdP-5X-sc0">
-                                <rect key="frame" x="13" y="108" width="388" height="40"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ka1-vz-nZO">
+                                <rect key="frame" x="20" y="108" width="374" height="40"/>
+                                <subviews>
+                                    <searchBar clipsSubviews="YES" contentMode="redraw" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" placeholder="검색어를 입력하세요" translatesAutoresizingMaskIntoConstraints="NO" id="gdP-5X-sc0">
+                                        <rect key="frame" x="0.0" y="0.0" width="308" height="40"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Klb-wD-Yva">
+                                        <rect key="frame" x="314" y="0.0" width="60" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="Yl1-SG-Gpa"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="searchBarPresentButton:" destination="71q-72-Y4F" eventType="touchUpInside" id="fa2-R6-kZQ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="BUL-B0-M8s"/>
+                                    <constraint firstAttribute="height" constant="40" id="R6E-jj-nmx"/>
                                 </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
+                            </stackView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IJM-Ft-RZW" customClass="TabsView" customModule="gongmanse" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="188" width="414" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -122,9 +137,9 @@
                         <viewLayoutGuide key="safeArea" id="hJk-S9-esz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gdP-5X-sc0" firstAttribute="leading" secondItem="hJk-S9-esz" secondAttribute="leading" constant="13" id="GhL-MB-08e"/>
-                            <constraint firstItem="hJk-S9-esz" firstAttribute="trailing" secondItem="gdP-5X-sc0" secondAttribute="trailing" constant="13" id="U6M-ii-TKE"/>
-                            <constraint firstItem="gdP-5X-sc0" firstAttribute="top" secondItem="hJk-S9-esz" secondAttribute="top" constant="20" id="WWd-ZS-JD7"/>
+                            <constraint firstItem="ka1-vz-nZO" firstAttribute="leading" secondItem="hJk-S9-esz" secondAttribute="leading" constant="20" id="KeG-77-3IW"/>
+                            <constraint firstItem="ka1-vz-nZO" firstAttribute="top" secondItem="hJk-S9-esz" secondAttribute="top" constant="20" id="Ynu-B8-AQY"/>
+                            <constraint firstItem="hJk-S9-esz" firstAttribute="trailing" secondItem="ka1-vz-nZO" secondAttribute="trailing" constant="20" id="rx1-0c-Yrw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="검색" id="Hw2-CA-BRS">
@@ -141,6 +156,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="gdP-5X-sc0" id="ChN-II-Irq"/>
+                        <outlet property="searchBarButton" destination="Klb-wD-Yva" id="aXe-vj-9sH"/>
                         <outlet property="tabsView" destination="IJM-Ft-RZW" id="dkF-4x-E3h"/>
                     </connections>
                 </viewController>

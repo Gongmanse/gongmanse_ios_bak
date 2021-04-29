@@ -37,6 +37,8 @@
 		2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */; };
 		2568EEFD26119F7000CD24B8 /* ByPhoneInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */; };
 		2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */; };
+		256D01B6263A92D800967449 /* VideoSettingPopupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D01B5263A92D800967449 /* VideoSettingPopupController.swift */; };
+		256D01B9263A93AF00967449 /* VideoSettingPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D01B8263A93AF00967449 /* VideoSettingPopupCell.swift */; };
 		257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257459272613FBAA007A2A5D /* FindingIDResultInput.swift */; };
 		2574592B2613FBF8007A2A5D /* FindingIDResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */; };
 		2574592F26143C02007A2A5D /* FindingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592E26143C02007A2A5D /* FindingViewModel.swift */; };
@@ -283,6 +285,7 @@
 		C233028726392E710058592E /* SearchMainPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C233028526392E710058592E /* SearchMainPopupVC.xib */; };
 		C233028B263932590058592E /* SearchMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2330289263932590058592E /* SearchMainCell.swift */; };
 		C233028C263932590058592E /* SearchMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C233028A263932590058592E /* SearchMainCell.xib */; };
+		C2330291263A638E0058592E /* SearchSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2330290263A638E0058592E /* SearchSingleton.swift */; };
 		C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234749E261C02F500453E16 /* PushAlertCell.swift */; };
 		C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C234749F261C02F500453E16 /* PushAlertCell.xib */; };
 		C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C6126292912008CE4A1 /* PaddingLabel.swift */; };
@@ -343,6 +346,8 @@
 		2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDDataManager.swift; sourceTree = "<group>"; };
 		2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneInput.swift; sourceTree = "<group>"; };
 		2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneResponse.swift; sourceTree = "<group>"; };
+		256D01B5263A92D800967449 /* VideoSettingPopupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSettingPopupController.swift; sourceTree = "<group>"; };
+		256D01B8263A93AF00967449 /* VideoSettingPopupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSettingPopupCell.swift; sourceTree = "<group>"; };
 		257459272613FBAA007A2A5D /* FindingIDResultInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultInput.swift; sourceTree = "<group>"; };
 		2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultResponse.swift; sourceTree = "<group>"; };
 		2574592E26143C02007A2A5D /* FindingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingViewModel.swift; sourceTree = "<group>"; };
@@ -592,6 +597,7 @@
 		C233028526392E710058592E /* SearchMainPopupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchMainPopupVC.xib; sourceTree = "<group>"; };
 		C2330289263932590058592E /* SearchMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMainCell.swift; sourceTree = "<group>"; };
 		C233028A263932590058592E /* SearchMainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchMainCell.xib; sourceTree = "<group>"; };
+		C2330290263A638E0058592E /* SearchSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSingleton.swift; sourceTree = "<group>"; };
 		C234749E261C02F500453E16 /* PushAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlertCell.swift; sourceTree = "<group>"; };
 		C234749F261C02F500453E16 /* PushAlertCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PushAlertCell.xib; sourceTree = "<group>"; };
 		C2448C6126292912008CE4A1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -846,6 +852,22 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		256D016C263A365600967449 /* BottomPopup */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BottomPopup;
+			sourceTree = "<group>";
+		};
+		256D01B4263A920A00967449 /* PlayRateSetting */ = {
+			isa = PBXGroup;
+			children = (
+				256D01B5263A92D800967449 /* VideoSettingPopupController.swift */,
+				256D01B8263A93AF00967449 /* VideoSettingPopupCell.swift */,
+			);
+			path = PlayRateSetting;
+			sourceTree = "<group>";
+		};
 		2574592D26143BE0007A2A5D /* FindingPwd */ = {
 			isa = PBXGroup;
 			children = (
@@ -866,6 +888,8 @@
 		2580CF42261A900C00D78E4E /* VideoController */ = {
 			isa = PBXGroup;
 			children = (
+				256D01B4263A920A00967449 /* PlayRateSetting */,
+				256D016C263A365600967449 /* BottomPopup */,
 				25832D5A261D77F400CB63B8 /* Subtitles */,
 				2580CF55261A924A00D78E4E /* TabBarcell */,
 				2580CF54261A924200D78E4E /* BottomCell */,
@@ -1094,6 +1118,7 @@
 			children = (
 				C233027E2639283A0058592E /* MainSearch */,
 				259B8B77260300D6009A7146 /* SearchVideoViewModel.swift */,
+				C2330290263A638E0058592E /* SearchSingleton.swift */,
 			);
 			path = SearchVM;
 			sourceTree = "<group>";
@@ -2315,6 +2340,7 @@
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
 				A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */,
 				A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */,
+				C2330291263A638E0058592E /* SearchSingleton.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
@@ -2448,8 +2474,10 @@
 				25BA75D62636953F00C1F8A0 /* DetailVideoViewModel.swift in Sources */,
 				A9850EF5261613CB00908BA4 /* OneOnOneEnquiryVC.swift in Sources */,
 				25BD75FB26156ADA002B266C /* FindingPwdByPhoneResponse.swift in Sources */,
+				256D01B6263A92D800967449 /* VideoSettingPopupController.swift in Sources */,
 				2580CF64261AB8FB00D78E4E /* TeacherInfoCell.swift in Sources */,
 				6C4713B725F8534900D68A2B /* MyCalendarVC.swift in Sources */,
+				256D01B9263A93AF00967449 /* VideoSettingPopupCell.swift in Sources */,
 				25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */,
 				C207F5D5262676620020A965 /* LectureThumbnailCell.swift in Sources */,
 				2584E8A926082078000DFA20 /* CheckUserIdentificationVC.swift in Sources */,
