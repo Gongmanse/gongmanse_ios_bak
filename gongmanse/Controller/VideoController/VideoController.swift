@@ -120,7 +120,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 동영상 앞으로 가기
     let videoForwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "goforward.10")?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(systemName: "goforward.10")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(moveForwardPlayer), for: .touchUpInside)
@@ -130,8 +130,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 동영상 뒤로 가기
     let videoBackwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "gobackward.10")?.withRenderingMode(.alwaysOriginal)
-        button.setBackgroundImage(image, for: .normal)
+        let image = UIImage(systemName: "gobackward.10")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        button.setImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(moveBackwardPlayer), for: .touchUpInside)
         return button
@@ -168,8 +168,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 가로화면(전체화면)으로 전환되는 버튼
     let changeOrientationButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?
-            .withRenderingMode(.alwaysOriginal)
+        let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.addTarget(self, action: #selector(handleOrientation), for: .touchUpInside)
         button.setImage(image, for: .normal)
         return button
@@ -177,8 +176,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     let subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "textbox")?
-            .withRenderingMode(.alwaysOriginal)
+        let image = UIImage(systemName: "textbox")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
         return button
@@ -188,8 +186,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     let videoSettingButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "slider.horizontal.3")?
-            .withRenderingMode(.alwaysOriginal)
+        let image = UIImage(systemName: "slider.horizontal.3")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
         return button
@@ -199,7 +196,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.down.circle"), for: .normal)
-        button.tintColor = .lightGray
+        button.tintColor = .white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 5
         return button
@@ -320,7 +317,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
-            print("DEBUG: 지금 sTag가 1 개입니까?")
             let vc = TestSearchController(clickedText: currentKeywords[0])
             present(vc, animated: true)
             
@@ -478,7 +474,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 클릭 시, 속도가 1.25배 빨라지는 메소드 (추후 변경 예정)
     @objc func handleSettingButton() {
-        player.playImmediately(atRate: 1.25)
+//        player.playImmediately(atRate: 1.25)
+        present(VideoSettingBottomPopupController(), animated: true, completion: nil)
+        
     }
     
     // MARK: - Helpers

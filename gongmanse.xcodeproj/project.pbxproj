@@ -37,6 +37,9 @@
 		2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */; };
 		2568EEFD26119F7000CD24B8 /* ByPhoneInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */; };
 		2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */; };
+		256D016F263A376B00967449 /* VideoSettingBottomPopupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D016E263A376B00967449 /* VideoSettingBottomPopupController.swift */; };
+		256D0172263A3A9A00967449 /* IsDisplaySubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D0171263A3A9A00967449 /* IsDisplaySubtitleTableViewCell.swift */; };
+		256D0175263A3AB600967449 /* ChoosePlayRateSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D0174263A3AB600967449 /* ChoosePlayRateSubtitleTableViewCell.swift */; };
 		257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257459272613FBAA007A2A5D /* FindingIDResultInput.swift */; };
 		2574592B2613FBF8007A2A5D /* FindingIDResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */; };
 		2574592F26143C02007A2A5D /* FindingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574592E26143C02007A2A5D /* FindingViewModel.swift */; };
@@ -342,6 +345,9 @@
 		2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDDataManager.swift; sourceTree = "<group>"; };
 		2568EEFC26119F7000CD24B8 /* ByPhoneInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneInput.swift; sourceTree = "<group>"; };
 		2568EEFF26119F7800CD24B8 /* ByPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByPhoneResponse.swift; sourceTree = "<group>"; };
+		256D016E263A376B00967449 /* VideoSettingBottomPopupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSettingBottomPopupController.swift; sourceTree = "<group>"; };
+		256D0171263A3A9A00967449 /* IsDisplaySubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsDisplaySubtitleTableViewCell.swift; sourceTree = "<group>"; };
+		256D0174263A3AB600967449 /* ChoosePlayRateSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlayRateSubtitleTableViewCell.swift; sourceTree = "<group>"; };
 		257459272613FBAA007A2A5D /* FindingIDResultInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultInput.swift; sourceTree = "<group>"; };
 		2574592A2613FBF8007A2A5D /* FindingIDResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDResultResponse.swift; sourceTree = "<group>"; };
 		2574592E26143C02007A2A5D /* FindingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingViewModel.swift; sourceTree = "<group>"; };
@@ -844,6 +850,16 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		256D016C263A365600967449 /* BottomPopup */ = {
+			isa = PBXGroup;
+			children = (
+				256D016E263A376B00967449 /* VideoSettingBottomPopupController.swift */,
+				256D0171263A3A9A00967449 /* IsDisplaySubtitleTableViewCell.swift */,
+				256D0174263A3AB600967449 /* ChoosePlayRateSubtitleTableViewCell.swift */,
+			);
+			path = BottomPopup;
+			sourceTree = "<group>";
+		};
 		2574592D26143BE0007A2A5D /* FindingPwd */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,6 +880,7 @@
 		2580CF42261A900C00D78E4E /* VideoController */ = {
 			isa = PBXGroup;
 			children = (
+				256D016C263A365600967449 /* BottomPopup */,
 				25832D5A261D77F400CB63B8 /* Subtitles */,
 				2580CF55261A924A00D78E4E /* TabBarcell */,
 				2580CF54261A924200D78E4E /* BottomCell */,
@@ -2321,6 +2338,7 @@
 				6C4713BD25F853EA00D68A2B /* SideMenuNoticeVC.swift in Sources */,
 				25BD760D26157B59002B266C /* NewPasswordResponse.swift in Sources */,
 				6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */,
+				256D0172263A3A9A00967449 /* IsDisplaySubtitleTableViewCell.swift in Sources */,
 				6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */,
 				6CFA77CE262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift in Sources */,
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
@@ -2346,6 +2364,7 @@
 				25201DBE26042A92001098AC /* FindingIDVC.swift in Sources */,
 				6CF2E67B25F0C4CF000FE084 /* ExpertConsultationVC.swift in Sources */,
 				258B5EA32609D8AA00F470B7 /* CertificationResponse.swift in Sources */,
+				256D0175263A3AB600967449 /* ChoosePlayRateSubtitleTableViewCell.swift in Sources */,
 				6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */,
 				C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */,
 				6CF2E65125F09161000FE084 /* TabCell.swift in Sources */,
@@ -2393,6 +2412,7 @@
 				C2F22745261E9EB600559065 /* SubjectListCell.swift in Sources */,
 				C2448C6826296581008CE4A1 /* ProgressDetailListAPI.swift in Sources */,
 				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
+				256D016F263A376B00967449 /* VideoSettingBottomPopupController.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
 				6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */,
 				25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */,
