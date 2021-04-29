@@ -299,7 +299,11 @@ class SearchVC: UIViewController {
          
     }
     @IBAction func searchBarPresentButton(_ sender: UIButton) {
+        // 화면 전환
         
+        let vc = UINavigationController(rootViewController: SearchAfterVC(data: filteredData))
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 
 
