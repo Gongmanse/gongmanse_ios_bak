@@ -44,6 +44,8 @@ class SearchVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabsView: TabsView!
+    @IBOutlet weak var searchBarButton: UIButton!
+    
     let buttonContainerView = UIView()
     let gradeButton = UIButton(type: .system)
     let subjectButton = UIButton(type: .system)
@@ -153,7 +155,14 @@ class SearchVC: UIViewController {
         gradeButton.setTitleColor(.black, for: .normal)
         subjectButton.setTitleColor(.black, for: .normal)
         
+        searchBarButton.backgroundColor = .mainOrange
+        searchBarButton.setTitle("검색", for: .normal)
+        searchBarButton.setTitleColor(.white, for: .normal)
+        searchBarButton.layer.cornerRadius = 20
         
+        
+        searchBar.searchTextField.layer.cornerRadius = 20
+        searchBar.searchTextField.layer.masksToBounds = true
         
         gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeButton.layer.borderWidth = CGFloat(borderWidth)
@@ -288,6 +297,9 @@ class SearchVC: UIViewController {
             return contentVC
         }
          
+    }
+    @IBAction func searchBarPresentButton(_ sender: UIButton) {
+        
     }
 
 
