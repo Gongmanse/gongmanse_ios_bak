@@ -72,6 +72,7 @@ class SearchAfterVC: UIViewController {
     
     @objc func allKeyword(_ sender: Notification) {
         let userInfo = sender.userInfo
+        print(userInfo)
         searchBar.text = userInfo?["text"] as? String ?? ""
         
         NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)

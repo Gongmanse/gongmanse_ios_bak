@@ -285,7 +285,6 @@
 		C233028726392E710058592E /* SearchMainPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C233028526392E710058592E /* SearchMainPopupVC.xib */; };
 		C233028B263932590058592E /* SearchMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2330289263932590058592E /* SearchMainCell.swift */; };
 		C233028C263932590058592E /* SearchMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C233028A263932590058592E /* SearchMainCell.xib */; };
-		C2330291263A638E0058592E /* SearchSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2330290263A638E0058592E /* SearchSingleton.swift */; };
 		C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234749E261C02F500453E16 /* PushAlertCell.swift */; };
 		C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C234749F261C02F500453E16 /* PushAlertCell.xib */; };
 		C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C6126292912008CE4A1 /* PaddingLabel.swift */; };
@@ -597,7 +596,6 @@
 		C233028526392E710058592E /* SearchMainPopupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchMainPopupVC.xib; sourceTree = "<group>"; };
 		C2330289263932590058592E /* SearchMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMainCell.swift; sourceTree = "<group>"; };
 		C233028A263932590058592E /* SearchMainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchMainCell.xib; sourceTree = "<group>"; };
-		C2330290263A638E0058592E /* SearchSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSingleton.swift; sourceTree = "<group>"; };
 		C234749E261C02F500453E16 /* PushAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlertCell.swift; sourceTree = "<group>"; };
 		C234749F261C02F500453E16 /* PushAlertCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PushAlertCell.xib; sourceTree = "<group>"; };
 		C2448C6126292912008CE4A1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -1118,7 +1116,6 @@
 			children = (
 				C233027E2639283A0058592E /* MainSearch */,
 				259B8B77260300D6009A7146 /* SearchVideoViewModel.swift */,
-				C2330290263A638E0058592E /* SearchSingleton.swift */,
 			);
 			path = SearchVM;
 			sourceTree = "<group>";
@@ -2340,7 +2337,6 @@
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
 				A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */,
 				A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */,
-				C2330291263A638E0058592E /* SearchSingleton.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
