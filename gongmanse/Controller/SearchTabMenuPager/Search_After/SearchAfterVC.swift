@@ -28,7 +28,7 @@ class SearchAfterVC: UIViewController {
     // 페이징 기능 구현을 위한 프로퍼티
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
-    private var filteredData: [Search]
+    private var filteredData: [Search]?
     var recordData = [String]()                         // 검색 기록을 넘겨주기 위한 프로퍼티
     
     // Controller Instance
@@ -44,14 +44,14 @@ class SearchAfterVC: UIViewController {
     //MARK: - Lifecycle
     
     // 검색 결과를 넘겨받기 위한 초기화 메소드
-    init(data: [Search]) {
-        self.filteredData = data
-        super.init(nibName: "SearchAfterVC", bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    init(data: [Search]) {
+//        self.filteredData = data
+//        super.init(nibName: "SearchAfterVC", bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +67,15 @@ class SearchAfterVC: UIViewController {
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         
+        NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
     }
     
+    @objc func allKeyword(_ sender: Notification) {
+        let userInfo = sender.userInfo
+        searchBar.text = userInfo?["text"] as? String ?? ""
+        
+        NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
+    }
     
     //MARK: - Actions
     
@@ -194,7 +201,7 @@ class SearchAfterVC: UIViewController {
         
         // PageController가 나타날 때마다 실행되는 코드
         if index == 0 {
-            searchVideo.filteredData = filteredData   // 최초 데이터 전달 + 페이지 전환될 때마다 전달
+//            searchVideo.filteredData = filteredData   // 최초 데이터 전달 + 페이지 전환될 때마다 전달
             searchVideo.pageIndex = index
             return searchVideo
         } else if index == 1 {
@@ -207,7 +214,7 @@ class SearchAfterVC: UIViewController {
             return searchNote
         } else {
             let contentVC = SearchVideoVC()
-            contentVC.filteredData = filteredData
+//            contentVC.filteredData = filteredData
             contentVC.pageIndex = index
             return contentVC
         }
@@ -222,8 +229,8 @@ class SearchAfterVC: UIViewController {
 extension SearchAfterVC: TabsDelegate {
     func tabsViewDidSelectItemAt(position: Int) {
         // 탭이 이동된 다음에 실행되므로 여기서 데이터 전송
-        searchConsult.filteredData = self.filteredData
-        searchNote.filteredData = self.filteredData
+//        searchConsult.filteredData = self.filteredData
+//        searchNote.filteredData = self.filteredData
         
         //선택한 탭 셀 위치가 pageController의 현재 위치와 동일한 지 확인하고 그렇지 않은 경우 앞으로 또는 뒤로 이동
         if position != currentIndex {
@@ -349,7 +356,7 @@ extension SearchAfterVC: UISearchBarDelegate {
         
         // 화면이동하는 Controller로 데이터 전달 
         searchVideo.delegate = self
-        searchVideo.filteredData = self.filteredData    // 검색 결과 화면에서 데이터를 전달
+//        searchVideo.filteredData = self.filteredData    // 검색 결과 화면에서 데이터를 전달
         
         
         

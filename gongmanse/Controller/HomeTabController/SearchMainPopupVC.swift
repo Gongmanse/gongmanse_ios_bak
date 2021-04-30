@@ -25,6 +25,8 @@ class SearchMainPopupVC: BottomPopupViewController {
     var mainList: SearchMainButtonState?
     var subjectModel: [SubjectModel] = []
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

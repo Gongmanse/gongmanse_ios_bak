@@ -33,6 +33,12 @@ class SearchVC: UIViewController {
         return removeDuplicate(keywordLog)
     }
     
+    
+    // API에 담아 보낼 학년 과목 변수들
+    var localSearchGrade: String?
+    var localSearchSubject: String?
+    var localSearchText: String?
+    
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
     private var isChooseGrade: Bool = false
     
@@ -93,17 +99,20 @@ class SearchVC: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(searchGradeAction(_:)), name: .searchGradeNoti, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchSubjectAction(_:)), name: .searchSubjectNoti, object: nil)
+        
     }
 
     @objc func searchGradeAction(_ sender: Notification) {
         
-        if let gradeText = sender.object as? String{
+        if let gradeText = sender.object as? String {
+            localSearchGrade = gradeText
             gradeButton.setTitle(gradeText, for: .normal)
         }
     }
     
     @objc func searchSubjectAction(_ sender: Notification) {
-        if let subjectText = sender.object as? String{
+        if let subjectText = sender.object as? String {
+            localSearchSubject = subjectText
             subjectButton.setTitle(subjectText, for: .normal)
         }
     }
@@ -176,7 +185,8 @@ class SearchVC: UIViewController {
     @IBAction func searchBarPresentButton(_ sender: UIButton) {
         // 화면 전환
         
-        let vc = UINavigationController(rootViewController: SearchAfterVC(data: filteredData))
+//        let vc = UINavigationController(rootViewController: SearchAfterVC(data: filteredData))
+        let vc = UINavigationController(rootViewController: SearchAfterVC())
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
@@ -319,6 +329,9 @@ extension SearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.keywordLog.append(searchBar.text!)
             
+        // 전역변수에 할당
+        localSearchText = searchBar.text
+        
         // 데이터 필터링
         filterContentForSearchText(searchBar.text!)
         
@@ -329,19 +342,32 @@ extension SearchVC: UISearchBarDelegate {
         self.searchBar.resignFirstResponder()
         
         // 화면이동하는 Controller로 데이터 전달
-        let controller = SearchAfterVC(data: filteredData)  // TODO: 데이터를 2 번 넘기고 있음 에러수정요망
-        controller.delegate = self
-        controller.reloadDelegate = self
+//        let controller = SearchAfterVC(data: filteredData)  // TODO: 데이터를 2 번 넘기고 있음 에러수정요망
+        let controller = SearchAfterVC()  // TODO: 데이터를 2 번 넘기고 있음 에러수정요망
+//        controller.delegate = self
+//        controller.reloadDelegate = self
         
         // 화면 전환 시, 최근검색어 Data reLoading을 위한 로직
         pageControllForreloadData()
         
+        // notification으로 보냄
+        let infoHashable: [String:Any?] = [
+            "grade": localSearchGrade,
+            "subject": localSearchSubject,
+            "text": localSearchText
+        ]
+        
+        
         // 화면 전환
         let vc = UINavigationController(rootViewController: controller)
+        
         vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        
+        self.present(vc, animated: true) {
+            NotificationCenter.default.post(name: .searchAllNoti, object: nil, userInfo: infoHashable as [AnyHashable : Any])
+        }
+        
     }
-    
     
     func pageControllForreloadData() {
         // TODO: 페이지 전환 코드
@@ -363,7 +389,8 @@ extension SearchVC: PopularKeywordVCDelegate {
         filterContentForSearchText(keyword)
         self.keywordLog.append(keyword)
         // 화면전환
-        let controller = SearchAfterVC(data: filteredData)
+//        let controller = SearchAfterVC(data: filteredData)
+        let controller = SearchAfterVC()
         let vc = UINavigationController(rootViewController: controller)
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
