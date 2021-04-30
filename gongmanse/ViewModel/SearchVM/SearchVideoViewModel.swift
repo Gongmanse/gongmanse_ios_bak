@@ -30,7 +30,9 @@ import UIKit
 
 class SearchVideoViewModel {
     
+    weak var reloadDelegate: CollectionReloadData?
     
+    // API 성공 시 데이터 받을 곳
     var responseVideoModel: SearchVideoModel? = nil
     
     func requestVideoAPI(subject: String?,
@@ -52,6 +54,8 @@ class SearchVideoViewModel {
             switch result {
             case .success(let data):
                 self?.responseVideoModel = data
+                self?.reloadDelegate?.reloadCollection()
+                
             case .failure(let error):
                 print(error.localizedDescription)
             }

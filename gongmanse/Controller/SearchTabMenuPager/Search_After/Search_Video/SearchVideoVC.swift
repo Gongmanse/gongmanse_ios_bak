@@ -23,6 +23,7 @@ class SearchVideoVC: UIViewController {
         didSet { delegate?.reloadFilteredData(collectionView: self.collectionView) }
     }
 
+    let searchVideoVM = SearchVideoViewModel()
     
     //MARK: - IBOutlet
     
@@ -36,6 +37,7 @@ class SearchVideoVC: UIViewController {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchVideoVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
         // 강의 개수 Text 속성 설정
@@ -44,6 +46,24 @@ class SearchVideoVC: UIViewController {
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
+        
+        
+        
+        print(searchVideoVM.responseVideoModel?.totalNum ?? "nil")
+        NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
+    }
+    
+    @objc func allKeyword(_ sender: Notification) {
+        let userInfo = sender.userInfo
+        
+        searchVideoVM.requestVideoAPI(subject: userInfo?["subject"] as? String ?? nil,
+                                      grade: userInfo?["grade"] as? String ?? nil,
+                                      keyword: userInfo?["text"] as? String ?? nil,
+                                      offset: "0",
+                                      sortid: nil,
+                                      limit: "20")
+        
+        NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
     }
     
     
@@ -84,15 +104,15 @@ class SearchVideoVC: UIViewController {
 
 extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredData.count
+        return searchVideoVM.responseVideoModel?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchVideoCell
         
         // TODO: ViewModel 적용해둘 것.
-        cell.title.text = filteredData[indexPath.row].title
-        cell.teacher.text = filteredData[indexPath.row].writer
+        cell.title.text = searchVideoVM.responseVideoModel?.data[indexPath.row].sTitle
+        cell.teacher.text = searchVideoVM.responseVideoModel?.data[indexPath.row].sTeacher
         return cell
     }
 }
@@ -118,3 +138,11 @@ extension SearchVideoVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension SearchVideoVC: CollectionReloadData {
+    
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+}

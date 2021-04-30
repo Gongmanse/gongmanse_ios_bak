@@ -36,6 +36,10 @@ class SearchAfterVC: UIViewController {
     let searchConsult = SearchConsultVC()
     let searchNote = SearchNoteVC()
 
+    
+    // ViewModel
+    let searchAfterVM = SearchVideoViewModel()
+    
     //MARK: - IBOutlet
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -72,10 +76,9 @@ class SearchAfterVC: UIViewController {
     
     @objc func allKeyword(_ sender: Notification) {
         let userInfo = sender.userInfo
-        print(userInfo)
+        
         searchBar.text = userInfo?["text"] as? String ?? ""
         
-        NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
     }
     
     //MARK: - Actions
