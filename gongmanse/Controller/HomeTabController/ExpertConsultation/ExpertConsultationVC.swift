@@ -89,7 +89,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         popupVC.dismissDuration = dismissDuration
         popupVC.popupDelegate = self
         popupVC.delegate = self
-        //popupVC.sortedItem = sortedId
+        popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
     
@@ -148,66 +148,45 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         let profileImageURL = indexData.sProfile ?? ""
         let profileURL = URL(string: fileBaseURL + "/" + profileImageURL)
         
-        /// cell UI업데이트를 위한 메소드
-        func setUpDefaultCellSetting() {
-            cell.consultThumbnail.contentMode = .scaleAspectFill
-            cell.consultThumbnail.sd_setImage(with: thumbnailURL)
-            cell.consultTitle.text = indexData.sQuestion
-            cell.nickName.text = indexData.sNickname
-            cell.answerStatus.text = indexData.iAnswer
-            cell.profileImage.contentMode = .scaleAspectFill
-            cell.upLoadDate.text = indexData.dtRegister
-        }
+        cell.consultThumbnail.contentMode = .scaleAspectFill
+        cell.consultThumbnail.sd_setImage(with: thumbnailURL)
+        cell.consultTitle.text = indexData.sQuestion
+        cell.nickName.text = indexData.sNickname
+        cell.answerStatus.text = indexData.iAnswer
+        cell.profileImage.contentMode = .scaleAspectFill
+        cell.upLoadDate.text = indexData.dtRegister
         
-        
-        /// 답변 상태에 따른 label 표시
-        func answerLabelStatus() {
-            if indexData.iAnswer == "1" {
-                cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
-                cell.answerStatus.text = "답변 완료 >"
-            } else {
-                cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
-                cell.answerStatus.text = "대기중 >"
-            }
-            
-            DispatchQueue.main.async {
-                if profileImageURL == ""{
-                    cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
-                }else {
-                    cell.profileImage.sd_setImage(with: profileURL)
-                }
-            }
-        }
-        
-        if sortedId == 4 {
-            // 최신순
-            setUpDefaultCellSetting()
-            answerLabelStatus()
-            return cell
-            
-        } else if sortedId == 5 {
-            // 조회순
-            setUpDefaultCellSetting()
-            answerLabelStatus()
-            return cell
-            
-        } else if sortedId == 6 {
-            // 답변순
-            setUpDefaultCellSetting()
-            answerLabelStatus()
-            return cell
+        if indexData.iAnswer == "1" {
+            cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+            cell.answerStatus.text = "답변 완료 >"
         } else {
-            // 최신순
-            setUpDefaultCellSetting()
-            answerLabelStatus()
-            return cell
+            cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+            cell.answerStatus.text = "대기중 >"
         }
+        
+        DispatchQueue.main.async {
+            if profileImageURL == ""{
+                cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+            }else {
+                cell.profileImage.sd_setImage(with: profileURL)
+            }
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 4 {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+
+
 
 /// 필터 메뉴를 클릭하면, 호출되는 메소드 구현을 위한 `extension`
 extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate {

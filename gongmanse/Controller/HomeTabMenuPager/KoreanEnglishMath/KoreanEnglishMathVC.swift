@@ -203,6 +203,7 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
         } else if selectedItem == 2 {
             // 문제 풀이
             setUpDefaultCellSetting()
+            addKeywordToCell()
             return cell
         } else if selectedItem == 3 {
             // 노트 보기
