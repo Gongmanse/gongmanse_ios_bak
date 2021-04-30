@@ -286,7 +286,6 @@
 		C233028726392E710058592E /* SearchMainPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C233028526392E710058592E /* SearchMainPopupVC.xib */; };
 		C233028B263932590058592E /* SearchMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2330289263932590058592E /* SearchMainCell.swift */; };
 		C233028C263932590058592E /* SearchMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C233028A263932590058592E /* SearchMainCell.xib */; };
-		C2330291263A638E0058592E /* SearchSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2330290263A638E0058592E /* SearchSingleton.swift */; };
 		C23474A0261C02F500453E16 /* PushAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234749E261C02F500453E16 /* PushAlertCell.swift */; };
 		C23474A1261C02F500453E16 /* PushAlertCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C234749F261C02F500453E16 /* PushAlertCell.xib */; };
 		C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C6126292912008CE4A1 /* PaddingLabel.swift */; };
@@ -304,6 +303,9 @@
 		C2A4B8982626BC0000173261 /* EventListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8972626BC0000173261 /* EventListModel.swift */; };
 		C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B89B2626CA6300173261 /* EventListCell.swift */; };
 		C2A4B89E2626CA6300173261 /* EventListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A4B89C2626CA6300173261 /* EventListCell.xib */; };
+		C2A92F9C263BB22900098F92 /* SearchVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A92F9B263BB22900098F92 /* SearchVideoModel.swift */; };
+		C2A92FA0263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A92F9F263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift */; };
+		C2A92FA4263BCFA900098F92 /* ReloadDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A92FA3263BCFA900098F92 /* ReloadDataProtocol.swift */; };
 		C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F22726261D3DB800559065 /* FilteringSubjectPopUpVC.swift */; };
 		C2F2272B261D3EFE00559065 /* RequestSubjectAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2272A261D3EFE00559065 /* RequestSubjectAPI.swift */; };
 		C2F22730261D3F9B00559065 /* SubjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2272F261D3F9B00559065 /* SubjectModel.swift */; };
@@ -599,7 +601,6 @@
 		C233028526392E710058592E /* SearchMainPopupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchMainPopupVC.xib; sourceTree = "<group>"; };
 		C2330289263932590058592E /* SearchMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMainCell.swift; sourceTree = "<group>"; };
 		C233028A263932590058592E /* SearchMainCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchMainCell.xib; sourceTree = "<group>"; };
-		C2330290263A638E0058592E /* SearchSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSingleton.swift; sourceTree = "<group>"; };
 		C234749E261C02F500453E16 /* PushAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlertCell.swift; sourceTree = "<group>"; };
 		C234749F261C02F500453E16 /* PushAlertCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PushAlertCell.xib; sourceTree = "<group>"; };
 		C2448C6126292912008CE4A1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -617,6 +618,9 @@
 		C2A4B8972626BC0000173261 /* EventListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListModel.swift; sourceTree = "<group>"; };
 		C2A4B89B2626CA6300173261 /* EventListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListCell.swift; sourceTree = "<group>"; };
 		C2A4B89C2626CA6300173261 /* EventListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventListCell.xib; sourceTree = "<group>"; };
+		C2A92F9B263BB22900098F92 /* SearchVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVideoModel.swift; sourceTree = "<group>"; };
+		C2A92F9F263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAfterVideoAPIManager.swift; sourceTree = "<group>"; };
+		C2A92FA3263BCFA900098F92 /* ReloadDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadDataProtocol.swift; sourceTree = "<group>"; };
 		C2F22726261D3DB800559065 /* FilteringSubjectPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringSubjectPopUpVC.swift; sourceTree = "<group>"; };
 		C2F2272A261D3EFE00559065 /* RequestSubjectAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSubjectAPI.swift; sourceTree = "<group>"; };
 		C2F2272F261D3F9B00559065 /* SubjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
@@ -1118,9 +1122,9 @@
 		259B8B6F260300AC009A7146 /* SearchVM */ = {
 			isa = PBXGroup;
 			children = (
+				C2A92F9A263BABE600098F92 /* SubSearch */,
 				C233027E2639283A0058592E /* MainSearch */,
 				259B8B77260300D6009A7146 /* SearchVideoViewModel.swift */,
-				C2330290263A638E0058592E /* SearchSingleton.swift */,
 			);
 			path = SearchVM;
 			sourceTree = "<group>";
@@ -1677,6 +1681,7 @@
 		6CD7C3C325F086E00092D30E /* gongmanse */ = {
 			isa = PBXGroup;
 			children = (
+				C2A92FA2263BCF8900098F92 /* Protocol */,
 				6C3F7BB6262E6ACF00475DB4 /* Intro */,
 				258B5E9A2609D81600F470B7 /* API */,
 				2584E8CA260840F9000DFA20 /* Cofiguration */,
@@ -1991,6 +1996,7 @@
 		C23302742638F77E0058592E /* SearchAfter */ = {
 			isa = PBXGroup;
 			children = (
+				C2A92F9B263BB22900098F92 /* SearchVideoModel.swift */,
 			);
 			path = SearchAfter;
 			sourceTree = "<group>";
@@ -1998,6 +2004,7 @@
 		C23302762638F8A40058592E /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				C2A92F9E263BB44200098F92 /* SearchAfter */,
 				C23302772638F8BD0058592E /* PopularAPIManager.swift */,
 			);
 			path = Search;
@@ -2140,6 +2147,29 @@
 				C2F22744261E9EB600559065 /* SubjectListCell.xib */,
 			);
 			path = FilterSubject;
+			sourceTree = "<group>";
+		};
+		C2A92F9A263BABE600098F92 /* SubSearch */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SubSearch;
+			sourceTree = "<group>";
+		};
+		C2A92F9E263BB44200098F92 /* SearchAfter */ = {
+			isa = PBXGroup;
+			children = (
+				C2A92F9F263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift */,
+			);
+			path = SearchAfter;
+			sourceTree = "<group>";
+		};
+		C2A92FA2263BCF8900098F92 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				C2A92FA3263BCFA900098F92 /* ReloadDataProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		C2F22729261D3EEB00559065 /* Setting */ = {
@@ -2383,7 +2413,6 @@
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
 				A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */,
 				A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */,
-				C2330291263A638E0058592E /* SearchSingleton.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,
 				6CF2E69125F227AD000FE084 /* PopularTitleCVCell.swift in Sources */,
@@ -2413,6 +2442,7 @@
 				A9524858261A9E13000F2473 /* NoticeListModel.swift in Sources */,
 				2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */,
 				259B8B6C2603009C009A7146 /* Search.swift in Sources */,
+				C2A92F9C263BB22900098F92 /* SearchVideoModel.swift in Sources */,
 				257C61372602E86000153BF3 /* test.swift in Sources */,
 				6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */,
 				25201DBE26042A92001098AC /* FindingIDVC.swift in Sources */,
@@ -2455,6 +2485,7 @@
 				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,
 				25BD75F626156A8E002B266C /* FindingPwdByPhoneInput.swift in Sources */,
+				C2A92FA4263BCFA900098F92 /* ReloadDataProtocol.swift in Sources */,
 				6C12E6E526366391005DB781 /* FooterCRV.swift in Sources */,
 				2574592B2613FBF8007A2A5D /* FindingIDResultResponse.swift in Sources */,
 				259B8BA3260301CF009A7146 /* SearchNoteCell.swift in Sources */,
@@ -2587,6 +2618,7 @@
 				259B8C1926030646009A7146 /* LecturePlaylistVC.swift in Sources */,
 				C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */,
 				259B8BC926030531009A7146 /* ProgressPopupVC.swift in Sources */,
+				C2A92FA0263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift in Sources */,
 				A9129ECE26169F4B00041CC5 /* NoticeListVC.swift in Sources */,
 				6CB83C3226018F00007AED64 /* NoteListTVC.swift in Sources */,
 				251FFD1226329490007A75FF /* Keychain.swift in Sources */,

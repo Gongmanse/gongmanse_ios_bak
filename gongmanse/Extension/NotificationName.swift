@@ -14,6 +14,7 @@ extension Notification.Name {
     
     static let searchGradeNoti = Notification.Name(NotificationKey.searchGradeKey)
     static let searchSubjectNoti = Notification.Name(NotificationKey.searchSubjectkey)
+    static let searchAllNoti = Notification.Name(NotificationKey.searchAllPassKey)
 }
 
 struct NotificationKey {
@@ -22,4 +23,5 @@ struct NotificationKey {
     // searchVC 관련
     static let searchGradeKey = "searchGrade"
     static let searchSubjectkey = "searchSubject"
+    static let searchAllPassKey = "searchPass"
 }
