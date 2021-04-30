@@ -30,7 +30,31 @@ import UIKit
 
 class SearchVideoViewModel {
     
-    func requestVideoAPI() {
+    
+    var responseVideoModel: SearchVideoModel? = nil
+    
+    func requestVideoAPI(subject: String?,
+                         grade: String?,
+                         keyword: String?,
+                         offset: String?,
+                         sortid: String?,
+                         limit: String?) {
         
+        let postModel = SearchVideoPostModel(subject: subject,
+                                             grade: grade,
+                                             keyword: keyword,
+                                             offset: offset,
+                                             sortid: sortid,
+                                             limit: limit)
+        
+        let videoAPI = SearchAfterVideoAPIManager()
+        videoAPI.fetchVideoAPI(postModel) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.responseVideoModel = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
