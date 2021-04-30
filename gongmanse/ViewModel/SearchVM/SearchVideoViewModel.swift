@@ -8,22 +8,29 @@
 import Foundation
 import UIKit
 
-struct SearchVideoViewModel {
+//struct SearchVideoViewModel {
+//
+//    let search: Search
+//
+//    var title: String {
+//        return search.title
+//    }
+//
+//    var writer: String {
+//        return search.writer
+//    }
+//
+//
+//    // TODO: Rating, Tag 구현해야함.
+//
+//    init(search : Search) {
+//        self.search = search
+//    }
+//}
 
-    let search: Search
+class SearchVideoViewModel {
     
-    var title: String {
-        return search.title
+    func requestVideoAPI() {
+        
     }
-    
-    var writer: String {
-        return search.writer
-    }
-    
-
-    // TODO: Rating, Tag 구현해야함.
-
-    init(search : Search) {
-        self.search = search
-    } 
 }
