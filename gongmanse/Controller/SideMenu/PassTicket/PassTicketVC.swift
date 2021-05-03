@@ -64,12 +64,12 @@ class PassTicketVC: UIViewController {
         // 좌, 우 버튼생성
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(dissmissButton))
 
-        // 그림자 효과
-        self.navigationController?.navigationBar.layer.masksToBounds = false
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        self.navigationController?.navigationBar.layer.shadowOpacity = 0.8
-        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        self.navigationController?.navigationBar.layer.shadowRadius = 1
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
     }
     
     func setupStyle() {

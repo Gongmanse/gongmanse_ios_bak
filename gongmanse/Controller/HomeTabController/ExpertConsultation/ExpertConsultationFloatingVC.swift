@@ -42,4 +42,10 @@ class ExpertConsultationFloatingVC: UIViewController {
     @IBAction func writeBtnAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func addImageAndVideo(_ sender: Any) {
+        let alertVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomAlertVC") as! CustomAlertVC
+        alertVC.modalPresentationStyle = .overCurrentContext
+        present(alertVC, animated: false, completion: nil)
+    }
 }

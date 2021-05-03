@@ -9,6 +9,7 @@ class ExpertConsultationDetailVC: UIViewController {
     
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var consultContentView: UIView!
     @IBOutlet weak var consultImageView: UIImageView!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
@@ -21,7 +22,9 @@ class ExpertConsultationDetailVC: UIViewController {
         
         //이미지들 라운딩 처리
         profileImageView.layer.cornerRadius = 13
-        consultImageView.layer.cornerRadius = 13
+        
+        consultImageSettings()
+        
     }
     
     //네비게이션 바와 프로필 뷰 설정
@@ -58,5 +61,17 @@ class ExpertConsultationDetailVC: UIViewController {
         
         let deleteAttributesString = NSMutableAttributedString(string: "삭제", attributes: deleteAttributes)
         deleteButton.setAttributedTitle(deleteAttributesString, for: .normal)
+    }
+    
+    func consultImageSettings() {
+        //상담 이미지 파일 shadow 및 cornerRadius
+        consultContentView.layer.cornerRadius = 13
+        consultContentView.layer.shadowColor = UIColor.gray.cgColor
+        consultContentView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        consultContentView.layer.shadowRadius = 13
+        consultContentView.layer.shadowOpacity = 0.7
+        
+        consultImageView.layer.cornerRadius = 13
+        consultImageView.clipsToBounds = true
     }
 }

@@ -124,21 +124,21 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         
         NSLayoutConstraint.activate([
                                         
-            NSLayoutConstraint(item: btn,
-                               attribute: .trailing,
-                               relatedBy: .equal,
-                               toItem: view,
-                               attribute: .trailing,
-                               multiplier: 1,
-                               constant: -15),
-                                             
-            NSLayoutConstraint(item: btn,
-                               attribute: .bottom,
-                               relatedBy: .equal,
-                               toItem: view,
-                               attribute: .bottom,
-                               multiplier: 0.89,
-                               constant: 0)])
+                                        NSLayoutConstraint(item: btn,
+                                                           attribute: .trailing,
+                                                           relatedBy: .equal,
+                                                           toItem: view,
+                                                           attribute: .trailing,
+                                                           multiplier: 1,
+                                                           constant: -15),
+                                        
+                                        NSLayoutConstraint(item: btn,
+                                                           attribute: .bottom,
+                                                           relatedBy: .equal,
+                                                           toItem: view,
+                                                           attribute: .bottom,
+                                                           multiplier: 0.89,
+                                                           constant: 0)])
     }
     
     @objc func buttonTapped() {
@@ -195,11 +195,8 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.row == 4 {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
+        self.navigationController?.pushViewController(vc, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
