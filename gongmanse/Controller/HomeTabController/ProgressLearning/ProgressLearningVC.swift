@@ -12,12 +12,16 @@ class ProgressLearningVC: UIViewController {
     
     //MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        configureNavi()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
-    
+        
         setupTabs()
         setupPageViewController()
         
@@ -25,14 +29,12 @@ class ProgressLearningVC: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationItem.title = "진도학습"
-        configureNavi()
-    }
-    
     //MARK: - Helper functions
     
     func configureNavi() {
+        //네비게이션 바 타이틀
+        navigationItem.title = "진도학습"
+        
         //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)

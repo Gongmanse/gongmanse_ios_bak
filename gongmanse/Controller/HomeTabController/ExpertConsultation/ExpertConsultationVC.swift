@@ -114,11 +114,31 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     //플로팅 버튼 생성 및 크기 지정 후 뷰 이동
     func floatingButton() {
         let btn = UIButton(type: .custom)
-        btn.frame = CGRect(x: 320, y: 695, width: 68, height: 68)
+        btn.frame = CGRect(x: 0, y: 0, width: 56, height: 56)
         btn.setImage(UIImage(named: "floatingBtn"), for: .normal)
         btn.clipsToBounds = true
         btn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         view.addSubview(btn)
+        
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+                                        
+            NSLayoutConstraint(item: btn,
+                               attribute: .trailing,
+                               relatedBy: .equal,
+                               toItem: view,
+                               attribute: .trailing,
+                               multiplier: 1,
+                               constant: -15),
+                                             
+            NSLayoutConstraint(item: btn,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: view,
+                               attribute: .bottom,
+                               multiplier: 0.89,
+                               constant: 0)])
     }
     
     @objc func buttonTapped() {
