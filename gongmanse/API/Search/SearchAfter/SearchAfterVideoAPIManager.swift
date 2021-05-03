@@ -16,9 +16,9 @@ struct SearchAfterVideoAPIManager {
                        completion: @escaping (Result<SearchVideoModel, InfoError>) -> Void ) {
         
         let data = parameters
-        
+        print("SearchAfterVideoAPIManager == ", data)
         AF.upload(multipartFormData: { formData in
-            print(formData)
+            
             formData.append("\(data.subject ?? "")".data(using: .utf8) ?? Data(), withName: "subject")
             formData.append("\(data.grade ?? "")".data(using: .utf8) ?? Data(), withName: "grade")
             formData.append("\(data.keyword ?? "")".data(using: .utf8) ?? Data(), withName: "keyword")

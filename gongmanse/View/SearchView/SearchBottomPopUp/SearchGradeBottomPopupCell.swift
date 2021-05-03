@@ -11,10 +11,6 @@ class SearchGradeBottomPopupCell: UITableViewCell {
 
     //MARK: - Properties
     
-//    var viewModel : ProgressPopupViewModel? {
-//        didSet { configure() }
-//    }
-    
     
     @IBOutlet weak var title: UILabel!
   

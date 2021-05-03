@@ -20,7 +20,7 @@ class SearchMainPopupVC: BottomPopupViewController {
     private let searchCellIdentifier = "SearchMainCell"
     
     var gradeList: [String] = ["모든 학년", "초등", "중등", "고등"]
-    var subjectList: [String] = []
+    
     
     var mainList: SearchMainButtonState?
     var subjectModel: [SubjectModel] = []
@@ -81,8 +81,14 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
             NotificationCenter.default.post(name: .searchGradeNoti, object: selectGrade)
             
         }else {
-            let selectSubject = subjectModel[indexPath.row].sName
-            NotificationCenter.default.post(name: .searchSubjectNoti, object: selectSubject)
+            let selectSubjectName = subjectModel[indexPath.row].sName
+            let selectSubjectID = subjectModel[indexPath.row].id
+            
+            let selectHashable = [
+                "name": selectSubjectName,
+                "Id": selectSubjectID
+            ]
+            NotificationCenter.default.post(name: .searchSubjectNoti, object: nil, userInfo: selectHashable)
         }
         self.dismiss(animated: true, completion: nil)
     }

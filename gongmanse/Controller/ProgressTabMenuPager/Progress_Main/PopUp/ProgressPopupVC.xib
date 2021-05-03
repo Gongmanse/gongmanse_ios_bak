@@ -18,6 +18,7 @@
             <connections>
                 <outlet property="tableView" destination="vV2-rV-iHy" id="5BB-vh-eQe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewlabel" destination="E9s-m8-EpL" id="GLB-fF-gdu"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

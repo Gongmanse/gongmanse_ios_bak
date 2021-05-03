@@ -51,21 +51,29 @@ class SearchVideoVC: UIViewController {
         
         print(searchVideoVM.responseVideoModel?.totalNum ?? "nil")
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
+        
+        // 필터링하고 받는 곳
+        NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: Notification.Name("test"), object: nil)
     }
-    
+    @objc func testAction(_ sender: Notification) {
+        if let users = sender.object as? String {
+            
+        }
+        
+    }
     @objc func allKeyword(_ sender: Notification) {
         let userInfo = sender.userInfo
+        let objected = sender.object as? String
         
         searchVideoVM.requestVideoAPI(subject: userInfo?["subject"] as? String ?? nil,
                                       grade: userInfo?["grade"] as? String ?? nil,
                                       keyword: userInfo?["text"] as? String ?? nil,
                                       offset: "0",
-                                      sortid: nil,
+                                      sortid: objected,
                                       limit: "20")
         
         NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
     }
-    
     
     //MARK: - Actions
     
@@ -73,8 +81,8 @@ class SearchVideoVC: UIViewController {
     // TODO: BottomPopup 새로운 Controller로 설정할 것
     // 평점순(Default), 최신순, 이름순, 과목순 
     @IBAction func handleFilter(_ sender: Any) {
-        let popupVC = ProgressPopupVC()
-        popupVC.selectedBtnIndex = .chapter
+        let popupVC = SearchAfterBottomPopup()
+        popupVC.selectFilterState = .videoDicionary
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
         popupVC.view.frame = self.view.bounds

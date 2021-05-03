@@ -111,9 +111,10 @@ class SearchVC: UIViewController {
     }
     
     @objc func searchSubjectAction(_ sender: Notification) {
-        if let subjectText = sender.object as? String {
-            localSearchSubject = subjectText
-            subjectButton.setTitle(subjectText, for: .normal)
+        if let subjectText = sender.userInfo as? [String : Any] {
+            
+            localSearchSubject = subjectText["Id"] as? String
+            subjectButton.setTitle(subjectText["name"] as? String, for: .normal)
         }
     }
     

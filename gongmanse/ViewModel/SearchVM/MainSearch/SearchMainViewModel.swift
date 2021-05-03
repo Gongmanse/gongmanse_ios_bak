@@ -17,7 +17,6 @@ class SearchMainViewModel {
         let getSubject = getSubjectAPI()
         getSubject.performSubjectAPI { [weak self] result in
             self?.subjecModel = result
-            print(result)
             self?.delegate?.reloadData()
         }
     }

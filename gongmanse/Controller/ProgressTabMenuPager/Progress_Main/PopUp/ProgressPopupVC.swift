@@ -25,10 +25,14 @@ class ProgressPopupVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     
     var chapters: [String] = []
-    // 임시 Input 데이터 추후, 데이터 패칭을 통해 가져올 것.
+    
+    
     let grades = ["모든 학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년", "중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     
+    
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var viewlabel: UILabel!
     
     
     //MARK: - Lifecyce
@@ -96,12 +100,14 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressPopupCell", for: indexPath) as! ProgressPopupCell
 //        cell.title.text = grades[indexPath.row]
         
+        viewlabel.font = .appEBFontWith(size: 14)
         if selectedBtnIndex! == .grade {
             cell.title.text = grades[indexPath.row]
+            viewlabel.text = "학년"
         } else {
             cell.title.text = chapters[indexPath.row]
+            viewlabel.text = "과목"
         }
-        
         return cell
     }
     
