@@ -258,7 +258,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 강의 및 선생님 정보를 담을 뷰
-    let teacherInfoView: UIView = {
+    let lessonInfoView: UIView = {
         let view = UIView()
         view.backgroundColor = .progressBackgroundColor
         return view
@@ -556,6 +556,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         self.view.backgroundColor = .white
         navigationController?.hidesBarsOnSwipe = true
         
+        // 강의정보 View를 대신할 Controller 추가
+        let lessonInfoController = LessonInfoController()
+        self.addChild(lessonInfoController)
+        lessonInfoController.didMove(toParent: self)
+        lessonInfoView.addSubview(lessonInfoController.view)
+        lessonInfoController.view.frame = lessonInfoView.bounds
+        
         // 세로모드 제약조건 정의한다.
         setConstraintInPortrait()
         setupPageCollectionView() // View 중단부터 하단에 있는 "노트보기", "강의 QnA" 그리고 "재생목록" 페이지 구현 메소드
@@ -597,8 +604,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         view.addSubview(toggleButton)
         toggleButton.setDimensions(height: 32, width: 30)
         toggleButton.layer.cornerRadius = 8
-        toggleButton.anchor(top: teacherInfoView.bottomAnchor,
-                            right: teacherInfoView.rightAnchor,
+        toggleButton.anchor(top: lessonInfoView.bottomAnchor,
+                            right: lessonInfoView.rightAnchor,
                             paddingTop: -5,
                             paddingRight: 10)
         toggleButton.addTarget(self, action: #selector(handleToggle), for: .touchUpInside)
