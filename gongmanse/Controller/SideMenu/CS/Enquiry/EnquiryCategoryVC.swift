@@ -44,7 +44,7 @@ class EnquiryCategoryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        navigationSetting()
         basicScreenUI()
         
         
@@ -59,7 +59,6 @@ extension EnquiryCategoryVC {
         initButton()
         initLabel()
         initTextView()
-        navigationSetting()
     }
     
     func initLabel() {

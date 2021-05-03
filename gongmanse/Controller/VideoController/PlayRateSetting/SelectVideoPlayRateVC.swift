@@ -1,29 +1,18 @@
 //
-//  VideoSettingPopupController.swift
+//  SelectVideoPlayRateVC.swift
 //  gongmanse
 //
-//  Created by 김우성 on 2021/04/29.
+//  Created by 김우성 on 2021/04/30.
 //
 
 import UIKit
 import BottomPopup
 
-protocol VideoSettingPopupControllerDelegate: AnyObject {
-    func presentSelectionVideoPlayRateVC()
-}
+private let cellID = "SelectVideoPlayRateCell"
 
-class VideoSettingPopupController: BottomPopupViewController {
-    
+class SelectVideoPlayRateVC: BottomPopupViewController {
+
     // MARK: - Properties
-    
-    weak var delegate: VideoSettingPopupControllerDelegate?
-    
-    var currentStateIsSubtitleOn = true {
-        didSet { tableView.reloadData() }
-    }
-    var currentStateIsVideoPlayRate = "x1.0" {
-        didSet { tableView.reloadData()}
-    }
     
     var tableView = UITableView()
     var topView = UIView()
@@ -55,13 +44,12 @@ class VideoSettingPopupController: BottomPopupViewController {
         return view
     }()
     
-    let fullScreenHeight = Constant.height
-    var height: CGFloat = 44 * 3
+    var height: CGFloat = 44 * 6
     var topCornerRadius: CGFloat = 0
     var presentDuration: Double = 0.22
     var dismissDuration: Double = 0.22
     var shouldDismissInteractivelty: Bool = true
-    override var popupHeight: CGFloat { return (44 * 3) }
+    override var popupHeight: CGFloat { return (44 * 6) }
 
     
     // MARK: - Lifecycle
@@ -70,13 +58,8 @@ class VideoSettingPopupController: BottomPopupViewController {
         
         super.viewDidLoad()
         configureUI()
-        confgirueNotificaion()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .switchSubtitleOnOff, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .changePlayVideoRate, object: nil)
-    }
     
     // MARK: - Actions
     
@@ -85,31 +68,12 @@ class VideoSettingPopupController: BottomPopupViewController {
         self.dismiss(animated: true)
     }
     
-    @objc
-    func handleSwitchingSubtitleIsOn(_ sender: Notification) {
-        
-        if let receivedBoolean = sender.userInfo!["isOnSubtitle"] {
-            currentStateIsSubtitleOn = receivedBoolean as? Bool ?? true
-        }
-    }
     
-    @objc
-    func handleChangingVideoPlayRate(_ sender: Notification) {
-        
-        let playRate = sender.userInfo!["playRate"] as? Float ?? Float(1.0)
-        currentStateIsVideoPlayRate = "\(playRate)배"
-    }
-        
-    override open var shouldAutorotate: Bool {
-        return false
-    }
-
     // MARK: - Helpers
-
+    
     func configureUI() {
         
         /* topView */
-        view.backgroundColor = .white
         view.addSubview(topView)
         topView.backgroundColor = .white
         topView.setDimensions(height: 44, width: view.frame.width)
@@ -142,7 +106,7 @@ class VideoSettingPopupController: BottomPopupViewController {
         
         /* tableView */
         view.addSubview(tableView)
-        tableView.setDimensions(height: 44 * 2, width: view.frame.width)
+        tableView.setDimensions(height: 44 * 5, width: view.frame.width)
         tableView.anchor(top: topView.bottomAnchor,
                          left: view.leftAnchor)
     
@@ -151,83 +115,70 @@ class VideoSettingPopupController: BottomPopupViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         tableView.isScrollEnabled = false
-        tableView.register(VideoPlayRateCell.self, forCellReuseIdentifier: VideoPlayRateCell.reusableIdentifier)
-        tableView.register(DisplaySubtitleCell.self, forCellReuseIdentifier: DisplaySubtitleCell.reusableIdentifier)
+        tableView.register(SelectVideoPlayRateCell.self, forCellReuseIdentifier: cellID)
     }
     
-    func confgirueNotificaion() {
-        
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(handleSwitchingSubtitleIsOn),
-                         name: .switchSubtitleOnOff, object: nil)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(handleChangingVideoPlayRate),
-                         name: .changePlayVideoRate, object: nil)
+    override open var shouldAutorotate: Bool {
+        return false
     }
 }
 
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
-extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSource {
+extension SelectVideoPlayRateVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        2
+        5
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
-            let cell = tableView
-                .dequeueReusableCell(withIdentifier: DisplaySubtitleCell.reusableIdentifier,
-                                     for: indexPath) as! DisplaySubtitleCell
-            cell.isOn = currentStateIsSubtitleOn
-            return cell
-            
-        } else {
-            let cell = tableView
-                .dequeueReusableCell(withIdentifier: VideoPlayRateCell.reusableIdentifier,
-                                     for: indexPath) as! VideoPlayRateCell
-            cell.stateText = currentStateIsVideoPlayRate
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID,
+                                                 for: indexPath) as! SelectVideoPlayRateCell
+        cell.textLabel?.font = UIFont.appRegularFontWith(size: 11)
+        
+        switch indexPath.row {
+        case 0:
+            cell.cellLabel.text = "1.5배"
+        case 1:
+            cell.cellLabel.text = "1.25배"
+        case 2:
+            cell.cellLabel.text = "기본"
+        case 3:
+            cell.cellLabel.text = "0.75배"
+        case 4:
+            cell.cellLabel.text = "0.5배"
+        default:
+            cell.cellLabel.text = "기본"
         }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.row == 0 {
-            if currentStateIsSubtitleOn {
-                currentStateIsSubtitleOn = false
-        
-            } else {
-                currentStateIsSubtitleOn = true
-            }
-            NotificationCenter.default.post(name: .switchSubtitleOnOff, object: nil, userInfo: ["isOnSubtitle" : currentStateIsSubtitleOn])
-            
-        } else {
-            dismiss(animated: true) {
-                self.delegate?.presentSelectionVideoPlayRateVC()
-            }
-            
+        var rate = Float()
+
+        switch indexPath.row {
+        case 0:
+            rate = 1.5
+        case 1:
+            rate = 1.25
+        case 2:
+            rate = 1.0
+        case 3:
+            rate = 0.75
+        case 4:
+            rate = 0.5
+        default:
+            rate = 1.0
         }
+        NotificationCenter.default.post(name: .changePlayVideoRate, object: nil, userInfo: ["playRate" : rate])
+
     }
     
-    
 }
 
-
-// MARK: - Notificaion
-
-extension Notification.Name {
-    
-    /// 자막보기 설정
-    static let switchSubtitleOnOff = Notification.Name("switchSubtitleOnOff")
-    
-    /// 영상 속도 조절
-    static let changePlayVideoRate = Notification.Name("changePlayVideoRate")
-}
