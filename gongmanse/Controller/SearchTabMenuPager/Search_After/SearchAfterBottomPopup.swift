@@ -43,11 +43,13 @@ class SearchAfterBottomPopup: BottomPopupViewController {
         
         let nib = UINib(nibName: searchAfterCellIdentifier, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: searchAfterCellIdentifier)
+        
     }
-
+    
     @IBAction func dismissButton(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    
 }
 
 //MARK: - TableView
@@ -93,4 +95,29 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        var didObject: String?
+        
+        switch selectFilterState {
+        case .videoDicionary:
+            let sortVideoDic = videoDicFilter.keys.sorted(by: >)
+            didObject = String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0)
+            
+            
+        case .consultation:
+            let consultation = searchConsultation.keys.sorted(by: >)
+            didObject = String(videoDicFilter[consultation[indexPath.row]] ?? 0)
+            
+        case .videoNotes:
+            let sortVideoNotes = VideoNotes.keys.sorted(by: >)
+            didObject = String(videoDicFilter[sortVideoNotes[indexPath.row]] ?? 0)
+            
+        default:
+            return didObject = ""
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name("test"), object: didObject, userInfo: nil)
+        self.dismiss(animated: true, completion: nil)
+    }
 }

@@ -20,7 +20,6 @@ class SearchMainPopupVC: BottomPopupViewController {
     private let searchCellIdentifier = "SearchMainCell"
     
     var gradeList: [String] = ["모든 학년", "초등", "중등", "고등"]
-    let sortIdentifier = ["이름순": 1, "과목순": 2, "평점순": 3, "최신순": 4, "관련순": 7]
     
     
     var mainList: SearchMainButtonState?

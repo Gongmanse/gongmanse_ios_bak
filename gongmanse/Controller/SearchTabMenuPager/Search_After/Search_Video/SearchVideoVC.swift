@@ -51,21 +51,29 @@ class SearchVideoVC: UIViewController {
         
         print(searchVideoVM.responseVideoModel?.totalNum ?? "nil")
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
+        
+        // 필터링하고 받는 곳
+        NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: Notification.Name("test"), object: nil)
     }
-    
+    @objc func testAction(_ sender: Notification) {
+        if let users = sender.object as? String {
+            
+        }
+        
+    }
     @objc func allKeyword(_ sender: Notification) {
         let userInfo = sender.userInfo
+        let objected = sender.object as? String
         
         searchVideoVM.requestVideoAPI(subject: userInfo?["subject"] as? String ?? nil,
                                       grade: userInfo?["grade"] as? String ?? nil,
                                       keyword: userInfo?["text"] as? String ?? nil,
                                       offset: "0",
-                                      sortid: nil,
+                                      sortid: objected,
                                       limit: "20")
         
         NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
     }
-    
     
     //MARK: - Actions
     
