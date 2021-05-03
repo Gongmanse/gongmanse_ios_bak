@@ -47,8 +47,8 @@ class SearchNoteVC: UIViewController {
     
     @IBAction func handleFilter(_ sender: Any) {
         if isChooseGrade { 
-            let popupVC = ProgressPopupVC()
-            popupVC.selectedBtnIndex = .chapter
+            let popupVC = SearchAfterBottomPopup()
+            popupVC.selectFilterState = .videoNotes
             
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
