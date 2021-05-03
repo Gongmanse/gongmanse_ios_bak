@@ -11,7 +11,6 @@ import BottomPopup
 enum selectedIndex {
     case grade
     case chapter
-    case sort
 }
 
 class ProgressPopupVC: BottomPopupViewController {
@@ -26,10 +25,11 @@ class ProgressPopupVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     
     var chapters: [String] = []
-    // 임시 Input 데이터 추후, 데이터 패칭을 통해 가져올 것.
+    
+    
     let grades = ["모든 학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년", "중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     
-    let sortIdentifier = ["이름순": 1, "과목순": 2, "평점순": 3, "최신순": 4, "관련순": 7]
+    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var viewlabel: UILabel!
@@ -91,10 +91,8 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedBtnIndex! == .grade {
             return grades.count
-        } else if selectedBtnIndex! == .chapter{
-            return chapters.count
         } else {
-            return sortIdentifier.count
+            return chapters.count
         }
     }
     
@@ -106,16 +104,10 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
         if selectedBtnIndex! == .grade {
             cell.title.text = grades[indexPath.row]
             viewlabel.text = "학년"
-        } else if selectedBtnIndex! == .chapter{
+        } else {
             cell.title.text = chapters[indexPath.row]
             viewlabel.text = "과목"
-        } else {
-            
-            var t = Array(self.sortIdentifier.keys).sorted()
-            cell.title.text = "\(t[indexPath.row])"
-            viewlabel.text = "정렬"
         }
-        
         return cell
     }
     
@@ -127,10 +119,8 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
             ]
             NotificationCenter.default.post(name: .getGrade, object: nil, userInfo: hashable)
             self.dismiss(animated: true, completion: nil)
-        } else if selectedBtnIndex! == .chapter{
-            print(chapters[indexPath.row])
         } else {
-            print(Array(self.sortIdentifier.values)[indexPath.row])
+            print(chapters[indexPath.row])
         }
     }
     

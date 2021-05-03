@@ -74,7 +74,7 @@ class SearchVideoVC: UIViewController {
     // 평점순(Default), 최신순, 이름순, 과목순 
     @IBAction func handleFilter(_ sender: Any) {
         let popupVC = ProgressPopupVC()
-        popupVC.selectedBtnIndex = .sort
+        popupVC.selectedBtnIndex = .chapter
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
         popupVC.view.frame = self.view.bounds
