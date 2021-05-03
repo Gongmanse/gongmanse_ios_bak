@@ -13,6 +13,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
     
+    var currentVideoPlayRate = Float(1.0)
     var id: String?
     
     /* VideoContainterView */
@@ -454,16 +455,17 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         }
     }
     
+    /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
     @objc func handleSubtitleToggle() {
         
-        if self.isClickedSubtitleToggleButton {
-            self.isClickedSubtitleToggleButton = false
+        if self.subtitleLabel.alpha == 0 {
+            self.isClickedSubtitleToggleButton = true
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 1
             }
             
         } else {
-            self.isClickedSubtitleToggleButton = true
+            self.isClickedSubtitleToggleButton = false
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
             }
@@ -471,12 +473,51 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         }
     }
     
-    /// 클릭 시, 속도가 1.25배 빨라지는 메소드 (추후 변경 예정)
+    
+    /// 클릭 시, 설정 BottomPopupController 호출하는 메소드
     @objc func handleSettingButton() {
-//        player.playImmediately(atRate: 1.25)
-        present(VideoSettingPopupController(), animated: true, completion: nil)
         
+        let vc = VideoSettingPopupController()
+        vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
+        print("DEBUG: VideoController에서 보내준 값 \(isClickedSubtitleToggleButton)")
+        vc.currentStateIsSubtitleOn = isClickedSubtitleToggleButton
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
     }
+    
+    /// Notificaion에 의해 호촐되는 영상속도 콜백메소드
+    @objc func changeValueToPlayer(_ sender: Notification) {
+        
+        if let data = sender.userInfo {
+            if let playrate = data["playRate"] {
+                let rate = playrate as? Float ?? Float(1.0)
+                currentVideoPlayRate = rate
+                player.playImmediately(atRate: rate)
+            }
+        }
+    }
+    
+    /// Notificaion에 의해 호촐되는 자막표시여부 콜백메소드
+    @objc func switchIsOnSubtitle(_ sender: Notification) {
+        
+        if let data = sender.userInfo {
+            if let condition = data["isOnSubtitle"] {
+                
+                UIView.animate(withDuration: 0.22) {
+                    if condition as? Bool ?? true {
+                        self.subtitleLabel.alpha = 1
+                        self.isClickedSubtitleToggleButton = true
+
+                    } else {
+                        self.subtitleLabel.alpha = 0
+                        self.isClickedSubtitleToggleButton = false
+
+                    }
+                }
+            }
+        }
+    }
+    
     
     // MARK: - Helpers
     
@@ -484,9 +525,23 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     func configureDataAndNoti() {
         
         // 관찰자를 추가한다.
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                               object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(playerItemDidReachEnd),
+                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                         object: nil)
+        
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(changeValueToPlayer),
+                         name: .changePlayVideoRate, object: nil)
+
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(switchIsOnSubtitle),
+                         name: .switchSubtitleOnOff, object: nil)
+        
+        
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
         
@@ -955,4 +1010,11 @@ extension VideoController {
 }
 
 
+// MARK: - VideoSettingPopupControllerDelegate
 
+extension VideoController: VideoSettingPopupControllerDelegate {
+    func presentSelectionVideoPlayRateVC() {
+        let vc = SelectVideoPlayRateVC()
+        present(vc, animated: true, completion: nil)
+    }
+}
