@@ -310,52 +310,52 @@ extension VideoController {
             = customMenuBar.heightAnchor.constraint(equalToConstant: 44)
         
         /* TeacherInfoView */
-        view.addSubview(teacherInfoView)
-        teacherInfoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(lessonInfoView)
+        lessonInfoView.translatesAutoresizingMaskIntoConstraints = false
         teacherInfoFoldConstraint?.priority = UILayoutPriority(rawValue: 999)
         teacherInfoUnfoldConstraint?.priority = UILayoutPriority(rawValue: 999)
         teacherInfoFoldConstraint
-            = teacherInfoView.heightAnchor.constraint(equalToConstant: 5)
+            = lessonInfoView.heightAnchor.constraint(equalToConstant: 5)
         teacherInfoUnfoldConstraint
-            = teacherInfoView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.28)
+            = lessonInfoView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.28)
         
         // Portrait 제약조건 정의
         teacherInfoViewPorTraitTopConstraint
-            = teacherInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
+            = lessonInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
         teacherInfoViewPorTraitCenterXConstraint
-            = teacherInfoView.centerXAnchor.constraint(equalTo: customMenuBar.centerXAnchor)
+            = lessonInfoView.centerXAnchor.constraint(equalTo: customMenuBar.centerXAnchor)
         teacherInfoViewPorTraitWidthConstraint
-            = teacherInfoView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            = lessonInfoView.widthAnchor.constraint(equalTo: view.widthAnchor)
         
         // Landscape 제약조건 정의
         teacherInfoViewLandscapeTopConstraint
-            = teacherInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
+            = lessonInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         teacherInfoViewLandscapeLeftConstraint
-            = teacherInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            = lessonInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         teacherInfoViewLandscapeRightConstraint
-            = teacherInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+            = lessonInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         
         /* TeacherInfoView (top/bottom)BorderLine */
-        teacherInfoView.addSubview(topBorderLine)
-        teacherInfoView.addSubview(bottomBorderLine)
+        lessonInfoView.addSubview(topBorderLine)
+        lessonInfoView.addSubview(bottomBorderLine)
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
         topBorderLinePorTraitTopConstraint
-            = topBorderLine.topAnchor.constraint(equalTo: teacherInfoView.topAnchor)
+            = topBorderLine.topAnchor.constraint(equalTo: lessonInfoView.topAnchor)
         topBorderLinePorTraitCenterXConstraint
-            = topBorderLine.centerXAnchor.constraint(equalTo: teacherInfoView.centerXAnchor)
+            = topBorderLine.centerXAnchor.constraint(equalTo: lessonInfoView.centerXAnchor)
         topBorderLinePorTraitHeightConstraint
             = topBorderLine.heightAnchor.constraint(equalToConstant: 5)
         topBorderLinePorTraitWidthConstraint
-            = topBorderLine.widthAnchor.constraint(equalTo: teacherInfoView.widthAnchor)
+            = topBorderLine.widthAnchor.constraint(equalTo: lessonInfoView.widthAnchor)
         bottomBorderLinePorTraitBottomConstraint
-            = bottomBorderLine.bottomAnchor.constraint(equalTo: teacherInfoView.bottomAnchor)
+            = bottomBorderLine.bottomAnchor.constraint(equalTo: lessonInfoView.bottomAnchor)
         bottomBorderLinePorTraitCenterXConstraint
-            = bottomBorderLine.centerXAnchor.constraint(equalTo: teacherInfoView.centerXAnchor)
+            = bottomBorderLine.centerXAnchor.constraint(equalTo: lessonInfoView.centerXAnchor)
         bottomBorderLinePorTraitHeightConstraint
             = bottomBorderLine.heightAnchor.constraint(equalToConstant: 5)
         bottomBorderLinePorTraitWidthConstraint
-            = bottomBorderLine.widthAnchor.constraint(equalTo: teacherInfoView.widthAnchor)
+            = bottomBorderLine.widthAnchor.constraint(equalTo: lessonInfoView.widthAnchor)
         
         /* pageCollectionView */
         // Portrait 제약조건 정의
@@ -366,7 +366,7 @@ extension VideoController {
         pageCollectionViewPorTraitBottomConstraint
             = pageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         pageCollectionViewPorTraitTopConstraint
-            = pageCollectionView.topAnchor.constraint(equalTo: teacherInfoView.bottomAnchor)
+            = pageCollectionView.topAnchor.constraint(equalTo: lessonInfoView.bottomAnchor)
         
         // Landscape 제약조건 정의
         pageCollectionViewLandscapeLeftConstraint
