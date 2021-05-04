@@ -14,7 +14,6 @@ class SearchVideoCell: UICollectionViewCell {
     //MARK: - Outlet
     
     // TODO: word랑 Chemistry 추후에 삭제하고 collectionView로 구현
-    @IBOutlet weak var word: UILabel!
     @IBOutlet weak var chemistry: UILabel!
     @IBOutlet weak var videoImage: UIImageView!
     @IBOutlet weak var title: UILabel!
@@ -38,14 +37,13 @@ class SearchVideoCell: UICollectionViewCell {
         override func awakeFromNib() {
             super.awakeFromNib()
             
-            word.clipsToBounds = true
-            word.backgroundColor = .mainOrange
-            word.layer.cornerRadius = 10
-            
             chemistry.clipsToBounds = true
             chemistry.layer.cornerRadius = 10
+            
+            
             videoImage.layer.cornerRadius = 15
-
+            videoImage.contentMode = .scaleAspectFill
+            
         }
 
 }

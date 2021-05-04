@@ -63,7 +63,7 @@ class sUnitLabel: UILabel {
         adjustsFontSizeToFitWidth = true
         
         /* Text 속성 부여 */
-        self.font = UIFont.appBoldFontWith(size: 12)
+        self.font = UIFont.appBoldFontWith(size: 13.5)
         self.clipsToBounds = true
         self.layer.cornerRadius = 11.5
         self.textColor = .white

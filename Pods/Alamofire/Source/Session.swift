@@ -810,7 +810,6 @@ open class Session {
                                                           method: method,
                                                           headers: headers,
                                                           requestModifier: requestModifier)
-
         let formData = MultipartFormData(fileManager: fileManager)
         multipartFormData(formData)
 

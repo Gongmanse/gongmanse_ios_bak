@@ -1,31 +1,24 @@
-//
-//  sSubjectsUnitCell.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/05/03.
-//
-
 import UIKit
 
-class sSubjectsUnitCell: UICollectionViewCell {
+class sTagsCell: UICollectionViewCell {
  
     //MARK: - Properties
 
-    let cellLabel: UILabel = {
+    var cellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.appBoldFontWith(size: 14)
+        label.font = UIFont.appBoldFontWith(size: 10)
         label.text = "TEST"
+        label.textColor = UIColor.rgb(red: 128, green: 128, blue: 128)
         label.textAlignment = .center
         return label
     }()
+    
     
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-       
         configure()
-        self.backgroundColor = .green
     }
  
     required init?(coder: NSCoder) {
@@ -43,11 +36,12 @@ class sSubjectsUnitCell: UICollectionViewCell {
     
     func configure() {
         
+        backgroundColor = .progressBackgroundColor
         self.addSubview(cellLabel)
-        cellLabel.setDimensions(height: 20, width: self.frame.width)
+        cellLabel.setDimensions(height: self.frame.height, width: self.frame.width)
         cellLabel.centerX(inView: self)
         cellLabel.centerY(inView: self)
-        cellLabel.sizeToFit()
+        cellLabel.adjustsFontSizeToFitWidth = true
     }
     
 }

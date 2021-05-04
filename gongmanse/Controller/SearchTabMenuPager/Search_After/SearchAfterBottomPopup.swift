@@ -97,27 +97,34 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        var didObject: String?
+        var postInfo: [AnyHashable : Any]?
         
         switch selectFilterState {
         case .videoDicionary:
             let sortVideoDic = videoDicFilter.keys.sorted(by: >)
-            didObject = String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0)
-            
-            
+            postInfo = [
+                "sort": sortVideoDic[indexPath.row],
+                "sortID": String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0)
+            ]
         case .consultation:
             let consultation = searchConsultation.keys.sorted(by: >)
-            didObject = String(videoDicFilter[consultation[indexPath.row]] ?? 0)
             
+            postInfo = [
+                "sort": consultation[indexPath.row],
+                "sortID": String(videoDicFilter[consultation[indexPath.row]] ?? 0)
+            ]
         case .videoNotes:
             let sortVideoNotes = VideoNotes.keys.sorted(by: >)
-            didObject = String(videoDicFilter[sortVideoNotes[indexPath.row]] ?? 0)
             
+            postInfo = [
+                "sort": sortVideoNotes[indexPath.row],
+                "sortID": String(videoDicFilter[sortVideoNotes[indexPath.row]] ?? 0)
+            ]
         default:
-            return didObject = ""
+            return
         }
         
-        NotificationCenter.default.post(name: Notification.Name("test"), object: didObject, userInfo: nil)
+        NotificationCenter.default.post(name: .searchAfterVideoNoti, object: nil, userInfo: postInfo)
         self.dismiss(animated: true, completion: nil)
     }
 }

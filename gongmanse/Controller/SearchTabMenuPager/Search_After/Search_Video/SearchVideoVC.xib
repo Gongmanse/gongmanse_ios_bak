@@ -19,6 +19,7 @@
                 <outlet property="autoPlaySwitch" destination="8kW-VY-0qK" id="u4i-VL-BOF"/>
                 <outlet property="collectionView" destination="QQg-rj-lwS" id="jis-rD-rfh"/>
                 <outlet property="numberOfLesson" destination="McI-nO-EOF" id="1rR-X7-mDW"/>
+                <outlet property="sortButtonTitle" destination="F9a-co-6h8" id="vyS-9F-546"/>
                 <outlet property="view" destination="k1A-36-IOl" id="qHU-m3-36W"/>
             </connections>
         </placeholder>
@@ -41,7 +42,7 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="47"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 32 개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McI-nO-EOF">
-                            <rect key="frame" x="20" y="8" width="60" height="31"/>
+                            <rect key="frame" x="20" y="14" width="60" height="19"/>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -58,7 +59,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F9a-co-6h8">
                             <rect key="frame" x="95" y="8" width="67" height="31"/>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                            <state key="normal" title="평점순 ▼">
+                            <state key="normal" title="최신순 ▼">
                                 <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
@@ -72,10 +73,8 @@
                         <constraint firstItem="McI-nO-EOF" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="72D-MM-nJB"/>
                         <constraint firstItem="McI-nO-EOF" firstAttribute="leading" secondItem="D00-Ym-150" secondAttribute="leading" constant="20" id="EYr-6P-5Xn"/>
                         <constraint firstItem="8kW-VY-0qK" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="Itf-QH-cNg"/>
-                        <constraint firstItem="McI-nO-EOF" firstAttribute="height" secondItem="D00-Ym-150" secondAttribute="height" multiplier="0.659574" id="UWl-BH-0U4"/>
                         <constraint firstItem="8kW-VY-0qK" firstAttribute="leading" secondItem="rcu-ZM-0ia" secondAttribute="trailing" constant="8" id="YcD-y5-5qF"/>
                         <constraint firstItem="F9a-co-6h8" firstAttribute="leading" secondItem="McI-nO-EOF" secondAttribute="trailing" constant="15" id="hfX-9O-U5K"/>
-                        <constraint firstItem="F9a-co-6h8" firstAttribute="height" secondItem="D00-Ym-150" secondAttribute="height" multiplier="0.659574" id="l35-Ou-IsT"/>
                         <constraint firstAttribute="trailing" secondItem="8kW-VY-0qK" secondAttribute="trailing" constant="20" id="rYn-ie-ZGA"/>
                         <constraint firstItem="rcu-ZM-0ia" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="rrq-wC-loE"/>
                         <constraint firstItem="rcu-ZM-0ia" firstAttribute="height" secondItem="D00-Ym-150" secondAttribute="height" multiplier="0.638298" id="wP8-XH-iS5"/>
