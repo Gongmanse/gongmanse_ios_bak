@@ -18,9 +18,7 @@ class sTagsCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-       
         configure()
-        self.backgroundColor = .green
     }
  
     required init?(coder: NSCoder) {
@@ -38,6 +36,7 @@ class sTagsCell: UICollectionViewCell {
     
     func configure() {
         
+        backgroundColor = .progressBackgroundColor
         self.addSubview(cellLabel)
         cellLabel.setDimensions(height: self.frame.height, width: self.frame.width)
         cellLabel.centerX(inView: self)

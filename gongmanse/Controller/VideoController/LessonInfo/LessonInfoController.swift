@@ -3,19 +3,29 @@ import UIKit
 class LessonInfoController: UIViewController {
     
     // MARK: - Properties
-
-    let dataArray = ["#논리철학논고", "#비트겐슈타인", "#논리실증주의", "#루드비히", "#케인즈", "#침묵", "#기호학", "#논리경험주의", "#현대철학"]
     
+    let dataArray = ["#논리철학논고", "#비트겐슈타인", "#논리실증주의", "#루드비히", "#케인즈", "#침묵", "#기호학", "#논리경험주의", "#현대철학"]
+    let buttonSize = CGRect(x: 0, y: 0, width: 40, height: 40)
     private let teachernameLabel = PlainLabel("김우성 선생님", fontSize: 11.5)
     private let lessonnameLabel = PlainLabel("분석명제와 종합명제", fontSize: 17)
     private var sTagsCollectionView: UICollectionView?
+    private lazy var bookmarkButton = TopImageBottomTitleView(frame: buttonSize,
+                                                              title: "즐겨찾기",
+                                                              image: UIImage(systemName: "heart.fill")! )
+    private lazy var rateLessonButton = TopImageBottomTitleView(frame: buttonSize,
+                                                                title: "평점",
+                                                                image: UIImage(systemName: "star.fill")! )
+    private lazy var shareLessonButton = TopImageBottomTitleView(frame: buttonSize,
+                                                                 title: "공유",
+                                                                 image: UIImage(systemName: "link")! )
+    private lazy var relatedSeriesButton = TopImageBottomTitleView(frame: buttonSize,
+                                                                   title: "관련시리즈",
+                                                                   image: UIImage(systemName: "tray.full")!)
+    private lazy var problemSolvingButton = TopImageBottomTitleView(frame: buttonSize,
+                                                                    title: "문제풀이",
+                                                                    image: UIImage(systemName: "book.fill")!)
     
-    private let testButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("TEST", for: .normal)
-        button.addTarget(self, action: #selector(presentClickedTagSearchResult), for: .touchUpInside)
-        return button
-    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -27,8 +37,7 @@ class LessonInfoController: UIViewController {
     // MARK: - Actions
     
     // TODO: 정상적으로 Action 메소드가 호출되는지 TEST -> 05.03 OK
-    @objc
-    func presentClickedTagSearchResult() {
+    @objc func presentClickedTagSearchResult() {
         present(TestSearchController(clickedText: "테스트중"), animated: true)
     }
     
@@ -38,7 +47,13 @@ class LessonInfoController: UIViewController {
             sTagsCollectionView?.setContentOffset(CGPoint(x: 20,y: 0), animated: false)
         }
     }
-
+    
+    // TODO: tintColor 변경은 추후에 API 호출메소드에서 성공 시, 변경하는 것으로 로직 실행할 예정. 05.04
+    @objc func handleBookmarkAction(sender: UIView) { bookmarkButton.viewTintColor = .mainOrange }
+    @objc func handleRateLessonAction() { rateLessonButton.viewTintColor = .mainOrange }
+    @objc func handleShareLessonAction() { shareLessonButton.viewTintColor = .mainOrange }
+    @objc func handleRelatedSeriesAction() { relatedSeriesButton.viewTintColor = .mainOrange }
+    @objc func handleProblemSolvingAction() { problemSolvingButton.viewTintColor = .mainOrange }
     
     // TODO: 태그 클릭 시, 검색결과화면으로 이동하는 메소드
     // TODO: 즐겨찾기 클릭 시, 즐겨칮가 API호출
@@ -49,12 +64,10 @@ class LessonInfoController: UIViewController {
     
     
     // MARK: - Helpers
-
+    
     func configureUI() {
         let sSubjectsUnitContainerView = UIView()
         let paddingConstant = view.frame.height * 0.025
-        
-        // "DEFAULT" 입력 시, UILabel 자체를 숨김
         let sSubjectLabel = sUnitLabel("DEFAULT", .brown)
         let sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
         let sUnitLabel02 = sUnitLabel("DEFAULT", .mainOrange)
@@ -78,12 +91,12 @@ class LessonInfoController: UIViewController {
         sSubjectLabel.layer.cornerRadius = 11.5
         sSubjectsUnitContainerView.addSubview(sSubjectLabel)
         sSubjectLabel.anchor(top: sSubjectsUnitContainerView.topAnchor,
-                            left: sSubjectsUnitContainerView.leftAnchor,
-                            paddingLeft: 2.5,
-                            height: 25)
+                             left: sSubjectsUnitContainerView.leftAnchor,
+                             paddingLeft: 2.5,
+                             height: 25)
         configuresUnit(sSubjectsUnitContainerView, sSubjectLabel, label: sUnitLabel01)
         configuresUnit(sSubjectsUnitContainerView, sUnitLabel01, label: sUnitLabel02)
-                
+        
         // TODO: [UI] 선생님이름 -> 05.04 OK
         sSubjectsUnitContainerView.addSubview(teachernameLabel)
         teachernameLabel.centerY(inView: sSubjectLabel)
@@ -96,11 +109,10 @@ class LessonInfoController: UIViewController {
                                left: sSubjectLabel.leftAnchor,
                                paddingTop: 10, paddingLeft: 5, height: 20)
         
-        // TODO: [UI] 해쉬 태그
+        // TODO: [UI] 해쉬 태그 -> 05.04 UI 완성
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 2.5)
         layout.scrollDirection = .horizontal
-//        layout.itemSize = CGSize(width: 100, height: 20)
         layout.itemSize.height = 20
         sTagsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(sTagsCollectionView ?? UICollectionView())
@@ -110,18 +122,25 @@ class LessonInfoController: UIViewController {
                                     paddingTop: 10, paddingLeft: 10)
         configureCollectionView()
         
-        
-        // TODO: [UI] 즐겨찾기
-        
-        view.addSubview(testButton)
-        testButton.setDimensions(height: 50, width: 100)
-        testButton.anchor(left: view.leftAnchor,
-                          bottom: view.bottomAnchor)
-        
-        // TODO: [UI] 평점
-        // TODO: [UI] 공유
-        // TODO: [UI] 관련 시리즈
-        // TODO: [UI] 문제풀이
+        // TODO: [UI] 즐겨찾기, 평점, 공유, 관련시리즈, 문제풀이 -> 05.04 UI 완성
+        let stack = UIStackView(arrangedSubviews:
+                                    [bookmarkButton,rateLessonButton,shareLessonButton,relatedSeriesButton,problemSolvingButton])
+        let buttonHeight = view.frame.width * 0.12
+        let buttonWidth = view.frame.width * 0.1
+        bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        rateLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        view.addSubview(stack)
+        stack.isUserInteractionEnabled = true
+        stack.distribution = .equalSpacing
+        stack.axis = .horizontal
+        stack.spacing = buttonWidth
+        stack.alignment = .leading
+        stack.centerX(inView: view)
+        stack.anchor(top: sTagsCollectionView?.bottomAnchor, paddingTop: 10)
+        configureAddActions()
     }
     
     func configureCollectionView() {
@@ -133,19 +152,29 @@ class LessonInfoController: UIViewController {
         sTagsCollectionView?.showsHorizontalScrollIndicator = false
     }
     
+    func configureAddActions() {
+        let bookmarkButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleBookmarkAction))
+        let rateLessonButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleRateLessonAction))
+        let shareLessonButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleShareLessonAction))
+        let relatedSeriesButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleRelatedSeriesAction))
+        let problemSolvingButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleProblemSolvingAction))
+        bookmarkButton.addGestureRecognizer(bookmarkButtonGesture)
+        rateLessonButton.addGestureRecognizer(rateLessonButtonGesture)
+        shareLessonButton.addGestureRecognizer(shareLessonButtonGesture)
+        relatedSeriesButton.addGestureRecognizer(relatedSeriesButtonGesture)
+        problemSolvingButton.addGestureRecognizer(problemSolvingButtonGesture)
+    }
 }
 
 
 // MARK: - Common UI Attribute setting Method
 
 extension LessonInfoController {
-    
+
     func configuresUnit(_ containerView: UIView, _ leftView: UIView, label: UILabel) {
         containerView.addSubview(label)
-        label.anchor(top: containerView.topAnchor,
-                           left: leftView.rightAnchor,
-                           paddingLeft: 2.5,
-                           height: 25)
+        label.anchor(top: containerView.topAnchor, left: leftView.rightAnchor,
+                     paddingLeft: 2.5, height: 25)
     }
 }
 
@@ -161,7 +190,6 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = dataArray[indexPath.row]
         let cell = sTagsCollectionView?.dequeueReusableCell(withReuseIdentifier: "sTagsCell", for: indexPath) as! sTagsCell
-        cell.backgroundColor = .progressBackgroundColor
         cell.cellLabel.text = item
         return cell
     }
