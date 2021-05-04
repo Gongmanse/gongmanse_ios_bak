@@ -124,7 +124,7 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        NotificationCenter.default.post(name: Notification.Name("test"), object: nil, userInfo: postInfo)
+        NotificationCenter.default.post(name: .searchAfterVideoNoti, object: nil, userInfo: postInfo)
         self.dismiss(animated: true, completion: nil)
     }
 }

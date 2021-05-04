@@ -12,9 +12,14 @@ extension Notification.Name {
     static let getGrade = Notification.Name(NotificationKey.getGradeKey)
     static let getSubject = Notification.Name(NotificationKey.getSubjectKey)
     
+    // 검색 (전)
     static let searchGradeNoti = Notification.Name(NotificationKey.searchGradeKey)
     static let searchSubjectNoti = Notification.Name(NotificationKey.searchSubjectkey)
     static let searchAllNoti = Notification.Name(NotificationKey.searchAllPassKey)
+    
+    // 검색 (후)
+    static let searchAfterVideoNoti = Notification.Name(NotificationKey.searchAfterVideoSort)
+    
 }
 
 struct NotificationKey {
@@ -24,4 +29,7 @@ struct NotificationKey {
     static let searchGradeKey = "searchGrade"
     static let searchSubjectkey = "searchSubject"
     static let searchAllPassKey = "searchPass"
+    
+    // searchAfter 관련
+    static let searchAfterVideoSort = "videoSort"
 }

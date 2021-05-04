@@ -54,8 +54,9 @@ class SearchVideoVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
         
         // 필터링하고 받는 곳
-        NotificationCenter.default.addObserver(self, selector: #selector(testAction(_:)), name: Notification.Name("test"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(testAction(_:)), name: .searchAfterVideoNoti, object: nil)
     }
+    
     @objc func testAction(_ sender: Notification) {
         let acceptInfo = sender.userInfo
         sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
