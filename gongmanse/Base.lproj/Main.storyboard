@@ -382,7 +382,7 @@
                                 <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photoDefault" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
                                 <rect key="frame" x="40" y="99" width="334" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="334" id="3sh-7Y-cJM"/>
@@ -400,21 +400,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fxh-nb-VJ8">
-                                <rect key="frame" x="50" y="822" width="314" height="40"/>
-                                <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="314" id="Izj-eN-NfM"/>
-                                    <constraint firstAttribute="height" constant="40" id="T6t-jZ-QGw"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <state key="normal" title="작성하기">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="writeBtnAction:" destination="AgR-CB-1m6" eventType="touchUpInside" id="c5V-Li-8Iy"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvM-yL-jXR">
                                 <rect key="frame" x="374" y="64" width="20" height="20"/>
                                 <constraints>
@@ -426,21 +411,36 @@
                                     <action selector="addImageAndVideo:" destination="AgR-CB-1m6" eventType="touchUpInside" id="cAL-Gz-zXF"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fxh-nb-VJ8">
+                                <rect key="frame" x="50" y="802" width="314" height="40"/>
+                                <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="YIf-s0-CiQ"/>
+                                    <constraint firstAttribute="width" constant="314" id="uQB-G7-cF0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <state key="normal" title="작성하기">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="writeBtnAction:" destination="AgR-CB-1m6" eventType="touchUpInside" id="c5V-Li-8Iy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="F6q-xg-ic5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Fxh-nb-VJ8" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="50" id="5sL-VQ-LTx"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Jcd-0a-MXO" secondAttribute="trailing" constant="40" id="68E-np-ikF"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="bottom" secondItem="Fxh-nb-VJ8" secondAttribute="bottom" constant="20" id="6VT-O6-f5P"/>
                             <constraint firstItem="ISp-Lf-fTm" firstAttribute="top" secondItem="Jcd-0a-MXO" secondAttribute="bottom" constant="40" id="6mA-BA-yQM"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="cfC-XL-tF6" secondAttribute="trailing" constant="40" id="75P-hv-6X1"/>
                             <constraint firstItem="Hnb-d6-Po0" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="AjN-Lf-XIq"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="hvM-yL-jXR" secondAttribute="trailing" constant="20" id="E7P-T8-eYt"/>
                             <constraint firstItem="hvM-yL-jXR" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="G3t-4w-7Gi"/>
-                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Fxh-nb-VJ8" secondAttribute="trailing" constant="50" id="KWI-ht-Rge"/>
                             <constraint firstItem="ISp-Lf-fTm" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="NDx-it-EBi"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Fxh-nb-VJ8" secondAttribute="trailing" constant="50" id="R7k-Ug-QsI"/>
                             <constraint firstItem="Jcd-0a-MXO" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="40" id="Y1i-qB-n4u"/>
-                            <constraint firstItem="F6q-xg-ic5" firstAttribute="bottom" secondItem="Fxh-nb-VJ8" secondAttribute="bottom" id="buF-LM-AQr"/>
+                            <constraint firstItem="Fxh-nb-VJ8" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="50" id="deC-nk-A8O"/>
                             <constraint firstItem="Jcd-0a-MXO" firstAttribute="top" secondItem="Hnb-d6-Po0" secondAttribute="bottom" constant="15" id="gA0-dC-c0c"/>
                             <constraint firstItem="cfC-XL-tF6" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="40" id="uRf-XI-Ly1"/>
                             <constraint firstItem="Hnb-d6-Po0" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="xWm-aQ-5Pe"/>
@@ -3742,7 +3742,6 @@
         <image name="idOff" width="24" height="24"/>
         <image name="list" width="22" height="20"/>
         <image name="photo" width="46" height="46"/>
-        <image name="photoDefault" width="50" height="50"/>
         <image name="popupAlign" width="27" height="27"/>
         <image name="popupCategory" width="24" height="24"/>
         <image name="popupDone" width="24" height="24"/>
