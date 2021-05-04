@@ -19,6 +19,7 @@
                 <outlet property="autoPlaySwitch" destination="8kW-VY-0qK" id="u4i-VL-BOF"/>
                 <outlet property="collectionView" destination="QQg-rj-lwS" id="jis-rD-rfh"/>
                 <outlet property="numberOfLesson" destination="McI-nO-EOF" id="1rR-X7-mDW"/>
+                <outlet property="sortButtonTitle" destination="F9a-co-6h8" id="vyS-9F-546"/>
                 <outlet property="view" destination="k1A-36-IOl" id="qHU-m3-36W"/>
             </connections>
         </placeholder>

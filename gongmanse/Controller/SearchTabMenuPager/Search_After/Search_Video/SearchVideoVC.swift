@@ -24,12 +24,13 @@ class SearchVideoVC: UIViewController {
     }
 
     let searchVideoVM = SearchVideoViewModel()
-    
+    var notificationUserInfo: [AnyHashable : Any]?
     //MARK: - IBOutlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
+    @IBOutlet weak var sortButtonTitle: UIButton!
     
     //MARK: - Lifecycle
     
@@ -53,26 +54,35 @@ class SearchVideoVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
         
         // 필터링하고 받는 곳
-        NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: Notification.Name("test"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(testAction(_:)), name: Notification.Name("test"), object: nil)
     }
     @objc func testAction(_ sender: Notification) {
-        if let users = sender.object as? String {
-            
-        }
+        let acceptInfo = sender.userInfo
+        sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
         
+        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
+                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
+                                      keyword: notificationUserInfo?["text"] as? String ?? nil,
+                                      offset: "0",
+                                      sortid: acceptInfo?["sortID"] as? String ?? nil,
+                                      limit: "20")
+        
+//        NotificationCenter.default.removeObserver(self, name: Notification.Name("test"), object: nil)
     }
+    
     @objc func allKeyword(_ sender: Notification) {
-        let userInfo = sender.userInfo
+        notificationUserInfo = sender.userInfo
         let objected = sender.object as? String
         
-        searchVideoVM.requestVideoAPI(subject: userInfo?["subject"] as? String ?? nil,
-                                      grade: userInfo?["grade"] as? String ?? nil,
-                                      keyword: userInfo?["text"] as? String ?? nil,
+        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
+                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
+                                      keyword: notificationUserInfo?["text"] as? String ?? nil,
                                       offset: "0",
                                       sortid: objected,
                                       limit: "20")
         
         NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
+    
     }
     
     //MARK: - Actions
