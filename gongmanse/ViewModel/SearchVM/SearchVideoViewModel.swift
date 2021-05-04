@@ -28,13 +28,17 @@ import UIKit
 //    }
 //}
 
-class SearchVideoViewModel {
+
+class SearchVideoViewModel: NSAttributedStringColor {
+    
+    
     
     weak var reloadDelegate: CollectionReloadData?
     
     // API 성공 시 데이터 받을 곳
     var responseVideoModel: SearchVideoModel? = nil
     
+    // API 통신
     func requestVideoAPI(subject: String?,
                          grade: String?,
                          keyword: String?,
@@ -61,5 +65,14 @@ class SearchVideoViewModel {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func convertStringColor(_ mainString: String, _ subString: String) -> NSAttributedString{
+        let range = (mainString as NSString).range(of: subString)
+        
+        let mutableString = NSMutableAttributedString.init(string: mainString)
+        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.mainOrange, range: range)
+        
+        return mutableString
     }
 }

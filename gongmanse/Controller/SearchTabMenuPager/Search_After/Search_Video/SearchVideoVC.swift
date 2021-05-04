@@ -44,6 +44,9 @@ class SearchVideoVC: UIViewController {
         searchVideoVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
+        numberOfLesson.font = .appBoldFontWith(size: 14)
+        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 14)
+        
         // 강의 개수 Text 속성 설정
         configurelabel(value: 3)
         
@@ -172,7 +175,8 @@ extension SearchVideoVC: CollectionReloadData {
         DispatchQueue.main.async {
             
             // MARK: refactor: 중간 텍스트 글자 색 변경예정
-            self.numberOfLesson.text = "총 \(self.searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
+            let allString = "총 \(self.searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
+            self.numberOfLesson.attributedText = self.searchVideoVM.convertStringColor(allString, self.searchVideoVM.responseVideoModel?.totalNum ?? "0")
             self.collectionView.reloadData()
         }
     }
