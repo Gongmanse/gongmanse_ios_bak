@@ -59,6 +59,7 @@ class SearchVideoVC: UIViewController {
     @objc func testAction(_ sender: Notification) {
         let acceptInfo = sender.userInfo
         sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
+        numberOfLesson.text = "총 \(searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
         
         searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
                                       grade: notificationUserInfo?["grade"] as? String ?? nil,
@@ -72,6 +73,7 @@ class SearchVideoVC: UIViewController {
     
     @objc func allKeyword(_ sender: Notification) {
         notificationUserInfo = sender.userInfo
+        
         let objected = sender.object as? String
         
         searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
@@ -128,9 +130,16 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchVideoCell
         
+        guard let indexData = searchVideoVM.responseVideoModel?.data[indexPath.row] else { return UICollectionViewCell() }
         // TODO: ViewModel 적용해둘 것.
-        cell.title.text = searchVideoVM.responseVideoModel?.data[indexPath.row].sTitle
-        cell.teacher.text = searchVideoVM.responseVideoModel?.data[indexPath.row].sTeacher
+        cell.title.text = indexData.sTitle
+        cell.teacher.text = indexData.sTeacher
+        cell.rating.text = indexData.iRating
+        cell.chemistry.text = indexData.sSubject
+        cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData.sSubjectColor ?? "")")
+        cell.videoImage.setImageUrl(fileBaseURL+indexData.sThumbnail!)
+        print(fileBaseURL+indexData.sThumbnail!)
+        
         return cell
     }
 }

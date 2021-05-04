@@ -23,14 +23,9 @@ struct SearchAfterVideoAPIManager {
             formData.append("\(data.grade ?? "")".data(using: .utf8) ?? Data(), withName: "grade")
             formData.append("\(data.keyword ?? "")".data(using: .utf8) ?? Data(), withName: "keyword")
             formData.append("\(data.offset ?? "0")".data(using: .utf8) ?? Data(), withName: "offset")
-            formData.append("\(data.sortid ?? "")".data(using: .utf8) ?? Data(), withName: "sort_id")
+            formData.append("\(data.sortid ?? "4")".data(using: .utf8) ?? Data(), withName: "sort_id")
             formData.append("\(data.limit ?? "20")".data(using: .utf8) ?? Data(), withName: "limit")
-//            formData.append("0".data(using: .utf8) ?? Data(), withName: "subject")
-//            formData.append("중등".data(using: .utf8) ?? Data(), withName: "grade")
-//            formData.append("무신".data(using: .utf8) ?? Data(), withName: "keyword")
-//            formData.append("0".data(using: .utf8) ?? Data(), withName: "offset")
-//            formData.append("1".data(using: .utf8) ?? Data(), withName: "sort_id")
-//            formData.append("20".data(using: .utf8) ?? Data(), withName: "limit")
+
         }, to: videoUrl)
         
         .responseDecodable(of: SearchVideoModel.self) { response in

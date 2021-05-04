@@ -37,26 +37,30 @@
                                     <constraint firstAttribute="width" secondItem="jsd-cD-haH" secondAttribute="height" multiplier="19:13" id="Qgs-s4-MfR"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="화학" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBB-Jg-u3K">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="화학" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBB-Jg-u3K" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                 <rect key="frame" x="152" y="0.0" width="40" height="20"/>
                                 <color key="backgroundColor" red="0.14875933529999999" green="0.29579317570000002" blue="0.38432610029999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="QTj-s1-UKK"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="QTj-s1-UKK"/>
                                     <constraint firstAttribute="height" constant="20" id="jqF-xe-lY3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="용어" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOo-XE-4GF">
-                                <rect key="frame" x="200" y="0.0" width="40" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="Z9x-5r-kA1"/>
-                                    <constraint firstAttribute="height" constant="20" id="syb-HK-huh"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="열역학 제 2 법칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fi5-Ns-WXA">
                                 <rect key="frame" x="152" y="34" width="116" height="21"/>
@@ -96,14 +100,12 @@
                             <constraint firstAttribute="trailing" secondItem="78G-zR-vzD" secondAttribute="trailing" constant="20" id="Jhk-oc-V9A"/>
                             <constraint firstItem="jsd-cD-haH" firstAttribute="height" secondItem="L2W-Yn-ldb" secondAttribute="height" id="L1s-Jw-Fc8"/>
                             <constraint firstItem="jsd-cD-haH" firstAttribute="centerY" secondItem="L2W-Yn-ldb" secondAttribute="centerY" id="LqQ-ij-wrM"/>
-                            <constraint firstItem="OOo-XE-4GF" firstAttribute="leading" secondItem="qBB-Jg-u3K" secondAttribute="trailing" constant="8" id="LsI-7g-bvr"/>
                             <constraint firstItem="Wqs-J9-WMa" firstAttribute="height" secondItem="L2W-Yn-ldb" secondAttribute="height" multiplier="0.1875" id="WVL-0W-7LC"/>
                             <constraint firstItem="Fi5-Ns-WXA" firstAttribute="top" secondItem="qBB-Jg-u3K" secondAttribute="bottom" constant="14" id="aiA-wh-WVf"/>
                             <constraint firstAttribute="bottom" secondItem="78G-zR-vzD" secondAttribute="bottom" id="bU9-pf-0Kk"/>
                             <constraint firstAttribute="bottom" secondItem="Wqs-J9-WMa" secondAttribute="bottom" id="jp9-hA-6Fe"/>
                             <constraint firstItem="HUf-kS-x5H" firstAttribute="centerY" secondItem="78G-zR-vzD" secondAttribute="centerY" id="pIA-ds-wkY"/>
                             <constraint firstItem="78G-zR-vzD" firstAttribute="leading" secondItem="HUf-kS-x5H" secondAttribute="trailing" constant="3" id="qkX-vn-J8n"/>
-                            <constraint firstItem="OOo-XE-4GF" firstAttribute="top" secondItem="L2W-Yn-ldb" secondAttribute="top" id="rse-hX-79H"/>
                             <constraint firstItem="Fi5-Ns-WXA" firstAttribute="leading" secondItem="qBB-Jg-u3K" secondAttribute="leading" id="udw-dL-nsK"/>
                             <constraint firstItem="jsd-cD-haH" firstAttribute="leading" secondItem="L2W-Yn-ldb" secondAttribute="leading" constant="20" id="yWZ-v8-9oH"/>
                         </constraints>
@@ -123,7 +125,6 @@
                 <outlet property="teacher" destination="Wqs-J9-WMa" id="0Q2-zn-9ds"/>
                 <outlet property="title" destination="Fi5-Ns-WXA" id="Zru-oS-8I3"/>
                 <outlet property="videoImage" destination="jsd-cD-haH" id="SE9-uv-jmN"/>
-                <outlet property="word" destination="OOo-XE-4GF" id="fOg-jg-gHu"/>
             </connections>
             <point key="canvasLocation" x="-201.44927536231884" y="117.85714285714285"/>
         </collectionViewCell>

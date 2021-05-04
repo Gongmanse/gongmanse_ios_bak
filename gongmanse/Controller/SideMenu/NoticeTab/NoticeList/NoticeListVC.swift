@@ -69,7 +69,7 @@ extension NoticeListVC: UICollectionViewDataSource {
         let contentImageName = noticeListArray[indexPath.row].sContent
         
         //정규식
-        let imageRegex = "(http(s?):\\/\\/file\\.gongmanse\\.com\\/uploads\\/editor\\/96\\/[a-z0-9]{0,}\\.(png|jpg))"
+        let imageRegex = "(http(s?):\\/\\/file\\.gongmanse\\.com\\/uploads\\/editor\\/[0-9]{0,}\\/[a-z0-9]{0,}\\.(png|jpg))"
         
         var allRegex: [String] = []
         allRegex.append(contentsOf: contentImageName.getCertificationNumber(regex: imageRegex))
