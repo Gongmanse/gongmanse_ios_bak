@@ -1,7 +1,10 @@
 //  Created by 김우성 on 2021/03/11.
 
 import UIKit
-
+/**
+  // 중간 텍스트 글자 색 변경예정
+ 
+ */
 private let cellId = "SearchVideoCell"
 
 // SearchAfterVC에서 reloadData 로직 구현을 위한 Protocol
@@ -49,8 +52,6 @@ class SearchVideoVC: UIViewController {
         autoPlaySwitch.onTintColor = .mainOrange
         
         
-        
-        print(searchVideoVM.responseVideoModel?.totalNum ?? "nil")
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
         
         // 필터링하고 받는 곳
@@ -60,7 +61,7 @@ class SearchVideoVC: UIViewController {
     @objc func testAction(_ sender: Notification) {
         let acceptInfo = sender.userInfo
         sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
-        numberOfLesson.text = "총 \(searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
+        
         
         searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
                                       grade: notificationUserInfo?["grade"] as? String ?? nil,
@@ -138,8 +139,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.rating.text = indexData.iRating
         cell.chemistry.text = indexData.sSubject
         cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData.sSubjectColor ?? "")")
-        cell.videoImage.setImageUrl(fileBaseURL+indexData.sThumbnail!)
-        print(fileBaseURL+indexData.sThumbnail!)
+        cell.videoImage.setImageUrl("\(fileBaseURL)/\(indexData.sThumbnail ?? "")")
         
         return cell
     }
@@ -170,6 +170,9 @@ extension SearchVideoVC: CollectionReloadData {
     
     func reloadCollection() {
         DispatchQueue.main.async {
+            
+            // MARK: refactor: 중간 텍스트 글자 색 변경예정
+            self.numberOfLesson.text = "총 \(self.searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
             self.collectionView.reloadData()
         }
     }

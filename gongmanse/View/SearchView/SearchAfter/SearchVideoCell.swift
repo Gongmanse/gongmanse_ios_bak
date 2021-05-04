@@ -39,8 +39,11 @@ class SearchVideoCell: UICollectionViewCell {
             
             chemistry.clipsToBounds = true
             chemistry.layer.cornerRadius = 10
+            
+            
             videoImage.layer.cornerRadius = 15
-
+            videoImage.contentMode = .scaleAspectFill
+            
         }
 
 }
