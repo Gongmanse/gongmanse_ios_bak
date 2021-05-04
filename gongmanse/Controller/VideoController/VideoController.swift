@@ -267,14 +267,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// "teachInfoView" 하단에 토글 기능을 담당할 UIButton
     let toggleButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("", for: .normal)
+        let image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        button.tintColor = .white
+        button.setBackgroundImage(image, for: .normal)
         button.backgroundColor = .mainOrange
         return button
     }()
     
-    var isPlaying: Bool {
-        player.rate != 0 && player.error == nil
-    }
+    var isPlaying: Bool { player.rate != 0 && player.error == nil }
     
     
     // MARK: - Lifecycle
@@ -337,7 +337,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 강의 및 선생님 정보 View 하단에 있는 버튼 toggle 기능담당 메소드
     @objc func handleToggle() {
-        
         if teacherInfoFoldConstraint!.isActive == true {
             teacherInfoFoldConstraint!.isActive = false
             teacherInfoUnfoldConstraint!.isActive = true
@@ -350,7 +349,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 우측상단에 뒤로가기 버튼 로직
     @objc func handleBackButtonAction() {
-        
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
@@ -361,7 +359,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
     @objc func timeSliderValueChanged(_ slider: UISlider) {
-        
         let seconds: Int64 = Int64(slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
         player.seek(to: targetTime)
@@ -373,7 +370,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
     @objc func playPausePlayer() {
-        
         let playImage = UIImage(systemName: "play.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         let pauseImage = UIImage(systemName: "pause.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         
@@ -390,7 +386,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 동영상 앞으로 가기 기능을 담당하는 콜백 메소드
     @objc func moveForwardPlayer() {
-         
         /// 10초를 계산하기 위한 프로퍼티
         let seconds = Double(230) / Double(23.98)
         
@@ -404,7 +399,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 동영상 뒤로 가기 기능을 담당하는 콜백 메소드
     @objc func moveBackwardPlayer() {
-        
         let seconds = Double(230) / Double(23.98)
         let oneFrame = CMTime(seconds: seconds, preferredTimescale: 60)
         let subTractTime = CMTimeSubtract(player.currentTime(), oneFrame)
@@ -413,7 +407,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 알림 호출 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-        
         player.seek(to: CMTime.zero)
         player.pause()
     }
@@ -421,7 +414,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
-        
         // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
         pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
                                         at: UICollectionView.ScrollPosition.left,
@@ -439,7 +431,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
     @objc func handleOrientation() {
-        
         // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
         pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
                                         at: UICollectionView.ScrollPosition.left,
@@ -457,7 +448,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
     @objc func handleSubtitleToggle() {
-        
         if self.subtitleLabel.alpha == 0 {
             self.isClickedSubtitleToggleButton = true
             UIView.animate(withDuration: 0.22) {
@@ -476,7 +466,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 클릭 시, 설정 BottomPopupController 호출하는 메소드
     @objc func handleSettingButton() {
-        
         let vc = VideoSettingPopupController()
         vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
         print("DEBUG: VideoController에서 보내준 값 \(isClickedSubtitleToggleButton)")
@@ -487,7 +476,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// Notificaion에 의해 호촐되는 영상속도 콜백메소드
     @objc func changeValueToPlayer(_ sender: Notification) {
-        
         if let data = sender.userInfo {
             if let playrate = data["playRate"] {
                 let rate = playrate as? Float ?? Float(1.0)
@@ -499,7 +487,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// Notificaion에 의해 호촐되는 자막표시여부 콜백메소드
     @objc func switchIsOnSubtitle(_ sender: Notification) {
-        
         if let data = sender.userInfo {
             if let condition = data["isOnSubtitle"] {
                 
@@ -523,24 +510,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 데이터 구성을 위한 메소드
     func configureDataAndNoti() {
-        
         // 관찰자를 추가한다.
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(playerItemDidReachEnd),
                          name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                          object: nil)
-        
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(changeValueToPlayer),
                          name: .changePlayVideoRate, object: nil)
-
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(switchIsOnSubtitle),
                          name: .switchSubtitleOnOff, object: nil)
-        
         
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
@@ -551,7 +534,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 전반적인 UI 구현 메소드
     func configureUI() {
-        
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = .white
         navigationController?.hidesBarsOnSwipe = true
@@ -570,19 +552,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         
         // 영상 플레이어컨트롤러 하단 상태표시슬라이드 display 여부
         playerController.showsPlaybackControls = false
-        
     }
     
     /// customMenuBar의 sroll관련 로직을 처리하는 메소드
     func customMenuBar(scrollTo index: Int) {
-        
         let indexPath = IndexPath(row: index, section: 0)
         self.pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     /// "노트보기" ... 등 CollectionView 설정을 위한 메소드
     func setupPageCollectionView(){
-        
         pageCollectionView.isScrollEnabled = false
         pageCollectionView.delegate = self
         pageCollectionView.dataSource = self
@@ -600,7 +579,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     /// 동영상 바로 하단에 위치한 강의정보 및 선생님 정보가 적힌 View 설정을 위한 메소드
     func configureToggleButton() {
-        
         view.addSubview(toggleButton)
         toggleButton.setDimensions(height: 32, width: 30)
         toggleButton.layer.cornerRadius = 8
@@ -619,7 +597,6 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         switch indexPath.row {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
@@ -640,9 +617,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
+                        numberOfItemsInSection section: Int) -> Int { return 3 }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView,
                                    withVelocity velocity: CGPoint,
@@ -678,7 +653,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
     func open(fileFromLocal filePath: URL,
               encoding: String.Encoding = String.Encoding.utf8) {
-        
         let contents = try! String(contentsOf: filePath, encoding: encoding)
         show(subtitles: contents)
     }
@@ -842,7 +816,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
     /// View 최상단 영상 시작 메소드
     func playVideo() {
-        
         playerController.delegate = self
         
         // AVPlayer에 외부 URL을 포함한 값을 입력한다.
@@ -879,7 +852,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
     
     func configureVideoControlView() {
-        
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
         let height = convertHeight(15, standardView: view)
@@ -907,44 +879,34 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.centerY(inView: videoControlContainerView)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
-        
         // 현재시간을 나타내는 레이블
         videoControlContainerView.addSubview(currentTimeLabel)
         currentTimeLabel.centerY(inView: timeSlider)
         currentTimeLabel.anchor(right: timeSlider.leftAnchor,
                                 paddingRight: 5,
                                 height: 13)
-        
         // 종료시간을 나타내는 레이블
         videoControlContainerView.addSubview(endTimeTimeLabel)
         endTimeTimeLabel.centerY(inView: timeSlider)
         endTimeTimeLabel.anchor(left: timeSlider.rightAnchor,
                                 paddingLeft: 5,
                                 height: 13)
-        
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 5)
-        
         // VideoSettingButton
         videoContainerView.addSubview(videoSettingButton)
         videoSettingButton.anchor(top: videoContainerView.topAnchor,
                                   right: videoContainerView.rightAnchor,
                                   paddingTop: 10,
                                   paddingRight: 10)
-        
-        
         // 자막 생성 및 제거 버튼
         videoContainerView.addSubview(subtitleToggleButton)
         subtitleToggleButton.centerY(inView: videoSettingButton)
         subtitleToggleButton.anchor(right: videoSettingButton.leftAnchor,
                                     paddingRight: 3)
-        
-        
-        
-        
         let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                     action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
@@ -954,7 +916,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
     @objc func targetViewDidTapped() {
-        
         if videoControlContainerView.alpha == 1 {
             UIView.animate(withDuration: 0.3) {
                 self.videoControlContainerView.alpha = 0
@@ -991,7 +952,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
 extension VideoController {
     
     func didSucceedNetworking(response: DetailVideoResponse) {
-        
         // source_url -> VideoURL
         if let sourceURL = response.data.source_url {
             self.videoURL = URL(string: sourceURL) as NSURL?
@@ -1022,6 +982,6 @@ extension VideoController {
 extension VideoController: VideoSettingPopupControllerDelegate {
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: true)
     }
 }

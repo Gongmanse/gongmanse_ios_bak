@@ -201,7 +201,9 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("DEBUG: 클릭한 셀의 인덱스는 \(indexPath) 입니다.")
+        let data = dataArray[indexPath.row]
+        let vc = TestSearchController(clickedText: data)
+        present(vc, animated: true)
     }
 }
 

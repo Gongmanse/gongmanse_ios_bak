@@ -1,12 +1,9 @@
-//
-//  TestSearchController.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/04/27.
-//
-
+/***********************************************/
+/* TEST용 Controller */
+/***********************************************/
 import UIKit
 
+/// TEST용 컨트롤러
 class TestSearchController: UIViewController {
     
     // MARK: - Property
@@ -16,8 +13,10 @@ class TestSearchController: UIViewController {
     private let label: UILabel = {
         let label = UILabel()
         label.text = "키워드를 전달받지 못함"
+        label.font = UIFont.appBoldFontWith(size: 20)
+        label.textAlignment = .center
         label.textColor = .mainOrange
-        label.backgroundColor = .black
+        label.backgroundColor = .white
         return label
     }()
     
@@ -34,9 +33,12 @@ class TestSearchController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 50
+        label.addShadow()
         view.backgroundColor = .white
         view.addSubview(label)
         label.setDimensions(height: 200, width: 200)
