@@ -382,19 +382,12 @@
                                 <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
-                                <rect key="frame" x="40" y="99" width="334" height="160"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="334" id="3sh-7Y-cJM"/>
-                                    <constraint firstAttribute="height" constant="160" id="cU5-Mg-HJk"/>
-                                </constraints>
-                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="be동사가 조동사로 쓰이는 경우에 예시를 알고 싶습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cfC-XL-tF6">
-                                <rect key="frame" x="40" y="334" width="334" height="190"/>
+                                <rect key="frame" x="35" y="334" width="330" height="190"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="190" id="1PZ-BE-B5R"/>
-                                    <constraint firstAttribute="width" constant="334" id="fVu-AR-4xr"/>
+                                    <constraint firstAttribute="width" constant="330" id="ihh-p4-w8u"/>
+                                    <constraint firstAttribute="height" constant="190" id="rcV-cl-akT"/>
                                 </constraints>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -426,31 +419,98 @@
                                     <action selector="writeBtnAction:" destination="AgR-CB-1m6" eventType="touchUpInside" id="c5V-Li-8Iy"/>
                                 </connections>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eBd-SC-o4h">
+                                <rect key="frame" x="35" y="99" width="363" height="160"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="363" id="7uX-IB-O9x"/>
+                                    <constraint firstAttribute="height" constant="160" id="CyM-bl-609"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4ig-2L-bBV">
+                                    <size key="itemSize" width="363" height="160"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ConsultUploadImageCVCell" id="Fmc-RL-m4W" customClass="ConsultUploadImageCVCell" customModule="gongmanse" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="363" height="160"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="363" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P1P-Qh-sDg">
+                                                    <rect key="frame" x="335" y="0.0" width="28" height="28"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="28" id="BYF-n4-mmx"/>
+                                                        <constraint firstAttribute="width" constant="28" id="xfu-HL-ern"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="deletePage"/>
+                                                </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sampleText" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="330" height="160"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="P1P-Qh-sDg" firstAttribute="top" secondItem="Fmc-RL-m4W" secondAttribute="top" id="KQe-Ah-VTV"/>
+                                            <constraint firstItem="Jcd-0a-MXO" firstAttribute="top" secondItem="Fmc-RL-m4W" secondAttribute="top" id="YEs-wa-pmg"/>
+                                            <constraint firstAttribute="trailing" secondItem="P1P-Qh-sDg" secondAttribute="trailing" id="dKU-Qh-jh2"/>
+                                            <constraint firstItem="P1P-Qh-sDg" firstAttribute="leading" secondItem="Jcd-0a-MXO" secondAttribute="trailing" constant="5" id="fo1-aM-kaX"/>
+                                            <constraint firstItem="Jcd-0a-MXO" firstAttribute="leading" secondItem="Fmc-RL-m4W" secondAttribute="leading" id="wHM-Xk-csk"/>
+                                            <constraint firstAttribute="bottom" secondItem="Jcd-0a-MXO" secondAttribute="bottom" id="xJQ-gy-psf"/>
+                                        </constraints>
+                                        <size key="customSize" width="363" height="160"/>
+                                        <connections>
+                                            <outlet property="deleteImage" destination="P1P-Qh-sDg" id="0yH-rk-Cxi"/>
+                                            <outlet property="uploadImageView" destination="Jcd-0a-MXO" id="Qdk-0o-C7B"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="AgR-CB-1m6" id="ljn-1E-985"/>
+                                    <outlet property="delegate" destination="AgR-CB-1m6" id="HXm-pg-fqX"/>
+                                </connections>
+                            </collectionView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Ozb-hW-ev9">
+                                <rect key="frame" x="36" y="267" width="342" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="342" id="0Ey-zN-Bk3"/>
+                                    <constraint firstAttribute="height" constant="28" id="j1n-Vs-jwI"/>
+                                </constraints>
+                                <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="currentPageIndicatorTintColor" systemColor="systemOrangeColor"/>
+                            </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="F6q-xg-ic5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Jcd-0a-MXO" secondAttribute="trailing" constant="40" id="68E-np-ikF"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="bottom" secondItem="Fxh-nb-VJ8" secondAttribute="bottom" constant="20" id="6VT-O6-f5P"/>
-                            <constraint firstItem="ISp-Lf-fTm" firstAttribute="top" secondItem="Jcd-0a-MXO" secondAttribute="bottom" constant="40" id="6mA-BA-yQM"/>
-                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="cfC-XL-tF6" secondAttribute="trailing" constant="40" id="75P-hv-6X1"/>
+                            <constraint firstItem="ISp-Lf-fTm" firstAttribute="top" secondItem="eBd-SC-o4h" secondAttribute="bottom" constant="40" id="6jE-Fn-Yib"/>
                             <constraint firstItem="Hnb-d6-Po0" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="AjN-Lf-XIq"/>
+                            <constraint firstItem="Ozb-hW-ev9" firstAttribute="top" secondItem="eBd-SC-o4h" secondAttribute="bottom" constant="8" symbolic="YES" id="Bhv-7c-db0"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="hvM-yL-jXR" secondAttribute="trailing" constant="20" id="E7P-T8-eYt"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="eBd-SC-o4h" secondAttribute="trailing" constant="16" id="ERd-OC-RYA"/>
+                            <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="cfC-XL-tF6" secondAttribute="trailing" constant="49" id="FPC-MM-YIy"/>
                             <constraint firstItem="hvM-yL-jXR" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="G3t-4w-7Gi"/>
                             <constraint firstItem="ISp-Lf-fTm" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="NDx-it-EBi"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Fxh-nb-VJ8" secondAttribute="trailing" constant="50" id="R7k-Ug-QsI"/>
-                            <constraint firstItem="Jcd-0a-MXO" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="40" id="Y1i-qB-n4u"/>
+                            <constraint firstItem="cfC-XL-tF6" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="35" id="UwX-LM-Hik"/>
                             <constraint firstItem="Fxh-nb-VJ8" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="50" id="deC-nk-A8O"/>
-                            <constraint firstItem="Jcd-0a-MXO" firstAttribute="top" secondItem="Hnb-d6-Po0" secondAttribute="bottom" constant="15" id="gA0-dC-c0c"/>
-                            <constraint firstItem="cfC-XL-tF6" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="40" id="uRf-XI-Ly1"/>
+                            <constraint firstItem="eBd-SC-o4h" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="35" id="eoV-kn-WXp"/>
+                            <constraint firstItem="cfC-XL-tF6" firstAttribute="top" secondItem="ISp-Lf-fTm" secondAttribute="bottom" constant="15" id="ewC-nz-Nu4"/>
+                            <constraint firstItem="eBd-SC-o4h" firstAttribute="top" secondItem="Hnb-d6-Po0" secondAttribute="bottom" constant="15" id="gcc-Kp-kGi"/>
+                            <constraint firstItem="Ozb-hW-ev9" firstAttribute="centerX" secondItem="F6q-xg-ic5" secondAttribute="centerX" id="lQi-my-5Fg"/>
+                            <constraint firstItem="Ozb-hW-ev9" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="36" id="s6A-rG-uC2"/>
                             <constraint firstItem="Hnb-d6-Po0" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="xWm-aQ-5Pe"/>
-                            <constraint firstItem="cfC-XL-tF6" firstAttribute="top" secondItem="ISp-Lf-fTm" secondAttribute="bottom" constant="15" id="xYn-Ue-DmU"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addImageBtn" destination="hvM-yL-jXR" id="7ER-qO-92A"/>
                         <outlet property="answerTextView" destination="cfC-XL-tF6" id="28L-1r-dT9"/>
-                        <outlet property="upLoadImage" destination="Jcd-0a-MXO" id="ZPw-FM-5lg"/>
+                        <outlet property="pageView" destination="Ozb-hW-ev9" id="iHd-FX-bWh"/>
+                        <outlet property="uploadImageCollectionView" destination="eBd-SC-o4h" id="EUl-J1-LdP"/>
                         <outlet property="writeBtn" destination="Fxh-nb-VJ8" id="gh5-Ig-HLY"/>
                     </connections>
                 </viewController>
@@ -3736,6 +3796,7 @@
         <image name="chatOff" width="27" height="27"/>
         <image name="chatOn" width="27" height="27"/>
         <image name="close24Px" width="24" height="24"/>
+        <image name="deletePage" width="28" height="28"/>
         <image name="extraSmallUserDefault" width="9.5" height="9.5"/>
         <image name="homeOff" width="22.5" height="25.5"/>
         <image name="homeOn" width="22.5" height="25.5"/>
