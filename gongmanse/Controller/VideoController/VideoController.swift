@@ -430,20 +430,24 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
-    @objc func handleOrientation() {
-        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
-        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
-                                        at: UICollectionView.ScrollPosition.left,
-                                        animated: true)
-        
-        let landscapeLeftValue = UIInterfaceOrientation.landscapeLeft.rawValue
-        let portraitValue = UIInterfaceOrientation.portrait.rawValue
-        
-        if UIDevice.current.orientation.rawValue == landscapeLeftValue {
-            UIDevice.current.setValue(portraitValue, forKey: "orientation")
-        } else {
-            UIDevice.current.setValue(landscapeLeftValue, forKey: "orientation")
-        }
+    @objc func handleOrientation() { // -> 전체화면
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+        let targetTime: CMTime = CMTimeMake(value: 10, timescale: 1)
+        let vc = VideoFullScreenController(playerCurrentTime: targetTime)
+        present(vc, animated: true)
+//        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
+//        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+//                                        at: UICollectionView.ScrollPosition.left,
+//                                        animated: true)
+//
+//        let landscapeLeftValue = UIInterfaceOrientation.landscapeLeft.rawValue
+//        let portraitValue = UIInterfaceOrientation.portrait.rawValue
+//
+//        if UIDevice.current.orientation.rawValue == landscapeLeftValue {
+//            UIDevice.current.setValue(portraitValue, forKey: "orientation")
+//        } else {
+//            UIDevice.current.setValue(landscapeLeftValue, forKey: "orientation")
+//        }
     }
     
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
@@ -462,7 +466,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             
         }
     }
-    
     
     /// 클릭 시, 설정 BottomPopupController 호출하는 메소드
     @objc func handleSettingButton() {
@@ -985,3 +988,4 @@ extension VideoController: VideoSettingPopupControllerDelegate {
         present(vc, animated: true)
     }
 }
+
