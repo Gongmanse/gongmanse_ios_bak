@@ -30,7 +30,8 @@ class SearchNoteVC: UIViewController {
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    @IBOutlet weak var noteSortButton: UIButton!
+    
     
     //MARK: - Lifecycle
     
@@ -41,8 +42,25 @@ class SearchNoteVC: UIViewController {
         collectionView.dataSource = self
         searchNoteVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(receiveNotesFilter(_:)),
+                                               name: .searchAfterNotesNoti,
+                                               object: nil)
     }
     
+    @objc func receiveNotesFilter(_ sender: Notification) {
+        
+        guard let userInfo = sender.userInfo else { return }
+        noteSortButton.setTitle(userInfo["sort"] as? String ?? "", for: .normal)
+        
+        searchNoteVM.reqeustNotesApi(subject: receiveNoteUserInfo?["subject"] as? String ?? "",
+                                     grade: receiveNoteUserInfo?["grade"] as? String ?? "",
+                                     keyword: receiveNoteUserInfo?["text"] as? String ?? "",
+                                     offset: "0",
+                                     sortID: userInfo["sortID"] as? String ?? "")
+        
+    }
     
     func noteApi() {
         guard let userInfo = receiveNoteUserInfo else { return }

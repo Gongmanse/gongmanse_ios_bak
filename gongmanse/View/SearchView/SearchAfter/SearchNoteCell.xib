@@ -43,7 +43,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전자 배치 규칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhL-u9-Jem">
-                                <rect key="frame" x="149" y="30" width="101.5" height="20.5"/>
+                                <rect key="frame" x="149" y="30" width="245" height="20.5"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -70,6 +70,7 @@
                             <constraint firstItem="Bf4-lx-xcR" firstAttribute="leading" secondItem="ZhL-u9-Jem" secondAttribute="leading" id="2hl-Iw-rdq"/>
                             <constraint firstItem="Bf4-lx-xcR" firstAttribute="height" secondItem="syt-jH-Pjk" secondAttribute="height" multiplier="0.18125" id="D8i-DN-OiB"/>
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.275362" id="KPu-XW-tqv"/>
+                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="trailing" secondItem="V6S-ET-TSx" secondAttribute="trailing" id="QjD-TG-w9c"/>
                             <constraint firstItem="ms5-BX-vIJ" firstAttribute="leading" secondItem="ZhL-u9-Jem" secondAttribute="leading" id="S2c-AA-jDJ"/>
                             <constraint firstItem="ms5-BX-vIJ" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.0966184" id="V6C-PJ-sdI"/>
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="leading" secondItem="syt-jH-Pjk" secondAttribute="leading" constant="20" id="VWO-av-GI4"/>
