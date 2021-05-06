@@ -15,6 +15,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var currentVideoPlayRate = Float(1.0)
     var id: String?
+    var dataForPassFullScreenController: DetailVideoResponse?
+    
     
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
@@ -169,7 +171,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     let changeOrientationButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        button.addTarget(self, action: #selector(handleOrientation), for: .touchUpInside)
+        button.addTarget(self, action: #selector(presentFullScreenMode), for: .touchUpInside)
         button.setImage(image, for: .normal)
         return button
     }()
@@ -430,11 +432,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
-    @objc func handleOrientation() { // -> 전체화면
+    @objc func presentFullScreenMode() {
+        setRemoveNotification()
+        
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
         let targetTime: CMTime = CMTimeMake(value: 10, timescale: 1)
         let vc = VideoFullScreenController(playerCurrentTime: targetTime)
         vc.id = self.id
+        vc.dataReceivedByVideoController = dataForPassFullScreenController
+        
+        if let videoURL = dataForPassFullScreenController?.data.source_url {
+            vc.videoURL = NSURL(string: videoURL)
+        }
+        NotificationCenter.default.removeObserver(self)
+        removePeriodicTimeObserver()
         player.pause()
         present(vc, animated: true)
 //        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
@@ -450,6 +461,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 //        } else {
 //            UIDevice.current.setValue(landscapeLeftValue, forKey: "orientation")
 //        }
+        
     }
     
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
@@ -516,19 +528,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 데이터 구성을 위한 메소드
     func configureDataAndNoti() {
         // 관찰자를 추가한다.
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(playerItemDidReachEnd),
-                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                         object: nil)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(changeValueToPlayer),
-                         name: .changePlayVideoRate, object: nil)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(switchIsOnSubtitle),
-                         name: .switchSubtitleOnOff, object: nil)
+        setNotification()
         
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
@@ -592,6 +592,28 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                             paddingTop: -5,
                             paddingRight: 10)
         toggleButton.addTarget(self, action: #selector(handleToggle), for: .touchUpInside)
+    }
+    
+    func setRemoveNotification() {
+        NotificationCenter.default.removeObserver(self, name: .switchSubtitleOnOff, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .changePlayVideoRate, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    func setNotification() {
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(playerItemDidReachEnd),
+                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(changeValueToPlayer),
+                         name: .changePlayVideoRate, object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(switchIsOnSubtitle),
+                         name: .switchSubtitleOnOff, object: nil)
     }
 }
 
@@ -708,6 +730,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         // 영상 시간을 나타내는 UISlider에 최대 * 최소값을 주기 위해서 아래 프로퍼티를 할당한다.
         let duration: CMTime = playerItem.asset.duration
         let endSeconds: Float64 = CMTimeGetSeconds(duration)
+        
         endTimeTimeLabel.text = convertTimeToFitText(time: Int(endSeconds))
         timeSlider.maximumValue = Float(endSeconds)
         timeSlider.minimumValue = 0
@@ -961,6 +984,8 @@ extension VideoController {
         if let sourceURL = response.data.source_url {
             self.videoURL = URL(string: sourceURL) as NSURL?
         }
+        
+        self.dataForPassFullScreenController? = response
         
         // sSubtitles -> vttURL
         self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle

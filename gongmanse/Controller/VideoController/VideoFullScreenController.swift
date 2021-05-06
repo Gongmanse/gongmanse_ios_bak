@@ -3,11 +3,14 @@ import AVKit
 import Foundation
 import UIKit
 
-class VideoFullScreenController: UIViewController {
+class VideoFullScreenController: UIViewController{
     
     // MARK: - Properties
     
     var id: String?
+    var currentVideoPlayRate = Float(1.0)
+    var dataReceivedByVideoController: DetailVideoResponse?
+    
     // AVPlayer 관련 프로퍼티
     var playerController = AVPlayerViewController()
     var timeObserverToken: Any?
@@ -130,7 +133,7 @@ class VideoFullScreenController: UIViewController {
         button.layer.cornerRadius = 5
         return button
     }()
-
+    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
@@ -164,11 +167,11 @@ class VideoFullScreenController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         
-        guard let id = id else { return }
-        let inputData = DetailVideoInput(video_id: id, token: Constant.token)
-        DetailVideoDataManager().fullScreenVideoDataManager(inputData, viewController: self)
+ 
+        
     }
     
     
@@ -176,14 +179,15 @@ class VideoFullScreenController: UIViewController {
     
     /// 우측상단에 뒤로가기 버튼 로직
     @objc func handleBackButtonAction() {
-        self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.isHidden = false
-        player.pause()
-        NotificationCenter.default.removeObserver(self)
-        //        removePeriodicTimeObserver()
-        self.dismiss(animated: true) {
-            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
-        }
+//        self.navigationController?.navigationBar.isHidden = false
+//        self.tabBarController?.tabBar.isHidden = false
+//        player.pause()
+//        NotificationCenter.default.removeObserver(self)
+//        //        removePeriodicTimeObserver()
+//        self.dismiss(animated: true) {
+//            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
+//        }
+        configureDataAndNoti()
     }
     
     /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
@@ -257,20 +261,88 @@ class VideoFullScreenController: UIViewController {
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
             }
-            
         }
     }
     
     /// 클릭 시, 설정 BottomPopupController 호출하는 메소드
     @objc func handleSettingButton() {
+        let vc = VideoSettingPopupController()
+        vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
+        print("DEBUG: VideoController에서 보내준 값 \(isClickedSubtitleToggleButton)")
+        vc.currentStateIsSubtitleOn = isClickedSubtitleToggleButton
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
     }
+    
+    // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
+    /// sTags로 가져온 keyword의 NSRange 정보를 담은 array
+    var keywordRanges: [NSRange] = []
+    /// sTags로 가져온 keyword의 Range\<Int> 정보를 담은 array
+    var sTagsRanges = [Range<Int>]()
+    /// 현재 자막에 있는 keyword Array
+    var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
     
     /// "subtitleLabel"을 클릭 시, 호출될 콜백메소드
     @objc func didTappedSubtitle(sender: UITapGestureRecognizer) {
- 
+        
+        // "subtitleLabel"을 클릭할 때만 호출되도록 한다.
+        sender.numberOfTapsRequired = 1
+        
+        // 데이터 정상적으로 저장되었는지 확인하기 위한 Print
+        print("DEBUG: 0Rangs is \(keywordRanges[0])")
+        print("DEBUG: 1Rangs is \(keywordRanges[1])")
+        print("DEBUG: 2Rangs is \(keywordRanges[2])")
+        print("DEBUG: 3Rangs is \(keywordRanges[3])")
+        print("DEBUG: 4Rangs is \(keywordRanges[4])")
+        print("DEBUG: 5Rangs is \(keywordRanges[5])")
+        print("DEBUG: 6Rangs is \(keywordRanges[6])")
+        print("DEBUG: 7Rangs is \(keywordRanges[7])")
+        
+        /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
+        /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
+        /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
+        if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
+            let vc = TestSearchController(clickedText: currentKeywords[0])
+            present(vc, animated: true)
+            
+        } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
+            print("DEBUG: \(currentKeywords[2])?")
+            let vc = TestSearchController(clickedText: currentKeywords[2])
+            present(vc, animated: true)
+            
+        } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
+            print("DEBUG: \(currentKeywords[4])?")
+            let vc = TestSearchController(clickedText: currentKeywords[4])
+            present(vc, animated: true)
+            
+        } else {
+            print("DEBUG: 키워드가 없나요?")
+        }
     }
     
     // MARK: - Helpers
+    
+    /// 데이터 구성을 위한 메소드
+    func configureDataAndNoti() {
+        // 관찰자를 추가한다.
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(playerItemDidReachEnd),
+                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(changeValueToPlayer),
+                         name: .changePlayVideoRate, object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(switchIsOnSubtitle),
+                         name: .switchSubtitleOnOff, object: nil)
+        
+        guard let id = id else { return }
+        let inputData = DetailVideoInput(video_id: id, token: Constant.token)
+        DetailVideoDataManager().fullScreenVideoDataManager(inputData, viewController: self)
+    }
     
     func configureUI() {
         self.videoContainerView.addSubview(playerController.view)
@@ -350,8 +422,8 @@ class VideoFullScreenController: UIViewController {
         subtitleToggleButton.centerY(inView: videoSettingButton)
         subtitleToggleButton.anchor(right: videoSettingButton.leftAnchor,
                                     paddingRight: 3)
-//        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-//                                                                    action: #selector(targetViewDidTapped))
+                let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                            action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
         playerController.view.isUserInteractionEnabled = true
         playerController.view.addGestureRecognizer(gesture)
@@ -417,7 +489,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         timeSlider.maximumValue = Float(endSeconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
-        
+        print("DEBUG: endSeconds \(endSeconds)")
         // gesture 관련 속성을 설정한다.
         gesture.numberOfTapsRequired = 1
         subtitleLabel.isUserInteractionEnabled = true
@@ -428,10 +500,10 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         /// - 10개를 만든다면 10의 키워드 위치를 저장할 수 있다.
         /// - 키워드 위치를 저장할 프로퍼티에 공간을 확보한다
         // Default 값을 "100,100" 임의로 부여한다.
-//        for _ in 0...11 {self.keywordRanges.append(NSRange(location: 100, length: 100))}
+        for _ in 0...11 {self.keywordRanges.append(NSRange(location: 100, length: 100))}
         
         // Default 값을 "100...103" 임의로 부여한다.
-//        for _  in 0...11 {self.sTagsRanges.append(Range<Int>(100...103))}
+        for _  in 0...11 {self.sTagsRanges.append(Range<Int>(100...103))}
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.player.addPeriodicTimeObserver(
@@ -449,6 +521,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                 strongSelf.currentTimeLabel.text
                     = strongSelf.convertTimeToFitText(time: currentTimeInt)
                 
+                // 종료시점에 영상 시작화면으로 돌리기 위한 조건문
                 if time.seconds >= endSeconds {
                     NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                     object: nil)
@@ -470,8 +543,8 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                     if numberOfsTags >= 1 {
                         subtitleFinal = strongSelf.filteringFontTagInSubtitleText(text: subtitleText)
                         
-                        //                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
-                        //                                                                     arrayIndex: numberOfsTags * 2)
+//                        subtitleFinal = strongSelf.sliceSubtitleText(slicedText: firstSlicing,
+//                                                                     arrayIndex: numberOfsTags * 2)
                     } else {
                         subtitleFinal = subtitleText
                     }
@@ -481,10 +554,10 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                     /// - 자막이 변경되지 않았다면, `false`로 판정되고 if절을 통과한다.
                     if subtitleFinal.count != label.text?.count {
                         // default 값 입력
-//                        for rangeIndex in 0...strongSelf.sTagsRanges.count-1 {
-//                            strongSelf.sTagsRanges[rangeIndex] = Range(100...103)
-//                            strongSelf.keywordRanges[rangeIndex] = NSRange(location: 100, length: 100)
-//                        }
+                                                for rangeIndex in 0...strongSelf.sTagsRanges.count-1 {
+                                                    strongSelf.sTagsRanges[rangeIndex] = Range(100...103)
+                                                    strongSelf.keywordRanges[rangeIndex] = NSRange(location: 100, length: 100)
+                                                }
                     }
                     
                     // 필터링된 최종 값을 label.text에 입력한다.
@@ -594,6 +667,36 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         }
     }
     
+    /// Notificaion에 의해 호촐되는 영상속도 콜백메소드
+    @objc func changeValueToPlayer(_ sender: Notification) {
+        if let data = sender.userInfo {
+            if let playrate = data["playRate"] {
+                let rate = playrate as? Float ?? Float(1.0)
+                currentVideoPlayRate = rate
+                player.playImmediately(atRate: rate)
+            }
+        }
+    }
+    
+    /// Notificaion에 의해 호촐되는 자막표시여부 콜백메소드
+    @objc func switchIsOnSubtitle(_ sender: Notification) {
+        if let data = sender.userInfo {
+            if let condition = data["isOnSubtitle"] {
+                UIView.animate(withDuration: 0.22) {
+                    if condition as? Bool ?? true {
+                        self.subtitleLabel.alpha = 1
+                        self.isClickedSubtitleToggleButton = true
+
+                    } else {
+                        self.subtitleLabel.alpha = 0
+                        self.isClickedSubtitleToggleButton = false
+
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 
@@ -673,10 +776,10 @@ extension VideoFullScreenController {
         
         // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
         if let rangeOfKeywordTapped = Range(keywordRangeInstance) {
-//            self.sTagsRanges[i] = rangeOfKeywordTapped
+                        self.sTagsRanges[i] = rangeOfKeywordTapped
         }
         // keywordRanges의 index가 "i"인 이유는 2나 4 모두를 포함하기위해서 i로 코드를 줄였다.
-//        self.keywordRanges[i] = keywordRangeInstance
+                self.keywordRanges[i] = keywordRangeInstance
     }
     
     func detectKeywrodAndTapRange(subtitleArray: [String.SubSequence],
@@ -709,7 +812,7 @@ extension VideoFullScreenController {
                                      label: label)
                 
                 if let keyword = keyword {
-//                    self.currentKeywords[i] = keyword
+                                        self.currentKeywords[i] = keyword
                 }
                 
                 detectSTagsAndChangeColor(text: subtitleFinal,
@@ -788,7 +891,13 @@ extension VideoFullScreenController {
             let inputData = String(sTagsArray[index])
             self.tempsTagsArray.append(inputData)
         }
-        print("DEBUG: 재생은했음.")
         playVideo()
+    }
+}
+
+extension VideoFullScreenController: VideoSettingPopupControllerDelegate {
+    func presentSelectionVideoPlayRateVC() {
+        let vc = SelectVideoPlayRateVC()
+        present(vc, animated: true)
     }
 }
