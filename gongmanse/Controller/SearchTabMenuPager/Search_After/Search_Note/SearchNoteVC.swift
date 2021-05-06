@@ -39,6 +39,7 @@ class SearchNoteVC: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchNoteVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
@@ -72,13 +73,16 @@ class SearchNoteVC: UIViewController {
 
 extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredData.count
+        return searchNoteVM.searchNotesDataModel?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchNoteCell
-        cell.titleLabel.text = filteredData[indexPath.row].title
-        cell.teacher.text = filteredData[indexPath.row].writer
+        
+        let indexData = searchNoteVM.searchNotesDataModel?.data[indexPath.row]
+        
+        cell.titleLabel.text = indexData?.sTitle
+        cell.teacher.text = indexData?.sTeacher
         return cell
     }
     
@@ -105,4 +109,13 @@ extension SearchNoteVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 80)
     }
     
+}
+
+extension SearchNoteVC: CollectionReloadData {
+    
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
 }

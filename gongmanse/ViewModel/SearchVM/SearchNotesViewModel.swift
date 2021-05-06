@@ -27,6 +27,7 @@ class SearchNotesViewModel {
             case .success(let data):
                 print(data)
                 self.searchNotesDataModel = data
+                self.reloadDelegate?.reloadCollection()
             case .failure(let error):
                 print(error.localizedDescription)
             }
