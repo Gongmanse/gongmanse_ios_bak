@@ -434,6 +434,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
         let targetTime: CMTime = CMTimeMake(value: 10, timescale: 1)
         let vc = VideoFullScreenController(playerCurrentTime: targetTime)
+        vc.id = self.id
+        player.pause()
         present(vc, animated: true)
 //        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
 //        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
