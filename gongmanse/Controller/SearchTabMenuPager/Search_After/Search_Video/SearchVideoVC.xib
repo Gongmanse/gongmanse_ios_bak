@@ -70,6 +70,8 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="F9a-co-6h8" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="0IH-XH-LmJ"/>
+                        <constraint firstItem="F9a-co-6h8" firstAttribute="height" secondItem="8kW-VY-0qK" secondAttribute="height" id="2re-3F-FAS"/>
+                        <constraint firstItem="McI-nO-EOF" firstAttribute="height" secondItem="8kW-VY-0qK" secondAttribute="height" multiplier="0.612903" id="3c1-cI-5Jl"/>
                         <constraint firstItem="McI-nO-EOF" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="72D-MM-nJB"/>
                         <constraint firstItem="McI-nO-EOF" firstAttribute="leading" secondItem="D00-Ym-150" secondAttribute="leading" constant="20" id="EYr-6P-5Xn"/>
                         <constraint firstItem="8kW-VY-0qK" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="Itf-QH-cNg"/>

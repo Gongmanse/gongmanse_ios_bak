@@ -22,6 +22,7 @@ class SearchConsultationViewModel: NSAttributedStringColor {
         apiModel.fetchConsultaionAPI(postModel) { [weak self] response in
             switch response{
             case .success(let data):
+                print(data)
                 self?.responseDataModel = data
                 self?.reloadDelegate?.reloadCollection()
             case .failure(let error):

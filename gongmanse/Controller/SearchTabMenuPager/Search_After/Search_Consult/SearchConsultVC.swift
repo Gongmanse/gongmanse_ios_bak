@@ -20,7 +20,8 @@ class SearchConsultVC: UIViewController {
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    @IBOutlet weak var sortButton: UIButton!
+    
     let searchConsultationVM = SearchConsultationViewModel()
     var receiveUserInfokeyword: [AnyHashable:Any]? {
         didSet {
@@ -36,6 +37,15 @@ class SearchConsultVC: UIViewController {
         collectionView.dataSource = self
         searchConsultationVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+     
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveConsultFilter(_:)), name: .searchAfterConsultationNoti, object: nil)
+    }
+    
+    @objc func receiveConsultFilter(_ sender: Notification) {
+        sortButton.setTitle(sender.userInfo?["sort"] as? String ?? "", for: .normal)
+        searchConsultationVM.requestConsultationApi(keyword: receiveUserInfokeyword?["text"] as? String ?? "",
+                                                    sortId: sender.userInfo?["sortID"] as? String ?? "")
         
     }
     
