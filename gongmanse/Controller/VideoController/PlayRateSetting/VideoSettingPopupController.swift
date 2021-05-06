@@ -87,7 +87,7 @@ class VideoSettingPopupController: BottomPopupViewController {
     
     @objc
     func handleSwitchingSubtitleIsOn(_ sender: Notification) {
-        
+        print("DEBUG: 팝업에서 호출된 액션메소드")
         if let receivedBoolean = sender.userInfo!["isOnSubtitle"] {
             currentStateIsSubtitleOn = receivedBoolean as? Bool ?? true
         }

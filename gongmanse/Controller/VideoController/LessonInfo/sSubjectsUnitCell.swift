@@ -1,10 +1,3 @@
-//
-//  sSubjectsUnitCell.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/05/03.
-//
-
 import UIKit
 
 class sSubjectsUnitCell: UICollectionViewCell {
@@ -30,19 +23,15 @@ class sSubjectsUnitCell: UICollectionViewCell {
  
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-     
         self.isUserInteractionEnabled = true
-       // initialize what is needed
     }
  
     override func awakeFromNib() {
         super.awakeFromNib()
-       // initialize what is needed
     }
     
     
     func configure() {
-        
         self.addSubview(cellLabel)
         cellLabel.setDimensions(height: 20, width: self.frame.width)
         cellLabel.centerX(inView: self)
