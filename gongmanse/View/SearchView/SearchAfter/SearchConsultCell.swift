@@ -34,6 +34,7 @@ class SearchConsultCell: UICollectionViewCell {
      
         override func awakeFromNib() {
             super.awakeFromNib()
+            
             titleImage.layer.cornerRadius = 10
             profileImage.layer.cornerRadius = profileImage.frame.width * 0.5 
             state.clipsToBounds = true

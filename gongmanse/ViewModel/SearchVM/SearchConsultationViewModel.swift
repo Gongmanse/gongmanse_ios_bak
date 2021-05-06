@@ -9,6 +9,7 @@ import UIKit
 
 class SearchConsultationViewModel {
     
+    weak var reloadDelegate: CollectionReloadData?
     
     var responseDataModel: SearchConsultationModel? = nil
     
@@ -17,11 +18,12 @@ class SearchConsultationViewModel {
         let postModel = SearchConsultationPostModel(keyword: keyword, sortID: sortId)
         
         let apiModel = SearchAfterConsultationAPIManager()
+        
         apiModel.fetchConsultaionAPI(postModel) { [weak self] response in
             switch response{
             case .success(let data):
                 self?.responseDataModel = data
-                print(data)
+                self?.reloadDelegate?.reloadCollection()
             case .failure(let error):
                 print(error.localizedDescription)
             }
