@@ -167,11 +167,8 @@ class VideoFullScreenController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureDataAndNoti()
         configureUI()
-        
- 
-        
     }
     
     
@@ -179,15 +176,14 @@ class VideoFullScreenController: UIViewController{
     
     /// 우측상단에 뒤로가기 버튼 로직
     @objc func handleBackButtonAction() {
-//        self.navigationController?.navigationBar.isHidden = false
-//        self.tabBarController?.tabBar.isHidden = false
-//        player.pause()
-//        NotificationCenter.default.removeObserver(self)
-//        //        removePeriodicTimeObserver()
-//        self.dismiss(animated: true) {
-//            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
-//        }
-        configureDataAndNoti()
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        player.pause()
+        NotificationCenter.default.removeObserver(self)
+        //        removePeriodicTimeObserver()
+        self.dismiss(animated: true) {
+            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
+        }
     }
     
     /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
@@ -522,10 +518,10 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                     = strongSelf.convertTimeToFitText(time: currentTimeInt)
                 
                 // 종료시점에 영상 시작화면으로 돌리기 위한 조건문
-                if time.seconds >= endSeconds {
-                    NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                                    object: nil)
-                }
+//                if time.seconds >= endSeconds {
+//                    NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+//                                                    object: nil)
+//                }
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
