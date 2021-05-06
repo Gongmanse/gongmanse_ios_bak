@@ -47,9 +47,6 @@ class SearchVideoVC: UIViewController {
         numberOfLesson.font = .appBoldFontWith(size: 14)
         sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 14)
         
-        // 강의 개수 Text 속성 설정
-        configurelabel(value: 3)
-        
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
@@ -79,13 +76,12 @@ class SearchVideoVC: UIViewController {
     @objc func allKeyword(_ sender: Notification) {
         notificationUserInfo = sender.userInfo
         
-        let objected = sender.object as? String
         
         searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
                                       grade: notificationUserInfo?["grade"] as? String ?? nil,
                                       keyword: notificationUserInfo?["text"] as? String ?? nil,
                                       offset: "0",
-                                      sortid: objected,
+                                      sortid: "4",
                                       limit: "20")
         
         NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
@@ -105,23 +101,6 @@ class SearchVideoVC: UIViewController {
         popupVC.view.frame = self.view.bounds
         self.present(popupVC, animated: true, completion: nil)
     }
-    
-    //MARK: - Helper functions
-    
-    // UILabel 부분 속성 변경 메소드
-    func configurelabel(value: Int) {
-        // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
-        let attributedString = NSMutableAttributedString(string: "총 ",
-                                                         attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
-        
-        attributedString.append(NSAttributedString(string: "\(value)",
-                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
-        
-        attributedString.append(NSAttributedString(string: "개",
-                                                   attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
-        
-        numberOfLesson.attributedText = attributedString
-    }
 }
 
 
@@ -136,7 +115,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchVideoCell
         
         guard let indexData = searchVideoVM.responseVideoModel?.data[indexPath.row] else { return UICollectionViewCell() }
-        // TODO: ViewModel 적용해둘 것.
+        
         cell.title.text = indexData.sTitle
         cell.teacher.text = indexData.sTeacher
         cell.rating.text = indexData.iRating
@@ -174,7 +153,6 @@ extension SearchVideoVC: CollectionReloadData {
     func reloadCollection() {
         DispatchQueue.main.async {
             
-            // MARK: refactor: 중간 텍스트 글자 색 변경예정
             let allString = "총 \(self.searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
             self.numberOfLesson.attributedText = self.searchVideoVM.convertStringColor(allString, self.searchVideoVM.responseVideoModel?.totalNum ?? "0")
             self.collectionView.reloadData()
