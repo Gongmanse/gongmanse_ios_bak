@@ -124,6 +124,12 @@ extension SearchNoteVC: CollectionReloadData {
     
     func reloadCollection() {
         DispatchQueue.main.async {
+            
+            let subString = self.searchNoteVM.searchNotesDataModel?.totalNum ?? "0"
+            let allString = "총 \(subString)개"
+            
+            self.numberOfLesson.attributedText = self.searchNoteVM.convertStringColor(allString, subString)
+            
             self.collectionView.reloadData()
         }
     }
