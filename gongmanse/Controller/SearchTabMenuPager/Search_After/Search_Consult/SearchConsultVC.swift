@@ -12,34 +12,50 @@ private let cellId = "SearchConsultCell"
 class SearchConsultVC: UIViewController {
 
     //MARK: - Properties
-    
-    weak var delegate: ReloadDataDelegate?
+
     
     var pageIndex: Int!
-    
-    lazy var filteredData = [Search]() {
-        didSet { delegate?.reloadFilteredData(collectionView: self.collectionView) }
-    }
-
     
     //MARK: - Outlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    @IBOutlet weak var sortButton: UIButton!
     
+    let searchConsultationVM = SearchConsultationViewModel()
+    var receiveUserInfokeyword: [AnyHashable:Any]? {
+        didSet {
+            consultationApi()
+        }
+    }
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
-    
         super.viewDidLoad()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchConsultationVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
-        // 강의 개수 Text 속성 설정
-        configurelabel(value: 3)
+     
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveConsultFilter(_:)), name: .searchAfterConsultationNoti, object: nil)
     }
     
+    @objc func receiveConsultFilter(_ sender: Notification) {
+        sortButton.setTitle(sender.userInfo?["sort"] as? String ?? "", for: .normal)
+        searchConsultationVM.requestConsultationApi(keyword: receiveUserInfokeyword?["text"] as? String ?? "",
+                                                    sortId: sender.userInfo?["sortID"] as? String ?? "")
+        
+    }
+    
+    // API 불러옴
+    func consultationApi(){
+        
+        searchConsultationVM.requestConsultationApi(keyword: receiveUserInfokeyword?["text"] as? String ?? "",
+                                                    sortId: "4")
+        
+    }
     
     //MARK: - Actions
     
@@ -54,42 +70,47 @@ class SearchConsultVC: UIViewController {
         popupVC.view.frame = self.view.bounds
         self.present(popupVC, animated: true, completion: nil)   
     }
-    
-    //MARK: - Helper functions
-    
-    // UILabel 부분 속성 변경 메소드
-    func configurelabel(value: Int) {
-        // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
-        let attributedString = NSMutableAttributedString(string: "총 ",
-                                                         attributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: 15)])
-        
-        attributedString.append(NSAttributedString(string: "\(value)",
-                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
-        
-        attributedString.append(NSAttributedString(string: "개",
-                                                   attributes: [NSAttributedString.Key.font: UIFont.appRegularFontWith(size: 14)]))
-        
-        numberOfLesson.attributedText = attributedString
-    }
 }
 
 
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        filteredData.count
+        return searchConsultationVM.responseDataModel?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchConsultCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchConsultCell else { return UICollectionViewCell() }
         
         // TODO: ViewModel 적용해둘 것.
-        cell.questionTitle.text = filteredData[indexPath.row].title
-        cell.writer.text = filteredData[indexPath.row].writer
+        
+        let indexData = searchConsultationVM.responseDataModel?.data[indexPath.row]
+        
+        cell.questionTitle.text = indexData?.sQuestion
+        cell.writer.text = indexData?.sNickname
+        cell.writtenDate.text = indexData?.dtRegister ?? ""
+        // label state
+        let isAnswer = searchConsultationVM.answerState(state: indexData?.iAnswer ?? "0")
+        cell.labelState(isAnswer)
+        
+        // image
+        if indexData?.sProfile != nil {
+            cell.profileImage.setImageUrl("\(fileBaseURL)/\(indexData?.sProfile ?? "")")
+        }else {
+            cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+        }
+        
+        if indexData?.sFilepaths != nil {
+            cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sFilepaths ?? "")")
+        }else {
+            cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+        }
+        
+        
         return cell
     }
-    
     
 }
 
@@ -113,4 +134,19 @@ extension SearchConsultVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 80)
     }
     
+}
+
+extension SearchConsultVC: CollectionReloadData {
+    
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            
+            let subString = self.searchConsultationVM.responseDataModel?.totalNum ?? "0"
+            let allString = "총 \(subString)개"
+            
+            self.numberOfLesson.attributedText = self.searchConsultationVM.convertStringColor(allString, subString)
+            self.collectionView.reloadData()
+        }
+    }
+
 }

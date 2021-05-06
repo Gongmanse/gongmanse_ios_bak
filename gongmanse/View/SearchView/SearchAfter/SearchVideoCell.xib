@@ -63,7 +63,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="열역학 제 2 법칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fi5-Ns-WXA">
-                                <rect key="frame" x="152" y="34" width="116" height="21"/>
+                                <rect key="frame" x="152" y="34" width="242" height="21"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -94,6 +94,7 @@
                         <constraints>
                             <constraint firstItem="Fi5-Ns-WXA" firstAttribute="height" secondItem="L2W-Yn-ldb" secondAttribute="height" multiplier="0.2625" id="2tk-Ha-xeW"/>
                             <constraint firstItem="qBB-Jg-u3K" firstAttribute="leading" secondItem="jsd-cD-haH" secondAttribute="trailing" constant="15" id="3YI-Ci-UNt"/>
+                            <constraint firstItem="78G-zR-vzD" firstAttribute="trailing" secondItem="Fi5-Ns-WXA" secondAttribute="trailing" id="3zj-rF-q8O"/>
                             <constraint firstItem="qBB-Jg-u3K" firstAttribute="top" secondItem="L2W-Yn-ldb" secondAttribute="top" id="4xE-Jp-dVL"/>
                             <constraint firstItem="Wqs-J9-WMa" firstAttribute="leading" secondItem="Fi5-Ns-WXA" secondAttribute="leading" id="J0N-J8-DlA"/>
                             <constraint firstItem="78G-zR-vzD" firstAttribute="height" secondItem="Wqs-J9-WMa" secondAttribute="height" id="J2Q-wK-7iO"/>

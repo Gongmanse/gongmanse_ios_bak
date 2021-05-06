@@ -16,34 +16,61 @@ class SearchNoteVC: UIViewController {
     var pageIndex: Int!
     var isChooseGrade: Bool = true
     
-    weak var delegate: ReloadDataDelegate?
     
-    lazy var filteredData = [Search]() {
-        didSet { delegate?.reloadFilteredData(collectionView: self.collectionView) }
-    }
+    lazy var filteredData = [Search]()
 
+    let searchNoteVM = SearchNotesViewModel()
     
+    var receiveNoteUserInfo: [AnyHashable:Any]? {
+        didSet{
+            noteApi()
+        }
+    }
     //MARK: - Outlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    @IBOutlet weak var noteSortButton: UIButton!
+    
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 강의 개수 Text 속성 설정
-        configurelabel(value: 3)
-        
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchNoteVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(receiveNotesFilter(_:)),
+                                               name: .searchAfterNotesNoti,
+                                               object: nil)
     }
     
+    @objc func receiveNotesFilter(_ sender: Notification) {
+        
+        guard let userInfo = sender.userInfo else { return }
+        noteSortButton.setTitle(userInfo["sort"] as? String ?? "", for: .normal)
+        
+        searchNoteVM.reqeustNotesApi(subject: receiveNoteUserInfo?["subject"] as? String ?? "",
+                                     grade: receiveNoteUserInfo?["grade"] as? String ?? "",
+                                     keyword: receiveNoteUserInfo?["text"] as? String ?? "",
+                                     offset: "0",
+                                     sortID: userInfo["sortID"] as? String ?? "")
+        
+    }
     
-    //MARK: - Actions
+    func noteApi() {
+        guard let userInfo = receiveNoteUserInfo else { return }
+        
+        searchNoteVM.reqeustNotesApi(subject: userInfo["subject"] as? String ?? "",
+                                     grade: userInfo["grade"] as? String ?? "",
+                                     keyword: userInfo["text"] as? String ?? "",
+                                     offset: "0",
+                                     sortID: "4")
+    }
     
     @IBAction func handleFilter(_ sender: Any) {
         if isChooseGrade { 
@@ -57,22 +84,6 @@ class SearchNoteVC: UIViewController {
             // 경고창
         }
     }
-    
-    //MARK: - Helper functions
-    
-    func configurelabel(value: Int) {
-        // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
-        let attributedString = NSMutableAttributedString(string: "총 ",
-                                                         attributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: 15)])
-        
-        attributedString.append(NSAttributedString(string: "\(value)",
-                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
-        
-        attributedString.append(NSAttributedString(string: "개",
-                                                   attributes: [NSAttributedString.Key.font: UIFont.appRegularFontWith(size: 14)]))
-        
-        numberOfLesson.attributedText = attributedString
-    }
 }
 
 
@@ -80,13 +91,25 @@ class SearchNoteVC: UIViewController {
 
 extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredData.count
+        return searchNoteVM.searchNotesDataModel?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchNoteCell
-        cell.titleLabel.text = filteredData[indexPath.row].title
-        cell.teacher.text = filteredData[indexPath.row].writer
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchNoteCell else { return UICollectionViewCell() }
+        
+        let indexData = searchNoteVM.searchNotesDataModel?.data[indexPath.row]
+        
+        
+        cell.teacher.text = indexData?.sTeacher
+        cell.titleLabel.text = indexData?.sTitle
+        cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData?.sSubjectColor ?? "000000")")
+        cell.chemistry.text = indexData?.sSubject
+        
+        if indexData?.sThumbnail != nil {
+            cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sThumbnail ?? "")")
+        }else{
+            cell.titleImage.image = UIImage(named: "extraSmallUserDefault")
+        }
         return cell
     }
     
@@ -113,4 +136,19 @@ extension SearchNoteVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 80)
     }
     
+}
+
+extension SearchNoteVC: CollectionReloadData {
+    
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            
+            let subString = self.searchNoteVM.searchNotesDataModel?.totalNum ?? "0"
+            let allString = "총 \(subString)개"
+            
+            self.numberOfLesson.attributedText = self.searchNoteVM.convertStringColor(allString, subString)
+            
+            self.collectionView.reloadData()
+        }
+    }
 }

@@ -16,6 +16,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchNoteVC" customModule="gongmanse" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="mOl-Xo-F6w" id="Qfh-rn-YWQ"/>
+                <outlet property="noteSortButton" destination="bpd-W2-x9G" id="Nf3-9s-iV4"/>
                 <outlet property="numberOfLesson" destination="0Sl-Ig-o4R" id="Jyb-00-qdB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -47,7 +48,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpd-W2-x9G">
                             <rect key="frame" x="95" y="8" width="67" height="31"/>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                            <state key="normal" title="평점순 ▼">
+                            <state key="normal" title="최신순 ▼">
                                 <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>

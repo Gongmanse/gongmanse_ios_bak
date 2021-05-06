@@ -17,6 +17,7 @@
             <connections>
                 <outlet property="collectionView" destination="RTZ-wI-hZz" id="LEd-SF-9sk"/>
                 <outlet property="numberOfLesson" destination="rJk-h1-XWL" id="OyT-SF-oj7"/>
+                <outlet property="sortButton" destination="uXR-Ne-kOZ" id="dz3-FV-XR3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

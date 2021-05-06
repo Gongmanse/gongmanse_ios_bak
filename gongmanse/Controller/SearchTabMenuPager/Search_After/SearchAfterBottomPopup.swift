@@ -21,7 +21,7 @@ class SearchAfterBottomPopup: BottomPopupViewController {
     private let searchAfterCellIdentifier = "SearchAfterTableCell"
     
     private let videoDicFilter = ["이름순": 1, "과목순": 2, "평점순": 3, "최신순": 4, "관련순": 7]
-    private let searchConsultation = ["최신순": 4, "조회순": 5, "답변순": 6]
+    private let searchConsultation = ["최신순": 4, "조회순": 5, "답변 완료순": 6]
     private let VideoNotes = ["이름순": 1, "과목순": 2, "평점순": 3, "최신순": 4]
     
     
@@ -106,25 +106,34 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
                 "sort": sortVideoDic[indexPath.row],
                 "sortID": String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0)
             ]
+            
+            NotificationCenter.default.post(name: .searchAfterVideoNoti, object: nil, userInfo: postInfo)
+            
         case .consultation:
             let consultation = searchConsultation.keys.sorted(by: >)
             
             postInfo = [
                 "sort": consultation[indexPath.row],
-                "sortID": String(videoDicFilter[consultation[indexPath.row]] ?? 0)
+                "sortID": String(searchConsultation[consultation[indexPath.row]] ?? 0)
             ]
+            
+            NotificationCenter.default.post(name: .searchAfterConsultationNoti, object: nil, userInfo: postInfo)
+            
         case .videoNotes:
             let sortVideoNotes = VideoNotes.keys.sorted(by: >)
             
             postInfo = [
                 "sort": sortVideoNotes[indexPath.row],
-                "sortID": String(videoDicFilter[sortVideoNotes[indexPath.row]] ?? 0)
+                "sortID": String(VideoNotes[sortVideoNotes[indexPath.row]] ?? 0)
             ]
+            
+            NotificationCenter.default.post(name: .searchAfterNotesNoti, object: nil, userInfo: postInfo)
+            
         default:
             return
         }
         
-        NotificationCenter.default.post(name: .searchAfterVideoNoti, object: nil, userInfo: postInfo)
+        
         self.dismiss(animated: true, completion: nil)
     }
 }

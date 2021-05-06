@@ -19,6 +19,8 @@ extension Notification.Name {
     
     // 검색 (후)
     static let searchAfterVideoNoti = Notification.Name(NotificationKey.searchAfterVideoSort)
+    static let searchAfterConsultationNoti = Notification.Name(NotificationKey.searchAfterConsultationSort)
+    static let searchAfterNotesNoti = Notification.Name(NotificationKey.searchAfterNotesSort)
     
 }
 
@@ -32,4 +34,6 @@ struct NotificationKey {
     
     // searchAfter 관련
     static let searchAfterVideoSort = "videoSort"
+    static let searchAfterConsultationSort = "consultationSort"
+    static let searchAfterNotesSort = "videoNotesSort"
 }

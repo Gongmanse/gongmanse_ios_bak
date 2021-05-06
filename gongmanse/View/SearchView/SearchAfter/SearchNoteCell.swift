@@ -15,7 +15,7 @@ class SearchNoteCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var teacher: UILabel!
     @IBOutlet weak var chemistry: UILabel!
-    @IBOutlet weak var word: UILabel!
+    @IBOutlet weak var videoButton: UIButton!
     
     
     //MARK: - IBOutlet
@@ -39,13 +39,18 @@ class SearchNoteCell: UICollectionViewCell {
         override func awakeFromNib() {
             super.awakeFromNib()
             
-            word.clipsToBounds = true
-            word.backgroundColor = .mainOrange
-            word.layer.cornerRadius = 10
-            
             chemistry.clipsToBounds = true
             chemistry.layer.cornerRadius = 10
-            titleImage.layer.cornerRadius = 15  
+            
+            titleImage.layer.cornerRadius = 15
+            titleImage.contentMode = .scaleAspectFill
+            titleImage.layer.borderWidth = 1
+            titleImage.layer.borderColor = UIColor.lightGray.cgColor
+            
+            videoButton.backgroundColor = .mainOrange
+            videoButton.layer.cornerRadius = 10
+            videoButton.setTitle("동영상 재생", for: .normal)
+            videoButton.setTitleColor(.white, for: .normal)
         }
 
 }
