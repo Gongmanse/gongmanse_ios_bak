@@ -19,7 +19,11 @@ class SearchNoteVC: UIViewController {
     
     lazy var filteredData = [Search]()
 
-    
+    var receiveNoteUserInfo: [AnyHashable:Any]? {
+        didSet{
+            noteApi()
+        }
+    }
     //MARK: - Outlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
@@ -31,16 +35,15 @@ class SearchNoteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 강의 개수 Text 속성 설정
-        configurelabel(value: 3)
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
     
-    //MARK: - Actions
+    func noteApi() {
+        
+    }
     
     @IBAction func handleFilter(_ sender: Any) {
         if isChooseGrade { 
@@ -53,22 +56,6 @@ class SearchNoteVC: UIViewController {
         } else {
             // 경고창
         }
-    }
-    
-    //MARK: - Helper functions
-    
-    func configurelabel(value: Int) {
-        // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
-        let attributedString = NSMutableAttributedString(string: "총 ",
-                                                         attributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: 15)])
-        
-        attributedString.append(NSAttributedString(string: "\(value)",
-                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
-        
-        attributedString.append(NSAttributedString(string: "개",
-                                                   attributes: [NSAttributedString.Key.font: UIFont.appRegularFontWith(size: 14)]))
-        
-        numberOfLesson.attributedText = attributedString
     }
 }
 

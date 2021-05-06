@@ -311,6 +311,7 @@
 		C28BD57E264379CB006D1318 /* SearchConsultationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD57D264379CB006D1318 /* SearchConsultationModel.swift */; };
 		C28BD58126437C06006D1318 /* SearchAfterConsultationAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58026437C05006D1318 /* SearchAfterConsultationAPIManager.swift */; };
 		C28BD58426437ED0006D1318 /* SearchConsultationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58326437ED0006D1318 /* SearchConsultationViewModel.swift */; };
+		C28BD58D2643C8A9006D1318 /* SearchNotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */; };
 		C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0808A26256D890014C3C0 /* UseLectureCell.swift */; };
 		C2A0808D26256D890014C3C0 /* UseLectureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A0808B26256D890014C3C0 /* UseLectureCell.xib */; };
 		C2A4B8952626BBC900173261 /* RequestEventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8942626BBC900173261 /* RequestEventAPI.swift */; };
@@ -644,6 +645,7 @@
 		C28BD57D264379CB006D1318 /* SearchConsultationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConsultationModel.swift; sourceTree = "<group>"; };
 		C28BD58026437C05006D1318 /* SearchAfterConsultationAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAfterConsultationAPIManager.swift; sourceTree = "<group>"; };
 		C28BD58326437ED0006D1318 /* SearchConsultationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConsultationViewModel.swift; sourceTree = "<group>"; };
+		C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotesModel.swift; sourceTree = "<group>"; };
 		C2A0808A26256D890014C3C0 /* UseLectureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseLectureCell.swift; sourceTree = "<group>"; };
 		C2A0808B26256D890014C3C0 /* UseLectureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseLectureCell.xib; sourceTree = "<group>"; };
 		C2A4B8942626BBC900173261 /* RequestEventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestEventAPI.swift; sourceTree = "<group>"; };
@@ -2057,6 +2059,7 @@
 			children = (
 				C2A92F9B263BB22900098F92 /* SearchVideoModel.swift */,
 				C28BD57D264379CB006D1318 /* SearchConsultationModel.swift */,
+				C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */,
 			);
 			path = SearchAfter;
 			sourceTree = "<group>";
@@ -2676,6 +2679,7 @@
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
 				2580CF4B261A917700D78E4E /* BottomPlaylistCell.swift in Sources */,
+				C28BD58D2643C8A9006D1318 /* SearchNotesModel.swift in Sources */,
 				2574592F26143C02007A2A5D /* FindingViewModel.swift in Sources */,
 				C233028B263932590058592E /* SearchMainCell.swift in Sources */,
 				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
