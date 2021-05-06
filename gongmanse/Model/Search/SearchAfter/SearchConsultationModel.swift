@@ -34,10 +34,10 @@ struct SearchDataModel: Codable {
 }
 
 // 응답보낼 메소드
-struct SearchPostModel: Codable {
+struct SearchConsultationPostModel: Codable {
     
-    let keyword: String
-    let sortID: String
+    let keyword: String?
+    let sortID: String?
     
     enum CodingKeys: String, CodingKey {
         case keyword

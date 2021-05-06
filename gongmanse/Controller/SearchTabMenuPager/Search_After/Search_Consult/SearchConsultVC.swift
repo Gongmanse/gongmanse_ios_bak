@@ -23,7 +23,7 @@ class SearchConsultVC: UIViewController {
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
 
-    let searchVideoVM = SearchVideoViewModel()
+    let searchConsultationVM = SearchConsultationViewModel()
     var receiveUserInfokeyword: [AnyHashable:Any]? {
         didSet {
             consultationApi()
@@ -44,12 +44,9 @@ class SearchConsultVC: UIViewController {
     
     func consultationApi(){
         
-        searchVideoVM.requestVideoAPI(subject: receiveUserInfokeyword?["subject"] as? String ?? nil,
-                                      grade: receiveUserInfokeyword?["grade"] as? String ?? nil,
-                                      keyword: receiveUserInfokeyword?["text"] as? String ?? nil,
-                                      offset: "0",
-                                      sortid: "4",
-                                      limit: "20")
+        searchConsultationVM.requestConsultationApi(keyword: receiveUserInfokeyword?["keyword"] as? String ?? "",
+                                                    sortId: "4")
+
     }
     //MARK: - Actions
     

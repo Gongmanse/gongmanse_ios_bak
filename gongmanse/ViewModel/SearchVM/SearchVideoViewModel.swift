@@ -8,26 +8,6 @@
 import Foundation
 import UIKit
 
-//struct SearchVideoViewModel {
-//
-//    let search: Search
-//
-//    var title: String {
-//        return search.title
-//    }
-//
-//    var writer: String {
-//        return search.writer
-//    }
-//
-//
-//    // TODO: Rating, Tag 구현해야함.
-//
-//    init(search : Search) {
-//        self.search = search
-//    }
-//}
-
 
 class SearchVideoViewModel: NSAttributedStringColor {
     
@@ -57,7 +37,7 @@ class SearchVideoViewModel: NSAttributedStringColor {
         videoAPI.fetchVideoAPI(postModel) { [weak self] result in
             switch result {
             case .success(let data):
-                print("data", data.data[0].sTitle)
+//                print("data", data.data[0].sTitle)
                 self?.responseVideoModel = data
                 self?.reloadDelegate?.reloadCollection()
                 
