@@ -12,15 +12,11 @@ private let cellId = "SearchConsultCell"
 class SearchConsultVC: UIViewController {
 
     //MARK: - Properties
-    
-    weak var delegate: ReloadDataDelegate?
+
     
     var pageIndex: Int!
     
-    lazy var filteredData = [Search]() {
-        didSet { delegate?.reloadFilteredData(collectionView: self.collectionView) }
-    }
-
+    lazy var filteredData = [Search]()
     
     //MARK: - Outlet
     
@@ -31,8 +27,8 @@ class SearchConsultVC: UIViewController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
-    
         super.viewDidLoad()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)

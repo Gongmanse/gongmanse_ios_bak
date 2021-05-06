@@ -7,24 +7,13 @@ import UIKit
  */
 private let cellId = "SearchVideoCell"
 
-// SearchAfterVC에서 reloadData 로직 구현을 위한 Protocol
-protocol ReloadDataDelegate: class {
-    func reloadFilteredData(collectionView: UICollectionView)
-}
-
 class SearchVideoVC: UIViewController {
 
     //MARK: - Properties
     
-    weak var delegate: ReloadDataDelegate?
     
     var pageIndex: Int!
     
-    // TODO: API 연동하여 가져온 데이터를 넣어야함.
-    // PageController의 인스턴스 생성 타이밍과 데이터 넘기는 타이밍때문에 reloadData를 Delegate 사용.
-    lazy var filteredData = [Search]() {
-        didSet { delegate?.reloadFilteredData(collectionView: self.collectionView) }
-    }
 
     let searchVideoVM = SearchVideoViewModel()
     var notificationUserInfo: [AnyHashable : Any]?
@@ -107,6 +96,7 @@ class SearchVideoVC: UIViewController {
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchVideoVM.responseVideoModel?.data.count ?? 0
     }
@@ -131,6 +121,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //MARK: - UICollectionViewFlowLayout
 
 extension SearchVideoVC: UICollectionViewDelegateFlowLayout {
+    
     // cell 간격을 설정하는 메소드(가로)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20

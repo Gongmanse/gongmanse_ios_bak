@@ -16,11 +16,8 @@ class SearchNoteVC: UIViewController {
     var pageIndex: Int!
     var isChooseGrade: Bool = true
     
-    weak var delegate: ReloadDataDelegate?
     
-    lazy var filteredData = [Search]() {
-        didSet { delegate?.reloadFilteredData(collectionView: self.collectionView) }
-    }
+    lazy var filteredData = [Search]()
 
     
     //MARK: - Outlet

@@ -46,16 +46,7 @@ class SearchAfterVC: UIViewController {
     @IBOutlet weak var tabsView: TabsView!
     
     //MARK: - Lifecycle
-    
-    // 검색 결과를 넘겨받기 위한 초기화 메소드
-//    init(data: [Search]) {
-//        self.filteredData = data
-//        super.init(nibName: "SearchAfterVC", bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -205,20 +196,19 @@ class SearchAfterVC: UIViewController {
         
         // PageController가 나타날 때마다 실행되는 코드
         if index == 0 {
-//            searchVideo.filteredData = filteredData   // 최초 데이터 전달 + 페이지 전환될 때마다 전달
+
             searchVideo.pageIndex = index
             return searchVideo
         } else if index == 1 {
-            searchConsult.delegate = self
+            
             searchConsult.pageIndex = index
             return searchConsult
         } else if index == 2 {
-            searchNote.delegate = self
+            
             searchNote.pageIndex = index
             return searchNote
         } else {
             let contentVC = SearchVideoVC()
-//            contentVC.filteredData = filteredData
             contentVC.pageIndex = index
             return contentVC
         }
@@ -358,8 +348,6 @@ extension SearchAfterVC: UISearchBarDelegate {
         self.searchBar.text = ""
         self.searchBar.resignFirstResponder()
         
-        // 화면이동하는 Controller로 데이터 전달 
-        searchVideo.delegate = self
 //        searchVideo.filteredData = self.filteredData    // 검색 결과 화면에서 데이터를 전달
         
         
@@ -369,13 +357,6 @@ extension SearchAfterVC: UISearchBarDelegate {
     }
 }
 
-
-// SearchVideoVC의 collectionView 데이터 업데이트를 위한 Protocol
-extension SearchAfterVC: ReloadDataDelegate {
-    func reloadFilteredData(collectionView: UICollectionView) {
-        collectionView.reloadData()
-    }
-}
 
 extension SearchAfterVC: RecentKeywordVCDelegate {
     func reloadTableView(tv: UITableView) {
