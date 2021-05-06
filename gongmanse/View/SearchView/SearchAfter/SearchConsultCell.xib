@@ -49,12 +49,26 @@
                                             <constraint firstAttribute="width" secondItem="mJg-BX-rPQ" secondAttribute="height" multiplier="1:1" id="Z8g-Lz-R2F"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대기중 &gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fec-Pt-HZy">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대기중 &gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fec-Pt-HZy" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                         <rect key="frame" x="336.33333333333331" y="9.6666666666666643" width="57.666666666666686" height="18"/>
                                         <color key="backgroundColor" red="0.86250628847064392" green="0.86250628847064392" blue="0.86250628847064392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10일 전" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8L-FY-mNV">
                                         <rect key="frame" x="358" y="53.666666666666664" width="36" height="16.999999999999993"/>
@@ -114,7 +128,7 @@
             <connections>
                 <outlet property="profileImage" destination="mJg-BX-rPQ" id="QRC-o2-ga3"/>
                 <outlet property="questionTitle" destination="5ez-Fg-pYb" id="BQa-eY-kZR"/>
-                <outlet property="state" destination="fec-Pt-HZy" id="eYA-1L-7vS"/>
+                <outlet property="stateLabel" destination="fec-Pt-HZy" id="eYA-1L-7vS"/>
                 <outlet property="titleImage" destination="w3M-qJ-NTY" id="S53-QC-sNQ"/>
                 <outlet property="writer" destination="rOf-Sk-vpb" id="qWt-HC-o4l"/>
                 <outlet property="writtenDate" destination="l8L-FY-mNV" id="rDG-5j-iwK"/>

@@ -16,8 +16,6 @@ class SearchConsultVC: UIViewController {
     
     var pageIndex: Int!
     
-    lazy var filteredData = [Search]()
-    
     //MARK: - Outlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
@@ -74,17 +72,35 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchConsultCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchConsultCell else { return UICollectionViewCell() }
         
         // TODO: ViewModel 적용해둘 것.
         
         let indexData = searchConsultationVM.responseDataModel?.data[indexPath.row]
+        
         cell.questionTitle.text = indexData?.sQuestion
-        cell.writer.text = indexData?.iAuthor
+        cell.writer.text = indexData?.sNickname
+        cell.writtenDate.text = indexData?.dtRegister ?? ""
+        // label state
+        let isAnswer = searchConsultationVM.answerState(state: indexData?.iAnswer ?? "0")
+        cell.labelState(isAnswer)
+        
+        // image
+        if indexData?.sProfile != nil {
+            cell.profileImage.setImageUrl("\(fileBaseURL)/\(indexData?.sProfile ?? "")")
+        }else {
+            cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+        }
+        
+        if indexData?.sFilepaths != nil {
+            cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sFilepaths ?? "")")
+        }else {
+            cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+        }
+        
         
         return cell
     }
-    
     
 }
 
@@ -114,6 +130,11 @@ extension SearchConsultVC: CollectionReloadData {
     
     func reloadCollection() {
         DispatchQueue.main.async {
+            
+            let subString = self.searchConsultationVM.responseDataModel?.totalNum ?? "0"
+            let allString = "총 \(subString)개"
+            
+            self.numberOfLesson.attributedText = self.searchConsultationVM.convertStringColor(allString, subString)
             self.collectionView.reloadData()
         }
     }

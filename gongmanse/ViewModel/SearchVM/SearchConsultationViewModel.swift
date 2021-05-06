@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchConsultationViewModel {
+class SearchConsultationViewModel: NSAttributedStringColor {
     
     weak var reloadDelegate: CollectionReloadData?
     
@@ -28,5 +28,18 @@ class SearchConsultationViewModel {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func convertStringColor(_ mainString: String, _ subString: String) -> NSAttributedString{
+        let range = (mainString as NSString).range(of: subString)
+        
+        let mutableString = NSMutableAttributedString.init(string: mainString)
+        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.mainOrange, range: range)
+        
+        return mutableString
+    }
+    
+    func answerState(state: String) -> Bool {
+        return state == "1" ? true : false
     }
 }
