@@ -77,12 +77,21 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchNoteCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchNoteCell else { return UICollectionViewCell() }
         
         let indexData = searchNoteVM.searchNotesDataModel?.data[indexPath.row]
         
-        cell.titleLabel.text = indexData?.sTitle
+        
         cell.teacher.text = indexData?.sTeacher
+        cell.titleLabel.text = indexData?.sTitle
+        cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData?.sSubjectColor ?? "000000")")
+        cell.chemistry.text = indexData?.sSubject
+        
+        if indexData?.sThumbnail != nil {
+            cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sThumbnail ?? "")")
+        }else{
+            cell.titleImage.image = UIImage(named: "extraSmallUserDefault")
+        }
         return cell
     }
     

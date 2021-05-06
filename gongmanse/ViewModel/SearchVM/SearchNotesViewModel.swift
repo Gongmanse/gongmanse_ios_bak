@@ -25,7 +25,6 @@ class SearchNotesViewModel {
         notesAPI.fetchNotesAPI(postModel) { response in
             switch response {
             case .success(let data):
-                print(data)
                 self.searchNotesDataModel = data
                 self.reloadDelegate?.reloadCollection()
             case .failure(let error):
