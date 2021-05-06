@@ -19,6 +19,8 @@ class SearchNoteVC: UIViewController {
     
     lazy var filteredData = [Search]()
 
+    let searchNoteVM = SearchNotesViewModel()
+    
     var receiveNoteUserInfo: [AnyHashable:Any]? {
         didSet{
             noteApi()
@@ -42,7 +44,13 @@ class SearchNoteVC: UIViewController {
     
     
     func noteApi() {
+        guard let userInfo = receiveNoteUserInfo else { return }
         
+        searchNoteVM.reqeustNotesApi(subject: userInfo["subject"] as? String ?? "",
+                                     grade: userInfo["grade"] as? String ?? "",
+                                     keyword: userInfo["text"] as? String ?? "",
+                                     offset: "0",
+                                     sortID: "4")
     }
     
     @IBAction func handleFilter(_ sender: Any) {

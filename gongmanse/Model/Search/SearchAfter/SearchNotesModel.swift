@@ -32,7 +32,7 @@ struct SearchNotesDataModel: Codable {
 
 // post시 모델
 
-struct SearchNotesPostModel {
+struct SearchNotesPostModel: Codable {
     
     let subject: String?
     let grade: String?
