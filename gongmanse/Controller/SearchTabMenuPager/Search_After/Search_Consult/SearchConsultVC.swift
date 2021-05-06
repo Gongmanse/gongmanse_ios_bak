@@ -23,7 +23,12 @@ class SearchConsultVC: UIViewController {
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
 
-    
+    let searchVideoVM = SearchVideoViewModel()
+    var receiveUserInfokeyword: [AnyHashable:Any]? {
+        didSet {
+            consultationApi()
+        }
+    }
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -34,9 +39,18 @@ class SearchConsultVC: UIViewController {
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         // 강의 개수 Text 속성 설정
         configurelabel(value: 3)
+        
     }
     
-    
+    func consultationApi(){
+        
+        searchVideoVM.requestVideoAPI(subject: receiveUserInfokeyword?["subject"] as? String ?? nil,
+                                      grade: receiveUserInfokeyword?["grade"] as? String ?? nil,
+                                      keyword: receiveUserInfokeyword?["text"] as? String ?? nil,
+                                      offset: "0",
+                                      sortid: "4",
+                                      limit: "20")
+    }
     //MARK: - Actions
     
     // 필터링 기능 : BottomPopup

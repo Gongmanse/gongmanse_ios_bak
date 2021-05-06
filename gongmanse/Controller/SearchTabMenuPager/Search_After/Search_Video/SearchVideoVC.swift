@@ -28,6 +28,7 @@ class SearchVideoVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         searchVideoVM.reloadDelegate = self
@@ -44,10 +45,10 @@ class SearchVideoVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
         
         // 필터링하고 받는 곳
-        NotificationCenter.default.addObserver(self, selector: #selector(testAction(_:)), name: .searchAfterVideoNoti, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveFilter(_:)), name: .searchAfterVideoNoti, object: nil)
     }
     
-    @objc func testAction(_ sender: Notification) {
+    @objc func receiveFilter(_ sender: Notification) {
         let acceptInfo = sender.userInfo
         sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
         

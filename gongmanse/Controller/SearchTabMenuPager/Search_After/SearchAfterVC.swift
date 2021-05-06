@@ -39,7 +39,7 @@ class SearchAfterVC: UIViewController {
     
     // ViewModel
     let searchAfterVM = SearchVideoViewModel()
-    
+    var userInfoKeyword: [AnyHashable:Any]?
     //MARK: - IBOutlet
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -66,9 +66,9 @@ class SearchAfterVC: UIViewController {
     }
     
     @objc func allKeyword(_ sender: Notification) {
-        let userInfo = sender.userInfo
+        userInfoKeyword = sender.userInfo
         
-        searchBar.text = userInfo?["text"] as? String ?? ""
+        searchBar.text = userInfoKeyword?["text"] as? String ?? ""
         
     }
     
@@ -202,6 +202,7 @@ class SearchAfterVC: UIViewController {
         } else if index == 1 {
             
             searchConsult.pageIndex = index
+            searchConsult.receiveUserInfokeyword = userInfoKeyword
             return searchConsult
         } else if index == 2 {
             
@@ -294,6 +295,7 @@ extension SearchAfterVC: UIPageViewControllerDataSource, UIPageViewControllerDel
             return vc.pageIndex
         case is SearchConsultVC:
             let vc = viewController as! SearchConsultVC
+            vc.receiveUserInfokeyword = userInfoKeyword
             return vc.pageIndex
         case is SearchNoteVC:
             let vc = viewController as! SearchNoteVC

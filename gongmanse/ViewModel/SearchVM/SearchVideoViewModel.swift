@@ -57,7 +57,7 @@ class SearchVideoViewModel: NSAttributedStringColor {
         videoAPI.fetchVideoAPI(postModel) { [weak self] result in
             switch result {
             case .success(let data):
-//                print("data", data.data[0].sTitle)
+                print("data", data.data[0].sTitle)
                 self?.responseVideoModel = data
                 self?.reloadDelegate?.reloadCollection()
                 
