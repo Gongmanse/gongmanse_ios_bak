@@ -40,6 +40,8 @@ class SearchAfterVC: UIViewController {
     // ViewModel
     let searchAfterVM = SearchVideoViewModel()
     var userInfoKeyword: [AnyHashable:Any]?
+    
+    
     //MARK: - IBOutlet
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -223,6 +225,7 @@ class SearchAfterVC: UIViewController {
 //MARK: - TabsDelegate
 
 extension SearchAfterVC: TabsDelegate {
+    
     func tabsViewDidSelectItemAt(position: Int) {
         // 탭이 이동된 다음에 실행되므로 여기서 데이터 전송
 //        searchConsult.filteredData = self.filteredData
@@ -338,6 +341,13 @@ extension SearchAfterVC: UISearchBarDelegate {
         // 데이터 필터링
         filterContentForSearchText(searchBar.text!)
         
+        
+        // 기존 userinfoKeyword의 text에 텍스트를 수정 변경
+        userInfoKeyword?["text"] = searchBar.text ?? ""
+        
+        NotificationCenter.default.post(name: .searchAfterSearchNoti, object: nil, userInfo: userInfoKeyword)
+        
+        
         // SearchVC로 검색어 데이터 전달 로직
         let vc = SearchVC(nibName: "SearchVC", bundle: nil)
         vc.keywordLog.append(searchBar.text!)
@@ -351,12 +361,6 @@ extension SearchAfterVC: UISearchBarDelegate {
         self.searchBar.showsCancelButton = false
         self.searchBar.text = ""
         self.searchBar.resignFirstResponder()
-        
-//        searchVideo.filteredData = self.filteredData    // 검색 결과 화면에서 데이터를 전달
-        
-        
-        
-        
         
     }
 }

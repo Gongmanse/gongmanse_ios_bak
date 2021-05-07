@@ -46,12 +46,32 @@ class SearchVideoVC: UIViewController {
         
         // 필터링하고 받는 곳
         NotificationCenter.default.addObserver(self, selector: #selector(receiveFilter(_:)), name: .searchAfterVideoNoti, object: nil)
+        
+        
+        // 검색 후 검색되면 신호받는 곳 :
+        NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
+    }
+    
+    
+    @objc func afterSearch(_ sender: Notification) {
+        
+        // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
+        sortButtonTitle.setTitle("최신순 ▼", for: .normal)
+        
+        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
+                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
+                                      keyword: sender.userInfo?["text"] as? String ?? nil,
+                                      offset: "0",
+                                      sortid: "4",
+                                      limit: "20")
+        
     }
     
     @objc func receiveFilter(_ sender: Notification) {
-        let acceptInfo = sender.userInfo
-        sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
         
+        let acceptInfo = sender.userInfo
+        
+        sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
         
         searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
                                       grade: notificationUserInfo?["grade"] as? String ?? nil,
@@ -59,13 +79,11 @@ class SearchVideoVC: UIViewController {
                                       offset: "0",
                                       sortid: acceptInfo?["sortID"] as? String ?? nil,
                                       limit: "20")
-        
-//        NotificationCenter.default.removeObserver(self, name: Notification.Name("test"), object: nil)
     }
     
     @objc func allKeyword(_ sender: Notification) {
-        notificationUserInfo = sender.userInfo
         
+        notificationUserInfo = sender.userInfo
         
         searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
                                       grade: notificationUserInfo?["grade"] as? String ?? nil,

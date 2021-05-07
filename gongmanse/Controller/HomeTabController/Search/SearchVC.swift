@@ -185,11 +185,7 @@ class SearchVC: UIViewController {
     }
     @IBAction func searchBarPresentButton(_ sender: UIButton) {
         // 화면 전환
-        
-//        let vc = UINavigationController(rootViewController: SearchAfterVC(data: filteredData))
-        let vc = UINavigationController(rootViewController: SearchAfterVC())
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        postNotification()
     }
 
 
@@ -289,22 +285,6 @@ extension SearchVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate
 }
 
 
-//MARK: - ProgressMainVCDelegate
-
-extension SearchVC: ProgressPresenterDelegate {
-    
-    func pushCellVC(indexPath: IndexPath, progressID: String) {
-        // indexPath 파라미터를 통해서 선택된 Cell에 맞는 데이터를 보여줄 예정.
-        
-//        let vc = ProgressDetailController(collectionViewLayout: UICollectionViewFlowLayout())
-        let vc = ProgressDetailVC()
-        vc.progressIdentifier = progressID
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
-}
-
 //MARK: - UISearchBarDelegate
 
 extension SearchVC: UISearchBarDelegate {
@@ -342,14 +322,19 @@ extension SearchVC: UISearchBarDelegate {
         self.searchBar.text = ""
         self.searchBar.resignFirstResponder()
         
-        // 화면이동하는 Controller로 데이터 전달
-//        let controller = SearchAfterVC(data: filteredData)  // TODO: 데이터를 2 번 넘기고 있음 에러수정요망
-        let controller = SearchAfterVC()  // TODO: 데이터를 2 번 넘기고 있음 에러수정요망
-//        controller.delegate = self
-//        controller.reloadDelegate = self
-        
         // 화면 전환 시, 최근검색어 Data reLoading을 위한 로직
         pageControllForreloadData()
+        
+        // notification으로 보내는 메소드
+        postNotification()
+        
+    }
+    
+    // Present and Notification
+    
+    func postNotification() {
+        // 화면이동하는 Controller로 데이터 전달
+        let controller = SearchAfterVC()
         
         // notification으로 보냄
         let infoHashable: [String:Any?] = [
@@ -367,7 +352,6 @@ extension SearchVC: UISearchBarDelegate {
         self.present(vc, animated: true) {
             NotificationCenter.default.post(name: .searchAllNoti, object: nil, userInfo: infoHashable as [AnyHashable : Any])
         }
-        
     }
     
     func pageControllForreloadData() {
