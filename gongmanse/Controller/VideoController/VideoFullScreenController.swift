@@ -7,22 +7,23 @@ class VideoFullScreenController: UIViewController{
     
     // MARK: - Properties
     
+    // 전달받을 데이터
     var id: String?
     var currentVideoPlayRate = Float(1.0)
-    var dataReceivedByVideoController: DetailVideoResponse?
+    var currentPlayerTime: CMTime?
+    var vttURL = ""
+    var videoURL = NSURL(string: "")
     
     // AVPlayer 관련 프로퍼티
     var playerController = AVPlayerViewController()
-    var timeObserverToken: Any?
     lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
-    var videoURL = NSURL(string: "")
-    var vttURL = ""
+    var timeObserverToken: Any?
+    
+    // 자막 클릭 시, 저장할 프로퍼티
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
-    
     var isPlaying: Bool { player.rate != 0 && player.error == nil }
-    var currentPlayerTime: CMTime?
     
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
@@ -156,9 +157,19 @@ class VideoFullScreenController: UIViewController{
     
     // MARK: - Lifecycle
     
-    init(playerCurrentTime time: CMTime) {
+    init(playerCurrentTime time: CMTime, urlData: VideoURL?) {
         super.init(nibName: nil, bundle: nil)
         self.currentPlayerTime = time
+        
+        if let urls = urlData {
+            if let vttURL = urls.vttURL {
+                self.vttURL = vttURL
+            }
+            
+            if let videoURL = urls.videoURL {
+                self.videoURL = videoURL
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -167,8 +178,9 @@ class VideoFullScreenController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureOrientation()
         configureDataAndNoti()
-        configureUI()
+        configureConstraint()
     }
     
     
@@ -180,7 +192,7 @@ class VideoFullScreenController: UIViewController{
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
-        //        removePeriodicTimeObserver()
+        removePeriodicTimeObserver()
         self.dismiss(animated: true) {
             AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
         }
@@ -318,9 +330,14 @@ class VideoFullScreenController: UIViewController{
     
     // MARK: - Helpers
     
+    func configureOrientation() {
+        let value = UIInterfaceOrientation.landscapeLeft.rawValue
+        let key = "orientation"
+        UIDevice.current.setValue(value, forKey: key)
+    }
+    
     /// 데이터 구성을 위한 메소드
     func configureDataAndNoti() {
-        // 관찰자를 추가한다.
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(playerItemDidReachEnd),
@@ -338,28 +355,50 @@ class VideoFullScreenController: UIViewController{
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
         DetailVideoDataManager().fullScreenVideoDataManager(inputData, viewController: self)
+        
     }
     
-    func configureUI() {
-        self.videoContainerView.addSubview(playerController.view)
-        playerController.view.anchor(top: videoContainerView.topAnchor,
-                                     left: videoContainerView.leftAnchor)
-        let value = UIInterfaceOrientation.landscapeLeft.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-        
+    func configureConstraint() {
+        /* view <- VideoContainerView */
         view.addSubview(videoContainerView)
         videoContainerView.setDimensions(height: view.frame.height,
                                          width: view.frame.width)
         videoContainerView.anchor(top: view.topAnchor,
                                   left: view.leftAnchor)
+        
+        /* VideoContainerView <- playerController.view */
+        self.videoContainerView.addSubview(playerController.view)
+        playerController.view.anchor(top: videoContainerView.topAnchor,
+                                     left: videoContainerView.leftAnchor)
+        
+        /* videoContainerView <- videoControlContainerView */
         configureVideoControlView()
         
+        /* videoContainerView <- subtitleLabel */
         videoContainerView.addSubview(subtitleLabel)
         subtitleLabel.centerX(inView: view)
         subtitleLabel.anchor(bottom: view.bottomAnchor,
                              width: view.frame.width)
         player.isMuted = false
         playerController.showsPlaybackControls = false
+        
+        /* videoContainerView <- playPauseButton */
+        videoContainerView.addSubview(playPauseButton)
+        playPauseButton.setDimensions(height: 150, width: 150)
+        playPauseButton.centerX(inView: videoContainerView)
+        playPauseButton.centerY(inView: videoContainerView)
+        
+        /* videoContainerView <- videoBackwardTimeButton */
+        videoContainerView.addSubview(videoBackwardTimeButton)
+        videoBackwardTimeButton.setDimensions(height: 50, width: 50)
+        videoBackwardTimeButton.centerY(inView: playPauseButton)
+        videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor)
+        
+        /* videoContainerView <- videoForwardTimeButton */
+        videoContainerView.addSubview(videoForwardTimeButton)
+        videoForwardTimeButton.setDimensions(height: 50, width: 50)
+        videoForwardTimeButton.centerY(inView: playPauseButton)
+        videoForwardTimeButton.anchor(left: playPauseButton.rightAnchor)
     }
     
     func configureVideoControlView() {
@@ -627,6 +666,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         
         playerController.didMove(toParent: self)
         
+        player.seek(to: self.currentPlayerTime ?? CMTime(value: 0, timescale: 0))
         player.play()
         player.isMuted = false
     }
@@ -679,7 +719,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         if let data = sender.userInfo {
             if let condition = data["isOnSubtitle"] {
                 UIView.animate(withDuration: 0.22) {
-                    if condition as? Bool ?? true {
+                    if condition as! Bool  {
                         self.subtitleLabel.alpha = 1
                         self.isClickedSubtitleToggleButton = true
 
@@ -699,21 +739,20 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
 extension VideoFullScreenController {
     /// 1,2,....100과 같은 값을 받았을 때, 00:00 의 형식으로 출력해주는 메소드
     func convertTimeToFitText(time: Int) -> String {
-        
         // 초와 분을 나눈다.
         let minute = time / 60
         let sec = time % 60
-        
         // 1분이 넘는 경우
         if minute > 0 {
             return "\(minute):\(sec < 10 ? "0\(sec)" : "\(sec)")"
-            
             // 1 분이 넘지 않는 경우
         } else {
             return "0:\(sec < 10 ? "0\(sec)" : "\(sec)")"
         }
     }
 }
+
+
 // MARK: - Subtitles Methond
 /// 동영상 자막 keyword 색상 변경 및 클릭 시 호출을 위한 커스텀 메소드
 extension VideoFullScreenController {

@@ -199,7 +199,6 @@ extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        
         if indexPath.row == 0 {
             if currentStateIsSubtitleOn {
                 currentStateIsSubtitleOn = false
@@ -216,8 +215,6 @@ extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSourc
             
         }
     }
-    
-    
 }
 
 

@@ -93,7 +93,10 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.label.textColor = .mainOrange
     }
 }
+
+
 //MARK:- UICollectionViewDelegateFlowLayout
+
 extension VideoMenuBar: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
