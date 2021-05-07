@@ -17,7 +17,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var id: String?
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     
-    
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -298,6 +297,29 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     // MARK: - Actions
+    
+    
+    
+    
+    // MARK: - Heleprs
+    
+    /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
+    override func viewWillTransition(to size: CGSize,
+                                     with coordinator: UIViewControllerTransitionCoordinator) {
+        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
+        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+                                        at: UICollectionView.ScrollPosition.left,
+                                        animated: true)
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        /// true == 가로모드, false == 세로모드
+        if UIDevice.current.orientation.isLandscape {
+            changeConstraintToVideoContainer(isPortraitMode: true)
+            
+        } else {
+            changeConstraintToVideoContainer(isPortraitMode: false)
+        }
+    }
 }
 
 
@@ -393,9 +415,19 @@ extension VideoController {
 // MARK: - VideoSettingPopupControllerDelegate
 
 extension VideoController: VideoSettingPopupControllerDelegate {
+    
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()
         present(vc, animated: true)
     }
 }
 
+
+// MARK: - VideoFullScreenControllerDelegate
+
+extension VideoController: VideoFullScreenControllerDelegate {
+    
+    func addNotificaionObserver() {
+        setNotification()
+    }
+}
