@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class SearchVideoViewModel: NSAttributedStringColor {
+class SearchVideoViewModel {
     
     
     
@@ -47,12 +47,4 @@ class SearchVideoViewModel: NSAttributedStringColor {
         }
     }
     
-    func convertStringColor(_ mainString: String, _ subString: String) -> NSAttributedString{
-        let range = (mainString as NSString).range(of: subString)
-        
-        let mutableString = NSMutableAttributedString.init(string: mainString)
-        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.mainOrange, range: range)
-        
-        return mutableString
-    }
 }

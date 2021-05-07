@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchConsultationViewModel: NSAttributedStringColor {
+class SearchConsultationViewModel {
     
     weak var reloadDelegate: CollectionReloadData?
     
@@ -22,7 +22,7 @@ class SearchConsultationViewModel: NSAttributedStringColor {
         apiModel.fetchConsultaionAPI(postModel) { [weak self] response in
             switch response{
             case .success(let data):
-                print(data)
+                
                 self?.responseDataModel = data
                 self?.reloadDelegate?.reloadCollection()
             case .failure(let error):
@@ -31,14 +31,6 @@ class SearchConsultationViewModel: NSAttributedStringColor {
         }
     }
     
-    func convertStringColor(_ mainString: String, _ subString: String) -> NSAttributedString{
-        let range = (mainString as NSString).range(of: subString)
-        
-        let mutableString = NSMutableAttributedString.init(string: mainString)
-        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.mainOrange, range: range)
-        
-        return mutableString
-    }
     
     func answerState(state: String) -> Bool {
         return state == "1" ? true : false

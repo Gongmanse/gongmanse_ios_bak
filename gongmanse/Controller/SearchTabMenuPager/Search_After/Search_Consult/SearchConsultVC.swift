@@ -144,7 +144,7 @@ extension SearchConsultVC: CollectionReloadData {
             let subString = self.searchConsultationVM.responseDataModel?.totalNum ?? "0"
             let allString = "총 \(subString)개"
             
-            self.numberOfLesson.attributedText = self.searchConsultationVM.convertStringColor(allString, subString)
+            self.numberOfLesson.attributedText = allString.convertStringColor(allString, subString, .mainOrange)
             self.collectionView.reloadData()
         }
     }

@@ -7,6 +7,20 @@
 
 import UIKit
 
+// NSAttributeString 중간에 글자 색 바꾸기 
+
+extension String {
+    
+    func convertStringColor(_ mainString: String, _ subString: String, _ color: UIColor) -> NSAttributedString{
+        let range = (mainString as NSString).range(of: subString)
+        
+        let mutableString = NSMutableAttributedString.init(string: mainString)
+        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+        
+        return mutableString
+    }
+}
+
 extension String {
     
     // regex의 조건에 따라서 필터링한 값을 array<String>으로 리턴하는 메소드

@@ -145,8 +145,9 @@ extension SearchVideoVC: CollectionReloadData {
     func reloadCollection() {
         DispatchQueue.main.async {
             
-            let allString = "총 \(self.searchVideoVM.responseVideoModel?.totalNum ?? "0")개"
-            self.numberOfLesson.attributedText = self.searchVideoVM.convertStringColor(allString, self.searchVideoVM.responseVideoModel?.totalNum ?? "0")
+            let subString = self.searchVideoVM.responseVideoModel?.totalNum ?? "0"
+            let allString = "총 \(subString)개"
+            self.numberOfLesson.attributedText = allString.convertStringColor(allString, subString, .mainOrange)
             self.collectionView.reloadData()
         }
     }
