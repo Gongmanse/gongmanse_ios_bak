@@ -47,6 +47,21 @@ class SearchNoteVC: UIViewController {
                                                selector: #selector(receiveNotesFilter(_:)),
                                                name: .searchAfterNotesNoti,
                                                object: nil)
+        
+        // 검색 후 검색되면 신호받는 곳 :
+        NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
+        
+    }
+    
+    @objc func afterSearch(_ sender: Notification) {
+        
+        // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
+        noteSortButton.setTitle("최신순 ▼", for: .normal)
+        searchNoteVM.reqeustNotesApi(subject: receiveNoteUserInfo?["subject"] as? String ?? "",
+                                     grade: receiveNoteUserInfo?["grade"] as? String ?? "",
+                                     keyword: sender.userInfo?["text"] as? String ?? "",
+                                     offset: "0",
+                                     sortID: "4")
     }
     
     @objc func receiveNotesFilter(_ sender: Notification) {
@@ -146,8 +161,7 @@ extension SearchNoteVC: CollectionReloadData {
             let subString = self.searchNoteVM.searchNotesDataModel?.totalNum ?? "0"
             let allString = "총 \(subString)개"
             
-            self.numberOfLesson.attributedText = self.searchNoteVM.convertStringColor(allString, subString)
-            
+            self.numberOfLesson.attributedText = allString.convertStringColor(allString, subString, .mainOrange)
             self.collectionView.reloadData()
         }
     }

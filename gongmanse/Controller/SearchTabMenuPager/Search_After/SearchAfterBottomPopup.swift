@@ -103,7 +103,7 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
         case .videoDicionary:
             let sortVideoDic = videoDicFilter.keys.sorted(by: >)
             postInfo = [
-                "sort": sortVideoDic[indexPath.row],
+                "sort": "\(sortVideoDic[indexPath.row]) ▼",
                 "sortID": String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0)
             ]
             
@@ -113,7 +113,7 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
             let consultation = searchConsultation.keys.sorted(by: >)
             
             postInfo = [
-                "sort": consultation[indexPath.row],
+                "sort": "\(consultation[indexPath.row]) ▼",
                 "sortID": String(searchConsultation[consultation[indexPath.row]] ?? 0)
             ]
             
@@ -123,7 +123,7 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
             let sortVideoNotes = VideoNotes.keys.sorted(by: >)
             
             postInfo = [
-                "sort": sortVideoNotes[indexPath.row],
+                "sort": "\(sortVideoNotes[indexPath.row]) ▼",
                 "sortID": String(VideoNotes[sortVideoNotes[indexPath.row]] ?? 0)
             ]
             

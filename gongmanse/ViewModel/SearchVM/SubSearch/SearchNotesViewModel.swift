@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchNotesViewModel: NSAttributedStringColor {
+class SearchNotesViewModel {
     
     weak var reloadDelegate: CollectionReloadData?
     
@@ -31,15 +31,6 @@ class SearchNotesViewModel: NSAttributedStringColor {
                 print(error.localizedDescription)
             }
         }
-    }
-    
-    func convertStringColor(_ mainString: String, _ subString: String) -> NSAttributedString{
-        let range = (mainString as NSString).range(of: subString)
-        
-        let mutableString = NSMutableAttributedString.init(string: mainString)
-        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.mainOrange, range: range)
-        
-        return mutableString
     }
     
 }

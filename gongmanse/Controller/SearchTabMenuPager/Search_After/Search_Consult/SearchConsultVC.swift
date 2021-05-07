@@ -40,6 +40,18 @@ class SearchConsultVC: UIViewController {
      
         
         NotificationCenter.default.addObserver(self, selector: #selector(receiveConsultFilter(_:)), name: .searchAfterConsultationNoti, object: nil)
+        
+        // 검색 후 검색되면 신호받는 곳 :
+        NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
+        
+    }
+    
+    @objc func afterSearch(_ sender: Notification) {
+        
+        // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
+        sortButton.setTitle("최신순 ▼", for: .normal)
+        searchConsultationVM.requestConsultationApi(keyword: sender.userInfo?["text"] as? String ?? "",
+                                                    sortId: "4")
     }
     
     @objc func receiveConsultFilter(_ sender: Notification) {
@@ -144,9 +156,8 @@ extension SearchConsultVC: CollectionReloadData {
             let subString = self.searchConsultationVM.responseDataModel?.totalNum ?? "0"
             let allString = "총 \(subString)개"
             
-            self.numberOfLesson.attributedText = self.searchConsultationVM.convertStringColor(allString, subString)
+            self.numberOfLesson.attributedText = allString.convertStringColor(allString, subString, .mainOrange)
             self.collectionView.reloadData()
         }
     }
-
 }

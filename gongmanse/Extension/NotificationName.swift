@@ -8,6 +8,7 @@
 import Foundation
 
 extension Notification.Name {
+    
     // 진도학습
     static let getGrade = Notification.Name(NotificationKey.getGradeKey)
     static let getSubject = Notification.Name(NotificationKey.getSubjectKey)
@@ -21,6 +22,9 @@ extension Notification.Name {
     static let searchAfterVideoNoti = Notification.Name(NotificationKey.searchAfterVideoSort)
     static let searchAfterConsultationNoti = Notification.Name(NotificationKey.searchAfterConsultationSort)
     static let searchAfterNotesNoti = Notification.Name(NotificationKey.searchAfterNotesSort)
+    
+    // 검색 후 다시 검색
+    static let searchAfterSearchNoti = Notification.Name(NotificationKey.searchAfterSearch)
     
 }
 
@@ -36,4 +40,7 @@ struct NotificationKey {
     static let searchAfterVideoSort = "videoSort"
     static let searchAfterConsultationSort = "consultationSort"
     static let searchAfterNotesSort = "videoNotesSort"
+    
+    // SearchAter 검색
+    static let searchAfterSearch = "reSearch"
 }

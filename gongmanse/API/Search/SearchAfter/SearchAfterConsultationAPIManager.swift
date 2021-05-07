@@ -8,15 +8,18 @@
 import Foundation
 import Alamofire
 
+
+
 struct SearchAfterConsultationAPIManager {
     
     let url = "\(apiBaseURL)/v/search/search_consultation"
     
+    
+    
     func fetchConsultaionAPI(_ parameter: SearchConsultationPostModel,
-                             completion: @escaping (Result<SearchConsultationModel, InfoError>) -> Void) {
+                             completion: @escaping resultModel<SearchConsultationModel>) {
         
         let data = parameter
-        print("전문가상담 ==", data)
         AF.upload(multipartFormData: { formData in
             formData.append("\(data.keyword ?? "")".data(using: .utf8) ?? Data(), withName: "keyword")
             formData.append("\(data.sortID ?? "")".data(using: .utf8) ?? Data(), withName: "sort_id")

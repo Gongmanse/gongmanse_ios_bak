@@ -19,7 +19,7 @@ enum InfoError: Swift.Error {
 struct PopularAPIManager {
     let popularURL = "https://api.gongmanse.com/v/video/trending_keyword"
     
-    func fetchPopularAPI(completion: @escaping(Result<PopularKeywordModel, InfoError>) -> Void) {
+    func fetchPopularAPI(completion: @escaping resultModel<PopularKeywordModel>) {
         
         AF.request(popularURL, method: .get)
             .responseDecodable(of: PopularKeywordModel.self) { response in
