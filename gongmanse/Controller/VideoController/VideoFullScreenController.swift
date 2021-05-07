@@ -180,7 +180,7 @@ class VideoFullScreenController: UIViewController{
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
-        //        removePeriodicTimeObserver()
+        removePeriodicTimeObserver()
         self.dismiss(animated: true) {
             AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
         }

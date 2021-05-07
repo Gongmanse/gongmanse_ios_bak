@@ -15,7 +15,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var currentVideoPlayRate = Float(1.0)
     var id: String?
-    var dataForPassFullScreenController: DetailVideoResponse?
+    var videoAndVttURL: VideoURL?
     
     
     /* VideoContainterView */
@@ -439,11 +439,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let targetTime: CMTime = CMTimeMake(value: 10, timescale: 1)
         let vc = VideoFullScreenController(playerCurrentTime: targetTime)
         vc.id = self.id
-        vc.dataReceivedByVideoController = dataForPassFullScreenController
         
-        if let videoURL = dataForPassFullScreenController?.data.source_url {
-            vc.videoURL = NSURL(string: videoURL)
-        }
+    
         NotificationCenter.default.removeObserver(self)
         removePeriodicTimeObserver()
         player.pause()
@@ -982,10 +979,10 @@ extension VideoController {
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
         if let sourceURL = response.data.source_url {
-            self.videoURL = URL(string: sourceURL) as NSURL?
+            let url = URL(string: sourceURL) as NSURL?
+            self.videoURL = url
+            self.videoAndVttURL?.videoURL = url
         }
-        
-        self.dataForPassFullScreenController? = response
         
         // sSubtitles -> vttURL
         self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
