@@ -981,26 +981,34 @@
 		257FCBEA264524EB00EC0F42 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				2538EDC526436F240090E460 /* VideoFullScreenController.swift */,
+				25832D5A261D77F400CB63B8 /* Subtitles */,
+				256D016C263A365600967449 /* BottomPopup */,
 				257FCBDF264521D600EC0F42 /* DataModel */,
-				257FCBE12645224600EC0F42 /* VideoSubtitleMethod.swift */,
-				25426A1B2639426A00CD5E7C /* VideoLayouts.swift */,
-				257FCBE7264524B900EC0F42 /* VideoControllerConfigureMethod.swift */,
-				257FCBE42645232A00EC0F42 /* VideoAVPlayerController.swift */,
 			);
 			path = Video;
+			sourceTree = "<group>";
+		};
+		257FCBF62645294900EC0F42 /* VideoControllerExtension */ = {
+			isa = PBXGroup;
+			children = (
+				257FCBE12645224600EC0F42 /* VideoSubtitleMethod.swift */,
+				25426A1B2639426A00CD5E7C /* VideoLayouts.swift */,
+				257FCBE42645232A00EC0F42 /* VideoAVPlayerController.swift */,
+				257FCBE7264524B900EC0F42 /* VideoControllerConfigureMethod.swift */,
+			);
+			path = VideoControllerExtension;
 			sourceTree = "<group>";
 		};
 		2580CF42261A900C00D78E4E /* VideoController */ = {
 			isa = PBXGroup;
 			children = (
+				2580CF5C261A939D00D78E4E /* VideoController.swift */,
+				257FCBF62645294900EC0F42 /* VideoControllerExtension */,
+				25DACD9F2637B8B0002D03BB /* TestSearchController.swift */,
 				257FCBEA264524EB00EC0F42 /* Video */,
 				257FCBDD2645219500EC0F42 /* View */,
-				256D016C263A365600967449 /* BottomPopup */,
-				25832D5A261D77F400CB63B8 /* Subtitles */,
 				2580CF54261A924200D78E4E /* BottomCell */,
-				2580CF5C261A939D00D78E4E /* VideoController.swift */,
-				2538EDC526436F240090E460 /* VideoFullScreenController.swift */,
-				25DACD9F2637B8B0002D03BB /* TestSearchController.swift */,
 			);
 			path = VideoController;
 			sourceTree = "<group>";

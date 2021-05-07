@@ -1,10 +1,3 @@
-//
-//  VideoControllerConfigureMethod.swift
-//  gongmanse
-//
-//  Created by 김우성 on 2021/05/07.
-//
-
 import UIKit
 
 extension VideoController {
@@ -19,26 +12,7 @@ extension VideoController {
         }
         pageCollectionView.reloadData()
     }
-    
 
-    
-    /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
-    override func viewWillTransition(to size: CGSize,
-                                     with coordinator: UIViewControllerTransitionCoordinator) {
-        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
-        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
-                                        at: UICollectionView.ScrollPosition.left,
-                                        animated: true)
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        /// true == 가로모드, false == 세로모드
-        if UIDevice.current.orientation.isLandscape {
-            changeConstraintToVideoContainer(isPortraitMode: true)
-            
-        } else {
-            changeConstraintToVideoContainer(isPortraitMode: false)
-        }
-    }
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
     @objc func presentFullScreenMode() {
@@ -51,18 +25,14 @@ extension VideoController {
         let currentTime = player.currentTime()
         let vc = VideoFullScreenController(playerCurrentTime: currentTime, urlData: self.videoAndVttURL)
         vc.id = self.id
+        vc.delegate = self
         
         NotificationCenter.default.removeObserver(self)
         removePeriodicTimeObserver()
         player.pause()
         present(vc, animated: true)
     }
-    
 
-    
-    
-    // MARK: - Helpers
-    
     /// 데이터 구성을 위한 메소드
     func configureDataAndNoti() {
         // 관찰자를 추가한다.
@@ -153,4 +123,20 @@ extension VideoController {
                          selector: #selector(switchIsOnSubtitle),
                          name: .switchSubtitleOnOff, object: nil)
     }
+}
+
+
+extension Notification.Name {
+    static let detectVideoEnded = Notification.Name("videoEnded")
+}
+
+// MARK: - Notificaion
+
+extension Notification.Name {
+    
+    /// 자막보기 설정
+    static let switchSubtitleOnOff = Notification.Name("switchSubtitleOnOff")
+    
+    /// 영상 속도 조절
+    static let changePlayVideoRate = Notification.Name("changePlayVideoRate")
 }
