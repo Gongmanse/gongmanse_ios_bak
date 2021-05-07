@@ -8,12 +8,15 @@
 import Foundation
 import Alamofire
 
+
+
+
 struct SearchAfterVideoAPIManager {
     
     let videoUrl = "https://api.gongmanse.com/v/search/searchbar"
     
     func fetchVideoAPI(_ parameters: SearchVideoPostModel,
-                       completion: @escaping (Result<SearchVideoModel, InfoError>) -> Void ) {
+                       completion: @escaping resultModel<SearchVideoModel> ) {
         
         let data = parameters
         print("SearchAfterVideoAPIManager == ", data)

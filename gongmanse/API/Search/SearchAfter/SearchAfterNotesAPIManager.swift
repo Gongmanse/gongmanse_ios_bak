@@ -14,7 +14,7 @@ struct SearchAfterNotesAPIManager  {
     let url = "\(apiBaseURL)/v/search/searchnotes"
     
     func fetchNotesAPI(_ parameter: SearchNotesPostModel,
-                       completion: @escaping ((Result<SearchNotesModel, InfoError>) -> Void)) {
+                       completion: @escaping resultModel<SearchNotesModel>) {
         
         
         let data = parameter

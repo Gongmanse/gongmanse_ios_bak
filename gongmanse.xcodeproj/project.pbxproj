@@ -291,6 +291,7 @@
 		C207F5D126266CEC0020A965 /* LectureListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C207F5D026266CEC0020A965 /* LectureListModel.swift */; };
 		C207F5D5262676620020A965 /* LectureThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C207F5D3262676620020A965 /* LectureThumbnailCell.swift */; };
 		C207F5D6262676620020A965 /* LectureThumbnailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C207F5D4262676620020A965 /* LectureThumbnailCell.xib */; };
+		C20C8E292645048100B0566A /* ApiTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20C8E282645048100B0566A /* ApiTypealias.swift */; };
 		C2172467262FEE9A003959AB /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2172466262FEE9A003959AB /* NotificationName.swift */; };
 		C23302782638F8BD0058592E /* PopularAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23302772638F8BD0058592E /* PopularAPIManager.swift */; };
 		C233027B263904EE0058592E /* PopularKeywordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C233027A263904EE0058592E /* PopularKeywordViewModel.swift */; };
@@ -629,6 +630,7 @@
 		C207F5D026266CEC0020A965 /* LectureListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureListModel.swift; sourceTree = "<group>"; };
 		C207F5D3262676620020A965 /* LectureThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureThumbnailCell.swift; sourceTree = "<group>"; };
 		C207F5D4262676620020A965 /* LectureThumbnailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LectureThumbnailCell.xib; sourceTree = "<group>"; };
+		C20C8E282645048100B0566A /* ApiTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiTypealias.swift; sourceTree = "<group>"; };
 		C2172466262FEE9A003959AB /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		C23302772638F8BD0058592E /* PopularAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularAPIManager.swift; sourceTree = "<group>"; };
 		C233027A263904EE0058592E /* PopularKeywordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularKeywordViewModel.swift; sourceTree = "<group>"; };
@@ -1189,9 +1191,6 @@
 			children = (
 				C2A92F9A263BABE600098F92 /* SubSearch */,
 				C233027E2639283A0058592E /* MainSearch */,
-				259B8B77260300D6009A7146 /* SearchVideoViewModel.swift */,
-				C28BD58326437ED0006D1318 /* SearchConsultationViewModel.swift */,
-				C28BD5932643CB45006D1318 /* SearchNotesViewModel.swift */,
 			);
 			path = SearchVM;
 			sourceTree = "<group>";
@@ -1752,6 +1751,7 @@
 		6CD7C3C325F086E00092D30E /* gongmanse */ = {
 			isa = PBXGroup;
 			children = (
+				C20C8E272645044A00B0566A /* Generic */,
 				C2A92FA2263BCF8900098F92 /* Protocol */,
 				6C3F7BB6262E6ACF00475DB4 /* Intro */,
 				258B5E9A2609D81600F470B7 /* API */,
@@ -2066,6 +2066,14 @@
 			name = WhatIsGongmanse;
 			sourceTree = "<group>";
 		};
+		C20C8E272645044A00B0566A /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				C20C8E282645048100B0566A /* ApiTypealias.swift */,
+			);
+			path = Generic;
+			sourceTree = "<group>";
+		};
 		C23302742638F77E0058592E /* SearchAfter */ = {
 			isa = PBXGroup;
 			children = (
@@ -2227,6 +2235,9 @@
 		C2A92F9A263BABE600098F92 /* SubSearch */ = {
 			isa = PBXGroup;
 			children = (
+				259B8B77260300D6009A7146 /* SearchVideoViewModel.swift */,
+				C28BD58326437ED0006D1318 /* SearchConsultationViewModel.swift */,
+				C28BD5932643CB45006D1318 /* SearchNotesViewModel.swift */,
 			);
 			path = SubSearch;
 			sourceTree = "<group>";
@@ -2594,6 +2605,7 @@
 				2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */,
 				C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */,
 				C2657C542624369C0048B92F /* UIImageView.swift in Sources */,
+				C20C8E292645048100B0566A /* ApiTypealias.swift in Sources */,
 				A9129ED72616A0B000041CC5 /* GongManseStoryVC.swift in Sources */,
 				259B8BD426030558009A7146 /* ProgressSocialVC.swift in Sources */,
 				25126D66261175EA00009526 /* LoginInput.swift in Sources */,
