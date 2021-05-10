@@ -25,7 +25,8 @@ class SearchMainPopupVC: BottomPopupViewController {
     var mainList: SearchMainButtonState?
     var subjectModel: [SubjectModel] = []
     
-    
+    //싱글턴
+    let searchData = SearchData.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +78,7 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if mainList! == .grade {
+            searchData.searchGrade = gradeList[indexPath.row]
             let selectGrade = gradeList[indexPath.row]
             NotificationCenter.default.post(name: .searchGradeNoti, object: selectGrade)
             
@@ -88,6 +90,8 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
                 "name": selectSubjectName,
                 "Id": selectSubjectID
             ]
+            searchData.searchSubject = selectSubjectName
+            searchData.searchSubjectNumber = selectSubjectID
             NotificationCenter.default.post(name: .searchSubjectNoti, object: nil, userInfo: selectHashable)
         }
         self.dismiss(animated: true, completion: nil)

@@ -33,11 +33,13 @@ class SearchVC: UIViewController {
         return removeDuplicate(keywordLog)
     }
     
+    // 싱글턴
+    lazy var searchData = SearchData.shared
     
     // API에 담아 보낼 학년 과목 변수들
-    var localSearchGrade: String?
-    var localSearchSubject: String?
-    var localSearchText: String?
+    var globalSearchGrade: String?
+    var globalSearchSubject: String?
+    var globalSearchText: String?
     
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
     private var isChooseGrade: Bool = false
@@ -104,18 +106,24 @@ class SearchVC: UIViewController {
 
     @objc func searchGradeAction(_ sender: Notification) {
         
-        if let gradeText = sender.object as? String {
-            localSearchGrade = gradeText
-            gradeButton.setTitle(gradeText, for: .normal)
-        }
+//        if let gradeText = sender.object as? String {
+//            globalSearchGrade = gradeText
+//            //singleton
+//
+//            gradeButton.setTitle(gradeText, for: .normal)
+//        }
+        
+        gradeButton.setTitle(searchData.searchGrade, for: .normal)
     }
     
     @objc func searchSubjectAction(_ sender: Notification) {
-        if let subjectText = sender.userInfo as? [String : Any] {
-            
-            localSearchSubject = subjectText["Id"] as? String
-            subjectButton.setTitle(subjectText["name"] as? String, for: .normal)
-        }
+//        if let subjectText = sender.userInfo as? [String : Any] {
+//
+//            globalSearchSubject = subjectText["Id"] as? String
+//            subjectButton.setTitle(subjectText["name"] as? String, for: .normal)
+//        }
+        subjectButton.setTitle(searchData.searchSubject, for: .normal)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -167,6 +175,8 @@ class SearchVC: UIViewController {
         if index == 0 {
             let contentVC = PopularKeywordVC()
             contentVC.delegate = self
+            contentVC.popularGrade = globalSearchGrade
+            contentVC.popularSubject = globalSearchSubject
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
@@ -178,6 +188,8 @@ class SearchVC: UIViewController {
             return contentVC
         } else {
             let contentVC = PopularKeywordVC()
+            contentVC.popularGrade = globalSearchGrade
+            contentVC.popularSubject = globalSearchSubject
             contentVC.pageIndex = index
             return contentVC
         }
@@ -271,6 +283,8 @@ extension SearchVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate
         switch viewController {
         case is PopularKeywordVC:
             let vc = viewController as! PopularKeywordVC
+            vc.popularGrade = globalSearchGrade
+            vc.popularSubject = globalSearchSubject
             return vc.pageIndex
         case is RecentKeywordVC:
             let vc = viewController as! RecentKeywordVC
@@ -311,7 +325,7 @@ extension SearchVC: UISearchBarDelegate {
         self.keywordLog.append(searchBar.text!)
             
         // 전역변수에 할당
-        localSearchText = searchBar.text
+        globalSearchText = searchBar.text
         
         // 데이터 필터링
         filterContentForSearchText(searchBar.text!)
@@ -338,9 +352,9 @@ extension SearchVC: UISearchBarDelegate {
         
         // notification으로 보냄
         let infoHashable: [String:Any?] = [
-            "grade": localSearchGrade,
-            "subject": localSearchSubject,
-            "text": localSearchText
+            "grade": globalSearchGrade,
+            "subject": globalSearchSubject,
+            "text": globalSearchText
         ]
         
         

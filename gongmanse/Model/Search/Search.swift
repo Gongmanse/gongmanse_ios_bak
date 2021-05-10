@@ -36,3 +36,13 @@ struct PopularKeywordDataModel: Codable {
     let id: Int
     let keywords: String
 }
+
+class SearchData {
+    static let shared:SearchData = SearchData()
+    
+    var searchText: String?
+    var searchGrade: String?
+    var searchSubject: String?
+    var searchSubjectNumber: String?
+    
+}

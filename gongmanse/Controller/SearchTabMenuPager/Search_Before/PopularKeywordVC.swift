@@ -28,6 +28,10 @@ class PopularKeywordVC: UIViewController {
     var popularVM = PopularKeywordViewModel()
     var popularKeywoard: PopularKeywordModel? = nil
     
+    // didselect시 같이 보낼 프로퍼티
+    var popularGrade: String?
+    var popularSubject: String?
+    
     //MARK: - IBOutlet
     
     @IBOutlet weak var tableView: UITableView!
@@ -36,6 +40,8 @@ class PopularKeywordVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(popularGrade)
+        print(popularSubject)
         print("DEBUG: PopularKeywordVC Instance")
         
         tableView.delegate = self
