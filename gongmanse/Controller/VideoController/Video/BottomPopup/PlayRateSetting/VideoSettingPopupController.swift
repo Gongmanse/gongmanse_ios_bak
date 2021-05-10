@@ -218,13 +218,4 @@ extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSourc
 }
 
 
-// MARK: - Notificaion
 
-extension Notification.Name {
-    
-    /// 자막보기 설정
-    static let switchSubtitleOnOff = Notification.Name("switchSubtitleOnOff")
-    
-    /// 영상 속도 조절
-    static let changePlayVideoRate = Notification.Name("changePlayVideoRate")
-}

@@ -3,9 +3,15 @@ import AVKit
 import Foundation
 import UIKit
 
+protocol VideoFullScreenControllerDelegate: AnyObject {
+    func addNotificaionObserver()
+}
+
 class VideoFullScreenController: UIViewController{
     
     // MARK: - Properties
+    
+    weak var delegate: VideoFullScreenControllerDelegate?
     
     // 전달받을 데이터
     var id: String?
@@ -194,7 +200,12 @@ class VideoFullScreenController: UIViewController{
         NotificationCenter.default.removeObserver(self)
         removePeriodicTimeObserver()
         self.dismiss(animated: true) {
+            // 화면회전에 대한 제한을 변경한다. (세로모드)
             AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
+            
+            // delegate를 통해 "VideoController"의 Notificaion을 활성화 시킨다.
+            // (영상 속도조절 및 자막 생성 및 소멸 액션을 수행을 위해)
+            self.delegate?.addNotificaionObserver()
         }
     }
     
@@ -929,6 +940,9 @@ extension VideoFullScreenController {
         playVideo()
     }
 }
+
+
+// MARK: - VideoSettingPopupControllerDelegate
 
 extension VideoFullScreenController: VideoSettingPopupControllerDelegate {
     func presentSelectionVideoPlayRateVC() {

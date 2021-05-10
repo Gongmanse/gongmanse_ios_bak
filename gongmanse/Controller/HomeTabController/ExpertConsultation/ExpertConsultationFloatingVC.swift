@@ -1,12 +1,30 @@
 import UIKit
+import Photos
+import PhotosUI
 
 class ExpertConsultationFloatingVC: UIViewController {
     
+    //ExpertConsultView전체 변수들
     @IBOutlet weak var answerTextView: UITextView!
     @IBOutlet weak var addImageBtn: UIButton!
     @IBOutlet weak var writeBtn: UIButton!
     @IBOutlet weak var uploadImageCollectionView: UICollectionView!
     @IBOutlet weak var pageView: UIPageControl!
+    
+    //alertView 변수들
+    @IBOutlet weak var alertViewBackground: UIView!
+    @IBOutlet weak var alertView: UIView!
+    @IBOutlet weak var alertTitleView: UIView!
+    @IBOutlet weak var closeBtn: UIButton!
+    @IBOutlet weak var selectPhoto: UIButton!
+    @IBOutlet weak var selectVideo: UIButton!
+    
+    let imagePicker = UIImagePickerController()
+    var images = [UIImage]()
+    let iamgeCount = 3
+    
+    //var allPhotos: PHFetchResult<PHAsset>!
+    //let imageManager = PHCachingImageManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -14,10 +32,20 @@ class ExpertConsultationFloatingVC: UIViewController {
         navigationBarSettings()
         answerTextViewSettings()
         writeBtnSettings()
+        alertViewSettings()
         
         pageView.numberOfPages = 3
         pageView.currentPage = 0
         pageView.isEnabled = false
+        pageView.isHidden = true
+        
+        alertViewBackground.isHidden = true
+    }
+    
+    func alertViewSettings() {
+        self.alertTitleView.layer.addBorder([.bottom], color: .mainOrange, width: 3.0)
+        self.alertView.layer.cornerRadius = 13
+        self.alertTitleView.layer.cornerRadius = 13
     }
     
     func navigationBarSettings() {
@@ -53,19 +81,81 @@ class ExpertConsultationFloatingVC: UIViewController {
     }
     
     @IBAction func addImageAndVideo(_ sender: Any) {
-        let alertVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomAlertVC") as! CustomAlertVC
-        alertVC.modalPresentationStyle = .overCurrentContext
-        present(alertVC, animated: false, completion: nil)
+        if images.count == 3 {
+            let alertController = UIAlertController(title: "알림", message: "사진 및 영상은 최대 3개까지 등록할 수 있습니다.", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alertController.addAction(alertAction)
+            present(alertController, animated: true, completion: nil)
+        } else {
+            alertViewBackground.isHidden = false
+    }
+        
+    }
+    
+    @IBAction func closeButtonAction(_ sender: Any) {
+        alertViewBackground.isHidden = true
+    }
+    
+    //사진 불러오기
+    @IBAction func selectPhotoAction(_ sender: Any) {
+        
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .authorized {
+            //허용된 상태
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.delegate = self
+            self.imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+            pageView.isHidden = false
+        } else if status == .denied {
+            //허용 안한 상태
+            setAuthAlertAction()
+        } else if status == .restricted {
+            //제한됨
+        } else if status == .notDetermined {
+            //결정 안됨 (아래와 같이 시스템 팝업 띄움)
+            PHPhotoLibrary.requestAuthorization({ (result: PHAuthorizationStatus) in
+                switch result {
+                case .authorized:
+                    break
+                case .denied:
+                    break
+                default:
+                    break
+                }
+            })
+        }
+    }
+    
+    func setAuthAlertAction() {
+        let authAlert = UIAlertController(title: "사진첩 권한 요청", message: "사진첩 권한을 허용해야만 앨범을 사용하실 수 있습니다.", preferredStyle: .alert)
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+        let allowAlertAction = UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
+            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+            }
+        })
+        authAlert.addAction(cancelAlertAction)
+        authAlert.addAction(allowAlertAction)
+        self.present(authAlert, animated: true, completion: nil)
+    }
+    
+    @IBAction func selectVideoAction(_ sender: Any) {
     }
 }
 
 extension ExpertConsultationFloatingVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ConsultUploadImageCVCell", for: indexPath) as! ConsultUploadImageCVCell
+        
+        if let imageView = cell.viewWithTag(1000) as? UIImageView {
+            imageView.image = images[indexPath.row]
+        }
         
         cell.deleteImage.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
         
@@ -111,5 +201,16 @@ extension ExpertConsultationFloatingVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
+    }
+}
+
+extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        dismiss(animated: true, completion: nil)
+        alertViewBackground.isHidden = true
+        
+        images.insert(image, at: 0)
+        uploadImageCollectionView.reloadData()
     }
 }

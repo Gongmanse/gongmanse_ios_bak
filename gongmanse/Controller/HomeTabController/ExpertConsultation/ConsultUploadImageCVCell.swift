@@ -5,6 +5,8 @@ class ConsultUploadImageCVCell: UICollectionViewCell {
     @IBOutlet weak var uploadImageView: UIImageView!
     @IBOutlet weak var deleteImage: UIButton!
     
+    var representedAssetIdentifier: String!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

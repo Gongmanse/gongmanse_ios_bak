@@ -206,9 +206,6 @@ extension VideoController {
     }
 }
 
-extension Notification.Name {
-    static let detectVideoEnded = Notification.Name("videoEnded")
-}
 
 extension UITapGestureRecognizer {
     
