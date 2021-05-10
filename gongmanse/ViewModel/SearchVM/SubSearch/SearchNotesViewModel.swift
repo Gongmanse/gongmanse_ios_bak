@@ -13,7 +13,7 @@ class SearchNotesViewModel {
     
     var searchNotesDataModel: SearchNotesModel? = nil
     
-    func reqeustNotesApi(subject: String, grade: String, keyword: String, offset: String, sortID: String) {
+    func reqeustNotesApi(subject: String?, grade: String?, keyword: String?, offset: String?, sortID: String?) {
         
         let postModel = SearchNotesPostModel(subject: subject,
                                              grade: grade,

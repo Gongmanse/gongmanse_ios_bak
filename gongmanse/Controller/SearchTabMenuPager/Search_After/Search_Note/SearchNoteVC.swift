@@ -23,7 +23,7 @@ class SearchNoteVC: UIViewController {
     
     var receiveNoteUserInfo: [AnyHashable:Any]? {
         didSet{
-            noteApi()
+//            noteApi()
         }
     }
     //MARK: - Outlet
@@ -32,6 +32,9 @@ class SearchNoteVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noteSortButton: UIButton!
     
+    
+    // singleton
+    lazy var searchData = SearchData.shared
     
     //MARK: - Lifecycle
     
@@ -50,6 +53,13 @@ class SearchNoteVC: UIViewController {
         
         // 검색 후 검색되면 신호받는 곳 :
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
+        
+        searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
+                                     grade: searchData.searchGrade,
+                                     keyword: searchData.searchText,
+                                     offset: "0",
+                                     sortID: "4")
+        
         
     }
     

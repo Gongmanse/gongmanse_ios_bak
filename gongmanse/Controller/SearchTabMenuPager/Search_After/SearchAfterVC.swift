@@ -41,6 +41,8 @@ class SearchAfterVC: UIViewController {
     let searchAfterVM = SearchVideoViewModel()
     var userInfoKeyword: [AnyHashable:Any]?
     
+    // singleton
+    lazy var searchData = SearchData.shared
     
     //MARK: - IBOutlet
     
@@ -70,7 +72,8 @@ class SearchAfterVC: UIViewController {
     @objc func allKeyword(_ sender: Notification) {
         userInfoKeyword = sender.userInfo
         
-        searchBar.text = userInfoKeyword?["text"] as? String ?? ""
+//        searchBar.text = userInfoKeyword?["text"] as? String ?? ""
+        searchBar.text = searchData.searchText
         
     }
     

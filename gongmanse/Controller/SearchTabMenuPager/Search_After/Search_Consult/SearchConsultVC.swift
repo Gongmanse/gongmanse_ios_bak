@@ -25,9 +25,13 @@ class SearchConsultVC: UIViewController {
     let searchConsultationVM = SearchConsultationViewModel()
     var receiveUserInfokeyword: [AnyHashable:Any]? {
         didSet {
-            consultationApi()
+//            consultationApi()
         }
     }
+    
+    // singleton
+    lazy var searchData = SearchData.shared
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -43,6 +47,9 @@ class SearchConsultVC: UIViewController {
         
         // 검색 후 검색되면 신호받는 곳 :
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
+        
+        searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
+                                                    sortId: "4")
         
     }
     

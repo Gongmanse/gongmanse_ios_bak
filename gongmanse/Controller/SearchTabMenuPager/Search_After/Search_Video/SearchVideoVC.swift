@@ -17,6 +17,9 @@ class SearchVideoVC: UIViewController {
 
     let searchVideoVM = SearchVideoViewModel()
     var notificationUserInfo: [AnyHashable : Any]?
+    
+    // singleton
+    lazy var searchData = SearchData.shared
     //MARK: - IBOutlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
@@ -73,9 +76,9 @@ class SearchVideoVC: UIViewController {
         
         sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
         
-        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
-                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
-                                      keyword: notificationUserInfo?["text"] as? String ?? nil,
+        searchVideoVM.requestVideoAPI(subject: searchData.searchSubject,
+                                      grade: searchData.searchGrade,
+                                      keyword: searchData.searchText,
                                       offset: "0",
                                       sortid: acceptInfo?["sortID"] as? String ?? nil,
                                       limit: "20")
@@ -85,9 +88,17 @@ class SearchVideoVC: UIViewController {
         
         notificationUserInfo = sender.userInfo
         
-        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
-                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
-                                      keyword: notificationUserInfo?["text"] as? String ?? nil,
+//        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
+//                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
+//                                      keyword: notificationUserInfo?["text"] as? String ?? nil,
+//                                      offset: "0",
+//                                      sortid: "4",
+//                                      limit: "20")
+        
+        
+        searchVideoVM.requestVideoAPI(subject: searchData.searchSubject,
+                                      grade: searchData.searchGrade,
+                                      keyword: searchData.searchText,
                                       offset: "0",
                                       sortid: "4",
                                       limit: "20")

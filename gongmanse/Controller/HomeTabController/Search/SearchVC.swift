@@ -324,6 +324,9 @@ extension SearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.keywordLog.append(searchBar.text!)
             
+        //singleton
+        searchData.searchText = searchBar.text
+        
         // 전역변수에 할당
         globalSearchText = searchBar.text
         

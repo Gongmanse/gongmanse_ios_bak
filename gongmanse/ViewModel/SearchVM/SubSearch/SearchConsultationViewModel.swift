@@ -13,7 +13,7 @@ class SearchConsultationViewModel {
     
     var responseDataModel: SearchConsultationModel? = nil
     
-    func requestConsultationApi(keyword: String, sortId: String) {
+    func requestConsultationApi(keyword: String?, sortId: String?) {
         
         let postModel = SearchConsultationPostModel(keyword: keyword, sortID: sortId)
         
