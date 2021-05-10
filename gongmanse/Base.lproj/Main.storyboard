@@ -448,7 +448,7 @@
                                                     </constraints>
                                                     <state key="normal" title="Button" image="deletePage"/>
                                                 </button>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
                                                     <rect key="frame" x="0.0" y="0.0" width="330" height="160"/>
                                                     <color key="backgroundColor" systemColor="systemGray3Color"/>
                                                 </imageView>
