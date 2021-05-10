@@ -44,16 +44,26 @@ class SearchVideoVC: UIViewController {
         autoPlaySwitch.onTintColor = .mainOrange
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
-        
         // 필터링하고 받는 곳
         NotificationCenter.default.addObserver(self, selector: #selector(receiveFilter(_:)), name: .searchAfterVideoNoti, object: nil)
         
         
         // 검색 후 검색되면 신호받는 곳 :
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
+        
+        // 초기 비디오값 get
+        getSearchVideoList()
     }
     
+    func getSearchVideoList() {
+        
+        searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
+                                      grade: searchData.searchGrade,
+                                      keyword: searchData.searchText,
+                                      offset: "0",
+                                      sortid: "4",
+                                      limit: "20")
+    }
     
     @objc func afterSearch(_ sender: Notification) {
         
@@ -83,19 +93,6 @@ class SearchVideoVC: UIViewController {
                                       limit: "20")
     }
     
-    @objc func allKeyword(_ sender: Notification) {
-    
-        
-        searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
-                                      grade: searchData.searchGrade,
-                                      keyword: searchData.searchText,
-                                      offset: "0",
-                                      sortid: "4",
-                                      limit: "20")
-        
-        NotificationCenter.default.removeObserver(self, name: .searchAllNoti, object: nil)
-    
-    }
     
     //MARK: - Actions
     

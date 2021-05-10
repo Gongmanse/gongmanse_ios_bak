@@ -45,11 +45,13 @@ class SearchConsultVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
         
         
-        
+        getSearchConsultation()
+    }
+    
+    func getSearchConsultation() {
         
         searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
                                                     sortId: "4")
-        
     }
     
     @objc func afterSearch(_ sender: Notification) {

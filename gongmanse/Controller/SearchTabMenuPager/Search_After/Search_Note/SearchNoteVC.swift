@@ -49,13 +49,19 @@ class SearchNoteVC: UIViewController {
         // 검색 후 검색되면 신호받는 곳 :
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
         
+        
+        
+        getsearchNoteList()
+        
+    }
+    
+    func getsearchNoteList() {
+        
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
                                      grade: searchData.searchGrade,
                                      keyword: searchData.searchText,
                                      offset: "0",
                                      sortID: "4")
-        
-        
     }
     
     @objc func afterSearch(_ sender: Notification) {
