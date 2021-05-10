@@ -16,7 +16,6 @@ class SearchVideoVC: UIViewController {
     
 
     let searchVideoVM = SearchVideoViewModel()
-    var notificationUserInfo: [AnyHashable : Any]?
     
     // singleton
     lazy var searchData = SearchData.shared
@@ -61,8 +60,8 @@ class SearchVideoVC: UIViewController {
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         sortButtonTitle.setTitle("최신순 ▼", for: .normal)
         
-        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
-                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
+        searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
+                                      grade: searchData.searchGrade,
                                       keyword: sender.userInfo?["text"] as? String ?? nil,
                                       offset: "0",
                                       sortid: "4",
@@ -76,7 +75,7 @@ class SearchVideoVC: UIViewController {
         
         sortButtonTitle.setTitle(acceptInfo?["sort"] as? String, for: .normal)
         
-        searchVideoVM.requestVideoAPI(subject: searchData.searchSubject,
+        searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
                                       grade: searchData.searchGrade,
                                       keyword: searchData.searchText,
                                       offset: "0",
@@ -85,18 +84,9 @@ class SearchVideoVC: UIViewController {
     }
     
     @objc func allKeyword(_ sender: Notification) {
+    
         
-        notificationUserInfo = sender.userInfo
-        
-//        searchVideoVM.requestVideoAPI(subject: notificationUserInfo?["subject"] as? String ?? nil,
-//                                      grade: notificationUserInfo?["grade"] as? String ?? nil,
-//                                      keyword: notificationUserInfo?["text"] as? String ?? nil,
-//                                      offset: "0",
-//                                      sortid: "4",
-//                                      limit: "20")
-        
-        
-        searchVideoVM.requestVideoAPI(subject: searchData.searchSubject,
+        searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
                                       grade: searchData.searchGrade,
                                       keyword: searchData.searchText,
                                       offset: "0",

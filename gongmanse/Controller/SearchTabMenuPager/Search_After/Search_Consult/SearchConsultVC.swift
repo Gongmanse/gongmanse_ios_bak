@@ -23,11 +23,7 @@ class SearchConsultVC: UIViewController {
     @IBOutlet weak var sortButton: UIButton!
     
     let searchConsultationVM = SearchConsultationViewModel()
-    var receiveUserInfokeyword: [AnyHashable:Any]? {
-        didSet {
-//            consultationApi()
-        }
-    }
+
     
     // singleton
     lazy var searchData = SearchData.shared
@@ -48,6 +44,9 @@ class SearchConsultVC: UIViewController {
         // 검색 후 검색되면 신호받는 곳 :
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
         
+        
+        
+        
         searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
                                                     sortId: "4")
         
@@ -63,16 +62,9 @@ class SearchConsultVC: UIViewController {
     
     @objc func receiveConsultFilter(_ sender: Notification) {
         sortButton.setTitle(sender.userInfo?["sort"] as? String ?? "", for: .normal)
-        searchConsultationVM.requestConsultationApi(keyword: receiveUserInfokeyword?["text"] as? String ?? "",
+        
+        searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
                                                     sortId: sender.userInfo?["sortID"] as? String ?? "")
-        
-    }
-    
-    // API 불러옴
-    func consultationApi(){
-        
-        searchConsultationVM.requestConsultationApi(keyword: receiveUserInfokeyword?["text"] as? String ?? "",
-                                                    sortId: "4")
         
     }
     

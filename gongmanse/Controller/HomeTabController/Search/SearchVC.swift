@@ -196,6 +196,7 @@ class SearchVC: UIViewController {
          
     }
     @IBAction func searchBarPresentButton(_ sender: UIButton) {
+        searchData.searchText = searchBar.text
         // 화면 전환
         postNotification()
     }

@@ -39,7 +39,6 @@ class SearchAfterVC: UIViewController {
     
     // ViewModel
     let searchAfterVM = SearchVideoViewModel()
-    var userInfoKeyword: [AnyHashable:Any]?
     
     // singleton
     lazy var searchData = SearchData.shared
@@ -70,7 +69,7 @@ class SearchAfterVC: UIViewController {
     }
     
     @objc func allKeyword(_ sender: Notification) {
-        userInfoKeyword = sender.userInfo
+//        userInfoKeyword = sender.userInfo
         
 //        searchBar.text = userInfoKeyword?["text"] as? String ?? ""
         searchBar.text = searchData.searchText
@@ -207,12 +206,10 @@ class SearchAfterVC: UIViewController {
         } else if index == 1 {
             
             searchConsult.pageIndex = index
-            searchConsult.receiveUserInfokeyword = userInfoKeyword
             return searchConsult
         } else if index == 2 {
             
             searchNote.pageIndex = index
-//            searchNote.receiveNoteUserInfo = userInfoKeyword
             return searchNote
         } else {
             let contentVC = SearchVideoVC()
@@ -302,11 +299,9 @@ extension SearchAfterVC: UIPageViewControllerDataSource, UIPageViewControllerDel
             return vc.pageIndex
         case is SearchConsultVC:
             let vc = viewController as! SearchConsultVC
-            vc.receiveUserInfokeyword = userInfoKeyword
             return vc.pageIndex
         case is SearchNoteVC:
             let vc = viewController as! SearchNoteVC
-//            vc.receiveNoteUserInfo = userInfoKeyword
             return vc.pageIndex
         default:
             let vc = viewController as! SearchVideoVC
@@ -346,9 +341,9 @@ extension SearchAfterVC: UISearchBarDelegate {
         
         
         // 기존 userinfoKeyword의 text에 텍스트를 수정 변경
-        userInfoKeyword?["text"] = searchBar.text ?? ""
+        searchData.searchText = searchBar.text
         
-        NotificationCenter.default.post(name: .searchAfterSearchNoti, object: nil, userInfo: userInfoKeyword)
+//        NotificationCenter.default.post(name: .searchAfterSearchNoti, object: nil, userInfo: userInfoKeyword)
         
         
         // SearchVC로 검색어 데이터 전달 로직
