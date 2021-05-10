@@ -21,11 +21,6 @@ class SearchNoteVC: UIViewController {
 
     let searchNoteVM = SearchNotesViewModel()
     
-    var receiveNoteUserInfo: [AnyHashable:Any]? {
-        didSet{
-//            noteApi()
-        }
-    }
     //MARK: - Outlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
@@ -67,8 +62,9 @@ class SearchNoteVC: UIViewController {
         
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         noteSortButton.setTitle("최신순 ▼", for: .normal)
-        searchNoteVM.reqeustNotesApi(subject: receiveNoteUserInfo?["subject"] as? String ?? "",
-                                     grade: receiveNoteUserInfo?["grade"] as? String ?? "",
+        
+        searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
+                                     grade: searchData.searchGrade,
                                      keyword: sender.userInfo?["text"] as? String ?? "",
                                      offset: "0",
                                      sortID: "4")
@@ -79,23 +75,14 @@ class SearchNoteVC: UIViewController {
         guard let userInfo = sender.userInfo else { return }
         noteSortButton.setTitle(userInfo["sort"] as? String ?? "", for: .normal)
         
-        searchNoteVM.reqeustNotesApi(subject: receiveNoteUserInfo?["subject"] as? String ?? "",
-                                     grade: receiveNoteUserInfo?["grade"] as? String ?? "",
-                                     keyword: receiveNoteUserInfo?["text"] as? String ?? "",
+        searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
+                                     grade: searchData.searchGrade,
+                                     keyword: searchData.searchText,
                                      offset: "0",
                                      sortID: userInfo["sortID"] as? String ?? "")
         
     }
     
-    func noteApi() {
-        guard let userInfo = receiveNoteUserInfo else { return }
-        
-        searchNoteVM.reqeustNotesApi(subject: userInfo["subject"] as? String ?? "",
-                                     grade: userInfo["grade"] as? String ?? "",
-                                     keyword: userInfo["text"] as? String ?? "",
-                                     offset: "0",
-                                     sortID: "4")
-    }
     
     @IBAction func handleFilter(_ sender: Any) {
         if isChooseGrade { 

@@ -212,7 +212,7 @@ class SearchAfterVC: UIViewController {
         } else if index == 2 {
             
             searchNote.pageIndex = index
-            searchNote.receiveNoteUserInfo = userInfoKeyword
+//            searchNote.receiveNoteUserInfo = userInfoKeyword
             return searchNote
         } else {
             let contentVC = SearchVideoVC()
@@ -306,7 +306,7 @@ extension SearchAfterVC: UIPageViewControllerDataSource, UIPageViewControllerDel
             return vc.pageIndex
         case is SearchNoteVC:
             let vc = viewController as! SearchNoteVC
-            vc.receiveNoteUserInfo = userInfoKeyword
+//            vc.receiveNoteUserInfo = userInfoKeyword
             return vc.pageIndex
         default:
             let vc = viewController as! SearchVideoVC
