@@ -61,6 +61,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="date" destination="Mhn-Fq-Zf3" id="IYi-Fr-dSu"/>
+                <outlet property="deleteButton" destination="dVQ-Rh-nUR" id="aRy-oh-nzM"/>
                 <outlet property="keyword" destination="mA8-Qc-w07" id="gDi-xl-W2d"/>
             </connections>
             <point key="canvasLocation" x="-14.492753623188406" y="87.388392857142847"/>

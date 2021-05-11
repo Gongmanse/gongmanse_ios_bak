@@ -56,12 +56,14 @@ class RecentKeywordViewModel {
     func requestDeleteKeywordApi(_ keywordID: String) {
         
         let postData = RecentKeywordDeleteModel(keywordID: keywordID, token: Constant.testToken)
-        
+        print(postData)
         requestRecentApi.fetchKeywordDeleteApi(postData) { response in
             switch response {
             case .success(_):
+                self.reloadDelegate?.reloadTable()
                 print("DEBUG == Success Delete Keyword")
             case .failure(let error):
+                self.reloadDelegate?.reloadTable()
                 print(error.localizedDescription)
             }
         }

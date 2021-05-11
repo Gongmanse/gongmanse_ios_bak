@@ -25,7 +25,7 @@ class RecentKeywordCell: UITableViewCell {
     
     @IBOutlet weak var keyword: UILabel!
     @IBOutlet weak var date: UILabel!
-    
+    @IBOutlet weak var deleteButton: UIButton!
     
     
     //MARK: - Lifecycle
@@ -43,8 +43,9 @@ class RecentKeywordCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0))
+        
+        
     }
-    
     //MARK: - Actions
     
     @IBAction func handleDeleteBtn(_ sender: Any) {

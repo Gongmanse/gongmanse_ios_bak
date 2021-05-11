@@ -63,7 +63,6 @@ class RecentKeywordVC: UIViewController {
         
         
         recentVM.requestGetListApi()
-        
     }
     
     //MARK: - Helper functions
@@ -92,8 +91,18 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
         if isKeywordLog {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as? RecentKeywordCell else { return UITableViewCell() }
             
+            let recentList = recentVM.recentKeywordList?.data[indexPath.row]
+
+            // ID와 word를 묶기 위한 Tuple사용
+            let tuples: (id:String, word:String, tag:Int) = (recentList?.id ?? "", recentList?.sWords ?? "", indexPath.row)
+            
             cell.selectionStyle = .none
-            cell.keyword.text = recentVM.recentKeywordList?.data[indexPath.row].sWords
+            
+            cell.keyword.text = tuples.word
+            cell.date.text = recentList?.convertDate
+            cell.deleteButton.addTarget(self, action: #selector(deleteWord(_:)), for: .touchUpInside)
+            cell.deleteButton.tag = tuples.tag
+            
             return cell
             
         } else {
@@ -107,6 +116,13 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
 
             return cell
         }
+        
+    }
+    
+    @objc func deleteWord(_ sender: UIButton) {
+        
+        guard let removeText = recentVM.recentKeywordList?.data[sender.tag].id else { return }
+        recentVM.requestDeleteKeywordApi(removeText)
         
     }
     

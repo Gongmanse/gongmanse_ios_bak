@@ -56,6 +56,7 @@ struct RecentKeywordAPIManager {
             $0.append(data.keywordID.data(using: .utf8) ?? Data(), withName: "keyword_id")
             $0.append(data.token.data(using: .utf8) ?? Data(), withName: "token")
         }, to: deleteUrl)
+        
         .responseDecodable(of: RecentKeywordDeleteModel.self) { response in
             switch response.result {
             case .success(let data):

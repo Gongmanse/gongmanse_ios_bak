@@ -16,6 +16,17 @@ struct RecentKeywordDataModel: Codable {
     let id: String?
     let sWords: String?
     let dtDateCreated: String?
+    
+    var convertDate: String {
+        let date = DateFormatter()
+        date.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let newdataPrint = DateFormatter()
+        newdataPrint.dateFormat = "yyyy-MM-dd"
+        
+        let newdate = date.date(from: dtDateCreated ?? "")
+        return newdataPrint.string(from: newdate ?? Date())
+    }
 }
 //
 
@@ -40,5 +51,6 @@ struct RecentKeywordDeleteModel: Codable {
         case token
         case keywordID = "keyword_id"
     }
+    
 }
 //
