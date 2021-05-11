@@ -44,4 +44,25 @@ struct RecentKeywordAPIManager {
             }
         }
     }
+    
+    func fetchKeywordDeleteApi(_ parameter: RecentKeywordDeleteModel,
+                               completion: @escaping resultModel<RecentKeywordDeleteModel>) {
+        
+        let data = parameter
+        
+        let deleteUrl = "https://api.gongmanse.com/v/search/mysearches"
+        
+        AF.upload(multipartFormData: {
+            $0.append(data.keywordID.data(using: .utf8) ?? Data(), withName: "keyword_id")
+            $0.append(data.token.data(using: .utf8) ?? Data(), withName: "token")
+        }, to: deleteUrl)
+        .responseDecodable(of: RecentKeywordDeleteModel.self) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case.failure(_):
+                completion(.failure(.noRequest))
+            }
+        }
+    }
 }

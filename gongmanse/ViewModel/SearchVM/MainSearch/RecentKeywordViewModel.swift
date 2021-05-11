@@ -23,9 +23,8 @@ class RecentKeywordViewModel {
     
     let requestRecentApi = RecentKeywordAPIManager()
     
-    
+    // 최근 검색어 목록 불러오기
     func requestGetListApi() {
-        
         
         requestRecentApi.fetchRecentKeywordListApi { response in
             switch response {
@@ -38,6 +37,7 @@ class RecentKeywordViewModel {
         }
     }
     
+    // 최근 검색어 저장
     func requestSaveKeywordApi(_ word: String) {
         
         let postData = RecentKeywordSaveModel(token: Constant.testToken, words: word)
@@ -45,11 +45,25 @@ class RecentKeywordViewModel {
         requestRecentApi.fetchKeywordSaveApi(postData) { response in
             switch response {
             case .success(let data):
-                print("Success save Keyword", data)
+                print("DEBUG == Success save Keyword", data)
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    // 최근 검색어 제거
+    func requestDeleteKeywordApi(_ keywordID: String) {
         
+        let postData = RecentKeywordDeleteModel(keywordID: keywordID, token: Constant.testToken)
+        
+        requestRecentApi.fetchKeywordDeleteApi(postData) { response in
+            switch response {
+            case .success(_):
+                print("DEBUG == Success Delete Keyword")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }

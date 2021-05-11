@@ -30,3 +30,15 @@ struct RecentKeywordSaveMessage: Codable {
     let message: String
 }
 //
+
+// 최근검색어 삭제 모델
+struct RecentKeywordDeleteModel: Codable {
+    let keywordID: String
+    let token: String
+    
+    enum CodingKeys: String, CodingKey {
+        case token
+        case keywordID = "keyword_id"
+    }
+}
+//

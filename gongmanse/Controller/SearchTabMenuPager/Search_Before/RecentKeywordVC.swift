@@ -63,6 +63,7 @@ class RecentKeywordVC: UIViewController {
         
         
         recentVM.requestGetListApi()
+        
     }
     
     //MARK: - Helper functions
@@ -89,14 +90,15 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isKeywordLog {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as! RecentKeywordCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as? RecentKeywordCell else { return UITableViewCell() }
             
             cell.selectionStyle = .none
             cell.keyword.text = recentVM.recentKeywordList?.data[indexPath.row].sWords
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as? EmptyStateViewCell else { return UITableViewCell() }
+            
             let imageView = UIImageView(image: UIImage(named: "alert"))
             imageView.contentMode = .center
             cell.backgroundView = imageView
