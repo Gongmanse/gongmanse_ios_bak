@@ -54,6 +54,8 @@ class SearchAfterVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchBar.text = searchData.searchText
+        
         configureConstraint()
         configureNavi()
         setupTabs()

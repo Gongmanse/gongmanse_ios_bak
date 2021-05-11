@@ -32,6 +32,7 @@ class PopularKeywordVC: UIViewController {
     var popularGrade: String?
     var popularSubject: String?
     
+    let searchData = SearchData.shared
     //MARK: - IBOutlet
     
     @IBOutlet weak var tableView: UITableView!
@@ -40,8 +41,6 @@ class PopularKeywordVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(popularGrade)
-        print(popularSubject)
         print("DEBUG: PopularKeywordVC Instance")
         
         tableView.delegate = self
@@ -88,8 +87,20 @@ extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
 
     // 검색어 클릭 시, 해당 검색어로 바로 검색되도록 기능 구현.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.filterKeyword(keyword: dummy[indexPath.row].title)
 
+        // 선택한 검색어를 싱글턴 변수에 할당
+        searchData.searchText = popularVM.popularKeywoard?.data[indexPath.row].keywords
+        
+        // 화면이동하는 Controller로 데이터 전달
+        let controller = SearchAfterVC()
+        
+        // 화면 전환
+        let vc = UINavigationController(rootViewController: controller)
+        
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: true)
+        
     }
 }
 
