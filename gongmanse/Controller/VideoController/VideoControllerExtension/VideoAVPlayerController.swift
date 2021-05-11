@@ -396,23 +396,37 @@ extension VideoController: AVPlayerViewControllerDelegate {
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
     @objc func targetViewDidTapped() {
         if videoControlContainerView.alpha == 1 {
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.22, animations: {
                 self.videoControlContainerView.alpha = 0
                 self.playPauseButton.alpha = 0
                 self.videoForwardTimeButton.alpha = 0
                 self.videoBackwardTimeButton.alpha = 0
                 self.videoSettingButton.alpha = 0
                 self.subtitleToggleButton.alpha = 0
-            }
+            }, completion: { finished in
+                
+            })
             
         } else {
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.22, delay: 0, options: .curveEaseInOut) {
                 self.videoControlContainerView.alpha = 1
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
                 self.videoSettingButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
+            } completion: { (finished) in
+                
+                UIView.animate(withDuration: 0.22, delay: 2.44, options: .curveEaseInOut) {
+                    self.videoControlContainerView.alpha = 0
+                    self.playPauseButton.alpha = 0
+                    self.videoForwardTimeButton.alpha = 0
+                    self.videoBackwardTimeButton.alpha = 0
+                    self.videoSettingButton.alpha = 0
+                    self.subtitleToggleButton.alpha = 0
+                } completion: { (finished) in
+                    //
+                }
             }
         }
     }

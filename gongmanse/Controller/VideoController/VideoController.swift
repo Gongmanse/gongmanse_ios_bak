@@ -213,7 +213,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
     
-    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
