@@ -18,14 +18,14 @@ class RecentKeywordCell: UITableViewCell {
     
     weak var delegate: RecentKeywordCellDelegate?
     
-    var viewModel: RecentKeywordViewModel? {
-        didSet { configure() }
-    }
+//    var viewModel: RecentKeywordViewModel? {
+//        didSet { configure() }
+//    }
     
     
     @IBOutlet weak var keyword: UILabel!
     @IBOutlet weak var date: UILabel!
-    
+    @IBOutlet weak var deleteButton: UIButton!
     
     
     //MARK: - Lifecycle
@@ -43,23 +43,14 @@ class RecentKeywordCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0))
+        
+        
     }
-    
     //MARK: - Actions
     
     @IBAction func handleDeleteBtn(_ sender: Any) {
-        guard let viewModel = viewModel else { return }
-        delegate?.deleteCell(indexPath: viewModel.indexPath)
-        print("DEBUG: clicked cell is \(viewModel.indexPath.row)")
-    }
-    
-    
-    //MARK: - Helper functions
-    
-    func configure() {
-        guard let viewModel = viewModel else { return }
-        keyword.text = viewModel.keyword
-        date.text = viewModel.date
+        
+        print("DEBUG: clicked cell ")
     }
     
 }

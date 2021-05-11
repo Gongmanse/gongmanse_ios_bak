@@ -58,7 +58,7 @@ class SearchConsultVC: UIViewController {
         
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         sortButton.setTitle("최신순 ▼", for: .normal)
-        searchConsultationVM.requestConsultationApi(keyword: sender.userInfo?["text"] as? String ?? "",
+        searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
                                                     sortId: "4")
     }
     

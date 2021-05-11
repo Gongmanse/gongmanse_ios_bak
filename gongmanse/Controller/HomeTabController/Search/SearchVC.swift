@@ -182,7 +182,6 @@ class SearchVC: UIViewController {
         } else if index == 1 {
             let contentVC = RecentKeywordVC()
             self.delegate = contentVC
-            contentVC.removeDelegate = self
             contentVC.searchKeywordRecord = self.keywordLog     // UISearchBar에서 검색한 키워드를 "최근검색어" 로 넘김
             contentVC.pageIndex = index
             return contentVC
@@ -328,6 +327,12 @@ extension SearchVC: UISearchBarDelegate {
         //singleton
         searchData.searchText = searchBar.text
         
+        // 서치바가 빈값이면 저장x
+        if searchBar.text != "" {
+            let recentVM = RecentKeywordViewModel()
+            recentVM.requestSaveKeywordApi(searchBar.text ?? "")
+        }
+        
         // 전역변수에 할당
         globalSearchText = searchBar.text
         
@@ -337,7 +342,7 @@ extension SearchVC: UISearchBarDelegate {
         // SearchBar 실행 시, 나타났던 키보드 및 Placeholder 초기화
         // 삭제버튼(검색어 입력할 때, 우측에 있는 x마크) 없앰.
         self.searchBar.showsCancelButton = false
-        self.searchBar.text = ""
+        
         self.searchBar.resignFirstResponder()
         
         // 화면 전환 시, 최근검색어 Data reLoading을 위한 로직
@@ -414,15 +419,6 @@ extension SearchVC: SearchAfterVCDelegate {
 
 
 //MARK: - RemoveRecentKeywordDelegate
-// "최근검색어" 에서 키워드 삭제시 원본 키워드 저장소인 "keywordLog"를 삭제하기 위한 Delegation
-
-extension SearchVC: RemoveRecentKeywordDelegate {
-    func removeOriginalData(indexPath: IndexPath) {
-        let path = IndexPath(row: indexPath.row, section: 0)
-        self.keywordLog.remove(at: path.row)
-        print("DEBUG: keywordLog is \(keywordLog)")
-    }
-}
 
 
 extension SearchVC: ReloadDataRecentKeywordDelegate {

@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol RemoveRecentKeywordDelegate: class {
-    func removeOriginalData(indexPath: IndexPath) 
-}
-
 // 검색결과화면 -> 초기검색화면 으로 돌아올 때, 최근 검색어 reloadData 기능 구현을 위한 Protocol
 protocol RecentKeywordVCDelegate: class {
     func reloadTableView(tv: UITableView)
@@ -20,8 +16,7 @@ protocol RecentKeywordVCDelegate: class {
 class RecentKeywordVC: UIViewController {
     
     //MARK: - Properties
-    
-    weak var removeDelegate: RemoveRecentKeywordDelegate?
+
     
     weak var delegate: RecentKeywordVCDelegate?
     
@@ -37,8 +32,10 @@ class RecentKeywordVC: UIViewController {
         didSet { checkEmptyConfigure() }
     } 
     
-    var isKeywordLog: Bool = false               // 검색내역이 있는지 없는지 확인하는 Index   
+    var isKeywordLog: Bool = false               // 검색내역이 있는지 없는지 확인하는 Index
 
+    // viewModel
+    let recentVM:RecentKeywordViewModel = RecentKeywordViewModel()
     
     //MARK: - IBOutlet
     
@@ -48,13 +45,14 @@ class RecentKeywordVC: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.reloadData()
+
         
         print("DEBUG: RecentKeyword Instance")
         
         // TableView Setting
         tableView.delegate = self
         tableView.dataSource = self
+        recentVM.reloadDelegate = self
         
         tableView.register(UINib(nibName: "RecentKeywordCell", bundle: nil), forCellReuseIdentifier: "RecentKeywordCell")
         tableView.register(UINib(nibName: "EmptyStateViewCell", bundle: nil), forCellReuseIdentifier: "EmptyStateViewCell")
@@ -62,18 +60,16 @@ class RecentKeywordVC: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
         self.tableView.separatorStyle = .none
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
+        
+        recentVM.requestGetListApi()
     }
     
     //MARK: - Helper functions
     
     // "searchKeywordRecord" 데이터 존재 여부에 따라서 이미지를 표현할지 말지에 대해 결정하는 메소드.
     func checkEmptyConfigure() {
-        if searchKeywordRecord.isEmpty {
+        if recentVM.recentKeywordList?.data.count == 0 {
            // EmptyData
         } else {
             isKeywordLog = true
@@ -88,18 +84,30 @@ class RecentKeywordVC: UIViewController {
 extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return isKeywordLog ? searchKeywordRecord.count : 1
+        return isKeywordLog ? recentVM.recentKeywordList?.data.count ?? 0 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isKeywordLog {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as! RecentKeywordCell
-            cell.delegate = self
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as? RecentKeywordCell else { return UITableViewCell() }
+            
+            let recentList = recentVM.recentKeywordList?.data[indexPath.row]
+
+            // ID와 word를 묶기 위한 Tuple사용
+            let tuples: (id:String, word:String, tag:Int) = (recentList?.id ?? "", recentList?.sWords ?? "", indexPath.row)
+            
             cell.selectionStyle = .none
-            cell.viewModel = RecentKeywordViewModel(date: "오늘", keyword: searchKeywordRecord[indexPath.row], indexPath: indexPath)
+            
+            cell.keyword.text = tuples.word
+            cell.date.text = recentList?.convertDate
+            cell.deleteButton.addTarget(self, action: #selector(deleteWord(_:)), for: .touchUpInside)
+            cell.deleteButton.tag = tuples.tag
+            
             return cell
+            
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as? EmptyStateViewCell else { return UITableViewCell() }
+            
             let imageView = UIImageView(image: UIImage(named: "alert"))
             imageView.contentMode = .center
             cell.backgroundView = imageView
@@ -108,6 +116,13 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
 
             return cell
         }
+        
+    }
+    
+    @objc func deleteWord(_ sender: UIButton) {
+        
+        guard let removeText = recentVM.recentKeywordList?.data[sender.tag].id else { return }
+        recentVM.requestDeleteKeywordApi(removeText)
         
     }
     
@@ -132,7 +147,7 @@ extension RecentKeywordVC: RecentKeywordCellDelegate {
         
             // 각각의 Dataset의 데이터 삭제
             self.searchKeywordRecord.remove(at: indexPath.row)              // 'SearchVC'로부터 전달받은 프로퍼티 데이터 삭제
-            removeDelegate?.removeOriginalData(indexPath: indexPath)        // delegate를 이용한 'SearchVC'에 있는 데이터 삭제
+            
             let path = IndexPath(row: indexPath.row, section: 0)
             // TableView cell 삭제
             tableView.deleteRows(at: [path], with: .automatic)         // 테이블 뷰의 해당 cell을 삭제
@@ -157,6 +172,13 @@ extension RecentKeywordVC: ReloadDataInRecentKeywordVCDelegate {
     
 }
 
-
+extension RecentKeywordVC: TableReloadData {
+    
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}
 
 
