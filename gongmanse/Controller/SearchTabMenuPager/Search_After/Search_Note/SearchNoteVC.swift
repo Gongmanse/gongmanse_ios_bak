@@ -71,7 +71,7 @@ class SearchNoteVC: UIViewController {
         
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
                                      grade: searchData.searchGrade,
-                                     keyword: sender.userInfo?["text"] as? String ?? "",
+                                     keyword: searchData.searchText,
                                      offset: "0",
                                      sortID: "4")
     }

@@ -345,7 +345,7 @@ extension SearchAfterVC: UISearchBarDelegate {
         // 기존 userinfoKeyword의 text에 텍스트를 수정 변경
         searchData.searchText = searchBar.text
         
-//        NotificationCenter.default.post(name: .searchAfterSearchNoti, object: nil, userInfo: userInfoKeyword)
+        NotificationCenter.default.post(name: .searchAfterSearchNoti, object: nil, userInfo: nil)
         
         
         // SearchVC로 검색어 데이터 전달 로직

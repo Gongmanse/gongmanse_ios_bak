@@ -72,7 +72,7 @@ class SearchVideoVC: UIViewController {
         
         searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
                                       grade: searchData.searchGrade,
-                                      keyword: sender.userInfo?["text"] as? String ?? nil,
+                                      keyword: searchData.searchText,
                                       offset: "0",
                                       sortid: "4",
                                       limit: "20")
