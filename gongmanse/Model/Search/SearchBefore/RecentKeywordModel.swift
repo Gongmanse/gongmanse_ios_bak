@@ -18,3 +18,15 @@ struct RecentKeywordDataModel: Codable {
     let dtDateCreated: String?
 }
 //
+
+// 최근 검색어 저장 모델 POST
+struct RecentKeywordSaveModel: Codable {
+    let token: String
+    let words: String
+}
+
+// 성공했는지 받는 모델
+struct RecentKeywordSaveMessage: Codable {
+    let message: String
+}
+//

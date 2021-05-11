@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol RemoveRecentKeywordDelegate: class {
-    func removeOriginalData(indexPath: IndexPath) 
-}
-
 // 검색결과화면 -> 초기검색화면 으로 돌아올 때, 최근 검색어 reloadData 기능 구현을 위한 Protocol
 protocol RecentKeywordVCDelegate: class {
     func reloadTableView(tv: UITableView)
@@ -20,8 +16,7 @@ protocol RecentKeywordVCDelegate: class {
 class RecentKeywordVC: UIViewController {
     
     //MARK: - Properties
-    
-    weak var removeDelegate: RemoveRecentKeywordDelegate?
+
     
     weak var delegate: RecentKeywordVCDelegate?
     
@@ -37,7 +32,7 @@ class RecentKeywordVC: UIViewController {
         didSet { checkEmptyConfigure() }
     } 
     
-    var isKeywordLog: Bool = false               // 검색내역이 있는지 없는지 확인하는 Index   
+    var isKeywordLog: Bool = false               // 검색내역이 있는지 없는지 확인하는 Index
 
     // viewModel
     let recentVM:RecentKeywordViewModel = RecentKeywordViewModel()
@@ -50,7 +45,7 @@ class RecentKeywordVC: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.reloadData()
+
         
         print("DEBUG: RecentKeyword Instance")
         
@@ -74,7 +69,7 @@ class RecentKeywordVC: UIViewController {
     
     // "searchKeywordRecord" 데이터 존재 여부에 따라서 이미지를 표현할지 말지에 대해 결정하는 메소드.
     func checkEmptyConfigure() {
-        if searchKeywordRecord.isEmpty {
+        if recentVM.recentKeywordList?.data.count == 0 {
            // EmptyData
         } else {
             isKeywordLog = true
@@ -99,6 +94,7 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             cell.keyword.text = recentVM.recentKeywordList?.data[indexPath.row].sWords
             return cell
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
             let imageView = UIImageView(image: UIImage(named: "alert"))
@@ -133,7 +129,7 @@ extension RecentKeywordVC: RecentKeywordCellDelegate {
         
             // 각각의 Dataset의 데이터 삭제
             self.searchKeywordRecord.remove(at: indexPath.row)              // 'SearchVC'로부터 전달받은 프로퍼티 데이터 삭제
-            removeDelegate?.removeOriginalData(indexPath: indexPath)        // delegate를 이용한 'SearchVC'에 있는 데이터 삭제
+            
             let path = IndexPath(row: indexPath.row, section: 0)
             // TableView cell 삭제
             tableView.deleteRows(at: [path], with: .automatic)         // 테이블 뷰의 해당 cell을 삭제

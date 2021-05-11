@@ -20,18 +20,36 @@ class RecentKeywordViewModel {
     weak var reloadDelegate: TableReloadData?
     var recentKeywordList: RecentKeywordModel?
     
+    
+    let requestRecentApi = RecentKeywordAPIManager()
+    
+    
     func requestGetListApi() {
         
-        let recentApi = RecentKeywordAPIManager()
-        recentApi.fetchRecentKeywordListApi { response in
+        
+        requestRecentApi.fetchRecentKeywordListApi { response in
             switch response {
             case .success(let data):
-                print(data)
                 self.recentKeywordList = data
                 self.reloadDelegate?.reloadTable()
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func requestSaveKeywordApi(_ word: String) {
+        
+        let postData = RecentKeywordSaveModel(token: Constant.testToken, words: word)
+        
+        requestRecentApi.fetchKeywordSaveApi(postData) { response in
+            switch response {
+            case .success(let data):
+                print("Success save Keyword", data)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
     }
 }

@@ -18,9 +18,30 @@ struct RecentKeywordAPIManager {
                 switch response.result {
                 case .success(let data):
                     completion(.success(data))
-                case .failure(let err):
+                case .failure(_):
                     completion(.failure(.noRequest))
                 }
             }
+    }
+    
+    func fetchKeywordSaveApi(_ parameter: RecentKeywordSaveModel,
+                             completion: @escaping resultModel<RecentKeywordSaveMessage>) {
+        let data = parameter
+        
+        let saveUrl = "https://api.gongmanse.com/v1/searches"
+        
+        AF.upload(multipartFormData: {
+            $0.append(data.token.data(using: .utf8) ?? Data(), withName: "token")
+            $0.append(data.words.data(using: .utf8) ?? Data(), withName: "words")
+        }, to: saveUrl)
+        
+        .responseDecodable(of: RecentKeywordSaveMessage.self) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(_):
+                completion(.failure(.noRequest))
+            }
+        }
     }
 }
