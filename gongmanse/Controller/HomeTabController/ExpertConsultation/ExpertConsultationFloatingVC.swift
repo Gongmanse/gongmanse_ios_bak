@@ -1,8 +1,7 @@
 import UIKit
 import Photos
-import PhotosUI
 
-class ExpertConsultationFloatingVC: UIViewController {
+class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     
     //ExpertConsultView전체 변수들
     @IBOutlet weak var answerTextView: UITextView!
@@ -21,7 +20,8 @@ class ExpertConsultationFloatingVC: UIViewController {
     
     let imagePicker = UIImagePickerController()
     var images = [UIImage]()
-    let iamgeCount = 3
+    
+    var isEmptyImage: Bool = false
     
     //var allPhotos: PHFetchResult<PHAsset>!
     //let imageManager = PHCachingImageManager()
@@ -33,13 +33,54 @@ class ExpertConsultationFloatingVC: UIViewController {
         answerTextViewSettings()
         writeBtnSettings()
         alertViewSettings()
+        placeholderSetting()
         
         pageView.numberOfPages = 3
         pageView.currentPage = 0
         pageView.isEnabled = false
         pageView.isHidden = true
         
+        writeBtn.backgroundColor = #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1)
+        writeBtn.isEnabled = false
+        
         alertViewBackground.isHidden = true
+        
+//        uploadImageCollectionView.register(UINib(nibName: "ConsultUploadImageDefaultCell", bundle: nil), forCellWithReuseIdentifier: "ConsultUploadImageDefaultCell")
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func placeholderSetting() {
+        answerTextView.delegate = self
+        answerTextView.text = "질문을 입력해 주세요"
+        answerTextView.textColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1) {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            writeBtn.backgroundColor = #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1)
+            writeBtn.isEnabled = false
+        } else {
+            writeBtn.backgroundColor = .mainOrange
+            writeBtn.isEnabled = true
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "질문을 입력해 주세요"
+            textView.textColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+        }
     }
     
     func alertViewSettings() {
@@ -88,7 +129,7 @@ class ExpertConsultationFloatingVC: UIViewController {
             present(alertController, animated: true, completion: nil)
         } else {
             alertViewBackground.isHidden = false
-    }
+        }
         
     }
     
@@ -154,19 +195,21 @@ extension ExpertConsultationFloatingVC: UICollectionViewDelegate, UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ConsultUploadImageCVCell", for: indexPath) as! ConsultUploadImageCVCell
         
         if let imageView = cell.viewWithTag(1000) as? UIImageView {
-            imageView.image = images[indexPath.row]
+            imageView.image = images[indexPath.item]
         }
         
-        cell.deleteImage.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        cell.index = indexPath
+        cell.delegate = self
         
         return cell
-    }
-    
-    @objc func deleteAction() {
-        let alert = UIAlertController(title: "준비중입니다.", message: "빠른 시일내에 완성하도록 하겠습니다.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(alertAction)
-        present(alert, animated: true, completion: nil)
+        
+        
+        //            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ConsultUploadImageDefaultCell", for: indexPath) as? ConsultUploadImageDefaultCell else { return UICollectionViewCell() }
+        //
+        //            cell.defaultImage.image = UIImage(named: "photoDefault")
+        //
+        //            return cell
+        
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
@@ -211,6 +254,13 @@ extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavig
         alertViewBackground.isHidden = true
         
         images.insert(image, at: 0)
+        uploadImageCollectionView.reloadData()
+    }
+}
+
+extension ExpertConsultationFloatingVC: ImageDeleteProtocol {
+    func deleteImage(index: Int) {
+        images.remove(at: index)
         uploadImageCollectionView.reloadData()
     }
 }

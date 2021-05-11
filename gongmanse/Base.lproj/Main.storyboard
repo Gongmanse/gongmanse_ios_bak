@@ -372,7 +372,7 @@
                                 <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사진 &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISp-Lf-fTm">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="질문 &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISp-Lf-fTm">
                                 <rect key="frame" x="20" y="299" width="56" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="4Wa-As-xUa"/>
@@ -382,7 +382,7 @@
                                 <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="be동사가 조동사로 쓰이는 경우에 예시를 알고 싶습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cfC-XL-tF6">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cfC-XL-tF6">
                                 <rect key="frame" x="35" y="334" width="330" height="190"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -447,10 +447,12 @@
                                                         <constraint firstAttribute="width" constant="28" id="xfu-HL-ern"/>
                                                     </constraints>
                                                     <state key="normal" title="Button" image="deletePage"/>
+                                                    <connections>
+                                                        <action selector="deleteAction:" destination="Fmc-RL-m4W" eventType="touchUpInside" id="GpU-H6-WcK"/>
+                                                    </connections>
                                                 </button>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photoDefault" translatesAutoresizingMaskIntoConstraints="NO" id="Jcd-0a-MXO">
                                                     <rect key="frame" x="0.0" y="0.0" width="330" height="160"/>
-                                                    <color key="backgroundColor" systemColor="systemGray3Color"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -467,6 +469,13 @@
                                             <outlet property="deleteImage" destination="P1P-Qh-sDg" id="0yH-rk-Cxi"/>
                                             <outlet property="uploadImageView" destination="Jcd-0a-MXO" id="Qdk-0o-C7B"/>
                                         </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="quX-IR-Kqr">
+                                        <rect key="frame" x="373" y="80" width="0.0" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="z8E-i0-W3x">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -589,10 +598,10 @@
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="eBd-SC-o4h" secondAttribute="trailing" constant="16" id="ERd-OC-RYA"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="cfC-XL-tF6" secondAttribute="trailing" constant="49" id="FPC-MM-YIy"/>
                             <constraint firstItem="hvM-yL-jXR" firstAttribute="top" secondItem="F6q-xg-ic5" secondAttribute="top" constant="20" id="G3t-4w-7Gi"/>
+                            <constraint firstItem="a7m-Vo-g4W" firstAttribute="top" secondItem="f9R-aA-sfa" secondAttribute="top" id="I8z-ff-YSP"/>
                             <constraint firstItem="ISp-Lf-fTm" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="20" id="NDx-it-EBi"/>
                             <constraint firstItem="F6q-xg-ic5" firstAttribute="trailing" secondItem="Fxh-nb-VJ8" secondAttribute="trailing" constant="50" id="R7k-Ug-QsI"/>
                             <constraint firstItem="cfC-XL-tF6" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="35" id="UwX-LM-Hik"/>
-                            <constraint firstItem="a7m-Vo-g4W" firstAttribute="top" secondItem="f9R-aA-sfa" secondAttribute="top" id="aPy-Ko-U9H"/>
                             <constraint firstItem="Fxh-nb-VJ8" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="50" id="deC-nk-A8O"/>
                             <constraint firstAttribute="bottom" secondItem="a7m-Vo-g4W" secondAttribute="bottom" id="ePG-3R-J02"/>
                             <constraint firstItem="eBd-SC-o4h" firstAttribute="leading" secondItem="F6q-xg-ic5" secondAttribute="leading" constant="35" id="eoV-kn-WXp"/>
@@ -3796,6 +3805,7 @@
         <image name="idOff" width="24" height="24"/>
         <image name="list" width="22" height="20"/>
         <image name="photo" width="46" height="46"/>
+        <image name="photoDefault" width="50" height="50"/>
         <image name="popupAlign" width="27" height="27"/>
         <image name="popupCategory" width="24" height="24"/>
         <image name="popupDone" width="24" height="24"/>
@@ -3813,9 +3823,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray3Color">
-            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
