@@ -21,15 +21,17 @@ class CustomPlayerController: UIViewController {
 
     // MARK: - Properties
     
-    var viewModel: PlayerViewModel?  // "DetailScreenController" 에서 viewModel을 초기화해야한다. 05.10
     var isPlaying: Bool { player.rate != 0 && player.error == nil }
+    var isOnSubtitle = true          // 자막 표시 여부 Index
+    var currentplayRate = Float(1.0) // 현재 영상 속도 Index
     
     // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
     /// sTags로 가져온 keyword의 NSRange 정보를 담은 array
-    var keywordRanges: [NSRange] = [NSRange(), NSRange(), NSRange(), NSRange(), NSRange(), NSRange(), NSRange()]
+    var keywordRanges: [NSRange] = []
     /// sTags로 가져온 keyword의 Range\<Int> 정보를 담은 array
     var sTagsRanges = [Range<Int>]()
     /// 현재 자막에 있는 keyword Array
+    /// - 인덱스를 통해 접근하므로 dummy data를 작성한다.
     var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
     
     // AVPlayer 관련 프로퍼티
@@ -38,16 +40,17 @@ class CustomPlayerController: UIViewController {
     lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
     lazy var player = AVPlayer(playerItem: playerItem)
     var videoURL = NSURL(string: "")
-    var vttURL = ""
+    var vttURL = String()
     var sTagsArray = [String]()
-    var tempsTagsArray = [String]()
+//    var tempsTagsArray = ["", "", "", "", "", "", "", "", "", "", ""]
     lazy var subtitles = Subtitles(subtitles: "")
-    lazy var gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedSubtitle))
+    lazy var gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                      action: #selector(didTappedSubtitle))
 
     /// AVPlayer 자막역햘을 할 UILabel
     lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        let backgroundColor = UIColor.white.withAlphaComponent(0.7)
+        let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
         label.textColor = .white
         label.textAlignment = .center
@@ -155,6 +158,7 @@ class CustomPlayerController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 5
         button.alpha = 0.77
+        button.addTarget(self, action: #selector(handleBackButtonAction), for: .touchUpInside)
         return button
     }()
     
@@ -162,15 +166,17 @@ class CustomPlayerController: UIViewController {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "textbox")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
+        button.addTarget(self, action: #selector(switchSubtitleDisplay), for: .touchUpInside)
         return button
     }()
     
     // MARK: - Lifecycle
     
-    init() {
+    init(videoURL: NSURL, vttURL: String, sTags: [String]) {
         super.init(nibName: nil, bundle: nil)
-        // TODO: API를 통해 데이터를 받아서 이곳에서 PlayerController 하위 객체에 URL을 전달한다. (영상링크 및 자막링크)
+        self.videoURL = videoURL
+        self.vttURL = vttURL
+        self.sTagsArray = sTags
     }
     
     required init?(coder: NSCoder) {
@@ -180,6 +186,7 @@ class CustomPlayerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        playVideo()
     }
     
     
@@ -193,6 +200,31 @@ class CustomPlayerController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         //        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    var isDisplayControlView = false
+    
+    @objc func targetViewDidTapped() {
+        
+        if isDisplayControlView {
+            UIViewAnimatingState.stopped
+            UIView.animate(withDuration: 0.22) {
+                self.buttonsInVideoControlViewAlphaValueChange(false)
+            }
+            
+        } else {
+            UIView.animate(withDuration: 0.22, delay: 0.22, options: .curveEaseIn) {
+                self.buttonsInVideoControlViewAlphaValueChange(true)
+                self.isDisplayControlView = true
+            } completion: { _ in
+                UIView.animate(withDuration: 0.22, delay: 3, options: []) {
+                    self.buttonsInVideoControlViewAlphaValueChange(false)
+                } completion: { (_) in
+                    self.isDisplayControlView = false
+                }
+            }
+        }
+        
     }
 
     
@@ -216,7 +248,9 @@ class CustomPlayerController: UIViewController {
                                      bottom: videoContainerView.bottomAnchor,
                                      right: videoContainerView.rightAnchor)
         playerController.showsPlaybackControls = false
-
+        
+        let videoControlGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                                 action: #selector(targetViewDidTapped))
         videoContainerView.addSubview(videoControlContainerView)
         videoControlContainerView.anchor(top: view.topAnchor,
                                   left: view.leftAnchor,
@@ -224,29 +258,32 @@ class CustomPlayerController: UIViewController {
                                   right: view.rightAnchor)
         videoControlContainerView.backgroundColor = .clear
         videoControlContainerView.alpha = 1
-        
+        buttonsInVideoControlViewAlphaValueChange(false)
+        videoControlContainerView.isUserInteractionEnabled = true
+        videoControlContainerView.addGestureRecognizer(videoControlGesture)
+
         videoContainerView.addSubview(subtitleLabel)
         subtitleLabel.anchor(left: videoContainerView.leftAnchor,
                              bottom: videoContainerView.bottomAnchor,
                              right: videoContainerView.rightAnchor)
-        
+
         let playButtonSize = CGFloat(75)
         videoControlContainerView.addSubview(playPauseButton)
         playPauseButton.setDimensions(height: playButtonSize, width: playButtonSize)
         playPauseButton.centerX(inView: videoControlContainerView)
         playPauseButton.centerY(inView: videoControlContainerView)
-        
+
         let moveVideoButtonSize = CGFloat(50)
         videoControlContainerView.addSubview(videoBackwardTimeButton)
         videoBackwardTimeButton.setDimensions(height: moveVideoButtonSize, width: moveVideoButtonSize)
         videoBackwardTimeButton.centerY(inView: playPauseButton)
         videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor)
-        
+
         videoControlContainerView.addSubview(videoForwardTimeButton)
         videoForwardTimeButton.setDimensions(height: moveVideoButtonSize, width: moveVideoButtonSize)
         videoForwardTimeButton.centerY(inView: playPauseButton)
         videoForwardTimeButton.anchor(left : playPauseButton.rightAnchor)
-        
+
         let settingButtonSize = CGFloat(25)
         videoControlContainerView.addSubview(videoSettingButton)
         videoSettingButton.setDimensions(height: settingButtonSize, width: settingButtonSize)
@@ -254,14 +291,14 @@ class CustomPlayerController: UIViewController {
                                   right: videoControlContainerView.rightAnchor,
                                   paddingTop: 5,
                                   paddingRight: 15)
-        
+
         videoControlContainerView.addSubview(subtitleToggleButton)
         subtitleToggleButton.setDimensions(height: settingButtonSize, width: settingButtonSize)
         subtitleToggleButton.anchor(top: videoControlContainerView.topAnchor,
                                     right: videoSettingButton.leftAnchor,
                                     paddingTop: 5,
                                     paddingRight: 10)
-        
+
         let backButtonSize = CGFloat(25)
         videoControlContainerView.addSubview(backButton)
         backButton.setDimensions(height: backButtonSize, width: backButtonSize)
@@ -269,8 +306,38 @@ class CustomPlayerController: UIViewController {
                           left: videoControlContainerView.leftAnchor,
                           paddingTop: 5,
                           paddingLeft: 10)
+        
+        let sliderWidth = view.frame.width * 0.66
+        videoControlContainerView.addSubview(timeSlider)
+        timeSlider.setDimensions(height: 5, width: sliderWidth)
+        timeSlider.centerX(inView: videoControlContainerView)
+        timeSlider.anchor(bottom: videoControlContainerView.bottomAnchor,
+                          paddingBottom: 27)
+        timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
+                             for: .valueChanged)
+        
+        videoControlContainerView.addSubview(currentTimeLabel)
+        currentTimeLabel.centerY(inView: timeSlider)
+        currentTimeLabel.anchor(right: timeSlider.leftAnchor,
+                                paddingRight: 5, height: 11)
+        
+        videoControlContainerView.addSubview(endTimeTimeLabel)
+        endTimeTimeLabel.centerY(inView: timeSlider)
+        endTimeTimeLabel.anchor(left: timeSlider.rightAnchor,
+                                paddingLeft: 5, height: 11)
     }
     
+    func buttonsInVideoControlViewAlphaValueChange(_ state: Bool) {
+        self.backButton.alpha = state ? 1 : 0
+        self.subtitleToggleButton.alpha = state ? 1 : 0
+        self.videoSettingButton.alpha = state ? 1 : 0
+        self.videoBackwardTimeButton.alpha = state ? 1 : 0
+        self.videoForwardTimeButton.alpha = state ? 1 : 0
+        self.playPauseButton.alpha = state ? 1 : 0
+        self.timeSlider.alpha = state ? 1 : 0
+        self.currentTimeLabel.alpha = state ? 1 : 0
+        self.endTimeTimeLabel.alpha = state ? 1 : 0
+    }
 }
 
 
@@ -315,18 +382,26 @@ extension CustomPlayerController {
     }
     
     @objc func presentFullScreenMode() {
-        
     }
     
     @objc func handleSettingButton() {
-        print("DEBUG: 설정버튼을 클릭했습니다.")
+        let vc = VideoSettingPopupController()
+        vc.delegate = self
+        vc.currentStateSubtitle = isOnSubtitle
+        present(vc, animated: true, completion: nil)
     }
     
-    @objc func handleSubtitleToggle() {
-        print("DEBUG: 자막 토글버튼을 클릭했습니다.")
+    @objc func switchSubtitleDisplay() {
+        UIView.animate(withDuration: 0.22) {
+            if self.isOnSubtitle {
+                self.isOnSubtitle = false
+                self.subtitleLabel.alpha = 0
+            } else {
+                self.isOnSubtitle = true
+                self.subtitleLabel.alpha = 1
+            }
+        }
     }
-    
-
     
     /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
     @objc func timeSliderValueChanged(_ slider: UISlider) {
@@ -350,7 +425,16 @@ extension CustomPlayerController {
         
         // "subtitleLabel"을 클릭할 때만 호출되도록 한다.
         sender.numberOfTapsRequired = 1
-        print("DEBUG: 자막 클릭을 인지했습니다.")
+        // 데이터 정상적으로 저장되었는지 확인하기 위한 Print
+        print("DEBUG: 0Rangs is \(keywordRanges[0])")
+        print("DEBUG: 1Rangs is \(keywordRanges[1])")
+        print("DEBUG: 2Rangs is \(keywordRanges[2])")
+        print("DEBUG: 3Rangs is \(keywordRanges[3])")
+        print("DEBUG: 4Rangs is \(keywordRanges[4])")
+        print("DEBUG: 5Rangs is \(keywordRanges[5])")
+        print("DEBUG: 6Rangs is \(keywordRanges[6])")
+        print("DEBUG: 7Rangs is \(keywordRanges[7])")
+        
         /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
@@ -457,7 +541,7 @@ extension CustomPlayerController {
         // "<" 이전까지의 값을 가져온다. 이 때 그 값은 keyword가 된다.
         /// `#` 이후 keyword를 추출한 텍스트
         let keyword = scanner.scanUpToString("<")
-        
+
         // #keyword 와 일치하는 값이 sTags 중 있는지 확인한다.
         for j in 0...sTagsArray.count-1 {
             
@@ -639,10 +723,11 @@ extension CustomPlayerController: AVPlayerViewControllerDelegate {
                     let keywordAttriString = NSMutableAttributedString(string: subtitleFinal)
                     
                     /* API에서 sTag 값을 받아올 위치 */
-                    strongSelf.sTagsArray.removeAll()
-                    for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
-                        strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
-                    }
+                    // 05.11 로직상 필요없어져서 주석처리함 - 추후 필요할 일을 대비하여 일단 남겨둠.
+//                    strongSelf.sTagsArray.removeAll()
+//                    for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
+//                        strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
+//                    }
                     
                     // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
                     /* 자막에 "#"가 존재하는 경우 */
@@ -689,20 +774,45 @@ extension CustomPlayerController: AVPlayerViewControllerDelegate {
         open(fileFromRemote: subtitleRemoteUrl!)
         
         // Text 색상 변경값 입력한다.
-        subtitleLabel.textColor = UIColor.white
         subtitleLabel.textColor = .white
-        let convertedHeight = convertHeight(231, standardView: view)
-        let convertedConstant = convertHeight(65.45, standardView: view)
         
-        playerController.view.setDimensions(height: view.frame.width * 0.57,
+        playerController.view.setDimensions(height: view.frame.height,
                                             width: view.frame.width)
         playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
-                                             height: convertedHeight - convertedConstant)
+                                             height: videoContainerView.frame.height)
         playerController.view.contentMode = .scaleToFill
         
         playerController.didMove(toParent: self)
         
         player.play()
         player.isMuted = false
+    }
+}
+
+
+// MARK: - BottomPopUp Delegate for change Subtitle display or not
+
+extension CustomPlayerController: VideoSettingPopupControllerDelegate {
+    func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
+        UIView.animate(withDuration: 0.22) {
+            if subtitleIsOn {
+                self.subtitleLabel.alpha = 1
+            } else {
+                self.subtitleLabel.alpha = 0
+            }
+        }
+    }
+    
+    func presentSelectionVideoPlayRateVC() {
+        let vc = SelectVideoPlayRateVC()
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+}
+
+// MARK: - BottomPopUp Delegate for VideoPlayRate
+extension CustomPlayerController: SelectVideoPlayRateVCDelegate {
+    func changeVideoPlayRateByBottomPopup(rate: Float) {
+        player.playImmediately(atRate: rate)
     }
 }

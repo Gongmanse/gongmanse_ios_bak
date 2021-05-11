@@ -15,9 +15,8 @@ import UIKit
 class DetailScreenController: UIViewController {
     
     // MARK: - Properties
-    let viewModel = PlayerViewModel(dataByAPI: <#T##DetailVideoResponse?#>)
-    let customPlayerVC = CustomPlayerController()
-    let tabVC = DetailScreenTabController()
+    
+    var videoData = DetailVideoInput(video_id: "15188", token: Constant.token)
     
     private let customPlayerView: UIView = {
         let view = UIView()
@@ -34,8 +33,18 @@ class DetailScreenController: UIViewController {
     
     // MARK: - Lifecycle
     
+    init(videoID: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.videoData.video_id = videoID
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        networkingAPI()
         configureUI()
     }
     
@@ -47,15 +56,16 @@ class DetailScreenController: UIViewController {
     // MARK: - Heleprs
     
     func configureUI() {
-        configureConstraintAndAddChildController()
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .black
     }
     
-    func configureConstraintAndAddChildController() {
+    func configureConstraintAndAddChildController(videoURL: NSURL, vttURL: String, sTagsArray: [String]) {
+        let customPlayerVC = CustomPlayerController(videoURL: videoURL, vttURL: vttURL, sTags: sTagsArray)
+        let tabVC = DetailScreenTabController()
+        
         // 영상재생 컨트롤러를 이 컨트롤러에 추가한다.
         view.addSubview(customPlayerView)
-        
         self.addChild(customPlayerVC)
         customPlayerVC.didMove(toParent: self)
         customPlayerView.addSubview(customPlayerVC.view)
@@ -74,7 +84,10 @@ class DetailScreenController: UIViewController {
         detailScreenTabView.setDimensions(height: view.frame.height - playerHeight, width: view.frame.width)
         detailScreenTabView.anchor(top: customPlayerView.bottomAnchor,
                                    left:view.leftAnchor)
-        
+    }
+    
+    func networkingAPI() {
+        DetailVideoDataManager().DetailScreenDataManager(videoData, viewController: self)
     }
 }
 
@@ -85,28 +98,18 @@ extension DetailScreenController {
     
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
-        if let sourceURL = response.data.source_url {
-            let url = URL(string: sourceURL) as NSURL?
-            self.videoURL = url
-            self.videoAndVttURL.videoURL = url
-        }
+        guard let sourceURL = response.data.source_url else { return }
         
+        let url = URL(string: sourceURL) as NSURL?
+
         // sSubtitles -> vttURL
-        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
-        self.videoAndVttURL.vttURL = self.vttURL
+        let vttURL = "https://file.gongmanse.com/" + response.data.sSubtitle
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags
-        let sTagsArray = receivedsTagsData.split(separator: ",")
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
         
-        // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
-        self.sTagsArray.removeAll()
-        
-        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.
-        for index in 0 ... sTagsArray.count - 1 {
-            let inputData = String(sTagsArray[index])
-            self.tempsTagsArray.append(inputData)
-        }
-        playVideo()
+        // "sTagsArray"는 String.Sequence이므로 String 선언한 이후 아래 메소드에 할당한다.
+        configureConstraintAndAddChildController(videoURL: url ?? NSURL(string: "")!, vttURL: vttURL, sTagsArray: sTagsArray)
     }
 }

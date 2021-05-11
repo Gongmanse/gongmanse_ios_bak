@@ -9,7 +9,7 @@ import Foundation
 
 class PlayerViewModel {
     
-    var videoURL = ""
+    var videoURL = NSURL(string: "")
     var vttURL = ""
     var id = ""
     var playRate = Float(1.0)
@@ -22,23 +22,23 @@ class PlayerViewModel {
     var highlight: String? = ""
     var subjectname = ""
     var subjectColor = ""
-    var tags = ""
+    var tags = [String]()
     var unit = ""
     
-    init(dataByAPI: DetailVideoResponse?) {
-        guard let response = dataByAPI  else { return }
-        videoURL = response.data.source_url ?? ""
-        vttURL = response.data.sSubtitle
-        id = response.data.id
-        lessonTtitle = response.data.sTitle
-        categoryID = response.data.iCategoryId
-        rating = response.data.iRating
-        userRating = response.data.iUserRating ?? "0"
-        bookmark = response.data.sBookmarks
-        highlight = response.data.sHighlight
-        subjectname = response.data.sSubject
-        subjectColor = response.data.sSubjectColor
-        tags = response.data.sTags
-        unit = response.data.sUnit
-    }
+//    init(dataByAPI: DetailVideoResponse?) {
+//        guard let response = dataByAPI  else { return }
+//        videoURL = response.data.source_url ?? ""
+//        vttURL = response.data.sSubtitle
+//        id = response.data.id
+//        lessonTtitle = response.data.sTitle
+//        categoryID = response.data.iCategoryId
+//        rating = response.data.iRating
+//        userRating = response.data.iUserRating ?? "0"
+//        bookmark = response.data.sBookmarks
+//        highlight = response.data.sHighlight
+//        subjectname = response.data.sSubject
+//        subjectColor = response.data.sSubjectColor
+//        tags = response.data.sTags
+//        unit = response.data.sUnit
+//    }
 }

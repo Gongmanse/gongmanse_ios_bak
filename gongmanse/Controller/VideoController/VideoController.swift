@@ -414,6 +414,11 @@ extension VideoController {
 // MARK: - VideoSettingPopupControllerDelegate
 
 extension VideoController: VideoSettingPopupControllerDelegate {
+    func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
+        //
+    }
+    
+
     
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()
