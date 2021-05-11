@@ -23,6 +23,9 @@ struct Constant {
     static let width = bounds.width
     static let height = bounds.height
     
+    // 테스트용 임시 토큰값
+    static let testToken = "NmNjOTE1YWIwN2NkZmU5NzYyZjAwMTJiOTBlNzEzMTM3NjY3MjQ3NWZlZjlmYWFiOGU3YTk5NTYxYWNlYzFjMDczYTM1MGMyZmZkMTBlODYxYTZjYzk5NjBjMzg2ODc0NmU0N2FjMTQzNjYzYmYyZjhiNjI3MTMzZmNkM2RhNzB0N25BWWxNZngvWFZjTGZwTWg0RnhwdjdERWZMWFNPdGpPZnFEaWJycmkzRXVsZDl5WHFUYkZKeEFoRWREdm1kZlhVb0p4VXMxN01YT2Urd2c1MDFCdz09"
+    
     static let termOfServiceText =
         """
         공만세 서비스 이용약관

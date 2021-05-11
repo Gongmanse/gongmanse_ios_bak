@@ -39,6 +39,8 @@ class RecentKeywordVC: UIViewController {
     
     var isKeywordLog: Bool = false               // 검색내역이 있는지 없는지 확인하는 Index   
 
+    // viewModel
+    let recentVM:RecentKeywordViewModel = RecentKeywordViewModel()
     
     //MARK: - IBOutlet
     
@@ -55,6 +57,7 @@ class RecentKeywordVC: UIViewController {
         // TableView Setting
         tableView.delegate = self
         tableView.dataSource = self
+        recentVM.reloadDelegate = self
         
         tableView.register(UINib(nibName: "RecentKeywordCell", bundle: nil), forCellReuseIdentifier: "RecentKeywordCell")
         tableView.register(UINib(nibName: "EmptyStateViewCell", bundle: nil), forCellReuseIdentifier: "EmptyStateViewCell")
@@ -62,11 +65,9 @@ class RecentKeywordVC: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
         self.tableView.separatorStyle = .none
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
+        
+        recentVM.requestGetListApi()
     }
     
     //MARK: - Helper functions
@@ -88,15 +89,15 @@ class RecentKeywordVC: UIViewController {
 extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return isKeywordLog ? searchKeywordRecord.count : 1
+        return isKeywordLog ? recentVM.recentKeywordList?.data.count ?? 0 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isKeywordLog {
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as! RecentKeywordCell
-            cell.delegate = self
+            
             cell.selectionStyle = .none
-            cell.viewModel = RecentKeywordViewModel(date: "오늘", keyword: searchKeywordRecord[indexPath.row], indexPath: indexPath)
+            cell.keyword.text = recentVM.recentKeywordList?.data[indexPath.row].sWords
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
@@ -157,6 +158,13 @@ extension RecentKeywordVC: ReloadDataInRecentKeywordVCDelegate {
     
 }
 
-
+extension RecentKeywordVC: TableReloadData {
+    
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}
 
 

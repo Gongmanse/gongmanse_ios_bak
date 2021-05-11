@@ -18,9 +18,9 @@ class RecentKeywordCell: UITableViewCell {
     
     weak var delegate: RecentKeywordCellDelegate?
     
-    var viewModel: RecentKeywordViewModel? {
-        didSet { configure() }
-    }
+//    var viewModel: RecentKeywordViewModel? {
+//        didSet { configure() }
+//    }
     
     
     @IBOutlet weak var keyword: UILabel!
@@ -48,18 +48,8 @@ class RecentKeywordCell: UITableViewCell {
     //MARK: - Actions
     
     @IBAction func handleDeleteBtn(_ sender: Any) {
-        guard let viewModel = viewModel else { return }
-        delegate?.deleteCell(indexPath: viewModel.indexPath)
-        print("DEBUG: clicked cell is \(viewModel.indexPath.row)")
-    }
-    
-    
-    //MARK: - Helper functions
-    
-    func configure() {
-        guard let viewModel = viewModel else { return }
-        keyword.text = viewModel.keyword
-        date.text = viewModel.date
+        
+        print("DEBUG: clicked cell ")
     }
     
 }
