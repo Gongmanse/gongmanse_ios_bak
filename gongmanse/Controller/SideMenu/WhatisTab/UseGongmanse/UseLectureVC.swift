@@ -11,7 +11,7 @@ class UseLectureVC: UIViewController {
 
     var pageIndex = 0
     
-    private let lectureImageList = ["manual_0","manual_1","manual_2","manual_3","manual_4","manual_5","manual_6"]
+    private let lectureImageList = ["manual_0","manual_1","manual_2","manual_3","manual_4","manual_5","manual_6","manual_7"]
     private let UseLectureCellIdentifier = "UseLectureCell"
     private var tableView = UITableView(frame: CGRect.zero, style: .plain)
     

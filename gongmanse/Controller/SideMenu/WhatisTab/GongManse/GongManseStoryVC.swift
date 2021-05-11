@@ -21,7 +21,7 @@ class GongManseStoryVC: UIViewController {
         
         manseImage.contentMode = .scaleAspectFit
         manseImage.sizeToFit()
-        let image = #imageLiteral(resourceName: "about")
+        let image = #imageLiteral(resourceName: "aboutManse") // aboutManse
         manseImage.image = image.resize(7000)
 
         
