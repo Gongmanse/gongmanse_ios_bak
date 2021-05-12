@@ -102,6 +102,12 @@ class SearchVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(searchGradeAction(_:)), name: .searchGradeNoti, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchSubjectAction(_:)), name: .searchSubjectNoti, object: nil)
         
+        // 검색창 text 연결
+        NotificationCenter.default.addObserver(self, selector: #selector(searchBarConnectText(_:)), name: .searchBeforeSearchBarText, object: nil)
+    }
+    
+    @objc func searchBarConnectText(_ sender: Notification) {
+        searchBar.text = searchData.searchText
     }
 
     @objc func searchGradeAction(_ sender: Notification) {

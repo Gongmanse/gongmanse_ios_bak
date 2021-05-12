@@ -60,11 +60,13 @@ class PopularKeywordVC: UIViewController {
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return popularVM.popularKeywoard?.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PopularKeywordCell
         cell.selectionStyle = .none
         cell.keyword.text = popularVM.popularKeywoard?.data[indexPath.row].keywords
@@ -91,6 +93,8 @@ extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
         // 선택한 검색어를 싱글턴 변수에 할당
         searchData.searchText = popularVM.popularKeywoard?.data[indexPath.row].keywords
         
+        // 선택시 검색창 text생성하기
+        NotificationCenter.default.post(name: .searchBeforeSearchBarText, object: nil)
         // 화면이동하는 Controller로 데이터 전달
         let controller = SearchAfterVC()
         

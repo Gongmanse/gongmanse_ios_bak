@@ -137,7 +137,11 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         searchData.searchText = recentVM.recentKeywordList?.data[indexPath.row].sWords
+        
+        // 선택시 검색창 text생성하기
+        NotificationCenter.default.post(name: .searchBeforeSearchBarText, object: nil)
         
         // 화면이동하는 Controller로 데이터 전달
         let controller = SearchAfterVC()
