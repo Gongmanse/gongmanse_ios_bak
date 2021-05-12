@@ -19,7 +19,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     var dismissDuration: Double = 0.5
     
     @IBOutlet weak var tableHeaderView: UIView!
-    @IBOutlet weak var ExpertConsultationTV: UITableView!
+    @IBOutlet weak var expertConsultationTV: UITableView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
@@ -37,7 +37,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         floatingButton()
         
         //테이블 뷰 빈칸 숨기기
-        ExpertConsultationTV.tableFooterView = UIView()
+        expertConsultationTV.tableFooterView = UIView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(sortFilterNoti(_:)), name: NSNotification.Name("consultFilterText"), object: nil)
         
@@ -64,7 +64,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     }
     
     func getDataFromJson() {
-        if let url = URL(string: ExpertConsultation_URL + "limit=56&offset=0&sort_id=\(sortedId ?? 4)") {
+        if let url = URL(string: ExpertConsultation_URL + "limit=57&offset=0&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -76,7 +76,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
                     self.consultModels = json
                 }
                 DispatchQueue.main.async {
-                    self.ExpertConsultationTV.reloadData()
+                    self.expertConsultationTV.reloadData()
                 }
             }.resume()
         }
@@ -196,14 +196,11 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
+        vc.receiveData = consultModels?.data[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
-
-
 
 /// 필터 메뉴를 클릭하면, 호출되는 메소드 구현을 위한 `extension`
 extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate {
@@ -220,6 +217,6 @@ extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate {
         }
         
         self.delegate?.expertConsultationPassSortedIdSettingValue(sortedIdRowIndex)
-        self.ExpertConsultationTV.reloadData()
+        self.expertConsultationTV.reloadData()
     }
 }

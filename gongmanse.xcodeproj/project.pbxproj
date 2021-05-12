@@ -230,6 +230,7 @@
 		6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C3626019255007AED64 /* LectureQuestionsTVC.swift */; };
 		6CB83C3C2601A125007AED64 /* ExpertConsultTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C3B2601A125007AED64 /* ExpertConsultTVC.swift */; };
 		6CB83C412601B54B007AED64 /* BookMarkTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C402601B54B007AED64 /* BookMarkTVC.swift */; };
+		6CBEEA88264B71AF0006795D /* DateTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBEEA87264B71AF0006795D /* DateTransfer.swift */; };
 		6CBF2DE1264A56F10017870F /* ConsultUploadImageDefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBF2DDF264A56F10017870F /* ConsultUploadImageDefaultCell.swift */; };
 		6CBF2DE2264A56F10017870F /* ConsultUploadImageDefaultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBF2DE0264A56F10017870F /* ConsultUploadImageDefaultCell.xib */; };
 		6CC1F06825F9CD6A00A909B0 /* RecommendCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1F06725F9CD6A00A909B0 /* RecommendCRV.swift */; };
@@ -572,6 +573,7 @@
 		6CB83C3626019255007AED64 /* LectureQuestionsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureQuestionsTVC.swift; sourceTree = "<group>"; };
 		6CB83C3B2601A125007AED64 /* ExpertConsultTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultTVC.swift; sourceTree = "<group>"; };
 		6CB83C402601B54B007AED64 /* BookMarkTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkTVC.swift; sourceTree = "<group>"; };
+		6CBEEA87264B71AF0006795D /* DateTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTransfer.swift; sourceTree = "<group>"; };
 		6CBF2DDF264A56F10017870F /* ConsultUploadImageDefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsultUploadImageDefaultCell.swift; sourceTree = "<group>"; };
 		6CBF2DE0264A56F10017870F /* ConsultUploadImageDefaultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConsultUploadImageDefaultCell.xib; sourceTree = "<group>"; };
 		6CC1F06725F9CD6A00A909B0 /* RecommendCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCRV.swift; sourceTree = "<group>"; };
@@ -1196,6 +1198,7 @@
 				2580CF59261A931600D78E4E /* NSObject.swift */,
 				C2657C532624369C0048B92F /* UIImageView.swift */,
 				C2172466262FEE9A003959AB /* NotificationName.swift */,
+				6CBEEA87264B71AF0006795D /* DateTransfer.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2608,6 +2611,7 @@
 				6CF2E67B25F0C4CF000FE084 /* ExpertConsultationVC.swift in Sources */,
 				258B5EA32609D8AA00F470B7 /* CertificationResponse.swift in Sources */,
 				6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */,
+				6CBEEA88264B71AF0006795D /* DateTransfer.swift in Sources */,
 				C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */,
 				2541BF8C263F7FA7000853EF /* DisplaySubtitleCell.swift in Sources */,
 				6CF2E65125F09161000FE084 /* TabCell.swift in Sources */,

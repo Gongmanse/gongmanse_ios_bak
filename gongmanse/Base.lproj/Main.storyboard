@@ -344,8 +344,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="ExpertConsultationTV" destination="q4W-56-B4h" id="wRl-fh-bmf"/>
                         <outlet property="countAll" destination="cnA-Yh-2iy" id="yip-3v-lpb"/>
+                        <outlet property="expertConsultationTV" destination="q4W-56-B4h" id="N5h-Aa-blx"/>
                         <outlet property="filteringBtn" destination="Qu4-Wn-H5r" id="8PW-Ge-sXG"/>
                         <outlet property="tableHeaderView" destination="1TK-VD-8JO" id="6Hd-FG-jV3"/>
                     </connections>
@@ -779,7 +779,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="Date" destination="fZj-pP-23P" id="zQL-Ek-HFw"/>
                         <outlet property="answerLabel" destination="I2b-Sk-Vyf" id="fE2-JK-snH"/>
                         <outlet property="consultContentView" destination="v7G-HL-hD4" id="IY2-Mk-k71"/>
                         <outlet property="consultImageView" destination="cGv-FS-Zk2" id="Uvj-zI-6sI"/>
@@ -789,6 +788,7 @@
                         <outlet property="profileImageView" destination="8KG-Mk-UjE" id="L4s-Yq-MWb"/>
                         <outlet property="profileNickName" destination="UB0-Dn-ibJ" id="PSF-Dz-eXZ"/>
                         <outlet property="questionLabel" destination="hHY-FT-fXB" id="ihm-oK-ECN"/>
+                        <outlet property="registerDate" destination="fZj-pP-23P" id="Ogu-Ln-hB9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NnJ-WA-WTA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

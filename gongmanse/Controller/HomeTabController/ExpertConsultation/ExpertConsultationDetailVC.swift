@@ -5,7 +5,7 @@ class ExpertConsultationDetailVC: UIViewController {
     @IBOutlet weak var profileAndDateView: UIView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNickName: UILabel!
-    @IBOutlet weak var Date: UILabel!
+    @IBOutlet weak var registerDate: UILabel!
     
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
@@ -13,6 +13,8 @@ class ExpertConsultationDetailVC: UIViewController {
     @IBOutlet weak var consultImageView: UIImageView!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
+    
+    var receiveData: ExpertModelData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +26,30 @@ class ExpertConsultationDetailVC: UIViewController {
         profileImageView.layer.cornerRadius = 13
         
         consultImageSettings()
+        receiveDataSettings()
         
+        //print(receiveData?.consultation_id)
+        
+    }
+    
+    func receiveDataSettings() {
+        let profileImageURL = receiveData?.sProfile ?? ""
+        let profileURL = URL(string: fileBaseURL + "/" + profileImageURL)
+        let defaultLink = fileBaseURL
+        let thumbnailImageURL = receiveData?.sFilepaths ?? ""
+        let thumbnailURL = URL(string: defaultLink + "/" + thumbnailImageURL)
+        
+        if profileImageURL == ""{
+            profileImageView.image = UIImage(named: "extraSmallUserDefault")
+        }else {
+            profileImageView.sd_setImage(with: profileURL)
+        }
+        
+        self.consultImageView.sd_setImage(with: thumbnailURL)
+        self.profileNickName.text = receiveData?.sNickname
+        self.registerDate.text = receiveData?.dtRegister
+        self.questionLabel.text = receiveData?.sQuestion
+        self.answerLabel.text = receiveData?.sAnswer
     }
     
     //네비게이션 바와 프로필 뷰 설정

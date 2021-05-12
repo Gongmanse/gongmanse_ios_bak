@@ -6,10 +6,6 @@ class ExpertConsultTVC: UITableViewController {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
-    var consultTitleLabel = ["상담하기 제목이 들어가는 곳", "상담하기 제목이 2줄 이상인 경우 이런 식으로 표시", "상담하기 제목이 3줄 이상인 경우 이런 식으로 표시합니다."]
-    var nickNameLabel = ["카모마일", "공스", "공스"]
-    var upLoadDateLabel = ["1년 전", "2년 전", "3년 전"]
-    
     var pageIndex: Int!
 
     override func viewDidLoad() {
@@ -37,10 +33,6 @@ class ExpertConsultTVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpertConsultTVCell") as! ExpertConsultTVCell
-        
-        cell.consultTitle.text = consultTitleLabel[indexPath.row]
-        cell.nickName.text = nickNameLabel[indexPath.row]
-        cell.upLoadDate.text = upLoadDateLabel[indexPath.row]
         
         if indexPath.row == 0 {
             cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
