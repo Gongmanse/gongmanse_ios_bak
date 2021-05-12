@@ -97,12 +97,10 @@ struct postFilteringAPI {
 // 보낸 데이터 받아오는 API
 struct getFilteringAPI {
     
-    let token = "NWI0NjRiZDU0YTgyYjFhZTU1OGRmZDljZjBlYThmMDNmNWU0OTc1YjgyODNkMGM5ZDYxYjMzOWIyYTc2OGQxZTkxYWM4ZTk2ZTczMGExZTMwY2UwYzcxNWU0MGI3YjA0NzRmODVhZTE0NTc3ODQyMWIyZjQyM2JiOWU3OWY0MjNqbUFESlhOT1VhREFPQVdqZUErWUlGSkhyZU91Y3BSR2JWcmZyVG1kTTRCYTlaejhlSWdQanl4VUF6b1QrR3Bjb0tzRythdTlGMVY5QzJzZ3NmQTVkUT09"
     
     func getFilteringData(complition: @escaping (_ result: SubjectGetDataModel) -> Void) {
         
-        let getfilterUrl = "\(apiBaseURL)/v/setting/searchsetting?token=\(token)"
-        print(getfilterUrl)
+        let getfilterUrl = "\(apiBaseURL)/v/setting/searchsetting?token=\(Constant.testToken)"
         
         AF.request(getfilterUrl)
             .responseDecodable(of: SubjectGetDataListModel.self) { response in

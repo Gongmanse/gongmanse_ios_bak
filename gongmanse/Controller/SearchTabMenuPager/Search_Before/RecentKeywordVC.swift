@@ -38,7 +38,7 @@ class RecentKeywordVC: UIViewController {
     let recentVM:RecentKeywordViewModel = RecentKeywordViewModel()
     
     // singleton
-    let searchData: SearchData = SearchData.shared
+    lazy var searchData: SearchData = SearchData.shared
     //MARK: - IBOutlet
     
     @IBOutlet weak var tableView: UITableView!
@@ -86,11 +86,13 @@ class RecentKeywordVC: UIViewController {
 extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return isKeywordLog ? recentVM.recentKeywordList?.data.count ?? 0 : 1
+        return searchData.isToken ? recentVM.recentKeywordList?.data.count ?? 0 : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isKeywordLog {
+        
+        
+        if searchData.isToken {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as? RecentKeywordCell else { return UITableViewCell() }
             
             let recentList = recentVM.recentKeywordList?.data[indexPath.row]
@@ -129,7 +131,7 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if isKeywordLog {
+        if searchData.isToken {
             return 44
         } else {
             return tableView.frame.height - 100 // 추후에 변경해야할 부분. EmptyView의 Message가 정가운데 올 수 있도록.

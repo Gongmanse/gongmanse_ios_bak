@@ -21,5 +21,13 @@ class SearchMainViewModel {
         }
     }
     
+    func convertGrade() {
+        guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return }
+        
+    }
+    
+    func convertSubject() {
+        guard let subjectText = UserDefaults.standard.object(forKey: "subjectFilterNumber") as? String else { return }
+    }
     
 }

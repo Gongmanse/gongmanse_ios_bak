@@ -57,7 +57,7 @@ class SearchVC: UIViewController {
     let gradeButton = UIButton(type: .system)
     let subjectButton = UIButton(type: .system)
     
-    
+    let searchMainVM = SearchMainViewModel()
 
     //MARK: - Lifecylce
     
@@ -72,6 +72,16 @@ class SearchVC: UIViewController {
         //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
         self.tabBarController?.tabBar.isHidden = false
         
+        
+        if Constant.testToken != "" {
+            
+            
+            gradeButton.setTitle(gradeText, for: .normal)
+            subjectButton.setTitle(subjectText, for: .normal)
+            
+            searchData.searchGrade = gradeText
+            searchData.searchSubjectNumber = subjectText
+        }
     }
     
     
@@ -177,7 +187,11 @@ class SearchVC: UIViewController {
         } else if index == 1 {
             let contentVC = RecentKeywordVC()
             self.delegate = contentVC
-            contentVC.searchKeywordRecord = self.keywordLog     // UISearchBar에서 검색한 키워드를 "최근검색어" 로 넘김
+            
+            // 토큰값이 없으면 isToken == false 라 최근검색어 안보임
+            if Constant.testToken != "" {
+                searchData.isToken = true
+            }
             contentVC.pageIndex = index
             return contentVC
         } else {
@@ -420,8 +434,6 @@ extension SearchVC: ReloadDataRecentKeywordDelegate {
     func reloadTableView() {
         pageControllForreloadData()
     }
-    
-    
 }
 
 //MARK: - UI && setting
