@@ -37,6 +37,8 @@ class RecentKeywordVC: UIViewController {
     // viewModel
     let recentVM:RecentKeywordViewModel = RecentKeywordViewModel()
     
+    // singleton
+    let searchData: SearchData = SearchData.shared
     //MARK: - IBOutlet
     
     @IBOutlet weak var tableView: UITableView!
@@ -132,6 +134,20 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             return tableView.frame.height - 100 // 추후에 변경해야할 부분. EmptyView의 Message가 정가운데 올 수 있도록.
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchData.searchText = recentVM.recentKeywordList?.data[indexPath.row].sWords
+        
+        // 화면이동하는 Controller로 데이터 전달
+        let controller = SearchAfterVC()
+        
+        // 화면 전환
+        let vc = UINavigationController(rootViewController: controller)
+        
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: true)
     }
     
 }
