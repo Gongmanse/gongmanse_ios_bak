@@ -17,9 +17,15 @@ import AVKit
 import Foundation
 import UIKit
 
+protocol CustomPlayerControllerDelegate: AnyObject {
+    func changeFullScreenMode()
+}
+
 class CustomPlayerController: UIViewController {
 
     // MARK: - Properties
+    
+    weak var delegate: CustomPlayerControllerDelegate?
     
     var isPlaying: Bool { player.rate != 0 && player.error == nil }
     var isOnSubtitle = true          // 자막 표시 여부 Index
@@ -134,7 +140,7 @@ class CustomPlayerController: UIViewController {
     }()
     
     /// 가로화면(전체화면)으로 전환되는 버튼
-    let changeOrientationButton: UIButton = {
+    let changeFullScreenButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.addTarget(self, action: #selector(presentFullScreenMode), for: .touchUpInside)
@@ -198,6 +204,7 @@ class CustomPlayerController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.landscapeRight)
         //        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
@@ -205,26 +212,14 @@ class CustomPlayerController: UIViewController {
     var isDisplayControlView = false
     
     @objc func targetViewDidTapped() {
-        
         if isDisplayControlView {
-            UIViewAnimatingState.stopped
-            UIView.animate(withDuration: 0.22) {
-                self.buttonsInVideoControlViewAlphaValueChange(false)
-            }
-            
+            isDisplayControlView = false
         } else {
-            UIView.animate(withDuration: 0.22, delay: 0.22, options: .curveEaseIn) {
-                self.buttonsInVideoControlViewAlphaValueChange(true)
-                self.isDisplayControlView = true
-            } completion: { _ in
-                UIView.animate(withDuration: 0.22, delay: 3, options: []) {
-                    self.buttonsInVideoControlViewAlphaValueChange(false)
-                } completion: { (_) in
-                    self.isDisplayControlView = false
-                }
-            }
+            isDisplayControlView = true
         }
-        
+        UIView.animate(withDuration: 0.22) {
+            self.buttonsInVideoControlViewAlphaValueChange(self.isDisplayControlView)
+        }
     }
 
     
@@ -258,7 +253,7 @@ class CustomPlayerController: UIViewController {
                                   right: view.rightAnchor)
         videoControlContainerView.backgroundColor = .clear
         videoControlContainerView.alpha = 1
-        buttonsInVideoControlViewAlphaValueChange(false)
+        buttonsInVideoControlViewAlphaValueChange(true)
         videoControlContainerView.isUserInteractionEnabled = true
         videoControlContainerView.addGestureRecognizer(videoControlGesture)
 
@@ -307,7 +302,7 @@ class CustomPlayerController: UIViewController {
                           paddingTop: 5,
                           paddingLeft: 10)
         
-        let sliderWidth = view.frame.width * 0.66
+        let sliderWidth = view.frame.width * 0.52
         videoControlContainerView.addSubview(timeSlider)
         timeSlider.setDimensions(height: 5, width: sliderWidth)
         timeSlider.centerX(inView: videoControlContainerView)
@@ -325,6 +320,12 @@ class CustomPlayerController: UIViewController {
         endTimeTimeLabel.centerY(inView: timeSlider)
         endTimeTimeLabel.anchor(left: timeSlider.rightAnchor,
                                 paddingLeft: 5, height: 11)
+        
+        videoControlContainerView.addSubview(changeFullScreenButton)
+        changeFullScreenButton.centerY(inView: timeSlider)
+        changeFullScreenButton.anchor(left: endTimeTimeLabel.rightAnchor,
+                                      paddingLeft: 10)
+        
     }
     
     func buttonsInVideoControlViewAlphaValueChange(_ state: Bool) {
@@ -382,6 +383,7 @@ extension CustomPlayerController {
     }
     
     @objc func presentFullScreenMode() {
+        delegate?.changeFullScreenMode()
     }
     
     @objc func handleSettingButton() {
@@ -515,7 +517,7 @@ extension CustomPlayerController {
         
         // (클래스의 전역변수에 해당하는)"keywordRanges"로 클릭된 텍스트위 range 값을 전달한다.
         let keywordRangeInstance = (text as NSString).range(of: ("\(sTagsArray[j])"))
-        print("DEBUG: keywordRangeInstance \(keywordRangeInstance)")
+//        print("DEBUG: keywordRangeInstance \(keywordRangeInstance)")
         
         // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
         if let rangeOfKeywordTapped = Range(keywordRangeInstance) {
