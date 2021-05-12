@@ -26,6 +26,8 @@ extension Notification.Name {
     // 검색 후 다시 검색
     static let searchAfterSearchNoti = Notification.Name(NotificationKey.searchAfterSearch)
     
+    // 인기검색어 선택 시 검색전 서치바 text표시
+    static let searchBeforeSearchBarText = Notification.Name(NotificationKey.searchBeforeText)
 }
 
 struct NotificationKey {
@@ -43,4 +45,7 @@ struct NotificationKey {
     
     // SearchAter 검색
     static let searchAfterSearch = "reSearch"
+    
+    // 인기검색어 선택 시 검색전 서치바 text표시
+    static let searchBeforeText = "searchBarText"
 }

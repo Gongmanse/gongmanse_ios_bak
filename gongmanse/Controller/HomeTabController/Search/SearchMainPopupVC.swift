@@ -41,7 +41,8 @@ class SearchMainPopupVC: BottomPopupViewController {
         
         let subjectApi = getSubjectAPI()
         subjectApi.performSubjectAPI { [weak self] result in
-            self?.subjectModel = result
+            self?.subjectModel.append(SubjectModel(id: "0", sName: "모든 과목"))
+            self?.subjectModel.append(contentsOf: result)
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -78,7 +79,12 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if mainList! == .grade {
+            
             searchData.searchGrade = gradeList[indexPath.row]
+            if gradeList[indexPath.row] == "모든 학년" {
+                searchData.searchGrade = nil
+            }
+            
             let selectGrade = gradeList[indexPath.row]
             NotificationCenter.default.post(name: .searchGradeNoti, object: selectGrade)
             
@@ -90,8 +96,14 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
                 "name": selectSubjectName,
                 "Id": selectSubjectID
             ]
+            
             searchData.searchSubject = selectSubjectName
             searchData.searchSubjectNumber = selectSubjectID
+            
+            if searchData.searchSubjectNumber == "0" {
+                searchData.searchSubjectNumber = nil
+            }
+            
             NotificationCenter.default.post(name: .searchSubjectNoti, object: nil, userInfo: selectHashable)
         }
         self.dismiss(animated: true, completion: nil)

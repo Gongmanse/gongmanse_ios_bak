@@ -44,5 +44,5 @@ class SearchData {
     var searchGrade: String?
     var searchSubject: String?
     var searchSubjectNumber: String?
-    
+    var isToken: Bool = false
 }
