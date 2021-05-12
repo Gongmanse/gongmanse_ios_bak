@@ -113,7 +113,7 @@ class SearchVC: UIViewController {
 //            gradeButton.setTitle(gradeText, for: .normal)
 //        }
         
-        gradeButton.setTitle(searchData.searchGrade, for: .normal)
+        gradeButton.setTitle(sender.object as? String, for: .normal)
     }
     
     @objc func searchSubjectAction(_ sender: Notification) {
