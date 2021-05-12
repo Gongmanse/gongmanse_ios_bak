@@ -106,22 +106,11 @@ class SearchVC: UIViewController {
 
     @objc func searchGradeAction(_ sender: Notification) {
         
-//        if let gradeText = sender.object as? String {
-//            globalSearchGrade = gradeText
-//            //singleton
-//
-//            gradeButton.setTitle(gradeText, for: .normal)
-//        }
-        
         gradeButton.setTitle(sender.object as? String, for: .normal)
     }
     
     @objc func searchSubjectAction(_ sender: Notification) {
-//        if let subjectText = sender.userInfo as? [String : Any] {
-//
-//            globalSearchSubject = subjectText["Id"] as? String
-//            subjectButton.setTitle(subjectText["name"] as? String, for: .normal)
-//        }
+
         subjectButton.setTitle(searchData.searchSubject, for: .normal)
         
     }

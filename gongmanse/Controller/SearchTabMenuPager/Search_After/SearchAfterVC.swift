@@ -56,6 +56,12 @@ class SearchAfterVC: UIViewController {
         
         searchBar.text = searchData.searchText
         
+        // 서치바가 빈값이면 저장x
+        if searchBar.text != "" {
+            let recentVM = RecentKeywordViewModel()
+            recentVM.requestSaveKeywordApi(searchBar.text ?? "")
+        }
+        
         configureConstraint()
         configureNavi()
         setupTabs()
