@@ -95,19 +95,19 @@ extension VideoController {
             = lessonInfoView.heightAnchor.constraint(equalToConstant: 180)
         
         // Portrait 제약조건 정의
-        teacherInfoViewPorTraitTopConstraint
+        lessonInfoViewPorTraitTopConstraint
             = lessonInfoView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
-        teacherInfoViewPorTraitCenterXConstraint
+        lessonInfoViewPorTraitCenterXConstraint
             = lessonInfoView.centerXAnchor.constraint(equalTo: customMenuBar.centerXAnchor)
-        teacherInfoViewPorTraitWidthConstraint
+        lessonInfoViewPorTraitWidthConstraint
             = lessonInfoView.widthAnchor.constraint(equalTo: view.widthAnchor)
         
         // Landscape 제약조건 정의
-        teacherInfoViewLandscapeTopConstraint
+        lessonInfoViewLandscapeTopConstraint
             = lessonInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
-        teacherInfoViewLandscapeLeftConstraint
+        lessonInfoViewLandscapeLeftConstraint
             = lessonInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        teacherInfoViewLandscapeRightConstraint
+        lessonInfoViewLandscapeRightConstraint
             = lessonInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         
         /* TeacherInfoView (top/bottom)BorderLine */
@@ -196,9 +196,9 @@ extension VideoController {
         customMenuBarPorTraitHeightConstraint?.isActive = isActive
         
         // "teacherInfoView" 제약조건
-        teacherInfoViewPorTraitTopConstraint?.isActive = isActive
-        teacherInfoViewPorTraitCenterXConstraint?.isActive = isActive
-        teacherInfoViewPorTraitWidthConstraint?.isActive = isActive
+        lessonInfoViewPorTraitTopConstraint?.isActive = isActive
+        lessonInfoViewPorTraitCenterXConstraint?.isActive = isActive
+        lessonInfoViewPorTraitWidthConstraint?.isActive = isActive
         teacherInfoUnfoldConstraint?.isActive = !isActive
         teacherInfoFoldConstraint?.isActive = isActive
         
@@ -242,9 +242,9 @@ extension VideoController {
         // "teacherInfoView" 제약조건
         teacherInfoUnfoldConstraint?.isActive = isActive
         teacherInfoFoldConstraint?.isActive = !isActive
-        teacherInfoViewLandscapeTopConstraint?.isActive = isActive
-        teacherInfoViewLandscapeLeftConstraint?.isActive = isActive
-        teacherInfoViewLandscapeRightConstraint?.isActive = isActive
+        lessonInfoViewLandscapeTopConstraint?.isActive = isActive
+        lessonInfoViewLandscapeLeftConstraint?.isActive = isActive
+        lessonInfoViewLandscapeRightConstraint?.isActive = isActive
         
         // TODO: ToggleButton 제약조건
         

@@ -21,18 +21,6 @@ class RecentKeywordVC: UIViewController {
     weak var delegate: RecentKeywordVCDelegate?
     
     var pageIndex: Int!
-    
-    // 검색어 관련 로직 프로퍼티
-    
-    var removeDuplicatedData: [String] {
-        return removeDuplicate(searchKeywordRecord)
-    }
-    
-    lazy var searchKeywordRecord = [String]() {
-        didSet { checkEmptyConfigure() }
-    } 
-    
-    var isKeywordLog: Bool = false               // 검색내역이 있는지 없는지 확인하는 Index
 
     // viewModel
     let recentVM:RecentKeywordViewModel = RecentKeywordViewModel()
@@ -65,17 +53,6 @@ class RecentKeywordVC: UIViewController {
         
         
         recentVM.requestGetListApi()
-    }
-    
-    //MARK: - Helper functions
-    
-    // "searchKeywordRecord" 데이터 존재 여부에 따라서 이미지를 표현할지 말지에 대해 결정하는 메소드.
-    func checkEmptyConfigure() {
-        if recentVM.recentKeywordList?.data.count == 0 {
-           // EmptyData
-        } else {
-            isKeywordLog = true
-        }
     }
     
 }
@@ -155,42 +132,6 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
         
         self.present(vc, animated: true)
     }
-    
-}
-
-
-//MARK: - RecentKeywordCellDelegate
-// Cell 삭제 로직 구현. RecentKeywordCell에서 사용됨.
-// Cell의 X버튼을 누르면 해당 메소드가 호출되어야 하므로.
-
-extension RecentKeywordVC: RecentKeywordCellDelegate {
-    func deleteCell(indexPath: IndexPath) {
-        if isKeywordLog {
-        
-            // 각각의 Dataset의 데이터 삭제
-            self.searchKeywordRecord.remove(at: indexPath.row)              // 'SearchVC'로부터 전달받은 프로퍼티 데이터 삭제
-            
-            let path = IndexPath(row: indexPath.row, section: 0)
-            // TableView cell 삭제
-            tableView.deleteRows(at: [path], with: .automatic)         // 테이블 뷰의 해당 cell을 삭제
-            if indexPath.row == 0 {              
-                self.isKeywordLog = false
-                tableView.reloadData()
-            }
-        }
-    }
-}
-
-
-
-extension RecentKeywordVC: ReloadDataInRecentKeywordVCDelegate {
-    func finalReload() {
-        // TODO: 최초 계획은 Delegation을 이용한 ReloadData할 계획인데 원하는대로 되지 않음. 
-        // 다른 방법으로는 다시 돌아와도 첫 화면이 인기검색어로 하여 무조건 ReloadData 되도록 처리하는 방법이 있음.
-        self.tableView.reloadData()
-        print("DEBUG: final Delegate is successed")
-    }
-    
     
 }
 

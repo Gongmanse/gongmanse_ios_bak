@@ -4,11 +4,17 @@ class LessonInfoController: UIViewController {
     
     // MARK: - Properties
     
-    let dataArray = ["#논리철학논고", "#비트겐슈타인", "#논리실증주의", "#루드비히", "#케인즈", "#침묵", "#기호학", "#논리경험주의", "#현대철학"]
+    public var sSubjectLabel = sUnitLabel("DEFAULT", .brown)
+    public var sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
+    public var sUnitLabel02 = sUnitLabel("DEFAULT", .mainOrange)
+    
+    public var sTagsArray = [String]() {
+        didSet { sTagsCollectionView?.reloadData() }
+    }
     let buttonSize = CGRect(x: 0, y: 0, width: 40, height: 40)
-    private let teachernameLabel = PlainLabel("김우성 선생님", fontSize: 11.5)
-    private let lessonnameLabel = PlainLabel("분석명제와 종합명제", fontSize: 17)
-    private var sTagsCollectionView: UICollectionView?
+    public var teachernameLabel = PlainLabel("김우성 선생님", fontSize: 11.5)
+    public var lessonnameLabel = PlainLabel("분석명제와 종합명제", fontSize: 17)
+    public var sTagsCollectionView: UICollectionView?
     private lazy var bookmarkButton = TopImageBottomTitleView(frame: buttonSize,
                                                               title: "즐겨찾기",
                                                               image: UIImage(systemName: "heart.fill")! )
@@ -68,14 +74,12 @@ class LessonInfoController: UIViewController {
     func configureUI() {
         let sSubjectsUnitContainerView = UIView()
         let paddingConstant = view.frame.height * 0.025
-        let sSubjectLabel = sUnitLabel("DEFAULT", .brown)
-        let sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
-        let sUnitLabel02 = sUnitLabel("DEFAULT", .mainOrange)
+
         
         // API에서 받아온 값을 레이블에 할당한다.
         sSubjectLabel.labelText = "과목명"
         sUnitLabel01.labelText = "단원명"
-        sUnitLabel02.labelText = "챕터명"
+//        sUnitLabel02.labelText = "챕터명"
         
         // TODO: 정상적으로 view가 보이는지 TEST -> 05.03 OK
         view.backgroundColor = .progressBackgroundColor
@@ -184,24 +188,24 @@ extension LessonInfoController {
 extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataArray.count
+        return sTagsArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = dataArray[indexPath.row]
+        let item = sTagsArray[indexPath.row]
         let cell = sTagsCollectionView?.dequeueReusableCell(withReuseIdentifier: "sTagsCell", for: indexPath) as! sTagsCell
         cell.cellLabel.text = item
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let item = dataArray[indexPath.row]
+        let item = sTagsArray[indexPath.row]
         let itemSize = item.size(withAttributes: [NSAttributedString.Key.font : UIFont.appBoldFontWith(size: 10)])
         return itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let data = dataArray[indexPath.row]
+        let data = sTagsArray[indexPath.row]
         let vc = TestSearchController(clickedText: data)
         present(vc, animated: true)
     }
