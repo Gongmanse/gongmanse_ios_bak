@@ -52,7 +52,6 @@ extension VideoController {
         navigationController?.hidesBarsOnSwipe = true
         
         // 강의정보 View를 대신할 Controller 추가
-        let lessonInfoController = LessonInfoController()
         self.addChild(lessonInfoController)
         lessonInfoController.didMove(toParent: self)
         lessonInfoView.addSubview(lessonInfoController.view)

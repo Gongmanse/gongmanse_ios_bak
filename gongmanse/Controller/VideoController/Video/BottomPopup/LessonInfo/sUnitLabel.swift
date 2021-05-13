@@ -9,13 +9,13 @@ import UIKit
 
 class sUnitLabel: UILabel {
 
-    internal var labelText: String? {
+    public var labelText: String? {
         didSet {
             commonInit()
         }
     }
     
-    internal var labelBackgroundColor: UIColor? {
+    public var labelBackgroundColor: UIColor? {
         didSet {
             commonInit()
         }

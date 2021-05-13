@@ -170,7 +170,7 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.consultThumbnail.contentMode = .scaleAspectFill
         cell.consultThumbnail.sd_setImage(with: thumbnailURL)
-        cell.consultTitle.text = indexData.sQuestion
+        cell.consultTitle.text = indexData.sQuestion?.htmlEscaped
         cell.nickName.text = indexData.sNickname
         cell.answerStatus.text = indexData.iAnswer
         cell.profileImage.contentMode = .scaleAspectFill

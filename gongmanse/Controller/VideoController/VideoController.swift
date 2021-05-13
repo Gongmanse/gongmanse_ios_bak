@@ -16,7 +16,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var currentVideoPlayRate = Float(1.0)
     var id: String?
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
-    
+    let lessonInfoController = LessonInfoController()
+
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -45,18 +46,18 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var customMenuBarLandscapeLeftConstraint: NSLayoutConstraint?
     var customMenuBarLandscapeWidthConstraint: NSLayoutConstraint?
     
-    /* teacherInfoView */
+    /* lessonInfoView */
     // Constraint 객체 - 세로모드
-    var teacherInfoViewPorTraitCenterXConstraint: NSLayoutConstraint?
-    var teacherInfoViewPorTraitHeightConstraint: NSLayoutConstraint?
-    var teacherInfoViewPorTraitTopConstraint: NSLayoutConstraint?
-    var teacherInfoViewPorTraitWidthConstraint: NSLayoutConstraint?
+    var lessonInfoViewPorTraitCenterXConstraint: NSLayoutConstraint?
+    var lessonInfoViewPorTraitHeightConstraint: NSLayoutConstraint?
+    var lessonInfoViewPorTraitTopConstraint: NSLayoutConstraint?
+    var lessonInfoViewPorTraitWidthConstraint: NSLayoutConstraint?
     
     // Constraint 객체 - 가로모드
-    var teacherInfoViewLandscapeRightConstraint: NSLayoutConstraint?
-    var teacherInfoViewLandscapeHeightConstraint: NSLayoutConstraint?
-    var teacherInfoViewLandscapeTopConstraint: NSLayoutConstraint?
-    var teacherInfoViewLandscapeLeftConstraint: NSLayoutConstraint?
+    var lessonInfoViewLandscapeRightConstraint: NSLayoutConstraint?
+    var lessonInfoViewLandscapeHeightConstraint: NSLayoutConstraint?
+    var lessonInfoViewLandscapeTopConstraint: NSLayoutConstraint?
+    var lessonInfoViewLandscapeLeftConstraint: NSLayoutConstraint?
     
     /* topBorderLine */
     // Constraint 객체 - 세로모드
@@ -213,7 +214,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
     
-    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
@@ -265,7 +265,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return view
     }()
     
-    /// "teachInfoView" 하단에 토글 기능을 담당할 UIButton
+    /// "lessonInfoView" 하단에 토글 기능을 담당할 UIButton
     let toggleButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
@@ -397,16 +397,45 @@ extension VideoController {
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags
-        let sTagsArray = receivedsTagsData.split(separator: ",")
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+        self.lessonInfoController.sTagsArray = sTagsArray
         
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
-        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.
+        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.(자막에서 색상칠할 키워드 찾는용도)
         for index in 0 ... sTagsArray.count - 1 {
             let inputData = String(sTagsArray[index])
             self.tempsTagsArray.append(inputData)
         }
+        
+        // "sTeacher" -> LessonInfoController.teachernameLabel.text
+        let teachername = response.data.sTeacher
+        self.lessonInfoController.teachernameLabel.text = teachername
+        
+        
+        // "sTitle" -> LessonInfoController.lessonnameLabel.text
+        let lessonTitle = response.data.sTitle
+        self.lessonInfoController.lessonnameLabel.text = lessonTitle
+        
+        // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
+        let subjectname = response.data.sSubject
+        self.lessonInfoController.sSubjectLabel.labelText = subjectname
+        
+        // "sSubjectColor" -> LessonInfoController.sSubjectLabel.labelBackgroundColor
+        let subjectColor = response.data.sSubjectColor
+        self.lessonInfoController.sSubjectLabel.labelBackgroundColor = UIColor.init(hex: "\(subjectColor)")
+        
+        // "sUnit" -> LessonInfoController.sUnitLabel01.labelText
+        let unitname01 = response.data.sUnit
+        if unitname01 == "" {
+            self.lessonInfoController.sUnitLabel01.labelText = "DEFAULT"
+        } else {
+            self.lessonInfoController.sUnitLabel01.labelText = unitname01
+        }
+        
+        
+        
         playVideo()
     }
 }
@@ -415,6 +444,11 @@ extension VideoController {
 // MARK: - VideoSettingPopupControllerDelegate
 
 extension VideoController: VideoSettingPopupControllerDelegate {
+    func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
+        //
+    }
+    
+
     
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()
