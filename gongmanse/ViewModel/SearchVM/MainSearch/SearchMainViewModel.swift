@@ -22,7 +22,7 @@ class SearchMainViewModel {
         }
     }
     
-    func convertGrade() -> String?{
+    func convertGrade() -> String? {
         
         guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return ""}
         
@@ -38,8 +38,10 @@ class SearchMainViewModel {
         }
     }
     
-    func convertSubject() {
-        guard let subjectText = UserDefaults.standard.object(forKey: "subjectFilterNumber") as? String else { return }
+    func convertSubject() -> String? {
+        guard let subjectText = UserDefaults.standard.object(forKey: "subjectFilterText") as? String else { return ""}
+        
+        return subjectText
     }
     
 }

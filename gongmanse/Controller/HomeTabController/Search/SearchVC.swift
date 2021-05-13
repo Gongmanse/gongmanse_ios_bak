@@ -74,14 +74,20 @@ class SearchVC: UIViewController {
         
         
         if Constant.testToken != "" {
-            let convert = searchMainVM.convertGrade()
-            gradeButton.setTitle(convert ?? "모든 학년", for: .normal)
+            let convertGrade = searchMainVM.convertGrade()
+            gradeButton.setTitle(convertGrade ?? "모든 학년", for: .normal)
+            
+            let convertSubject = searchMainVM.convertSubject()
+            subjectButton.setTitle(convertSubject ?? "모든 과목", for: .normal)
             // 뷰모델로 갈 예정
 //            gradeButton.setTitle(gradeText, for: .normal)
 //            subjectButton.setTitle(subjectText, for: .normal)
 //
 //            searchData.searchGrade = gradeText
 //            searchData.searchSubjectNumber = subjectText
+        } else {
+            gradeButton.setTitle("모든 학년", for: .normal)
+            subjectButton.setTitle("모든 과목", for: .normal)
         }
     }
     
