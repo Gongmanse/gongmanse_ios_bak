@@ -43,7 +43,7 @@ class NoteController: UIViewController {
     func configureUI() {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .vertical
         layout.itemSize.height = 300
         layout.itemSize.width = view.frame.width

@@ -66,21 +66,17 @@ class DetailScreenTabController: UIViewController{
     // MARK: - Actions
     
     @objc func handleFoldingInfoView() {
-        lessonInfoView.removeConstraints(lessonInfoView.constraints)
         
+        pageCollectionView.removeConstraint(pageCollectionView.topAnchor.constraint(equalTo: lessonInfoBottomBorderLineView.bottomAnchor))
         if isFoldingLessonInfoView {
             isFoldingLessonInfoView = false
-            lessonInfoView.setDimensions(height: 230, width: view.frame.width)
-            lessonInfoView.centerX(inView: view)
-            lessonInfoView.anchor(top: detailScreenTabBar.bottomAnchor)
-            
+            pageCollectionView.anchor(top: lessonInfoTopBorderLineView.bottomAnchor)
         } else {
             isFoldingLessonInfoView = true
-            lessonInfoView.centerX(inView: view)
-            lessonInfoView.setDimensions(height: 5, width: view.frame.width)
-            lessonInfoView.anchor(top: detailScreenTabBar.bottomAnchor)
+            pageCollectionView.anchor(top: lessonInfoBottomBorderLineView.bottomAnchor)
         }
         pageCollectionView.reloadData()
+        pageCollectionView.collectionViewLayout.invalidateLayout()
     }
     
     
@@ -95,20 +91,14 @@ class DetailScreenTabController: UIViewController{
     func configureConstraint() {
         view.addSubview(detailScreenTabBar)
         detailScreenTabBar.delegate = self
-        detailScreenTabBar.setDimensions(height: 44, width: 150)
+        detailScreenTabBar.setDimensions(height: 44, width: view.frame.width)
         detailScreenTabBar.anchor(top: view.topAnchor,
                                   left: view.leftAnchor)
         
         view.addSubview(lessonInfoView)
-        lessonInfoView.setDimensions(height: 5, width: view.frame.width)
+        lessonInfoView.setDimensions(height: 230, width: view.frame.width)
         lessonInfoView.centerX(inView: view)
         lessonInfoView.anchor(top: detailScreenTabBar.bottomAnchor)
-        
-        view.addSubview(pageCollectionView)
-        pageCollectionView.centerX(inView: detailScreenTabBar)
-        pageCollectionView.anchor(top: lessonInfoView.bottomAnchor,
-                                  bottom: view.bottomAnchor,
-                                  width: view.frame.width)
         
         let infoVC = LessonInfoController()
         self.addChild(infoVC)
@@ -124,14 +114,22 @@ class DetailScreenTabController: UIViewController{
         
         view.addSubview(lessonInfoPopupButton)
         lessonInfoPopupButton.setDimensions(height: 25, width: 25)
-        lessonInfoPopupButton.anchor(top: lessonInfoView.bottomAnchor,
-                                     right: lessonInfoView.rightAnchor,
-                                     paddingRight: 15)
+        lessonInfoPopupButton.centerX(inView: view)
+        lessonInfoPopupButton.anchor(bottom: lessonInfoView.bottomAnchor)
         
         lessonInfoView.addSubview(lessonInfoBottomBorderLineView)
         lessonInfoBottomBorderLineView.setDimensions(height: 5, width: view.frame.width)
         lessonInfoBottomBorderLineView.centerX(inView: lessonInfoView)
         lessonInfoBottomBorderLineView.anchor(bottom: lessonInfoPopupButton.topAnchor)
+        
+        view.addSubview(pageCollectionView)
+        pageCollectionView.centerX(inView: detailScreenTabBar)
+        pageCollectionView.anchor(top: lessonInfoTopBorderLineView.bottomAnchor,
+                                  bottom: view.bottomAnchor,
+                                  paddingTop: 240,
+                                  width: view.frame.width)
+        
+
     }
     
     func setupPageCollectionView(){
@@ -193,7 +191,6 @@ extension DetailScreenTabController: UICollectionViewDelegate, UICollectionViewD
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let itemAt = Int(targetContentOffset.pointee.x / self.view.frame.width)
         let indexPath = IndexPath(item: itemAt, section: 0)
-        print("DEBUG: indexPath \(indexPath)")
         detailScreenTabBar.videoMenuBarTabBarCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
     }
     
@@ -218,7 +215,7 @@ extension DetailScreenTabController: UICollectionViewDelegateFlowLayout {
 
 extension DetailScreenTabController: DetailScreenTabBarViewDelegate {
     func customMenuBar(scrollTo index: Int) {
-        print("DEBUG: index \(index)")
+        
         let indexPath = IndexPath(row: index, section: 0)
         self.pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
