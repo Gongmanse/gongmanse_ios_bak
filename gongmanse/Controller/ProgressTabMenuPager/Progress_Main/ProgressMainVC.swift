@@ -72,7 +72,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         super.viewWillAppear(animated)
         
         // 토큰 있을 때 없을 때
-        if Constant.token.isEmpty {
+        if Constant.testToken == "" {
             gradeBtn.setTitle("모든 학년", for: .normal)
             requestProgressList(subject: mainSubjectNumber, grade: "모든", gradeNum: 0, offset: 0, limit: mainLimitNumber)
             
