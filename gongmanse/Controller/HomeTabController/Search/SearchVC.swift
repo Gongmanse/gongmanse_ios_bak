@@ -76,11 +76,11 @@ class SearchVC: UIViewController {
         if Constant.testToken != "" {
             
             
-            gradeButton.setTitle(gradeText, for: .normal)
-            subjectButton.setTitle(subjectText, for: .normal)
-            
-            searchData.searchGrade = gradeText
-            searchData.searchSubjectNumber = subjectText
+//            gradeButton.setTitle(gradeText, for: .normal)
+//            subjectButton.setTitle(subjectText, for: .normal)
+//            
+//            searchData.searchGrade = gradeText
+//            searchData.searchSubjectNumber = subjectText
         }
     }
     
