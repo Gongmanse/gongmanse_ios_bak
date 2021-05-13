@@ -10,7 +10,7 @@ import UIKit
 // 아직 미완
 class SearchMainViewModel {
     
-    var delegate: PopularReloadData?
+    var delegate: TableReloadData?
     
     lazy var subjecModel: [SubjectModel] = []
     
@@ -18,10 +18,11 @@ class SearchMainViewModel {
         let getSubject = getSubjectAPI()
         getSubject.performSubjectAPI { [weak self] result in
             self?.subjecModel = result
-            self?.delegate?.reloadData()
+            self?.delegate?.reloadTable()
         }
     }
     
+    // 초등학교 1학년 -> 초등
     func convertGrade() -> String? {
         
         guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return ""}
@@ -39,9 +40,7 @@ class SearchMainViewModel {
     }
     
     func convertSubject() -> String? {
-        guard let subjectText = UserDefaults.standard.object(forKey: "subjectFilterText") as? String else { return ""}
-        
-        return subjectText
+        return UserDefaults.standard.object(forKey: "subjectFilterText") as? String
     }
     
 }

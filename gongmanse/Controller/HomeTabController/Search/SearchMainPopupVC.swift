@@ -109,9 +109,8 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
         self.dismiss(animated: true, completion: nil)
     }
 }
-extension SearchMainPopupVC: PopularReloadData {
-    
-    func reloadData() {
+extension SearchMainPopupVC: TableReloadData {
+    func reloadTable() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

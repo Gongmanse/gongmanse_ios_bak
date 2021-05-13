@@ -8,13 +8,9 @@
 import Foundation
 import Alamofire
 
-protocol PopularReloadData: class {
-    func reloadData()
-}
-
 class PopularKeywordViewModel {
     
-    var delegate: PopularReloadData?
+    var delegate: TableReloadData?
     
     var popularKeywoard: PopularKeywordModel? = nil
     
@@ -24,7 +20,7 @@ class PopularKeywordViewModel {
             switch result {
             case .success(let data):
                 self?.popularKeywoard = data
-                self?.delegate?.reloadData()
+                self?.delegate?.reloadTable()
             case .failure(let error):
                 print(error.localizedDescription)
             }
