@@ -10,9 +10,15 @@ import BottomPopup
 
 private let cellID = "SelectVideoPlayRateCell"
 
+protocol SelectVideoPlayRateVCDelegate: AnyObject {
+    func changeVideoPlayRateByBottomPopup(rate : Float)
+}
+
 class SelectVideoPlayRateVC: BottomPopupViewController {
 
     // MARK: - Properties
+    
+    weak var delegate: SelectVideoPlayRateVCDelegate?
     
     var tableView = UITableView()
     var topView = UIView()
@@ -176,8 +182,10 @@ extension SelectVideoPlayRateVC: UITableViewDelegate, UITableViewDataSource {
         default:
             rate = 1.0
         }
-        NotificationCenter.default.post(name: .changePlayVideoRate, object: nil, userInfo: ["playRate" : rate])
-
+        
+        self.dismiss(animated: true) {
+            self.delegate?.changeVideoPlayRateByBottomPopup(rate: rate)
+        }
     }
     
 }

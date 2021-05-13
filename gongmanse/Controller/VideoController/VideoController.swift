@@ -213,7 +213,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
     
-    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
@@ -415,6 +414,11 @@ extension VideoController {
 // MARK: - VideoSettingPopupControllerDelegate
 
 extension VideoController: VideoSettingPopupControllerDelegate {
+    func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
+        //
+    }
+    
+
     
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()

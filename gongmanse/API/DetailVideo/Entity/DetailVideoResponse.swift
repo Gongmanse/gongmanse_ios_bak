@@ -8,13 +8,11 @@
 import Foundation
 
 struct DetailVideoResponse: Decodable {
-    
     var data: DetailVideoData
 }
 
 
 struct DetailVideoData: Decodable {
-    
     var id: String              // 영상 ID
     var sTitle: String          // 영상 제목
     var iHasCommentary: String  // 댓글 수
@@ -37,6 +35,4 @@ struct DetailVideoData: Decodable {
     var sSubjectColor: String   // 과목 태그 색상
     var iCategoryId: String     // 카테고리 ID
     var source_url: String?      // 영상 URL
-    
-
 }

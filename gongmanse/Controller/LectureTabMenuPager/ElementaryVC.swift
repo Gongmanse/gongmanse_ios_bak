@@ -59,7 +59,7 @@ extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // MARK: Test
-        let vc = VideoController()
+        let vc = DetailScreenController(videoID: "46644")
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)
@@ -72,7 +72,6 @@ extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.appEBFontWith(size: 17)]   // Naivagation title 폰트설정
 //        nav.modalPresentationStyle = .fullScreen
 //        self.present(nav, animated: true, completion: nil)
-        
     }
 }
 
