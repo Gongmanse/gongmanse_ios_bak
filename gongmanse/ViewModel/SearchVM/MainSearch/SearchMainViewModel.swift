@@ -5,6 +5,7 @@
 //  Created by wallter on 2021/04/28.
 //
 
+
 import UIKit
 // 아직 미완
 class SearchMainViewModel {
@@ -21,9 +22,20 @@ class SearchMainViewModel {
         }
     }
     
-    func convertGrade() {
-        guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return }
+    func convertGrade() -> String?{
         
+        guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return ""}
+        
+        
+        if gradeText.contains("초등") {
+            return Grade.element.convertGrade
+        } else if gradeText.contains("중학") {
+            return Grade.middle.convertGrade
+        } else if gradeText.contains("고등") {
+            return Grade.high.convertGrade
+        } else {
+            return Grade.all.convertGrade
+        }
     }
     
     func convertSubject() {
