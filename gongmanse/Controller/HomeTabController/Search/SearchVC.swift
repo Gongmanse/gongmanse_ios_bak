@@ -74,13 +74,20 @@ class SearchVC: UIViewController {
         
         
         if Constant.testToken != "" {
+            let convertGrade = searchMainVM.convertGrade()
+            gradeButton.setTitle(convertGrade ?? "모든 학년", for: .normal)
             
-            
+            let convertSubject = searchMainVM.convertSubject()
+            subjectButton.setTitle(convertSubject ?? "모든 과목", for: .normal)
+            // 뷰모델로 갈 예정
 //            gradeButton.setTitle(gradeText, for: .normal)
 //            subjectButton.setTitle(subjectText, for: .normal)
-//            
+//
 //            searchData.searchGrade = gradeText
 //            searchData.searchSubjectNumber = subjectText
+        } else {
+            gradeButton.setTitle("모든 학년", for: .normal)
+            subjectButton.setTitle("모든 과목", for: .normal)
         }
     }
     
@@ -179,14 +186,12 @@ class SearchVC: UIViewController {
         currentIndex = index
         if index == 0 {
             let contentVC = PopularKeywordVC()
-            contentVC.delegate = self
             contentVC.popularGrade = globalSearchGrade
             contentVC.popularSubject = globalSearchSubject
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
             let contentVC = RecentKeywordVC()
-            self.delegate = contentVC
             
             // 토큰값이 없으면 isToken == false 라 최근검색어 안보임
             if Constant.testToken != "" {
@@ -396,24 +401,6 @@ extension SearchVC: UISearchBarDelegate {
     }
     
 }
-
-//MARK: - PopularKeywordVCDelegate
-// 인기 검색어에서 검색어 클릭 시, 바로 검색결과로 이동하는 로직
-
-extension SearchVC: PopularKeywordVCDelegate {
-    func filterKeyword(keyword: String) {
-        // 데이터 필터링
-        filterContentForSearchText(keyword)
-        self.keywordLog.append(keyword)
-        // 화면전환
-//        let controller = SearchAfterVC(data: filteredData)
-        let controller = SearchAfterVC()
-        let vc = UINavigationController(rootViewController: controller)
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
-}
-
 
 //MARK: - SearchAfterVCDelegate
 // SearchAfterVC 에서 검색한 키워드를 넘겨받기 위한 Delegate.

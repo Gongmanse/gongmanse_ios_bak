@@ -77,9 +77,7 @@ class SearchAfterVC: UIViewController {
     }
     
     @objc func allKeyword(_ sender: Notification) {
-//        userInfoKeyword = sender.userInfo
         
-//        searchBar.text = userInfoKeyword?["text"] as? String ?? ""
         searchBar.text = searchData.searchText
         
     }

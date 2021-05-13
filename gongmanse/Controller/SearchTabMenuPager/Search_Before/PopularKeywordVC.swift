@@ -9,18 +9,11 @@ import UIKit
 
 private let cellId = "PopularKeywordCell"
 
-// 인기 검색어 cell 클릭 시, 바로 검색결과화면으로 이동하기 위한 Protocol
-protocol PopularKeywordVCDelegate: class {
-    func filterKeyword(keyword: String)
-}
-
 class PopularKeywordVC: UIViewController {
     
     
 
     //MARK: - Properties
-    
-    weak var delegate: PopularKeywordVCDelegate?
     
     var pageIndex: Int!
     var dummy = searchs     // TODO: 추후에 검색어 순위 데이터 받아올 프로퍼티
@@ -108,8 +101,9 @@ extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension PopularKeywordVC: PopularReloadData {
-    func reloadData() {
+extension PopularKeywordVC: TableReloadData {
+    
+    func reloadTable() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
