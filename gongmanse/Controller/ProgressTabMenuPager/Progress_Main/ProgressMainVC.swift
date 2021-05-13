@@ -274,14 +274,17 @@ extension ProgressMainVC: UITableViewDelegate, UITableViewDataSource {
             cell.subjectLabel.text = progressBodyDataList?[indexPath.row].subject
             cell.subjectColor.backgroundColor = UIColor(hex: progressBodyDataList?[indexPath.row].subjectColor ?? "")
             
-            // 리팩토링 예정
-            if progressBodyDataList?[indexPath.row].grade == "초등" {
-                cell.gradeLabel.text = "초"
-            }else if progressBodyDataList?[indexPath.row].grade == "중등" {
-                cell.gradeLabel.text = "중"
-            }else if progressBodyDataList?[indexPath.row].grade == "고등" {
-                cell.gradeLabel.text = "고"
+            
+            let gradeTitle = progressBodyDataList?[indexPath.row].grade
+            
+            if gradeTitle == "초등" {
+                cell.gradeLabel.text = OneGrade.element.oneWord
+            } else if gradeTitle == "중등" {
+                cell.gradeLabel.text = OneGrade.middle.oneWord
+            }else if gradeTitle == "고등" {
+                cell.gradeLabel.text = OneGrade.high.oneWord
             }
+            
             
             let totalRows = tableView.numberOfRows(inSection: indexPath.section)
             
