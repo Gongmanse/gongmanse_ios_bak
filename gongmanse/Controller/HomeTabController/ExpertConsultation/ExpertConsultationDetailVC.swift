@@ -48,8 +48,13 @@ class ExpertConsultationDetailVC: UIViewController {
         self.consultImageView.sd_setImage(with: thumbnailURL)
         self.profileNickName.text = receiveData?.sNickname
         self.registerDate.text = receiveData?.dtRegister
-        self.questionLabel.text = receiveData?.sQuestion
-        self.answerLabel.text = receiveData?.sAnswer
+        self.questionLabel.text = receiveData?.sQuestion?.htmlEscaped
+        
+        if receiveData?.iAnswer == "0" {
+            answerLabel.text = "답변을 기다리는 중입니다."
+        } else {
+            self.answerLabel.text = receiveData?.sAnswer?.htmlEscaped
+        }
     }
     
     //네비게이션 바와 프로필 뷰 설정
