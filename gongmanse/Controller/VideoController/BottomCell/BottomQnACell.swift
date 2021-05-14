@@ -19,6 +19,9 @@ enum QnAChat {
 
 class BottomQnACell: UICollectionViewCell {
     
+    
+    let videoVM = VideoQnAVideModel()
+    
     var label: UILabel = {
         let label = UILabel()
         label.text = "강의 QnA"
@@ -92,6 +95,31 @@ class BottomQnACell: UICollectionViewCell {
        // initialize what is needed
     }
     
+}
+
+extension BottomQnACell: UITableViewDelegate {
+    
+}
+
+extension BottomQnACell: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return videoVM.videoQnAInformation?.data.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: myChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
+        cell.textLabel?.text = videoVM.videoQnAInformation?.data[indexPath.row].sNickname
+        return cell
+    }
+}
+
+
+
+
+extension BottomQnACell {
+    
     func configuration() {
         
         contentView.addSubview(tableView)
@@ -102,8 +130,12 @@ class BottomQnACell: UICollectionViewCell {
         
         tableView.delegate = self
         tableView.dataSource = self
+        videoVM.reloadDelegate = self
         tableView.register(QnAMyChatCell.self, forCellReuseIdentifier: myChatIdentifier)
         tableView.register(QnAOthersChatCell.self, forCellReuseIdentifier: otherChatIdentifier)
+        
+        
+        videoVM.requestVideoQnA("16157")
     }
     
     func constraints() {
@@ -126,20 +158,11 @@ class BottomQnACell: UICollectionViewCell {
     }
 }
 
-extension BottomQnACell: UITableViewDelegate {
+extension BottomQnACell: TableReloadData {
     
-}
-
-extension BottomQnACell: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: myChatIdentifier, for: indexPath) as? QnAMyChatCell else { return UITableViewCell() }
-        cell.textLabel?.text = "A"
-        return cell
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

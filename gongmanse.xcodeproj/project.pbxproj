@@ -346,6 +346,9 @@
 		C2A39E11264E17A80046290D /* QnAMyChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */; };
 		C2A39E15264E21080046290D /* QnAOthersChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A39E13264E21080046290D /* QnAOthersChatCell.swift */; };
 		C2A39E16264E21080046290D /* QnAOthersChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A39E14264E21080046290D /* QnAOthersChatCell.xib */; };
+		C2A39E19264E599E0046290D /* VideoQnAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A39E18264E599E0046290D /* VideoQnAModel.swift */; };
+		C2A39E1C264E5AA00046290D /* VideoQnAAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A39E1B264E5AA00046290D /* VideoQnAAPIManager.swift */; };
+		C2A39E1F264E5C3E0046290D /* VideoQnAVideModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A39E1E264E5C3E0046290D /* VideoQnAVideModel.swift */; };
 		C2A4B8952626BBC900173261 /* RequestEventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8942626BBC900173261 /* RequestEventAPI.swift */; };
 		C2A4B8982626BC0000173261 /* EventListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8972626BC0000173261 /* EventListModel.swift */; };
 		C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B89B2626CA6300173261 /* EventListCell.swift */; };
@@ -712,6 +715,9 @@
 		C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QnAMyChatCell.xib; sourceTree = "<group>"; };
 		C2A39E13264E21080046290D /* QnAOthersChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAOthersChatCell.swift; sourceTree = "<group>"; };
 		C2A39E14264E21080046290D /* QnAOthersChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QnAOthersChatCell.xib; sourceTree = "<group>"; };
+		C2A39E18264E599E0046290D /* VideoQnAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQnAModel.swift; sourceTree = "<group>"; };
+		C2A39E1B264E5AA00046290D /* VideoQnAAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQnAAPIManager.swift; sourceTree = "<group>"; };
+		C2A39E1E264E5C3E0046290D /* VideoQnAVideModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQnAVideModel.swift; sourceTree = "<group>"; };
 		C2A4B8942626BBC900173261 /* RequestEventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestEventAPI.swift; sourceTree = "<group>"; };
 		C2A4B8972626BC0000173261 /* EventListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListModel.swift; sourceTree = "<group>"; };
 		C2A4B89B2626CA6300173261 /* EventListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListCell.swift; sourceTree = "<group>"; };
@@ -1132,6 +1138,9 @@
 				C2A39E13264E21080046290D /* QnAOthersChatCell.swift */,
 				C2A39E14264E21080046290D /* QnAOthersChatCell.xib */,
 				2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */,
+				C2A39E18264E599E0046290D /* VideoQnAModel.swift */,
+				C2A39E1B264E5AA00046290D /* VideoQnAAPIManager.swift */,
+				C2A39E1E264E5C3E0046290D /* VideoQnAVideModel.swift */,
 			);
 			path = BottomCell;
 			sourceTree = "<group>";
@@ -2713,6 +2722,7 @@
 				6CF2E66525F0AA8E000FE084 /* SocialStudiesVC.swift in Sources */,
 				259B8B6226030065009A7146 /* UIImage.swift in Sources */,
 				6CF2E65F25F0AA45000FE084 /* KoreanEnglishMathVC.swift in Sources */,
+				C2A39E19264E599E0046290D /* VideoQnAModel.swift in Sources */,
 				C23302782638F8BD0058592E /* PopularAPIManager.swift in Sources */,
 				2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */,
 				259B8B9E260301B7009A7146 /* RecentKeywordCell.swift in Sources */,
@@ -2742,6 +2752,7 @@
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
 				C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */,
 				C207F5D126266CEC0020A965 /* LectureListModel.swift in Sources */,
+				C2A39E1C264E5AA00046290D /* VideoQnAAPIManager.swift in Sources */,
 				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
 				2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
@@ -2844,6 +2855,7 @@
 				C20C8E292645048100B0566A /* ApiTypealias.swift in Sources */,
 				A9129ED72616A0B000041CC5 /* GongManseStoryVC.swift in Sources */,
 				259B8BD426030558009A7146 /* ProgressSocialVC.swift in Sources */,
+				C2A39E1F264E5C3E0046290D /* VideoQnAVideModel.swift in Sources */,
 				6CBEEAB2264D1FAC0006795D /* ConsultImageViewCell.swift in Sources */,
 				25126D66261175EA00009526 /* LoginInput.swift in Sources */,
 				6C4C38AB25FF4C0A00653A61 /* ExpertConsultTVCell.swift in Sources */,
