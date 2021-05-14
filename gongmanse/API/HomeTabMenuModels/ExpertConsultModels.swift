@@ -19,3 +19,7 @@ struct ExpertModelData: Codable {
     var dtRegister: String?
     var sFilepaths: String?
 }
+
+struct ExpertConsultImageData: Codable {
+    var data: [String]
+}
