@@ -10,5 +10,5 @@ target 'gongmanse' do
   pod 'SideMenu'
   pod 'SDWebImage', '~>4.4.2'
   pod 'BottomPopup'
-  
+  pod 'FSCalendar'
 end
