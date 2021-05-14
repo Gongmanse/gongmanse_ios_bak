@@ -21,22 +21,22 @@
                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2EI-e5-7jI">
                         <rect key="frame" x="10" y="10" width="254" height="101"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" scrollEnabled="NO" text="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nb8-Gx-boL">
-                                <rect key="frame" x="0.0" y="0.0" width="224" height="101"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" scrollEnabled="NO" text="00 00 00 00 00 00 00 00 00 00 00 00 00 00" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nb8-Gx-boL">
+                                <rect key="frame" x="0.0" y="0.0" width="214" height="49.5"/>
                                 <color key="backgroundColor" systemColor="systemYellowColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="idOff" translatesAutoresizingMaskIntoConstraints="NO" id="67k-8X-qeL">
-                                <rect key="frame" x="234" y="0.0" width="20" height="24"/>
+                                <rect key="frame" x="224" y="0.0" width="30" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="QIz-iV-qzv"/>
+                                    <constraint firstAttribute="height" constant="30" id="whE-iF-D87"/>
+                                </constraints>
                             </imageView>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="nb8-Gx-boL" secondAttribute="bottom" id="pg2-zw-qvI"/>
-                            <constraint firstItem="nb8-Gx-boL" firstAttribute="leading" secondItem="2EI-e5-7jI" secondAttribute="leading" id="qGG-ux-dSO"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

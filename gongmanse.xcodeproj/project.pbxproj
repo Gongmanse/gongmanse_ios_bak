@@ -344,6 +344,8 @@
 		C2A0808D26256D890014C3C0 /* UseLectureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A0808B26256D890014C3C0 /* UseLectureCell.xib */; };
 		C2A39E10264E17A80046290D /* QnAMyChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A39E0E264E17A80046290D /* QnAMyChatCell.swift */; };
 		C2A39E11264E17A80046290D /* QnAMyChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */; };
+		C2A39E15264E21080046290D /* QnAOthersChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A39E13264E21080046290D /* QnAOthersChatCell.swift */; };
+		C2A39E16264E21080046290D /* QnAOthersChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A39E14264E21080046290D /* QnAOthersChatCell.xib */; };
 		C2A4B8952626BBC900173261 /* RequestEventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8942626BBC900173261 /* RequestEventAPI.swift */; };
 		C2A4B8982626BC0000173261 /* EventListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B8972626BC0000173261 /* EventListModel.swift */; };
 		C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A4B89B2626CA6300173261 /* EventListCell.swift */; };
@@ -708,6 +710,8 @@
 		C2A0808B26256D890014C3C0 /* UseLectureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UseLectureCell.xib; sourceTree = "<group>"; };
 		C2A39E0E264E17A80046290D /* QnAMyChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAMyChatCell.swift; sourceTree = "<group>"; };
 		C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QnAMyChatCell.xib; sourceTree = "<group>"; };
+		C2A39E13264E21080046290D /* QnAOthersChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QnAOthersChatCell.swift; sourceTree = "<group>"; };
+		C2A39E14264E21080046290D /* QnAOthersChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QnAOthersChatCell.xib; sourceTree = "<group>"; };
 		C2A4B8942626BBC900173261 /* RequestEventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestEventAPI.swift; sourceTree = "<group>"; };
 		C2A4B8972626BC0000173261 /* EventListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListModel.swift; sourceTree = "<group>"; };
 		C2A4B89B2626CA6300173261 /* EventListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListCell.swift; sourceTree = "<group>"; };
@@ -1125,6 +1129,8 @@
 				2580CF47261A916E00D78E4E /* BottomQnACell.swift */,
 				C2A39E0E264E17A80046290D /* QnAMyChatCell.swift */,
 				C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */,
+				C2A39E13264E21080046290D /* QnAOthersChatCell.swift */,
+				C2A39E14264E21080046290D /* QnAOthersChatCell.xib */,
 				2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */,
 			);
 			path = BottomCell;
@@ -2601,6 +2607,7 @@
 				259B8BE7260305B3009A7146 /* PopularKeywordVC.xib in Resources */,
 				6CD7C3CE25F086E60092D30E /* Assets.xcassets in Resources */,
 				C2A0808D26256D890014C3C0 /* UseLectureCell.xib in Resources */,
+				C2A39E16264E21080046290D /* QnAOthersChatCell.xib in Resources */,
 				259B8C0C26030632009A7146 /* MiddleSchoolVC.xib in Resources */,
 				C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */,
 				259B8C1A26030646009A7146 /* LecturePlaylistVC.xib in Resources */,
@@ -2738,6 +2745,7 @@
 				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
 				2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
+				C2A39E15264E21080046290D /* QnAOthersChatCell.swift in Sources */,
 				C28B27AE261C421700419E5E /* FilteringGradePopUpVC.swift in Sources */,
 				257459282613FBAA007A2A5D /* FindingIDResultInput.swift in Sources */,
 				C282207B26281E8A0066EC9B /* ProgressListAPI.swift in Sources */,
