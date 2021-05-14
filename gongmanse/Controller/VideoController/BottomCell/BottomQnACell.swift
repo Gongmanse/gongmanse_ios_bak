@@ -98,7 +98,9 @@ class BottomQnACell: UICollectionViewCell {
 }
 
 extension BottomQnACell: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 }
 
 extension BottomQnACell: UITableViewDataSource {
@@ -109,10 +111,16 @@ extension BottomQnACell: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: myChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
-        cell.textLabel?.text = videoVM.videoQnAInformation?.data[indexPath.row].sNickname
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
+        
+        let short = videoVM.videoQnAInformation?.data[indexPath.row]
+        
+//        cell.questionLabel.text = "a"
+        cell.questionLabel.text = "A. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
         return cell
     }
+    
+
 }
 
 
@@ -132,7 +140,9 @@ extension BottomQnACell {
         tableView.dataSource = self
         videoVM.reloadDelegate = self
         tableView.register(QnAMyChatCell.self, forCellReuseIdentifier: myChatIdentifier)
-        tableView.register(QnAOthersChatCell.self, forCellReuseIdentifier: otherChatIdentifier)
+        
+        let nib = UINib(nibName: otherChatIdentifier, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: otherChatIdentifier)
         
         
         videoVM.requestVideoQnA("16157")

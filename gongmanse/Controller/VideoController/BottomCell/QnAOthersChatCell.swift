@@ -9,6 +9,10 @@ import UIKit
 
 class QnAOthersChatCell: UITableViewCell {
 
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var questionLabel: UITextView!
+    @IBOutlet weak var stackColor: UIStackView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
