@@ -35,7 +35,7 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
         alertViewSettings()
         placeholderSetting()
         
-        pageView.numberOfPages = 3
+        //pageView.numberOfPages = images.count
         pageView.currentPage = 0
         pageView.isEnabled = false
         pageView.isHidden = true
@@ -147,7 +147,6 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
             self.imagePicker.delegate = self
             self.imagePicker.allowsEditing = true
             self.present(imagePicker, animated: true, completion: nil)
-            pageView.isHidden = false
         } else if status == .denied {
             //허용 안한 상태
             setAuthAlertAction()
@@ -196,6 +195,17 @@ extension ExpertConsultationFloatingVC: UICollectionViewDelegate, UICollectionVi
         
         if let imageView = cell.viewWithTag(1000) as? UIImageView {
             imageView.image = images[indexPath.item]
+        }
+        
+        if images.count == 0 {
+            pageView.isHidden = true
+        } else if images.count == 1 {
+            pageView.isHidden = false
+            pageView.numberOfPages = 1
+        } else if images.count == 2 {
+            pageView.numberOfPages = 2
+        } else if images.count == 3 {
+            pageView.numberOfPages = 3
         }
         
         cell.index = indexPath
