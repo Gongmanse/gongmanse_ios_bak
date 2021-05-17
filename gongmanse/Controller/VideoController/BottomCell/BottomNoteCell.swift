@@ -25,6 +25,7 @@ class BottomNoteCell: UICollectionViewCell {
         self.backgroundColor = .white
         label.centerX(inView: self)
         label.centerY(inView: self)
+        self.backgroundColor = .red
     }
  
     required init?(coder: NSCoder) {

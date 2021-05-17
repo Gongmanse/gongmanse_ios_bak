@@ -332,6 +332,15 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         switch indexPath.row {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
+            let noteVC = DetailNoteController()
+            self.addChild(noteVC)
+            noteVC.didMove(toParent: self)
+            cell.contentView.addSubview(noteVC.view)
+            noteVC.view.anchor(top: cell.contentView.topAnchor,
+                               left: cell.contentView.leftAnchor,
+                               bottom: cell.contentView.bottomAnchor,
+                               right: cell.contentView.rightAnchor)
+            noteVC.view.layoutIfNeeded()
             return cell
             
         case 1:

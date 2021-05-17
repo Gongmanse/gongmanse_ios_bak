@@ -13,7 +13,6 @@ class NoteImageCell: UICollectionViewCell {
     
     private let view: UIView = {
         let view = UIView()
-        view.backgroundColor = .mainOrange
         return view
     }()
     
@@ -22,7 +21,6 @@ class NoteImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -32,7 +30,6 @@ class NoteImageCell: UICollectionViewCell {
     func configureUI() {
         self.addSubview(view)
         view.frame = self.bounds
-        view.backgroundColor = .green
+//        view.backgroundColor = .green
     }
-    
 }
