@@ -28,7 +28,7 @@ class ElementaryVC: UIViewController {
         
         configrueCollectionView()
         lectureVM.reloadDelgate = self
-        lectureVM.lectureListGetApi(grade: "고등", offset: "0")
+        lectureVM.lectureListGetApi(grade: "초등", offset: "0")
     }
 
     //MARK: - Actions
