@@ -237,7 +237,7 @@ extension ScienceVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width - 40
-        return CGSize(width: width, height: 225)
+        return CGSize(width: width, height: 265)
     }
 }
 
