@@ -329,10 +329,12 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         switch indexPath.row {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
-            let noteVC = DetailNoteController()
+            guard let id = self.id else { return  UICollectionViewCell() }
+            let noteVC = DetailNoteController(id: id, token: Constant.token)
             self.addChild(noteVC)
             noteVC.didMove(toParent: self)
             cell.contentView.addSubview(noteVC.view)
@@ -456,9 +458,7 @@ extension VideoController: VideoSettingPopupControllerDelegate {
     func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
         //
     }
-    
 
-    
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()
         present(vc, animated: true)

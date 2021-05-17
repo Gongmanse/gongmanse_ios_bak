@@ -11,9 +11,17 @@ class NoteImageCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    private let view: UIView = {
-        let view = UIView()
-        return view
+    var url: String? {
+        didSet {
+//            noteImageView.sd_setImage(with: URL(string: url ?? ""))
+//            noteImageView.sizeToFit()
+        }
+    }
+    
+    public var noteImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .left
+        return imageView
     }()
     
     //MARK: - Lifecycle
@@ -28,8 +36,13 @@ class NoteImageCell: UICollectionViewCell {
     }
     
     func configureUI() {
-        self.addSubview(view)
-        view.frame = self.bounds
-//        view.backgroundColor = .green
+        self.addSubview(noteImageView)
+        noteImageView.anchor(top: self.topAnchor,
+                             left: self.leftAnchor,
+                             bottom: self.bottomAnchor,
+                             right: self.rightAnchor)
+        noteImageView.backgroundColor = .gray
     }
+    
+
 }
