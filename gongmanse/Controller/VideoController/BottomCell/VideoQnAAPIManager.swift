@@ -10,6 +10,8 @@ import Alamofire
 
 struct VideoQnAAPIManager {
     
+    // QnA 목록 불러오는 메서드
+    
     func fetchVideoQnAGetApi(_ videoId: String, _ token: String, completion: @escaping resultModel<VideoQnAModel>) {
         
         let videoUrl = "\(apiBaseURL)/v/video/detail_qna?video_id=\(videoId)&token=\(token)"
@@ -25,6 +27,8 @@ struct VideoQnAAPIManager {
                 }
             }
     }
+    
+    // QnA 목록 추가하는 메서드
     
     func fetchVideoQnAInsertApi(_ parameter: VideoQnAPostModel, completion: @escaping () -> Void ) {
         let data = parameter

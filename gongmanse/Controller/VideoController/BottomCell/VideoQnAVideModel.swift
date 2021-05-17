@@ -18,7 +18,7 @@ class VideoQnAVideModel {
     func requestVideoQnA(_ videoId: String) {
         
         videoQnAManager.fetchVideoQnAGetApi(videoId, Constant.testToken) { response in
-            print(videoId)
+            
             switch response {
             case .success(let data):
                 self.videoQnAInformation = data

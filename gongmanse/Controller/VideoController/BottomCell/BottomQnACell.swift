@@ -75,6 +75,13 @@ class BottomQnACell: UICollectionViewCell {
         return stack
     }()
     //MARK: - Lifecycle
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        
+        videoVM.requestVideoQnA(videoID)
+        videoVM.reloadDelegate = self
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -105,9 +112,10 @@ class BottomQnACell: UICollectionViewCell {
     
     
     @objc func textPostButtonAction(_ sender: UIButton) {
-        print("A")
+        
         if sendText.text != "" {
             videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
+            videoVM.requestVideoQnA(videoID)
         }
         
     }
@@ -162,8 +170,6 @@ extension BottomQnACell {
         let nib = UINib(nibName: otherChatIdentifier, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: otherChatIdentifier)
         
-        print(videoID)
-        videoVM.requestVideoQnA(videoID)
     }
     
     func constraints() {
