@@ -15,21 +15,26 @@ class DetailNoteController: UIViewController {
     // MARK: - Properties
     // MARK: Data
     
-    var noteImageArr = [UIImage]() {
+    var noteImageCount = 0
+    
+    var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
+    {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    var url: String? {
-        didSet { collectionView.reloadData() }
-    }
+    var url: String?
+//    {
+//        didSet { collectionView.reloadData() }
+//    }
     
-    var receivedNoteImage: UIImage? {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    var receivedNoteImage: UIImage?
+//    {
+//        didSet {
+//            collectionView.reloadData()
+//        }
+//    }
     
     var id: String?
     var token: String?
@@ -42,7 +47,7 @@ class DetailNoteController: UIViewController {
     }()
     
     let layout = UICollectionViewFlowLayout()
-    lazy var frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height)
+    lazy var frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
     lazy var collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
     
     
@@ -109,12 +114,6 @@ class DetailNoteController: UIViewController {
                               bottom: view.bottomAnchor,
                               right: view.rightAnchor)
         collectionView.register(NoteImageCell.self, forCellWithReuseIdentifier: cellID)
-        
-//        view.addSubview(textImageView)
-//        textImageView.setDimensions(height: view.frame.height, width: view.frame.width)
-//        textImageView.anchor(top: view.topAnchor,
-//                             left: view.leftAnchor)
-        
     }
     
     func configureCollectionView() {
@@ -126,34 +125,16 @@ class DetailNoteController: UIViewController {
 extension DetailNoteController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("DEBUG: self.noteImageArr.count \(self.noteImageArr.count)")
-        return self.noteImageArr.count
+        return self.noteImageCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NoteImageCell
-        
-        
         let image = noteImageArr[indexPath.row]
-        resize(image: image, scale: 0.44) { image in
+        resize(image: image, scale: 0.45) { image in
             cell.noteImageView.image = image
-            cell.noteImageView.sizeToFit()
         }
-        
-        //        if let receivedImage = self.receivedNoteImage {
-        ////            cell.noteImageView.image = receivedImage
-        //
-        //            resize(image: receivedImage, scale: 0.44) { image in
-        //                cell.noteImageView.image = image
-        //                cell.noteImageView.sizeToFit()
-        //            }
-        //
-        //        }
-        
-        
-        //        if let receivedURL = self.url {
-        //            cell.url = receivedURL
-        //        }
-        
         return cell
     }
     
@@ -168,19 +149,16 @@ extension DetailNoteController {
     func didSucceedReceiveNoteData(responseData: NoteResponse) {
         
         guard let data = responseData.data else { return }
+        self.noteImageCount = data.sNotes.count
         
-        for noteData in data.sNotes {
-            let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(noteData)")
-            print("DEBUG: 이 URL이 사진입니다. \(convertedURL)")
-            let convertedImage = getImageFromURL(url: convertedURL)
-
+        for noteData in 0 ... (self.noteImageCount-1) {
+            let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
+            getImageFromURL(url: convertedURL, index: noteData)
         }
         collectionView.reloadData()
-
-        
     }
     
-    func getImageFromURL(url: String) -> UIImage {
+    func getImageFromURL(url: String, index: Int) {
         
         var resultImage = UIImage()
         
@@ -191,13 +169,11 @@ extension DetailNoteController {
                 DispatchQueue.main.async {
                     resultImage = UIImage(data: data)!
                     self.noteImageArr.append(resultImage)
-//                    self.textImageView.image = resultImage
+                    self.noteImageArr[index] = resultImage
                 }
             }
             task.resume()
         }
-        return resultImage
-
     }
     
     

@@ -20,7 +20,7 @@ class NoteImageCell: UICollectionViewCell {
     
     public var noteImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .left
+        imageView.contentMode = .topLeft
         return imageView
     }()
     
