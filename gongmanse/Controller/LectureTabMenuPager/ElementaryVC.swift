@@ -15,7 +15,7 @@ class ElementaryVC: UIViewController {
     
     var pageIndex: Int!
     
-    
+    let lectureVM = LectureTapViewModel()
     //MARK: - IBOutlet
     
     @IBOutlet weak var collectionview: UICollectionView!
@@ -27,6 +27,8 @@ class ElementaryVC: UIViewController {
         super.viewDidLoad()
         
         configrueCollectionView()
+        lectureVM.reloadDelgate = self
+        lectureVM.lectureListGetApi(grade: "고등", offset: "0")
     }
 
     //MARK: - Actions
@@ -39,8 +41,6 @@ class ElementaryVC: UIViewController {
 
     }
     
-    //MARK: - Helper functions
-    
     
 }
 
@@ -49,29 +49,35 @@ class ElementaryVC: UIViewController {
 
 extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return lectureVM.lectureList?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CurriculumCell
+        
+        let indexData = lectureVM.lectureList?.data[indexPath.row]
+        let images = "\(fileBaseURL)/\(indexData?.sThumbnail ?? "")"
+        
+        cell.lectureImage.setImageUrl(images)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // MARK: Test
-        let vc = DetailScreenController(videoID: "46644")
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: true)
+//        let vc = DetailScreenController(videoID: "46644")
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        self.present(nav, animated: true)
         
         
         // 클릭 시 선생별 플레이리스트 화면으로 이동
         // 추후에 아래 코드로 상세페이지 화면전환한다 - 영상페이지 테스트를 위한 임시 주석처리
-//        let vc = TeacherPlaylistVC()
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.appEBFontWith(size: 17)]   // Naivagation title 폰트설정
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true, completion: nil)
+        let vc = TeacherPlaylistVC()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.appEBFontWith(size: 17)]   // Naivagation title 폰트설정
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
 }
 
@@ -96,4 +102,12 @@ extension ElementaryVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 190)
     }
 
+}
+
+extension ElementaryVC: CollectionReloadData {
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            self.collectionview.reloadData()
+        }
+    }
 }

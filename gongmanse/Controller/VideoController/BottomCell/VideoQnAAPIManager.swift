@@ -19,7 +19,8 @@ struct VideoQnAAPIManager {
                 switch response.result {
                 case .success(let data):
                     completion(.success(data))
-                case .failure(_):
+                case .failure(let err):
+                    print(err.localizedDescription)
                     completion(.failure(.noRequest))
                 }
             }
@@ -41,7 +42,8 @@ struct VideoQnAAPIManager {
             case .success(let data):
                 print(data)
                 completion(.success(data))
-            case .failure(_):
+            case .failure(let err):
+                print(err.localizedDescription)
                 completion(.failure(.noRequest))
             }
         }
