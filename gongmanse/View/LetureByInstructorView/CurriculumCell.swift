@@ -10,6 +10,8 @@ import UIKit
 
 class CurriculumCell: UICollectionViewCell {
 
+    @IBOutlet weak var lectureImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

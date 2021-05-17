@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +19,18 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zV0-Z6-Zll">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="184"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nkd-i1-nLT">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="184"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Nkd-i1-nLT" secondAttribute="trailing" id="O0C-Gw-Pd9"/>
+                            <constraint firstAttribute="bottom" secondItem="Nkd-i1-nLT" secondAttribute="bottom" id="Qj0-4b-dCw"/>
+                            <constraint firstItem="Nkd-i1-nLT" firstAttribute="top" secondItem="zV0-Z6-Zll" secondAttribute="top" id="SuA-my-AVN"/>
+                            <constraint firstItem="Nkd-i1-nLT" firstAttribute="leading" secondItem="zV0-Z6-Zll" secondAttribute="leading" id="vOw-Wc-cMp"/>
+                        </constraints>
                     </view>
                 </subviews>
             </view>
@@ -32,12 +42,10 @@
                 <constraint firstItem="zV0-Z6-Zll" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fmI-gP-ShR"/>
             </constraints>
             <size key="customSize" width="414" height="184"/>
+            <connections>
+                <outlet property="lectureImage" destination="Nkd-i1-nLT" id="pHy-y1-S8H"/>
+            </connections>
             <point key="canvasLocation" x="137.68115942028987" y="174.77678571428569"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>

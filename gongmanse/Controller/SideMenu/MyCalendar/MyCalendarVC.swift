@@ -16,7 +16,7 @@ class MyCalendarVC: UIViewController {
         view.appearance.titleFont = .appBoldFontWith(size: 20)                      // 일정라벨 ( 1, 2, 3 -- ) 폰트 변경
         
         
-        view.placeholderType = .none            // 현재달에서 다음달, 이전달 날짜 나오는 상태 변경
+        view.placeholderType = .none                                                // 현재달에서 다음달, 이전달 날짜 나오는 상태 변경
         view.locale = Locale(identifier: "ko_KR")
         view.calendarWeekdayView.weekdayLabels[0].textColor = .rgb(red: 255, green: 0, blue: 35)    // 일 색 변경
         view.calendarWeekdayView.weekdayLabels[6].textColor = .rgb(red: 21, green: 176, blue: 172)  // 토 색 변경
