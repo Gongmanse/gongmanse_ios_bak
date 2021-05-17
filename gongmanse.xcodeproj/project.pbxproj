@@ -1142,16 +1142,9 @@
 		2580CF54261A924200D78E4E /* BottomCell */ = {
 			isa = PBXGroup;
 			children = (
+				C26F03FE26527C8E00CAE415 /* BottomQnA */,
 				2580CF44261A916300D78E4E /* BottomNoteCell.swift */,
-				2580CF47261A916E00D78E4E /* BottomQnACell.swift */,
-				C2A39E0E264E17A80046290D /* QnAMyChatCell.swift */,
-				C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */,
-				C2A39E13264E21080046290D /* QnAOthersChatCell.swift */,
-				C2A39E14264E21080046290D /* QnAOthersChatCell.xib */,
 				2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */,
-				C2A39E18264E599E0046290D /* VideoQnAModel.swift */,
-				C2A39E1B264E5AA00046290D /* VideoQnAAPIManager.swift */,
-				C2A39E1E264E5C3E0046290D /* VideoQnAVideModel.swift */,
 			);
 			path = BottomCell;
 			sourceTree = "<group>";
@@ -1262,6 +1255,7 @@
 		258B5E9A2609D81600F470B7 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C26F040226527CE500CAE415 /* Video */,
 				C2A5B0092652424300D13DBC /* LectureTap */,
 				C23302762638F8A40058592E /* Search */,
 				25BA75C5263686B000C1F8A0 /* DetailVideo */,
@@ -1325,6 +1319,7 @@
 		259B8B4C26030018009A7146 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C26F040026527CC200CAE415 /* Video */,
 				C27CB3F22652456000631B3A /* LectureTap */,
 				25BA75D42636953000C1F8A0 /* DetailVideo */,
 				A9129EE42616CCF900041CC5 /* Sidemenu */,
@@ -1339,6 +1334,7 @@
 		259B8B4D2603001C009A7146 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C26F040126527CD600CAE415 /* Video */,
 				C2A5B002265240A500D13DBC /* LectureTap */,
 				A9850EEE2616130300908BA4 /* SideMenu */,
 				259B8B672603008A009A7146 /* Progress */,
@@ -2374,6 +2370,42 @@
 				C2448C6126292912008CE4A1 /* PaddingLabel.swift */,
 			);
 			path = Label;
+			sourceTree = "<group>";
+		};
+		C26F03FE26527C8E00CAE415 /* BottomQnA */ = {
+			isa = PBXGroup;
+			children = (
+				2580CF47261A916E00D78E4E /* BottomQnACell.swift */,
+				C2A39E0E264E17A80046290D /* QnAMyChatCell.swift */,
+				C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */,
+				C2A39E13264E21080046290D /* QnAOthersChatCell.swift */,
+				C2A39E14264E21080046290D /* QnAOthersChatCell.xib */,
+			);
+			path = BottomQnA;
+			sourceTree = "<group>";
+		};
+		C26F040026527CC200CAE415 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				C2A39E1E264E5C3E0046290D /* VideoQnAVideModel.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+		C26F040126527CD600CAE415 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				C2A39E18264E599E0046290D /* VideoQnAModel.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+		C26F040226527CE500CAE415 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				C2A39E1B264E5AA00046290D /* VideoQnAAPIManager.swift */,
+			);
+			path = Video;
 			sourceTree = "<group>";
 		};
 		C279FA7D264CB151009FA317 /* Enum */ = {
