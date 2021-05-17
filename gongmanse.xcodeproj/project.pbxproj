@@ -245,6 +245,9 @@
 		6CBEEA88264B71AF0006795D /* DateTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBEEA87264B71AF0006795D /* DateTransfer.swift */; };
 		6CBEEA97264CBC0D0006795D /* HtmlTagDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBEEA96264CBC0D0006795D /* HtmlTagDelete.swift */; };
 		6CBEEAB9264E42CB0006795D /* ImageSliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBEEAB8264E42CB0006795D /* ImageSliderCollectionViewCell.swift */; };
+		6CBEEAC8265245470006795D /* BottomPlaylistTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBEEAC6265245470006795D /* BottomPlaylistTVCell.swift */; };
+		6CBEEAC9265245470006795D /* BottomPlaylistTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBEEAC7265245470006795D /* BottomPlaylistTVCell.xib */; };
+		6CBEEACC26526AFD0006795D /* PlayListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBEEACB26526AFC0006795D /* PlayListAPI.swift */; };
 		6CBF2DE1264A56F10017870F /* ConsultUploadImageDefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBF2DDF264A56F10017870F /* ConsultUploadImageDefaultCell.swift */; };
 		6CBF2DE2264A56F10017870F /* ConsultUploadImageDefaultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBF2DE0264A56F10017870F /* ConsultUploadImageDefaultCell.xib */; };
 		6CC1F06825F9CD6A00A909B0 /* RecommendCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1F06725F9CD6A00A909B0 /* RecommendCRV.swift */; };
@@ -603,6 +606,9 @@
 		6CBEEA87264B71AF0006795D /* DateTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTransfer.swift; sourceTree = "<group>"; };
 		6CBEEA96264CBC0D0006795D /* HtmlTagDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlTagDelete.swift; sourceTree = "<group>"; };
 		6CBEEAB8264E42CB0006795D /* ImageSliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderCollectionViewCell.swift; sourceTree = "<group>"; };
+		6CBEEAC6265245470006795D /* BottomPlaylistTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPlaylistTVCell.swift; sourceTree = "<group>"; };
+		6CBEEAC7265245470006795D /* BottomPlaylistTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomPlaylistTVCell.xib; sourceTree = "<group>"; };
+		6CBEEACB26526AFC0006795D /* PlayListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListAPI.swift; sourceTree = "<group>"; };
 		6CBF2DDF264A56F10017870F /* ConsultUploadImageDefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsultUploadImageDefaultCell.swift; sourceTree = "<group>"; };
 		6CBF2DE0264A56F10017870F /* ConsultUploadImageDefaultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConsultUploadImageDefaultCell.xib; sourceTree = "<group>"; };
 		6CC1F06725F9CD6A00A909B0 /* RecommendCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCRV.swift; sourceTree = "<group>"; };
@@ -1116,6 +1122,8 @@
 				2580CF44261A916300D78E4E /* BottomNoteCell.swift */,
 				2580CF47261A916E00D78E4E /* BottomQnACell.swift */,
 				2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */,
+				6CBEEAC6265245470006795D /* BottomPlaylistTVCell.swift */,
+				6CBEEAC7265245470006795D /* BottomPlaylistTVCell.xib */,
 			);
 			path = BottomCell;
 			sourceTree = "<group>";
@@ -1855,6 +1863,7 @@
 			children = (
 				6C8852552611CC820006BDB2 /* VideoCellModels.swift */,
 				6CFAAEC7263A427200C18531 /* ExpertConsultModels.swift */,
+				6CBEEACB26526AFC0006795D /* PlayListAPI.swift */,
 			);
 			path = HomeTabMenuModels;
 			sourceTree = "<group>";
@@ -2556,6 +2565,7 @@
 				259B8B9D260301B7009A7146 /* RecentKeywordCell.xib in Resources */,
 				2588F8682609879F0070C2FC /* NewPasswordVC.xib in Resources */,
 				259B8B5826030048009A7146 /* NanumSquareRoundEB.ttf in Resources */,
+				6CBEEAC9265245470006795D /* BottomPlaylistTVCell.xib in Resources */,
 				A9850EE12616123000908BA4 /* FrequentlyAskViewContoler.xib in Resources */,
 				259B8B832603013F009A7146 /* EmptyStateViewCell.xib in Resources */,
 				A9129ED82616A0B000041CC5 /* GongManseStoryVC.xib in Resources */,
@@ -2716,6 +2726,7 @@
 				6C4713BD25F853EA00D68A2B /* SideMenuNoticeVC.swift in Sources */,
 				251C3273264901AF00C765CE /* DetailScreenTabBarView.swift in Sources */,
 				25BD760D26157B59002B266C /* NewPasswordResponse.swift in Sources */,
+				6CBEEAC8265245470006795D /* BottomPlaylistTVCell.swift in Sources */,
 				6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */,
 				6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */,
 				251836302640CFFD0035E887 /* PlainLabel.swift in Sources */,
@@ -2899,6 +2910,7 @@
 				259B8BAC260301D8009A7146 /* SearchVideoCell.swift in Sources */,
 				259B8B6326030065009A7146 /* UIColor.swift in Sources */,
 				251FFD07263256E0007A75FF /* SideMenuHeaderViewModel.swift in Sources */,
+				6CBEEACC26526AFD0006795D /* PlayListAPI.swift in Sources */,
 				A9850EFA261613FE00908BA4 /* EnquiryCell.swift in Sources */,
 				2580CF4E261A91BA00D78E4E /* VideoUpperTabCell.swift in Sources */,
 				2580CF48261A916E00D78E4E /* BottomQnACell.swift in Sources */,
