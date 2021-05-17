@@ -26,26 +26,25 @@ struct VideoQnAAPIManager {
             }
     }
     
-    func fetchVideoQnAInsertApi(_ parameter: VideoQnAPostModel, completion: @escaping resultModel<VideoQnAPostModel>) {
+    func fetchVideoQnAInsertApi(_ parameter: VideoQnAPostModel, completion: @escaping () -> Void ) {
         let data = parameter
         
         let videoPostUrl = "\(apiBaseURL)/v/video/detail_qna"
         print(data)
+        
         AF.upload(multipartFormData: {
-            $0.append(data.token.data(using: .utf8) ?? Data(), withName: "token")
-            $0.append(data.videoID.data(using: .utf8) ?? Data(), withName: "video_id")
-            $0.append(data.content.data(using: .utf8) ?? Data(), withName: "content")
+            $0.append(data.token.data(using: .utf8)!, withName: "token")
+            $0.append(data.videoID.data(using: .utf8)!, withName: "video_id")
+            $0.append(data.content.data(using: .utf8)!, withName: "content")
         }, to: videoPostUrl)
         
-        .responseDecodable(of: VideoQnAPostModel.self) { response in
+        .response(completionHandler: { response in
             switch response.result {
-            case .success(let data):
-                print(data)
-                completion(.success(data))
-            case .failure(let err):
-                print(err.localizedDescription)
-                completion(.failure(.noRequest))
+            case .success(_):
+                completion()
+            case .failure(_):
+                completion()
             }
-        }
+        })
     }
 }

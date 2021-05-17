@@ -34,13 +34,8 @@ class VideoQnAVideModel {
         
         let parameters = VideoQnAPostModel(videoID: videoId, token: Constant.testToken, content: content)
         
-        videoQnAManager.fetchVideoQnAInsertApi(parameters) { response in
-            switch response {
-            case .success(_):
-                print("Success Video QnA Insert")
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
+        videoQnAManager.fetchVideoQnAInsertApi(parameters) {
+            print("Success QnA Insert")
         }
     }
 }
