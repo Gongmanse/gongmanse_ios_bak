@@ -22,6 +22,9 @@ class BottomQnACell: UICollectionViewCell {
     
     let videoVM = VideoQnAVideModel()
     
+    lazy var videoID: String = ""
+    
+    
     var label: UILabel = {
         let label = UILabel()
         label.text = "강의 QnA"
@@ -58,8 +61,10 @@ class BottomQnACell: UICollectionViewCell {
         button.titleLabel?.font = .appBoldFontWith(size: 16)
         button.backgroundColor = .mainOrange
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
         return button
     }()
+    
     
     private let bottomStackView: UIStackView = {
         let stack = UIStackView()
@@ -81,6 +86,9 @@ class BottomQnACell: UICollectionViewCell {
         
         configuration()
         constraints()
+        
+        
+        sendButton.addTarget(self, action: #selector(textPostButtonAction(_:)), for: .touchUpInside)
     }
  
     required init?(coder: NSCoder) {
@@ -95,9 +103,19 @@ class BottomQnACell: UICollectionViewCell {
        // initialize what is needed
     }
     
+    
+    @objc func textPostButtonAction(_ sender: UIButton) {
+        print("A")
+        if sendText.text != "" {
+            videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
+        }
+        
+    }
+    
 }
 
 extension BottomQnACell: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -115,7 +133,7 @@ extension BottomQnACell: UITableViewDataSource {
         
         let short = videoVM.videoQnAInformation?.data[indexPath.row]
         
-//        cell.questionLabel.text = "a"
+        cell.selectionStyle = .none
         cell.questionLabel.text = "A. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
         return cell
     }
@@ -144,8 +162,8 @@ extension BottomQnACell {
         let nib = UINib(nibName: otherChatIdentifier, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: otherChatIdentifier)
         
-        
-        videoVM.requestVideoQnA("16157")
+        print(videoID)
+        videoVM.requestVideoQnA(videoID)
     }
     
     func constraints() {

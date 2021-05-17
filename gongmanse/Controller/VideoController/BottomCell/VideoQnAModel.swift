@@ -27,13 +27,14 @@ struct VideoQnADataModel: Codable {
 }
 //
 
-// 동영상 POST 모델
+// 동영상 POST 모델 ( 강의 추가 )
 struct VideoQnAPostModel: Codable {
     let videoID: String
     let token: String
+    let content: String
     
-    enum codingKeys: String, CodingKey {
+    enum CondingKeys: String, CodingKey {
         case videoID = "video_id"
-        case token
+        case token, content
     }
 }

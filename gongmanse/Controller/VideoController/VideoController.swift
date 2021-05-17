@@ -336,6 +336,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomQnACell.reusableIdentifier, for: indexPath) as! BottomQnACell
+            cell.videoID = self.id ?? ""
             return cell
             
         case 2:

@@ -24,7 +24,7 @@ struct Constant {
     static let height = bounds.height
     
     // 테스트용 임시 토큰값
-    static let testToken = "ODk1ZDU4NzZlYTliMGE2Yjc2OGQxZTI1Zjk0ZjdhNzAwMmRmMTdmMzIzYjIxN2MwNDdjYTM2M2E4MThhM2Q4NWY3YTVhNTgxNjBlZGI5OThhMzQ5MmJiNzFhMDQyMGNlODgzYzA2MGRmYWQ5OTA4MDA5YWE2OTljYjc1NTIyOWNaaDFZdDRvRFRYWWlUU2RZQjdtemdxSFdrcy9JWFlUYVFKQWtRTTlva1ZGdVo3dVE3bXJFUVo4bXJTRHR5a0VvSUgrNFVHYnBxK1dybDZidVV3OFBjUT09"
+    static let testToken = "OTM0NWJlYTZjOTFmZDhlN2FkMGE5ZTczYjM5ZDJhNzRmYTYzNzRkZjRiZDMyMzMwZTFkMDFlMGQ4NWZkMThlZjNkMDQ3MTRlMDk4YzYzMGJjNTlhOGM1Mjg0ZDIwNjJlMDdhYzAwNmJkMWE0MTZkMTc2MjFhZTBmMzFiNzg4N2RicEE2TG4xeW13SVVQbmlja3VaK1VaZzczbXcwS3ZNSnhmSEhndTh4ck4zNFVKRjZHa3FtVEpuVkg2UEcwNGZ3QmdWQVRyN21mbEhhN2lRdzFidTZ5UT09"
     
     static let termOfServiceText =
         """
