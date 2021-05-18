@@ -45,12 +45,13 @@ class BottomPlaylistCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        getDataFromJson()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(tableView)
+        
+        getDataFromJson()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -103,35 +104,34 @@ class BottomPlaylistCell: UICollectionViewCell {
 
 extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
-//        guard let data = self.playlist?.data else { return 0}
-//        return data.count
+        guard let data = self.playlist?.data else { return 0}
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
         
-//        guard let json = self.playlist else { return cell }
-//
-//        let indexData = json.data[indexPath.row]
-//        let url = URL(string: makeStringKoreanEncoded(indexData.sThumbnail))
-//
-//        cell.videoThumbnail.contentMode = .scaleAspectFill
-//        cell.videoThumbnail.sd_setImage(with: url)
-//        cell.videoTitle.text = indexData.sTitle
-//        cell.teachersName.text = indexData.sTeacher + " 선생님"
-//        cell.subjects.text = indexData.sSubject
-//        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
-//
-//        if indexData.sUnit == "" {
-//            cell.term.isHidden = true
-//        } else if indexData.sUnit == "1" {
-//            cell.term.isHidden = false
-//            cell.term.text = "i"
-//        } else if indexData.sUnit == "2" {
-//            cell.term.isHidden = false
-//            cell.term.text = "ii"
-//        }
+        guard let json = self.playlist else { return cell }
+
+        let indexData = json.data[indexPath.row]
+        let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
+
+        cell.videoThumbnail.contentMode = .scaleAspectFill
+        cell.videoThumbnail.sd_setImage(with: url)
+        cell.videoTitle.text = indexData.sTitle
+        cell.teachersName.text = indexData.sTeacher + " 선생님"
+        cell.subjects.text = indexData.sSubject
+        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
+
+        if indexData.sUnit == "" {
+            cell.term.isHidden = true
+        } else if indexData.sUnit == "1" {
+            cell.term.isHidden = false
+            cell.term.text = "i"
+        } else if indexData.sUnit == "2" {
+            cell.term.isHidden = false
+            cell.term.text = "ii"
+        }
         
         return cell
     }

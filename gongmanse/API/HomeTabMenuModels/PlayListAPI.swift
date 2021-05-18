@@ -1,7 +1,7 @@
 import Foundation
 
 struct PlayListModels: Codable {
-    var isMore: String
+    var isMore: Bool
     var totalNum: String
     var seriesInfo: PlayListInfo
     
