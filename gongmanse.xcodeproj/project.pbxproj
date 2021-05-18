@@ -55,6 +55,7 @@
 		2541BFD0263FC334000853EF /* sSubjectsUnitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2541BFCF263FC334000853EF /* sSubjectsUnitCell.swift */; };
 		2541BFD3263FD2FD000853EF /* sUnitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2541BFD2263FD2FD000853EF /* sUnitLabel.swift */; };
 		25426A1C2639426A00CD5E7C /* VideoLayouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25426A1B2639426A00CD5E7C /* VideoLayouts.swift */; };
+		255F3DDD265347580008D061 /* NoteTakingInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255F3DDC265347580008D061 /* NoteTakingInput.swift */; };
 		2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF326119F4800CD24B8 /* ByEmailInput.swift */; };
 		2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */; };
 		2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */; };
@@ -429,6 +430,7 @@
 		2541BFCF263FC334000853EF /* sSubjectsUnitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sSubjectsUnitCell.swift; sourceTree = "<group>"; };
 		2541BFD2263FD2FD000853EF /* sUnitLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sUnitLabel.swift; sourceTree = "<group>"; };
 		25426A1B2639426A00CD5E7C /* VideoLayouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLayouts.swift; sourceTree = "<group>"; };
+		255F3DDC265347580008D061 /* NoteTakingInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTakingInput.swift; sourceTree = "<group>"; };
 		2568EEF326119F4800CD24B8 /* ByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailInput.swift; sourceTree = "<group>"; };
 		2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailResponse.swift; sourceTree = "<group>"; };
 		2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDDataManager.swift; sourceTree = "<group>"; };
@@ -978,6 +980,14 @@
 			path = IDValidation;
 			sourceTree = "<group>";
 		};
+		255F3DDB2653474D0008D061 /* NoteTaking */ = {
+			isa = PBXGroup;
+			children = (
+				255F3DDC265347580008D061 /* NoteTakingInput.swift */,
+			);
+			path = NoteTaking;
+			sourceTree = "<group>";
+		};
 		2568EEEC26119EDB00CD24B8 /* Finding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,6 +1239,7 @@
 		258511C22652072D003264F3 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				255F3DDB2653474D0008D061 /* NoteTaking */,
 				258511C42652074E003264F3 /* NoteInput.swift */,
 				258511C826520890003264F3 /* NoteResponse.swift */,
 			);
@@ -2938,6 +2949,7 @@
 				251C32692649014E00C765CE /* DetailScreenNoteCell.swift in Sources */,
 				A9524853261A9CC6000F2473 /* RequestNoticeAPI.swift in Sources */,
 				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
+				255F3DDD265347580008D061 /* NoteTakingInput.swift in Sources */,
 				259B8BC326030517009A7146 /* ProgressDetailVC.swift in Sources */,
 				257FCBE22645224600EC0F42 /* VideoSubtitleMethod.swift in Sources */,
 				25BD75F626156A8E002B266C /* FindingPwdByPhoneInput.swift in Sources */,

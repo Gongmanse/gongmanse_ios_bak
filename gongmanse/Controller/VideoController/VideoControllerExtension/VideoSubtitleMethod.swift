@@ -112,7 +112,6 @@ extension VideoController {
         
         // (클래스의 전역변수에 해당하는)"keywordRanges"로 클릭된 텍스트위 range 값을 전달한다.
         let keywordRangeInstance = (text as NSString).range(of: ("\(sTagsArray[j])"))
-        print("DEBUG: keywordRangeInstance \(keywordRangeInstance)")
         
         // keyword의 위치를 Range로 캐스팅한다. 이를 통해 어떤 키워드를 클릭했는지 유효성판단을 한다.(didTappedSubtitle메소드에서)
         if let rangeOfKeywordTapped = Range(keywordRangeInstance) {

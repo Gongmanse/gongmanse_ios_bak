@@ -86,7 +86,44 @@ class DetailNoteController: UIViewController {
         configureUI()
         guard let id = self.id else { return }
         guard let token = self.token else { return }
+        
         DetailNoteDataManager().DetailNoteDataManager(NoteInput(video_id: id, token: token), viewController: self)
+        
+        print("DEBUG: VideoID는 \(id)")
+        print("DEBUG: 토큰은 \(Constant.token) 입니다.")
+        
+        
+        let receivedToken: String = Constant.token
+        let videoID: Int          = Int(id)!
+        
+        let points: points        = points(x: 0.4533333333333333,
+                                           y: 0.8389521059782609)
+        
+        let strokes: strokes      = strokes(cap: "round",
+                                            join: "round",
+                                            miterLimit: 10,
+                                            color: "#d82579",
+                                            points: [points],
+                                            size: 0.005333333333333333)
+        
+        let sJson: String           =
+        """
+        {\"aspectRatio\":0.5095108695652174,
+        \"strokes\":[
+                    {\"points\":[{\"x\":0.4533333333333333,
+                                \"y\":0.8389521059782609}],
+        \"color\":\"#d82579\",
+        \"size\":0.005333333333333333,
+        \"cap\":\"round\",
+        \"join\":\"round\",
+        \"miterLimit\":10}]}
+        """
+        
+        let input                  = NoteTakingInput(token: receivedToken,
+                                                     video_id: videoID,
+                                                     sjson: sJson)
+        
+        DetailNoteDataManager().savingNoteTakingAPI(input, viewController: self)
     }
     
     
@@ -192,5 +229,4 @@ extension DetailNoteController {
         
         completionHandler(resultImage)
     }
-    
 }
