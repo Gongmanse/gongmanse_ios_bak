@@ -9,11 +9,13 @@ import Foundation
 import UIKit.UIImage
 
 class SideMenuHeaderViewModel {
-    var name: String = "test"
+    var name: String = ""
     var profileImage: UIImage = #imageLiteral(resourceName: "idOff")
     var passTicketDate = "0"
     var token = ""
     var headerViewHeight: CGFloat?
+    
+    var reloadDelegate: TableReloadData?
     
     public init(token: String) {
         self.token = token
@@ -26,5 +28,26 @@ class SideMenuHeaderViewModel {
     var isHeaderHeight: CGFloat {
         guard let headerViewHeight = headerViewHeight else { return 0}
         return isLogin ? headerViewHeight * 0.41 : headerViewHeight * 0.31
+    }
+    
+    init() {
+        
+    }
+    deinit {
+        print("SideMenuHeaderViewModel Deinit")
+    }
+    func requestProfileApi(_ token: String) {
+        let profileApi = LoginGetProfileManager()
+        profileApi.profileGetApi(token) { response in
+            switch response {
+            case .success(let data):
+                // Nickname 만 저장함
+                self.name = data.sNickname ?? ""
+                print(self.name)
+                self.reloadDelegate?.reloadTable()
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
     }
 }

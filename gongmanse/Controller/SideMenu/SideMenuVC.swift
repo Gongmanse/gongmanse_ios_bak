@@ -6,6 +6,9 @@ class SideMenuVC: UITableViewController {
 
     var viewModel = SideMenuHeaderViewModel(token: Constant.token)
     
+    // maybe refactor
+    var profileVM = SideMenuHeaderViewModel()
+    
     ///목록 데이터 배열
     let titles = ["나의 활동", "나의 일정", "공만세란?", "공지사항", "고객센터", "설정"]
     
@@ -32,6 +35,9 @@ class SideMenuVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        profileVM.reloadDelegate = self
+        profileVM.requestProfileApi(Constant.testToken)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +178,13 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         let vc = PassTicketVC(nibName: "PassTicketVC", bundle: nil)
         self.navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+extension SideMenuVC: TableReloadData {
     
-    
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
