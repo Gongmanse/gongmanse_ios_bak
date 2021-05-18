@@ -15,6 +15,7 @@ class StoreVC: UIViewController {
     
     var pageIndex: Int!
 
+    let sku: [String] = ["30일", "90일", "150일"]
     // MARK: - IBOutlet
     
     
@@ -27,7 +28,7 @@ class StoreVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+//        configureUI()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
@@ -82,12 +83,13 @@ class StoreVC: UIViewController {
 
 extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! StoreCell
         cell.layer.cornerRadius = 10
+        cell.selectSubscribeButton.setTitle(sku[indexPath.row], for: .normal)
         return cell
     }
     
@@ -113,8 +115,8 @@ extension StoreVC: UICollectionViewDelegateFlowLayout {
 
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 20,
-                      height: collectionView.frame.height * 0.23)
+        
+        return CGSize(width: collectionView.frame.width - 40, height: 100)
     }
 
 }

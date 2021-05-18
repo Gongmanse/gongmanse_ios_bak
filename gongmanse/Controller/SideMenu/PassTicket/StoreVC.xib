@@ -22,9 +22,8 @@
             <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Hbw-DE-7af">
-                    <rect key="frame" x="46" y="177" width="322" height="586"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Hbw-DE-7af">
+                    <rect key="frame" x="30" y="155.66666666666669" width="330" height="608.33333333333326"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CcN-n8-VOD">
                         <size key="itemSize" width="128" height="128"/>
@@ -33,10 +32,12 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RmR-cc-mb6">
-                    <rect key="frame" x="46" y="789" width="322" height="48"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RmR-cc-mb6">
+                    <rect key="frame" x="30" y="774" width="330" height="40"/>
                     <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="aSc-Ho-3hR"/>
+                    </constraints>
                     <state key="normal" title="구매하기">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -44,9 +45,8 @@
                         <action selector="handleBuy:" destination="-1" eventType="touchUpInside" id="jLW-iI-EUM"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lnv-yD-Dfh">
-                    <rect key="frame" x="46" y="44" width="322" height="79"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lnv-yD-Dfh">
+                    <rect key="frame" x="30" y="64" width="330" height="71.666666666666686"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <string key="text">오랜 현장 교육의 경험과 온라인 강의 서비스의 노하우를
 바탕으로 전혀 새로운 형태의 스마트 동영상 학습사전을
@@ -60,6 +60,18 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="RmR-cc-mb6" secondAttribute="bottom" constant="30" id="07o-Lm-a1f"/>
+                <constraint firstItem="Lnv-yD-Dfh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="5CQ-f1-1fV"/>
+                <constraint firstItem="Hbw-DE-7af" firstAttribute="top" secondItem="Lnv-yD-Dfh" secondAttribute="bottom" constant="20" id="9y6-Vw-ezK"/>
+                <constraint firstItem="RmR-cc-mb6" firstAttribute="top" secondItem="Hbw-DE-7af" secondAttribute="bottom" constant="10" id="C7h-iD-oeS"/>
+                <constraint firstItem="RmR-cc-mb6" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="D7J-PI-qAa"/>
+                <constraint firstItem="Hbw-DE-7af" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="ERD-p4-0mI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Hbw-DE-7af" secondAttribute="trailing" constant="30" id="NYb-Jq-TKg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RmR-cc-mb6" secondAttribute="trailing" constant="30" id="SEH-wP-HjK"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Lnv-yD-Dfh" secondAttribute="trailing" constant="30" id="a6e-WZ-VF4"/>
+                <constraint firstItem="Lnv-yD-Dfh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="yZo-DZ-qka"/>
+            </constraints>
             <point key="canvasLocation" x="92.753623188405811" y="105.80357142857143"/>
         </view>
     </objects>

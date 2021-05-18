@@ -9,6 +9,8 @@ import UIKit
 
 class StoreCell: UICollectionViewCell {
 
+    @IBOutlet weak var selectSubscribeButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

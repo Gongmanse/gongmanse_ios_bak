@@ -20,7 +20,18 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAk-LT-6Na">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="77"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nT-Et-GgU">
+                                <rect key="frame" x="0.0" y="0.0" width="250" height="77"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemTealColor"/>
+                        <constraints>
+                            <constraint firstItem="6nT-Et-GgU" firstAttribute="leading" secondItem="hAk-LT-6Na" secondAttribute="leading" id="4or-jG-Qf2"/>
+                            <constraint firstAttribute="trailing" secondItem="6nT-Et-GgU" secondAttribute="trailing" id="W5w-wb-xdd"/>
+                            <constraint firstItem="6nT-Et-GgU" firstAttribute="top" secondItem="hAk-LT-6Na" secondAttribute="top" id="dR1-EO-8TK"/>
+                            <constraint firstAttribute="bottom" secondItem="6nT-Et-GgU" secondAttribute="bottom" id="maU-9m-6qe"/>
+                        </constraints>
                     </view>
                 </subviews>
             </view>
@@ -32,6 +43,9 @@
                 <constraint firstItem="hAk-LT-6Na" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lJ2-aE-ETA"/>
             </constraints>
             <size key="customSize" width="250" height="77"/>
+            <connections>
+                <outlet property="selectSubscribeButton" destination="6nT-Et-GgU" id="g55-VS-dpb"/>
+            </connections>
             <point key="canvasLocation" x="173.91304347826087" y="133.59375"/>
         </collectionViewCell>
     </objects>
