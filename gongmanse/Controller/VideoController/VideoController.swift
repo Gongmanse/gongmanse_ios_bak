@@ -315,10 +315,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
             changeConstraintToVideoContainer(isPortraitMode: true)
-            
         } else {
             changeConstraintToVideoContainer(isPortraitMode: false)
         }
+        pageCollectionView.reloadData()
     }
 }
 
@@ -342,7 +342,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
                                left: cell.contentView.leftAnchor,
                                bottom: cell.contentView.bottomAnchor,
                                right: cell.contentView.rightAnchor)
-            noteVC.view.layoutIfNeeded()
+            noteVC.view.setNeedsDisplay()
             return cell
             
         case 1:

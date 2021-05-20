@@ -145,11 +145,10 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         let progressIndexPath = progressBodyData?[indexPath.row]
         
-        let urlEncoding = progressIndexPath?.thumbnail?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
         cell.subjectSecond.isHidden = progressIndexPath?.unit != nil ? false : true
         
-        cell.lessonImage.setImageUrl(urlEncoding ?? "")
+        cell.lessonImage.setImageUrl(progressIndexPath?.thumbnail ?? "")
         cell.lessonTitle.text = progressIndexPath?.title
         cell.subjectFirst.text = progressIndexPath?.subject
         cell.subjectSecond.text = progressIndexPath?.unit

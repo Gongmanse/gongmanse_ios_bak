@@ -16,30 +16,16 @@ class DetailNoteController: UIViewController {
     // MARK: Data
     
     var noteImageCount = 0
-    
     var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
-    {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
-    
+    { didSet { collectionView.reloadData() } }
     var url: String?
-//    {
-//        didSet { collectionView.reloadData() }
-//    }
-    
     var receivedNoteImage: UIImage?
-//    {
-//        didSet {
-//            collectionView.reloadData()
-//        }
-//    }
-    
     var id: String?
     var token: String?
     
     // MARK: UI
+    
+    let canvas = Canvas()
     
     private let textImageView: UIImageView = {
         let imageView = UIImageView()
@@ -61,12 +47,65 @@ class DetailNoteController: UIViewController {
         return button
     }()
     
-    private let noteImageView: UIImageView = {
+    public let noteImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         return imageView
     }()
     
+    private let writingImplement: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .mainOrange
+        button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
+        return button
+    }()
+    
+    private let touchPositionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    let redButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .red
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let greenButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .green
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+
+    let blueButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .blue
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let clearButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .clear
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let writingImplementToggleButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.left.2")
+        button.setImage(image, for: .normal)
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
     
     // MARK: - Lifecycle
     
@@ -86,7 +125,32 @@ class DetailNoteController: UIViewController {
         configureUI()
         guard let id = self.id else { return }
         guard let token = self.token else { return }
+        
         DetailNoteDataManager().DetailNoteDataManager(NoteInput(video_id: id, token: token), viewController: self)
+        
+        print("DEBUG: VideoID는 \(id)")
+        print("DEBUG: 토큰은 \(Constant.token) 입니다.")
+        
+        let receivedToken: String = Constant.token
+        let videoID: Int          = Int(id)!
+        let sJson: String         =
+        """
+        {\"aspectRatio\":0.5095108695652174,
+        \"strokes\":[
+                    {\"points\":[{\"x\":0.4533333333333333,
+                                \"y\":0.8389521059782609}],
+        \"color\":\"#d82579\",
+        \"size\":0.005333333333333333,
+        \"cap\":\"round\",
+        \"join\":\"round\",
+        \"miterLimit\":10}]}
+        """
+        
+        let input                  = NoteTakingInput(token: receivedToken,
+                                                     video_id: videoID,
+                                                     sjson: sJson)
+        
+        DetailNoteDataManager().savingNoteTakingAPI(input, viewController: self)
     }
     
     
@@ -96,10 +160,44 @@ class DetailNoteController: UIViewController {
         print("DEBUG: 클릭이잘된다.")
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let touch = touches.first!
+        let point = touch.location(in: touchPositionView)
+        print("DEBUG: 현재 터치한 곳의 위치는 \(point) 입니다.")
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("DEBUG: 터치를 종료합니다...")
+    }
+    
+    @objc func openWritingImplement() {
+
+        if touchPositionView.alpha == 0 {
+            touchPositionView.alpha = 1
+        } else {
+            touchPositionView.alpha = 0
+        }
+    }
+    
+    @objc fileprivate func handleUndo() {
+        canvas.undo()
+    }
+    
+    @objc fileprivate func handleClear() {
+        canvas.clear()
+    }
+    
+    @objc fileprivate func handleColorChange(button: UIButton) {
+        print("DEBUG: 클릭하고계십니다...")
+        canvas.setStrokeColor(color: button.backgroundColor ?? .black)
+    }
+    
     
     // MARK: - Heleprs
     
     func configureUI() {
+        
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .vertical
         layout.itemSize.height = 310
@@ -114,9 +212,40 @@ class DetailNoteController: UIViewController {
                               bottom: view.bottomAnchor,
                               right: view.rightAnchor)
         collectionView.register(NoteImageCell.self, forCellWithReuseIdentifier: cellID)
-    }
-    
-    func configureCollectionView() {
+
+        
+        view.addSubview(touchPositionView)
+        touchPositionView.anchor(top: view.topAnchor,
+                                 left: view.leftAnchor,
+                                 bottom: view.bottomAnchor,
+                                 right: view.rightAnchor)
+        touchPositionView.alpha = 0
+        
+        let width = view.frame.width * 0.5
+        
+        view.addSubview(writingImplement)
+        writingImplement.frame = CGRect(x: 0,
+                                        y: 200,
+                                        width: width,
+                                        height: 50)
+        
+        let colorStackView = UIStackView(arrangedSubviews: [
+            redButton,
+            greenButton,
+            blueButton,
+            clearButton,
+            writingImplementToggleButton
+        ])
+        
+        colorStackView.spacing = 4
+        colorStackView.distribution = .fillEqually
+        writingImplement.addSubview(colorStackView)
+        colorStackView.centerY(inView: writingImplement)
+        colorStackView.anchor(left: writingImplement.leftAnchor,
+                              bottom: writingImplement.bottomAnchor,
+                              paddingLeft: 15,
+                              width: width - 15,
+                              height: 59)
         
     }
 }
@@ -192,5 +321,4 @@ extension DetailNoteController {
         
         completionHandler(resultImage)
     }
-    
 }
