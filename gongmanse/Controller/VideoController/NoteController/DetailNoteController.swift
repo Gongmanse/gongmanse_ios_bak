@@ -16,30 +16,16 @@ class DetailNoteController: UIViewController {
     // MARK: Data
     
     var noteImageCount = 0
-    
     var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
-    {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
-    
+    { didSet { collectionView.reloadData() } }
     var url: String?
-//    {
-//        didSet { collectionView.reloadData() }
-//    }
-    
     var receivedNoteImage: UIImage?
-//    {
-//        didSet {
-//            collectionView.reloadData()
-//        }
-//    }
-    
     var id: String?
     var token: String?
     
     // MARK: UI
+    
+    let canvas = Canvas()
     
     private let textImageView: UIImageView = {
         let imageView = UIImageView()
@@ -61,12 +47,24 @@ class DetailNoteController: UIViewController {
         return button
     }()
     
-    private let noteImageView: UIImageView = {
+    public let noteImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         return imageView
     }()
     
+    private let writingImplement: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .mainOrange
+        button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
+        return button
+    }()
+    
+    private let touchPositionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
     
     // MARK: - Lifecycle
     
@@ -92,21 +90,9 @@ class DetailNoteController: UIViewController {
         print("DEBUG: VideoID는 \(id)")
         print("DEBUG: 토큰은 \(Constant.token) 입니다.")
         
-        
         let receivedToken: String = Constant.token
         let videoID: Int          = Int(id)!
-        
-        let points: points        = points(x: 0.4533333333333333,
-                                           y: 0.8389521059782609)
-        
-        let strokes: strokes      = strokes(cap: "round",
-                                            join: "round",
-                                            miterLimit: 10,
-                                            color: "#d82579",
-                                            points: [points],
-                                            size: 0.005333333333333333)
-        
-        let sJson: String           =
+        let sJson: String         =
         """
         {\"aspectRatio\":0.5095108695652174,
         \"strokes\":[
@@ -133,10 +119,32 @@ class DetailNoteController: UIViewController {
         print("DEBUG: 클릭이잘된다.")
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let touch = touches.first!
+        let point = touch.location(in: touchPositionView)
+        print("DEBUG: 현재 터치한 곳의 위치는 \(point) 입니다.")
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("DEBUG: 터치를 종료합니다...")
+    }
+    
+    
+    @objc func openWritingImplement() {
+        if touchPositionView.alpha == 0 {
+            touchPositionView.alpha = 1
+        } else {
+            touchPositionView.alpha = 0
+        }
+        
+    }
+    
     
     // MARK: - Heleprs
     
     func configureUI() {
+        
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .vertical
         layout.itemSize.height = 310
@@ -151,10 +159,20 @@ class DetailNoteController: UIViewController {
                               bottom: view.bottomAnchor,
                               right: view.rightAnchor)
         collectionView.register(NoteImageCell.self, forCellWithReuseIdentifier: cellID)
-    }
-    
-    func configureCollectionView() {
+
         
+        view.addSubview(touchPositionView)
+        touchPositionView.anchor(top: view.topAnchor,
+                                 left: view.leftAnchor,
+                                 bottom: view.bottomAnchor,
+                                 right: view.rightAnchor)
+        touchPositionView.alpha = 0
+        
+        view.addSubview(writingImplement)
+        writingImplement.frame = CGRect(x: 0,
+                                        y: 200,
+                                        width: 50,
+                                        height: 50)
     }
 }
 

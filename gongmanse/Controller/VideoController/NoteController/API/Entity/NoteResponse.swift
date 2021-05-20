@@ -35,7 +35,7 @@ struct NoteResponse: Codable {
 struct NoteData: Codable {
     
     var sNotes: [String]
-    var sJson: [sJson]?
+    var sJson: sJson?
 }
 
 struct sJson: Codable {
