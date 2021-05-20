@@ -66,6 +66,47 @@ class DetailNoteController: UIViewController {
         return view
     }()
     
+    let redButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .red
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let greenButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .green
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+
+    let blueButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .blue
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let clearButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .clear
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let writingImplementToggleButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.left.2")
+        button.setImage(image, for: .normal)
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     
     init(id: String, token: String) {
@@ -130,14 +171,26 @@ class DetailNoteController: UIViewController {
         print("DEBUG: 터치를 종료합니다...")
     }
     
-    
     @objc func openWritingImplement() {
+
         if touchPositionView.alpha == 0 {
             touchPositionView.alpha = 1
         } else {
             touchPositionView.alpha = 0
         }
-        
+    }
+    
+    @objc fileprivate func handleUndo() {
+        canvas.undo()
+    }
+    
+    @objc fileprivate func handleClear() {
+        canvas.clear()
+    }
+    
+    @objc fileprivate func handleColorChange(button: UIButton) {
+        print("DEBUG: 클릭하고계십니다...")
+        canvas.setStrokeColor(color: button.backgroundColor ?? .black)
     }
     
     
@@ -168,11 +221,32 @@ class DetailNoteController: UIViewController {
                                  right: view.rightAnchor)
         touchPositionView.alpha = 0
         
+        let width = view.frame.width * 0.5
+        
         view.addSubview(writingImplement)
         writingImplement.frame = CGRect(x: 0,
                                         y: 200,
-                                        width: 50,
+                                        width: width,
                                         height: 50)
+        
+        let colorStackView = UIStackView(arrangedSubviews: [
+            redButton,
+            greenButton,
+            blueButton,
+            clearButton,
+            writingImplementToggleButton
+        ])
+        
+        colorStackView.spacing = 4
+        colorStackView.distribution = .fillEqually
+        writingImplement.addSubview(colorStackView)
+        colorStackView.centerY(inView: writingImplement)
+        colorStackView.anchor(left: writingImplement.leftAnchor,
+                              bottom: writingImplement.bottomAnchor,
+                              paddingLeft: 15,
+                              width: width - 15,
+                              height: 59)
+        
     }
 }
 
