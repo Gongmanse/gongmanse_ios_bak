@@ -10,6 +10,7 @@ import UIKit.UIImage
 
 class SideMenuHeaderViewModel {
     var name: String = ""
+    var userID: String = ""
     var profileImage: UIImage = #imageLiteral(resourceName: "idOff")
     var passTicketDate = "0"
     var token = ""
@@ -17,8 +18,9 @@ class SideMenuHeaderViewModel {
     
     var reloadDelegate: TableReloadData?
     
-    public init(token: String) {
+    public init(token: String, userID: String) {
         self.token = token
+        self.userID = userID
     }
     
     var isLogin: Bool {

@@ -13,6 +13,7 @@ class LoginDataManager {
     func sendingLoginInfo(_ parameters: LoginInput, viewController: LoginVC) {
         // Controller에서 휴대전화번호 데이터 받음
         let data = parameters
+        let userID = data.usr
         
         // 로그인정보 post
         AF.upload(multipartFormData: { MultipartFormData in
@@ -28,7 +29,7 @@ class LoginDataManager {
             case .success(let response):
                 if let token = response.token {
                     // 로그인 성공
-                    viewController.didSucceedLogin(token)
+                    viewController.didSucceedLogin(token, userID: userID)
                 } else {
                     // 로그인 실패
                     viewController.didFaildLogin(response)
