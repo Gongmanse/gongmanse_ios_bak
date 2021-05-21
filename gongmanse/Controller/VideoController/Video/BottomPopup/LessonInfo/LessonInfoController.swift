@@ -125,25 +125,7 @@ class LessonInfoController: UIViewController {
                                     left: view.leftAnchor,
                                     paddingTop: 10, paddingLeft: 10)
         configureCollectionView()
-        
-        // TODO: [UI] 즐겨찾기, 평점, 공유, 관련시리즈, 문제풀이 -> 05.04 UI 완성
-        let stack = UIStackView(arrangedSubviews:
-                                    [bookmarkButton,rateLessonButton,shareLessonButton,relatedSeriesButton,problemSolvingButton])
-        let buttonHeight = view.frame.width * 0.12
-        let buttonWidth = view.frame.width * 0.1
-        bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
-        rateLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
-        shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
-        relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
-        problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
-        view.addSubview(stack)
-        stack.isUserInteractionEnabled = true
-        stack.distribution = .equalSpacing
-        stack.axis = .horizontal
-        stack.spacing = buttonWidth
-        stack.alignment = .leading
-        stack.centerX(inView: view)
-        stack.anchor(top: sTagsCollectionView?.bottomAnchor, paddingTop: 10)
+//        configureAdditionalFunctions() 05.21 주석처리; 1차 배포를 위해 (기능 미구현상태)
         configureAddActions()
     }
     
@@ -167,6 +149,27 @@ class LessonInfoController: UIViewController {
         shareLessonButton.addGestureRecognizer(shareLessonButtonGesture)
         relatedSeriesButton.addGestureRecognizer(relatedSeriesButtonGesture)
         problemSolvingButton.addGestureRecognizer(problemSolvingButtonGesture)
+    }
+    
+    func configureAdditionalFunctions() {
+        // TODO: [UI] 즐겨찾기, 평점, 공유, 관련시리즈, 문제풀이 -> 05.04 UI 완성
+        let stack = UIStackView(arrangedSubviews:
+                                    [bookmarkButton,rateLessonButton,shareLessonButton,relatedSeriesButton,problemSolvingButton])
+        let buttonHeight = view.frame.width * 0.12
+        let buttonWidth = view.frame.width * 0.1
+        bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        rateLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
+        view.addSubview(stack)
+        stack.isUserInteractionEnabled = true
+        stack.distribution = .equalSpacing
+        stack.axis = .horizontal
+        stack.spacing = buttonWidth
+        stack.alignment = .leading
+        stack.centerX(inView: view)
+        stack.anchor(top: sTagsCollectionView?.bottomAnchor, paddingTop: 10)
     }
 }
 
