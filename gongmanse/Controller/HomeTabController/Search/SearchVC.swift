@@ -73,7 +73,7 @@ class SearchVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         
         
-        if Constant.testToken != "" {
+        if Constant.token != "" {
             let convertGrade = searchMainVM.convertGrade()
             gradeButton.setTitle(convertGrade ?? "모든 학년", for: .normal)
             
@@ -194,7 +194,7 @@ class SearchVC: UIViewController {
             let contentVC = RecentKeywordVC()
             
             // 토큰값이 없으면 isToken == false 라 최근검색어 안보임
-            if Constant.testToken != "" {
+            if Constant.token != "" {
                 searchData.isToken = true
             }
             contentVC.pageIndex = index

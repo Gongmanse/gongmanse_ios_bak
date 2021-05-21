@@ -100,7 +100,7 @@ struct getFilteringAPI {
     
     func getFilteringData(complition: @escaping (_ result: SubjectGetDataModel) -> Void) {
         
-        let getfilterUrl = "\(apiBaseURL)/v/setting/searchsetting?token=\(Constant.testToken)"
+        let getfilterUrl = "\(apiBaseURL)/v/setting/searchsetting?token=\(Constant.token)"
         
         AF.request(getfilterUrl)
             .responseDecodable(of: SubjectGetDataListModel.self) { response in

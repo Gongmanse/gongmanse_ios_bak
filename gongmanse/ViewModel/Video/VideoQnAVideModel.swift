@@ -17,7 +17,7 @@ class VideoQnAVideModel {
     
     func requestVideoQnA(_ videoId: String) {
         
-        videoQnAManager.fetchVideoQnAGetApi(videoId, Constant.testToken) { response in
+        videoQnAManager.fetchVideoQnAGetApi(videoId, Constant.token) { response in
             
             switch response {
             case .success(let data):
@@ -32,7 +32,7 @@ class VideoQnAVideModel {
     
     func requestVideoQnAInsert(_ videoId: String, content: String) {
         
-        let parameters = VideoQnAPostModel(videoID: videoId, token: Constant.testToken, content: content)
+        let parameters = VideoQnAPostModel(videoID: videoId, token: Constant.token, content: content)
         
         videoQnAManager.fetchVideoQnAInsertApi(parameters) {
             print("Success QnA Insert")

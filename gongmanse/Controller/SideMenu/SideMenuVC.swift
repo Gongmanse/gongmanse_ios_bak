@@ -37,7 +37,7 @@ class SideMenuVC: UITableViewController {
         super.viewDidLoad()
         configureUI()
         profileVM.reloadDelegate = self
-        profileVM.requestProfileApi(Constant.testToken)
+        profileVM.requestProfileApi(Constant.token)
     }
     
     override func viewWillAppear(_ animated: Bool) {
