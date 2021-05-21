@@ -334,6 +334,12 @@ extension VideoController: AVPlayerViewControllerDelegate {
     
     
     func configureVideoControlView() {
+        let playerHeight = view.frame.width * 0.57
+        videoContainerView.addSubview(blackViewOncontrolMode)
+        blackViewOncontrolMode.setDimensions(height: playerHeight, width: view.frame.width)
+        blackViewOncontrolMode.centerX(inView: videoContainerView)
+        blackViewOncontrolMode.centerY(inView: videoContainerView)
+        
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
         let height = convertHeight(15, standardView: view)
@@ -390,17 +396,18 @@ extension VideoController: AVPlayerViewControllerDelegate {
         subtitleToggleButton.centerY(inView: videoSettingButton)
         subtitleToggleButton.anchor(right: videoSettingButton.leftAnchor,
                                     paddingRight: 3)
-        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+        let gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                     action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
-        playerController.view.isUserInteractionEnabled = true
-        playerController.view.addGestureRecognizer(gesture)
+        blackViewOncontrolMode.isUserInteractionEnabled = true
+        blackViewOncontrolMode.addGestureRecognizer(gesture)
     }
     
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
     @objc func targetViewDidTapped() {
-        if videoControlContainerView.alpha == 1 {
+        if blackViewOncontrolMode.backgroundColor == .black {
             UIView.animate(withDuration: 0.22, animations: {
+                self.blackViewOncontrolMode.backgroundColor = .clear
                 self.videoControlContainerView.alpha = 0
                 self.playPauseButton.alpha = 0
                 self.videoForwardTimeButton.alpha = 0
@@ -411,6 +418,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
             
         } else {
             UIView.animate(withDuration: 0.22, delay: 0, options: .curveEaseInOut, animations: {
+                self.blackViewOncontrolMode.backgroundColor = .black
                 self.videoControlContainerView.alpha = 1
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1

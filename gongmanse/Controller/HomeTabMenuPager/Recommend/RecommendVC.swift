@@ -126,6 +126,7 @@ extension RecommendVC: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "RecommendCRV", for: indexPath) as? RecommendCRV else {
                 return UICollectionReusableView()
             }
+            header.delegate = self
             return header
         case UICollectionView.elementKindSectionFooter:
             if kind == UICollectionView.elementKindSectionFooter {
@@ -220,4 +221,16 @@ extension RecommendVC: UICollectionViewDelegateFlowLayout {
         let width = view.frame.width - 40
         return CGSize(width: width, height: 265)
     }
+}
+
+
+extension RecommendVC: RecommendCRVDelegate {
+    func presentVideoControllerInBanner(videoID: String) {
+        let videoID = videoID
+        let vc = VideoController()
+        vc.id = videoID
+        present(vc, animated: true)
+    }
+    
+    
 }
