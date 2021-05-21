@@ -4,7 +4,7 @@ class SideMenuVC: UITableViewController {
     
     // MARK: - Properties
 
-    var viewModel = SideMenuHeaderViewModel(token: Constant.token)
+    var viewModel = SideMenuHeaderViewModel(token: Constant.token, userID: Constant.userID)
     
     // maybe refactor
     var profileVM = SideMenuHeaderViewModel()
@@ -35,7 +35,6 @@ class SideMenuVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
         profileVM.reloadDelegate = self
         profileVM.requestProfileApi(Constant.testToken)
     }
@@ -46,6 +45,7 @@ class SideMenuVC: UITableViewController {
         // 혹시 추후에 sideMenu를 종료한 이후에 sideMenu가 들어가지 않도록 해달라는 요구까지 대응하기 위함이다.
         viewModel.headerViewHeight = view.frame.height
         headerViewHeight = viewModel.isHeaderHeight
+        tableView.reloadData()
     }
     
     

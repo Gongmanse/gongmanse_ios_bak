@@ -246,10 +246,11 @@ extension LoginVC {
     /// 로그인 API 관련 메소드
     /// - 로그인 성공 시, 토근을 전역변수 `Constant.token` 에 값을 저장한다. 이후 홈 회면으로 이동한다.
     /// - 로그인 실패 시, 실패 이유에 대한 `message`를 UIViewController.view 에 호출한다.
-    func didSucceedLogin(_ token: String?) {
+    func didSucceedLogin(_ token: String?, userID: String) {
         // 토큰 전달
         guard let token = token else { return }
         Constant.token = token
+        Constant.userID = userID
 
         // 회면전환 - Main Controller 로 이동.
         self.navigationController?.navigationBar.isHidden = false

@@ -8,7 +8,7 @@
 import UIKit
 
 
-protocol SideMenuHeaderViewDelegate: class {
+protocol SideMenuHeaderViewDelegate: AnyObject {
     func handleDismiss()
     func clickedLoginButton()
     func clickedLogoutButton()
@@ -22,7 +22,10 @@ class SideMenuHeaderView: UIView {
     // MARK: - Properties
     
     var viewModel: SideMenuHeaderViewModel? {
-        didSet { commonInit() }
+        didSet {
+            commonInit()
+            updateUI()
+        }
     }
     
     weak var sideMenuHeaderViewDelegate: SideMenuHeaderViewDelegate?
@@ -100,7 +103,6 @@ class SideMenuHeaderView: UIView {
         return label
     }()
     
-    
     /// "이용권 구매" or "사용 기간" 연장 버튼
     private let buyingPassTicketButton: UIButton = {
         let button = UIButton()
@@ -174,14 +176,12 @@ class SideMenuHeaderView: UIView {
     // MARK: - Helpers
     
     func commonInit() {
-        
         configureUI()
         updateUI()
     }
     
     /// 최초 초기화 시, UI구현을 위한 메소드
     func configureUI() {
-        
         self.addSubview(closeButton)
         self.addSubview(profileImage)
         self.addSubview(nickName)
@@ -270,13 +270,16 @@ class SideMenuHeaderView: UIView {
         
         if viewModel.isLogin {
             
-            nickName.text = viewModel.name
-            print(nickName.text)
+            nickName.text = viewModel.userID
+            
             loginBtn.setTitle("로그아웃", for: .normal)
+            loginBtn.centerX(inView: self)
+            loginBtn.updateConstraints()
             
             signUpBtn.setTitle("프로필 수정", for: .normal)
+            signUpBtn.alpha = 0
             
-            buyingPassTicketLabel.text = "이용권 20일 남음"
+            buyingPassTicketLabel.text = "이용권 설정"
             
             buyingPassTicketButton.setTitle("사용 기간 연장", for: .normal)
         }

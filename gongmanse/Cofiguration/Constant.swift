@@ -15,6 +15,7 @@ struct Constant {
     static let BASE_URL = "https://api.gongmanse.com"
 //    static let GONGMANSE_BASE_URL = ""
     
+    static var userID: String = ""
     static var token: String = ""
     static var jwtToken: String = ""
     
