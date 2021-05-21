@@ -170,6 +170,7 @@ class SideMenuVC: UITableViewController {
         guard section == 0 else { return nil }
         
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+        footerView.isUserInteractionEnabled = true
         let termsOfServiceBtn = UIButton(frame: CGRect(x: 0, y: 310, width: tableView.frame.width / 2, height: 30))
         let privacyPolicyBtn = UIButton(frame: CGRect(x: 157, y: 310, width: tableView.frame.width / 2, height: 30))
         
@@ -178,12 +179,20 @@ class SideMenuVC: UITableViewController {
         termsOfServiceBtn.tintColor = .white
         termsOfServiceBtn.addTarget(self, action: #selector(showTermsOfService), for: .touchUpInside)
         footerView.addSubview(termsOfServiceBtn)
+        termsOfServiceBtn.anchor(top: footerView.topAnchor,
+                                 left: footerView.leftAnchor)
+        termsOfServiceBtn.setDimensions(height: footerView.frame.height,
+                                        width: footerView.frame.width * 0.5)
         
         privacyPolicyBtn.setTitle("개인정보처리방침", for: .normal)
         privacyPolicyBtn.backgroundColor = .systemGray4
         privacyPolicyBtn.tintColor = .white
         privacyPolicyBtn.addTarget(self, action: #selector(showPrivacyPolicy), for: .touchUpInside)
         footerView.addSubview(privacyPolicyBtn)
+        privacyPolicyBtn.anchor(top: footerView.topAnchor,
+                                 right: footerView.rightAnchor)
+        privacyPolicyBtn.setDimensions(height: footerView.frame.height,
+                                        width: footerView.frame.width * 0.5)
         
         termsOfServiceBtn.translatesAutoresizingMaskIntoConstraints = false
         
@@ -193,17 +202,13 @@ class SideMenuVC: UITableViewController {
     @objc func showTermsOfService() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsOfServiceVC") as! TermsOfServiceVC
         vc.modalPresentationStyle = .fullScreen
-        //self.navigationController?.pushViewController(vc, animated: true)
-        self.present(vc, animated: true)
-        print("성공")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func showPrivacyPolicy() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyPolicyVC") as! PrivacyPolicyVC
         vc.modalPresentationStyle = .fullScreen
-        //self.navigationController?.pushViewController(vc, animated: true)
-        self.present(vc, animated: true)
-        print("성공2")
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

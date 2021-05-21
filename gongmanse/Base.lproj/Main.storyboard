@@ -3914,7 +3914,7 @@
         <!--Privacy PolicyVC-->
         <scene sceneID="s5i-5o-H13">
             <objects>
-                <viewController storyboardIdentifier="PrivacyPolicyVC" id="xEm-hA-fvy" customClass="PrivacyPolicyVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrivacyPolicyVC" hidesBottomBarWhenPushed="YES" id="xEm-hA-fvy" customClass="PrivacyPolicyVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Gt-YT-6AR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3948,7 +3948,7 @@
         <!--Terms Of ServiceVC-->
         <scene sceneID="OPT-Ka-7hI">
             <objects>
-                <viewController storyboardIdentifier="TermsOfServiceVC" id="XbQ-JO-3lc" customClass="TermsOfServiceVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TermsOfServiceVC" hidesBottomBarWhenPushed="YES" id="XbQ-JO-3lc" customClass="TermsOfServiceVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c9k-7r-Wda">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
