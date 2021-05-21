@@ -19,6 +19,10 @@ struct Constant {
     static var token: String = ""
     static var jwtToken: String = ""
     
+    static var isLogin: Bool {
+        return Constant.token.count > 3
+    }
+    
     // 화면 크기
     static let bounds = UIScreen.main.bounds
     static let width = bounds.width

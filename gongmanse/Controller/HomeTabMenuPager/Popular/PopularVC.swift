@@ -117,9 +117,13 @@ extension PopularVC: UICollectionViewDataSource {
 
 extension PopularVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
-            self.navigationController?.pushViewController(vc, animated: true)
+        if Constant.isLogin {
+            let vc = VideoController()
+            let videoID = popularVideo.body[indexPath.row].videoId
+            vc.id = videoID
+            present(vc, animated: true)
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
     }
 }

@@ -101,6 +101,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return view
     }()
     
+    let blackViewOncontrolMode: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.45
+        return view
+    }()
+    
     /// 영상 ProgressView / 현재시간 ~ 종료시간 Label / 화면전환 객체 상위 Container View
     let videoControlContainerView: UIView = {
         let view = UIView()
@@ -223,6 +230,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
+        label.font = UIFont.appBoldFontWith(size: 16)
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -357,6 +365,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
             cell.videoID = self.id ?? ""
+            cell.delegate = self
             return cell
             
         default:
@@ -478,5 +487,20 @@ extension VideoController: VideoFullScreenControllerDelegate {
     
     func addNotificaionObserver() {
         setNotification()
+    }
+}
+
+
+extension VideoController: BottomPlaylistCellDelegate {
+    
+    func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.id = videoID
+        present(vc, animated: true) {
+            self.player.pause()
+        }
+        
+        
     }
 }

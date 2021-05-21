@@ -1,7 +1,13 @@
 import UIKit
 import SDWebImage
 
+protocol RecommendCRVDelegate: AnyObject {
+    func presentVideoControllerInBanner(videoID: String)
+}
+
 class RecommendCRV: UICollectionReusableView {
+    
+    weak var delegate: RecommendCRVDelegate?
     
     private var timer: Timer?
     private var onlyOnce = true
@@ -16,7 +22,6 @@ class RecommendCRV: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         changeFontColor()
         getDataFromJson()
         
@@ -26,7 +31,6 @@ class RecommendCRV: UICollectionReusableView {
         pageView.numberOfPages = 12
         pageView.currentPage = 0
         pageView.isEnabled = false
-        
     }
     
     func changeFontColor() {
@@ -50,7 +54,6 @@ class RecommendCRV: UICollectionReusableView {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendBannerImage.self, from: data) {
-                    //print(json.body)
                     self.recommendBanner = json
                 }
                 DispatchQueue.main.async {
@@ -71,11 +74,13 @@ class RecommendCRV: UICollectionReusableView {
 }
 
 extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return infiniteSize
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendBannerCell", for: indexPath) as! RecommendBannerCell
         guard let json = self.recommendBanner else { return cell }
         guard let data = self.recommendBanner?.body else { return UICollectionViewCell()}
@@ -88,13 +93,23 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if onlyOnce {
             let middleIndex = IndexPath(item: Int(infiniteSize / 2), section: 0)
             sliderCollectionView.scrollToItem(at: middleIndex, at: .centeredHorizontally, animated: false)
             startTimer()
             onlyOnce = false
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: 무한 페이징 + 클릭 시, 영상호출되도록 처리할 예정 05.21 김우성
+//        if let bannerData = self.recommendBanner {
+////            if let videoID = bannerData.body[indexPath.item].videoId {
+////                delegate?.presentVideoControllerInBanner(videoID: videoID)
+////            }
+//        }
     }
     
     func startTimer() {
@@ -125,26 +140,31 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
         stopTimer()
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         startTimer()
     }
 }
 
 extension RecommendCRV: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = sliderCollectionView.frame.size
         return CGSize(width: size.width, height: size.height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
 }
