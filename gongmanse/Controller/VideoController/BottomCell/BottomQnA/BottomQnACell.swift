@@ -65,6 +65,9 @@ class BottomQnACell: UICollectionViewCell {
         stack.spacing = 10
         return stack
     }()
+    
+    var isKeyboardSelect = false
+    
     //MARK: - Lifecycle
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -106,7 +109,7 @@ class BottomQnACell: UICollectionViewCell {
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {
-        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
             
             let keyboardRectangle = keyboardFame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
@@ -115,11 +118,13 @@ class BottomQnACell: UICollectionViewCell {
                 print(self.bottomStackView.frame.origin.y)
                 self.bottomStackView.frame.origin.y -= keyboardHeight
             }
+            
+            isKeyboardSelect = true
         }
     }
  
     @objc func keyboardWillHide(_ sender: Notification) {
-        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == true {
             
             let keyboardRectangle = keyboardFame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
@@ -128,6 +133,8 @@ class BottomQnACell: UICollectionViewCell {
                 print(self.bottomStackView.frame.origin.y)
                 self.bottomStackView.frame.origin.y += keyboardHeight
             }
+            
+            isKeyboardSelect = false
         }
     }
     
