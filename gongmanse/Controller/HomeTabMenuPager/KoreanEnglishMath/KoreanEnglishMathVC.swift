@@ -233,6 +233,7 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
             let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
             let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
             vc.id = videoID
             present(vc, animated: true)

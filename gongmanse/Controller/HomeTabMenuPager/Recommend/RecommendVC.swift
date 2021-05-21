@@ -228,6 +228,7 @@ extension RecommendVC: RecommendCRVDelegate {
     func presentVideoControllerInBanner(videoID: String) {
         let videoID = videoID
         let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
         vc.id = videoID
         present(vc, animated: true)
     }
