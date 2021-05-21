@@ -9,13 +9,15 @@ import UIKit
 
 class QnAOthersChatCell: UITableViewCell {
 
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var questionLabel: UITextView!
-    @IBOutlet weak var stackColor: UIStackView!
+    @IBOutlet weak var otherProfile: UIImageView!
+    @IBOutlet weak var otherContent: UITextView!
+    @IBOutlet weak var otherStackView: UIStackView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        otherProfile.layer.cornerRadius = 10
+        otherContent.layer.cornerRadius = 10
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

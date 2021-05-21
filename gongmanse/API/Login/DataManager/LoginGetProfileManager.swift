@@ -12,7 +12,7 @@ struct LoginGetProfileManager {
     
     func profileGetApi(_ token: String, completion: @escaping resultModel<LoginGetProfile> ) {
         
-        let url = "\(apiBaseURL)/v/member/getuserinfo?token=\(Constant.testToken)"
+        let url = "\(apiBaseURL)/v/member/getuserinfo?token=\(Constant.token)"
         
         AF.request(url)
             .responseDecodable(of: LoginGetProfile.self) { response in

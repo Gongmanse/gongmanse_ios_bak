@@ -40,7 +40,7 @@ class RecentKeywordViewModel {
     // 최근 검색어 저장
     func requestSaveKeywordApi(_ word: String) {
         
-        let postData = RecentKeywordSaveModel(token: Constant.testToken, words: word)
+        let postData = RecentKeywordSaveModel(token: Constant.token, words: word)
         
         requestRecentApi.fetchKeywordSaveApi(postData) { response in
             switch response {
@@ -55,7 +55,7 @@ class RecentKeywordViewModel {
     // 최근 검색어 제거
     func requestDeleteKeywordApi(_ keywordID: String) {
         
-        let postData = RecentKeywordDeleteModel(keywordID: keywordID, token: Constant.testToken)
+        let postData = RecentKeywordDeleteModel(keywordID: keywordID, token: Constant.token)
         print(postData)
         requestRecentApi.fetchKeywordDeleteApi(postData) { response in
             switch response {

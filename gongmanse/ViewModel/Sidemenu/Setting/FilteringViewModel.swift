@@ -23,7 +23,7 @@ class FilteringViewModel {
         // POST
 //        settingFilter.performFiltering(userTokenValue, userGrade, userSubject)
         // Get
-        settingFilter.performGetFiltering(token: Constant.testToken, grade: userGrade ?? "", subject: userSubject ?? "")
+        settingFilter.performGetFiltering(token: Constant.token, grade: userGrade ?? "", subject: userSubject ?? "")
         
     }
     
