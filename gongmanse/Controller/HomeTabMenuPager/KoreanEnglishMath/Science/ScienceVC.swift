@@ -1,7 +1,7 @@
 import UIKit
 import BottomPopup
 
-protocol ScienceVCDelegate: class {
+protocol ScienceVCDelegate: AnyObject {
     func sciencePassSelectedIndexSettingValue(_ selectedIndex: Int)
     func sciencePassSortedIdSettingValue(_ sortedIndex: Int)
 }
@@ -229,7 +229,15 @@ extension ScienceVC: UICollectionViewDataSource {
 
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //나중에 추가
+        if Constant.isLogin {
+            let vc = VideoController()
+            let videoID = scienceVideo?.body[indexPath.row].videoId
+            vc.id = videoID
+            present(vc, animated: true)
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
     }
 }
 

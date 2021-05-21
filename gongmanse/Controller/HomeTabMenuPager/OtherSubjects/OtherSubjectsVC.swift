@@ -228,7 +228,16 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
 
 extension OtherSubjectsVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //나중에 추가
+        if Constant.isLogin {
+            let vc = VideoController()
+            if let data = otherSubjectsVideo {
+                let videoID = data.body[indexPath.row].videoId
+                vc.id = videoID
+                present(vc, animated: true)
+            }
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
     }
 }
 
