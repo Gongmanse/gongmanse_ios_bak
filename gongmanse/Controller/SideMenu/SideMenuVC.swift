@@ -164,6 +164,47 @@ class SideMenuVC: UITableViewController {
                             heightForHeaderInSection section: Int) -> CGFloat {
         return CGFloat(headerViewHeight)
     }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        guard section == 0 else { return nil }
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+        let termsOfServiceBtn = UIButton(frame: CGRect(x: 0, y: 310, width: tableView.frame.width / 2, height: 30))
+        let privacyPolicyBtn = UIButton(frame: CGRect(x: 157, y: 310, width: tableView.frame.width / 2, height: 30))
+        
+        termsOfServiceBtn.setTitle("이용약관", for: .normal)
+        termsOfServiceBtn.backgroundColor = .systemGray4
+        termsOfServiceBtn.tintColor = .white
+        termsOfServiceBtn.addTarget(self, action: #selector(showTermsOfService), for: .touchUpInside)
+        footerView.addSubview(termsOfServiceBtn)
+        
+        privacyPolicyBtn.setTitle("개인정보처리방침", for: .normal)
+        privacyPolicyBtn.backgroundColor = .systemGray4
+        privacyPolicyBtn.tintColor = .white
+        privacyPolicyBtn.addTarget(self, action: #selector(showPrivacyPolicy), for: .touchUpInside)
+        footerView.addSubview(privacyPolicyBtn)
+        
+        termsOfServiceBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        return footerView
+    }
+    
+    @objc func showTermsOfService() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsOfServiceVC") as! TermsOfServiceVC
+        vc.modalPresentationStyle = .fullScreen
+        //self.navigationController?.pushViewController(vc, animated: true)
+        self.present(vc, animated: true)
+        print("성공")
+    }
+    
+    @objc func showPrivacyPolicy() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyPolicyVC") as! PrivacyPolicyVC
+        vc.modalPresentationStyle = .fullScreen
+        //self.navigationController?.pushViewController(vc, animated: true)
+        self.present(vc, animated: true)
+        print("성공2")
+    }
 }
 
 
