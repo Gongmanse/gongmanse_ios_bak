@@ -35,11 +35,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qtC-us-Oyz">
-                        <barButtonItem key="leftBarButtonItem" image="alarm" id="q75-5n-NPj">
-                            <connections>
-                                <segue destination="K1i-Se-r2y" kind="push" id="0yR-3d-1cH"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="list" id="26L-X3-Wen">
                             <connections>
                                 <segue destination="hMZ-Bh-xa8" kind="show" id="udz-fJ-IHO"/>
@@ -79,11 +74,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yIJ-gM-h1g">
-                        <barButtonItem key="leftBarButtonItem" image="alarm" id="E0W-Ms-Wd7">
-                            <connections>
-                                <segue destination="K1i-Se-r2y" kind="push" id="bS5-JD-jfF"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="list" id="s9g-kV-XFp">
                             <connections>
                                 <segue destination="hMZ-Bh-xa8" kind="show" id="9yM-Fl-lv9"/>
@@ -143,11 +133,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="검색" id="Hw2-CA-BRS">
-                        <barButtonItem key="leftBarButtonItem" image="alarm" id="CPF-we-LZz">
-                            <connections>
-                                <segue destination="K1i-Se-r2y" kind="push" id="jHT-2c-ryc"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="list" id="nX8-jS-tAM">
                             <connections>
                                 <segue destination="hMZ-Bh-xa8" kind="show" id="amk-EG-qGo"/>
@@ -332,11 +317,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pia-uO-dPG">
-                        <barButtonItem key="leftBarButtonItem" image="alarm" id="fuz-t4-bIe">
-                            <connections>
-                                <segue destination="K1i-Se-r2y" kind="push" id="RQ3-Hc-uCw"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="list" id="8O2-bD-eXX">
                             <connections>
                                 <segue destination="hMZ-Bh-xa8" kind="show" id="ltC-PN-uOf"/>
@@ -844,11 +824,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="강사별 강의" id="Sa6-x7-5Zw">
-                        <barButtonItem key="leftBarButtonItem" image="alarm" id="0c9-OG-a4j">
-                            <connections>
-                                <segue destination="K1i-Se-r2y" kind="push" id="1s1-Wf-sWq"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="list" id="OSp-3x-Wi3">
                             <connections>
                                 <segue destination="hMZ-Bh-xa8" kind="show" id="xjb-mo-FWE"/>
@@ -901,7 +876,7 @@
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Eg2-Ud-P2f">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="195"/>
-                                                            <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="195" id="Kyb-4j-IZS"/>
                                                             </constraints>
@@ -1161,7 +1136,7 @@
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h5B-jB-PjV">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="195"/>
-                                                            <color key="backgroundColor" red="0.39772650713822261" green="0.85599892789667309" blue="0.75039102956983661" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="195" id="aS0-7E-3Ro"/>
                                                             </constraints>
@@ -1482,7 +1457,7 @@
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P8u-iT-K51">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="195"/>
-                                                            <color key="backgroundColor" red="0.82686116545642818" green="0.52721699360998031" blue="0.85599892789667309" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="195" id="GGn-pl-btR"/>
                                                             </constraints>
@@ -1655,7 +1630,7 @@
                                     <action selector="selectMenuBtn:" destination="bT9-yf-xnO" eventType="touchUpInside" id="yrF-uD-obZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miU-1r-l3x">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miU-1r-l3x">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="egl-6p-JJF"/>
@@ -1734,7 +1709,7 @@
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6EY-23-dE8">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="195"/>
-                                                            <color key="backgroundColor" red="0.22672600984179933" green="0.42401654144699846" blue="0.85599892789667309" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="195" id="Zsd-d5-0Kd"/>
                                                             </constraints>
@@ -1907,7 +1882,7 @@
                                     <action selector="selectMenuBtn:" destination="okp-Ta-j3w" eventType="touchUpInside" id="JTM-go-BfV"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uk-RL-khF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uk-RL-khF">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="C44-Tc-hJE"/>
@@ -1986,7 +1961,7 @@
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nvZ-BA-I3D">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="195"/>
-                                                            <color key="backgroundColor" red="0.85599892789667309" green="0.10575219456288036" blue="0.19992588805526945" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="195" id="K4y-0a-CkW"/>
                                                             </constraints>
@@ -2159,7 +2134,7 @@
                                     <action selector="selectMenuBtn:" destination="xNm-MF-amQ" eventType="touchUpInside" id="ixM-JV-bYC"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eng-xC-6oM">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eng-xC-6oM">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="3hX-TX-ydD"/>
@@ -2238,7 +2213,7 @@
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Ba-vI-W5f">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="195"/>
-                                                            <color key="backgroundColor" red="0.34126335378053246" green="0.85599892789667309" blue="0.076344483624342277" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="195" id="KAQ-wY-tue"/>
                                                             </constraints>
@@ -2397,7 +2372,7 @@
                                     <constraint firstAttribute="width" constant="44" id="L08-Pi-AWU"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLi-Pc-Ynj">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLi-Pc-Ynj">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="42" id="Fnh-T9-15G"/>
@@ -3938,12 +3913,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ltC-PN-uOf"/>
-        <segue reference="RQ3-Hc-uCw"/>
+        <segue reference="xjb-mo-FWE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addPhoto" width="18" height="18"/>
-        <image name="alarm" width="22" height="25.5"/>
         <image name="arrowBelowGray" width="8" height="8"/>
         <image name="chatOff" width="27" height="27"/>
         <image name="chatOn" width="27" height="27"/>
@@ -3977,9 +3950,6 @@
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

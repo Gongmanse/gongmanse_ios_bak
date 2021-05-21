@@ -10,7 +10,8 @@ class SideMenuVC: UITableViewController {
     var profileVM = SideMenuHeaderViewModel()
     
     ///목록 데이터 배열
-    let titles = ["나의 활동", "나의 일정", "공만세란?", "공지사항", "고객센터", "설정"]
+    //let titles = ["나의 활동", "나의 일정", "공만세란?", "공지사항", "고객센터", "설정"]
+    let titles = ["공만세란?", "공지사항", "고객센터", "설정"]
     
     ///아이콘 데이터 배열
     let icons = [
@@ -89,26 +90,41 @@ class SideMenuVC: UITableViewController {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == 0 {
-            let myActivityVC = self.storyboard?.instantiateViewController(withIdentifier: "MyActivityVC") as! MyActivityVC
-            self.navigationController?.pushViewController(myActivityVC, animated: true)
-        } else if indexPath.row == 1 {
-            let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
-            self.navigationController?.pushViewController(myCalendarVC, animated: true)
-        } else if indexPath.row == 2 {
-            let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
-            self.navigationController?.pushViewController(whatIsGongManseVC, animated: true)
-        } else if indexPath.row == 3 {
-            let sideMenuNoticeVC = self.storyboard?.instantiateViewController(withIdentifier: "SideMenuNoticeVC") as! SideMenuNoticeVC
-            self.navigationController?.pushViewController(sideMenuNoticeVC, animated: true)
-        } else if indexPath.row == 4 {
-            let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
-            self.navigationController?.pushViewController(customerServiceVC, animated: true)
-        } else if indexPath.row == 5 {
+//        if indexPath.row == 0 {
+//            let myActivityVC = self.storyboard?.instantiateViewController(withIdentifier: "MyActivityVC") as! MyActivityVC
+//            self.navigationController?.pushViewController(myActivityVC, animated: true)
+//        } else if indexPath.row == 1 {
+//            let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
+//            self.navigationController?.pushViewController(myCalendarVC, animated: true)
+//        } else if indexPath.row == 2 {
+//            let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
+//            self.navigationController?.pushViewController(whatIsGongManseVC, animated: true)
+//        } else if indexPath.row == 3 {
+//            let sideMenuNoticeVC = self.storyboard?.instantiateViewController(withIdentifier: "SideMenuNoticeVC") as! SideMenuNoticeVC
+//            self.navigationController?.pushViewController(sideMenuNoticeVC, animated: true)
+//        } else if indexPath.row == 4 {
+//            let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
+//            self.navigationController?.pushViewController(customerServiceVC, animated: true)
+//        } else if indexPath.row == 5 {
             
             // test용 다이렉트
-            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
-            self.navigationController?.pushViewController(settingsVC, animated: true)
+//            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+//            self.navigationController?.pushViewController(settingsVC, animated: true)
+            
+            if indexPath.row == 0 {
+                let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
+                self.navigationController?.pushViewController(whatIsGongManseVC, animated: true)
+            } else if indexPath.row == 1 {
+                let sideMenuNoticeVC = self.storyboard?.instantiateViewController(withIdentifier: "SideMenuNoticeVC") as! SideMenuNoticeVC
+                self.navigationController?.pushViewController(sideMenuNoticeVC, animated: true)
+            } else if indexPath.row == 2 {
+                let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
+                self.navigationController?.pushViewController(customerServiceVC, animated: true)
+            } else if indexPath.row == 3 {
+                
+                // test용 다이렉트
+                let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+                self.navigationController?.pushViewController(settingsVC, animated: true)
             /* *
             로그인 안하면 실행할 코드
             if Constant.token == "" {
