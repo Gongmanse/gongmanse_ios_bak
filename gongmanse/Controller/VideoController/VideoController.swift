@@ -365,6 +365,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
             cell.videoID = self.id ?? ""
+            cell.delegate = self
             return cell
             
         default:
@@ -487,4 +488,19 @@ extension VideoController: VideoFullScreenControllerDelegate {
     func addNotificaionObserver() {
         setNotification()
     }
+}
+
+
+extension VideoController: BottomPlaylistCellDelegate {
+    
+    func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.id = videoID
+        present(vc, animated: true) {
+            self.player.pause()
+        }
+    }
+    
+    
 }
