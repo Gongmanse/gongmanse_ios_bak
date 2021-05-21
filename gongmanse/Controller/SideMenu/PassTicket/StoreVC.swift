@@ -28,9 +28,10 @@ class StoreVC: UIViewController {
     var products = [SKProduct]()
     
     var productID = [
-        "1year",
+        
         "30days",
-        "90days_new"
+        "90days",
+        "150days"
     ]
     
     // MARK: - IBOutlet
@@ -137,7 +138,7 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         let alert = UIAlertController(title: nil, message: "\(buttonText) 이용권을 구매하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default) { _ in
+        let ok = UIAlertAction(title: "결제", style: .default) { _ in
             // 결제창 연결
             switch sender.tag {
             case 0:
@@ -151,8 +152,8 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 }
                 break
             case 2:
-                InAppProductsyear.store365.requestProducts{ (success,products) in
-                    InAppProductsyear.store365.buyProduct((products?.first)!)
+                InAppProducts150.store150.requestProducts{ (success,products) in
+                    InAppProducts150.store150.buyProduct((products?.first)!)
                 }
                 break
             default:
@@ -160,12 +161,13 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             self.dismiss(animated: true, completion: nil)
         }
-        let cancel = UIAlertAction(title: "취소", style: .destructive) { _ in
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
         
-        alert.addAction(ok)
         alert.addAction(cancel)
+        alert.addAction(ok)
+        
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -207,14 +209,14 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         public static let store30 = IAPHelper(productIds: InAppProducts.productIdentifiers)
     }
     public struct InAppProducts90 {
-        public static let product90 = "90days_new"
+        public static let product90 = "90days"
         private static let productIdentifiers: Set<ProductIdentifier> = [InAppProducts90.product90]
         public static let store90 = IAPHelper(productIds: InAppProducts90.productIdentifiers)
     }
-    public struct InAppProductsyear {
-        public static let product365 = "1year"
-        private static let productIdentifiers: Set<ProductIdentifier> = [InAppProductsyear.product365]
-        public static let store365 = IAPHelper(productIds: InAppProductsyear.productIdentifiers)
+    public struct InAppProducts150 {
+        public static let product150 = "150days"
+        private static let productIdentifiers: Set<ProductIdentifier> = [InAppProducts150.product150]
+        public static let store150 = IAPHelper(productIds: InAppProducts150.productIdentifiers)
     }
     
     func getProductInfo(){
