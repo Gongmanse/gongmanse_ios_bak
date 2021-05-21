@@ -5,7 +5,8 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
     
     private var tableView = UITableView()
     private let PushAlertCellIdentifier = "PushAlertCell"
-    private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
+    //private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
+    private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택"]
     
     var dataApi: SubjectGetDataModel?
     
