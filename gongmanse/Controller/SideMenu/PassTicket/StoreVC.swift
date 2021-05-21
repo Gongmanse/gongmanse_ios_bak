@@ -20,6 +20,8 @@ class StoreVC: UIViewController {
     let purchaseOn: [String] = ["30DayTicketOn","90DayTicketOn","150DayTicketOn"]
     let purchaseOff: [String] = ["30DayTicketOff","90DayTicketOff","150DayTicketOff"]
     
+    var buttonText = ""
+    
     // MARK: - IBOutlet
     
     
@@ -38,6 +40,7 @@ class StoreVC: UIViewController {
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
         tabBarController?.tabBar.isHidden = true
+        buyButton.isHidden = true
     }
     
     
@@ -95,24 +98,44 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.layer.cornerRadius = 10
         let buttonImage = UIImage(named: purchaseOn[indexPath.row])
         cell.selectSubscribeButton.setImage(buttonImage, for: .normal)
-//        cell.selectSubscribeButton.addTarget(self, action: #selector(selectItem(_:)), for: .touchUpInside)
+        cell.selectSubscribeButton.addTarget(self, action: #selector(selectItem(_:)), for: .touchUpInside)
         cell.selectSubscribeButton.tag = indexPath.row
         
         return cell
     }
     
     @objc func selectItem(_ sender: UIButton) {
-//        switch sender.tag {
-//        case 0:
-//            var isSelect = true
-//
-//
-//        default:
-//            <#code#>
-//        }
+        
+        
+        switch sender.tag {
+        case 0:
+            buttonText = "30일"
+            break
+        case 1:
+            buttonText = "90일"
+            break
+        case 2:
+            buttonText = "150일"
+            break
+        default:
+            buttonText = "Non"
+            break
+        }
+        
+        let alert = UIAlertController(title: nil, message: "\(buttonText) 이용권을 구매하시겠습니까?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default) { _ in
+            // 결제창 연결
+            self.dismiss(animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .destructive) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
-    
-    
     
 }
 
