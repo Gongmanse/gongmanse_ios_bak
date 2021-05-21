@@ -112,7 +112,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 재생 및 일시정지 버튼
     let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "play.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "영상재생버튼")
         button.setBackgroundImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
@@ -122,7 +122,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 동영상 앞으로 가기
     let videoForwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "goforward.10")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "앞으로가기버튼")
         button.setImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(moveForwardPlayer), for: .touchUpInside)
@@ -132,7 +132,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 동영상 뒤로 가기
     let videoBackwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "gobackward.10")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "뒤로가기버튼")
         button.setImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(moveBackwardPlayer), for: .touchUpInside)
@@ -144,6 +144,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let slider = UISlider()
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
+        slider.maximumTrackTintColor = .white
         slider.setThumbImage(image, for: .normal)
         slider.value = 1
         return slider
@@ -170,7 +171,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 가로화면(전체화면)으로 전환되는 버튼
     let changeOrientationButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "전체화면버튼")
         button.addTarget(self, action: #selector(presentFullScreenMode), for: .touchUpInside)
         button.setImage(image, for: .normal)
         return button
@@ -178,7 +179,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     let subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "textbox")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "자막토글버튼_제거")
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
         return button
@@ -188,16 +189,17 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     let videoSettingButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "slider.horizontal.3")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "동영상설정버튼")
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
+        button.alpha = 0 // BottomPopup 기능 임시 수정필요함. 0521 1차배포를위해
         return button
     }()
     
     /// 뒤로가기버튼
     let backButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "chevron.down.circle"), for: .normal)
+        button.setImage(UIImage(named: "동영상뒤로가기버튼"), for: .normal)
         button.tintColor = .white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 5
@@ -316,7 +318,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         if UIDevice.current.orientation.isLandscape {
             changeConstraintToVideoContainer(isPortraitMode: true)
         } else {
-//            changeConstraintToVideoContainer(isPortraitMode: false) 05.21 주석처리; 1차 배포를 위해
+            changeConstraintToVideoContainer(isPortraitMode: false) //05.21 주석처리; 1차 배포를 위해
         }
         pageCollectionView.reloadData()
     }

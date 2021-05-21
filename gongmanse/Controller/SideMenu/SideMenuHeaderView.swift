@@ -271,7 +271,7 @@ class SideMenuHeaderView: UIView {
         if viewModel.isLogin {
             
             nickName.text = viewModel.name
-            
+            print(nickName.text)
             loginBtn.setTitle("로그아웃", for: .normal)
             
             signUpBtn.setTitle("프로필 수정", for: .normal)

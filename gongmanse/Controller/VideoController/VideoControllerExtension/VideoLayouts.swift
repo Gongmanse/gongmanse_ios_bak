@@ -33,21 +33,21 @@ extension VideoController {
         view.addSubview(playPauseButton)
         playPauseButton.centerX(inView: videoContainerView)
         playPauseButton.centerY(inView: videoContainerView)
-        playPauseButton.setDimensions(height: 150, width: 150)
+        playPauseButton.setDimensions(height: 50, width: 50)
         
         /* videoForwardTimeButton(동영상 앞으로 가기 버튼) */
         view.addSubview(videoForwardTimeButton)
-        videoForwardTimeButton.setDimensions(height: 20, width: 20)
+        videoForwardTimeButton.setDimensions(height: 28, width: 24)
         videoForwardTimeButton.centerY(inView: videoContainerView)
         videoForwardTimeButton.anchor(left: playPauseButton.rightAnchor,
-                                      paddingLeft: 10)
+                                      paddingLeft: 60)
         
         /* videoForwardTimeButton(동영상 앞으로 가기 버튼) */
         view.addSubview(videoBackwardTimeButton)
-        videoBackwardTimeButton.setDimensions(height: 20, width: 20)
+        videoBackwardTimeButton.setDimensions(height: 28, width: 24)
         videoBackwardTimeButton.centerY(inView: videoContainerView)
         videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor,
-                                       paddingRight: 10)
+                                       paddingRight: 60)
         
         /* subtitleLabel(자막) */
         view.addSubview(subtitleLabel)

@@ -140,6 +140,13 @@ extension BottomQnACell: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let qnaNickName = videoVM.videoQnAInformation?.data[indexPath.row].sNickname
+//        switch qnaNickName {
+//        case :
+//            <#code#>
+//        default:
+//            <#code#>
+//        }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
         
         let short = videoVM.videoQnAInformation?.data[indexPath.row]

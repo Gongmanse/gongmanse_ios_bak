@@ -6,11 +6,19 @@
 import Foundation
 import UIKit
 
-protocol VideoMenuBarDelegate: class {
+protocol VideoMenuBarDelegate: AnyObject {
     func customMenuBar(scrollTo index: Int)
 }
 
 class VideoMenuBar: UIView {
+    
+    let noteOffLeftImage = UIImage(named: "노트보기버튼_off")
+    let qnaOffLeftImage = UIImage(named: "강의QnA버튼_off")
+    let playlistOffLeftImage = UIImage(named: "재생목록버튼_off")
+    
+    let noteOnLeftImage = UIImage(named: "노트보기버튼_on")
+    let qnaOnLeftImage = UIImage(named: "강의QnA버튼_on")
+    let playlistOnLeftImage = UIImage(named: "재생목록버튼_on")
     
     weak var delegate: VideoMenuBarDelegate?
     override init(frame: CGRect) {
@@ -60,17 +68,23 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoUpperCell.reusableIdentifier, for: indexPath) as! VideoUpperCell
-        
+        cell.leftImageView.tintColor = .black
         switch indexPath.row {
         case 0:
             cell.label.text = "노트보기"
+            cell.leftImageView.image = noteOffLeftImage
         case 1:
             cell.label.text = "강의 QnA"
+            cell.leftImageView.image = qnaOffLeftImage
         case 2:
             cell.label.text = "재생목록"
+            cell.leftImageView.image = playlistOffLeftImage
         default:
             cell.label.text = "노트보기"
+            cell.leftImageView.image = noteOffLeftImage
         }
+        
+        
         
         return cell
     }
@@ -85,12 +99,38 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? VideoUpperCell else {return}
+
+        switch indexPath.row {
+        case 0:
+            cell.label.text = "노트보기"
+            cell.leftImageView.tintColor = .mainOrange
+//            cell.leftImageView.image = noteOnLeftImage
+        case 1:
+            cell.label.text = "강의 QnA"
+            cell.leftImageView.tintColor = .mainOrange
+//            cell.leftImageView.image = qnaOnLeftImage
+        case 2:
+            cell.label.text = "재생목록"
+            cell.leftImageView.tintColor = .mainOrange
+//            cell.leftImageView.image = playlistOnLeftImage
+        default:
+            cell.label.text = "노트보기"
+            cell.leftImageView.tintColor = .mainOrange
+//            cell.leftImageView.image = noteOnLeftImage
+        }
+        
         delegate?.customMenuBar(scrollTo: indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? UpperCell else {return}
-        cell.label.textColor = .mainOrange
+        guard let cell2 = collectionView.cellForItem(at: indexPath) as? VideoUpperCell else {return}
+        cell2.leftImageView.tintColor = .black
+        
+//        guard let cell = collectionView.cellForItem(at: indexPath) as? UpperCell else {return}
+//        cell.label.textColor = .mainOrange
+        
+
     }
 }
 

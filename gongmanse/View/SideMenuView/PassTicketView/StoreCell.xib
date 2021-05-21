@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +19,18 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAk-LT-6Na">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="77"/>
-                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nT-Et-GgU">
+                                <rect key="frame" x="0.0" y="0.0" width="250" height="77"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6nT-Et-GgU" firstAttribute="leading" secondItem="hAk-LT-6Na" secondAttribute="leading" id="4or-jG-Qf2"/>
+                            <constraint firstAttribute="trailing" secondItem="6nT-Et-GgU" secondAttribute="trailing" id="W5w-wb-xdd"/>
+                            <constraint firstItem="6nT-Et-GgU" firstAttribute="top" secondItem="hAk-LT-6Na" secondAttribute="top" id="dR1-EO-8TK"/>
+                            <constraint firstAttribute="bottom" secondItem="6nT-Et-GgU" secondAttribute="bottom" id="maU-9m-6qe"/>
+                        </constraints>
                     </view>
                 </subviews>
             </view>
@@ -32,12 +42,10 @@
                 <constraint firstItem="hAk-LT-6Na" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lJ2-aE-ETA"/>
             </constraints>
             <size key="customSize" width="250" height="77"/>
+            <connections>
+                <outlet property="selectSubscribeButton" destination="6nT-Et-GgU" id="g55-VS-dpb"/>
+            </connections>
             <point key="canvasLocation" x="173.91304347826087" y="133.59375"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemTealColor">
-            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>
