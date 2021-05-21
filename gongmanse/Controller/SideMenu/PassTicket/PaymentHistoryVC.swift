@@ -52,7 +52,7 @@ extension PaymentHistoryVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyStateViewCell", for: indexPath) as! EmptyStateViewCell
-            cell.alertMessage.text = "결제 내역이 없습니다."
+            cell.alertMessage.text = "준비중 입니다.."
             return cell
         }
     }
