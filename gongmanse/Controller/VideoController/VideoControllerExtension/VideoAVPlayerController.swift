@@ -180,6 +180,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // 영상 시간을 나타내는 UISlider에 최대 * 최소값을 주기 위해서 아래 프로퍼티를 할당한다.
         let duration: CMTime = playerItem.asset.duration
+//        let duration: CMTime = queuePlayerItem.items().first!.asset.duration
         let endSeconds: Float64 = CMTimeGetSeconds(duration)
         
         endTimeTimeLabel.text = convertTimeToFitText(time: Int(endSeconds))

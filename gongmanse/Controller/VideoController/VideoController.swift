@@ -210,6 +210,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var playerController = AVPlayerViewController()
     var timeObserverToken: Any?
     lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
+    lazy var queuePlayerItem = AVQueuePlayer(items: [playerItem])
+    
     lazy var player = AVPlayer(playerItem: playerItem)
     var videoURL = NSURL(string: "")
     var vttURL = ""
