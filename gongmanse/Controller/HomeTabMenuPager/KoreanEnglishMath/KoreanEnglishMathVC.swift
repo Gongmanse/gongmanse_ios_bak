@@ -92,6 +92,8 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     
     func ChangeSwitchButton() {
         
+        playSwitch.isHidden = true
+        
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         playSwitch.onTintColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)

@@ -91,6 +91,8 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
     
     func changeSwitchButton() {
         
+        playSwitch.isHidden = true
+        
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
     }
