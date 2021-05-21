@@ -33,7 +33,6 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         super.viewDidLoad()
         
         getDataFromJson()
-        naviAndLabelSettings()
         floatingButton()
         
         //테이블 뷰 빈칸 숨기기
@@ -50,19 +49,6 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         filteringBtn.setTitle(sortedButtonTitle as? String, for: .normal)
     }
     
-    func naviAndLabelSettings() {
-        
-        //총 개수 label text 지정
-        countAll.text = "총 56개"
-        //상담하기 썸네일 총 개수 label 부분 오렌지 색으로 변경
-        let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.black])
-        
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: "56"))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: "56"))
-        
-        self.countAll.attributedText = attributedString
-    }
-    
     func getDataFromJson() {
         if let url = URL(string: ExpertConsultation_URL + "limit=57&offset=0&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
@@ -77,9 +63,25 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
                 }
                 DispatchQueue.main.async {
                     self.expertConsultationTV.reloadData()
+                    self.textSettings()
                 }
             }.resume()
         }
+    }
+    
+    func textSettings() {
+        guard let value = self.consultModels?.totalNum else { return }
+        
+        self.countAll.text = "총 \(value)개"
+        self.countAll.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        
+        //비디오 총 개수 부분 오렌지 색으로 변경
+        let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15, weight: .medium), .foregroundColor: UIColor.black])
+
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .medium), range: (countAll.text! as NSString).range(of: value))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value))
+
+        self.countAll.attributedText = attributedString
     }
     
     @IBAction func selectMenuBtn(_ sender: UIButton) {

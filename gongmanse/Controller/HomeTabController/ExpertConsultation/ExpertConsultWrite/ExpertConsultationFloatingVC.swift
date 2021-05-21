@@ -1,5 +1,6 @@
 import UIKit
 import Photos
+import Alamofire
 
 class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     
@@ -45,7 +46,7 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
         
         alertViewBackground.isHidden = true
         
-//        uploadImageCollectionView.register(UINib(nibName: "ConsultUploadImageDefaultCell", bundle: nil), forCellWithReuseIdentifier: "ConsultUploadImageDefaultCell")
+        uploadImageCollectionView.register(UINib(nibName: "ConsultUploadImageDefaultCell", bundle: nil), forCellWithReuseIdentifier: "ConsultUploadImageDefaultCell")
     }
     
     
@@ -118,6 +119,61 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func writeBtnAction(_ sender: Any) {
+        let paramData: [String: Any] = ["question": answerTextView.text!, "token": Constant.testToken]
+        var request = URLRequest(url: URL(string: "https://api.gongmanse.com/v1/my/expert/consultations_urgent")!)
+        request.httpMethod = "POST"
+        
+        do {
+            try request.httpBody = JSONSerialization.data(withJSONObject: paramData, options: [])
+        } catch {
+            return
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        URLSession.shared.dataTask(with: request, completionHandler: { ( data, response, error ) -> Void in
+            if let response = response as? HTTPURLResponse, 200...299 ~= response.statusCode {
+                print("success")
+            } else {
+                print("failed")
+            }
+        })
+//        let url = URL(string: "https://api.gongmanse.com/v1/my/expert/consultations_urgent")
+//
+//        let session = URLSession.shared
+//
+//        var request = URLRequest(url: url!)
+//        request.httpMethod = "POST"
+//
+//        do {
+//            request.httpBody = try JSONSerialization.data(withJSONObject: paramData, options: .prettyPrinted)
+//        } catch let error {
+//            print(error.localizedDescription)
+//        }
+//
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.addValue("application/json", forHTTPHeaderField: "Accept")
+//
+//        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+//            guard error == nil else {
+//                return
+//            }
+//
+//            guard let data = data else {
+//                return
+//            }
+//
+//            do {
+//                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+//                    print(json)
+//                }
+//            } catch let error {
+//                print(error.localizedDescription)
+//            }
+//        })
+//        task.resume()
+        
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -195,6 +251,7 @@ extension ExpertConsultationFloatingVC: UICollectionViewDelegate, UICollectionVi
         
         if let imageView = cell.viewWithTag(1000) as? UIImageView {
             imageView.image = images[indexPath.item]
+            print(images[indexPath.item])
         }
         
         if images.count == 0 {
