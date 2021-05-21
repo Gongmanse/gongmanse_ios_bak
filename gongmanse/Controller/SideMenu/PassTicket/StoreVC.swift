@@ -16,6 +16,10 @@ class StoreVC: UIViewController {
     var pageIndex: Int!
 
     let sku: [String] = ["30일", "90일", "150일"]
+    
+    let purchaseOn: [String] = ["30DayTicketOn","90DayTicketOn","150DayTicketOn"]
+    let purchaseOff: [String] = ["30DayTicketOff","90DayTicketOff","150DayTicketOff"]
+    
     // MARK: - IBOutlet
     
     
@@ -89,9 +93,25 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! StoreCell
         cell.layer.cornerRadius = 10
-        cell.selectSubscribeButton.setTitle(sku[indexPath.row], for: .normal)
+        let buttonImage = UIImage(named: purchaseOn[indexPath.row])
+        cell.selectSubscribeButton.setImage(buttonImage, for: .normal)
+//        cell.selectSubscribeButton.addTarget(self, action: #selector(selectItem(_:)), for: .touchUpInside)
+        cell.selectSubscribeButton.tag = indexPath.row
+        
         return cell
     }
+    
+    @objc func selectItem(_ sender: UIButton) {
+//        switch sender.tag {
+//        case 0:
+//            var isSelect = true
+//
+//
+//        default:
+//            <#code#>
+//        }
+    }
+    
     
     
 }
