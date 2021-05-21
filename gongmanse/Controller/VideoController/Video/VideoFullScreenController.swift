@@ -165,6 +165,9 @@ class VideoFullScreenController: UIViewController{
     
     init(playerCurrentTime time: CMTime, urlData: VideoURL?) {
         super.init(nibName: nil, bundle: nil)
+        
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+        
         self.currentPlayerTime = time
         
         if let urls = urlData {
@@ -183,6 +186,8 @@ class VideoFullScreenController: UIViewController{
     }
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         configureOrientation()
         configureDataAndNoti()
@@ -199,9 +204,10 @@ class VideoFullScreenController: UIViewController{
         player.pause()
         NotificationCenter.default.removeObserver(self)
         removePeriodicTimeObserver()
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         self.dismiss(animated: true) {
             // 화면회전에 대한 제한을 변경한다. (세로모드)
-            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
+         
             
             // delegate를 통해 "VideoController"의 Notificaion을 활성화 시킨다.
             // (영상 속도조절 및 자막 생성 및 소멸 액션을 수행을 위해)
