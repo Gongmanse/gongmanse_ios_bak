@@ -9,9 +9,16 @@ import UIKit
 
 class QnAMyChatCell: UITableViewCell {
 
+    @IBOutlet weak var myProfile: UIImageView!
+    @IBOutlet weak var myContent: UITextView!
+    @IBOutlet weak var myStackView: UIStackView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        myProfile.layer.cornerRadius = 10
+        myContent.layer.cornerRadius = 10
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

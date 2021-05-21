@@ -49,9 +49,9 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="profileImage" destination="h2o-jL-Wag" id="JMf-Pw-ypg"/>
-                <outlet property="questionLabel" destination="glh-Ub-mkP" id="Xvq-eT-qrp"/>
-                <outlet property="stackColor" destination="3kZ-fJ-0uu" id="rCv-yR-Mr4"/>
+                <outlet property="otherContent" destination="glh-Ub-mkP" id="Xvq-eT-qrp"/>
+                <outlet property="otherProfile" destination="h2o-jL-Wag" id="JMf-Pw-ypg"/>
+                <outlet property="otherStackView" destination="3kZ-fJ-0uu" id="rCv-yR-Mr4"/>
             </connections>
             <point key="canvasLocation" x="226.81159420289856" y="118.86160714285714"/>
         </tableViewCell>
