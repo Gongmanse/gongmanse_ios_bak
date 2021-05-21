@@ -2,29 +2,27 @@
 
 import UIKit
 /**
-  // 중간 텍스트 글자 색 변경예정
+ // 중간 텍스트 글자 색 변경예정
  
  */
 private let cellId = "SearchVideoCell"
 
 class SearchVideoVC: UIViewController {
-
+    
     //MARK: - Properties
     
-    
     var pageIndex: Int!
-    
-
     let searchVideoVM = SearchVideoViewModel()
     
     // singleton
     lazy var searchData = SearchData.shared
-    //MARK: - IBOutlet
     
+    //MARK: IBOutlet
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
     @IBOutlet weak var sortButtonTitle: UIButton!
+    
     
     //MARK: - Lifecycle
     
@@ -43,10 +41,8 @@ class SearchVideoVC: UIViewController {
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
         
-        
         // 필터링하고 받는 곳
         NotificationCenter.default.addObserver(self, selector: #selector(receiveFilter(_:)), name: .searchAfterVideoNoti, object: nil)
-        
         
         // 검색 후 검색되면 신호받는 곳 :
         NotificationCenter.default.addObserver(self, selector: #selector(afterSearch(_:)), name: .searchAfterSearchNoti, object: nil)
@@ -76,7 +72,6 @@ class SearchVideoVC: UIViewController {
                                       offset: "0",
                                       sortid: "4",
                                       limit: "20")
-        
     }
     
     @objc func receiveFilter(_ sender: Notification) {
@@ -114,11 +109,15 @@ class SearchVideoVC: UIViewController {
 
 extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        
         return searchVideoVM.responseVideoModel?.data.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchVideoCell
         
         guard let indexData = searchVideoVM.responseVideoModel?.data[indexPath.row] else { return UICollectionViewCell() }
@@ -129,8 +128,24 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.chemistry.text = indexData.sSubject
         cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData.sSubjectColor ?? "")")
         cell.videoImage.setImageUrl("\(fileBaseURL)/\(indexData.sThumbnail ?? "")")
-        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
+        if Constant.isLogin {
+            let vc = VideoController()
+            let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+            let videoID = receviedVideoID
+            vc.id = videoID
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+            
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
     }
 }
 

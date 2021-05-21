@@ -5,7 +5,13 @@
 import Foundation
 import UIKit
 
+protocol BottomPlaylistCellDelegate: AnyObject {
+    func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String)
+}
+
 class BottomPlaylistCell: UICollectionViewCell {
+    
+    weak var delegate: BottomPlaylistCellDelegate?
     
     var playlist: PlayListModels?
     var videoID: String = ""
@@ -105,12 +111,17 @@ class BottomPlaylistCell: UICollectionViewCell {
 }
 
 extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        
         guard let data = self.playlist?.data else { return 0}
         return data.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
         
         guard let json = self.playlist else { return cell }
@@ -139,5 +150,14 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+        if let data = playlist {
+            let videoID = data.data[indexPath.row].id
+            delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
+        }
+        
     }
 }

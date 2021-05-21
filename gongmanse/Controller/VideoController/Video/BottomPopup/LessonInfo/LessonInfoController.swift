@@ -209,8 +209,11 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data = sTagsArray[indexPath.row]
-        let vc = TestSearchController(clickedText: data)
-        present(vc, animated: true)
+        let vc = SearchAfterVC()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        vc.searchData.searchText = data
+        present(nav, animated: true)
     }
 }
 

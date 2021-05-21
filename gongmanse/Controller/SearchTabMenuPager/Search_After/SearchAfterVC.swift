@@ -16,7 +16,6 @@ protocol SearchAfterVCDelegate: class {
     func passTheKeywordData(keyword: String)
 }
 
-
 class SearchAfterVC: UIViewController {
 
     //MARK: - Properties
@@ -35,7 +34,6 @@ class SearchAfterVC: UIViewController {
     let searchVideo = SearchVideoVC()
     let searchConsult = SearchConsultVC()
     let searchNote = SearchNoteVC()
-
     
     // ViewModel
     let searchAfterVM = SearchVideoViewModel()
@@ -43,14 +41,15 @@ class SearchAfterVC: UIViewController {
     // singleton
     lazy var searchData = SearchData.shared
     
+    
     //MARK: - IBOutlet
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabsView: TabsView!
+
     
     //MARK: - Lifecycle
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -18,22 +18,27 @@ extension VideoController {
         print("DEBUG: 6Rangs is \(keywordRanges[6])")
         print("DEBUG: 7Rangs is \(keywordRanges[7])")
         
+        let vc = SearchAfterVC()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        
         /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
-            let vc = TestSearchController(clickedText: currentKeywords[0])
-            present(vc, animated: true)
+            vc.searchData.searchText = currentKeywords[0]
+//            let vc = TestSearchController(clickedText: currentKeywords[0])
+            present(nav, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             print("DEBUG: \(currentKeywords[2])?")
-            let vc = TestSearchController(clickedText: currentKeywords[2])
-            present(vc, animated: true)
+            vc.searchData.searchText = currentKeywords[2]
+            present(nav, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             print("DEBUG: \(currentKeywords[4])?")
-            let vc = TestSearchController(clickedText: currentKeywords[4])
-            present(vc, animated: true)
+            vc.searchData.searchText = currentKeywords[4]
+            present(nav, animated: true)
             
         } else {
             print("DEBUG: 키워드가 없나요?")
@@ -70,7 +75,7 @@ extension VideoController {
         // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
         attributedString
             .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.systemFont(ofSize: 16),
+                          value: UIFont.appBoldFontWith(size: 16),
                           range: (text as NSString).range(of: ("\(array[aIndex])")))
         attributedString
             .addAttribute(NSAttributedString.Key.foregroundColor,
