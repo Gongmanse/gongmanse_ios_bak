@@ -363,7 +363,7 @@ extension SearchAfterVC: UISearchBarDelegate {
         // SearchBar 실행 시, 나타났던 키보드 및 Placeholder 초기화
         // 삭제버튼(검색어 입력할 때, 우측에 있는 x마크) 제거
         self.searchBar.showsCancelButton = false
-        self.searchBar.text = ""
+        
         self.searchBar.resignFirstResponder()
         
     }
