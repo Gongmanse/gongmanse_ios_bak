@@ -27,35 +27,35 @@
  }
  */
 
-struct NoteResponse: Decodable {
+struct NoteResponse: Codable {
     
     var data: NoteData?
 }
 
-struct NoteData: Decodable {
+struct NoteData: Codable {
     
     var sNotes: [String]
-    var sJson: [sJson]?
+    var sJson: sJson?
 }
 
-struct sJson: Decodable {
+struct sJson: Codable {
     
-    var aspectRatio: String
+    var aspectRatio: Double
 
     var strokes: [strokes]?
 }
 
-struct strokes: Decodable {
+struct strokes: Codable {
     
     var cap: String
     var join: String
     var miterLimit: Int
     var color: String
     var points: [points]
-    var size: Float
+    var size: Double
 }
 
-struct points: Decodable {
-    var x: Float
-    var y: Float
+struct points: Codable {
+    var x: Double
+    var y: Double
 }

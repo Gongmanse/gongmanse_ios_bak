@@ -326,6 +326,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         
         player.play()
+        pageCollectionView.reloadData()
+        pageCollectionView.setNeedsDisplay()
         player.isMuted = false
     }
     
@@ -408,26 +410,14 @@ extension VideoController: AVPlayerViewControllerDelegate {
             })
             
         } else {
-            UIView.animate(withDuration: 0.22, delay: 0, options: .curveEaseInOut) {
+            UIView.animate(withDuration: 0.22, delay: 0, options: .curveEaseInOut, animations: {
                 self.videoControlContainerView.alpha = 1
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
                 self.videoSettingButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
-            } completion: { (finished) in
-                
-                UIView.animate(withDuration: 0.22, delay: 2.44, options: .curveEaseInOut) {
-                    self.videoControlContainerView.alpha = 0
-                    self.playPauseButton.alpha = 0
-                    self.videoForwardTimeButton.alpha = 0
-                    self.videoBackwardTimeButton.alpha = 0
-                    self.videoSettingButton.alpha = 0
-                    self.subtitleToggleButton.alpha = 0
-                } completion: { (finished) in
-                    //
-                }
-            }
+            }, completion: nil)
         }
     }
     
