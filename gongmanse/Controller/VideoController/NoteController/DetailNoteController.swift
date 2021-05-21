@@ -25,7 +25,7 @@ class DetailNoteController: UIViewController {
     
     // MARK: UI
     
-    let canvas = Canvas()
+    var canvas = Canvas()
     
     private let textImageView: UIImageView = {
         let imageView = UIImageView()
@@ -103,7 +103,7 @@ class DetailNoteController: UIViewController {
         let image = UIImage(systemName: "chevron.left.2")
         button.setImage(image, for: .normal)
         button.layer.borderWidth = 1
-        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
     
@@ -160,23 +160,23 @@ class DetailNoteController: UIViewController {
         print("DEBUG: 클릭이잘된다.")
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let touch = touches.first!
-        let point = touch.location(in: touchPositionView)
-        print("DEBUG: 현재 터치한 곳의 위치는 \(point) 입니다.")
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("DEBUG: 터치를 종료합니다...")
-    }
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//        let touch = touches.first!
+//        let point = touch.location(in: touchPositionView)
+//        print("DEBUG: 현재 터치한 곳의 위치는 \(point) 입니다.")
+//    }
+//
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        print("DEBUG: 터치를 종료합니다...")
+//    }
     
     @objc func openWritingImplement() {
 
-        if touchPositionView.alpha == 0 {
-            touchPositionView.alpha = 1
+        if canvas.alpha == 0 {
+            canvas.alpha = 1
         } else {
-            touchPositionView.alpha = 0
+            canvas.alpha = 0
         }
     }
     
@@ -189,7 +189,6 @@ class DetailNoteController: UIViewController {
     }
     
     @objc fileprivate func handleColorChange(button: UIButton) {
-        print("DEBUG: 클릭하고계십니다...")
         canvas.setStrokeColor(color: button.backgroundColor ?? .black)
     }
     
@@ -197,7 +196,6 @@ class DetailNoteController: UIViewController {
     // MARK: - Heleprs
     
     func configureUI() {
-        
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .vertical
         layout.itemSize.height = 310
@@ -212,20 +210,19 @@ class DetailNoteController: UIViewController {
                               bottom: view.bottomAnchor,
                               right: view.rightAnchor)
         collectionView.register(NoteImageCell.self, forCellWithReuseIdentifier: cellID)
-
         
-        view.addSubview(touchPositionView)
-        touchPositionView.anchor(top: view.topAnchor,
-                                 left: view.leftAnchor,
-                                 bottom: view.bottomAnchor,
-                                 right: view.rightAnchor)
-        touchPositionView.alpha = 0
+        view.addSubview(canvas)
+        canvas.anchor(top:collectionView.topAnchor,
+                      left: collectionView.leftAnchor)
+        canvas.setDimensions(height: collectionView.frame.height, width: collectionView.frame.width)
+        canvas.backgroundColor = .lightGray
+        canvas.alpha = 0
         
         let width = view.frame.width * 0.5
-        
+        writingImplement.alpha = 0
         view.addSubview(writingImplement)
         writingImplement.frame = CGRect(x: 0,
-                                        y: 200,
+                                        y: 250,
                                         width: width,
                                         height: 50)
         
@@ -246,7 +243,6 @@ class DetailNoteController: UIViewController {
                               paddingLeft: 15,
                               width: width - 15,
                               height: 59)
-        
     }
 }
 

@@ -92,7 +92,7 @@ extension VideoController {
         teacherInfoFoldConstraint
             = lessonInfoView.heightAnchor.constraint(equalToConstant: 5)
         teacherInfoUnfoldConstraint
-            = lessonInfoView.heightAnchor.constraint(equalToConstant: 180)
+            = lessonInfoView.heightAnchor.constraint(equalToConstant: 120)
         
         // Portrait 제약조건 정의
         lessonInfoViewPorTraitTopConstraint

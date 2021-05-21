@@ -326,6 +326,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         
         player.play()
+        pageCollectionView.reloadData()
+        pageCollectionView.setNeedsDisplay()
         player.isMuted = false
     }
     

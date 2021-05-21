@@ -48,7 +48,7 @@ class Canvas: UIView {
         super.draw(rect)
         
         guard let context = UIGraphicsGetCurrentContext() else { return }
-
+        
         lines.forEach { line in
             context.setStrokeColor(line.color.cgColor)
             context.setLineWidth(CGFloat(line.strokeWidth))
@@ -76,9 +76,9 @@ class Canvas: UIView {
     
     // track the finger as we move across screen
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        guard let point = touches.first?.location(in: nil) else { return }
-        
+                
+        guard let point = touches.first?.location(in: self) else { return }
+        print("DEBUG: Position \(point)")
         guard var lastLine = lines.popLast() else { return }
         lastLine.points.append(point)
         lines.append(lastLine)

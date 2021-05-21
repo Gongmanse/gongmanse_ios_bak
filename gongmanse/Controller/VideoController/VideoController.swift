@@ -289,6 +289,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         super.viewDidLoad()
         configureDataAndNoti()
         configureUI()                    // 전반적인 UI 구현 메소드
@@ -311,12 +312,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                         at: UICollectionView.ScrollPosition.left,
                                         animated: true)
         super.viewWillTransition(to: size, with: coordinator)
-        
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
             changeConstraintToVideoContainer(isPortraitMode: true)
         } else {
-            changeConstraintToVideoContainer(isPortraitMode: false)
+//            changeConstraintToVideoContainer(isPortraitMode: false) 05.21 주석처리; 1차 배포를 위해
         }
         pageCollectionView.reloadData()
     }
