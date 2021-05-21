@@ -166,7 +166,7 @@ extension DetailScreenTabController: UICollectionViewDelegate, UICollectionViewD
                                left: cell.contentView.leftAnchor,
                                bottom: cell.contentView.bottomAnchor,
                                right: cell.contentView.rightAnchor)
-            noteVC.view.layoutIfNeeded()
+            noteVC.view.setNeedsDisplay()
             return cell
             
         case 1:

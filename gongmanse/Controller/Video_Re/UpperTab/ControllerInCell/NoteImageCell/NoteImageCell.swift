@@ -41,8 +41,6 @@ class NoteImageCell: UICollectionViewCell {
                              left: self.leftAnchor,
                              bottom: self.bottomAnchor,
                              right: self.rightAnchor)
-        noteImageView.backgroundColor = .gray
+        noteImageView.backgroundColor = .gray.withAlphaComponent(0.2)
     }
-    
-
 }

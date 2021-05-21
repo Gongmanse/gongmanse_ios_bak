@@ -119,7 +119,10 @@ class BottomQnACell: UICollectionViewCell {
         }
         
     }
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.tableView.endEditing(true)
+    }
 }
 
 extension BottomQnACell: UITableViewDelegate {

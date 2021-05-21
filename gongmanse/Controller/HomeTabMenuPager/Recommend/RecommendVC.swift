@@ -185,10 +185,24 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = VideoController()
-        vc.id = recommendVideo.body[indexPath.row].videoId
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        let token = Constant.token
+        
+        // 토큰이 없는 경우
+        if token.count < 3 {
+            
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            
+        } else {
+            
+            let vc = VideoController()
+            vc.id = recommendVideo.body[indexPath.row].videoId
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true) {
+                sleep(1)
+            }
+        }
+        
+        
     }
 }
 
