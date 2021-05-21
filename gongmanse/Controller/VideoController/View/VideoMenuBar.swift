@@ -6,11 +6,15 @@
 import Foundation
 import UIKit
 
-protocol VideoMenuBarDelegate: class {
+protocol VideoMenuBarDelegate: AnyObject {
     func customMenuBar(scrollTo index: Int)
 }
 
 class VideoMenuBar: UIView {
+    
+    let noteLeftImage = UIImage(named: "노트보기버튼")
+    let qnaLeftImage = UIImage(named: "강의QnA버튼")
+    let playlistLeftImage = UIImage(named: "재생목록버튼")
     
     weak var delegate: VideoMenuBarDelegate?
     override init(frame: CGRect) {
@@ -64,12 +68,16 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
             cell.label.text = "노트보기"
+            cell.leftImageView.image = noteLeftImage
         case 1:
             cell.label.text = "강의 QnA"
+            cell.leftImageView.image = qnaLeftImage
         case 2:
             cell.label.text = "재생목록"
+            cell.leftImageView.image = playlistLeftImage
         default:
             cell.label.text = "노트보기"
+            cell.leftImageView.image = noteLeftImage
         }
         
         return cell

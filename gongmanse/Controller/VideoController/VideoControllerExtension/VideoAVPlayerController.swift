@@ -84,8 +84,8 @@ extension VideoController {
     
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
     @objc func playPausePlayer() {
-        let playImage = UIImage(systemName: "play.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        let pauseImage = UIImage(systemName: "pause.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let playImage = UIImage(named: "영상재생버튼")
+        let pauseImage = UIImage(named: "영상일시정지버튼")
         
         /// 연산프로퍼티 "isPlaying" 에 따라서 플레이어를 정지 혹은 재생시킨다.
         if isPlaying {
@@ -349,8 +349,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
                           paddingLeft: 10)
         backButton.addTarget(self, action: #selector(handleBackButtonAction),
                              for: .touchUpInside)
-        backButton.alpha = 0.77
-        backButton.setDimensions(height: 20, width: 20)
+        backButton.alpha = 1
+        backButton.setDimensions(height: 30, width: 30)
         
         // 타임라인 timerSlider
         let convertedWidth = convertWidth(244, standardView: view)
@@ -374,6 +374,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                                 height: 13)
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
+        changeOrientationButton.setDimensions(height: 20, width: 20)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 5)
@@ -405,9 +406,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.videoBackwardTimeButton.alpha = 0
                 self.videoSettingButton.alpha = 0
                 self.subtitleToggleButton.alpha = 0
-            }, completion: { finished in
-                
-            })
+            }, completion: nil)
             
         } else {
             UIView.animate(withDuration: 0.22, delay: 0, options: .curveEaseInOut, animations: {
@@ -415,7 +414,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
-                self.videoSettingButton.alpha = 1
+//                self.videoSettingButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
             }, completion: nil)
         }

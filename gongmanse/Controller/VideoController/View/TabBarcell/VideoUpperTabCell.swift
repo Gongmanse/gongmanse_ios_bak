@@ -7,13 +7,17 @@ import UIKit
 
 class VideoUpperCell: UICollectionViewCell {
     
-    var label: UILabel = {
+    public var label: UILabel = {
         let label = UILabel()
         label.textColor = .rgb(red: 28, green: 28, blue: 28)
         label.textAlignment = .center
         label.font = UIFont.appBoldFontWith(size: 14)
         return label
     }()
+    
+    public var leftImageView = UIImageView()
+    
+    
     
     
     //MARK: - Lifecycle
@@ -25,6 +29,12 @@ class VideoUpperCell: UICollectionViewCell {
         self.backgroundColor = .white
         label.centerX(inView: self)
         label.centerY(inView: self)
+        
+        self.addSubview(leftImageView)
+        leftImageView.setDimensions(height: 22, width: 23.4)
+        leftImageView.centerY(inView: label)
+        leftImageView.anchor(right: label.leftAnchor,
+                             paddingRight: 5)
     }
  
     required init?(coder: NSCoder) {
