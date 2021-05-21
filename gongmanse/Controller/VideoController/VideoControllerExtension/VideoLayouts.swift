@@ -29,6 +29,7 @@ extension VideoController {
         videoContainerViewLandscapeLeftConstraint
             = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
         
+        
         /* playPauseButton(동영상 클릭 시, 재생 및 일시정지 버튼 */
         view.addSubview(playPauseButton)
         playPauseButton.centerX(inView: videoContainerView)
