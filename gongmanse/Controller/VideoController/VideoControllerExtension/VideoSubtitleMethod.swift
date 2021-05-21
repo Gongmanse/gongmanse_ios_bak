@@ -19,7 +19,8 @@ extension VideoController {
         print("DEBUG: 7Rangs is \(keywordRanges[7])")
         
         let vc = SearchAfterVC()
-        vc.modalPresentationStyle = .fullScreen
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
         
         /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
@@ -27,17 +28,17 @@ extension VideoController {
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             vc.searchData.searchText = currentKeywords[0]
 //            let vc = TestSearchController(clickedText: currentKeywords[0])
-            present(vc, animated: true)
+            present(nav, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             print("DEBUG: \(currentKeywords[2])?")
             vc.searchData.searchText = currentKeywords[2]
-            present(vc, animated: true)
+            present(nav, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             print("DEBUG: \(currentKeywords[4])?")
             vc.searchData.searchText = currentKeywords[4]
-            present(vc, animated: true)
+            present(nav, animated: true)
             
         } else {
             print("DEBUG: 키워드가 없나요?")

@@ -500,7 +500,7 @@ extension VideoController: BottomPlaylistCellDelegate {
         present(vc, animated: true) {
             self.player.pause()
         }
+        
+        
     }
-    
-    
 }
