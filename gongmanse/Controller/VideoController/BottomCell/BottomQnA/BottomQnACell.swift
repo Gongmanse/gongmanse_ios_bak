@@ -151,6 +151,7 @@ extension BottomQnACell: UITableViewDataSource {
         
         let short = videoVM.videoQnAInformation?.data[indexPath.row]
         
+        
         cell.selectionStyle = .none
         cell.questionLabel.text = "A. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
         return cell
