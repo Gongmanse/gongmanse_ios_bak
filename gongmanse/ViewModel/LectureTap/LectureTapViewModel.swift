@@ -39,10 +39,26 @@ class LectureTapViewModel {
             switch response {
             case .success(let data):
                 self.lectureSeries = data
-                print(data)
+                self.reloadDelgate?.reloadCollection()
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+    }
+    
+    // Grade
+    
+    func convertGrade(_ grade: String?) -> String{
+        
+        switch grade {
+        case "초등":
+            return OneGrade.element.oneWord
+        case "중등":
+            return OneGrade.element.oneWord
+        case "고등":
+            return OneGrade.element.oneWord
+        default:
+            return ""
         }
     }
     

@@ -8,21 +8,14 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="NanumSquareRoundB.ttf">
-            <string>NanumSquareRoundB</string>
-        </array>
-        <array key="NanumSquareRoundR.ttf">
-            <string>NanumSquareRoundR</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TeacherPlaylistVC" customModule="gongmanse" customModuleProvider="target">
             <connections>
-                <outlet property="circleInTagview" destination="Pes-MP-Rvc" id="zVV-7g-kgW"/>
                 <outlet property="collectionview" destination="MJ9-Ki-Zkb" id="O4h-NB-VpX"/>
+                <outlet property="colorView" destination="vWP-g0-KXP" id="fya-yF-KkY"/>
+                <outlet property="gradeLabel" destination="tis-mz-cAM" id="ycZ-yK-fYf"/>
                 <outlet property="numberOfPlaylist" destination="0K3-nR-ad5" id="vlH-eN-I1w"/>
-                <outlet property="tagView" destination="WQt-Wc-vad" id="1TZ-Ch-3MJ"/>
+                <outlet property="subjectLabel" destination="nk3-uU-0Vu" id="yBW-fd-pOH"/>
                 <outlet property="teachername" destination="OCk-6k-YPn" id="hBM-cD-Ihr"/>
                 <outlet property="upperView" destination="JPF-Ph-FKG" id="zlO-se-jQg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -50,56 +43,41 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WQt-Wc-vad">
-                            <rect key="frame" x="338" y="20" width="56" height="21"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vWP-g0-KXP">
+                            <rect key="frame" x="359" y="20" width="35" height="14.5"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pes-MP-Rvc">
-                                    <rect key="frame" x="6" y="3.5" width="14" height="14"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="초" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kry-md-r8h">
-                                            <rect key="frame" x="3" y="3" width="8" height="8"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="8" id="76q-zj-jPI"/>
-                                                <constraint firstAttribute="width" secondItem="Kry-md-r8h" secondAttribute="height" multiplier="1:1" id="lJ2-GF-Sbx"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="8"/>
-                                            <color key="textColor" systemColor="systemPurpleColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <constraints>
-                                        <constraint firstItem="Kry-md-r8h" firstAttribute="centerX" secondItem="Pes-MP-Rvc" secondAttribute="centerX" id="dww-52-6FG"/>
-                                        <constraint firstItem="Kry-md-r8h" firstAttribute="centerY" secondItem="Pes-MP-Rvc" secondAttribute="centerY" id="hhQ-lo-zsr"/>
-                                        <constraint firstAttribute="width" secondItem="Pes-MP-Rvc" secondAttribute="height" multiplier="1:1" id="lik-Kx-x2F"/>
-                                        <constraint firstAttribute="width" constant="14" id="rdy-La-zZt"/>
-                                    </constraints>
-                                </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="과학" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="66N-4d-10K">
-                                    <rect key="frame" x="26" y="3.5" width="24" height="14"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="14" id="GJa-MB-hWu"/>
-                                        <constraint firstAttribute="width" constant="24" id="esI-Ho-2kq"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="9"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="초" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tis-mz-cAM" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="9" height="14.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                            <real key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                            <real key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="과학" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nk3-uU-0Vu">
+                                    <rect key="frame" x="14" y="0.0" width="21" height="14.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemPurpleColor"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="66N-4d-10K" secondAttribute="trailing" constant="6" id="JOV-0d-L9M"/>
-                                <constraint firstItem="Pes-MP-Rvc" firstAttribute="centerY" secondItem="WQt-Wc-vad" secondAttribute="centerY" id="MRU-ws-UGa"/>
-                                <constraint firstAttribute="height" constant="21" id="WsI-sZ-4dL"/>
-                                <constraint firstItem="Pes-MP-Rvc" firstAttribute="leading" secondItem="WQt-Wc-vad" secondAttribute="leading" constant="6" id="aSJ-LB-hVU"/>
-                                <constraint firstAttribute="width" constant="56" id="few-oo-hZP"/>
-                                <constraint firstItem="66N-4d-10K" firstAttribute="centerY" secondItem="WQt-Wc-vad" secondAttribute="centerY" id="nTX-oi-UOW"/>
-                            </constraints>
-                        </view>
+                        </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="WQt-Wc-vad" secondAttribute="trailing" constant="20" id="Q0f-2S-Uyg"/>
-                        <constraint firstItem="WQt-Wc-vad" firstAttribute="top" secondItem="JPF-Ph-FKG" secondAttribute="top" constant="20" id="f98-gV-ALR"/>
+                        <constraint firstItem="vWP-g0-KXP" firstAttribute="top" secondItem="JPF-Ph-FKG" secondAttribute="top" constant="20" id="G4u-4m-7e4"/>
+                        <constraint firstAttribute="trailing" secondItem="vWP-g0-KXP" secondAttribute="trailing" constant="20" id="bGs-d9-eoq"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="MJ9-Ki-Zkb">
@@ -131,9 +109,6 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

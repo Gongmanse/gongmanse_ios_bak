@@ -14,30 +14,45 @@ class TeacherPlaylistVC: UIViewController {
     
     // 시리즈 ID 받을 변수
     var instructorID: String?
+    var teacherName: String?
+    var backColor: String?
+    var gradeText: String?
+    var subjectText: String?
     
     let seriesVM = LectureTapViewModel()
-    
     //MARK: - IBOutlet
     
     @IBOutlet weak var collectionview: UICollectionView!
     @IBOutlet weak var upperView: UIView!
     @IBOutlet weak var teachername: UILabel!
     @IBOutlet weak var numberOfPlaylist: UILabel!
-    @IBOutlet weak var tagView: UIView!
-    @IBOutlet weak var circleInTagview: UIView!
+    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var gradeLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
     
     
     
     //MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        teachername.text = "\(teacherName ?? "") 선생님"
+        print(seriesVM.lectureSeries?.totalNum ?? 0)
+        numberOfPlaylist.text = "\(configurelabel(value: seriesVM.lectureSeries?.totalNum ?? 0))"
+        colorView.backgroundColor = UIColor(hex: "\(backColor ?? "")")
+        gradeLabel.text = seriesVM.convertGrade(gradeText)
+        subjectLabel.text = subjectText ?? ""
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configrueCollectionView()
-        configurelabel(value: 9)
         
         
         seriesVM.lectureSeriesApi(instructorID ?? "")
+        seriesVM.reloadDelgate = self
     }
 
     //MARK: - Actions
@@ -76,9 +91,9 @@ class TeacherPlaylistVC: UIViewController {
                                 paddingTop: 5)
         
         
-        // tagView
-        tagView.layer.cornerRadius = 10
-        circleInTagview.layer.cornerRadius = 7
+        // colorView
+        colorView.layer.cornerRadius = 10
+
     }
     
     
@@ -100,11 +115,16 @@ class TeacherPlaylistVC: UIViewController {
 
 extension TeacherPlaylistVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return seriesVM.lectureSeries?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TeacherPlaylistCell
+        
+        guard let indexData = seriesVM.lectureSeries?.data[indexPath.row] else { return UICollectionViewCell()}
+        
+        cell.setCell(indexData)
+        
         
         return cell
     }
@@ -142,4 +162,13 @@ extension TeacherPlaylistVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: width * 0.66)
     }
 
+}
+
+extension TeacherPlaylistVC: CollectionReloadData {
+    
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            self.collectionview.reloadData()
+        }
+    }
 }

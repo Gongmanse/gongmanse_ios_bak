@@ -31,6 +31,14 @@ class TeacherPlaylistCell: UICollectionViewCell {
         configureUI()
     }
     
+    func setCell(_ data: LectureSeriesDataModel) {
+        mainImageView.setImageUrl("\(fileBaseURL)/\(data.sThumbnail ?? "")")
+        lectureTitle.text = data.sTitle
+        numberOfLecture.text = data.iCount
+        teachername.text = data.sTeacher
+        tagLabel.text = data.sSubject
+        tagLabel.backgroundColor = UIColor(hex: "\(data.sSubjectColor ?? "000000")") 
+    }
     
     // MARK: - Helper functions
     
@@ -50,7 +58,9 @@ class TeacherPlaylistCell: UICollectionViewCell {
         mainImageView.addShadow()
         
         // cornerRadius
+        mainImageView.contentMode = .scaleAspectFill
         mainImageView.layer.cornerRadius = cornerRadiusValue
+        
         view.layer.cornerRadius = cornerRadiusValue
         
         overlayView.layer.masksToBounds = true
