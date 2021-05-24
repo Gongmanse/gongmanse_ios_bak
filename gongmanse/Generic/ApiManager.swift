@@ -14,11 +14,10 @@ import Alamofire
 typealias resultModel<T> = (Result<T, InfoError>) -> Void
 
 
-
 // Get 메소드용
 func getAlamofireGeneric<T: Codable>(url: inout String,
                                      isConvertUrl: Bool,
-                                     completion: @escaping (T) -> Void) {
+                                     completion: @escaping (Result<T, InfoError>) -> Void) {
     
     if isConvertUrl {
         url = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -28,9 +27,9 @@ func getAlamofireGeneric<T: Codable>(url: inout String,
         .responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let data):
-                completion(data)
-            case .failure(let err):
-                completion(err as! T)
+                completion(.success(data))
+            case .failure(_):
+                completion(.failure(.noRequest))
             }
         }
 }

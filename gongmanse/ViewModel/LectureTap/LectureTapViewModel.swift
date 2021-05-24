@@ -34,9 +34,15 @@ class LectureTapViewModel {
         
         var seriesUrl = "\(apiBaseURL)/v/video/byteacher_series?instructor_id=\(seriesID)&offset=0&limit=20"
         
-        getAlamofireGeneric(url: &seriesUrl, isConvertUrl: false) { (response: LectureSeriesModel) in
-            self.lectureSeries = response
-            print(response.data)
+        
+        getAlamofireGeneric(url: &seriesUrl, isConvertUrl: false) { (response: Result<LectureSeriesModel, InfoError>) in
+            switch response {
+            case .success(let data):
+                self.lectureSeries = data
+                print(data)
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
         }
     }
     
