@@ -13,6 +13,8 @@ class LectureTapViewModel {
     var lectureList: LectureModel?
     var reloadDelgate: CollectionReloadData?
     
+    var lectureSeries: LectureSeriesModel?
+    
     func lectureListGetApi(grade: String, offset: String) {
         let lectureApiManager = LectureAPIManager(grade, offset)
         
@@ -24,6 +26,17 @@ class LectureTapViewModel {
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+    }
+    
+    // 강사별 강의
+    func lectureSeriesApi(_ seriesID: String) {
+        
+        var seriesUrl = "\(apiBaseURL)/v/video/byteacher_series?instructor_id=\(seriesID)&offset=0&limit=20"
+        
+        getAlamofireGeneric(url: &seriesUrl, isConvertUrl: false) { (response: LectureSeriesModel) in
+            self.lectureSeries = response
+            print(response.data)
         }
     }
     

@@ -29,6 +29,7 @@ class ElementaryVC: UIViewController {
         configrueCollectionView()
         lectureVM.reloadDelgate = self
         lectureVM.lectureListGetApi(grade: "초등", offset: "0")
+        
     }
 
     //MARK: - Actions
@@ -71,13 +72,14 @@ extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //        self.present(nav, animated: true)
         
         
-        // 클릭 시 선생별 플레이리스트 화면으로 이동
-        // 추후에 아래 코드로 상세페이지 화면전환한다 - 영상페이지 테스트를 위한 임시 주석처리
-//        let vc = TeacherPlaylistVC()
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.appEBFontWith(size: 17)]   // Naivagation title 폰트설정
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true, completion: nil)
+//         클릭 시 선생별 플레이리스트 화면으로 이동
+//         추후에 아래 코드로 상세페이지 화면전환한다 - 영상페이지 테스트를 위한 임시 주석처리
+        let vc = TeacherPlaylistVC()
+        vc.instructorID = lectureVM.lectureList?.data[indexPath.row].id
+        let nav = UINavigationController(rootViewController: vc)
+        nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.appEBFontWith(size: 17)]   // Naivagation title 폰트설정
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
 }
 

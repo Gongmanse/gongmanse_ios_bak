@@ -8,14 +8,17 @@
 import Foundation
 import Alamofire
 
+
 struct LectureAPIManager {
     
+
     var url: String?
     
     init(_ grade: String, _ offset: String) {
         url = "\(apiBaseURL)/v/video/byteacher?grade=\(grade)&offset=\(offset)"
     }
     
+    // 강사별 보기
     func initializeApi(completion: @escaping resultModel<LectureModel>) {
         
         if let urls = url {
@@ -31,7 +34,7 @@ struct LectureAPIManager {
                     }
                 }
         }
-        
-        
     }
+    
+    
 }

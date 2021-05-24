@@ -12,6 +12,10 @@ class TeacherPlaylistVC: UIViewController {
 
     //MARK: - Properties
     
+    // 시리즈 ID 받을 변수
+    var instructorID: String?
+    
+    let seriesVM = LectureTapViewModel()
     
     //MARK: - IBOutlet
     
@@ -33,6 +37,7 @@ class TeacherPlaylistVC: UIViewController {
         configurelabel(value: 9)
         
         
+        seriesVM.lectureSeriesApi(instructorID ?? "")
     }
 
     //MARK: - Actions
