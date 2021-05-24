@@ -98,8 +98,7 @@ class BottomQnACell: UICollectionViewCell {
                                                selector: #selector(keyboardWillHide(_:)),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-        contentView.backgroundColor = .blue
-        tableView.backgroundColor = .orange
+        
 //        self.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self,
 //                                                                     action: #selector(endKeyboard)))
     }
