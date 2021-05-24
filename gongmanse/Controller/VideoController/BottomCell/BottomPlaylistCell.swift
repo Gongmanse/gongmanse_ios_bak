@@ -14,7 +14,9 @@ class BottomPlaylistCell: UICollectionViewCell {
     weak var delegate: BottomPlaylistCellDelegate?
     
     var playlist: PlayListModels?
-    var videoID: String = ""
+    var videoID: String = "" {
+        didSet { getDataFromJson() }
+    }
     
 //    var label: UILabel = {
 //        let label = UILabel()
@@ -32,27 +34,9 @@ class BottomPlaylistCell: UICollectionViewCell {
 
     
     //MARK: - Lifecycle
-    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//       // initialize what is needed
-//        self.addSubview(label)
-//        self.backgroundColor = .white
-//        label.centerX(inView: self)
-//        label.centerY(inView: self)
-//    }
- 
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//
-//        self.isUserInteractionEnabled = true
-//       // initialize what is needed
-//    }
- 
+     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
     }
     
     override init(frame: CGRect) {
@@ -86,7 +70,7 @@ class BottomPlaylistCell: UICollectionViewCell {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: apiBaseURL + "/v/video/relatives?video_id=1") {
+        if let url = URL(string: apiBaseURL + "/v/video/relatives?video_id=\(videoID)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
