@@ -30,7 +30,7 @@ class StoreVC: UIViewController {
     var productID = [
         
         "30days",
-        "90days",
+        "90days_new",
         "150days"
     ]
     
@@ -105,7 +105,7 @@ class StoreVC: UIViewController {
 
 extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return sku.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
