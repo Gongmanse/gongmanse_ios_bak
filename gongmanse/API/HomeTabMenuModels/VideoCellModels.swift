@@ -45,3 +45,27 @@ struct VideoModels: Codable {
     var modifiedDate: String?
     var totalRows: String?
 }
+
+struct FilterVideoModels: Codable {
+    var isMore: Bool?
+    var totalNum: String?
+    var data: [FilterVideoData]
+}
+
+struct FilterVideoData: Codable {
+    var id: String?
+    var iSeriesId: String?
+    var iActive: String?
+    var iCommentary: String?
+    var sTitle: String?
+    var sTags: String?
+    var sFilename: String?
+    var dtDateCreated: String?
+    var dtLastModified: String?
+    var iRating: String?
+    var sSubject: String?
+    var sTeacher: String?
+    var sSubjectColor: String?
+    var sThumbnail: String?
+    var sUnit: String?
+}

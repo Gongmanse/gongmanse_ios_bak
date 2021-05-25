@@ -15,6 +15,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var currentVideoPlayRate = Float(1.0)
     var id: String?
+    var seriesId: String?
+    var switchValue: UISwitch?
+    var receiveData: VideoModels?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     let lessonInfoController = LessonInfoController()
@@ -366,7 +369,9 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
-            cell.videoID = self.id ?? ""
+            cell.seriesID = self.seriesId ?? ""
+            cell.switchOnOffValue = self.switchValue
+            cell.receiveModelData = self.receiveData
             cell.delegate = self
             return cell
             

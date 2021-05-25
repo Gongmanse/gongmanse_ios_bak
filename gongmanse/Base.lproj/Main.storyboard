@@ -1630,7 +1630,7 @@
                                     <action selector="selectMenuBtn:" destination="bT9-yf-xnO" eventType="touchUpInside" id="yrF-uD-obZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miU-1r-l3x">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miU-1r-l3x">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="egl-6p-JJF"/>
@@ -1667,6 +1667,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="autoPlayLabel" destination="miU-1r-l3x" id="lol-c9-h99"/>
                         <outlet property="koreanEnglishMathCollection" destination="qVo-db-s3g" id="aOJ-JX-CQ9"/>
                         <outlet property="playSwitch" destination="CrY-2R-inp" id="4KH-GX-4TN"/>
                         <outlet property="ratingSequence" destination="vxq-lW-IAb" id="tdY-ZX-DS6"/>
