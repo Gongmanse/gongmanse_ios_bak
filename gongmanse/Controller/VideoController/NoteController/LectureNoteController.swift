@@ -17,20 +17,87 @@ class LectureNoteController: UIViewController {
     let token: String?
     
     // 노트 이미지 인스턴스
+    // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
+    var noteImageArr = [UIImage(), UIImage(), UIImage(),
+                        UIImage(), UIImage(), UIImage(), UIImage()]
+    var noteImageCount = 0
+    var url: String?
+    var receivedNoteImage: UIImage?
+    
+    // 노트필기 객체
+    let canvas = Canvas()
+    
+    public let noteImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+    
+    private let writingImplement: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .mainOrange
+        button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
+        return button
+    }()
+    
+    private let touchPositionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    let redButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .red
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let greenButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .green
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+
+    let blueButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .blue
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let clearButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .clear
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        return button
+    }()
+    
+    let writingImplementToggleButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.left.2")
+        button.setImage(image, for: .normal)
+        button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
+        return button
+    }()
+    
+    // UI
     let scrollView = UIScrollView()
     let contentView = UIView()
+    
     let imageView01: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
-    var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
-    var noteImageCount = 0
-    var url: String?
-    var receivedNoteImage: UIImage?
-
     
-    // 노트 필기 인스턴스
-    let canvas = Canvas()
+    private var testImageView = UIImageView()
+
     
     // TODO: 여러장의 노트이미지를 한장의 이미지로 합친다.
     // TODO: 스크롤 뷰를 통해 노트를 스크롤 할 수 있도록 구현한다.
@@ -61,7 +128,25 @@ class LectureNoteController: UIViewController {
     
     // MARK: - Actions
     
+    @objc fileprivate func handleUndo() {
+        canvas.undo()
+    }
     
+    @objc fileprivate func handleClear() {
+        canvas.clear()
+    }
+    
+    @objc fileprivate func handleColorChange(button: UIButton) {
+        canvas.setStrokeColor(color: button.backgroundColor ?? .black)
+    }
+        
+    @objc fileprivate func toggleSketchMode() {
+        scrollView.isScrollEnabled.toggle()
+    }
+    
+    @objc fileprivate func openWritingImplement() {
+        scrollView.isScrollEnabled.toggle()
+    }
     
     // MARK: - Heleprs
     
@@ -79,7 +164,7 @@ class LectureNoteController: UIViewController {
     func setupLayout() {
         
         setupScrollView()
-        setupViews()
+        setupWritingImplement()
     }
     
     func setupScrollView() {
@@ -87,49 +172,23 @@ class LectureNoteController: UIViewController {
         view.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
+        scrollView.centerX(inView: view)
+        scrollView.anchor(top: view.topAnchor,
+                          bottom: view.bottomAnchor,
+                          width: view.frame.width)
+        
+        contentView.centerX(inView: view)
+        contentView.anchor(top: scrollView.topAnchor,
+                           bottom: scrollView.bottomAnchor)
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-    }
-    
-    func setupViews() {
-        
-        // TODO: 이 위치에 API에서 받아온 이미지를 UIImage로 변형하여 변수에 할당한다.
-        var image01 = #imageLiteral(resourceName: "manual_6")
-        var image02 = #imageLiteral(resourceName: "manual_7")
-        var image03 = #imageLiteral(resourceName: "splash")
-        var image04 = #imageLiteral(resourceName: "manual_4")
-        
-        // 이미지의 크기를 줄인다.
-        resize(image: image01, scale: 0.2) { image in
-            image01 = image!
-        }
-        
-        resize(image: image02, scale: 0.2) { image in
-            image02 = image!
-        }
-        
-        resize(image: image03, scale: 0.2) { image in
-            image03 = image!
-        }
-        
-        resize(image: image04, scale: 0.2) { image in
-            image04 = image!
-        }
-        
-        // 여러 이미지를 하나의 UIImage로 변환한다. (UIViewController - Extension에 구헌)
-        let convertedImage = mergeVerticallyImagesIntoImage(images: image01, image02, image03, image04)
+        contentView.backgroundColor = .white
         
         // 배경이 될 imageView를 쌓는다.
-        imageView01.image = convertedImage
-        imageView01.contentMode = .scaleAspectFit
+        imageView01.contentMode = .topLeft
         contentView.addSubview(imageView01)
         imageView01.anchor(top: contentView.topAnchor,
                            left: contentView.leftAnchor,
@@ -144,8 +203,90 @@ class LectureNoteController: UIViewController {
                            bottom: contentView.bottomAnchor,
                            right: contentView.rightAnchor)
         scrollView.isScrollEnabled = true
-        canvas.alpha = 0 // 테스트를 위해 알파 값을 0 으로 지정 05.25 10:55
     }
+    
+    func setupViews() {
+        
+        // 이미지를 UIImage에 할당한다.
+        var image01 = noteImageArr[0]
+        var image02 = noteImageArr[1]
+        var image03 = noteImageArr[2]
+        var image04 = noteImageArr[3]
+        var image05 = noteImageArr[4]
+        var image06 = noteImageArr[5]
+        var image07 = noteImageArr[6]
+
+        // 이미지의 크기를 줄인다.
+        let scale = CGFloat(0.45)
+        resize(image: image01, scale: scale) { image in
+            image01 = image!
+        }
+        
+        resize(image: image02, scale: scale) { image in
+            image02 = image!
+        }
+        
+        resize(image: image03, scale: scale) { image in
+            image03 = image!
+        }
+        
+        resize(image: image04, scale: scale) { image in
+            image04 = image!
+        }
+        
+        resize(image: image05, scale: scale) { image in
+            image05 = image!
+        }
+        
+        resize(image: image06, scale: scale) { image in
+            image06 = image!
+        }
+        
+        resize(image: image07, scale: scale) { image in
+            image07 = image!
+        }
+  
+        // 여러 이미지를 하나의 UIImage로 변환한다.
+        let convertedImage = mergeVerticallyImagesIntoImage(images:
+                                                            image01,
+                                                            image02,
+                                                            image03,
+                                                            image04,
+                                                            image05,
+                                                            image06,
+                                                            image07)
+        imageView01.image = convertedImage
+    }
+    
+    func setupWritingImplement() {
+        
+        let width = view.frame.width * 0.5
+        writingImplement.alpha = 1
+        view.addSubview(writingImplement)
+        writingImplement.frame = CGRect(x: 0,
+                                        y: 250,
+                                        width: width,
+                                        height: 50)
+        
+        let colorStackView = UIStackView(arrangedSubviews: [
+            redButton,
+            greenButton,
+            blueButton,
+            clearButton,
+            writingImplementToggleButton
+        ])
+        
+        colorStackView.spacing = 4
+        colorStackView.distribution = .fillEqually
+        writingImplement.addSubview(colorStackView)
+        colorStackView.centerY(inView: writingImplement)
+        colorStackView.anchor(left: writingImplement.leftAnchor,
+                              bottom: writingImplement.bottomAnchor,
+                              paddingLeft: 15,
+                              width: width - 15,
+                              height: 59)
+    }
+    
 }
 
 
@@ -199,6 +340,7 @@ extension UIViewController {
 }
 
 
+
 // MARK: - API
 
 extension LectureNoteController {
@@ -212,6 +354,7 @@ extension LectureNoteController {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
         }
+        
     }
     
     func getImageFromURL(url: String, index: Int) {
@@ -219,13 +362,14 @@ extension LectureNoteController {
         var resultImage = UIImage()
         
         if let url = URL(string: url) {
+            
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                print("DEBUG: data \(data!)")
                 guard let data = data, error == nil else { return }
+                
                 DispatchQueue.main.async {
                     resultImage = UIImage(data: data)!
-                    self.noteImageArr.append(resultImage)
                     self.noteImageArr[index] = resultImage
+                    self.setupViews()
                 }
             }
             task.resume()

@@ -37,14 +37,13 @@ class DetailNoteController: UIViewController {
     lazy var frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
     lazy var collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
     
-    
-    /// 재생 및 일시정지 버튼
+    // 노트필기 객체
     private let noteTakingButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "scribble.variable")?.withTintColor(.mainOrange, renderingMode: .alwaysOriginal)
         button.setBackgroundImage(image, for: .normal)
         button.contentMode = .scaleToFill
-        button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
         return button
     }()
     
@@ -157,10 +156,6 @@ class DetailNoteController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func playPausePlayer() {
-        print("DEBUG: 클릭이잘된다.")
-    }
-    
 //    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 //
 //        let touch = touches.first!
@@ -258,9 +253,9 @@ extension DetailNoteController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NoteImageCell
         let image = noteImageArr[indexPath.row]
-        resize(image: image, scale: 0.45) { image in
-            cell.noteImageView.image = image
-        }
+//        resize(image: image, scale: 0.45) { image in
+//            cell.noteImageView.image = image
+//        }
         return cell
     }
 }
