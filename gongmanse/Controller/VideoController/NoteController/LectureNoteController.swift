@@ -13,40 +13,51 @@ class LectureNoteController: UIViewController {
     
     // MARK: - Properties
     
-    let id: String?
-    let token: String?
+    private let id: String?
+    private let token: String?
+    private var url: String?
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
-    var noteImageArr = [UIImage(), UIImage(), UIImage(),
+    private var noteImageArr = [UIImage(), UIImage(), UIImage(),
                         UIImage(), UIImage(), UIImage(), UIImage()]
-    var noteImageCount = 0
-    var url: String?
-    var receivedNoteImage: UIImage?
+    private var noteImageCount = 0
+    private var receivedNoteImage: UIImage?
+    
+    // 노트 객체
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    private let imageView01: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
     
     // 노트필기 객체
-    let canvas = Canvas()
+    private let canvas = Canvas()
     
-    public let noteImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        return imageView
+    private let savingNoteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("노트\n저장", for: .normal)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.layer.masksToBounds = true
+        button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        button.layer.cornerRadius = 5
+        button.backgroundColor = UIColor.rgb(red: 21, green: 176, blue: 172)
+        button.addTarget(self, action: #selector(handleSavingNote), for: .touchUpInside)
+        return button
     }()
     
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .mainOrange
+        button.backgroundColor = .mainOrange.withAlphaComponent(0.88)
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
     
-    private let touchPositionView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
-    
-    let redButton: UIButton = {
+    private let redButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .red
         button.layer.borderWidth = 1
@@ -54,7 +65,7 @@ class LectureNoteController: UIViewController {
         return button
     }()
     
-    let greenButton: UIButton = {
+    private let greenButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .green
         button.layer.borderWidth = 1
@@ -62,7 +73,7 @@ class LectureNoteController: UIViewController {
         return button
     }()
 
-    let blueButton: UIButton = {
+    private let blueButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .blue
         button.layer.borderWidth = 1
@@ -70,15 +81,15 @@ class LectureNoteController: UIViewController {
         return button
     }()
     
-    let clearButton: UIButton = {
+    private let clearButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .clear
         button.layer.borderWidth = 1
-        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
         return button
     }()
     
-    let writingImplementToggleButton: UIButton = {
+    private let writingImplementToggleButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.left.2")
         button.setImage(image, for: .normal)
@@ -86,24 +97,7 @@ class LectureNoteController: UIViewController {
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
-    
-    // UI
-    let scrollView = UIScrollView()
-    let contentView = UIView()
-    
-    let imageView01: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
-    
-    private var testImageView = UIImageView()
 
-    
-    // TODO: 여러장의 노트이미지를 한장의 이미지로 합친다.
-    // TODO: 스크롤 뷰를 통해 노트를 스크롤 할 수 있도록 구현한다.
-    // TODO: Canvas 생성한다.
-    
-    
     
     // MARK: - Lifecycle
     
@@ -145,12 +139,32 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func openWritingImplement() {
+        let noteMode = self.scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
+
+        // !noteMode -> 노트필기 가능한상태
+        if !noteMode {
+            UIView.animate(withDuration: 0.33) {
+                self.writingImplement.frame.origin = CGPoint(x: -100,
+                                                             y: 250)
+            }
+            
+        } else {
+            UIView.animate(withDuration: 0.33) {
+                self.writingImplement.frame.origin = CGPoint(x: 0,
+                                                             y: 250)
+            }
+        }
+    }
+    
+    @objc fileprivate func handleSavingNote() {
+        // TODO: 02021. 동영상 노트 수정 API와 연동할 것.
+        print("DEBUG: 노트저장 버튼을 클릭했습니다.")
     }
     
     // MARK: - Heleprs
     
-    func setupData() {
+    private func setupData() {
         
         guard let id = self.id else { return }
         guard let token = self.token else { return }
@@ -161,13 +175,13 @@ class LectureNoteController: UIViewController {
                                                       viewController: self)
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         
         setupScrollView()
         setupWritingImplement()
     }
     
-    func setupScrollView() {
+    private func setupScrollView() {
         
         view.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -205,7 +219,7 @@ class LectureNoteController: UIViewController {
         scrollView.isScrollEnabled = true
     }
     
-    func setupViews() {
+    private func setupViews() {
         
         // 이미지를 UIImage에 할당한다.
         var image01 = noteImageArr[0]
@@ -258,15 +272,22 @@ class LectureNoteController: UIViewController {
         imageView01.image = convertedImage
     }
     
-    func setupWritingImplement() {
+    private func setupWritingImplement() {
         
         let width = view.frame.width * 0.5
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
-        writingImplement.frame = CGRect(x: 0,
-                                        y: 250,
-                                        width: width,
-                                        height: 50)
+        writingImplement.setDimensions(height: 50,
+                                       width: width)
+        writingImplement.anchor(left: view.leftAnchor,
+                                bottom: view.bottomAnchor,
+                                paddingBottom: 10)
+        
+        view.addSubview(savingNoteButton)
+        savingNoteButton.setDimensions(height: 50, width: 55)
+        savingNoteButton.anchor(bottom: view.bottomAnchor,
+                                right: view.rightAnchor,
+                                paddingBottom: 10)
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,
@@ -285,6 +306,9 @@ class LectureNoteController: UIViewController {
                               paddingLeft: 15,
                               width: width - 15,
                               height: 59)
+        
+ 
+        
     }
     
 }
@@ -330,7 +354,6 @@ extension UIViewController {
         let size = image.size.applying(transform)
         
         UIGraphicsBeginImageContext(size)
-        
         image.draw(in: CGRect(origin: .zero, size: size))
         guard let resultImage = UIGraphicsGetImageFromCurrentImageContext() else { return }
         UIGraphicsEndImageContext()
@@ -345,27 +368,25 @@ extension UIViewController {
 
 extension LectureNoteController {
     
-    func didSucceedReceiveNoteData(responseData: NoteResponse) {
+    internal func didSucceedReceiveNoteData(responseData: NoteResponse) {
         
         guard let data = responseData.data else { return }
+        
         self.noteImageCount = data.sNotes.count
         
         for noteData in 0 ... (self.noteImageCount-1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
         }
-        
     }
     
-    func getImageFromURL(url: String, index: Int) {
+    private func getImageFromURL(url: String, index: Int) {
         
         var resultImage = UIImage()
         
         if let url = URL(string: url) {
-            
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
-                
                 DispatchQueue.main.async {
                     resultImage = UIImage(data: data)!
                     self.noteImageArr[index] = resultImage
