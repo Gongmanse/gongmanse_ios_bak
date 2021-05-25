@@ -60,7 +60,7 @@ struct LectureSeriesDataModel: Codable {
 
 // 강사별 보기 세 번째 화면
 struct SeriesDetailModel: Codable {
-    let isMore: String?
+    let isMore: Bool?
     let totalNum: String?
     let seriesInfo: SeriesInfoModel?
     let data: [SeriesDetailDataModel]

@@ -132,9 +132,11 @@ extension TeacherPlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 강사의 플레이리스트 중 클릭 한 강의 플레이리스트로 이동
         let controller = LecturePlaylistVC()
+        controller.seriesID = seriesVM.lectureSeries?.data[indexPath.row].iSeriesId
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: true, completion: nil)
+//        self.navigationController?.pushViewController(controller, animated: true)
+        self.present(nav, animated: true)
     }
 }
 

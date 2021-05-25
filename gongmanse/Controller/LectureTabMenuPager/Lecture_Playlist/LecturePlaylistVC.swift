@@ -13,7 +13,8 @@ class LecturePlaylistVC: UIViewController {
 
     // MARK: - Properties
     
-    
+    var seriesID: String?
+    var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
     
     // MARK: - IBOutlet
     
@@ -22,18 +23,29 @@ class LecturePlaylistVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tagView: UIView!
     @IBOutlet weak var circleView: UIView!
+    @IBOutlet weak var teacherName: UILabel!
+    @IBOutlet weak var titleText: UILabel!
     
     // MARK: - Lifecylce
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let totalNum = detailVM?.lectureDetail?.totalNum
+        configurelabel(value: totalNum ?? "")
+        titleText.text = detailVM?.lectureDetail?.seriesInfo?.sTitle
+        teacherName.text = detailVM?.lectureDetail?.seriesInfo?.sTeacher
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        // 강의 개수 Text 속성 설정
-        configurelabel(value: 3)
+
         
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -42,7 +54,8 @@ class LecturePlaylistVC: UIViewController {
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
-        
+        detailVM?.lectureDetailApi(seriesID ?? "")
+        detailVM?.delegate = self
     }
 
     
@@ -77,12 +90,12 @@ class LecturePlaylistVC: UIViewController {
     
     
     // UILabel 부분 속성 변경 메소드
-    func configurelabel(value: Int) {
+    func configurelabel(value: String) {
         // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
         let attributedString = NSMutableAttributedString(string: "총 ",
                                                          attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         
-        attributedString.append(NSAttributedString(string: "\(value)",
+        attributedString.append(NSAttributedString(string: value,
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
         
         attributedString.append(NSAttributedString(string: " 개",
@@ -96,11 +109,13 @@ class LecturePlaylistVC: UIViewController {
 
 extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return detailVM?.lectureDetail?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
+        guard let detailData = detailVM?.lectureDetail?.data[indexPath.row] else { return UICollectionViewCell() }
+        cell.setCellData(detailData)
         return cell
     }
     
@@ -133,3 +148,11 @@ extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
 
 }
 
+extension LecturePlaylistVC: CollectionReloadData {
+    
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+}

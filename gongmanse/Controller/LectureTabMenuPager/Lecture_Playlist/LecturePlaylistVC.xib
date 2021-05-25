@@ -24,6 +24,8 @@
                 <outlet property="collectionView" destination="u25-N5-oQF" id="fuC-CM-n3d"/>
                 <outlet property="numberOfLesson" destination="7Py-W7-GQP" id="Z4d-3G-jG6"/>
                 <outlet property="tagView" destination="WgA-2G-4Mi" id="3Sr-bQ-HrB"/>
+                <outlet property="teacherName" destination="3gZ-Yu-S96" id="eSU-98-kJg"/>
+                <outlet property="titleText" destination="sTY-4y-Csj" id="Ple-qf-pgi"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

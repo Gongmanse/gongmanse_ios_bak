@@ -32,6 +32,13 @@ class LectureCell: UICollectionViewCell {
     }
     
     
+    func setCellData(_ type: SeriesDetailDataModel) {
+        mainImageView.setImageUrl("\(fileBaseURL)/\(type.sThumbnail ?? "")")
+        mainImageView.contentMode = .scaleAspectFill
+        lectureTitle.text = type.sTitle
+        teachername.text = type.sTeacher
+        tagLabel.text = type.sSubject
+    }
     // MARK: - Helper functions
     
     func configureUI() {
