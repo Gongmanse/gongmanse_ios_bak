@@ -21,6 +21,9 @@ class LecturePlaylistVC: UIViewController {
     
     var getTeacherList: LectureSeriesDataModel?
     
+    
+    var videoNumber: String = ""
+    
     // MARK: - IBOutlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
@@ -34,10 +37,18 @@ class LecturePlaylistVC: UIViewController {
     
     // MARK: - Lifecylce
     
+    // 강사별강의에서 값 넘겨받음
     init(_ teacherModel: LectureSeriesDataModel) {
         super.init(nibName: nil, bundle: nil)
         
         self.getTeacherList = teacherModel
+    }
+    
+    // 비디오 영상에서 ID받음
+    init(_ videoID: String) {
+        super.init(nibName: nil, bundle: nil)
+            
+        videoNumber = videoID
     }
     
     required init?(coder: NSCoder) {

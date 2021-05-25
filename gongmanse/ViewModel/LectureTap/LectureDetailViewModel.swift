@@ -10,10 +10,16 @@ import Alamofire
 
 class LectureDetailViewModel {
     
+    // 강사별 강의
     var lectureDetail: SeriesDetailModel?
     
+    // 관련시리즈
+    var relationSeriesList: RelationSeriesModel?
+        
+        
     var delegate: CollectionReloadData?
     
+    // 강사별 강의
     func lectureDetailApi(_ seriesID: String) {
         
         var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=0"
@@ -22,6 +28,22 @@ class LectureDetailViewModel {
             switch response {
             case .success(let data):
                 self.lectureDetail = data
+                self.delegate?.reloadCollection()
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    // 관련 시리즈
+    func relationSeries(_ videoID: String) {
+        
+        var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=\(videoID)"
+        
+        getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
+            switch response {
+            case .success(let data):
+                self.relationSeriesList = data
                 self.delegate?.reloadCollection()
             case .failure(let err):
                 print(err.localizedDescription)
