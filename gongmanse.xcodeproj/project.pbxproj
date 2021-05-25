@@ -958,6 +958,29 @@
 			path = Video_Re;
 			sourceTree = "<group>";
 		};
+		25273705265C945C004C4476 /* Renewal */ = {
+			isa = PBXGroup;
+			children = (
+				25273706265C946B004C4476 /* Entity */,
+				25273707265C9474004C4476 /* DataManager */,
+			);
+			path = Renewal;
+			sourceTree = "<group>";
+		};
+		25273706265C946B004C4476 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		25273707265C9474004C4476 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
 		253135D32612C2D600B51348 /* FindingID */ = {
 			isa = PBXGroup;
 			children = (
@@ -1257,6 +1280,7 @@
 		258511C126520728003264F3 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				25273705265C945C004C4476 /* Renewal */,
 				258511C22652072D003264F3 /* Entity */,
 				258511C326520730003264F3 /* DataManager */,
 			);

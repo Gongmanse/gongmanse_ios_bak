@@ -23,6 +23,11 @@ class LectureNoteController: UIViewController {
         let imageView = UIImageView()
         return imageView
     }()
+    var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
+    var noteImageCount = 0
+    var url: String?
+    var receivedNoteImage: UIImage?
+
     
     // 노트 필기 인스턴스
     let canvas = Canvas()
@@ -49,6 +54,7 @@ class LectureNoteController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        setupData()
         setupLayout()
     }
     
@@ -58,6 +64,17 @@ class LectureNoteController: UIViewController {
     
     
     // MARK: - Heleprs
+    
+    func setupData() {
+        
+        guard let id = self.id else { return }
+        guard let token = self.token else { return }
+        
+        let dataForSearchNote = NoteInput(video_id: id,
+                                          token: token)
+        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
+                                                      viewController: self)
+    }
     
     func setupLayout() {
         
@@ -178,5 +195,40 @@ extension UIViewController {
         UIGraphicsEndImageContext()
         
         completionHandler(resultImage)
+    }
+}
+
+
+// MARK: - API
+
+extension LectureNoteController {
+    
+    func didSucceedReceiveNoteData(responseData: NoteResponse) {
+        
+        guard let data = responseData.data else { return }
+        self.noteImageCount = data.sNotes.count
+        
+        for noteData in 0 ... (self.noteImageCount-1) {
+            let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
+            getImageFromURL(url: convertedURL, index: noteData)
+        }
+    }
+    
+    func getImageFromURL(url: String, index: Int) {
+        
+        var resultImage = UIImage()
+        
+        if let url = URL(string: url) {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                print("DEBUG: data \(data!)")
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async {
+                    resultImage = UIImage(data: data)!
+                    self.noteImageArr.append(resultImage)
+                    self.noteImageArr[index] = resultImage
+                }
+            }
+            task.resume()
+        }
     }
 }
