@@ -49,7 +49,7 @@ class VideoFullScreenController: UIViewController{
     /// 재생 및 일시정지 버튼
     let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "play.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "영상재생버튼")
         button.setBackgroundImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
@@ -59,7 +59,7 @@ class VideoFullScreenController: UIViewController{
     /// 동영상 앞으로 가기
     let videoForwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "goforward.10")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "앞으로가기버튼")
         button.setImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(moveForwardPlayer), for: .touchUpInside)
@@ -69,7 +69,7 @@ class VideoFullScreenController: UIViewController{
     /// 동영상 뒤로 가기
     let videoBackwardTimeButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "gobackward.10")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "뒤로가기버튼")
         button.setImage(image, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(moveBackwardPlayer), for: .touchUpInside)
@@ -115,7 +115,7 @@ class VideoFullScreenController: UIViewController{
     
     let subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "textbox")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "자막토글버튼_제거")
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
         return button
@@ -125,7 +125,7 @@ class VideoFullScreenController: UIViewController{
     
     let videoSettingButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "slider.horizontal.3")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "동영상설정버튼")
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
         return button
@@ -134,7 +134,7 @@ class VideoFullScreenController: UIViewController{
     /// 뒤로가기버튼
     let backButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "chevron.down.circle"), for: .normal)
+        button.setImage(UIImage(named: "동영상뒤로가기버튼"), for: .normal)
         button.tintColor = .white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.cornerRadius = 5
@@ -401,21 +401,23 @@ class VideoFullScreenController: UIViewController{
         
         /* videoContainerView <- playPauseButton */
         videoContainerView.addSubview(playPauseButton)
-        playPauseButton.setDimensions(height: 150, width: 150)
+        playPauseButton.setDimensions(height: 75, width: 75)
         playPauseButton.centerX(inView: videoContainerView)
         playPauseButton.centerY(inView: videoContainerView)
         
         /* videoContainerView <- videoBackwardTimeButton */
         videoContainerView.addSubview(videoBackwardTimeButton)
-        videoBackwardTimeButton.setDimensions(height: 50, width: 50)
+        videoBackwardTimeButton.setDimensions(height: 75, width: 75)
         videoBackwardTimeButton.centerY(inView: playPauseButton)
-        videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor)
+        videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor,
+                                       paddingRight: 60)
         
         /* videoContainerView <- videoForwardTimeButton */
         videoContainerView.addSubview(videoForwardTimeButton)
-        videoForwardTimeButton.setDimensions(height: 50, width: 50)
+        videoForwardTimeButton.setDimensions(height: 75, width: 75)
         videoForwardTimeButton.centerY(inView: playPauseButton)
-        videoForwardTimeButton.anchor(left: playPauseButton.rightAnchor)
+        videoForwardTimeButton.anchor(left: playPauseButton.rightAnchor,
+                                      paddingLeft: 60)
     }
     
     func configureVideoControlView() {
@@ -463,12 +465,14 @@ class VideoFullScreenController: UIViewController{
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 5)
+        changeOrientationButton.alpha = 0
         // VideoSettingButton
         videoContainerView.addSubview(videoSettingButton)
         videoSettingButton.anchor(top: videoContainerView.topAnchor,
                                   right: videoContainerView.rightAnchor,
                                   paddingTop: 10,
                                   paddingRight: 10)
+        videoSettingButton.alpha = 0
         // 자막 생성 및 제거 버튼
         videoContainerView.addSubview(subtitleToggleButton)
         subtitleToggleButton.centerY(inView: videoSettingButton)
@@ -697,7 +701,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                 self.playPauseButton.alpha = 0
                 self.videoForwardTimeButton.alpha = 0
                 self.videoBackwardTimeButton.alpha = 0
-                self.videoSettingButton.alpha = 0
+//                self.videoSettingButton.alpha = 0
                 self.subtitleToggleButton.alpha = 0
             }
             
@@ -707,7 +711,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
-                self.videoSettingButton.alpha = 1
+//                self.videoSettingButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
             }
         }

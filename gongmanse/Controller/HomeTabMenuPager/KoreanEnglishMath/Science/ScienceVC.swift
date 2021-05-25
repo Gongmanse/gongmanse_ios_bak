@@ -227,17 +227,18 @@ extension ScienceVC: UICollectionViewDataSource {
     }
 }
 
+
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
             let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
             let videoID = scienceVideo?.body[indexPath.row].videoId
             vc.id = videoID
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
-        
     }
 }
 

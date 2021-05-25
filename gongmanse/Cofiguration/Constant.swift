@@ -18,6 +18,13 @@ struct Constant {
     static var userID: String = ""
     static var token: String = ""
     static var jwtToken: String = ""
+    static var dtPremiumActivate: String = ""
+    static var dtPremiumExpire: String = ""
+    
+    
+    static var isTicket: Bool {
+        dtPremiumActivate.count > 3
+    }
     
     static var isLogin: Bool {
         return Constant.token.count > 3

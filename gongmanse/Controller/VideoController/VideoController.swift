@@ -15,6 +15,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var currentVideoPlayRate = Float(1.0)
     var id: String?
+    
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     let lessonInfoController = LessonInfoController()
 
@@ -459,10 +460,12 @@ extension VideoController {
         } else {
             self.lessonInfoController.sUnitLabel01.labelText = unitname01
         }
-        
-        
-        
+
         playVideo()
+    }
+    
+    func failToConnectVideoByTicket() {
+        presentAlert(message: "이용권을 구매하세요.")
     }
 }
 

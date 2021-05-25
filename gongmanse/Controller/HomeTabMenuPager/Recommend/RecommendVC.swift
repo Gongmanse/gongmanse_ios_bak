@@ -186,6 +186,7 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         let token = Constant.token
         
         // 토큰이 없는 경우
@@ -228,6 +229,7 @@ extension RecommendVC: RecommendCRVDelegate {
     func presentVideoControllerInBanner(videoID: String) {
         let videoID = videoID
         let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
         vc.id = videoID
         present(vc, animated: true)
     }

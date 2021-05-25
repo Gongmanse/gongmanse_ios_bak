@@ -103,6 +103,7 @@ class DetailVideoDataManager {
                 case .failure(let error):
                     print("DEBUG: 영상 API 통신 실패")
                     print("DEBUG: faild connection \(error.localizedDescription)")
+                    viewController.failToConnectVideoByTicket()
                 }
             }
     }

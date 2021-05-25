@@ -230,6 +230,7 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
             let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
             if let data = otherSubjectsVideo {
                 let videoID = data.body[indexPath.row].videoId
                 vc.id = videoID
