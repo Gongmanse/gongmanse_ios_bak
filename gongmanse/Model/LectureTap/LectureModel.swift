@@ -56,3 +56,33 @@ struct LectureSeriesDataModel: Codable {
         case sThumbnail
     }
 }
+//
+
+// 강사별 보기 세 번째 화면
+struct SeriesDetailModel: Codable {
+    let isMore: String?
+    let totalNum: String?
+    let seriesInfo: SeriesInfoModel?
+    let data: [SeriesDetailDataModel]
+}
+
+struct SeriesInfoModel: Codable {
+    let sTitle: String?
+    let sTeacher: String?
+    let sSubjectColor: String?
+    let sSubject: String?
+    let sGrade: String?
+}
+
+struct SeriesDetailDataModel: Codable {
+    let id: String?
+    let iSeriesId: String?
+    let sTitle: String?
+    let dtDateCreated: String?
+    let dtLastModified: String?
+    let sSubject: String?
+    let sTeacher: String?
+    let sSubjectColor: String?
+    let sThumbnail: String?
+    let sUnit: String?
+}
