@@ -28,4 +28,21 @@ class LectureDetailViewModel {
             }
         }
     }
+    
+    // Grade
+    
+    func convertGrade(_ grade: String?) -> String{
+        
+        switch grade {
+        case "초등":
+            return OneGrade.element.oneWord
+        case "중등":
+            return OneGrade.element.oneWord
+        case "고등":
+            return OneGrade.element.oneWord
+        default:
+            return ""
+        }
+    }
+    
 }

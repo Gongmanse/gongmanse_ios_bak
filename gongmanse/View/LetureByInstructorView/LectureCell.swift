@@ -38,6 +38,7 @@ class LectureCell: UICollectionViewCell {
         lectureTitle.text = type.sTitle
         teachername.text = type.sTeacher
         tagLabel.text = type.sSubject
+        tagLabel.backgroundColor = UIColor(hex: type.sSubjectColor ?? "000000")
     }
     // MARK: - Helper functions
     
@@ -78,7 +79,7 @@ class LectureCell: UICollectionViewCell {
                             paddingLeft: 8)
         
         // tagLabel
-        tagLabel.layer.cornerRadius = 5
+        tagLabel.layer.cornerRadius = 15
         tagLabel.setDimensions(height: 20, width: 40)
         tagLabel.anchor(top: lectureTitle.bottomAnchor,
                         left: mainImageView.leftAnchor,

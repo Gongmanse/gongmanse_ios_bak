@@ -14,39 +14,58 @@ class TeacherPlaylistVC: UIViewController {
     
     // 시리즈 ID 받을 변수
     var instructorID: String?
-    var teacherName: String?
-    var backColor: String?
-    var gradeText: String?
-    var subjectText: String?
+    
     
     let seriesVM = LectureTapViewModel()
+    
+    var lecturelist: LectureDataModel?
+    
     //MARK: - IBOutlet
     
     @IBOutlet weak var collectionview: UICollectionView!
     @IBOutlet weak var upperView: UIView!
     @IBOutlet weak var teachername: UILabel!
     @IBOutlet weak var numberOfPlaylist: UILabel!
-    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var colorView: UIStackView!
     @IBOutlet weak var gradeLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     
+    init(_ lectureList: LectureDataModel) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.lecturelist = lectureList
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        teachername.text = "\(teacherName ?? "") 선생님"
-        print(seriesVM.lectureSeries?.totalNum ?? 0)
-        numberOfPlaylist.text = "\(configurelabel(value: seriesVM.lectureSeries?.totalNum ?? 0))"
-        colorView.backgroundColor = UIColor(hex: "\(backColor ?? "")")
-        gradeLabel.text = seriesVM.convertGrade(gradeText)
-        subjectLabel.text = subjectText ?? ""
+        
+        if let lectureDataList = lecturelist {
+
+            teachername.text = "\(lectureDataList.sTeacher) 선생님"
+            colorView.backgroundColor = UIColor(hex: "\(lectureDataList.sSubjectColor)")
+            gradeLabel.text = seriesVM.convertGrade(lectureDataList.sGrade)
+            subjectLabel.text = lectureDataList.sSubject
+            
+        }
+    }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        configurelabel(value: "\(seriesVM.lectureSeries?.totalNum ?? 0)")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         configrueCollectionView()
         
@@ -89,20 +108,36 @@ class TeacherPlaylistVC: UIViewController {
         numberOfPlaylist.anchor(top: teachername.bottomAnchor,
                                 left: teachername.leftAnchor,
                                 paddingTop: 5)
+
         
         
-        // colorView
-        colorView.layer.cornerRadius = 10
+        // subjectLabel
+        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.textColor = .white
+
+        // gradeLabel
+        gradeLabel.backgroundColor = .white
+        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.clipsToBounds = true
+        gradeLabel.layer.cornerRadius = 8.5
+        gradeLabel.textColor = UIColor(hex: lecturelist?.sSubjectColor ?? "000000")
+        
+        // subjectColor
+        colorView.backgroundColor = .mainOrange
+        colorView.layer.cornerRadius = colorView.frame.size.height / 2
+        colorView.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        colorView.isLayoutMarginsRelativeArrangement = true
+        
 
     }
     
     
-    func configurelabel(value: Int) {
+    func configurelabel(value: String) {
         // 한 줄의 텍스트에 다르게 속성을 설정하는 코드 "NSMutableAttributedString"
         let attributedString = NSMutableAttributedString(string: "총 ",
                                                          attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)])
         
-        attributedString.append(NSAttributedString(string: "\(value)",
+        attributedString.append(NSAttributedString(string: value,
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange.cgColor]))
         
         attributedString.append(NSAttributedString(string: "개",
@@ -131,8 +166,12 @@ extension TeacherPlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 강사의 플레이리스트 중 클릭 한 강의 플레이리스트로 이동
-        let controller = LecturePlaylistVC()
+        guard let postData = seriesVM.lectureSeries?.data[indexPath.row] else { return }
+        
+        let controller = LecturePlaylistVC(postData)
         controller.seriesID = seriesVM.lectureSeries?.data[indexPath.row].iSeriesId
+        controller.totalNum = postData.iCount
+        controller.gradeText = lecturelist?.sGrade
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
 //        self.navigationController?.pushViewController(controller, animated: true)

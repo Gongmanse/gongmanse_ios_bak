@@ -74,14 +74,10 @@ extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
 //         클릭 시 선생별 플레이리스트 화면으로 이동
 //         추후에 아래 코드로 상세페이지 화면전환한다 - 영상페이지 테스트를 위한 임시 주석처리
-        let postData = lectureVM.lectureList?.data[indexPath.row]
-        let vc = TeacherPlaylistVC()
+        guard let postData = lectureVM.lectureList?.data[indexPath.row] else { return }
+        let vc = TeacherPlaylistVC(postData)
         
-        vc.instructorID = postData?.id
-        vc.teacherName = postData?.sTeacher
-        vc.backColor = postData?.sSubjectColor
-        vc.gradeText = postData?.sGrade
-        vc.subjectText = postData?.sSubject
+        vc.instructorID = postData.id
         
         let nav = UINavigationController(rootViewController: vc)
         nav.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.appEBFontWith(size: 17)]   // Naivagation title 폰트설정

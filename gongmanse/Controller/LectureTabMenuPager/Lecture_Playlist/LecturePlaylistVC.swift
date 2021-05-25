@@ -14,27 +14,53 @@ class LecturePlaylistVC: UIViewController {
     // MARK: - Properties
     
     var seriesID: String?
+    var totalNum: String?
+    var gradeText: String?
     var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
+    
+    
+    var getTeacherList: LectureSeriesDataModel?
     
     // MARK: - IBOutlet
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var tagView: UIView!
-    @IBOutlet weak var circleView: UIView!
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var titleText: UILabel!
+    @IBOutlet weak var gradeLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var colorView: UIStackView!
     
     // MARK: - Lifecylce
+    
+    init(_ teacherModel: LectureSeriesDataModel) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.getTeacherList = teacherModel
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let totalNum = detailVM?.lectureDetail?.totalNum
-        configurelabel(value: totalNum ?? "")
-        titleText.text = detailVM?.lectureDetail?.seriesInfo?.sTitle
-        teacherName.text = detailVM?.lectureDetail?.seriesInfo?.sTeacher
+        // 테이블 위쪽 View 데이터
+        if let getTeacher = getTeacherList {
+            print(detailVM?.lectureDetail?.totalNum ?? 0)
+            
+            
+            configurelabel(value: totalNum ?? "")
+            
+            titleText.text = getTeacher.sTitle
+            teacherName.text = "\(getTeacher.sTeacher ?? "") 선생님"
+            subjectLabel.text = getTeacher.sSubject
+            gradeLabel.text = detailVM?.convertGrade(gradeText) 
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -46,7 +72,6 @@ class LecturePlaylistVC: UIViewController {
         collectionView.dataSource = self
         
 
-        
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
@@ -71,9 +96,23 @@ class LecturePlaylistVC: UIViewController {
     // MARK: - Helper functions
     
     func configureUI() {
-        // tagView
-        tagView.layer.cornerRadius = 10
-        circleView.layer.cornerRadius = 7
+        
+        // subjectLabel
+        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.textColor = .white
+
+        // gradeLabel
+        gradeLabel.backgroundColor = .white
+        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.clipsToBounds = true
+        gradeLabel.layer.cornerRadius = 8.5
+        gradeLabel.textColor = UIColor(hex: getTeacherList?.sSubjectColor ?? "000000")
+        
+        // subjectColor
+        colorView.backgroundColor = UIColor(hex: getTeacherList?.sSubjectColor ?? "000000")
+        colorView.layer.cornerRadius = colorView.frame.size.height / 2
+        colorView.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        colorView.isLayoutMarginsRelativeArrangement = true
         
     }
     
@@ -115,7 +154,9 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
         guard let detailData = detailVM?.lectureDetail?.data[indexPath.row] else { return UICollectionViewCell() }
+        
         cell.setCellData(detailData)
+        
         return cell
     }
     
