@@ -92,6 +92,11 @@ class LecturePlaylistVC: UIViewController {
         
         detailVM?.lectureDetailApi(seriesID ?? "")
         detailVM?.delegate = self
+        
+        
+        if videoNumber != "" {
+            detailVM?.relationSeries(videoNumber)
+        }
     }
 
     

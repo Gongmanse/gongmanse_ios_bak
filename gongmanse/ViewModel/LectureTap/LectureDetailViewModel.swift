@@ -39,10 +39,12 @@ class LectureDetailViewModel {
     func relationSeries(_ videoID: String) {
         
         var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=\(videoID)"
+//        var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=15188"
         
         getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
             switch response {
             case .success(let data):
+                print(data)
                 self.relationSeriesList = data
                 self.delegate?.reloadCollection()
             case .failure(let err):
