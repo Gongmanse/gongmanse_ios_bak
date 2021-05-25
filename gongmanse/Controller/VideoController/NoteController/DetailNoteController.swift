@@ -10,6 +10,7 @@ import SDWebImage
 
 private let cellID = "NoteImageCell"
 
+/// 05.25 이전 노트 컨트롤러
 class DetailNoteController: UIViewController {
     
     // MARK: - Properties
@@ -219,7 +220,7 @@ class DetailNoteController: UIViewController {
         canvas.alpha = 0
         
         let width = view.frame.width * 0.5
-        writingImplement.alpha = 0
+        writingImplement.alpha = 1
         view.addSubview(writingImplement)
         writingImplement.frame = CGRect(x: 0,
                                         y: 250,
@@ -262,8 +263,6 @@ extension DetailNoteController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         return cell
     }
-    
-    
 }
 
 
@@ -299,22 +298,5 @@ extension DetailNoteController {
             }
             task.resume()
         }
-    }
-    
-    
-    /// UIKit에서 이미지 리사이징
-    /// 원본: UIImage, 결과: UIImages
-    func resize(image: UIImage, scale: CGFloat, completionHandler: ((UIImage?) -> Void)) {
-        
-        let transform = CGAffineTransform(scaleX: scale, y: scale)
-        let size = image.size.applying(transform)
-        
-        UIGraphicsBeginImageContext(size)
-        
-        image.draw(in: CGRect(origin: .zero, size: size))
-        guard let resultImage = UIGraphicsGetImageFromCurrentImageContext() else { return }
-        UIGraphicsEndImageContext()
-        
-        completionHandler(resultImage)
     }
 }

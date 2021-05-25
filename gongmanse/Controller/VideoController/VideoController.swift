@@ -347,7 +347,8 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
             guard let id = self.id else { return  UICollectionViewCell() }
-            let noteVC = DetailNoteController(id: id, token: Constant.token)
+//            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
+            let noteVC = LectureNoteController(id: id, token: Constant.token)  // 05.25이후 노트컨트롤러
             self.addChild(noteVC)
             noteVC.didMove(toParent: self)
             cell.contentView.addSubview(noteVC.view)
