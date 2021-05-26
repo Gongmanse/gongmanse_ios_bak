@@ -32,15 +32,29 @@
                                 <rect key="frame" x="20" y="0.0" width="114" height="80"/>
                                 <color key="backgroundColor" red="1" green="0.51023204820000001" blue="0.16042598529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="화학" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ms5-BX-vIJ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="화학" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ms5-BX-vIJ" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                 <rect key="frame" x="149" y="0.0" width="40" height="20"/>
                                 <color key="backgroundColor" red="0.14875933529999999" green="0.29579317570000002" blue="0.38432610029999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="ms5-BX-vIJ" secondAttribute="height" multiplier="2:1" id="GWQ-gs-hCz"/>
+                                    <constraint firstAttribute="height" constant="20" id="EkS-4u-4zd"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전자 배치 규칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhL-u9-Jem">
                                 <rect key="frame" x="149" y="30" width="245" height="20.5"/>
@@ -49,19 +63,18 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="루돌프 클라우지우스" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf4-lx-xcR">
-                                <rect key="frame" x="149" y="65.5" width="93" height="14.5"/>
+                                <rect key="frame" x="149" y="65.5" width="89" height="14.5"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6S-ET-TSx">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6S-ET-TSx">
                                 <rect key="frame" x="324" y="0.0" width="70" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="bgt-Jm-S1I"/>
                                     <constraint firstAttribute="width" constant="70" id="lU4-3K-Fee"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Button" image="notePlayButton"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -72,7 +85,7 @@
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.275362" id="KPu-XW-tqv"/>
                             <constraint firstItem="ZhL-u9-Jem" firstAttribute="trailing" secondItem="V6S-ET-TSx" secondAttribute="trailing" id="QjD-TG-w9c"/>
                             <constraint firstItem="ms5-BX-vIJ" firstAttribute="leading" secondItem="ZhL-u9-Jem" secondAttribute="leading" id="S2c-AA-jDJ"/>
-                            <constraint firstItem="ms5-BX-vIJ" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.0966184" id="V6C-PJ-sdI"/>
+                            <constraint firstItem="ms5-BX-vIJ" firstAttribute="width" relation="greaterThanOrEqual" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.0966184" id="V6C-PJ-sdI"/>
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="leading" secondItem="syt-jH-Pjk" secondAttribute="leading" constant="20" id="VWO-av-GI4"/>
                             <constraint firstItem="ZhL-u9-Jem" firstAttribute="leading" secondItem="9E7-0y-Irl" secondAttribute="trailing" constant="15" id="XDY-V2-8kR"/>
                             <constraint firstItem="V6S-ET-TSx" firstAttribute="centerY" secondItem="ms5-BX-vIJ" secondAttribute="centerY" id="Xwx-CF-O8Z"/>
@@ -105,4 +118,7 @@
             <point key="canvasLocation" x="-10.144927536231885" y="105.80357142857143"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="notePlayButton" width="78" height="20"/>
+    </resources>
 </document>
