@@ -22,7 +22,7 @@ class SearchVideoVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
     @IBOutlet weak var sortButtonTitle: UIButton!
-    
+    @IBOutlet weak var autoVideoLabel: UILabel!
     
     //MARK: - Lifecycle
     
@@ -34,8 +34,9 @@ class SearchVideoVC: UIViewController {
         searchVideoVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
-        numberOfLesson.font = .appBoldFontWith(size: 14)
-        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 14)
+        autoVideoLabel.font = .appBoldFontWith(size: 16)
+        numberOfLesson.font = .appBoldFontWith(size: 16)
+        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 16)
         
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)

@@ -33,6 +33,10 @@ class SearchConsultVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        numberOfLesson.font = .appBoldFontWith(size: 16)
+        sortButton.titleLabel?.font = .appBoldFontWith(size: 16)
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         searchConsultationVM.reloadDelegate = self

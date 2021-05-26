@@ -36,6 +36,10 @@ class SearchNoteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        numberOfLesson.font = .appBoldFontWith(size: 16)
+        noteSortButton.titleLabel?.font = .appBoldFontWith(size: 16)
+
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         searchNoteVM.reloadDelegate = self
