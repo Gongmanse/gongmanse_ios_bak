@@ -146,11 +146,11 @@ class DetailNoteController: UIViewController {
         \"miterLimit\":10}]}
         """
         
-        let input                  = NoteTakingInput(token: receivedToken,
-                                                     video_id: videoID,
-                                                     sjson: sJson)
-        
-        DetailNoteDataManager().savingNoteTakingAPI(input, viewController: self)
+//        let input                  = NoteTakingInput(token: receivedToken,
+//                                                     video_id: videoID,
+//                                                     sjson: sJson)
+//
+//        DetailNoteDataManager().savingNoteTakingAPI(input, viewController: self)
     }
     
     
