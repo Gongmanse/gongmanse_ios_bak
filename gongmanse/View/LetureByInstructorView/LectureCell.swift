@@ -32,7 +32,7 @@ class LectureCell: UICollectionViewCell {
     }
     
     
-    func setCellData(_ type: SeriesDetailDataModel) {
+    func setSeriesCellData(_ type: SeriesDetailDataModel) {
         mainImageView.setImageUrl("\(fileBaseURL)/\(type.sThumbnail ?? "")")
         mainImageView.contentMode = .scaleAspectFill
         lectureTitle.text = type.sTitle
@@ -40,6 +40,17 @@ class LectureCell: UICollectionViewCell {
         tagLabel.text = type.sSubject
         tagLabel.backgroundColor = UIColor(hex: type.sSubjectColor ?? "000000")
     }
+    
+    func setVideoCellData(_ type: RelationSeriesDataModel) {
+        mainImageView.setImageUrl("\(fileBaseURL)/\(type.sThumbnail)")
+        mainImageView.contentMode = .scaleAspectFill
+        lectureTitle.text = type.sTitle
+        teachername.text = type.sTeacher
+        tagLabel.text = type.sSubject
+        tagLabel.backgroundColor = UIColor(hex: type.sSubjectColor)
+    }
+    
+    
     // MARK: - Helper functions
     
     func configureUI() {

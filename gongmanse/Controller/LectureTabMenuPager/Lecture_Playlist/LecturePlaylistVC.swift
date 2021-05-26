@@ -7,21 +7,28 @@
 
 import UIKit
 
+enum LectureState {
+    case lectureList
+    case videoList
+}
+
 private let cellId = "LectureCell"
 
 class LecturePlaylistVC: UIViewController {
 
     // MARK: - Properties
     
+    var lectureState: LectureState?
+    
+    // 강사별 강의
+    var getTeacherList: LectureSeriesDataModel?
     var seriesID: String?
     var totalNum: String?
     var gradeText: String?
     var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
+
     
-    
-    var getTeacherList: LectureSeriesDataModel?
-    
-    
+    // 관련시리즈
     var videoNumber: String = ""
     
     // MARK: - IBOutlet
@@ -164,16 +171,46 @@ class LecturePlaylistVC: UIViewController {
 
 extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return detailVM?.lectureDetail?.data.count ?? 0
+        
+        switch lectureState {
+        
+        case .lectureList:
+            return detailVM?.lectureDetail?.data.count ?? 0
+            
+        case .videoList:
+            return detailVM?.relationSeriesList?.data.count ?? 0
+            
+        default:
+            return 0
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
-        guard let detailData = detailVM?.lectureDetail?.data[indexPath.row] else { return UICollectionViewCell() }
         
-        cell.setCellData(detailData)
-        
-        return cell
+        switch lectureState {
+        case .lectureList:
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
+            guard let detailSeriesData = detailVM?.lectureDetail?.data[indexPath.row] else {
+                return UICollectionViewCell() }
+            
+            cell.setSeriesCellData(detailSeriesData)
+            
+            return cell
+        case .videoList:
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
+            guard let detailVideoData = detailVM?.relationSeriesList?.data[indexPath.row] else {
+                return UICollectionViewCell() }
+            
+            cell.setVideoCellData(detailVideoData)
+            
+            return cell
+        default:
+            return UICollectionViewCell()
+        }
+
     }
     
     
