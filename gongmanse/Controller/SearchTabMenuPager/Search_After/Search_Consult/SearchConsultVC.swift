@@ -67,6 +67,7 @@ class SearchConsultVC: UIViewController {
             collectionView.isHidden = true
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
