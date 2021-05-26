@@ -20,8 +20,8 @@ class LectureNoteController: UIViewController {
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
-    private var noteImageArr = [UIImage(), UIImage(), UIImage(),
-                        UIImage(), UIImage(), UIImage(), UIImage()]
+    private var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(),
+                                UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
     private var noteImageCount = 0
     private var receivedNoteImage: UIImage?
 
@@ -240,6 +240,7 @@ class LectureNoteController: UIViewController {
     
     private func setupViews() {
         
+        // 우선 구현 후, 추후 리펙토링할 예정. 0527
         // 이미지를 UIImage에 할당한다.
         var image01 = noteImageArr[0]
         var image02 = noteImageArr[1]
@@ -248,6 +249,12 @@ class LectureNoteController: UIViewController {
         var image05 = noteImageArr[4]
         var image06 = noteImageArr[5]
         var image07 = noteImageArr[6]
+        var image08 = noteImageArr[7]
+        var image09 = noteImageArr[8]
+        var image10 = noteImageArr[9]
+        var image11 = noteImageArr[10]
+        var image12 = noteImageArr[11]
+        var image13 = noteImageArr[12]
 
         // 이미지의 크기를 줄인다.
         let scale = CGFloat(0.45)
@@ -278,6 +285,30 @@ class LectureNoteController: UIViewController {
         resize(image: image07, scale: scale) { image in
             image07 = image!
         }
+        
+        resize(image: image08, scale: scale) { image in
+            image08 = image!
+        }
+        
+        resize(image: image09, scale: scale) { image in
+            image09 = image!
+        }
+        
+        resize(image: image10, scale: scale) { image in
+            image10 = image!
+        }
+        
+        resize(image: image11, scale: scale) { image in
+            image11 = image!
+        }
+        
+        resize(image: image12, scale: scale) { image in
+            image12 = image!
+        }
+        
+        resize(image: image13, scale: scale) { image in
+            image13 = image!
+        }
   
         // 여러 이미지를 하나의 UIImage로 변환한다.
         let convertedImage = mergeVerticallyImagesIntoImage(images:
@@ -287,7 +318,13 @@ class LectureNoteController: UIViewController {
                                                             image04,
                                                             image05,
                                                             image06,
-                                                            image07)
+                                                            image07,
+                                                            image08,
+                                                            image09,
+                                                            image10,
+                                                            image11,
+                                                            image12,
+                                                            image13)
         imageView01.image = convertedImage
     }
     
@@ -326,7 +363,6 @@ class LectureNoteController: UIViewController {
                               width: width - 15,
                               height: 59)
     }
-    
 }
 
 
@@ -444,3 +480,4 @@ extension LectureNoteController: CanvasDelegate {
         self.strokesString = String(tempString.dropLast(1))
     }
 }
+
