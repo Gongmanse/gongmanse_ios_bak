@@ -65,7 +65,7 @@ class Canvas: UIView {
     override func draw(_ rect: CGRect) {
         // custom drawing
         super.draw(rect)
-        
+        print("DEBUG: draw 메소드 호출.")
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
         lines.forEach { line in
@@ -85,6 +85,14 @@ class Canvas: UIView {
             }
             context.strokePath()
         }
+        
+//        dummyLineData.forEach { line in
+//            context.setStrokeColor(UIColor.purple.cgColor)
+//            context.setLineWidth(CGFloat(5))
+//            context.setLineCap(.round)
+//
+//
+//        }
         
     }
 
@@ -118,15 +126,16 @@ class Canvas: UIView {
             passData.append(Point(x: p.x,
                                        y: p.y))
         }
-//        print("DEBUG: passData \(self.passData)")
         
         var convertedString = ""
-        
+
         for (_, p) in passData.enumerated() {
             
             convertedString += "{\"x\":\(p.x), \"y\":\(p.y)},"
         }
         self.pointString.append(convertedString)
-//        print("DEBUG: convertedString = \"points\":[\(convertedString)]")
+        
+        print("DEBUG: line 데이터 \(line)")
     }
+    
 }

@@ -118,6 +118,7 @@ class LectureNoteController: UIViewController {
         super.viewDidLoad()
         setupData()
         setupLayout()
+        setupNoteTaking()
     }
     
     
@@ -144,16 +145,17 @@ class LectureNoteController: UIViewController {
         scrollView.isScrollEnabled.toggle()
 
         // !noteMode -> 노트필기 가능한상태
+        
         if !noteMode {
             UIView.animate(withDuration: 0.33) {
                 self.writingImplement.frame.origin = CGPoint(x: -100,
-                                                             y: 250)
+                                                             y: 0)
             }
             
         } else {
             UIView.animate(withDuration: 0.33) {
                 self.writingImplement.frame.origin = CGPoint(x: 0,
-                                                             y: 250)
+                                                             y: 0)
             }
         }
     }
@@ -170,14 +172,13 @@ class LectureNoteController: UIViewController {
         // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
         let intID = Int(id)!
         
-        let sJson: String         = "{\"aspectRatio\":9.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
-        print("DEBUG: 들어가는 sJson값 = \(sJson)")
-                
+        let sJson = "{\"aspectRatio\":0.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
+        
         let willPassNoteData = NoteTakingInput(token: token,
                                                video_id: intID,
                                                sjson: sJson)
+        // 노트 필기 좌표 입력하는 API메소드
         DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
-        
     }
     
     // MARK: - Heleprs
@@ -189,6 +190,7 @@ class LectureNoteController: UIViewController {
         
         let dataForSearchNote = NoteInput(video_id: id,
                                           token: token)
+        // 노트이미지 불러오는 API메소드
         DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
                                                       viewController: self)
     }
@@ -363,6 +365,10 @@ class LectureNoteController: UIViewController {
                               width: width - 15,
                               height: 59)
     }
+    
+    func setupNoteTaking() {
+        
+    }
 }
 
 
@@ -415,7 +421,6 @@ extension UIViewController {
 }
 
 
-
 // MARK: - API
 
 extension LectureNoteController {
@@ -424,6 +429,16 @@ extension LectureNoteController {
         
         guard let data = responseData.data else { return }
         
+        if let jsonData = data.sJson {
+            
+            if let strokes = jsonData.strokes {
+                
+                for (_, p) in strokes.enumerated() {
+                    print("DEBUG: strokes 데이터는 \(p.points)")
+                }
+            }
+        }
+                
         self.noteImageCount = data.sNotes.count
         
         for noteData in 0 ... (self.noteImageCount-1) {
@@ -480,4 +495,3 @@ extension LectureNoteController: CanvasDelegate {
         self.strokesString = String(tempString.dropLast(1))
     }
 }
-
