@@ -15,9 +15,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var currentVideoPlayRate = Float(1.0)
     var id: String?
-    var seriesId: String?
-    var switchValue: UISwitch?
-    var receiveData: VideoModels?
+    
+    //국영수
+    var koreanSeriesId: String?
+    var koreanSwitchValue: UISwitch?
+    var koreanReceiveData: VideoInput?
+    var koreanSelectedBtn: UIButton?
+    var koreanViewTitle: String?
+    
+    //과학
+    var scienceSeriesId: String?
+    var scienceSwitchValue: UISwitch?
+    var scienceReceiveData: VideoInput?
+    var scienceSelectedBtn: UIButton?
+    var scienceViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     let lessonInfoController = LessonInfoController()
@@ -369,9 +380,21 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
-            cell.seriesID = self.seriesId ?? ""
-            cell.switchOnOffValue = self.switchValue
-            cell.receiveModelData = self.receiveData
+            
+            //국영수
+            cell.koreanSeriesID = self.koreanSeriesId ?? ""
+            cell.koreanSwitchOnOffValue = self.koreanSwitchValue
+            cell.receiveKoreanModelData = self.koreanReceiveData
+            cell.koreanSelectedBtnValue = self.koreanSelectedBtn
+            cell.koreanViewTitleValue = self.koreanViewTitle ?? ""
+            
+            //과학
+            cell.scienceSeriesID = self.scienceSeriesId ?? ""
+            cell.scienceSwitchOnOffValue = self.scienceSwitchValue
+            cell.recieveScienceModelData = self.scienceReceiveData
+            cell.scienceSelectedBtnValue = self.scienceSelectedBtn
+            cell.scienceViewTitleValue = self.scienceViewTitle ?? ""
+            
             cell.delegate = self
             return cell
             

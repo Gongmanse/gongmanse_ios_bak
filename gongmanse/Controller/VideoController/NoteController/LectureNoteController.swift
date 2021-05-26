@@ -52,7 +52,7 @@ class LectureNoteController: UIViewController {
     
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .mainOrange.withAlphaComponent(0.88)
+        //button.backgroundColor = .mainOrange.withAlphaComponent(0.88)
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()

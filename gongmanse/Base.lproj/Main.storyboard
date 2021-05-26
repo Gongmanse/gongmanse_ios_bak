@@ -1883,7 +1883,7 @@
                                     <action selector="selectMenuBtn:" destination="okp-Ta-j3w" eventType="touchUpInside" id="JTM-go-BfV"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uk-RL-khF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uk-RL-khF">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="C44-Tc-hJE"/>
@@ -1920,6 +1920,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="autoPlayLabel" destination="7uk-RL-khF" id="NC5-lZ-goh"/>
                         <outlet property="filteringBtn" destination="kge-lo-YAn" id="OG6-VX-yuG"/>
                         <outlet property="playSwitch" destination="3rj-zf-sQz" id="VDq-IJ-OaF"/>
                         <outlet property="scienceCollection" destination="IjQ-fH-fBS" id="Io1-4A-zKJ"/>
@@ -2135,7 +2136,7 @@
                                     <action selector="selectMenuBtn:" destination="xNm-MF-amQ" eventType="touchUpInside" id="ixM-JV-bYC"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eng-xC-6oM">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eng-xC-6oM">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="3hX-TX-ydD"/>
@@ -2373,7 +2374,7 @@
                                     <constraint firstAttribute="width" constant="44" id="L08-Pi-AWU"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLi-Pc-Ynj">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLi-Pc-Ynj">
                                 <rect key="frame" x="314" y="96" width="42" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="42" id="Fnh-T9-15G"/>

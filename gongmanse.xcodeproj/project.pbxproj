@@ -241,6 +241,8 @@
 		6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */; };
 		6C8852562611CC820006BDB2 /* VideoCellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852552611CC820006BDB2 /* VideoCellModels.swift */; };
 		6C88525A2611CDE20006BDB2 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852592611CDE20006BDB2 /* Address.swift */; };
+		6C9BEEBB265E163C00FFF655 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9BEEB9265E163C00FFF655 /* EmptyTableViewCell.swift */; };
+		6C9BEEBC265E163C00FFF655 /* EmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C9BEEBA265E163C00FFF655 /* EmptyTableViewCell.xib */; };
 		6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */; };
 		6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */; };
 		6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */; };
@@ -626,6 +628,8 @@
 		6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsCVCell.swift; sourceTree = "<group>"; };
 		6C8852552611CC820006BDB2 /* VideoCellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCellModels.swift; sourceTree = "<group>"; };
 		6C8852592611CDE20006BDB2 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		6C9BEEB9265E163C00FFF655 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
+		6C9BEEBA265E163C00FFF655 /* EmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyTableViewCell.xib; sourceTree = "<group>"; };
 		6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationTVCell.swift; sourceTree = "<group>"; };
 		6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationFloatingVC.swift; sourceTree = "<group>"; };
 		6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoTVC.swift; sourceTree = "<group>"; };
@@ -1213,6 +1217,8 @@
 				2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */,
 				6CBEEAC6265245470006795D /* BottomPlaylistTVCell.swift */,
 				6CBEEAC7265245470006795D /* BottomPlaylistTVCell.xib */,
+				6C9BEEB9265E163C00FFF655 /* EmptyTableViewCell.swift */,
+				6C9BEEBA265E163C00FFF655 /* EmptyTableViewCell.xib */,
 			);
 			path = BottomCell;
 			sourceTree = "<group>";
@@ -2838,6 +2844,7 @@
 				259B8BF4260305E1009A7146 /* SearchVideoVC.xib in Resources */,
 				C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */,
 				25201DB526042880001098AC /* FindIDByPhoneVC.xib in Resources */,
+				6C9BEEBC265E163C00FFF655 /* EmptyTableViewCell.xib in Resources */,
 				2588F85E2609877B0070C2FC /* FindingPwdByEmailVC.xib in Resources */,
 				259B8BCA26030531009A7146 /* ProgressPopupVC.xib in Resources */,
 				259B8B5526030048009A7146 /* NanumSquareRoundB.ttf in Resources */,
@@ -3173,6 +3180,7 @@
 				2580CF5D261A939D00D78E4E /* VideoController.swift in Sources */,
 				25BD761426159199002B266C /* LogInViewModel.swift in Sources */,
 				25BA75CC263686CE00C1F8A0 /* DetailVideoResponse.swift in Sources */,
+				6C9BEEBB265E163C00FFF655 /* EmptyTableViewCell.swift in Sources */,
 				C2A4B8982626BC0000173261 /* EventListModel.swift in Sources */,
 				A9850EF12616132B00908BA4 /* QustionListModel.swift in Sources */,
 				6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */,
