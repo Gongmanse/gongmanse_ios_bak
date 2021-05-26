@@ -58,7 +58,10 @@ class LessonInfoController: UIViewController {
     @objc func handleBookmarkAction(sender: UIView) { bookmarkButton.viewTintColor = .mainOrange }
     @objc func handleRateLessonAction() { rateLessonButton.viewTintColor = .mainOrange }
     @objc func handleShareLessonAction() { shareLessonButton.viewTintColor = .mainOrange }
-    @objc func handleRelatedSeriesAction() { relatedSeriesButton.viewTintColor = .mainOrange }
+    @objc func handleRelatedSeriesAction() {
+        relatedSeriesButton.viewTintColor = .mainOrange
+        // TODO: 관련시리즈를 켠다.
+    }
     @objc func handleProblemSolvingAction() { problemSolvingButton.viewTintColor = .mainOrange }
     
     // TODO: 태그 클릭 시, 검색결과화면으로 이동하는 메소드
@@ -125,7 +128,7 @@ class LessonInfoController: UIViewController {
                                     left: view.leftAnchor,
                                     paddingTop: 10, paddingLeft: 10)
         configureCollectionView()
-//        configureAdditionalFunctions() 05.21 주석처리; 1차 배포를 위해 (기능 미구현상태)
+        configureAdditionalFunctions() //05.21 주석처리; 1차 배포를 위해 (기능 미구현상태)
         configureAddActions()
     }
     

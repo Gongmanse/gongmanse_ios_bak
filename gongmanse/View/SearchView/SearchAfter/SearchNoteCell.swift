@@ -47,10 +47,8 @@ class SearchNoteCell: UICollectionViewCell {
             titleImage.layer.borderWidth = 1
             titleImage.layer.borderColor = UIColor.lightGray.cgColor
             
-            videoButton.backgroundColor = .mainOrange
-            videoButton.layer.cornerRadius = 10
-            videoButton.setTitle("동영상 재생", for: .normal)
-            videoButton.setTitleColor(.white, for: .normal)
+            // 이미지 내부 % 비율로 조절 
+            titleImage.layer.contentsRect = CGRect(x: -0.1, y: 0.0, width: 0.7, height: 0.7)
         }
 
 }

@@ -16,6 +16,7 @@ class LectureNoteController: UIViewController {
     private let id: String?
     private let token: String?
     private var url: String?
+    private var pointString = ""
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
@@ -52,7 +53,7 @@ class LectureNoteController: UIViewController {
     
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
-        //button.backgroundColor = .mainOrange.withAlphaComponent(0.88)
+        button.backgroundColor = .mainOrange
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
@@ -158,8 +159,39 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func handleSavingNote() {
-        // TODO: 02021. 동영상 노트 수정 API와 연동할 것.
-        print("DEBUG: 노트저장 버튼을 클릭했습니다.")
+        
+        // canvas 객체로 부터 x,y 위치 정보를 받는다.
+        canvas.saveNoteTakingData()
+        
+        
+        // 이 클래스의 전역범위에 있는 데이터를 지역변수로 옮긴다.
+        guard let token = self.token else { return }
+        guard let id = self.id else { return }
+        let intID = Int(id)!    // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
+        
+        // API양식에 맞게 데이터를 기입한다.
+        let sJson: String         =
+        """
+        {\"aspectRatio\":0.45,
+        \"strokes\":[
+                    {\"points\":[\(self.pointString)],
+                    \"color\":\"#B34E61\",
+                    \"size\":1000,
+                    \"cap\":\"round\",
+                    \"join\":\"round\",
+                    \"miterLimit\":10}
+                    ]
+        }
+        """
+        
+//        let sJson: String = "스트링테스트"
+        
+        
+        let willPassNoteData = NoteTakingInput(token: "Y2Q1YTYzM2NjNjE3NmZlYmI5MTYwMmVkNDVjOTE0MGI3NDIwYTFjN2U5ZGI1MzdkYzMyMjE0Y2M4YjIyMjEwNzM1NzEyZDQ3ODk1NGQ1Y2U5NWFlNzQ3NjFjOWU5Y2FlMmMzZTVlMTQwMmRmYjg1M2E3NjhiYWFmNjc5ZmU4ZGZFdUx1RzNjVVFmQk1uajdCKzdUMlhCdCtHOEltTnlJN0hSL2Y5anc3Z1lZaTFQNTNGWWk4cmhYM1hVdlRIV0pSd25aWGxpdWJrUHBsTEJocExrYmFnQT09",
+                                               video_id: 21093,
+                                               sjson: sJson)
+        DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
+        
     }
     
     // MARK: - Heleprs
@@ -177,6 +209,7 @@ class LectureNoteController: UIViewController {
     
     private func setupLayout() {
         
+        canvas.delegate = self // canvas position 데이터 전달받기 위한 델리게이션
         setupScrollView()
         setupWritingImplement()
     }
@@ -395,5 +428,32 @@ extension LectureNoteController {
             }
             task.resume()
         }
+    }
+}
+
+
+// MARK: - CanvasDelegate
+
+extension LectureNoteController: CanvasDelegate {
+    
+    func passLinePositionDataForLectureNoteController(points: [String]) {
+//        self.pointString = String(points.dropLast(1))
+//        print("DEBUG: \(self.pointString)")
+        
+        var testArr = [String]()
+        let color = "#B34E61"
+        
+        for (_, p) in points.enumerated() {
+            
+            let sJson: String         =
+            "{\"aspectRatio\":0.45,\"strokes\":[{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}]}"
+            
+            testArr.append(sJson)
+            
+        }
+        print("DEBUG: sJsonTest \(testArr)")
+        
+        
+        
     }
 }

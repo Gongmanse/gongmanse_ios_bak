@@ -22,9 +22,49 @@ class SearchVideoVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
     @IBOutlet weak var sortButtonTitle: UIButton!
+    @IBOutlet weak var autoVideoLabel: UILabel!
     
+    
+    // 상담목록이 없습니다.
+    private let consultLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .rgb(red: 164, green: 164, blue: 164)
+        label.textAlignment = .center
+        label.font = .appBoldFontWith(size: 16)
+        label.text = "검색 내역이 없습니다."
+        return label
+    }()
+    
+    private let emptyAlert: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "alert")
+        image.contentMode = .scaleAspectFit
+        return image
+    }()
+    
+    private let emptyStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.spacing = 10
+        return stack
+    }()
     
     //MARK: - Lifecycle
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        emptyStackView.isHidden = true
+        collectionView.isHidden = false
+        
+        if searchVideoVM.responseVideoModel?.data.count == 0{
+            
+            emptyStackView.isHidden = false
+            collectionView.isHidden = true
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +74,9 @@ class SearchVideoVC: UIViewController {
         searchVideoVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
-        numberOfLesson.font = .appBoldFontWith(size: 14)
-        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 14)
+        autoVideoLabel.font = .appBoldFontWith(size: 16)
+        numberOfLesson.font = .appBoldFontWith(size: 16)
+        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 16)
         
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -49,6 +90,17 @@ class SearchVideoVC: UIViewController {
         
         // 초기 비디오값 get
         getSearchVideoList()
+        
+        view.addSubview(emptyStackView)
+        emptyStackView.addArrangedSubview(emptyAlert)
+        emptyStackView.addArrangedSubview(consultLabel)
+        
+        emptyStackView.translatesAutoresizingMaskIntoConstraints = false
+        emptyStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
     }
     
     func getSearchVideoList() {

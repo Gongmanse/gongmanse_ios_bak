@@ -60,6 +60,7 @@
                     <constraints>
                         <constraint firstItem="uXR-Ne-kOZ" firstAttribute="centerY" secondItem="nmh-pM-YMr" secondAttribute="centerY" id="4sw-0w-eKy"/>
                         <constraint firstItem="rJk-h1-XWL" firstAttribute="leading" secondItem="nmh-pM-YMr" secondAttribute="leading" constant="20" id="700-4s-YEF"/>
+                        <constraint firstAttribute="height" constant="47" id="Bwf-BL-BhU"/>
                         <constraint firstItem="uXR-Ne-kOZ" firstAttribute="leading" secondItem="rJk-h1-XWL" secondAttribute="trailing" constant="15" id="IB6-rF-Ge0"/>
                         <constraint firstItem="rJk-h1-XWL" firstAttribute="centerY" secondItem="nmh-pM-YMr" secondAttribute="centerY" id="RnF-DU-qUC"/>
                         <constraint firstItem="rJk-h1-XWL" firstAttribute="height" secondItem="nmh-pM-YMr" secondAttribute="height" multiplier="0.659574" id="sZX-95-oUM"/>

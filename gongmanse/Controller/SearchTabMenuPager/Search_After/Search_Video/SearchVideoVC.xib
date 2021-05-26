@@ -17,6 +17,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchVideoVC" customModule="gongmanse" customModuleProvider="target">
             <connections>
                 <outlet property="autoPlaySwitch" destination="8kW-VY-0qK" id="u4i-VL-BOF"/>
+                <outlet property="autoVideoLabel" destination="rcu-ZM-0ia" id="A0g-5t-laX"/>
                 <outlet property="collectionView" destination="QQg-rj-lwS" id="jis-rD-rfh"/>
                 <outlet property="numberOfLesson" destination="McI-nO-EOF" id="1rR-X7-mDW"/>
                 <outlet property="sortButtonTitle" destination="F9a-co-6h8" id="vyS-9F-546"/>
@@ -42,7 +43,7 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="47"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 0 개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McI-nO-EOF">
-                            <rect key="frame" x="20" y="14" width="50" height="19"/>
+                            <rect key="frame" x="20" y="8" width="50" height="31"/>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -70,10 +71,11 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="F9a-co-6h8" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="0IH-XH-LmJ"/>
+                        <constraint firstAttribute="height" constant="47" id="3ja-Y2-ELy"/>
                         <constraint firstItem="McI-nO-EOF" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="72D-MM-nJB"/>
                         <constraint firstItem="McI-nO-EOF" firstAttribute="leading" secondItem="D00-Ym-150" secondAttribute="leading" constant="20" id="EYr-6P-5Xn"/>
                         <constraint firstItem="8kW-VY-0qK" firstAttribute="centerY" secondItem="D00-Ym-150" secondAttribute="centerY" id="Itf-QH-cNg"/>
-                        <constraint firstItem="McI-nO-EOF" firstAttribute="height" secondItem="D00-Ym-150" secondAttribute="height" multiplier="0.404255" id="Jdy-wo-1bi"/>
+                        <constraint firstItem="McI-nO-EOF" firstAttribute="height" secondItem="D00-Ym-150" secondAttribute="height" multiplier="0.659574" id="Jdy-wo-1bi"/>
                         <constraint firstItem="8kW-VY-0qK" firstAttribute="leading" secondItem="rcu-ZM-0ia" secondAttribute="trailing" constant="8" id="YcD-y5-5qF"/>
                         <constraint firstItem="F9a-co-6h8" firstAttribute="height" secondItem="D00-Ym-150" secondAttribute="height" multiplier="0.659574" id="fLh-nT-MvR"/>
                         <constraint firstItem="F9a-co-6h8" firstAttribute="leading" secondItem="McI-nO-EOF" secondAttribute="trailing" constant="15" id="hfX-9O-U5K"/>
@@ -93,7 +95,6 @@
                 <constraint firstAttribute="bottom" secondItem="QQg-rj-lwS" secondAttribute="bottom" id="YYf-pj-iQa"/>
                 <constraint firstItem="D00-Ym-150" firstAttribute="trailing" secondItem="BQ8-2j-BV1" secondAttribute="trailing" id="av1-wn-lp8"/>
                 <constraint firstItem="QQg-rj-lwS" firstAttribute="leading" secondItem="BQ8-2j-BV1" secondAttribute="leading" id="ghT-pX-7jK"/>
-                <constraint firstItem="D00-Ym-150" firstAttribute="height" secondItem="k1A-36-IOl" secondAttribute="height" multiplier="0.0524554" id="i8U-WL-g7H"/>
             </constraints>
             <point key="canvasLocation" x="118.84057971014494" y="56.919642857142854"/>
         </view>

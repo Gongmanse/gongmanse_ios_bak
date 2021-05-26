@@ -63,6 +63,7 @@
                         <constraint firstItem="bpd-W2-x9G" firstAttribute="centerY" secondItem="BFv-8j-PNl" secondAttribute="centerY" id="D2u-m0-Lg5"/>
                         <constraint firstItem="0Sl-Ig-o4R" firstAttribute="leading" secondItem="BFv-8j-PNl" secondAttribute="leading" constant="20" id="JnV-BY-wMq"/>
                         <constraint firstItem="0Sl-Ig-o4R" firstAttribute="centerY" secondItem="BFv-8j-PNl" secondAttribute="centerY" id="QXh-VX-dJs"/>
+                        <constraint firstAttribute="height" constant="47" id="rdX-B5-e0W"/>
                         <constraint firstItem="0Sl-Ig-o4R" firstAttribute="height" secondItem="BFv-8j-PNl" secondAttribute="height" multiplier="0.659574" id="zNS-Fp-WMi"/>
                     </constraints>
                 </view>
