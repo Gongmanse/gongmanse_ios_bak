@@ -2173,6 +2173,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="autoPlayLabel" destination="eng-xC-6oM" id="wEw-Be-ITw"/>
                         <outlet property="filteringBtn" destination="83U-wq-RMv" id="hHP-UZ-Lod"/>
                         <outlet property="playSwitch" destination="I2Q-3N-AJ8" id="2Dy-YC-XvW"/>
                         <outlet property="selectBtn" destination="egH-xU-sT8" id="P9S-dT-WYs"/>

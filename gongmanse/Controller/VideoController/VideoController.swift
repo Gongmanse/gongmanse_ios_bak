@@ -30,6 +30,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var scienceSelectedBtn: UIButton?
     var scienceViewTitle: String?
     
+    //사회
+    var socialStudiesSeriesId: String?
+    var socialStudiesSwitchValue: UISwitch?
+    var socialStudiesReceiveData: VideoInput?
+    var socialStudiesSelectedBtn: UIButton?
+    var socialStudiesViewTitle: String?
+    
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     let lessonInfoController = LessonInfoController()
 
@@ -394,6 +401,13 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             cell.recieveScienceModelData = self.scienceReceiveData
             cell.scienceSelectedBtnValue = self.scienceSelectedBtn
             cell.scienceViewTitleValue = self.scienceViewTitle ?? ""
+            
+            //사회
+            cell.socialStudiesSeriesID = self.socialStudiesSeriesId ?? ""
+            cell.socialStudiesSwitchOnOffValue = self.socialStudiesSwitchValue
+            cell.recieveSocialStudiesModelData = self.socialStudiesReceiveData
+            cell.socialStudiesSelectedBtnValue = self.socialStudiesSelectedBtn
+            cell.socialStudiesViewTitleValue = self.socialStudiesViewTitle ?? ""
             
             cell.delegate = self
             return cell
