@@ -95,6 +95,8 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        gradeButton.layer.borderWidth = 3.2
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         
@@ -439,7 +441,7 @@ extension SearchVC {
     func viewConfigure() {
         
         let borderWidth = 2
-        let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
+        let borderColor = UIColor.mainOrange
         
         // addSubview
         view.addSubview(buttonContainerView)
@@ -467,7 +469,7 @@ extension SearchVC {
         gradeButton.setTitle("모든 학년", for: .normal)
         gradeButton.setTitleColor(.black, for: .normal)
         gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
-        gradeButton.layer.borderWidth = CGFloat(borderWidth)
+//        gradeButton.layer.borderWidth = CGFloat(borderWidth)
         gradeButton.layer.borderColor = borderColor.cgColor
         gradeButton.layer.cornerRadius = 13
         
