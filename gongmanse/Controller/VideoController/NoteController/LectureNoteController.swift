@@ -12,11 +12,11 @@ import Alamofire
 class LectureNoteController: UIViewController {
     
     // MARK: - Properties
-    
+    // MARK: 데이터
     private let id: String?
     private let token: String?
     private var url: String?
-    private var pointString = ""
+    private var strokesString = ""
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
@@ -24,7 +24,8 @@ class LectureNoteController: UIViewController {
                         UIImage(), UIImage(), UIImage(), UIImage()]
     private var noteImageCount = 0
     private var receivedNoteImage: UIImage?
-    
+
+    // MARK: UI
     // 노트 객체
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -35,7 +36,6 @@ class LectureNoteController: UIViewController {
     
     // 노트필기 객체
     private let canvas = Canvas()
-    
     private let savingNoteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("노트\n저장", for: .normal)
@@ -163,33 +163,18 @@ class LectureNoteController: UIViewController {
         // canvas 객체로 부터 x,y 위치 정보를 받는다.
         canvas.saveNoteTakingData()
         
-        
         // 이 클래스의 전역범위에 있는 데이터를 지역변수로 옮긴다.
         guard let token = self.token else { return }
         guard let id = self.id else { return }
-        let intID = Int(id)!    // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
         
-        // API양식에 맞게 데이터를 기입한다.
-//        let sJson: String         =
-//        """
-//        {\"aspectRatio\":9.45,
-//        \"strokes\":[
-//                    {\"points\":[\(self.pointString)],
-//                    \"color\":\"#B34E61\",
-//                    \"size\":1000,
-//                    \"cap\":\"round\",
-//                    \"join\":\"round\",
-//                    \"miterLimit\":10}
-//                    ]
-//        }
-//        """
-        let sJson: String         = "{\"aspectRatio\":9.45,\"strokes\":[" + "\(self.pointString)" + "]}"
+        // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
+        let intID = Int(id)!
+        
+        let sJson: String         = "{\"aspectRatio\":9.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
         print("DEBUG: 들어가는 sJson값 = \(sJson)")
-//        let sJson: String = "스트링테스트"
-        
-        
-        let willPassNoteData = NoteTakingInput(token: "NmFkMWM2ZjIzYmQ5MGEyZGY0NTdiYTk4Y2E2MzJjNDc0NGE1NWUyNzk2NmQ5OGUyZDQ1NmEwMTg5MmFjYTgzNWExMTNiODc3YWUzOWVkZDA3MDE4NmRhZmU0MTUzN2M3YWZmYjJlOWQ4NzkyMzU1ZGFjYjljNjAyNDAzNzBjNTJmcGEwQ1NRVTFVMWp5d3cxVUUvNnZtdlNZY2FJajJpZ2hXRVhEazhXekxIejgxR2NKVjB5OXVnRUg1UWp0Nlh6WSt0V0JwcGN5bUFvTkFDekN0NVk1UT09",
-                                               video_id: 21093,
+                
+        let willPassNoteData = NoteTakingInput(token: token,
+                                               video_id: intID,
                                                sjson: sJson)
         DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
         
@@ -340,9 +325,6 @@ class LectureNoteController: UIViewController {
                               paddingLeft: 15,
                               width: width - 15,
                               height: 59)
-        
- 
-        
     }
     
 }
@@ -437,39 +419,28 @@ extension LectureNoteController {
 
 extension LectureNoteController: CanvasDelegate {
     
+    /// "02021. 동영상 노트 수정" (PATCH) 메소드 수행을 위한 메소드
+    /// - 작성일시: 21.05.26
+    /// - 기구현된 Web와 AOS 양식을 맞추기 위해 구현한 메소드
+    /// - 이 외 연동 방법이 없다고 하여 구현함. 변경할 수 있다면, 노트필기 로직자체가 변경되는 것이 괜찮아보임
     func passLinePositionDataForLectureNoteController(points: [String]) {
-//        self.pointString = String(points.dropLast(1))
-//        print("DEBUG: \(self.pointString)")
         
-        var testArr = [String]()
+        var tempArr = [String]()
+        
+        // TODO: 선택한 색상에 대한 정보를 받아서 "color" 데이터를 변경해주어야 함.
         let color = "#B34E61"
         
         for (_, p) in points.enumerated() {
             
-//            let sJson: String         =
-//            "{\"aspectRatio\":0.45,\"strokes\":[{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}]}"
-            
-            let sJson: String         =
-            "{\"aspectRatio\":0.45,"
-            
             let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
-            
-            let data = strokes
-            
-            testArr.append(data)
-            
+            tempArr.append(strokes)
         }
-//        print("DEBUG: sJsonTest \(testArr)")
+        
         var tempString = ""
-        for (_, p) in testArr.enumerated() {
-            
+        
+        for (_, p) in tempArr.enumerated() {
             tempString += (p + ",")
-            
-//            self.pointString += (p + ",")
-//            print("DEBUG: \(p)")
         }
-        self.pointString = String(tempString.dropLast(1))
-//        self.pointString = testArr.first!
-        print("DEBUG: pointString \(self.pointString)")
+        self.strokesString = String(tempString.dropLast(1))
     }
 }
