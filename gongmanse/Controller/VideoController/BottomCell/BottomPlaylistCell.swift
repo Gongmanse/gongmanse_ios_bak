@@ -14,9 +14,13 @@ class BottomPlaylistCell: UICollectionViewCell {
     weak var delegate: BottomPlaylistCellDelegate?
     
     var playlist: PlayListModels?
-    var videoID: String = "" {
+    var seriesID: String = "" {
         didSet { getDataFromJson() }
     }
+    
+    var receiveModelData: VideoModels?
+    
+    var switchOnOffValue: UISwitch!
     
 //    var label: UILabel = {
 //        let label = UILabel()
@@ -70,7 +74,7 @@ class BottomPlaylistCell: UICollectionViewCell {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: apiBaseURL + "/v/video/relatives?video_id=\(videoID)") {
+        if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=0") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -108,29 +112,54 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
         
-        guard let json = self.playlist else { return cell }
-
-        let indexData = json.data[indexPath.row]
-        let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
-
-        cell.videoThumbnail.contentMode = .scaleAspectFill
-        cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = indexData.sTeacher + " 선생님"
-        cell.subjects.text = indexData.sSubject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
-
-        if indexData.sUnit == "" {
-            cell.term.isHidden = true
-        } else if indexData.sUnit == "1" {
-            cell.term.isHidden = false
-            cell.term.text = "i"
-        } else if indexData.sUnit == "2" {
-            cell.term.isHidden = false
-            cell.term.text = "ii"
+        if switchOnOffValue.isOn {
+            let url = URL(string: makeStringKoreanEncoded(receiveModelData?.thumbnail ?? "nil"))
+            cell.videoThumbnail.sd_setImage(with: url)
+            
+            cell.subjects.text = receiveModelData?.subject
+            cell.videoTitle.text = receiveModelData?.title
+            cell.teachersName.text = (receiveModelData?.teacherName ?? "nil") + " 선생님"
+            cell.starRating.text = receiveModelData?.rating
+            cell.subjects.backgroundColor = UIColor(hex: receiveModelData?.subjectColor ?? "nil")
+            
+            if receiveModelData?.unit != nil {
+                cell.term.isHidden = false
+                cell.term.text = receiveModelData?.unit
+            } else if receiveModelData?.unit == "1" {
+                cell.term.isHidden = false
+                cell.term.text = "i"
+            } else if receiveModelData?.unit == "2" {
+                cell.term.isHidden = false
+                cell.term.text = "ii"
+            } else {
+                cell.term.isHidden = true
+            }
+            
         } else {
-            cell.term.isHidden = false
-            cell.term.text = indexData.sUnit
+            guard let json = self.playlist else { return cell }
+
+            let indexData = json.data[indexPath.row]
+            let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.sTitle
+            cell.teachersName.text = indexData.sTeacher + " 선생님"
+            cell.subjects.text = indexData.sSubject
+            cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
+
+            if indexData.sUnit == "" {
+                cell.term.isHidden = true
+            } else if indexData.sUnit == "1" {
+                cell.term.isHidden = false
+                cell.term.text = "i"
+            } else if indexData.sUnit == "2" {
+                cell.term.isHidden = false
+                cell.term.text = "ii"
+            } else {
+                cell.term.isHidden = false
+                cell.term.text = indexData.sUnit
+            }
         }
         
         return cell

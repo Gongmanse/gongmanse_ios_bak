@@ -42,6 +42,7 @@
 		2526008D2648E47E00FEABE2 /* CustomPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526008C2648E47E00FEABE2 /* CustomPlayerController.swift */; };
 		252600902648E4FB00FEABE2 /* DetailScreenTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526008F2648E4FB00FEABE2 /* DetailScreenTabController.swift */; };
 		252600932648E57200FEABE2 /* LessonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252600922648E57200FEABE2 /* LessonInfoViewController.swift */; };
+		25273704265C8D91004C4476 /* LectureNoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25273703265C8D91004C4476 /* LectureNoteController.swift */; };
 		253135DB2612C34A00B51348 /* FindingIDByPhoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253135DA2612C34A00B51348 /* FindingIDByPhoneViewModel.swift */; };
 		2538EDC626436F240090E460 /* VideoFullScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2538EDC526436F240090E460 /* VideoFullScreenController.swift */; };
 		2538EDCD2643DFA20090E460 /* VideoURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2538EDCC2643DFA20090E460 /* VideoURL.swift */; };
@@ -425,6 +426,7 @@
 		2526008C2648E47E00FEABE2 /* CustomPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerController.swift; sourceTree = "<group>"; };
 		2526008F2648E4FB00FEABE2 /* DetailScreenTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenTabController.swift; sourceTree = "<group>"; };
 		252600922648E57200FEABE2 /* LessonInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonInfoViewController.swift; sourceTree = "<group>"; };
+		25273703265C8D91004C4476 /* LectureNoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureNoteController.swift; sourceTree = "<group>"; };
 		253135DA2612C34A00B51348 /* FindingIDByPhoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDByPhoneViewModel.swift; sourceTree = "<group>"; };
 		2538EDC526436F240090E460 /* VideoFullScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFullScreenController.swift; sourceTree = "<group>"; };
 		2538EDCC2643DFA20090E460 /* VideoURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoURL.swift; sourceTree = "<group>"; };
@@ -958,6 +960,29 @@
 			path = Video_Re;
 			sourceTree = "<group>";
 		};
+		25273705265C945C004C4476 /* Renewal */ = {
+			isa = PBXGroup;
+			children = (
+				25273706265C946B004C4476 /* Entity */,
+				25273707265C9474004C4476 /* DataManager */,
+			);
+			path = Renewal;
+			sourceTree = "<group>";
+		};
+		25273706265C946B004C4476 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		25273707265C9474004C4476 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
 		253135D32612C2D600B51348 /* FindingID */ = {
 			isa = PBXGroup;
 			children = (
@@ -1249,6 +1274,7 @@
 				257E48E9265629A40086BEE7 /* View */,
 				258511C126520728003264F3 /* API */,
 				258511BF26520341003264F3 /* DetailNoteController.swift */,
+				25273703265C8D91004C4476 /* LectureNoteController.swift */,
 			);
 			path = NoteController;
 			sourceTree = "<group>";
@@ -1256,6 +1282,7 @@
 		258511C126520728003264F3 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				25273705265C945C004C4476 /* Renewal */,
 				258511C22652072D003264F3 /* Entity */,
 				258511C326520730003264F3 /* DataManager */,
 			);
@@ -3151,6 +3178,7 @@
 				6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */,
 				6CB83C412601B54B007AED64 /* BookMarkTVC.swift in Sources */,
 				6CF2E66825F0AAB7000FE084 /* OtherSubjectsVC.swift in Sources */,
+				25273704265C8D91004C4476 /* LectureNoteController.swift in Sources */,
 				6CF2E66225F0AA53000FE084 /* ScienceVC.swift in Sources */,
 				2580CF57261A927900D78E4E /* VideoMenuBar.swift in Sources */,
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,

@@ -15,6 +15,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var currentVideoPlayRate = Float(1.0)
     var id: String?
+    var seriesId: String?
+    var switchValue: UISwitch?
+    var receiveData: VideoModels?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     let lessonInfoController = LessonInfoController()
@@ -347,7 +350,8 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
             guard let id = self.id else { return  UICollectionViewCell() }
-            let noteVC = DetailNoteController(id: id, token: Constant.token)
+//            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
+            let noteVC = LectureNoteController(id: id, token: Constant.token)  // 05.25이후 노트컨트롤러
             self.addChild(noteVC)
             noteVC.didMove(toParent: self)
             cell.contentView.addSubview(noteVC.view)
@@ -365,7 +369,9 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
-            cell.videoID = self.id ?? ""
+            cell.seriesID = self.seriesId ?? ""
+            cell.switchOnOffValue = self.switchValue
+            cell.receiveModelData = self.receiveData
             cell.delegate = self
             return cell
             

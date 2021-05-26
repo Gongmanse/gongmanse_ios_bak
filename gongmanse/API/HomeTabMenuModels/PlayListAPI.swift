@@ -17,6 +17,7 @@ struct PlayListInfo: Codable {
 
 struct PlayListData: Codable {
     var id: String
+    var iSeriesId: String
     var sTitle: String
     var dtDateCreated: String
     var dtLastModified: String
