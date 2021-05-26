@@ -170,24 +170,25 @@ class LectureNoteController: UIViewController {
         let intID = Int(id)!    // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
         
         // API양식에 맞게 데이터를 기입한다.
-        let sJson: String         =
-        """
-        {\"aspectRatio\":0.45,
-        \"strokes\":[
-                    {\"points\":[\(self.pointString)],
-                    \"color\":\"#B34E61\",
-                    \"size\":1000,
-                    \"cap\":\"round\",
-                    \"join\":\"round\",
-                    \"miterLimit\":10}
-                    ]
-        }
-        """
-        
+//        let sJson: String         =
+//        """
+//        {\"aspectRatio\":9.45,
+//        \"strokes\":[
+//                    {\"points\":[\(self.pointString)],
+//                    \"color\":\"#B34E61\",
+//                    \"size\":1000,
+//                    \"cap\":\"round\",
+//                    \"join\":\"round\",
+//                    \"miterLimit\":10}
+//                    ]
+//        }
+//        """
+        let sJson: String         = "{\"aspectRatio\":9.45,\"strokes\":[" + "\(self.pointString)" + "]}"
+        print("DEBUG: 들어가는 sJson값 = \(sJson)")
 //        let sJson: String = "스트링테스트"
         
         
-        let willPassNoteData = NoteTakingInput(token: "Y2Q1YTYzM2NjNjE3NmZlYmI5MTYwMmVkNDVjOTE0MGI3NDIwYTFjN2U5ZGI1MzdkYzMyMjE0Y2M4YjIyMjEwNzM1NzEyZDQ3ODk1NGQ1Y2U5NWFlNzQ3NjFjOWU5Y2FlMmMzZTVlMTQwMmRmYjg1M2E3NjhiYWFmNjc5ZmU4ZGZFdUx1RzNjVVFmQk1uajdCKzdUMlhCdCtHOEltTnlJN0hSL2Y5anc3Z1lZaTFQNTNGWWk4cmhYM1hVdlRIV0pSd25aWGxpdWJrUHBsTEJocExrYmFnQT09",
+        let willPassNoteData = NoteTakingInput(token: "NmFkMWM2ZjIzYmQ5MGEyZGY0NTdiYTk4Y2E2MzJjNDc0NGE1NWUyNzk2NmQ5OGUyZDQ1NmEwMTg5MmFjYTgzNWExMTNiODc3YWUzOWVkZDA3MDE4NmRhZmU0MTUzN2M3YWZmYjJlOWQ4NzkyMzU1ZGFjYjljNjAyNDAzNzBjNTJmcGEwQ1NRVTFVMWp5d3cxVUUvNnZtdlNZY2FJajJpZ2hXRVhEazhXekxIejgxR2NKVjB5OXVnRUg1UWp0Nlh6WSt0V0JwcGN5bUFvTkFDekN0NVk1UT09",
                                                video_id: 21093,
                                                sjson: sJson)
         DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
@@ -445,15 +446,30 @@ extension LectureNoteController: CanvasDelegate {
         
         for (_, p) in points.enumerated() {
             
-            let sJson: String         =
-            "{\"aspectRatio\":0.45,\"strokes\":[{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}]}"
+//            let sJson: String         =
+//            "{\"aspectRatio\":0.45,\"strokes\":[{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}]}"
             
-            testArr.append(sJson)
+            let sJson: String         =
+            "{\"aspectRatio\":0.45,"
+            
+            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            
+            let data = strokes
+            
+            testArr.append(data)
             
         }
-        print("DEBUG: sJsonTest \(testArr)")
-        
-        
-        
+//        print("DEBUG: sJsonTest \(testArr)")
+        var tempString = ""
+        for (_, p) in testArr.enumerated() {
+            
+            tempString += (p + ",")
+            
+//            self.pointString += (p + ",")
+//            print("DEBUG: \(p)")
+        }
+        self.pointString = String(tempString.dropLast(1))
+//        self.pointString = testArr.first!
+        print("DEBUG: pointString \(self.pointString)")
     }
 }
