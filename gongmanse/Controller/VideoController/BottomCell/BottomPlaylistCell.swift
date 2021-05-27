@@ -188,17 +188,18 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         } else {
-            if socialStudiesSwitchOnOffValue.isOn {
-                guard let autoPlayOffdata = self.recieveSocialStudiesModelData?.body else { return 0}
-                return autoPlayOffdata.count
-            } else {
-                if socialStudiesSelectedBtnValue.currentTitle == "문제 풀이" {
-                    return 1
-                } else {
-                    guard let data = self.playlist?.data else { return 0}
-                    return data.count
-                }
-            }
+//            if socialStudiesSwitchOnOffValue.isOn {
+//                guard let autoPlayOffdata = self.recieveSocialStudiesModelData?.body else { return 0}
+//                return autoPlayOffdata.count
+//            } else {
+//                if socialStudiesSelectedBtnValue.currentTitle == "문제 풀이" {
+//                    return 1
+//                } else {
+//                    guard let data = self.playlist?.data else { return 0}
+//                    return data.count
+//                }
+//            }
+            return 0
         }
     }
     
