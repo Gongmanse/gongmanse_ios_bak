@@ -358,9 +358,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
         // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
-        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
-                                        at: UICollectionView.ScrollPosition.left,
-                                        animated: true)
+//        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+//                                        at: UICollectionView.ScrollPosition.left,
+//                                        animated: true)
         super.viewWillTransition(to: size, with: coordinator)
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
@@ -384,16 +384,19 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
             guard let id = self.id else { return  UICollectionViewCell() }
+            
+//            let testVC = TestSearchController(clickedText: "2 개 생기는 이유좀 알려줘요")
 //            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
             let noteVC = LectureNoteController(id: id, token: Constant.token)  // 05.25이후 노트컨트롤러
             self.addChild(noteVC)
             noteVC.didMove(toParent: self)
-            cell.contentView.addSubview(noteVC.view)
-            noteVC.view.anchor(top: cell.contentView.topAnchor,
-                               left: cell.contentView.leftAnchor,
-                               bottom: cell.contentView.bottomAnchor,
-                               right: cell.contentView.rightAnchor)
-            noteVC.view.setNeedsDisplay()
+            
+            cell.view.addSubview(noteVC.view)
+            noteVC.view.anchor(top: cell.view.topAnchor,
+                               left: cell.view.leftAnchor,
+                               bottom: cell.view.bottomAnchor,
+                               right: cell.view.rightAnchor)
+            
             return cell
             
         case 1:
@@ -463,6 +466,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
     
 }
 
+
 //MARK:- UICollectionViewDelegateFlowLayout
 
 extension VideoController: UICollectionViewDelegateFlowLayout {
@@ -514,7 +518,6 @@ extension VideoController {
         // "sTeacher" -> LessonInfoController.teachernameLabel.text
         let teachername = response.data.sTeacher
         self.lessonInfoController.teachernameLabel.text = teachername
-        
         
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle
@@ -586,7 +589,5 @@ extension VideoController: BottomPlaylistCellDelegate {
         present(vc, animated: true) {
             self.player.pause()
         }
-        
-        
     }
 }

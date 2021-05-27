@@ -35,7 +35,7 @@ class LectureNoteController: UIViewController {
     }()
     
     // 노트필기 객체
-    private let canvas = Canvas()
+    public let canvas = Canvas()
     private let savingNoteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("노트\n저장", for: .normal)
@@ -60,41 +60,42 @@ class LectureNoteController: UIViewController {
     
     private let redButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .red
-        button.layer.borderWidth = 1
+        button.setImage(#imageLiteral(resourceName: "redPencilOff"), for: .normal)
+//        button.backgroundColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
+        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
     private let greenButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .green
-        button.layer.borderWidth = 1
+        button.setImage(#imageLiteral(resourceName: "greenPencilOff"), for: .normal)
+//        button.backgroundColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
+        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
 
     private let blueButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .blue
-        button.layer.borderWidth = 1
+        button.setImage(#imageLiteral(resourceName: "bluePencilOff"), for: .normal)
+//        button.backgroundColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
+        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
     private let clearButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .clear
-        button.layer.borderWidth = 1
+//        button.backgroundColor = .clear
+        button.setImage(#imageLiteral(resourceName: "eraserOff"), for: .normal)
         button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
         return button
     }()
     
     private let writingImplementToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.left.2")
-        button.setImage(image, for: .normal)
-        button.layer.borderWidth = 1
+        button.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
@@ -118,6 +119,7 @@ class LectureNoteController: UIViewController {
         super.viewDidLoad()
         setupData()
         setupLayout()
+        setupNoteTaking()
     }
     
     
@@ -132,7 +134,21 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func handleColorChange(button: UIButton) {
-        canvas.setStrokeColor(color: button.backgroundColor ?? .black)
+        
+        var pencilColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
+        
+        switch button {
+        case redButton:
+            pencilColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
+        case greenButton:
+            pencilColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
+        case blueButton:
+            pencilColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
+        default:
+            pencilColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
+        }
+        
+        canvas.setStrokeColor(color: pencilColor)
     }
         
     @objc fileprivate func toggleSketchMode() {
@@ -144,16 +160,15 @@ class LectureNoteController: UIViewController {
         scrollView.isScrollEnabled.toggle()
 
         // !noteMode -> 노트필기 가능한상태
+        
         if !noteMode {
             UIView.animate(withDuration: 0.33) {
-                self.writingImplement.frame.origin = CGPoint(x: -100,
-                                                             y: 250)
+                self.writingImplement.frame.origin.x = -100
             }
             
         } else {
             UIView.animate(withDuration: 0.33) {
-                self.writingImplement.frame.origin = CGPoint(x: 0,
-                                                             y: 250)
+                self.writingImplement.frame.origin.x = 0
             }
         }
     }
@@ -170,15 +185,15 @@ class LectureNoteController: UIViewController {
         // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
         let intID = Int(id)!
         
-        let sJson: String         = "{\"aspectRatio\":9.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
-        print("DEBUG: 들어가는 sJson값 = \(sJson)")
-                
+        let sJson = "{\"aspectRatio\":0.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
+        
         let willPassNoteData = NoteTakingInput(token: token,
                                                video_id: intID,
                                                sjson: sJson)
+        // 노트 필기 좌표 입력하는 API메소드
         DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
-        
     }
+    
     
     // MARK: - Heleprs
     
@@ -189,6 +204,7 @@ class LectureNoteController: UIViewController {
         
         let dataForSearchNote = NoteInput(video_id: id,
                                           token: token)
+        // 노트이미지 불러오는 API메소드
         DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
                                                       viewController: self)
     }
@@ -331,19 +347,22 @@ class LectureNoteController: UIViewController {
     private func setupWritingImplement() {
         
         let width = view.frame.width * 0.5
+        let bottomPadding = view.frame.height * 0.07
+        let height = view.frame.height * 0.09
+        
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
-        writingImplement.setDimensions(height: 50,
+        writingImplement.setDimensions(height: height,
                                        width: width)
         writingImplement.anchor(left: view.leftAnchor,
                                 bottom: view.bottomAnchor,
-                                paddingBottom: 10)
+                                paddingBottom: bottomPadding)
         
         view.addSubview(savingNoteButton)
-        savingNoteButton.setDimensions(height: 50, width: 55)
+        savingNoteButton.setDimensions(height: height, width: width * 0.33)
         savingNoteButton.anchor(bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
-                                paddingBottom: 10)
+                                paddingBottom: bottomPadding)
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,
@@ -352,7 +371,7 @@ class LectureNoteController: UIViewController {
             clearButton,
             writingImplementToggleButton
         ])
-        
+
         colorStackView.spacing = 4
         colorStackView.distribution = .fillEqually
         writingImplement.addSubview(colorStackView)
@@ -362,6 +381,10 @@ class LectureNoteController: UIViewController {
                               paddingLeft: 15,
                               width: width - 15,
                               height: 59)
+    }
+    
+    func setupNoteTaking() {
+        
     }
 }
 
@@ -415,7 +438,6 @@ extension UIViewController {
 }
 
 
-
 // MARK: - API
 
 extension LectureNoteController {
@@ -424,8 +446,39 @@ extension LectureNoteController {
         
         guard let data = responseData.data else { return }
         
-        self.noteImageCount = data.sNotes.count
+        // 서버에 저장되어 있는 좌표값을 canvas에 그릴 수 있는 형태로 변환한다.
+        var previousNoteTakingData = [Line]()
         
+        if let jsonData = data.sJson {
+            if let strokes = jsonData.strokes {
+                
+                for stroke in strokes {
+                    
+                    var xyPoints = [CGPoint]()
+                    // TODO: line 구조체 변경하여 color를 String으로 변경하면서 "color"를 사용할 예정이다.
+                    var color = stroke.color  // 핵사코드로 전달해준다.
+                    
+                    for (_, p) in stroke.points.enumerated() {
+                        
+                        let xyPoint = CGPoint(x: CGFloat(p.x), y: CGFloat(p.y))
+                        xyPoints.append(xyPoint)
+                    }
+                    
+                    let line = Line(strokeWidth: 5, color: .black, points: xyPoints)
+                    previousNoteTakingData.append(line)
+                }
+            }
+        }
+        
+        print("DEBUG: 이전노트데이터 \(previousNoteTakingData)")
+        canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
+        
+        view.layoutSubviews()
+        canvas.layoutSubviews()
+        scrollView.layoutSubviews()
+        
+        // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
+        self.noteImageCount = data.sNotes.count
         for noteData in 0 ... (self.noteImageCount-1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
@@ -480,4 +533,3 @@ extension LectureNoteController: CanvasDelegate {
         self.strokesString = String(tempString.dropLast(1))
     }
 }
-
