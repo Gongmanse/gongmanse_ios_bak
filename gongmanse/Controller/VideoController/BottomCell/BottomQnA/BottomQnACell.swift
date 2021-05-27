@@ -37,12 +37,13 @@ class BottomQnACell: UICollectionViewCell {
     
     private let sendText: UITextField = {
         let text = UITextField()
-        text.backgroundColor = .lightGray
         text.borderStyle = .roundedRect
         text.autocorrectionType = .no
         text.keyboardType = .default
         text.returnKeyType = .done
         text.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        text.placeholder = "질문을 입력해주세요."
+        text.backgroundColor = .rgb(red: 237, green: 237, blue: 237)
         return text
     }()
     
@@ -53,7 +54,7 @@ class BottomQnACell: UICollectionViewCell {
         button.titleLabel?.font = .appBoldFontWith(size: 16)
         button.backgroundColor = .mainOrange
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
+        button.layer.cornerRadius = 10
         return button
     }()
     
