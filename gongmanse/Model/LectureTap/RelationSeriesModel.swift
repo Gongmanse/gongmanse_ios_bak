@@ -11,7 +11,7 @@ import Foundation
 struct RelationSeriesModel: Codable {
     let isMore: Bool
     let totalNum: String
-    let seriesInfo: RelationSeriesInfo
+    let seriesInfo: RelationSeriesInfo?
     let data: [RelationSeriesDataModel]
 }
 
