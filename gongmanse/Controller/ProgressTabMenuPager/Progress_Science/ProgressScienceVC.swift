@@ -70,17 +70,18 @@ class ProgressScienceVC: UIViewController {
     
     // Button
     func configureButton() {
-        let borderWidth = 2
-        let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
         
-        gradeBtn.layer.borderWidth = CGFloat(borderWidth)
+        let borderColor = UIColor.mainOrange
+        
         gradeBtn.setTitle("모든 학년", for: .normal)
         gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
+        gradeBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        gradeBtn.layer.borderWidth = 3.5
         
-        
-        chapterBtn.layer.borderWidth = CGFloat(borderWidth)
+        chapterBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        chapterBtn.layer.borderWidth = 3.5
         chapterBtn.layer.borderColor = borderColor.cgColor
         chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
