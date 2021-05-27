@@ -1599,10 +1599,10 @@
 				259B8C00260305FE009A7146 /* Lecture_Playlist */,
 				259B8C0826030632009A7146 /* ElementaryVC.swift */,
 				259B8C0526030632009A7146 /* ElementaryVC.xib */,
-				259B8C0A26030632009A7146 /* HighSchoolVC.swift */,
-				259B8C0726030632009A7146 /* HighSchoolVC.xib */,
 				259B8C0926030632009A7146 /* MiddleSchoolVC.swift */,
 				259B8C0626030632009A7146 /* MiddleSchoolVC.xib */,
+				259B8C0A26030632009A7146 /* HighSchoolVC.swift */,
+				259B8C0726030632009A7146 /* HighSchoolVC.xib */,
 			);
 			path = LectureTabMenuPager;
 			sourceTree = "<group>";
