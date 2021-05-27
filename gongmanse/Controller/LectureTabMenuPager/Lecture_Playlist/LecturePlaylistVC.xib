@@ -37,7 +37,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="김샛별 선생님" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gZ-Yu-S96">
-                            <rect key="frame" x="20" y="63" width="66" height="13"/>
+                            <rect key="frame" x="20" y="63" width="80" height="13"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="5de-fY-fcR"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -78,7 +81,6 @@
                     <constraints>
                         <constraint firstItem="3gZ-Yu-S96" firstAttribute="height" secondItem="eEu-jo-hJz" secondAttribute="height" multiplier="0.15415" id="0z4-Pb-cRl"/>
                         <constraint firstItem="RDk-gd-4l3" firstAttribute="top" secondItem="sTY-4y-Csj" secondAttribute="top" id="2fu-et-der"/>
-                        <constraint firstItem="3gZ-Yu-S96" firstAttribute="width" secondItem="eEu-jo-hJz" secondAttribute="width" multiplier="0.169231" id="D5E-7q-pim"/>
                         <constraint firstItem="sTY-4y-Csj" firstAttribute="width" secondItem="eEu-jo-hJz" secondAttribute="width" multiplier="0.710256" id="PPt-Y2-XcM"/>
                         <constraint firstItem="sTY-4y-Csj" firstAttribute="top" secondItem="eEu-jo-hJz" secondAttribute="top" constant="13" id="UX3-Zq-iGQ"/>
                         <constraint firstItem="sTY-4y-Csj" firstAttribute="height" secondItem="eEu-jo-hJz" secondAttribute="height" multiplier="0.474308" id="YYO-hD-IfK"/>
