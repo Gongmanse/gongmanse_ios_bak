@@ -446,6 +446,7 @@ extension LectureNoteController {
         
         guard let data = responseData.data else { return }
         
+        // MARK: 노트필기를 불러오는 로직
         // 서버에 저장되어 있는 좌표값을 canvas에 그릴 수 있는 형태로 변환한다.
         var previousNoteTakingData = [Line]()
         
@@ -455,22 +456,46 @@ extension LectureNoteController {
                 for stroke in strokes {
                     
                     var xyPoints = [CGPoint]()
+                    var penColorArr = [UIColor]()
                     // TODO: line 구조체 변경하여 color를 String으로 변경하면서 "color"를 사용할 예정이다.
-                    var color = stroke.color  // 핵사코드로 전달해준다.
+                    let color = stroke.color  // 핵사코드로 전달해준다.
                     
-                    for (_, p) in stroke.points.enumerated() {
+                    
+                    
+                    
+                    for (i, p) in strokes.enumerated() {
+                        // 색상을 고른다.
+                        var penColor = UIColor()
+                        switch p.color {
+                        case "red":
+                            penColor = .redPenColor
+                        case "green":
+                            penColor = .greenPenColor
+                        case "blue":
+                            penColor = .bluePenColor
+                        default:
+                            penColor = .redPenColor
+                        }
+                        // 셋중 하나를 고른 후 penColorArr에 추가한다.
+                        penColorArr.append(penColor)
                         
-                        let xyPoint = CGPoint(x: CGFloat(p.x), y: CGFloat(p.y))
-                        xyPoints.append(xyPoint)
+                        // x,y 좌표 값을 arr에 append 한다.
+                        for (_, p) in stroke.points.enumerated() {
+                            
+                            let xyPoint = CGPoint(x: CGFloat(p.x), y: CGFloat(p.y))
+                            xyPoints.append(xyPoint)
+                        }
+                        
+                        let line = Line(strokeWidth: 0.5, color: penColorArr[i], points: xyPoints)
+                        print("DEBUG: line 데이터 \(line)")
+                        previousNoteTakingData.append(line)
+                        
                     }
                     
-                    let line = Line(strokeWidth: 5, color: .black, points: xyPoints)
-                    previousNoteTakingData.append(line)
                 }
             }
         }
         
-        print("DEBUG: 이전노트데이터 \(previousNoteTakingData)")
         canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
         
         view.layoutSubviews()
@@ -512,16 +537,33 @@ extension LectureNoteController: CanvasDelegate {
     /// - 작성일시: 21.05.26
     /// - 기구현된 Web와 AOS 양식을 맞추기 위해 구현한 메소드
     /// - 이 외 연동 방법이 없다고 하여 구현함. 변경할 수 있다면, 노트필기 로직자체가 변경되는 것이 괜찮아보임
-    func passLinePositionDataForLectureNoteController(points: [String]) {
-        
+    func passLinePositionDataForLectureNoteController(points: [String], color: [UIColor]) {
+        // MARK: 노트필기를 작성하는 로직
         var tempArr = [String]()
         
-        // TODO: 선택한 색상에 대한 정보를 받아서 "color" 데이터를 변경해주어야 함.
-        let color = "#B34E61"
+        for (i, p) in color.enumerated() {
+            var colorString = String()
+            // 색상을 고른다.
+            switch p {
+            case .redPenColor:
+                colorString = "red"
+            case .greenPenColor:
+                colorString = "green"
+            case .bluePenColor:
+                colorString = "blue"
+            default:
+                colorString = "red"
+            }
+
+        }
         
+        
+        // TODO: 여기서부터하면됨 05.27 기록
+    
+        // 좌표값을 할당한다.
         for (_, p) in points.enumerated() {
             
-            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(colorString)\",\"size\":0.5,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
             tempArr.append(strokes)
         }
         

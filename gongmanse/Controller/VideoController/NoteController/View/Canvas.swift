@@ -22,7 +22,7 @@ struct Line {
 }
 
 protocol CanvasDelegate: AnyObject {
-    func passLinePositionDataForLectureNoteController(points: [String])
+    func passLinePositionDataForLectureNoteController(points: [String], color: [UIColor])
 }
 
 
@@ -33,6 +33,7 @@ class Canvas: UIView {
     
     weak var delegate: CanvasDelegate?  // 노트저장 API를 대신 처리해줄 "LectureNoteController" delegate
     public var pointString = [String]() // API request 양식이 독특하여 String으로 변환해야하여 생성했다.
+    public var colorArr = [UIColor]() // API request 양식이 독특하여 String으로 변환해야하여 생성했다.
     
     // 이전 노트 데이터를 받아오기 위해 제한자를 "public" 으로 설정했다.
     public var lines = [Line]() {
@@ -41,7 +42,7 @@ class Canvas: UIView {
         }
     }
     
-    fileprivate var strokeColor = UIColor.black
+    fileprivate var strokeColor = UIColor.redPenColor
     fileprivate var strokeWidth: Float = 1
     
     
@@ -80,7 +81,7 @@ class Canvas: UIView {
     
     func saveNoteTakingData() {
         //        print("DEBUG: 넘겨진데이터 \(self.pointString)")
-        delegate?.passLinePositionDataForLectureNoteController(points: pointString)
+        delegate?.passLinePositionDataForLectureNoteController(points: pointString, color: colorArr)
     }
     
     
@@ -147,6 +148,7 @@ class Canvas: UIView {
             convertedString += "{\"x\":\(p.x), \"y\":\(p.y)},"
         }
         self.pointString.append(convertedString)
+        self.colorArr.append(self.strokeColor)
     }
     
 }
