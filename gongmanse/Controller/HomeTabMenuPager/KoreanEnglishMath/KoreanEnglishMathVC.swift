@@ -104,7 +104,9 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     }
     
     func getDataFromJson() {
-        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=0&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
+        var default1 = 0
+        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=\(default1)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
+            default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -270,15 +272,19 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
             vc.id = videoID
             let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
-            vc.seriesId = seriesID
-            vc.switchValue = playSwitch
-            vc.receiveData = koreanEnglishMathVideo?.body[indexPath.row]
+            vc.koreanSeriesId = seriesID
+            vc.koreanSwitchValue = playSwitch
+            vc.koreanReceiveData = koreanEnglishMathVideo
+            vc.koreanSelectedBtn = selectBtn
+            vc.koreanViewTitle = viewTitle.text
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
         
     }
+    
+    
 }
 
 extension KoreanEnglishMathVC: UICollectionViewDelegateFlowLayout {

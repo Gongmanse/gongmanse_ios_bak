@@ -26,11 +26,13 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var socialStudiesVideo: VideoInput?
+    var socialStudiesVideoSecond: FilterVideoModels?
     
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
     
+    @IBOutlet weak var autoPlayLabel: UILabel!
     @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var videoTotalCount: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -56,6 +58,7 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
         socialStudiesCollection.refreshControl = socialStudiesRC
         
         getDataFromJson()
+        getDataFromJsonSecond()
         textInput()
         cornerRadius()
         ChangeSwitchButton()
@@ -114,6 +117,27 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
                     self.textSettings()
                 }
                 
+            }.resume()
+        }
+    }
+    
+    func getDataFromJsonSecond() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=35&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.socialStudiesVideoSecond = json
+                }
+                DispatchQueue.main.async {
+                    self.socialStudiesCollection.reloadData()
+                    self.textSettings()
+                }
+
             }.resume()
         }
     }
@@ -199,22 +223,31 @@ extension SocialStudiesVC: UICollectionViewDataSource {
             // 전체 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
             return cell
             
         } else if selectedItem == 1 {
             // 시리즈 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
             return cell
             
         } else if selectedItem == 2 {
             // 문제 풀이
             setUpDefaultCellSetting()
+            addKeywordToCell()
+            playSwitch.isHidden = true
+            autoPlayLabel.isHidden = true
             return cell
         } else if selectedItem == 3 {
             // 노트 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = true
+            autoPlayLabel.isHidden = true
             return cell
             
         } else {
@@ -233,6 +266,12 @@ extension SocialStudiesVC: UICollectionViewDelegate {
             vc.modalPresentationStyle = .fullScreen
             let videoID = socialStudiesVideo?.body[indexPath.row].videoId
             vc.id = videoID
+            let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
+            vc.scienceSeriesId = seriesID
+            vc.scienceSwitchValue = playSwitch
+            vc.socialStudiesReceiveData = socialStudiesVideo
+            vc.socialStudiesSelectedBtn = selectBtn
+            vc.socialStudiesViewTitle = viewTitle.text
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
