@@ -16,6 +16,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var currentVideoPlayRate = Float(1.0)
     var id: String?
     
+    //추천
+    var recommendSeriesId: String?
+    var recommendReceiveData: VideoInput?
+    
+    //인기
+    var popularSeriesId: String?
+    var popularReceiveData: VideoInput?
+    var popularViewTitle: String?
+    
     //국영수
     var koreanSeriesId: String?
     var koreanSwitchValue: UISwitch?
@@ -36,6 +45,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var socialStudiesReceiveData: VideoInput?
     var socialStudiesSelectedBtn: UIButton?
     var socialStudiesViewTitle: String?
+    
+    //기타
+    var otherSubjectsSeriesId: String?
+    var otherSubjectsSwitchValue: UISwitch?
+    var otherSubjectsReceiveData: VideoInput?
+    var otherSubjectsSelectedBtn: UIButton?
+    var otherSubjectsViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     let lessonInfoController = LessonInfoController()
@@ -388,6 +404,15 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
             
+            //추천
+            cell.recommendSeriesID = self.recommendSeriesId ?? ""
+            cell.receiveRecommendModelData = self.recommendReceiveData
+            
+            //인기
+            cell.popularSeriesID = self.popularSeriesId ?? ""
+            cell.receivePopularModelData = self.popularReceiveData
+            cell.popularViewTitleValue = self.popularViewTitle ?? ""
+            
             //국영수
             cell.koreanSeriesID = self.koreanSeriesId ?? ""
             cell.koreanSwitchOnOffValue = self.koreanSwitchValue
@@ -408,6 +433,13 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             cell.recieveSocialStudiesModelData = self.socialStudiesReceiveData
             cell.socialStudiesSelectedBtnValue = self.socialStudiesSelectedBtn
             cell.socialStudiesViewTitleValue = self.socialStudiesViewTitle ?? ""
+            
+            //기타
+            cell.otherSubjectsSeriesID = self.otherSubjectsSeriesId ?? ""
+            cell.otherSubjectsSwitchOnOffValue = self.otherSubjectsSwitchValue
+            cell.recieveOtherSubjectsModelData = self.otherSubjectsReceiveData
+            cell.otherSubjectsSelectedBtnValue = self.otherSubjectsSelectedBtn
+            cell.otherSubjectsViewTitleValue = self.otherSubjectsViewTitle ?? ""
             
             cell.delegate = self
             return cell
@@ -542,7 +574,13 @@ extension VideoController: BottomPlaylistCellDelegate {
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
-        vc.id = videoID
+        //vc.id = videoID
+        vc.recommendSeriesId = videoID
+        vc.popularSeriesId = videoID
+        vc.koreanSeriesId = videoID
+        vc.scienceSeriesId = videoID
+        vc.socialStudiesSeriesId = videoID
+        vc.otherSubjectsSeriesId = videoID
         present(vc, animated: true) {
             self.player.pause()
         }

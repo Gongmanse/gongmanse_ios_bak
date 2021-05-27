@@ -11,6 +11,8 @@ class RecommendVC: UIViewController {
     
     var recommendVideo = VideoInput(header: HeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [VideoModels]())
     
+    var recommendVideoSecond: BeforeApiModels?
+    
     let recommendRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
@@ -24,6 +26,7 @@ class RecommendVC: UIViewController {
         recommendCollection.refreshControl = recommendRC
         
         getDataFromJson()
+        getDataFromJsonSecond()
         
     }
     
@@ -47,6 +50,28 @@ class RecommendVC: UIViewController {
                     self.recommendCollection.reloadData()
                 }
                 
+            }.resume()
+        }
+    }
+    
+    func getDataFromJsonSecond() {
+        var default1 = 0
+        if let url = URL(string: "https://api.gongmanse.com/v/video/recommendvid?offset=\(default1)&limit=20") {
+            default1 += 20
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(BeforeApiModels?.self, from: data) {
+                    //print(json.body)
+                    self.recommendVideoSecond = json
+                }
+                DispatchQueue.main.async {
+                    self.recommendCollection.reloadData()
+                }
+
             }.resume()
         }
     }
@@ -199,6 +224,9 @@ extension RecommendVC: UICollectionViewDelegate {
             let vc = VideoController()
             vc.id = recommendVideo.body[indexPath.row].videoId
             vc.modalPresentationStyle = .fullScreen
+            let seriesID = recommendVideoSecond?.data[indexPath.row].iSeriesId
+            vc.recommendSeriesId = seriesID
+            vc.recommendReceiveData = recommendVideo
             self.present(vc, animated: true) {
                 sleep(1)
             }

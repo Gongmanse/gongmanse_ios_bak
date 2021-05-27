@@ -26,11 +26,13 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var otherSubjectsVideo: VideoInput?
+    var otherSubjectsVideoSecond: FilterVideoModels?
     
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
     
+    @IBOutlet weak var autoPlayLabel: UILabel!
     @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var videoTotalCount: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -56,9 +58,13 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
         otherSubjectsCollection.refreshControl = otherSubjectsRC
         
         getDataFromJson()
+        getDataFromJsonSecond()
         textInput()
         cornerRadius()
         changeSwitchButton()
+        
+        autoPlayLabel.isHidden = true
+        playSwitch.isHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
@@ -91,8 +97,6 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
     
     func changeSwitchButton() {
         
-        playSwitch.isHidden = true
-        
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
     }
@@ -114,6 +118,27 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
                     self.textSettings()
                 }
                 
+            }.resume()
+        }
+    }
+    
+    func getDataFromJsonSecond() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=37&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.otherSubjectsVideoSecond = json
+                }
+                DispatchQueue.main.async {
+                    self.otherSubjectsCollection.reloadData()
+                    self.textSettings()
+                }
+
             }.resume()
         }
     }
@@ -199,22 +224,31 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             // 전체 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
             return cell
             
         } else if selectedItem == 1 {
             // 시리즈 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
             return cell
             
         } else if selectedItem == 2 {
             // 문제 풀이
             setUpDefaultCellSetting()
+            addKeywordToCell()
+            playSwitch.isHidden = true
+            autoPlayLabel.isHidden = true
             return cell
         } else if selectedItem == 3 {
             // 노트 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = true
+            autoPlayLabel.isHidden = true
             return cell
             
         } else {
@@ -231,11 +265,15 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
         if Constant.isLogin {
             let vc = VideoController()
             vc.modalPresentationStyle = .fullScreen
-            if let data = otherSubjectsVideo {
-                let videoID = data.body[indexPath.row].videoId
-                vc.id = videoID
-                present(vc, animated: true)
-            }
+            let videoID = otherSubjectsVideo?.body[indexPath.row].videoId
+            vc.id = videoID
+            let seriesID = otherSubjectsVideoSecond?.data[indexPath.row].iSeriesId
+            vc.otherSubjectsSeriesId = seriesID
+            vc.otherSubjectsSwitchValue = playSwitch
+            vc.otherSubjectsReceiveData = otherSubjectsVideo
+            vc.otherSubjectsSelectedBtn = selectBtn
+            vc.otherSubjectsViewTitle = viewTitle.text
+            present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

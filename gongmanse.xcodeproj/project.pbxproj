@@ -2117,6 +2117,7 @@
 		6CF2E65625F0A857000FE084 /* HomeTabMenuPager */ = {
 			isa = PBXGroup;
 			children = (
+				6CF2E68C25F21ED7000FE084 /* Science */,
 				6CF2E68E25F21F20000FE084 /* OtherSubjects */,
 				6CF2E68A25F21EA6000FE084 /* Recommend */,
 				6CF2E68925F21E96000FE084 /* Popular */,
@@ -2198,7 +2199,6 @@
 				6CC81BB126253CC1009260CB /* KoreanEnglishMathBottomPopUpTVCell.swift */,
 				6CFA77CA2624417D00040CBD /* KoreanEnglishMathAlignmentVC.swift */,
 				6CFA77CD262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift */,
-				6CF2E68C25F21ED7000FE084 /* Science */,
 			);
 			path = KoreanEnglishMath;
 			sourceTree = "<group>";
