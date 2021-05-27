@@ -43,18 +43,18 @@ class TeacherPlaylistCell: UICollectionViewCell {
     // MARK: - Helper functions
     
     func configureUI() {
-        let frame = self.frame
+        
         let cornerRadiusValue = CGFloat(10)
         
         // mainImageView
-        mainImageView.setDimensions(height: frame.height * 0.75,
-                                    width: frame.width)
-        mainImageView.anchor(top: self.topAnchor,
-                             left: self.leftAnchor,
-                             right: self.rightAnchor,
-                             paddingTop: 3,
-                             paddingLeft: 3,
-                             paddingRight: 3)
+        mainImageView.setDimensions(height: contentView.frame.height * 0.75,
+                                    width: contentView.frame.width)
+        
+        mainImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        mainImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+
+        
         mainImageView.addShadow()
         
         // cornerRadius
@@ -75,17 +75,23 @@ class TeacherPlaylistCell: UICollectionViewCell {
                            width: mainImageView.frame.width * 0.337)
         
         // numberOfLecture
-        numberOfLecture.setDimensions(height: 20, width: 25)
+
+        numberOfLecture.translatesAutoresizingMaskIntoConstraints = false
+        numberOfLecture.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        numberOfLecture.widthAnchor.constraint(lessThanOrEqualToConstant: 40).isActive = true
+        
         numberOfLecture.centerX(inView: overlayView)
         numberOfLecture.centerY(inView: overlayView)
         numberOfLecture.font = UIFont.appBoldFontWith(size: 18)
         
         // bottomView
-        bottomView.setDimensions(height: frame.height * 0.25,
-                                 width: frame.width)
-        bottomView.centerX(inView: self)
-        bottomView.anchor(top: mainImageView.bottomAnchor,
-                          bottom: self.bottomAnchor)
+        
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        bottomView.topAnchor.constraint(equalTo: mainImageView.bottomAnchor).isActive = true
+        bottomView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        bottomView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        bottomView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
         
         // lectureTitle
         lectureTitle.font = UIFont.appBoldFontWith(size: 16)
@@ -109,12 +115,11 @@ class TeacherPlaylistCell: UICollectionViewCell {
         tagLabel.clipsToBounds = true
         tagLabel.layer.cornerRadius = 10
         tagLabel.font = UIFont.appBoldFontWith(size: 12)
-        tagLabel.setDimensions(height: lectureTitle.frame.height,
-                               width: 40)
+        
         tagLabel.centerY(inView: lectureTitle)
         tagLabel.anchor(right: bottomView.rightAnchor,
                         paddingRight: 5)
-        
+        tagLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 80).isActive = true
         
     }
 
