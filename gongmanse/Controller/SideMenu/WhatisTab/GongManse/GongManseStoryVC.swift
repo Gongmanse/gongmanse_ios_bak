@@ -22,15 +22,36 @@ class GongManseStoryVC: UIViewController {
         manseImage.contentMode = .scaleAspectFit
         manseImage.sizeToFit()
         let image = #imageLiteral(resourceName: "aboutManse") // aboutManse
-        manseImage.image = image.resize(7000)
-
         
+        switch UIScreen.main.scale {
+        case 2.0:
+            manseImage.image = image.resize(3500)
+        case 3.0:
+            manseImage.image = image.resize(7000)
+        default:
+            return 
+        }
+//        manseImage.image = image.resize(3500)
+        print(manseImage.image?.size)
+        print(UIScreen.main.scale)
+        
+        // 0.16615
+        // 387.69
+        // 2333.33
     }
 }
 extension UIImage {
     func resize(_ max_size: CGFloat) -> UIImage {
         // adjust for device pixel density
-        let max_size_pixels = max_size / UIScreen.main.scale
+        
+        var max_size_pixels: CGFloat = 0.0
+        
+        max_size_pixels = max_size / UIScreen.main.scale
+        
+        if UIScreen.main.scale == 2.0 {
+            max_size_pixels = max_size / UIScreen.main.scale + 1.0
+        }
+        
         // work out aspect ratio
         let aspectRatio =  size.width/size.height
         // variables for storing calculated data
