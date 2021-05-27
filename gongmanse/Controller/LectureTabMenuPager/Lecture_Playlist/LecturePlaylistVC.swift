@@ -66,6 +66,7 @@ class LecturePlaylistVC: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        // 동영상 - 관련시리즈
         if videoNumber != "" {
             let seriesInfo = detailVM?.relationSeriesList?.seriesInfo
             
@@ -79,7 +80,7 @@ class LecturePlaylistVC: UIViewController {
             self.navigationItem.title = "S"
         }
         
-        // 테이블 위쪽 View 데이터
+        // 강사별 강의
         if let getTeacher = getTeacherList {
             
             configurelabel(value: totalNum ?? "")
@@ -153,7 +154,7 @@ class LecturePlaylistVC: UIViewController {
     
     func configureNavi() {
         let title = UILabel()
-        title.text = "강사별 강의"
+        title.text = videoNumber != "" ? "관련 시리즈" : "강사별 강의"
         title.font = UIFont.appBoldFontWith(size: 17)
         navigationItem.titleView = title
         
