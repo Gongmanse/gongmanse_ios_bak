@@ -29,7 +29,7 @@ class LecturePlaylistVC: UIViewController {
 
     
     // 관련시리즈
-    var videoNumber: String = ""
+    lazy var videoNumber: String = ""
     
     // MARK: - IBOutlet
     
@@ -63,22 +63,33 @@ class LecturePlaylistVC: UIViewController {
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
-        // 테이블 위쪽 View 데이터
-        if let getTeacher = getTeacherList {
-            print(detailVM?.lectureDetail?.totalNum ?? 0)
+        // 동영상 - 관련시리즈
+        if videoNumber != "" {
+            let seriesInfo = detailVM?.relationSeriesList?.seriesInfo
             
+            titleText.text = seriesInfo?.sTitle
+            teacherName.text = "\(seriesInfo?.sTeacher ?? "") 선생님"
+            subjectLabel.text = seriesInfo?.sSubject
+            gradeLabel.text = detailVM?.convertGrade(seriesInfo?.sGrade)
+            gradeLabel.textColor = UIColor(hex: seriesInfo?.sSubjectColor ?? "000000")
+            colorView.backgroundColor = UIColor(hex: seriesInfo?.sSubjectColor ?? "000000")
+            configurelabel(value: detailVM?.relationSeriesList?.totalNum ?? "")
+            self.navigationItem.title = "S"
+        }
+        
+        // 강사별 강의
+        if let getTeacher = getTeacherList {
             
             configurelabel(value: totalNum ?? "")
             
             titleText.text = getTeacher.sTitle
             teacherName.text = "\(getTeacher.sTeacher ?? "") 선생님"
             subjectLabel.text = getTeacher.sSubject
-            gradeLabel.text = detailVM?.convertGrade(gradeText) 
+            gradeLabel.text = detailVM?.convertGrade(gradeText)
         }
-        
     }
     
     override func viewDidLoad() {
@@ -137,11 +148,13 @@ class LecturePlaylistVC: UIViewController {
         colorView.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
         colorView.isLayoutMarginsRelativeArrangement = true
         
+        titleText.font = .appEBFontWith(size: 17)
+        teacherName.font = .appBoldFontWith(size: 12)
     }
     
     func configureNavi() {
         let title = UILabel()
-        title.text = "강사별 강의"
+        title.text = videoNumber != "" ? "관련 시리즈" : "강사별 강의"
         title.font = UIFont.appBoldFontWith(size: 17)
         navigationItem.titleView = title
         

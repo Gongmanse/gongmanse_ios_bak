@@ -380,6 +380,8 @@
 		C2A92FB8263FAC9C00098F92 /* SearchAfterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A92FB6263FAC9C00098F92 /* SearchAfterTableCell.swift */; };
 		C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A92FB7263FAC9C00098F92 /* SearchAfterTableCell.xib */; };
 		C2CF7B14265CF74000F1E50A /* RelationSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B13265CF74000F1E50A /* RelationSeriesModel.swift */; };
+		C2CF7B1C265F4A2B00F1E50A /* VideoDetailInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */; };
+		C2CF7B1F265F4B0A00F1E50A /* VideoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */; };
 		C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F22726261D3DB800559065 /* FilteringSubjectPopUpVC.swift */; };
 		C2F2272B261D3EFE00559065 /* RequestSubjectAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2272A261D3EFE00559065 /* RequestSubjectAPI.swift */; };
 		C2F22730261D3F9B00559065 /* SubjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2272F261D3F9B00559065 /* SubjectModel.swift */; };
@@ -769,6 +771,8 @@
 		C2A92FB6263FAC9C00098F92 /* SearchAfterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAfterTableCell.swift; sourceTree = "<group>"; };
 		C2A92FB7263FAC9C00098F92 /* SearchAfterTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchAfterTableCell.xib; sourceTree = "<group>"; };
 		C2CF7B13265CF74000F1E50A /* RelationSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationSeriesModel.swift; sourceTree = "<group>"; };
+		C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailInfoModel.swift; sourceTree = "<group>"; };
+		C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewModel.swift; sourceTree = "<group>"; };
 		C2F22726261D3DB800559065 /* FilteringSubjectPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringSubjectPopUpVC.swift; sourceTree = "<group>"; };
 		C2F2272A261D3EFE00559065 /* RequestSubjectAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSubjectAPI.swift; sourceTree = "<group>"; };
 		C2F2272F261D3F9B00559065 /* SubjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectModel.swift; sourceTree = "<group>"; };
@@ -1605,10 +1609,10 @@
 				259B8C00260305FE009A7146 /* Lecture_Playlist */,
 				259B8C0826030632009A7146 /* ElementaryVC.swift */,
 				259B8C0526030632009A7146 /* ElementaryVC.xib */,
-				259B8C0A26030632009A7146 /* HighSchoolVC.swift */,
-				259B8C0726030632009A7146 /* HighSchoolVC.xib */,
 				259B8C0926030632009A7146 /* MiddleSchoolVC.swift */,
 				259B8C0626030632009A7146 /* MiddleSchoolVC.xib */,
+				259B8C0A26030632009A7146 /* HighSchoolVC.swift */,
+				259B8C0726030632009A7146 /* HighSchoolVC.xib */,
 			);
 			path = LectureTabMenuPager;
 			sourceTree = "<group>";
@@ -2487,6 +2491,7 @@
 			isa = PBXGroup;
 			children = (
 				C2A39E1E264E5C3E0046290D /* VideoQnAVideModel.swift */,
+				C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -2495,6 +2500,7 @@
 			isa = PBXGroup;
 			children = (
 				C2A39E18264E599E0046290D /* VideoQnAModel.swift */,
+				C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -2971,6 +2977,7 @@
 				C207F5D126266CEC0020A965 /* LectureListModel.swift in Sources */,
 				C2A39E1C264E5AA00046290D /* VideoQnAAPIManager.swift in Sources */,
 				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
+				C2CF7B1C265F4A2B00F1E50A /* VideoDetailInfoModel.swift in Sources */,
 				2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
 				C2A39E15264E21080046290D /* QnAOthersChatCell.swift in Sources */,
@@ -2989,6 +2996,7 @@
 				25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */,
 				6C3F7BB8262E6AE500475DB4 /* OnboardingViewController.swift in Sources */,
 				A9524858261A9E13000F2473 /* NoticeListModel.swift in Sources */,
+				C2CF7B1F265F4B0A00F1E50A /* VideoDetailViewModel.swift in Sources */,
 				2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */,
 				259B8B6C2603009C009A7146 /* Search.swift in Sources */,
 				C2A92F9C263BB22900098F92 /* SearchVideoModel.swift in Sources */,

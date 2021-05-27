@@ -70,15 +70,20 @@ class ProgressOthers: UIViewController {
     // Button
     func configureButton() {
         let borderWidth = 2
-        let borderColor = #colorLiteral(red: 1, green: 0.5102320482, blue: 0.1604259853, alpha: 1)
+        let borderColor = UIColor.mainOrange
         
-        gradeBtn.layer.borderWidth = CGFloat(borderWidth)
-        chapterBtn.layer.borderWidth = CGFloat(borderWidth)
         
+        gradeBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        gradeBtn.layer.borderWidth = 3.5
         gradeBtn.layer.borderColor = borderColor.cgColor
-        chapterBtn.layer.borderColor = borderColor.cgColor
-        
         gradeBtn.layer.cornerRadius = 13
+        gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
+        
+        
+        chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
+        chapterBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        chapterBtn.layer.borderWidth = 3.5
+        chapterBtn.layer.borderColor = borderColor.cgColor
         chapterBtn.layer.cornerRadius = 13
     }
     

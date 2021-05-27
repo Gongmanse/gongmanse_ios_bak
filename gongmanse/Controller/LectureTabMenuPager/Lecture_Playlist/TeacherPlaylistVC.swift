@@ -172,6 +172,7 @@ extension TeacherPlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         controller.seriesID = seriesVM.lectureSeries?.data[indexPath.row].iSeriesId
         controller.totalNum = postData.iCount
         controller.gradeText = lecturelist?.sGrade
+        controller.lectureState = .lectureList
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
 //        self.navigationController?.pushViewController(controller, animated: true)

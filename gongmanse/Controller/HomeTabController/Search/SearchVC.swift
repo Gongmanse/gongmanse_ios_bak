@@ -79,12 +79,7 @@ class SearchVC: UIViewController {
             
             let convertSubject = searchMainVM.convertSubject()
             subjectButton.setTitle(convertSubject ?? "모든 과목", for: .normal)
-            // 뷰모델로 갈 예정
-//            gradeButton.setTitle(gradeText, for: .normal)
-//            subjectButton.setTitle(subjectText, for: .normal)
-//
-//            searchData.searchGrade = gradeText
-//            searchData.searchSubjectNumber = subjectText
+            
         } else {
             gradeButton.setTitle("모든 학년", for: .normal)
             subjectButton.setTitle("모든 과목", for: .normal)
@@ -95,8 +90,8 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        gradeButton.layer.borderWidth = 3.2
+        
+        
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         
@@ -469,15 +464,18 @@ extension SearchVC {
         gradeButton.setTitle("모든 학년", for: .normal)
         gradeButton.setTitleColor(.black, for: .normal)
         gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
-//        gradeButton.layer.borderWidth = CGFloat(borderWidth)
+        gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        gradeButton.layer.borderWidth = 3.2
         gradeButton.layer.borderColor = borderColor.cgColor
         gradeButton.layer.cornerRadius = 13
-        
+                
+
         // 과목 버튼
         subjectButton.setTitle("모든 과목", for: .normal)
         subjectButton.setTitleColor(.black, for: .normal)
         subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
-        subjectButton.layer.borderWidth = CGFloat(borderWidth)
+        subjectButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        subjectButton.layer.borderWidth = 3.2
         subjectButton.layer.borderColor = borderColor.cgColor
         subjectButton.layer.cornerRadius = 13
         

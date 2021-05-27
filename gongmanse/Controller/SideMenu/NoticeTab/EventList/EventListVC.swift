@@ -17,7 +17,45 @@ class EventListVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
 
+    // 이벤트 목록이 없습니다.
+    private let lectureQnALabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .rgb(red: 164, green: 164, blue: 164)
+        label.textAlignment = .center
+        label.font = .appBoldFontWith(size: 16)
+        label.text = "이벤트 목록이 없습니다."
+        return label
+    }()
     
+    private let emptyAlert: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "alert")
+        image.contentMode = .scaleAspectFit
+        return image
+    }()
+    
+    private let emptyStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.spacing = 10
+        return stack
+    }()
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        emptyStackView.isHidden = true
+        collectionView.isHidden = false
+        
+        if eventListArray.count == 0{
+            
+            emptyStackView.isHidden = false
+            collectionView.isHidden = true
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +80,17 @@ class EventListVC: UIViewController {
         collectionView.dataSource = self
         
         requestEventListAPI()
+        
+        view.addSubview(emptyStackView)
+        emptyStackView.addArrangedSubview(emptyAlert)
+        emptyStackView.addArrangedSubview(lectureQnALabel)
+        
+        emptyStackView.translatesAutoresizingMaskIntoConstraints = false
+        emptyStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
     }
 
     func requestEventListAPI() {

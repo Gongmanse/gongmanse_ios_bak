@@ -4,6 +4,7 @@
 
 import Foundation
 import UIKit
+
 enum QnAChat {
     case me, others
     
@@ -36,12 +37,13 @@ class BottomQnACell: UICollectionViewCell {
     
     private let sendText: UITextField = {
         let text = UITextField()
-        text.backgroundColor = .lightGray
         text.borderStyle = .roundedRect
         text.autocorrectionType = .no
         text.keyboardType = .default
         text.returnKeyType = .done
         text.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        text.placeholder = "질문을 입력해주세요."
+        text.backgroundColor = .rgb(red: 237, green: 237, blue: 237)
         return text
     }()
     
@@ -52,7 +54,7 @@ class BottomQnACell: UICollectionViewCell {
         button.titleLabel?.font = .appBoldFontWith(size: 16)
         button.backgroundColor = .mainOrange
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -68,7 +70,35 @@ class BottomQnACell: UICollectionViewCell {
     
     var isKeyboardSelect = false
     
+    
+    // QnA 목록이 없습니다.
+    private let lectureQnALabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .rgb(red: 164, green: 164, blue: 164)
+        label.textAlignment = .center
+        label.font = .appBoldFontWith(size: 16)
+        label.text = "강의 Q&A 내용이 없습니다."
+        return label
+    }()
+    
+    private let emptyAlert: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "alert")
+        image.contentMode = .scaleAspectFit
+        return image
+    }()
+    
+    private let emptyStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.spacing = 10
+        return stack
+    }()
+    
     //MARK: - Lifecycle
+
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -76,7 +106,17 @@ class BottomQnACell: UICollectionViewCell {
         videoVM.requestVideoQnA(videoID)
         videoVM.reloadDelegate = self
         sendText.delegate = self
+        
+        emptyStackView.isHidden = true
+        tableView.isHidden = false
+        
+        if videoVM.videoQnAInformation?.data.count == nil || videoVM.videoQnAInformation?.data.count == 0{
+            
+            emptyStackView.isHidden = false
+            tableView.isHidden = true
+        }
     }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -99,8 +139,15 @@ class BottomQnACell: UICollectionViewCell {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
         
-//        self.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self,
-//                                                                     action: #selector(endKeyboard)))
+        contentView.addSubview(emptyStackView)
+        emptyStackView.addArrangedSubview(emptyAlert)
+        emptyStackView.addArrangedSubview(lectureQnALabel)
+        
+        emptyStackView.translatesAutoresizingMaskIntoConstraints = false
+        emptyStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     @objc func endKeyboard() {
@@ -156,6 +203,8 @@ class BottomQnACell: UICollectionViewCell {
         if sendText.text != "" {
             videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
             videoVM.requestVideoQnA(videoID)
+            
+            sendText.text = ""
         }
         
     }

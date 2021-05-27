@@ -30,9 +30,24 @@ class LessonInfoController: UIViewController {
     private lazy var problemSolvingButton = TopImageBottomTitleView(frame: buttonSize,
                                                                     title: "문제풀이",
                                                                     image: UIImage(systemName: "book.fill")!)
+    // videoID
+    var passID: String?
     
+    // 문제풀이 누를 때 이름바꾸는 변수
+    var isChangedName: Bool = false
     
     // MARK: - Lifecycle
+    
+    init() { super.init(nibName: nil, bundle: nil) }
+    
+    init(passID: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.passID = passID
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,10 +74,23 @@ class LessonInfoController: UIViewController {
     @objc func handleRateLessonAction() { rateLessonButton.viewTintColor = .mainOrange }
     @objc func handleShareLessonAction() { shareLessonButton.viewTintColor = .mainOrange }
     @objc func handleRelatedSeriesAction() {
-        relatedSeriesButton.viewTintColor = .mainOrange
+        
+        
+        let presentVC = LecturePlaylistVC(passID ?? "")
+        presentVC.lectureState = .videoList
+        let nav = UINavigationController(rootViewController: presentVC)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
         // TODO: 관련시리즈를 켠다.
     }
-    @objc func handleProblemSolvingAction() { problemSolvingButton.viewTintColor = .mainOrange }
+    
+    @objc func handleProblemSolvingAction() {
+        
+        isChangedName = !isChangedName
+        
+        problemSolvingButton.titleLabel.text = isChangedName ? "문제풀이" : "개념정리"
+        VideoController().id = "1"
+    }
     
     // TODO: 태그 클릭 시, 검색결과화면으로 이동하는 메소드
     // TODO: 즐겨찾기 클릭 시, 즐겨칮가 API호출

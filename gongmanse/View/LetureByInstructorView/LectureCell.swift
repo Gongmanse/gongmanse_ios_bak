@@ -73,28 +73,25 @@ class LectureCell: UICollectionViewCell {
         view.layer.cornerRadius = cornerRadiusValue
         
         
-        // bottomView
-        bottomView.setDimensions(height: frame.height * 0.25,
-                                 width: frame.width)
-        bottomView.centerX(inView: self)
-        bottomView.anchor(top: mainImageView.bottomAnchor,
-                          bottom: self.bottomAnchor)
         
         // lectureTitle
         lectureTitle.font = UIFont.appBoldFontWith(size: 16)
         lectureTitle.setDimensions(height: 17,
-                                   width: bottomView.frame.width * 0.7)
-        lectureTitle.anchor(top: bottomView.topAnchor,
-                            left: bottomView.leftAnchor,
-                            paddingTop: 10,
-                            paddingLeft: 8)
+                                   width: contentView.frame.width * 0.7)
+        lectureTitle.anchor(top: mainImageView.bottomAnchor,
+                            left: mainImageView.leftAnchor,
+                            paddingTop: 10)
         
         // tagLabel
         tagLabel.layer.cornerRadius = 15
-        tagLabel.setDimensions(height: 20, width: 40)
+//        tagLabel.setDimensions(height: 20, width: 40)
+        tagLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        tagLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 100).isActive = true
         tagLabel.anchor(top: lectureTitle.bottomAnchor,
                         left: mainImageView.leftAnchor,
-                        paddingTop: 5)
+                        bottom: contentView.bottomAnchor,
+                        paddingTop: 5,
+                        paddingBottom: 10)
         
         // rating
         rating.setDimensions(height: teachername.frame.height,
