@@ -13,6 +13,11 @@ extension UIColor {
     static let mainOrange = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
     static let progressBackgroundColor = UIColor(white: 200.0 / 255.0, alpha: 1.0)
     
+    // 노트필기 색상
+    static let redPenColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
+    static let greenPenColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
+    static let bluePenColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
+    
     // rgb 바로 넣을 수 있는 메소드
     static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor.init(red: red/255, green: green/255, blue: blue/255, alpha: 1.0)

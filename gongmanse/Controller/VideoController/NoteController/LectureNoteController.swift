@@ -24,7 +24,7 @@ class LectureNoteController: UIViewController {
                                 UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
     private var noteImageCount = 0
     private var receivedNoteImage: UIImage?
-
+    
     // MARK: UI
     // 노트 객체
     private let scrollView = UIScrollView()
@@ -61,8 +61,6 @@ class LectureNoteController: UIViewController {
     private let redButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "redPencilOff"), for: .normal)
-//        button.backgroundColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
-        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
@@ -70,24 +68,19 @@ class LectureNoteController: UIViewController {
     private let greenButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "greenPencilOff"), for: .normal)
-//        button.backgroundColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
-        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
-
+    
     private let blueButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "bluePencilOff"), for: .normal)
-//        button.backgroundColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
-        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
     private let clearButton: UIButton = {
         let button = UIButton(type: .system)
-//        button.backgroundColor = .clear
         button.setImage(#imageLiteral(resourceName: "eraserOff"), for: .normal)
         button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
         return button
@@ -95,11 +88,16 @@ class LectureNoteController: UIViewController {
     
     private let writingImplementToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
+        button.setTitle("필기\n도구", for: .normal)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
-
+    
     
     // MARK: - Lifecycle
     
@@ -150,7 +148,7 @@ class LectureNoteController: UIViewController {
         
         canvas.setStrokeColor(color: pencilColor)
     }
-        
+    
     @objc fileprivate func toggleSketchMode() {
         scrollView.isScrollEnabled.toggle()
     }
@@ -158,17 +156,21 @@ class LectureNoteController: UIViewController {
     @objc fileprivate func openWritingImplement() {
         let noteMode = self.scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
-
+        
         // !noteMode -> 노트필기 가능한상태
         
         if !noteMode {
             UIView.animate(withDuration: 0.33) {
-                self.writingImplement.frame.origin.x = -100
+                self.writingImplement.frame.origin.x = -150
+                self.writingImplementToggleButton.setImage(.none, for: .normal)
+                self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             }
             
         } else {
             UIView.animate(withDuration: 0.33) {
                 self.writingImplement.frame.origin.x = 0
+                self.writingImplementToggleButton.setTitle("", for: .normal)
+                self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
             }
         }
     }
@@ -190,6 +192,7 @@ class LectureNoteController: UIViewController {
         let willPassNoteData = NoteTakingInput(token: token,
                                                video_id: intID,
                                                sjson: sJson)
+//        print("DEBUG: 결과값 \(willPassNoteData)")
         // 노트 필기 좌표 입력하는 API메소드
         DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
     }
@@ -248,9 +251,9 @@ class LectureNoteController: UIViewController {
         contentView.addSubview(canvas)
         canvas.backgroundColor = .clear
         canvas.anchor(top: contentView.topAnchor,
-                           left: contentView.leftAnchor,
-                           bottom: contentView.bottomAnchor,
-                           right: contentView.rightAnchor)
+                      left: contentView.leftAnchor,
+                      bottom: contentView.bottomAnchor,
+                      right: contentView.rightAnchor)
         scrollView.isScrollEnabled = true
     }
     
@@ -271,7 +274,7 @@ class LectureNoteController: UIViewController {
         var image11 = noteImageArr[10]
         var image12 = noteImageArr[11]
         var image13 = noteImageArr[12]
-
+        
         // 이미지의 크기를 줄인다.
         let scale = CGFloat(0.45)
         resize(image: image01, scale: scale) { image in
@@ -325,10 +328,10 @@ class LectureNoteController: UIViewController {
         resize(image: image13, scale: scale) { image in
             image13 = image!
         }
-  
+        
         // 여러 이미지를 하나의 UIImage로 변환한다.
         let convertedImage = mergeVerticallyImagesIntoImage(images:
-                                                            image01,
+                                                                image01,
                                                             image02,
                                                             image03,
                                                             image04,
@@ -356,13 +359,16 @@ class LectureNoteController: UIViewController {
                                        width: width)
         writingImplement.anchor(left: view.leftAnchor,
                                 bottom: view.bottomAnchor,
+                                paddingLeft: -150,
                                 paddingBottom: bottomPadding)
         
         view.addSubview(savingNoteButton)
-        savingNoteButton.setDimensions(height: height, width: width * 0.33)
+        savingNoteButton.setDimensions(height: height, width: width * 0.25)
         savingNoteButton.anchor(bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
                                 paddingBottom: bottomPadding)
+        
+        
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,
@@ -371,7 +377,7 @@ class LectureNoteController: UIViewController {
             clearButton,
             writingImplementToggleButton
         ])
-
+        
         colorStackView.spacing = 4
         colorStackView.distribution = .fillEqually
         writingImplement.addSubview(colorStackView)
@@ -446,43 +452,62 @@ extension LectureNoteController {
         
         guard let data = responseData.data else { return }
         
-        // 서버에 저장되어 있는 좌표값을 canvas에 그릴 수 있는 형태로 변환한다.
-        var previousNoteTakingData = [Line]()
-        
-        if let jsonData = data.sJson {
-            if let strokes = jsonData.strokes {
-                
-                for stroke in strokes {
-                    
-                    var xyPoints = [CGPoint]()
-                    // TODO: line 구조체 변경하여 color를 String으로 변경하면서 "color"를 사용할 예정이다.
-                    var color = stroke.color  // 핵사코드로 전달해준다.
-                    
-                    for (_, p) in stroke.points.enumerated() {
-                        
-                        let xyPoint = CGPoint(x: CGFloat(p.x), y: CGFloat(p.y))
-                        xyPoints.append(xyPoint)
-                    }
-                    
-                    let line = Line(strokeWidth: 5, color: .black, points: xyPoints)
-                    previousNoteTakingData.append(line)
-                }
-            }
-        }
-        
-        print("DEBUG: 이전노트데이터 \(previousNoteTakingData)")
-        canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
-        
-        view.layoutSubviews()
-        canvas.layoutSubviews()
-        scrollView.layoutSubviews()
-        
         // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
         self.noteImageCount = data.sNotes.count
         for noteData in 0 ... (self.noteImageCount-1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
         }
+        
+        // MARK: 노트필기를 불러오는 로직
+        // 서버에 저장되어 있는 좌표값을 canvas에 그릴 수 있는 형태로 변환한다.
+        var previousNoteTakingData = [Line]()
+        
+        if let jsonData = data.sJson {
+            if let strokes = jsonData.strokes { // "strokes" 에 LineData가 모두 있다.
+                print("DEBUG: 불러온데이터 \(strokes)")
+                for stroke in strokes {
+                    // 3 개의 데이터
+                    var xyPoints = [CGPoint]()
+                    var penColorArr = [UIColor]()
+                    // TODO: line 구조체 변경하여 color를 String으로 변경하면서 "color"를 사용할 예정이다.
+                    let color = stroke.color  // 핵사코드로 전달해준다.
+                    var penColor = UIColor()
+
+                    switch color {
+                    case "red":
+                        penColor = .redPenColor
+                    case "green":
+                        penColor = .greenPenColor
+                    case "blue":
+                        penColor = .bluePenColor
+                    default:
+                        penColor = .redPenColor
+                    }
+                    
+//                    for (i, p) in strokes.enumerated() {
+//                        // 색상을 고른다.
+//
+//                        // 셋중 하나를 고른 후 penColorArr에 추가한다.
+//                        penColorArr.append(penColor)
+//                    }
+                    // x,y 좌표 값을 arr에 append 한다.
+                    for (_, p) in stroke.points.enumerated() {
+                        
+                        let xyPoint = CGPoint(x: CGFloat(p.x), y: CGFloat(p.y))
+                        xyPoints.append(xyPoint)
+                    }
+                    //                        print("DEBUG: xyPoint데이터 \n\(xyPoints)")
+                    let line = Line(strokeWidth: 0.5, color: penColor, points: xyPoints)
+                    previousNoteTakingData.append(line)
+                    //                        print("DEBUG: line데이터 \(line)")
+                    
+                }
+            }
+        }
+        
+        canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
+//        print("DEBUG: previousNoteTakingData \n\(previousNoteTakingData)")
     }
     
     private func getImageFromURL(url: String, index: Int) {
@@ -512,24 +537,52 @@ extension LectureNoteController: CanvasDelegate {
     /// - 작성일시: 21.05.26
     /// - 기구현된 Web와 AOS 양식을 맞추기 위해 구현한 메소드
     /// - 이 외 연동 방법이 없다고 하여 구현함. 변경할 수 있다면, 노트필기 로직자체가 변경되는 것이 괜찮아보임
-    func passLinePositionDataForLectureNoteController(points: [String]) {
+    func passLinePositionDataForLectureNoteController(points: [String], color: [UIColor]) {
+        // "노트저장"을 클릭하면 이 메소드를 호출한다.
         
-        var tempArr = [String]()
+        // MARK: 노트필기를 작성하는 로직
+        var tempArr = [String]()  // x, y 값이 있는 arr를 임시로 저장할 배열
+        var uiColor2StringColorArr = [String]()
+
+        // color 배열에 있는 UIColor 데이터를 string으로 변경한다. 이유는 API 양식에 맞추기 위함이다.
+        for (_, p) in color.enumerated() {
+            var tempColorString = String()
+            // 색상을 고른다.
+            switch p {
+            case .redPenColor:
+                tempColorString = "red"
+            case .greenPenColor:
+                tempColorString = "green"
+            case .bluePenColor:
+                tempColorString = "blue"
+            default:
+                tempColorString = "red"
+            }
+            uiColor2StringColorArr.append(tempColorString)
+        }
         
-        // TODO: 선택한 색상에 대한 정보를 받아서 "color" 데이터를 변경해주어야 함.
-        let color = "#B34E61"
-        
-        for (_, p) in points.enumerated() {
+        // 1:n = color:(x,y) 관계이므로 하나의 색상에 많은 좌표가 포함된다.
+        // 그러므로 하나의 String에 하나의 색상에 다수의 x,y좌표를 입력한다.
+        for (i, p) in points.enumerated() {
             
-            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(color)\",\"size\":1000,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            // "strokes" String에 x,y 좌표값과 color를 String으로 입력한다.
+            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.5,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            
+            // tempArr에 {points: 다수의 x,y좌표값들, color: 한개의 색상 ...} 의 구조 구성요소를 가지며
+            // 이러한 구성요소를 배열의 형태로 저장하고 있다.
             tempArr.append(strokes)
         }
         
+        
+        // 하나의 String으로 하나의 Line을 표현했지만, 이것들을 다시 하나의 String으로 묶어서
+        // API에 request해주어야 PATCH가 동작한다. (API가 이런식으로 되어있어서 어쩔 수 없음)
         var tempString = ""
         
         for (_, p) in tempArr.enumerated() {
             tempString += (p + ",")
         }
+
+        // element의 끝에 "," 가 모두 추가되어 있기 때문에 마지막 ","는 제거한다.
         self.strokesString = String(tempString.dropLast(1))
     }
 }
