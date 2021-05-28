@@ -57,8 +57,8 @@ class LessonInfoController: UIViewController {
         configureUI()
         
         
-//        videoDetailVM?.requestVideoDetailApi(passID ?? "")
-        videoDetailVM?.requestVideoDetailApi("151")
+        videoDetailVM?.requestVideoDetailApi(passID ?? "")
+//        videoDetailVM?.requestVideoDetailApi("151")
     }
     
     
@@ -97,15 +97,23 @@ class LessonInfoController: UIViewController {
         
         problemSolvingButton.titleLabel.text = isChangedName ? "개념정리" : "문제풀이"
         
+        videoDetailVM?.isCommentary = isChangedName
         
         switch isChangedName {
         
         case true:  // 문제풀이
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
             
+            let vc = VideoController()
+            vc.id = videoDetailVM?.commantaryID
+            self.present(vc, animated: true)
+            
         case false: // 개념정리
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.videoID ?? "")
             
+            let vc = VideoController()
+            vc.id = videoDetailVM?.videoID
+            self.present(vc, animated: true)
         }
     }
     

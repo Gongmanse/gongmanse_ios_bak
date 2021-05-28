@@ -13,8 +13,10 @@ class VideoDetailViewModel {
     
     var commantaryID: String?
     var videoID: String?
+    var isCommentary: Bool = false
     
-    let tokens = "YTRjZTA2OGJhNmQyZTc4MTE4MGRjODIwMWQyZjYyZDBjYjE1MWNmZDNjZTAyYzU1Yjk5NDRjZTE5YTc1Y2MwYmFhYmY3NmM3NjIxNTIxNWM3YmRkYjcxZTU0ZmQ4NGI2ODM1Zjg3ZmMwNmE5MzhlODE5MjlhZDcxODcyZGRjNjJQd1RvakgwaGZiTGowQjVHU2ZRNnRDWGNmVjZkTGt4Y0Evc1FWanYzRVgwcXRScld2M2xyMllFSktNQ1B1QTQ1akNjQ0RKbUxsUWpGVTdtbXJTcDEzdz09"
+    
+    let tokens = "YWI3NmY2MzE5ZjEwNTYwNGYxYzg3YzE0NmEwNDhkNTA5NzVhODc0YjA2MzIzNmUxNThlMmM0YmZjMWQxZGUxMjNkYWQwYjQ3NGIxNmQzMzNlMjBiMGY2NzA1YzJhMmFiYWIwMDAwMjkzODg2NzE2MTNkMjE4ZGQ0MjViYzIzYmJ5bWJ3RDR1OWhpTGoxSEhGSUZrb3pnbFZ3ZzZMQUsyUFVhbkZBcUdYYU5qZDRxSUhuUnpsQUVldFRHeDBsbUVoQzhKU2JBWUJteFAyMzFLU3NYRlpwUT09"
     
     func requestVideoDetailApi(_ videoID: String) {
         
