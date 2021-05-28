@@ -1,5 +1,6 @@
 import Foundation
 
+//국영수, 과학, 사회, 기타
 struct PlayListModels: Codable {
     var isMore: Bool
     var totalNum: String
@@ -27,3 +28,27 @@ struct PlayListData: Codable {
     var sThumbnail: String
     var sUnit: String
 }
+
+//추천
+struct BeforeApiModels: Codable {
+    var totalNum: String
+    var data: [BeforeApiData]
+}
+
+struct BeforeApiData: Codable {
+    var sTitle: String
+    var iSeriesId: String
+    var id: String
+    var sTags: String
+    var sFilename: String
+    var cRecommended: String?
+    var dtDateCreated: String
+    var dtLastModified: String
+    var iRating: String
+    var sTeacher: String
+    var sThumbnail: String
+    var sSubjectColor: String
+    var sSubject: String
+    var sUnit: String
+}
+

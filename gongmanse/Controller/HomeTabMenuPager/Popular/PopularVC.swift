@@ -6,12 +6,15 @@ class PopularVC: UIViewController {
     
     var popularVideo = VideoInput(header: HeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [VideoModels]())
     
+    var popularVideoSecond: BeforeApiModels?
+    
     let popularRC: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
     
+    @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var popularCollection: UICollectionView!
 
     override func viewDidLoad() {
@@ -19,7 +22,20 @@ class PopularVC: UIViewController {
         popularCollection.refreshControl = popularRC
         
         getDataFromJson()
+        getDataFromJsonSecond()
+        viewTitleSettings()
         
+    }
+    
+    func viewTitleSettings() {
+        viewTitle.text = "인기HOT! 동영상 강의"
+        
+        let attributedString = NSMutableAttributedString(string: viewTitle.text!, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold), .foregroundColor: UIColor.black])
+        
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .medium), range: (viewTitle.text! as NSString).range(of: "HOT!"))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (viewTitle.text! as NSString).range(of: "HOT!"))
+        
+        self.viewTitle.attributedText = attributedString
     }
     
     func getDataFromJson() {
@@ -38,6 +54,26 @@ class PopularVC: UIViewController {
                     self.popularCollection.reloadData()
                 }
                 
+            }.resume()
+        }
+    }
+    
+    func getDataFromJsonSecond() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/trendingvid?offset=0&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(BeforeApiModels?.self, from: data) {
+                    //print(json.body)
+                    self.popularVideoSecond = json
+                }
+                DispatchQueue.main.async {
+                    self.popularCollection.reloadData()
+                }
+
             }.resume()
         }
     }
@@ -122,6 +158,9 @@ extension PopularVC: UICollectionViewDelegate {
             vc.modalPresentationStyle = .fullScreen
             let videoID = popularVideo.body[indexPath.row].videoId
             vc.id = videoID
+            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
+            vc.popularSeriesId = seriesID
+            vc.popularReceiveData = popularVideo
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")

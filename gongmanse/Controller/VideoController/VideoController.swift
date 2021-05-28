@@ -16,6 +16,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var currentVideoPlayRate = Float(1.0)
     var id: String?
     
+    //추천
+    var recommendSeriesId: String?
+    var recommendReceiveData: VideoInput?
+    
+    //인기
+    var popularSeriesId: String?
+    var popularReceiveData: VideoInput?
+    var popularViewTitle: String?
+    
     //국영수
     var koreanSeriesId: String?
     var koreanSwitchValue: UISwitch?
@@ -36,6 +45,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var socialStudiesReceiveData: VideoInput?
     var socialStudiesSelectedBtn: UIButton?
     var socialStudiesViewTitle: String?
+    
+    //기타
+    var otherSubjectsSeriesId: String?
+    var otherSubjectsSwitchValue: UISwitch?
+    var otherSubjectsReceiveData: VideoInput?
+    var otherSubjectsSelectedBtn: UIButton?
+    var otherSubjectsViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(passID: id!)
@@ -342,9 +358,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
         // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
-        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
-                                        at: UICollectionView.ScrollPosition.left,
-                                        animated: true)
+//        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+//                                        at: UICollectionView.ScrollPosition.left,
+//                                        animated: true)
         super.viewWillTransition(to: size, with: coordinator)
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
@@ -368,16 +384,19 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
             guard let id = self.id else { return  UICollectionViewCell() }
+            
+//            let testVC = TestSearchController(clickedText: "2 개 생기는 이유좀 알려줘요")
 //            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
             let noteVC = LectureNoteController(id: id, token: Constant.token)  // 05.25이후 노트컨트롤러
             self.addChild(noteVC)
             noteVC.didMove(toParent: self)
-            cell.contentView.addSubview(noteVC.view)
-            noteVC.view.anchor(top: cell.contentView.topAnchor,
-                               left: cell.contentView.leftAnchor,
-                               bottom: cell.contentView.bottomAnchor,
-                               right: cell.contentView.rightAnchor)
-            noteVC.view.setNeedsDisplay()
+            
+            cell.view.addSubview(noteVC.view)
+            noteVC.view.anchor(top: cell.view.topAnchor,
+                               left: cell.view.leftAnchor,
+                               bottom: cell.view.bottomAnchor,
+                               right: cell.view.rightAnchor)
+            
             return cell
             
         case 1:
@@ -387,6 +406,15 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
+            
+            //추천
+            cell.recommendSeriesID = self.recommendSeriesId ?? ""
+            cell.receiveRecommendModelData = self.recommendReceiveData
+            
+            //인기
+            cell.popularSeriesID = self.popularSeriesId ?? ""
+            cell.receivePopularModelData = self.popularReceiveData
+            cell.popularViewTitleValue = self.popularViewTitle ?? ""
             
             //국영수
             cell.koreanSeriesID = self.koreanSeriesId ?? ""
@@ -409,6 +437,13 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             cell.socialStudiesSelectedBtnValue = self.socialStudiesSelectedBtn
             cell.socialStudiesViewTitleValue = self.socialStudiesViewTitle ?? ""
             
+            //기타
+            cell.otherSubjectsSeriesID = self.otherSubjectsSeriesId ?? ""
+            cell.otherSubjectsSwitchOnOffValue = self.otherSubjectsSwitchValue
+            cell.recieveOtherSubjectsModelData = self.otherSubjectsReceiveData
+            cell.otherSubjectsSelectedBtnValue = self.otherSubjectsSelectedBtn
+            cell.otherSubjectsViewTitleValue = self.otherSubjectsViewTitle ?? ""
+            
             cell.delegate = self
             return cell
             
@@ -430,6 +465,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
 }
+
 
 //MARK:- UICollectionViewDelegateFlowLayout
 
@@ -482,7 +518,6 @@ extension VideoController {
         // "sTeacher" -> LessonInfoController.teachernameLabel.text
         let teachername = response.data.sTeacher
         self.lessonInfoController.teachernameLabel.text = teachername
-        
         
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle
@@ -544,11 +579,15 @@ extension VideoController: BottomPlaylistCellDelegate {
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
-        vc.id = videoID
+        //vc.id = videoID
+        vc.recommendSeriesId = videoID
+        vc.popularSeriesId = videoID
+        vc.koreanSeriesId = videoID
+        vc.scienceSeriesId = videoID
+        vc.socialStudiesSeriesId = videoID
+        vc.otherSubjectsSeriesId = videoID
         present(vc, animated: true) {
             self.player.pause()
         }
-        
-        
     }
 }

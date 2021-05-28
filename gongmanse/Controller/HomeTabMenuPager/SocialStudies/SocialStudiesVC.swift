@@ -63,6 +63,9 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
         cornerRadius()
         ChangeSwitchButton()
         
+        autoPlayLabel.isHidden = true
+        playSwitch.isHidden = true
+        
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
     }
@@ -92,8 +95,6 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
     }
     
     func ChangeSwitchButton() {
-        
-        playSwitch.isHidden = true
         
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
@@ -267,8 +268,8 @@ extension SocialStudiesVC: UICollectionViewDelegate {
             let videoID = socialStudiesVideo?.body[indexPath.row].videoId
             vc.id = videoID
             let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
-            vc.scienceSeriesId = seriesID
-            vc.scienceSwitchValue = playSwitch
+            vc.socialStudiesSeriesId = seriesID
+            vc.socialStudiesSwitchValue = playSwitch
             vc.socialStudiesReceiveData = socialStudiesVideo
             vc.socialStudiesSelectedBtn = selectBtn
             vc.socialStudiesViewTitle = viewTitle.text
