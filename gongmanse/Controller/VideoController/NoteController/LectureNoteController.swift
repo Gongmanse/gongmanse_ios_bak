@@ -61,8 +61,6 @@ class LectureNoteController: UIViewController {
     private let redButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "redPencilOff"), for: .normal)
-        //        button.backgroundColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
-        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
@@ -70,8 +68,6 @@ class LectureNoteController: UIViewController {
     private let greenButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "greenPencilOff"), for: .normal)
-        //        button.backgroundColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
-        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
@@ -79,15 +75,12 @@ class LectureNoteController: UIViewController {
     private let blueButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "bluePencilOff"), for: .normal)
-        //        button.backgroundColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
-        
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
     private let clearButton: UIButton = {
         let button = UIButton(type: .system)
-        //        button.backgroundColor = .clear
         button.setImage(#imageLiteral(resourceName: "eraserOff"), for: .normal)
         button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
         return button
@@ -95,7 +88,12 @@ class LectureNoteController: UIViewController {
     
     private let writingImplementToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
+        button.setTitle("필기\n도구", for: .normal)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
@@ -163,12 +161,16 @@ class LectureNoteController: UIViewController {
         
         if !noteMode {
             UIView.animate(withDuration: 0.33) {
-                self.writingImplement.frame.origin.x = -100
+                self.writingImplement.frame.origin.x = -150
+                self.writingImplementToggleButton.setImage(.none, for: .normal)
+                self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             }
             
         } else {
             UIView.animate(withDuration: 0.33) {
                 self.writingImplement.frame.origin.x = 0
+                self.writingImplementToggleButton.setTitle("", for: .normal)
+                self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
             }
         }
     }
@@ -357,13 +359,16 @@ class LectureNoteController: UIViewController {
                                        width: width)
         writingImplement.anchor(left: view.leftAnchor,
                                 bottom: view.bottomAnchor,
+                                paddingLeft: -150,
                                 paddingBottom: bottomPadding)
         
         view.addSubview(savingNoteButton)
-        savingNoteButton.setDimensions(height: height, width: width * 0.33)
+        savingNoteButton.setDimensions(height: height, width: width * 0.25)
         savingNoteButton.anchor(bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
                                 paddingBottom: bottomPadding)
+        
+        
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,
@@ -482,7 +487,7 @@ extension LectureNoteController {
                     
 //                    for (i, p) in strokes.enumerated() {
 //                        // 색상을 고른다.
-//                        
+//
 //                        // 셋중 하나를 고른 후 penColorArr에 추가한다.
 //                        penColorArr.append(penColor)
 //                    }
