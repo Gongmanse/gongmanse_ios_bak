@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ProgressScienceVC: UIViewController {
+class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
+    
+    
 
     //MARK: - Properties
     
@@ -33,7 +35,18 @@ class ProgressScienceVC: UIViewController {
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
     @IBOutlet weak var chapterBtn: UIButton!
-     
+    
+    
+    
+    // 무한 스크롤
+    
+    var islistMore: Bool?
+    
+    var listCount: Int = 0
+    
+    func scrollMethod() {
+        
+    }
     
     //MARK: - Lifecycle
     

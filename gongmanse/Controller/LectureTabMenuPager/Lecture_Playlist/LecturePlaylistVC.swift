@@ -62,22 +62,61 @@ class LecturePlaylistVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // 목록이 없습니다.
+    private let lectureQnALabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .rgb(red: 164, green: 164, blue: 164)
+        label.textAlignment = .center
+        label.font = .appBoldFontWith(size: 16)
+        label.text = "관련 시리즈 내용이 없습니다."
+        return label
+    }()
+    
+    private let emptyAlert: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "alert")
+        image.contentMode = .scaleAspectFit
+        return image
+    }()
+    
+    private let emptyStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.spacing = 10
+        return stack
+    }()
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         // 동영상 - 관련시리즈
         if videoNumber != "" {
+            
             let seriesInfo = detailVM?.relationSeriesList?.seriesInfo
             
-            titleText.text = seriesInfo?.sTitle
-            teacherName.text = "\(seriesInfo?.sTeacher ?? "") 선생님"
-            subjectLabel.text = seriesInfo?.sSubject
-            gradeLabel.text = detailVM?.convertGrade(seriesInfo?.sGrade)
-            gradeLabel.textColor = UIColor(hex: seriesInfo?.sSubjectColor ?? "000000")
-            colorView.backgroundColor = UIColor(hex: seriesInfo?.sSubjectColor ?? "000000")
-            configurelabel(value: detailVM?.relationSeriesList?.totalNum ?? "")
-            self.navigationItem.title = "S"
+            switch seriesInfo {
+            case .some(let data):
+                titleText.text = data.sTitle
+                teacherName.text = "\(data.sTeacher) 선생님"
+                subjectLabel.text = data.sSubject
+                gradeLabel.text = detailVM?.convertGrade(data.sGrade)
+                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
+                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
+                configurelabel(value: detailVM?.relationSeriesList?.totalNum ?? "")
+                
+            case .none:
+                view.addSubview(emptyStackView)
+                emptyStackView.addArrangedSubview(emptyAlert)
+                emptyStackView.addArrangedSubview(lectureQnALabel)
+                
+                emptyStackView.translatesAutoresizingMaskIntoConstraints = false
+                emptyStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                emptyStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+                emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+                emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            }
         }
         
         // 강사별 강의

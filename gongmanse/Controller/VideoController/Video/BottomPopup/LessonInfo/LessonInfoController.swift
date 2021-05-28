@@ -36,6 +36,9 @@ class LessonInfoController: UIViewController {
     // 문제풀이 누를 때 이름바꾸는 변수
     var isChangedName: Bool = false
     
+    // ViewModel
+    var videoDetailVM: VideoDetailViewModel? = VideoDetailViewModel()
+    
     // MARK: - Lifecycle
     
     init() { super.init(nibName: nil, bundle: nil) }
@@ -52,6 +55,10 @@ class LessonInfoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        
+        videoDetailVM?.requestVideoDetailApi(passID ?? "")
+//        videoDetailVM?.requestVideoDetailApi("151")
     }
     
     
@@ -88,8 +95,28 @@ class LessonInfoController: UIViewController {
         
         isChangedName = !isChangedName
         
-        problemSolvingButton.titleLabel.text = isChangedName ? "문제풀이" : "개념정리"
-        VideoController().id = "1"
+        problemSolvingButton.titleLabel.text = isChangedName ? "개념정리" : "문제풀이"
+        
+        videoDetailVM?.isCommentary = isChangedName
+        
+        switch isChangedName {
+        
+        case true:  // 문제풀이
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
+            
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            vc.id = videoDetailVM?.commantaryID
+            self.present(vc, animated: true)
+            
+        case false: // 개념정리
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.videoID ?? "")
+            
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            vc.id = videoDetailVM?.videoID
+            self.present(vc, animated: true)
+        }
     }
     
     // TODO: 태그 클릭 시, 검색결과화면으로 이동하는 메소드

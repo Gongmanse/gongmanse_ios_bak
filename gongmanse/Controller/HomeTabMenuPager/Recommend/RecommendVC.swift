@@ -31,8 +31,9 @@ class RecommendVC: UIViewController {
     }
     
     //API
+    var default1 = 0
+
     func getDataFromJson() {
-        var default1 = 0
         if let url = URL(string: makeStringKoreanEncoded(Recommend_Video_URL + "/모든?offset=\(default1)&limit=20")) {
             default1 += 20
             var request = URLRequest.init(url: url)
