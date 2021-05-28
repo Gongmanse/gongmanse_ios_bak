@@ -59,7 +59,7 @@ class PopularVC: UIViewController {
     }
     
     func getDataFromJsonSecond() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/trendingvid?offset=0&limit=20") {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/trendingvid?offset=0&limit=30") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
 

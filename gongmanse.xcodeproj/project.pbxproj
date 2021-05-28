@@ -245,6 +245,8 @@
 		6C9BEEBC265E163C00FFF655 /* EmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C9BEEBA265E163C00FFF655 /* EmptyTableViewCell.xib */; };
 		6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */; };
 		6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */; };
+		6CB1FA9D265F9E7500027666 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB1FA9B265F9E7500027666 /* LoadingCell.swift */; };
+		6CB1FA9E265F9E7500027666 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CB1FA9C265F9E7500027666 /* LoadingCell.xib */; };
 		6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */; };
 		6CB83C2F2600C7F8007AED64 /* RecentVideoTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C2E2600C7F8007AED64 /* RecentVideoTVCell.swift */; };
 		6CB83C3226018F00007AED64 /* NoteListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83C3126018F00007AED64 /* NoteListTVC.swift */; };
@@ -634,6 +636,8 @@
 		6C9BEEBA265E163C00FFF655 /* EmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyTableViewCell.xib; sourceTree = "<group>"; };
 		6CA03CB726032924008958FB /* ExpertConsultationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationTVCell.swift; sourceTree = "<group>"; };
 		6CA03CBF26034136008958FB /* ExpertConsultationFloatingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationFloatingVC.swift; sourceTree = "<group>"; };
+		6CB1FA9B265F9E7500027666 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		6CB1FA9C265F9E7500027666 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		6CB83C2A2600BF99007AED64 /* RecentVideoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoTVC.swift; sourceTree = "<group>"; };
 		6CB83C2E2600C7F8007AED64 /* RecentVideoTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoTVCell.swift; sourceTree = "<group>"; };
 		6CB83C3126018F00007AED64 /* NoteListTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListTVC.swift; sourceTree = "<group>"; };
@@ -1218,6 +1222,8 @@
 			children = (
 				C26F03FE26527C8E00CAE415 /* BottomQnA */,
 				2580CF44261A916300D78E4E /* BottomNoteCell.swift */,
+				6CB1FA9B265F9E7500027666 /* LoadingCell.swift */,
+				6CB1FA9C265F9E7500027666 /* LoadingCell.xib */,
 				2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */,
 				6CBEEAC6265245470006795D /* BottomPlaylistTVCell.swift */,
 				6CBEEAC7265245470006795D /* BottomPlaylistTVCell.xib */,
@@ -2848,6 +2854,7 @@
 				259B8BC426030517009A7146 /* ProgressDetailVC.xib in Resources */,
 				259B8BA2260301CF009A7146 /* SearchNoteCell.xib in Resources */,
 				259B8BF4260305E1009A7146 /* SearchVideoVC.xib in Resources */,
+				6CB1FA9E265F9E7500027666 /* LoadingCell.xib in Resources */,
 				C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */,
 				25201DB526042880001098AC /* FindIDByPhoneVC.xib in Resources */,
 				6C9BEEBC265E163C00FFF655 /* EmptyTableViewCell.xib in Resources */,
@@ -2971,6 +2978,7 @@
 				6CA03CB826032924008958FB /* ExpertConsultationTVCell.swift in Sources */,
 				6CB83C3726019255007AED64 /* LectureQuestionsTVC.swift in Sources */,
 				251836302640CFFD0035E887 /* PlainLabel.swift in Sources */,
+				6CB1FA9D265F9E7500027666 /* LoadingCell.swift in Sources */,
 				6CFA77CE262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift in Sources */,
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
 				C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */,
@@ -3378,18 +3386,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 32393TXF79;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -3400,19 +3409,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 32393TXF79;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

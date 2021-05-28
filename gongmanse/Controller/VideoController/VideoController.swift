@@ -579,13 +579,7 @@ extension VideoController: BottomPlaylistCellDelegate {
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
-        //vc.id = videoID
-        vc.recommendSeriesId = videoID
-        vc.popularSeriesId = videoID
-        vc.koreanSeriesId = videoID
-        vc.scienceSeriesId = videoID
-        vc.socialStudiesSeriesId = videoID
-        vc.otherSubjectsSeriesId = videoID
+        vc.id = videoID
         present(vc, animated: true) {
             self.player.pause()
         }

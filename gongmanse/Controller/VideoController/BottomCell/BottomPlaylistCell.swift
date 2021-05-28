@@ -14,7 +14,8 @@ class BottomPlaylistCell: UICollectionViewCell {
     weak var delegate: BottomPlaylistCellDelegate?
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
-    var playlist: PlayListModels?
+    var playlist = PlayListModels(isMore: true, totalNum: "", seriesInfo: PlayListInfo.init(sTitle: "", sTeacher: "", sSubjectColor: "", sSubject: "", sGrade: ""), data: [PlayListData]())
+    var isLoading = false
     
     var recommendSeriesID: String = "" {
         didSet { getDataFromJson() }
@@ -91,10 +92,13 @@ class BottomPlaylistCell: UICollectionViewCell {
         
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView()
         
         let nibName = UINib(nibName: "BottomPlaylistTVCell", bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: "BottomPlaylistTVCell")
+        
+        let tableViewLoadingCellNib = UINib(nibName: "LoadingCell", bundle: nil)
+        self.tableView.register(tableViewLoadingCellNib, forCellReuseIdentifier: "LoadingCell")
         
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
         
@@ -116,6 +120,8 @@ class BottomPlaylistCell: UICollectionViewCell {
         self.isUserInteractionEnabled = true
     }
     
+    var default1 = 0
+    
     func getDataFromJson() {
         if popularViewTitleValue == "인기HOT! 동영상 강의" {
             if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(popularSeriesID)&offset=0") {
@@ -136,7 +142,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                 }.resume()
             }
         } else if koreanViewTitleValue == "국영수 강의" {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(koreanSeriesID)&offset=0") {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(koreanSeriesID)&offset=\(default1)") {
+                default1 += 20
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -145,7 +152,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     let decoder = JSONDecoder()
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
-                        self.playlist = json
+                        //self.playlist = json
+                        self.playlist.data.append(contentsOf: json.data)
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -235,6 +243,10 @@ class BottomPlaylistCell: UICollectionViewCell {
 
 extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
+    
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
         
@@ -246,7 +258,17 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
                     return 1
                 } else {
-                    guard let data = self.playlist?.data else { return 0 }
+//                    if section == 0 {
+//                        //guard let data = self.playlist?.data else { return 0 }
+//                        let data = self.playlist.data
+//                        return data.count
+//                    } else if section == 1 {
+//                        return 1
+//                    } else {
+//                        return 0
+//                    }
+                   // guard let data = self.playlist?.data else { return 0 }
+                    let data = self.playlist.data
                     return data.count
                 }
             }
@@ -258,7 +280,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 if scienceSelectedBtnValue.currentTitle == "문제 풀이" {
                     return 1
                 } else {
-                    guard let data = self.playlist?.data else { return 0 }
+                    //guard let data = self.playlist.data else { return 0 }
+                    let data = self.playlist.data
                     return data.count
                 }
             }
@@ -270,7 +293,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 if socialStudiesSelectedBtnValue.currentTitle == "문제 풀이" {
                     return 1
                 } else {
-                    guard let data = self.playlist?.data else { return 0 }
+                    //guard let data = self.playlist.data else { return 0 }
+                    let data = self.playlist.data
                     return data.count
                 }
             }
@@ -282,12 +306,14 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 if otherSubjectsSelectedBtnValue.currentTitle == "문제 풀이" {
                     return 1
                 } else {
-                    guard let data = self.playlist?.data else { return 0 }
+                    //guard let data = self.playlist.data else { return 0 }
+                    let data = self.playlist.data
                     return data.count
                 }
             }
         } else {
-            guard let data = self.playlist?.data else { return 0 }
+            //guard let data = self.playlist.data else { return 0 }
+            let data = self.playlist.data
             return data.count
         }
     }
@@ -338,34 +364,43 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     return cell
                 }
                 
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
-                
-                guard let json = self.playlist else { return cell }
-                
-                let indexData = json.data[indexPath.row]
-                let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
-                
-                cell.videoThumbnail.contentMode = .scaleAspectFill
-                cell.videoThumbnail.sd_setImage(with: url)
-                cell.videoTitle.text = indexData.sTitle
-                cell.teachersName.text = indexData.sTeacher + " 선생님"
-                cell.subjects.text = indexData.sSubject
-                cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
-                
-                if indexData.sUnit == "" {
-                    cell.term.isHidden = true
-                } else if indexData.sUnit == "1" {
-                    cell.term.isHidden = false
-                    cell.term.text = "i"
-                } else if indexData.sUnit == "2" {
-                    cell.term.isHidden = false
-                    cell.term.text = "ii"
+                if indexPath.section == 0 {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
+                    
+                    //guard let json = self.playlist else { return cell }
+                    let json = self.playlist
+                    
+                    let indexData = json.data[indexPath.row]
+                    let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
+                    
+                    cell.videoThumbnail.contentMode = .scaleAspectFill
+                    cell.videoThumbnail.sd_setImage(with: url)
+                    cell.videoTitle.text = indexData.sTitle
+                    cell.teachersName.text = indexData.sTeacher + " 선생님"
+                    cell.subjects.text = indexData.sSubject
+                    cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor)
+                    
+                    if indexData.sUnit == "" {
+                        cell.term.isHidden = true
+                    } else if indexData.sUnit == "1" {
+                        cell.term.isHidden = false
+                        cell.term.text = "i"
+                    } else if indexData.sUnit == "2" {
+                        cell.term.isHidden = false
+                        cell.term.text = "ii"
+                    } else {
+                        cell.term.isHidden = false
+                        cell.term.text = indexData.sUnit
+                    }
+                    
+                    return cell
                 } else {
-                    cell.term.isHidden = false
-                    cell.term.text = indexData.sUnit
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as? LoadingCell else { return UITableViewCell() }
+                    
+                        //cell.loadingIndicator.startAnimating()
+                    
+                    return cell
                 }
-                
-                return cell
             }
             
         } else if scienceViewTitleValue == "과학 강의" {
@@ -413,7 +448,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
                 
-                guard let json = self.playlist else { return cell }
+                //guard let json = self.playlist else { return cell }
+                let json = self.playlist
                 
                 let indexData = json.data[indexPath.row]
                 let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
@@ -486,7 +522,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
                 
-                guard let json = self.playlist else { return cell }
+                //guard let json = self.playlist else { return cell }
+                let json = self.playlist
                 
                 let indexData = json.data[indexPath.row]
                 let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
@@ -559,7 +596,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
                 
-                guard let json = self.playlist else { return cell }
+                //guard let json = self.playlist else { return cell }
+                let json = self.playlist
                 
                 let indexData = json.data[indexPath.row]
                 let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
@@ -590,7 +628,9 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
             
-            guard let json = self.playlist else { return cell }
+            //guard let json = self.playlist else { return cell }
+            
+            let json = self.playlist
             
             let indexData = json.data[indexPath.row]
             let url = URL(string: makeStringKoreanEncoded(fileBaseURL + "/" + indexData.sThumbnail))
@@ -625,7 +665,11 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 return 80
             } else {
                 if koreanSelectedBtnValue.currentTitle == "전체 보기" {
-                    return 80
+                    if indexPath.section == 0 {
+                        return 80
+                    } else {
+                        return 55
+                    }
                 } else if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
                     return tableView.frame.height
                 }
@@ -671,9 +715,34 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let data = playlist {
-            let videoID = data.data[indexPath.row].iSeriesId
+            let data = playlist
+            let videoID = data.data[indexPath.row].id
             delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
-        }
+        
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let offsetY = scrollView.contentOffset.y
+//        let contentHeight = scrollView.contentSize.height
+//
+//        if (offsetY > contentHeight - scrollView.frame.height) && !isLoading {
+//            getDataFromJson()
+//            tableView.reloadData()
+//            loadMoreData()
+//        }
+//    }
+    
+//    func loadMoreData() {
+//        if !self.isLoading {
+//            self.isLoading = true
+//            DispatchQueue.global().async {
+//                sleep(4)
+//
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                    self.isLoading = false
+//                }
+//            }
+//        }
+//    }
 }
