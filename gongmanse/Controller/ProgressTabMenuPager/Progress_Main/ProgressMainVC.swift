@@ -200,7 +200,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     
     // Button
     func configureButton() {
-        let borderWidth = 2
+        
         let borderColor = UIColor.mainOrange
         
         

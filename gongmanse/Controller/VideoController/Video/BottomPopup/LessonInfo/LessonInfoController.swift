@@ -105,6 +105,7 @@ class LessonInfoController: UIViewController {
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
             
             let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
             vc.id = videoDetailVM?.commantaryID
             self.present(vc, animated: true)
             
@@ -112,6 +113,7 @@ class LessonInfoController: UIViewController {
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.videoID ?? "")
             
             let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
             vc.id = videoDetailVM?.videoID
             self.present(vc, animated: true)
         }
