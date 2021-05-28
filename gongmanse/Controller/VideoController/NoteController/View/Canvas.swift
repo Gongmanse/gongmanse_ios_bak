@@ -22,7 +22,7 @@ struct Line {
 }
 
 protocol CanvasDelegate: AnyObject {
-    func passLinePositionDataForLectureNoteController(points: [String])
+    func passLinePositionDataForLectureNoteController(points: [String], color: [UIColor])
 }
 
 
@@ -33,15 +33,18 @@ class Canvas: UIView {
     
     weak var delegate: CanvasDelegate?  // 노트저장 API를 대신 처리해줄 "LectureNoteController" delegate
     public var pointString = [String]() // API request 양식이 독특하여 String으로 변환해야하여 생성했다.
+    public var colorArr = [UIColor]() // API request 양식이 독특하여 String으로 변환해야하여 생성했다.
     
     // 이전 노트 데이터를 받아오기 위해 제한자를 "public" 으로 설정했다.
-    public var lines = [Line]() {
+    public var lines = [Line]()
+    {
         didSet {
-            setNeedsDisplay() // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
+//            setNeedsDisplay() // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
+            
         }
     }
     
-    fileprivate var strokeColor = UIColor.black
+    fileprivate var strokeColor = UIColor.redPenColor
     fileprivate var strokeWidth: Float = 1
     
     
@@ -79,8 +82,9 @@ class Canvas: UIView {
     }
     
     func saveNoteTakingData() {
-        //        print("DEBUG: 넘겨진데이터 \(self.pointString)")
-        delegate?.passLinePositionDataForLectureNoteController(points: pointString)
+        // 버그발생: 나는 4 개의 선을 그었는데 8개의 데이터가 "pointString" 에 추가되었다.
+//                print("DEBUG: 넘겨진데이터 \(self.pointString)")
+        delegate?.passLinePositionDataForLectureNoteController(points: pointString, color: colorArr)
     }
     
     
@@ -127,26 +131,38 @@ class Canvas: UIView {
         setNeedsDisplay()
     }
     
+    // 좌표값과 색상정보를 넘겨주는 최초 시점
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        // 줄을 그으면 데이터가 저장된다. 그 데이터들 중에서 가장 최근 데이터를 상수에 할당한다.
+        // 줄을 그으면 데이터가 저장된다. 그 데이터들 중에서 가장 최근 데이터를 상수에 입력한다.
+        // 이전 값들을 중복하여 추가할 필요가 없기에, 가장 마지막에 추가된 값만 append 할 예정이다.
         guard let line = self.lines.last else { return }
-        var passData = [Point]()
         
-        // 데이터들 중 "points"의 데이터만 "passData"에 할당한다.
+        var passData = [Point]()  // 임시변수
+        
+        // 마지막에 추가된 line의 좌표값들을 "passData"에 입력한다.
         for (_, p) in line.points.enumerated() {
             
             passData.append(Point(x: p.x,
                                   y: p.y))
         }
         
-        var convertedString = ""
+        var convertedString = ""  // 임시변수
         
+        // API의 Request양식에 따라 String으로 좌표값을 입력한다.
+        // 형태변환: (x: 00, y:00) -> "{x:00, y:00}"
         for (_, p) in passData.enumerated() {
-            
+            // String의 값을 하나로 만들기 위해 String에 덧셈연산을 한다.
             convertedString += "{\"x\":\(p.x), \"y\":\(p.y)},"
         }
+        
+        // 하나의 x,y좌표값들 -> 하나의 String 으로 변환을 했으며, 이 값을 Array에 추가한다.
         self.pointString.append(convertedString)
+        // 하나의 선을 추가했을 당시 색상을 색상Array에 추가한다.
+        self.colorArr.append(self.strokeColor)
+        
+        // 결과
+        // (x,y의 좌표값들, color값)
     }
     
 }
