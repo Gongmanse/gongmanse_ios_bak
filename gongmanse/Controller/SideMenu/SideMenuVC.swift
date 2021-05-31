@@ -116,7 +116,7 @@ class SideMenuVC: UITableViewController {
             //test용 다이렉트
             let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
             self.navigationController?.pushViewController(settingsVC, animated: true)
-//
+            
 //            if indexPath.row == 0 {
 //                let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
 //                self.navigationController?.pushViewController(whatIsGongManseVC, animated: true)

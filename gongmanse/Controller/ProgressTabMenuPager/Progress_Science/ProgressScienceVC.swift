@@ -29,8 +29,21 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
     private let emptyCellIdentifier = "EmptyStateViewCell"
     
     var pageIndex: Int!
+    var sendChapter: [String] = []
+    private let mainViewModel = ProgressMainViewModel()
     
-    private var scienceDataList: [ProgressBodyModel]?
+    // 과학 모델
+    private var scienceHeaderDataList: ProgressHeaderModel?
+    private var scienceBodyDataList: [ProgressBodyModel]?
+    private var getGradeData: SubjectGetDataModel?
+    
+    
+    private var localGradeTitle = ""
+    private var localGradeNumber = 0
+    
+    // API 통신 시 고정 값
+    private let scienceSubjectNumber = 36
+    private let scienceLimitNumber = 20
     
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var gradeBtn: UIButton!
@@ -45,10 +58,47 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
     var listCount: Int = 0
     
     func scrollMethod() {
-        
+        listCount += 20
+        requestProgressScienceList(subject: scienceSubjectNumber,
+                            grade: localGradeTitle,
+                            gradeNum: localGradeNumber,
+                            offset: listCount,
+                            limit: scienceLimitNumber)
     }
     
     //MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 토큰 있을 때 없을 때
+        if Constant.token == "" {
+            gradeBtn.setTitle("모든 학년", for: .normal)
+            requestProgressScienceList(subject: scienceSubjectNumber,
+                                       grade: "모든",
+                                       gradeNum: 0,
+                                       offset: 0,
+                                       limit: scienceLimitNumber)
+            
+        } else {
+            // 서버에서 학년 받아오기, 토큰 필요
+            let getfilter = getFilteringAPI()
+            getfilter.getFilteringData { [weak self] result in
+                self?.getGradeData = result
+                self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+                
+                let changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
+                let changeGradeNumber = self?.mainViewModel.transformGradeNumber(string: self?.getGradeData?.sGrade ?? "")
+                
+                self?.requestProgressScienceList(subject: self?.scienceSubjectNumber ?? 0,
+                                          grade: changeGrade ?? "",
+                                          gradeNum: changeGradeNumber ?? 0,
+                                          offset: 0,
+                                          limit: self?.scienceLimitNumber ?? 0)
+            }
+
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,13 +108,79 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         configureButton()
         configureTableView()
         
-        let scienceProgress = ProgressListAPI(subject: 36, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
+    }
+    
+    // 학년 popup에서 선택 시 API불러올 메소드
+    @objc func changeGradeTitle(_ sender: Notification) {
+        // ex) 모든학년 받아옴
+        guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
+        // 모든에 해당하는 강의 나타냄
+        let gradeTitle = mainViewModel.transformGrade(string: getGradeTitle)
+        let gradeNumber = mainViewModel.transformGradeNumber(string: getGradeTitle)
+        
+        
+        gradeBtn.setTitle(getGradeTitle, for: .normal)
+        
+        requestProgressScienceList(subject: scienceSubjectNumber,
+                            grade: gradeTitle,
+                            gradeNum: gradeNumber,
+                            offset: 0,
+                            limit: scienceLimitNumber)
+        
+    }
+    
+    func requestProgressScienceList(subject: Int, grade: String, gradeNum: Int, offset: Int, limit: Int) {
+        
+//        let scienceProgress = ProgressListAPI(subject: 36, grade: "모든", gradeNum: 0, offset: 20, limit: 20)
+        
+        localGradeTitle = grade
+        localGradeNumber = gradeNum
+        
+        let scienceProgress = ProgressListAPI(subject: subject,
+                                              grade: grade,
+                                              gradeNum: gradeNum,
+                                              offset: offset,
+                                              limit: limit)
+        
+        
         scienceProgress.requestProgressDataList { [weak self] result in
-            self?.scienceDataList = result.body
-            DispatchQueue.main.async {
-                self?.tableview.reloadData()
+            self?.scienceHeaderDataList = result.header
+            // totalRows = 0 이면 빈 화면 출력
+            self?.isLesson = self?.scienceHeaderDataList?.totalRows == "0" ? false : true
+            self?.islistMore = Bool(self?.scienceHeaderDataList?.isMore ?? "")
+            
+            if self?.islistMore == false {
+                self?.listCount = 0
+            }
+            
+            
+            if offset == 0 {
+                self?.scienceBodyDataList = result.body
+                
+                
+                self?.sendChapter.removeAll()
+                for i in 0..<(self?.scienceBodyDataList!.count)! {
+                    let tt = self?.scienceBodyDataList?[i].title ?? ""
+                    self?.sendChapter.append(tt)
+                }
+                self?.reloadData(table: self?.tableview ?? UITableView())
+
+            }else {
+                DispatchQueue.global().async {
+                    sleep(1)
+                    
+                    self?.scienceBodyDataList?.append(contentsOf: result.body!)
+                    
+                    DispatchQueue.main.async {
+                        self?.tableview.reloadData()
+                        self?.tableview.tableFooterView?.isHidden = true
+                    }
+                    
+                }
             }
         }
+            
     }
     
     
@@ -116,15 +232,16 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
     
     // 모든 단원
     @IBAction func selectedChapter(_ sender: Any) {
-        if isChooseGrade {
+        if gradeBtn.titleLabel?.text == "모든 학년" {
+            presentAlert(message: "학년을 먼저 선택해 주세요.")
+        } else {
+            
             let popupVC = ProgressPopupVC()
             popupVC.selectedBtnIndex = .chapter
-            
+            popupVC.chapters = sendChapter
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)
-        } else {
-            // 경고창
         }
     }
     
@@ -137,7 +254,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
 extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLesson {
-            return scienceDataList?.count ?? 0
+            return scienceBodyDataList?.count ?? 0
         } else {
             return 1
         }
@@ -148,11 +265,20 @@ extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: mainCellIdentifier, for: indexPath) as! ProgressMainCell
             cell.selectionStyle = .none
             
-            cell.totalRows.text = scienceDataList?[indexPath.row].totalLecture
-            cell.gradeTitle.text = scienceDataList?[indexPath.row].title
-            cell.gradeLabel.textColor = UIColor(hex: scienceDataList?[indexPath.row].subjectColor ?? "")
-            cell.subjectLabel.text = scienceDataList?[indexPath.row].subject
-            cell.subjectColor.backgroundColor = UIColor(hex: scienceDataList?[indexPath.row].subjectColor ?? "")
+            cell.totalRows.text = scienceBodyDataList?[indexPath.row].totalLecture
+            cell.gradeTitle.text = scienceBodyDataList?[indexPath.row].title
+            cell.gradeLabel.textColor = UIColor(hex: scienceBodyDataList?[indexPath.row].subjectColor ?? "")
+            cell.subjectLabel.text = scienceBodyDataList?[indexPath.row].subject
+            cell.subjectColor.backgroundColor = UIColor(hex: scienceBodyDataList?[indexPath.row].subjectColor ?? "")
+            
+            
+            let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+            
+            if islistMore == true && indexPath.row == totalRows - 1 {
+                scrollMethod()
+                
+            }
+            
             
             return cell
         } else {
@@ -174,11 +300,26 @@ extension ProgressScienceVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isLesson {
             print("DEBUG: 상세페이지 이동")
-            let indexID = scienceDataList?[indexPath.row].progressId ?? ""
+            let indexID = scienceBodyDataList?[indexPath.row].progressId ?? ""
             
             self.delegate?.pushCellVC(indexPath: indexPath, progressID: indexID)
         } else {
             print("DEBUG: 빈 페이지 클릭중")
         }
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex && islistMore == true{
+            // print("this is the last cell")
+            let spinner = UIActivityIndicatorView(style: .large)
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
+
+            self.tableview.tableFooterView = spinner
+            self.tableview.tableFooterView?.isHidden = false
+        }
+    }
+    
 }
