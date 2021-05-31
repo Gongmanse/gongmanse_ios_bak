@@ -78,6 +78,17 @@
 		2580CF57261A927900D78E4E /* VideoMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF56261A927900D78E4E /* VideoMenuBar.swift */; };
 		2580CF5A261A931600D78E4E /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF59261A931600D78E4E /* NSObject.swift */; };
 		2580CF5D261A939D00D78E4E /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF5C261A939D00D78E4E /* VideoController.swift */; };
+		25823735266482CD00CAE14B /* BookmarkInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25823734266482CD00CAE14B /* BookmarkInput.swift */; };
+		25823739266482E000CAE14B /* BookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25823738266482E000CAE14B /* BookmarkResponse.swift */; };
+		2582373B266482EC00CAE14B /* BookmarkDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582373A266482EC00CAE14B /* BookmarkDataManager.swift */; };
+		258237412664830B00CAE14B /* RatingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237402664830B00CAE14B /* RatingDataManager.swift */; };
+		258237432664831200CAE14B /* RatingInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237422664831200CAE14B /* RatingInput.swift */; };
+		258237452664831800CAE14B /* RatingReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237442664831800CAE14B /* RatingReponse.swift */; };
+		258237472664832000CAE14B /* SharingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237462664832000CAE14B /* SharingDataManager.swift */; };
+		2582374A2664832C00CAE14B /* SharingInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237492664832C00CAE14B /* SharingInput.swift */; };
+		2582374C2664833500CAE14B /* SharingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582374B2664833500CAE14B /* SharingResponse.swift */; };
+		2582375026648A9200CAE14B /* RatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582374E26648A9200CAE14B /* RatingController.swift */; };
+		2582375126648A9200CAE14B /* RatingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2582374F26648A9200CAE14B /* RatingController.xib */; };
 		25832D5C261D77FF00CB63B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25832D5B261D77FF00CB63B8 /* Subtitles.swift */; };
 		2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */; };
 		2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */; };
@@ -466,6 +477,17 @@
 		2580CF56261A927900D78E4E /* VideoMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMenuBar.swift; sourceTree = "<group>"; };
 		2580CF59261A931600D78E4E /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		2580CF5C261A939D00D78E4E /* VideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
+		25823734266482CD00CAE14B /* BookmarkInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkInput.swift; sourceTree = "<group>"; };
+		25823738266482E000CAE14B /* BookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkResponse.swift; sourceTree = "<group>"; };
+		2582373A266482EC00CAE14B /* BookmarkDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDataManager.swift; sourceTree = "<group>"; };
+		258237402664830B00CAE14B /* RatingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDataManager.swift; sourceTree = "<group>"; };
+		258237422664831200CAE14B /* RatingInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingInput.swift; sourceTree = "<group>"; };
+		258237442664831800CAE14B /* RatingReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingReponse.swift; sourceTree = "<group>"; };
+		258237462664832000CAE14B /* SharingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingDataManager.swift; sourceTree = "<group>"; };
+		258237492664832C00CAE14B /* SharingInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingInput.swift; sourceTree = "<group>"; };
+		2582374B2664833500CAE14B /* SharingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingResponse.swift; sourceTree = "<group>"; };
+		2582374E26648A9200CAE14B /* RatingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingController.swift; sourceTree = "<group>"; };
+		2582374F26648A9200CAE14B /* RatingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RatingController.xib; sourceTree = "<group>"; };
 		25832D5B261D77FF00CB63B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
 		2584E8A226082050000DFA20 /* RegistrationUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUserInfoVC.swift; sourceTree = "<group>"; };
 		2584E8A326082050000DFA20 /* RegistrationUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationUserInfoVC.xib; sourceTree = "<group>"; };
@@ -1011,6 +1033,7 @@
 		2541BFCA263F98E5000853EF /* LessonInfo */ = {
 			isa = PBXGroup;
 			children = (
+				2582374D26648A7C00CAE14B /* Rating */,
 				2541BFCB263F990B000853EF /* LessonInfoController.swift */,
 				2541BFCF263FC334000853EF /* sSubjectsUnitCell.swift */,
 				2541BFD2263FD2FD000853EF /* sUnitLabel.swift */,
@@ -1233,6 +1256,103 @@
 				2580CF4D261A91BA00D78E4E /* VideoUpperTabCell.swift */,
 			);
 			path = TabBarcell;
+			sourceTree = "<group>";
+		};
+		25823731266482AA00CAE14B /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				25823736266482D000CAE14B /* Entity */,
+				25823737266482D300CAE14B /* DataManager */,
+			);
+			path = Bookmark;
+			sourceTree = "<group>";
+		};
+		25823732266482B200CAE14B /* Rating */ = {
+			isa = PBXGroup;
+			children = (
+				2582373C266482F000CAE14B /* Entity */,
+				2582373D266482F500CAE14B /* DataManager */,
+			);
+			path = Rating;
+			sourceTree = "<group>";
+		};
+		25823733266482BA00CAE14B /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				2582373F2664830100CAE14B /* Entity */,
+				2582373E266482FC00CAE14B /* DataManager */,
+			);
+			path = Sharing;
+			sourceTree = "<group>";
+		};
+		25823736266482D000CAE14B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				25823734266482CD00CAE14B /* BookmarkInput.swift */,
+				25823738266482E000CAE14B /* BookmarkResponse.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		25823737266482D300CAE14B /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				2582373A266482EC00CAE14B /* BookmarkDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		2582373C266482F000CAE14B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				258237422664831200CAE14B /* RatingInput.swift */,
+				258237442664831800CAE14B /* RatingReponse.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		2582373D266482F500CAE14B /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				258237402664830B00CAE14B /* RatingDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		2582373E266482FC00CAE14B /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				258237462664832000CAE14B /* SharingDataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		2582373F2664830100CAE14B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				258237492664832C00CAE14B /* SharingInput.swift */,
+				2582374B2664833500CAE14B /* SharingResponse.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		2582374D26648A7C00CAE14B /* Rating */ = {
+			isa = PBXGroup;
+			children = (
+				2582374E26648A9200CAE14B /* RatingController.swift */,
+				2582374F26648A9200CAE14B /* RatingController.xib */,
+			);
+			path = Rating;
+			sourceTree = "<group>";
+		};
+		258237522664B0E000CAE14B /* LessonInfo */ = {
+			isa = PBXGroup;
+			children = (
+				25823731266482AA00CAE14B /* Bookmark */,
+				25823732266482B200CAE14B /* Rating */,
+				25823733266482BA00CAE14B /* Sharing */,
+			);
+			path = LessonInfo;
 			sourceTree = "<group>";
 		};
 		25832D5A261D77F400CB63B8 /* Subtitles */ = {
@@ -2508,6 +2628,7 @@
 		C26F040226527CE500CAE415 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				258237522664B0E000CAE14B /* LessonInfo */,
 				C2A39E1B264E5AA00046290D /* VideoQnAAPIManager.swift */,
 			);
 			path = Video;
@@ -2863,6 +2984,7 @@
 				6CBF2DE2264A56F10017870F /* ConsultUploadImageDefaultCell.xib in Resources */,
 				A9850F002616141500908BA4 /* EnquiryCategoryVC.xib in Resources */,
 				259B8C0D26030632009A7146 /* HighSchoolVC.xib in Resources */,
+				2582375126648A9200CAE14B /* RatingController.xib in Resources */,
 				A9850EFB261613FE00908BA4 /* EnquiryCell.xib in Resources */,
 				259B8C4A26033EF8009A7146 /* PaymentHistoryCell.xib in Resources */,
 				C233028C263932590058592E /* SearchMainCell.xib in Resources */,
@@ -2999,6 +3121,7 @@
 				C2CF7B1F265F4B0A00F1E50A /* VideoDetailViewModel.swift in Sources */,
 				2584E8AE26082088000DFA20 /* RegistrationCompletionVC.swift in Sources */,
 				259B8B6C2603009C009A7146 /* Search.swift in Sources */,
+				25823739266482E000CAE14B /* BookmarkResponse.swift in Sources */,
 				C2A92F9C263BB22900098F92 /* SearchVideoModel.swift in Sources */,
 				257C61372602E86000153BF3 /* test.swift in Sources */,
 				6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */,
@@ -3017,7 +3140,10 @@
 				C293D93F2653BA1800A19D99 /* LoginGetProfile.swift in Sources */,
 				259B8C3426031C99009A7146 /* StoreVC.swift in Sources */,
 				6CC1F06E25FA0A3600A909B0 /* RecommendBannerCell.swift in Sources */,
+				258237452664831800CAE14B /* RatingReponse.swift in Sources */,
 				6CFA77C52620423A00040CBD /* KoreanEnglishMathBottomPopUpVC.swift in Sources */,
+				2582374C2664833500CAE14B /* SharingResponse.swift in Sources */,
+				258237412664830B00CAE14B /* RatingDataManager.swift in Sources */,
 				25BD760326157258002B266C /* NewPasswordViewModel.swift in Sources */,
 				259B8BCF2603054D009A7146 /* ProgressScienceVC.swift in Sources */,
 				259B8BD92603057A009A7146 /* ProgressOthers.swift in Sources */,
@@ -3049,6 +3175,7 @@
 				2541BFCC263F990B000853EF /* LessonInfoController.swift in Sources */,
 				258511C52652074E003264F3 /* NoteInput.swift in Sources */,
 				251C32692649014E00C765CE /* DetailScreenNoteCell.swift in Sources */,
+				2582375026648A9200CAE14B /* RatingController.swift in Sources */,
 				A9524853261A9CC6000F2473 /* RequestNoticeAPI.swift in Sources */,
 				25201DDB26046BD0001098AC /* FloatingTextField.swift in Sources */,
 				255F3DDD265347580008D061 /* NoteTakingInput.swift in Sources */,
@@ -3070,6 +3197,7 @@
 				6CBEEA97264CBC0D0006795D /* HtmlTagDelete.swift in Sources */,
 				C2448C6826296581008CE4A1 /* ProgressDetailListAPI.swift in Sources */,
 				6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */,
+				2582374A2664832C00CAE14B /* SharingInput.swift in Sources */,
 				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
 				258511C026520341003264F3 /* DetailNoteController.swift in Sources */,
@@ -3095,6 +3223,7 @@
 				2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */,
 				6CF2E64E25F08B2A000FE084 /* TabsView.swift in Sources */,
 				6C1FD54026437B0A00A6B987 /* ConsultUploadImageCVCell.swift in Sources */,
+				2582373B266482EC00CAE14B /* BookmarkDataManager.swift in Sources */,
 				25126D5D26115D1500009526 /* RegistrationVCViewModel.swift in Sources */,
 				259B8C0E26030632009A7146 /* ElementaryVC.swift in Sources */,
 				6C4C38A525FEFCF600653A61 /* LectureQuestionsTVCell.swift in Sources */,
@@ -3141,6 +3270,7 @@
 				A9850EF5261613CB00908BA4 /* OneOnOneEnquiryVC.swift in Sources */,
 				25BD75FB26156ADA002B266C /* FindingPwdByPhoneResponse.swift in Sources */,
 				C28BD57E264379CB006D1318 /* SearchConsultationModel.swift in Sources */,
+				258237472664832000CAE14B /* SharingDataManager.swift in Sources */,
 				256D01B6263A92D800967449 /* VideoSettingPopupController.swift in Sources */,
 				6C4713B725F8534900D68A2B /* MyCalendarVC.swift in Sources */,
 				25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */,
@@ -3221,9 +3351,11 @@
 				2526008A2648E2ED00FEABE2 /* DetailScreenController.swift in Sources */,
 				258B5EA62609D8B800F470B7 /* CertificationDataManager.swift in Sources */,
 				6CFA77CB2624417D00040CBD /* KoreanEnglishMathAlignmentVC.swift in Sources */,
+				25823735266482CD00CAE14B /* BookmarkInput.swift in Sources */,
 				C2448C652629642A008CE4A1 /* ProgressDetailModel.swift in Sources */,
 				A9129EE12616A26400041CC5 /* IntroduceInstructorVC.swift in Sources */,
 				259B8C1926030646009A7146 /* LecturePlaylistVC.swift in Sources */,
+				258237432664831200CAE14B /* RatingInput.swift in Sources */,
 				C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */,
 				259B8BC926030531009A7146 /* ProgressPopupVC.swift in Sources */,
 				C2A92FA0263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift in Sources */,
