@@ -223,15 +223,16 @@ class ProgressOthers: UIViewController, ProgressInfinityScroll {
     
     // 모든 단원
     @IBAction func selectedChapter(_ sender: Any) {
-        if isChooseGrade {
+        if gradeBtn.titleLabel?.text == "모든 학년" {
+            presentAlert(message: "학년을 먼저 선택해 주세요.")
+        } else {
+            
             let popupVC = ProgressPopupVC()
             popupVC.selectedBtnIndex = .chapter
-            
+            popupVC.chapters = sendChapter
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)
-        } else {
-            // 경고창
         }
     }
    
