@@ -31,7 +31,7 @@ class LessonInfoController: UIViewController {
                                                                     title: "문제풀이",
                                                                     image: UIImage(systemName: "book.fill")!)
     // videoID
-    var passID: String?
+    var videoID: String?
     
     // 문제풀이 누를 때 이름바꾸는 변수
     var isChangedName: Bool = false
@@ -41,11 +41,13 @@ class LessonInfoController: UIViewController {
     
     // MARK: - Lifecycle
     
-    init() { super.init(nibName: nil, bundle: nil) }
-    
-    init(passID: String) {
+    init() {
         super.init(nibName: nil, bundle: nil)
-        self.passID = passID
+    }
+    
+    init(videoID: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.videoID = videoID
     }
     
     required init?(coder: NSCoder) {
@@ -76,14 +78,46 @@ class LessonInfoController: UIViewController {
         }
     }
     
-    // TODO: tintColor 변경은 추후에 API 호출메소드에서 성공 시, 변경하는 것으로 로직 실행할 예정. 05.04
-    @objc func handleBookmarkAction(sender: UIView) { bookmarkButton.viewTintColor = .mainOrange }
-    @objc func handleRateLessonAction() { rateLessonButton.viewTintColor = .mainOrange }
-    @objc func handleShareLessonAction() { shareLessonButton.viewTintColor = .mainOrange }
+    @objc func handleBookmarkAction(sender: UIView) {
+        
+        if bookmarkButton.viewTintColor == .mainOrange {
+            // 즐겨찾기를 삭제한다.
+            bookmarkButton.viewTintColor = .black
+            BookmarkDataManager().deleteBookmarkToVideo(DeleteBookmarkInput(token: Constant.token,
+                                                                            video_id: "1"),
+                                                        viewController: self)
+        } else {
+            // 즐겨찾기를 추가한다.
+            bookmarkButton.viewTintColor = .mainOrange
+            BookmarkDataManager().addBookmarkToVideo(BookmarkInput(video_id: 1, token: Constant.token),
+                                                     viewController: self)
+        }
+    }
+    
+    @objc func handleRateLessonAction() {
+        
+        if rateLessonButton.viewTintColor == .mainOrange {
+            rateLessonButton.viewTintColor = .black
+        } else {
+            rateLessonButton.viewTintColor = .mainOrange
+        }
+        
+        let vc = RatingController(videoID: 1)
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    
+    @objc func handleShareLessonAction() {
+        // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
+        
+        
+        
+    }
     @objc func handleRelatedSeriesAction() {
         
         
-        let presentVC = LecturePlaylistVC(passID ?? "")
+        let presentVC = LecturePlaylistVC(videoID ?? "")
         presentVC.lectureState = .videoList
         let nav = UINavigationController(rootViewController: presentVC)
         nav.modalPresentationStyle = .fullScreen
