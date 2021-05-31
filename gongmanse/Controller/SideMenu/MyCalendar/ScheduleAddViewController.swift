@@ -9,8 +9,12 @@ import UIKit
 
 class ScheduleAddViewController: UIViewController {
     
+    // ScheduleAddCell
+    let titleText: [String] = ["제목","내용","시간","알림", "반복"]
+    
     let tableView: UITableView = {
         let table = UITableView()
+        table.separatorInset = .zero
         return table
     }()
     
@@ -28,6 +32,23 @@ class ScheduleAddViewController: UIViewController {
 
 extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        
+        case 0...1:
+            return 50
+            
+        case 2:
+            return 130
+            
+        case 3...4:
+            return 50
+            
+        default:
+            return 0
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -35,19 +56,34 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         
+        case 0...1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+            
+            cell.titleAppear(text: titleText[indexPath.row])
+            
+            return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
-            cell.textLabel?.text = "A"
+            
+            cell.timeLabel.text = titleText[indexPath.row]
+            
             return cell
             
-        case 0...5:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
-            cell.textLabel?.text = "B"
+        case 3...4:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+            
+            cell.alarmSelectLabel.text = "없음"
+            cell.alarmTextLabel.text = titleText[indexPath.row]
+            
             return cell
             
         default:
             return UITableViewCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
     }
 }
 
@@ -70,6 +106,7 @@ extension ScheduleAddViewController {
         
         tableView.register(ScheduleAddCell.self, forCellReuseIdentifier: ScheduleAddCell.identifier)
         tableView.register(ScheduleAddTimerCell.self, forCellReuseIdentifier: ScheduleAddTimerCell.identifier)
+        tableView.register(ScheduleAddAlarmCell.self, forCellReuseIdentifier: ScheduleAddAlarmCell.identifier)
         
         tableView.delegate = self
         tableView.dataSource = self
