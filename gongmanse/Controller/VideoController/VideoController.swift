@@ -54,7 +54,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var otherSubjectsViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
-    lazy var lessonInfoController = LessonInfoController(passID: id!)
+    lazy var lessonInfoController = LessonInfoController(videoID: id!)
 
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
@@ -540,7 +540,7 @@ extension VideoController {
         }
 
         // lessionInfo로 VideoID 넘기기
-        self.lessonInfoController.passID = id
+        self.lessonInfoController.videoID = id
         playVideo()
     }
     
