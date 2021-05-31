@@ -4,7 +4,6 @@ class RecentVideoTVCell: UITableViewCell {
 
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var subjects: UILabel!
-    @IBOutlet weak var term: UILabel!
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var upLoadDate: UILabel!
@@ -20,10 +19,6 @@ class RecentVideoTVCell: UITableViewCell {
         
         //과목 label text 화학으로 설정
         subjects.text = "화학"
-        
-        //용어 label background 라운딩 처리
-        term.layer.cornerRadius = 7
-        term.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -4,7 +4,6 @@ class NoteListTVCell: UITableViewCell {
     
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var subjects: UILabel!
-    @IBOutlet weak var term: UILabel!
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var upLoadDate: UILabel!
@@ -18,10 +17,6 @@ class NoteListTVCell: UITableViewCell {
         //과목 label background 라운딩 처리
         subjects.layer.cornerRadius = 7
         subjects.clipsToBounds = true
-        
-        //용어 label background 라운딩 처리
-        term.layer.cornerRadius = 7
-        term.clipsToBounds = true
         
         //subjects label text 지정
         subjects.text = "화학"

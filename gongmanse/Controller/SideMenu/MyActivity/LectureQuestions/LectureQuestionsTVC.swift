@@ -6,11 +6,8 @@ class LectureQuestionsTVC: UITableViewController {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
-    var videoTitleLabel = ["파울리의 배타 원리", "전자 배치 규칙", "훈트 규칙"]
-    var teachersLabel = ["고광윤 선생님", "장기철 선생님", "고광윤 선생님"]
-    var upLoadDateLabel = ["10초 전", "10분 전", "10시간 전"]
-    
     var pageIndex: Int!
+    var lectureQnA: FilterVideoModels?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +35,7 @@ class LectureQuestionsTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LectureQuestionsTVCell") as! LectureQuestionsTVCell
         
-        cell.videoTitle.text = videoTitleLabel[indexPath.row]
-        cell.teachersName.text = teachersLabel[indexPath.row]
-        cell.upLoadDate.text = upLoadDateLabel[indexPath.row]
+        
         
         if indexPath.row == 0 {
             cell.answerStatus.backgroundColor = #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1)

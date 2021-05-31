@@ -6,11 +6,8 @@ class NoteListTVC: UITableViewController {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
-    var videoTitleLabel = ["파울리의 배타 원리", "전자 배치 규칙", "훈트 규칙"]
-    var teachersNameLabel = ["고광윤 선생님", "장기철 선생님", "고광윤 선생님"]
-    var upLoadDateLabel = ["1일 전", "1주 전", "1달 전"]
-    
     var pageIndex: Int!
+    var noteList: FilterVideoModels?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,28 +15,67 @@ class NoteListTVC: UITableViewController {
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
         
-        //총 개수 label text 지정
-        countAll.text = "총 3개"
+        getDataFromJson()
+    }
+    
+    func getDataFromJson() {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=0&limit=20&sort_id=4") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.noteList = json
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.textSettings()
+                }
+                
+            }.resume()
+        }
+    }
+    
+    func textSettings() {
+        
+        guard let value = self.noteList else { return }
+        
+        self.countAll.text = "총 \(value.totalNum ?? "nil")개"
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.black])
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: "3"))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: "3"))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
         
         self.countAll.attributedText = attributedString
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        guard let data = self.noteList?.data else { return 0}
+        return data.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTVCell") as! NoteListTVCell
         
-        cell.videoTitle.text = videoTitleLabel[indexPath.row]
-        cell.teachersName.text = teachersNameLabel[indexPath.row]
-        cell.upLoadDate.text = upLoadDateLabel[indexPath.row]
+        guard let json = self.noteList else { return cell }
+        
+        let indexData = json.data[indexPath.row]
+        let defaultURL = fileBaseURL
+        guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
+        let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
+        
+        cell.videoThumbnail.contentMode = .scaleAspectFill
+        cell.videoThumbnail.sd_setImage(with: url)
+        cell.videoTitle.text = indexData.sTitle
+        cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
+        cell.upLoadDate.text = indexData.dtTimestamp
+        cell.subjects.text = indexData.sSubject
+        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
         
         return cell
     }
