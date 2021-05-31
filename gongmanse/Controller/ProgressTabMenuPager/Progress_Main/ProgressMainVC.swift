@@ -137,6 +137,8 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
                                               gradeNum: gradeNum,
                                               offset: offset,
                                               limit: limit)
+        
+        
         // 넘겨줄 주소
         
         requestProgress.requestProgressDataList { [weak self] result in
