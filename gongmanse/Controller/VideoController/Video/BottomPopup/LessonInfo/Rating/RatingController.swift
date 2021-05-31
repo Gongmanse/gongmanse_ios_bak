@@ -11,7 +11,7 @@ class RatingController: UIViewController {
     
     // MARK: - Properties
     // 클릭된 별표의 위치를 저장할 프로퍼티
-    var clickedNumber = 0 {
+    var clickedNumber = 3 {
         didSet { setupButtonTintColor(point: clickedNumber, color: .mainOrange)}
     }
     

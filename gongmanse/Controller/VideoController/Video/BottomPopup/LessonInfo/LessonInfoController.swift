@@ -59,7 +59,7 @@ class LessonInfoController: UIViewController {
         configureUI()
         
         
-        videoDetailVM?.requestVideoDetailApi(passID ?? "")
+        videoDetailVM?.requestVideoDetailApi(videoID ?? "")
 //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
