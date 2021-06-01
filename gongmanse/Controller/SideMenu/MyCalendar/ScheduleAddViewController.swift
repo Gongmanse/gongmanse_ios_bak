@@ -16,6 +16,7 @@ class ScheduleAddViewController: UIViewController {
         let table = UITableView()
         table.separatorInset = .zero
         table.isUserInteractionEnabled = true
+        table.estimatedRowHeight = 50
         return table
     }()
     
@@ -48,11 +49,23 @@ class ScheduleAddViewController: UIViewController {
 
 extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0...1:
+            return 50
+        case 2:
+            return 130
+        case 3...4:
+            return 50
+        default:
+            return 0
+        }
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         
         case 0...1:
-            return 50
+            return UITableView.automaticDimension
             
         case 2:
             return 130
@@ -82,7 +95,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
             
             cell.timeLabel.text = titleText[indexPath.row]
-            
+//            cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector))
             return cell
             
         case 3:
@@ -108,13 +121,19 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
+    // indexPath 2 - 1
+    @objc func startLabelAction(_ sender: UITapGestureRecognizer) {
+        
+    }
+    
+    // indexPath 3
     @objc func alarmList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
         vc.alramState = .Alram
         self.present(vc, animated: true, completion: nil)
 
     }
-    
+    // indexPath 4
     @objc func repeatList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
         vc.alramState = .Repeat

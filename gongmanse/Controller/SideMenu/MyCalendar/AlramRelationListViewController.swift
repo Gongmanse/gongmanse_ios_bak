@@ -51,6 +51,8 @@ class AlramRelationListViewController: BottomPopupViewController {
     // topView
     let topLittleImage: UIImageView = {
         let image = UIImageView()
+        image.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        image.contentMode = .scaleAspectFit
         return image
     }()
     
@@ -74,9 +76,10 @@ class AlramRelationListViewController: BottomPopupViewController {
     
     lazy var topStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [topLittleImage, topTextLabel, topDismissButton])
+        stack.backgroundColor = .white
         stack.axis = .horizontal
         stack.alignment = .fill
-        stack.distribution = .fillProportionally
+        stack.distribution = .fillEqually
         return stack
     }()
     //
@@ -88,6 +91,7 @@ class AlramRelationListViewController: BottomPopupViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setUpTopView()
         configuration()
         constraints()
         
@@ -97,7 +101,21 @@ class AlramRelationListViewController: BottomPopupViewController {
     @objc func dismissActive(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    func setUpTopView() {
+        switch alramState {
+        case .Alram:
+            topLittleImage.image = UIImage(named: "timeline")
+            topTextLabel.text = "알림"
+            
+        case .Repeat:
+            topLittleImage.image = UIImage(named: "timeline")
+            topTextLabel.text = "반복"
+            
+        case .none:
+            return
+        }
+    }
 }
 
 // MARK: - TableView
