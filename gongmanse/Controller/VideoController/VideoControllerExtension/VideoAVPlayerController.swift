@@ -119,7 +119,7 @@ extension VideoController {
         player.seek(to: subTractTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
     
-    /// 알림 호출 시, 호출될 콜백메소드
+    /// 영상 종료 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
         player.seek(to: CMTime.zero)
         player.pause()
