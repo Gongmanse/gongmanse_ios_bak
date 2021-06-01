@@ -5,6 +5,7 @@ class MyActivityVC: UIViewController {
     @IBOutlet weak var tabsView: TabsView!
     
     var currentIndex: Int = 0
+    var recentVideoSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
 
@@ -99,6 +100,8 @@ class MyActivityVC: UIViewController {
         
         if index == 0 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecentVideoTVC") as! RecentVideoTVC
+            contentVC.delegate = self
+            contentVC.sortedId = recentVideoSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
@@ -209,4 +212,12 @@ extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDele
             return vc.pageIndex
         }
     }
+}
+
+extension MyActivityVC: RecentVideoVCDelegate {
+    func recentVideoPassSortedIdSettingValue(_ recentVideosortedIndex: Int) {
+        self.recentVideoSortedIndex = recentVideosortedIndex
+    }
+    
+    
 }
