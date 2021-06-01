@@ -7,7 +7,8 @@
 
 import UIKit
 
-class ScheduleAddCell: UITableViewCell {
+// indexPath 0,1 Cell
+class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
     
     static let identifier = "ScheduleAddCell"
     
@@ -17,44 +18,64 @@ class ScheduleAddCell: UITableViewCell {
         return label
     }()
     
-    private let subLabels: UITextView = {
-        let textview = UITextView()
+    private let registerTextView: UITextView = {
+        let textview = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
         textview.textAlignment = .justified
         textview.font = .systemFont(ofSize: 16)
+        textview.text = "A!@#"
+        textview.isUserInteractionEnabled = true
+        textview.isEditable = true
         return textview
     }()
+    
+    var textChanged: ((String) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         	
         setUp()
+        registerTextView.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func textChanged(action: @escaping (String) -> Void) {
+        self.textChanged = action
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        textChanged?(textView.text)
+    }
     
     func titleAppear(text: String) {
         titleLabels.text = text
+        registerTextView.text = text
     }
     
     
     func setUp() {
         
         contentView.addSubview(titleLabels)
-        contentView.addSubview(subLabels)
+        contentView.addSubview(registerTextView)
         
         titleLabels.translatesAutoresizingMaskIntoConstraints = false
         titleLabels.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         titleLabels.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         
-        subLabels.translatesAutoresizingMaskIntoConstraints = false
-        subLabels.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        subLabels.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        registerTextView.translatesAutoresizingMaskIntoConstraints = false
+        registerTextView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        registerTextView.leadingAnchor.constraint(equalTo: titleLabels.trailingAnchor, constant: 40).isActive = true
+        registerTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        registerTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        registerTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = true
+        
+        
     }
 }
 
+// indexPath 2 Cell
 class ScheduleAddTimerCell: UITableViewCell {
     
     static let identifier = "ScheduleAddTimerCell"
@@ -104,6 +125,7 @@ class ScheduleAddTimerCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.text = "2021.05.31 (목) 15:10"
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -129,6 +151,7 @@ class ScheduleAddTimerCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.text = "2021.05.31 (목) 15:10"
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -185,6 +208,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     }
 }
 
+// indexPath 3,4 Cell
 class ScheduleAddAlarmCell: UITableViewCell {
     
     static let identifier = "ScheduleAddAlarmCell"
@@ -192,13 +216,14 @@ class ScheduleAddAlarmCell: UITableViewCell {
     let alarmTextLabel: UILabel = {
         let label = UILabel()
         label.font = .appBoldFontWith(size: 16)
-
         return label
     }()
     
     let alarmSelectLabel: UILabel = {
         let label = UILabel()
         label.font = .appBoldFontWith(size: 16)
+        label.isUserInteractionEnabled = true
+        label.frame = CGRect(x: 0, y: 0, width: 70, height: 30)
         return label
     }()
     

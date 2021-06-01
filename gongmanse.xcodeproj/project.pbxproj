@@ -61,6 +61,13 @@
 		25608ED92665DE8600E3246C /* IntroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608ED72665DE8600E3246C /* IntroController.swift */; };
 		25608EDA2665DE8600E3246C /* IntroController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25608ED82665DE8600E3246C /* IntroController.xib */; };
 		25608EDC2665E53700E3246C /* 인트로영상01.mov in Resources */ = {isa = PBXBuildFile; fileRef = 25608EDB2665E53600E3246C /* 인트로영상01.mov */; };
+		25608EE32665FA5C00E3246C /* EditingProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EE22665FA5C00E3246C /* EditingProfileController.swift */; };
+		25608EE626660CAE00E3246C /* EditingProfileInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EE526660CAE00E3246C /* EditingProfileInput.swift */; };
+		25608EEA26660CBD00E3246C /* EditingProfileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EE926660CBD00E3246C /* EditingProfileDataManager.swift */; };
+		25608EED26661DE100E3246C /* ChangePasswordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EEC26661DE100E3246C /* ChangePasswordInput.swift */; };
+		25608EEF26661E1600E3246C /* ChangePasswordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EEE26661E1600E3246C /* ChangePasswordResponse.swift */; };
+		25608EF22666213D00E3246C /* EditingProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EF12666213D00E3246C /* EditingProfileViewModel.swift */; };
+		25608EF42666284B00E3246C /* EditingProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EF32666284B00E3246C /* EditingProfileResponse.swift */; };
 		2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF326119F4800CD24B8 /* ByEmailInput.swift */; };
 		2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */; };
 		2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */; };
@@ -377,6 +384,7 @@
 		C28BD58D2643C8A9006D1318 /* SearchNotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */; };
 		C28BD5902643C9F0006D1318 /* SearchAfterNotesAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58F2643C9F0006D1318 /* SearchAfterNotesAPIManager.swift */; };
 		C28BD5942643CB45006D1318 /* SearchNotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD5932643CB45006D1318 /* SearchNotesViewModel.swift */; };
+		C292A3752665E59F00559C2E /* AlramRelationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */; };
 		C293D93F2653BA1800A19D99 /* LoginGetProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C293D93E2653BA1800A19D99 /* LoginGetProfile.swift */; };
 		C293D9422653BABA00A19D99 /* LoginGetProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C293D9412653BABA00A19D99 /* LoginGetProfileManager.swift */; };
 		C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0808A26256D890014C3C0 /* UseLectureCell.swift */; };
@@ -470,6 +478,13 @@
 		25608ED72665DE8600E3246C /* IntroController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroController.swift; sourceTree = "<group>"; };
 		25608ED82665DE8600E3246C /* IntroController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroController.xib; sourceTree = "<group>"; };
 		25608EDB2665E53600E3246C /* 인트로영상01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "인트로영상01.mov"; sourceTree = "<group>"; };
+		25608EE22665FA5C00E3246C /* EditingProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileController.swift; sourceTree = "<group>"; };
+		25608EE526660CAE00E3246C /* EditingProfileInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileInput.swift; sourceTree = "<group>"; };
+		25608EE926660CBD00E3246C /* EditingProfileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileDataManager.swift; sourceTree = "<group>"; };
+		25608EEC26661DE100E3246C /* ChangePasswordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordInput.swift; sourceTree = "<group>"; };
+		25608EEE26661E1600E3246C /* ChangePasswordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordResponse.swift; sourceTree = "<group>"; };
+		25608EF12666213D00E3246C /* EditingProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileViewModel.swift; sourceTree = "<group>"; };
+		25608EF32666284B00E3246C /* EditingProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileResponse.swift; sourceTree = "<group>"; };
 		2568EEF326119F4800CD24B8 /* ByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailInput.swift; sourceTree = "<group>"; };
 		2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailResponse.swift; sourceTree = "<group>"; };
 		2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDDataManager.swift; sourceTree = "<group>"; };
@@ -789,6 +804,7 @@
 		C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotesModel.swift; sourceTree = "<group>"; };
 		C28BD58F2643C9F0006D1318 /* SearchAfterNotesAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAfterNotesAPIManager.swift; sourceTree = "<group>"; };
 		C28BD5932643CB45006D1318 /* SearchNotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotesViewModel.swift; sourceTree = "<group>"; };
+		C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlramRelationListViewController.swift; sourceTree = "<group>"; };
 		C293D93E2653BA1800A19D99 /* LoginGetProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGetProfile.swift; sourceTree = "<group>"; };
 		C293D9412653BABA00A19D99 /* LoginGetProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGetProfileManager.swift; sourceTree = "<group>"; };
 		C2A0808A26256D890014C3C0 /* UseLectureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseLectureCell.swift; sourceTree = "<group>"; };
@@ -940,6 +956,7 @@
 		25201D9A26042656001098AC /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				25608EDD2665FA3200E3246C /* EditingProfile */,
 				25201DA6260427BD001098AC /* Login */,
 				25201DA7260427C0001098AC /* Registration */,
 			);
@@ -1098,6 +1115,34 @@
 			path = OuttroController;
 			sourceTree = "<group>";
 		};
+		25608EDD2665FA3200E3246C /* EditingProfile */ = {
+			isa = PBXGroup;
+			children = (
+				25608EE22665FA5C00E3246C /* EditingProfileController.swift */,
+			);
+			path = EditingProfile;
+			sourceTree = "<group>";
+		};
+		25608EE426660CA200E3246C /* EditingProfile */ = {
+			isa = PBXGroup;
+			children = (
+				25608EE526660CAE00E3246C /* EditingProfileInput.swift */,
+				25608EE926660CBD00E3246C /* EditingProfileDataManager.swift */,
+				25608EEC26661DE100E3246C /* ChangePasswordInput.swift */,
+				25608EEE26661E1600E3246C /* ChangePasswordResponse.swift */,
+				25608EF32666284B00E3246C /* EditingProfileResponse.swift */,
+			);
+			path = EditingProfile;
+			sourceTree = "<group>";
+		};
+		25608EF02666213000E3246C /* Editing */ = {
+			isa = PBXGroup;
+			children = (
+				25608EF12666213D00E3246C /* EditingProfileViewModel.swift */,
+			);
+			path = Editing;
+			sourceTree = "<group>";
+		};
 		2568EEEC26119EDB00CD24B8 /* Finding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1167,6 +1212,7 @@
 		2568EF052611A24D00CD24B8 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				25608EF02666213000E3246C /* Editing */,
 				2574592D26143BE0007A2A5D /* FindingPwd */,
 				253135D32612C2D600B51348 /* FindingID */,
 				25BD761326159199002B266C /* LogInViewModel.swift */,
@@ -1498,6 +1544,7 @@
 		258B5E9A2609D81600F470B7 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				25608EE426660CA200E3246C /* EditingProfile */,
 				C26F040226527CE500CAE415 /* Video */,
 				C2A5B0092652424300D13DBC /* LectureTap */,
 				C23302762638F8A40058592E /* Search */,
@@ -2113,9 +2160,11 @@
 		6C4713D325F8B3A300D68A2B /* MyCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				C292A3782666249D00559C2E /* TimeSelect */,
 				6C4713B625F8534900D68A2B /* MyCalendarVC.swift */,
 				C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */,
 				C26E23892664911400156F8A /* ScheduleAddCell.swift */,
+				C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */,
 			);
 			path = MyCalendar;
 			sourceTree = "<group>";
@@ -2721,6 +2770,13 @@
 			path = Progress;
 			sourceTree = "<group>";
 		};
+		C292A3782666249D00559C2E /* TimeSelect */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TimeSelect;
+			sourceTree = "<group>";
+		};
 		C293D93D2653BA0300A19D99 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -3116,6 +3172,7 @@
 				6CF2E65F25F0AA45000FE084 /* KoreanEnglishMathVC.swift in Sources */,
 				C2A39E19264E599E0046290D /* VideoQnAModel.swift in Sources */,
 				C23302782638F8BD0058592E /* PopularAPIManager.swift in Sources */,
+				C292A3752665E59F00559C2E /* AlramRelationListViewController.swift in Sources */,
 				2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */,
 				259B8B9E260301B7009A7146 /* RecentKeywordCell.swift in Sources */,
 				25D976202616FF03000C2F4F /* UpperCell.swift in Sources */,
@@ -3144,6 +3201,7 @@
 				251836302640CFFD0035E887 /* PlainLabel.swift in Sources */,
 				6CB1FA9D265F9E7500027666 /* LoadingCell.swift in Sources */,
 				6CFA77CE262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift in Sources */,
+				25608EE32665FA5C00E3246C /* EditingProfileController.swift in Sources */,
 				2584E8A426082050000DFA20 /* RegistrationUserInfoVC.swift in Sources */,
 				C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */,
 				C207F5D126266CEC0020A965 /* LectureListModel.swift in Sources */,
@@ -3189,6 +3247,7 @@
 				25126D69261175F100009526 /* LoginDataManager.swift in Sources */,
 				25126D6C2611760600009526 /* LoginResponse.swift in Sources */,
 				C293D93F2653BA1800A19D99 /* LoginGetProfile.swift in Sources */,
+				25608EF22666213D00E3246C /* EditingProfileViewModel.swift in Sources */,
 				259B8C3426031C99009A7146 /* StoreVC.swift in Sources */,
 				6CC1F06E25FA0A3600A909B0 /* RecommendBannerCell.swift in Sources */,
 				258237452664831800CAE14B /* RatingReponse.swift in Sources */,
@@ -3295,6 +3354,7 @@
 				C2F2274A261EA02900559065 /* GradeListCell.swift in Sources */,
 				259B8B98260301B0009A7146 /* PopularKeywordCell.swift in Sources */,
 				6CC1F06825F9CD6A00A909B0 /* RecommendCRV.swift in Sources */,
+				25608EEA26660CBD00E3246C /* EditingProfileDataManager.swift in Sources */,
 				253B4EC9260AF033000B7DB9 /* RegistrationUserInfoViewModel.swift in Sources */,
 				2588F857260987690070C2FC /* FindingPwdVC.swift in Sources */,
 				6C47139A25F6192600D68A2B /* NoticeVC.swift in Sources */,
@@ -3341,6 +3401,7 @@
 				C2F22734261D500300559065 /* FilteringViewModel.swift in Sources */,
 				253B4ECD260B15DB000B7DB9 /* String.swift in Sources */,
 				2588F852260985C10070C2FC /* RegistrationResponse.swift in Sources */,
+				25608EEF26661E1600E3246C /* ChangePasswordResponse.swift in Sources */,
 				259B8C28260307A5009A7146 /* LectureCell.swift in Sources */,
 				252600902648E4FB00FEABE2 /* DetailScreenTabController.swift in Sources */,
 				25DACDA02637B8B0002D03BB /* TestSearchController.swift in Sources */,
@@ -3370,6 +3431,7 @@
 				259B8BE5260305B3009A7146 /* PopularKeywordVC.swift in Sources */,
 				6CC1F06B25F9EE9200A909B0 /* RecommendCVCell.swift in Sources */,
 				2580CF5D261A939D00D78E4E /* VideoController.swift in Sources */,
+				25608EED26661DE100E3246C /* ChangePasswordInput.swift in Sources */,
 				25BD761426159199002B266C /* LogInViewModel.swift in Sources */,
 				25BA75CC263686CE00C1F8A0 /* DetailVideoResponse.swift in Sources */,
 				6C9BEEBB265E163C00FFF655 /* EmptyTableViewCell.swift in Sources */,
@@ -3379,9 +3441,11 @@
 				6CB83C412601B54B007AED64 /* BookMarkTVC.swift in Sources */,
 				6CF2E66825F0AAB7000FE084 /* OtherSubjectsVC.swift in Sources */,
 				25273704265C8D91004C4476 /* LectureNoteController.swift in Sources */,
+				25608EE626660CAE00E3246C /* EditingProfileInput.swift in Sources */,
 				6CF2E66225F0AA53000FE084 /* ScienceVC.swift in Sources */,
 				2580CF57261A927900D78E4E /* VideoMenuBar.swift in Sources */,
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,
+				25608EF42666284B00E3246C /* EditingProfileResponse.swift in Sources */,
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
 				2580CF4B261A917700D78E4E /* BottomPlaylistCell.swift in Sources */,

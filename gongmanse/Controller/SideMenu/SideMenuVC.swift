@@ -237,9 +237,16 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         tableView.reloadData()
     }
     
-    func clickedRegistrationButton() {
-        let vc = RegistrationVC(nibName: "RegistrationVC", bundle: nil)
-        self.navigationController?.pushViewController(vc, animated: true)
+    func clickedRegistrationButton(isLogin: Bool) {
+        
+        if isLogin {
+            let vc = EditingProfileController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        } else {
+            let vc = RegistrationVC(nibName: "RegistrationVC", bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func clickedBuyingPassTicketButton() {
