@@ -350,6 +350,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        let vc = IntroController()
+        vc.delegate = self
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: false) {
+            self.player.pause()
+        }
+    }
+    
     override func viewDidLoad() {
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         super.viewDidLoad()
@@ -619,4 +628,13 @@ extension VideoController: SelectVideoPlayRateVCDelegate {
     }
     
     
+}
+
+
+// MARK: - IntroControllerDelegate
+
+extension VideoController: IntroControllerDelegate {
+    func playVideoEndedIntro() {
+        player.play()
+    }
 }
