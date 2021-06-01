@@ -7,6 +7,7 @@
 
 import UIKit
 
+// indexPath 0,1 Cell
 class ScheduleAddCell: UITableViewCell {
     
     static let identifier = "ScheduleAddCell"
@@ -55,6 +56,7 @@ class ScheduleAddCell: UITableViewCell {
     }
 }
 
+// indexPath 2 Cell
 class ScheduleAddTimerCell: UITableViewCell {
     
     static let identifier = "ScheduleAddTimerCell"
@@ -185,6 +187,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     }
 }
 
+// indexPath 3,4 Cell
 class ScheduleAddAlarmCell: UITableViewCell {
     
     static let identifier = "ScheduleAddAlarmCell"
@@ -192,13 +195,14 @@ class ScheduleAddAlarmCell: UITableViewCell {
     let alarmTextLabel: UILabel = {
         let label = UILabel()
         label.font = .appBoldFontWith(size: 16)
-
         return label
     }()
     
     let alarmSelectLabel: UILabel = {
         let label = UILabel()
         label.font = .appBoldFontWith(size: 16)
+        label.isUserInteractionEnabled = true
+        label.frame = CGRect(x: 0, y: 0, width: 70, height: 30)
         return label
     }()
     

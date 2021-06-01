@@ -371,6 +371,7 @@
 		C28BD58D2643C8A9006D1318 /* SearchNotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */; };
 		C28BD5902643C9F0006D1318 /* SearchAfterNotesAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD58F2643C9F0006D1318 /* SearchAfterNotesAPIManager.swift */; };
 		C28BD5942643CB45006D1318 /* SearchNotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28BD5932643CB45006D1318 /* SearchNotesViewModel.swift */; };
+		C292A3752665E59F00559C2E /* AlramRelationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */; };
 		C293D93F2653BA1800A19D99 /* LoginGetProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C293D93E2653BA1800A19D99 /* LoginGetProfile.swift */; };
 		C293D9422653BABA00A19D99 /* LoginGetProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C293D9412653BABA00A19D99 /* LoginGetProfileManager.swift */; };
 		C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0808A26256D890014C3C0 /* UseLectureCell.swift */; };
@@ -777,6 +778,7 @@
 		C28BD58C2643C8A9006D1318 /* SearchNotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotesModel.swift; sourceTree = "<group>"; };
 		C28BD58F2643C9F0006D1318 /* SearchAfterNotesAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAfterNotesAPIManager.swift; sourceTree = "<group>"; };
 		C28BD5932643CB45006D1318 /* SearchNotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotesViewModel.swift; sourceTree = "<group>"; };
+		C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlramRelationListViewController.swift; sourceTree = "<group>"; };
 		C293D93E2653BA1800A19D99 /* LoginGetProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGetProfile.swift; sourceTree = "<group>"; };
 		C293D9412653BABA00A19D99 /* LoginGetProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginGetProfileManager.swift; sourceTree = "<group>"; };
 		C2A0808A26256D890014C3C0 /* UseLectureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseLectureCell.swift; sourceTree = "<group>"; };
@@ -2085,6 +2087,7 @@
 				6C4713B625F8534900D68A2B /* MyCalendarVC.swift */,
 				C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */,
 				C26E23892664911400156F8A /* ScheduleAddCell.swift */,
+				C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */,
 			);
 			path = MyCalendar;
 			sourceTree = "<group>";
@@ -3080,6 +3083,7 @@
 				6CF2E65F25F0AA45000FE084 /* KoreanEnglishMathVC.swift in Sources */,
 				C2A39E19264E599E0046290D /* VideoQnAModel.swift in Sources */,
 				C23302782638F8BD0058592E /* PopularAPIManager.swift in Sources */,
+				C292A3752665E59F00559C2E /* AlramRelationListViewController.swift in Sources */,
 				2568EF0026119F7800CD24B8 /* ByPhoneResponse.swift in Sources */,
 				259B8B9E260301B7009A7146 /* RecentKeywordCell.swift in Sources */,
 				25D976202616FF03000C2F4F /* UpperCell.swift in Sources */,

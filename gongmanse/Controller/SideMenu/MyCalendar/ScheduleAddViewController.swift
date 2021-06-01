@@ -15,9 +15,19 @@ class ScheduleAddViewController: UIViewController {
     let tableView: UITableView = {
         let table = UITableView()
         table.separatorInset = .zero
+        table.isUserInteractionEnabled = true
         return table
     }()
     
+    let registerButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("등록하기", for: .normal)
+        button.titleLabel?.font = .appBoldFontWith(size: 17)
+        button.titleLabel?.textColor = .white
+        button.backgroundColor = .mainOrange
+        button.layer.cornerRadius = 15
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +37,12 @@ class ScheduleAddViewController: UIViewController {
 //        navigationConfigure()
         configuration()
         constraints()
+        
+        registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
+    }
+    
+    @objc func registerAlarm(_ sender: UIButton) {
+        print("A")
     }
 }
 
@@ -69,17 +85,44 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             
             return cell
             
-        case 3...4:
+        case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
             
             cell.alarmSelectLabel.text = "없음"
             cell.alarmTextLabel.text = titleText[indexPath.row]
+            cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                            action:               #selector(alarmList(_:))))
+            return cell
             
+        case 4:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+            
+            cell.alarmSelectLabel.text = "없음"
+            cell.alarmTextLabel.text = titleText[indexPath.row]
+            cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                            action:               #selector(repeatList(_:))))
             return cell
             
         default:
             return UITableViewCell()
         }
+    }
+    
+    @objc func alarmList(_ sender: UITapGestureRecognizer) {
+        let vc = AlramRelationListViewController()
+        vc.alramState = .Alram
+        self.present(vc, animated: true, completion: nil)
+
+    }
+    
+    @objc func repeatList(_ sender: UITapGestureRecognizer) {
+        let vc = AlramRelationListViewController()
+        vc.alramState = .Repeat
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -103,6 +146,7 @@ extension ScheduleAddViewController {
     func configuration() {
         
         view.addSubview(tableView)
+        view.addSubview(registerButton)
         
         tableView.register(ScheduleAddCell.self, forCellReuseIdentifier: ScheduleAddCell.identifier)
         tableView.register(ScheduleAddTimerCell.self, forCellReuseIdentifier: ScheduleAddTimerCell.identifier)
@@ -116,9 +160,15 @@ extension ScheduleAddViewController {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.size.height / 2).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
+        registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
+        registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true
+        registerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
     }
 }
