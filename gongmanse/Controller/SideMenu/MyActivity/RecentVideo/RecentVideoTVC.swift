@@ -22,7 +22,7 @@ class RecentVideoTVC: UITableViewController {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=1&offset&limit") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=4&offset&limit") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             

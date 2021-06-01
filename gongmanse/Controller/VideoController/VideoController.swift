@@ -13,7 +13,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
     
-    var currentVideoPlayRate = Float(1.0)
+    var currentVideoPlayRate = Float(1.0) {
+        didSet {
+            player.playImmediately(atRate: currentVideoPlayRate)
+        }
+    }
     var id: String?
     
     //추천
@@ -230,14 +234,22 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
-    var isClickedSubtitleToggleButton: Bool = false
+    var isClickedSubtitleToggleButton: Bool = true {
+        didSet {
+            if isClickedSubtitleToggleButton {
+                subtitleLabel.alpha = 1
+            } else {
+                subtitleLabel.alpha = 0
+            }
+        }
+    }
     
     let videoSettingButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(named: "동영상설정버튼")
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
-        button.alpha = 0 // BottomPopup 기능 임시 수정필요함. 0521 1차배포를위해
+        button.alpha = 1
         return button
     }()
     
@@ -318,7 +330,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// "lessonInfoView" 하단에 토글 기능을 담당할 UIButton
     let toggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(named: "infoButton") // 이미지사이즈 조절할것.
         button.tintColor = .white
         button.setBackgroundImage(image, for: .normal)
         button.backgroundColor = .mainOrange
@@ -337,6 +349,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     
     // MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let vc = IntroController()
+        vc.delegate = self
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: false) {
+            self.player.pause()
+        }
+    }
     
     override func viewDidLoad() {
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
@@ -553,12 +574,15 @@ extension VideoController {
 // MARK: - VideoSettingPopupControllerDelegate
 
 extension VideoController: VideoSettingPopupControllerDelegate {
+    
     func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
-        //
+        self.isClickedSubtitleToggleButton = subtitleIsOn
     }
 
     func presentSelectionVideoPlayRateVC() {
         let vc = SelectVideoPlayRateVC()
+        vc.currentVideoPlayRate = self.currentVideoPlayRate
+        vc.delegate = self
         present(vc, animated: true)
     }
 }
@@ -567,12 +591,14 @@ extension VideoController: VideoSettingPopupControllerDelegate {
 // MARK: - VideoFullScreenControllerDelegate
 
 extension VideoController: VideoFullScreenControllerDelegate {
-    
+    // 리팩토링하기 위해 작성했던 코드
     func addNotificaionObserver() {
         setNotification()
     }
 }
 
+
+// MARK: - BottomPlaylistCellDelegate
 
 extension VideoController: BottomPlaylistCellDelegate {
     
@@ -583,5 +609,26 @@ extension VideoController: BottomPlaylistCellDelegate {
         present(vc, animated: true) {
             self.player.pause()
         }
+    }
+}
+
+
+// MARK: - SelectVideoPlayRateVCDelegate
+
+extension VideoController: SelectVideoPlayRateVCDelegate {
+    // 재생속도를 컨트롤하기 위한 Delegation
+    func changeVideoPlayRateByBottomPopup(rate: Float) {
+        self.currentVideoPlayRate = rate
+    }
+    
+    
+}
+
+
+// MARK: - IntroControllerDelegate
+
+extension VideoController: IntroControllerDelegate {
+    func playVideoEndedIntro() {
+        player.play()
     }
 }
