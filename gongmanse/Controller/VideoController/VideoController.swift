@@ -330,7 +330,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// "lessonInfoView" 하단에 토글 기능을 담당할 UIButton
     let toggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(named: "infoButton") // 이미지사이즈 조절할것.
         button.tintColor = .white
         button.setBackgroundImage(image, for: .normal)
         button.backgroundColor = .mainOrange
