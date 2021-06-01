@@ -23,9 +23,9 @@ extension VideoController {
     /// 클릭 시, 설정 BottomPopupController 호출하는 메소드
     @objc func handleSettingButton() {
         let vc = VideoSettingPopupController()
-//        vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
+        vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
         print("DEBUG: VideoController에서 보내준 값 \(isClickedSubtitleToggleButton)")
-//        vc.currentStateIsSubtitleOn = isClickedSubtitleToggleButton
+        vc.currentStateSubtitle = isClickedSubtitleToggleButton
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -67,7 +67,7 @@ extension VideoController {
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
-        //        removePeriodicTimeObserver()
+        removePeriodicTimeObserver()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -423,7 +423,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
-//                self.videoSettingButton.alpha = 1
+                self.videoSettingButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
             }, completion: nil)
         }

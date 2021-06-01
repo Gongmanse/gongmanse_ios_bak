@@ -16,7 +16,7 @@ struct Constant {
 //    static let GONGMANSE_BASE_URL = ""
     
     static var userID: String = ""
-    static var token: String = "YjM4Y2RlYjQyMThlNGM0NjUyODVhNzhlMmVjODA5YWZjZWIxMGFhYzRlMTdkMGVjOWY2MmQxMzk5ZmE2OWVlNGZkZTc2ZWU0MzAwYTk1ZGI1MDQ3YWVjNjQ5MGU3OWY5NWU4ZThkNDhkNDFlNjdiYmFjNDRhMTQ5NzA5ZTM1MWY1aEYrZFk1amJLemljQmNYd0RYaC9GQmVmdCt6TlpyS3NTOStRQnRxbkJxaVRsZzYzOFdTRlNBU1d3VVMrb3dFMmpUNmtNNTFPaDBTZkR1ZDluaDJhQT09"
+    static var token: String = "OTM5MGMzZmI1NjhhYzdmYmFmZmFhYWJjNTMzZjY0MzU1YzU5ZmY3YWFiMjI1NTQ0YmZlMjVlNGQyMjRiZjYwNWMwMTEzYjQ5ZDUwZmIwYWJkODE2ODU0Y2M5ZTA1NjhkMWFjNTY2NmU0N2YxZmFhMWI2MjM1ZDNlMDcwOGE1M2ZwTUdwMlJ1dXczSE90WE80L0ZSM2w4VGtKNzZ3UnJpOHhwR2lpWXJ6bW9icnVTMWEyL3lYam5RMHFucDZGVWdkSDEwcUY5UEU5SFdPQjBrYndzVHQ5UT09"
     static var jwtToken: String = ""
     static var dtPremiumActivate: String = ""
     static var dtPremiumExpire: String = ""

@@ -19,6 +19,7 @@ class SelectVideoPlayRateVC: BottomPopupViewController {
     // MARK: - Properties
     
     weak var delegate: SelectVideoPlayRateVCDelegate?
+    var currentVideoPlayRate = Float()
     
     var tableView = UITableView()
     var topView = UIView()
@@ -183,6 +184,7 @@ extension SelectVideoPlayRateVC: UITableViewDelegate, UITableViewDataSource {
             rate = 1.0
         }
         
+        // VideoController에 선택한 재생속도 값을 넘긴다. (rate)
         self.dismiss(animated: true) {
             self.delegate?.changeVideoPlayRateByBottomPopup(rate: rate)
         }
