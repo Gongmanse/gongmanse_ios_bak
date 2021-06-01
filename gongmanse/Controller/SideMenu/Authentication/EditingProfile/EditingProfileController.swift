@@ -6,20 +6,22 @@
 //
 
 import UIKit
+import SDWebImage
 
 class EditingProfileController: UIViewController {
     
     // MARK: - Properties
+    var viewModel = EditingProfileViewModel()
     
     /// 프로필 이미지
-    let profileImage: UIImageView = {
+    let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = #imageLiteral(resourceName: "idOff")
         return imageView
     }()
     
-    let pictureImage: UIImageView = {
+    let pictureImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .bottomRight
         imageView.image = #imageLiteral(resourceName: "pictureEditButton")
@@ -31,6 +33,26 @@ class EditingProfileController: UIViewController {
         return view
     }()
     
+    // 아이디와 이름은 변경 불가능하게 하기 위한 View (반투명 검정View)
+    private let blockViewForID: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(0.15)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 5
+        view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
+        return view
+    }()
+    
+    private let blockViewForName: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(0.15)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 5
+        view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
+        return view
+    }()
+    
+
     private let idTextField = SloyTextField()
     private let passwordTextField = SloyTextField()
     private let confirmPasswordTextField = SloyTextField()
@@ -53,7 +75,9 @@ class EditingProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        networkingAPI()
         setupLayout()
+        configureNotificationObservers()
     }
     
     
@@ -65,17 +89,22 @@ class EditingProfileController: UIViewController {
         
         switch sender {
         case idTextField:
-            print("DEBUG: 123")
+            print("DEBUG: 아이디 텍스트필드는 클릭을 할 수 없습니다.")
         case passwordTextField:
-            print("DEBUG: 123")
+            viewModel.password = text
+
         case confirmPasswordTextField:
-            print("DEBUG: 123")
+            viewModel.confirmPassword = text
+            
         case nameTextField:
-            print("DEBUG: 123")
+            viewModel.username = text
+            
         case nicknameTextField:
-            print("DEBUG: 123")
+            viewModel.nickname = text
+            
         case emailTextField:
-            print("DEBUG: 123")
+            viewModel.email = text
+            
         default:
             print("DEBUG: default in switch Statement...")
         }
@@ -107,11 +136,30 @@ class EditingProfileController: UIViewController {
         
     }
     
+    @objc func tapBackButton() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     // MARK: - Heleprs
+    
+    func networkingAPI() {
+        
+        let inputData = EditingProfileInput(token: Constant.token)
+        EditingProfileDataManager().getProfileInfoFromAPI(inputData,
+                                                          viewController: self)
+    }
+    
     
     func setupLayout() {
         
         view.backgroundColor = .white
+        self.navigationItem.title = "프로필 편집"
+        let leftBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(tapBackButton))
+        
+        self.navigationItem.leftBarButtonItem = leftBarButton
         
         // 크기 비율
         let verticalPadding = view.frame.height * 0.077
@@ -128,7 +176,6 @@ class EditingProfileController: UIViewController {
         let nicknameLeftView = addLeftView(image: #imageLiteral(resourceName: "nicknameOn"))
         let emailLeftView = addLeftView(image: #imageLiteral(resourceName: "emailOn"))
     
-        
         // 오토레이아웃 적용
         view.addSubview(profileImageContainerView)
         profileImageContainerView.backgroundColor = .clear
@@ -138,19 +185,19 @@ class EditingProfileController: UIViewController {
         profileImageContainerView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                          paddingTop: viewWidth * 0.11)
         
-        profileImageContainerView.addSubview(profileImage)
-        profileImage.addShadow()
-        profileImage.setDimensions(height: profileImageConstant,
+        profileImageContainerView.addSubview(profileImageView)
+        profileImageView.addShadow()
+        profileImageView.setDimensions(height: profileImageConstant,
                                    width: profileImageConstant)
-        profileImage.layer.cornerRadius = profileImageConstant * 0.5
-        profileImage.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
-        profileImage.centerX(inView: profileImageContainerView)
-        profileImage.centerY(inView: profileImageContainerView)
+        profileImageView.layer.cornerRadius = profileImageConstant * 0.5
+        profileImageView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
+        profileImageView.centerX(inView: profileImageContainerView)
+        profileImageView.centerY(inView: profileImageContainerView)
         
-        profileImageContainerView.addSubview(pictureImage)
-        pictureImage.setDimensions(height: 50,
+        profileImageContainerView.addSubview(pictureImageView)
+        pictureImageView.setDimensions(height: 50,
                                    width: 50)
-        pictureImage.anchor(bottom: profileImageContainerView.bottomAnchor,
+        pictureImageView.anchor(bottom: profileImageContainerView.bottomAnchor,
                             right: profileImageContainerView.rightAnchor,
                             paddingBottom: -15,
                             paddingRight: -15)
@@ -161,6 +208,12 @@ class EditingProfileController: UIViewController {
         idTextField.centerX(inView: view)
         idTextField.anchor(top: profileImageContainerView.topAnchor,
                              paddingTop: verticalPadding + 30)
+        
+        view.addSubview(blockViewForID)
+        blockViewForID.anchor(top: idTextField.topAnchor,
+                              left: idTextField.leftAnchor,
+                              bottom: idTextField.bottomAnchor,
+                              right: idTextField.rightAnchor)
         
         view.addSubview(passwordTextField)
         setupTextField(passwordTextField, placehoder: "비밀번호", leftView: passwordLeftView)
@@ -183,6 +236,12 @@ class EditingProfileController: UIViewController {
         nameTextField.anchor(top: confirmPasswordTextField.topAnchor,
                              paddingTop: verticalPadding)
         
+        view.addSubview(blockViewForName)
+        blockViewForName.anchor(top: nameTextField.topAnchor,
+                                left: nameTextField.leftAnchor,
+                                bottom: nameTextField.bottomAnchor,
+                                right: nameTextField.rightAnchor)
+        
         view.addSubview(nicknameTextField)
         setupTextField(nicknameTextField, placehoder: "닉네임", leftView: nicknameLeftView)
         nicknameTextField.setDimensions(height: tfHeight, width: tfWidth)
@@ -204,6 +263,56 @@ class EditingProfileController: UIViewController {
         completeButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
                               paddingBottom: 20)
         completeButton.addTarget(self, action: #selector(handleComplete), for: .touchUpInside)
+
     }
     
 }
+
+
+// MARK: - API
+
+extension EditingProfileController {
+    
+    // TODO: 비밀번호 변경
+    // TODO: 닉네임 및 이메일 변경 ( 같은 API에서 한번에 변경하고 있음)
+    // TODO: 프로필 사진 변경 -> MultiformData 이용해서 실제 이미지 파일을 넣어야함.
+    
+    private func getImageFromURL(url: String) -> UIImage{
+        
+        var resultImage = UIImage()
+        
+        if let url = URL(string: url) {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async {
+                    resultImage = UIImage(data: data)!
+                }
+            }
+            task.resume()
+        }
+        return resultImage
+    }
+    
+    func didSuccessNetworing(response: EditingProfileResponse) {
+        
+        let receivedData = response
+        let id = receivedData.sUsername
+        let name = receivedData.sFirstName
+        let nickname = receivedData.sNickname
+        let email = receivedData.sEmail
+        let profileImageURL = "https://file.gongmanse.com/" + receivedData.sImage
+        profileImageView.sd_setImage(with: URL(string: profileImageURL), completed: nil)
+        idTextField.text = id
+        nameTextField.text = name
+        nicknameTextField.text = nickname
+        emailTextField.text = email
+    }
+    
+    
+    func didSuccessChangePassword(response: ChangePasswordResponse) {
+        print("DEBUG: 비밀번호 변경되면 이 메소드를 호출합니다. ", #function)
+    }
+    
+}
+
+
