@@ -19,6 +19,18 @@ class EditingProfileController: UIViewController {
         return imageView
     }()
     
+    let pictureImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .bottomRight
+        imageView.image = #imageLiteral(resourceName: "pictureEditButton")
+        return imageView
+    }()
+    
+    let profileImageContainerView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private let idTextField = SloyTextField()
     private let passwordTextField = SloyTextField()
     private let confirmPasswordTextField = SloyTextField()
@@ -110,29 +122,44 @@ class EditingProfileController: UIViewController {
         
         // leftView - 추후에 각각의 텍스트 필드에 맞는 이미지로 변경할 것.
         let idleftView = addLeftView(image: #imageLiteral(resourceName: "idOn"))
-        let passwordLeftView = addLeftView(image: #imageLiteral(resourceName: "idOn"))
-        let confirmPasswordLeftView = addLeftView(image: #imageLiteral(resourceName: "idOn"))
+        let passwordLeftView = addLeftView(image: #imageLiteral(resourceName: "passwordOn"))
+        let confirmPasswordLeftView = addLeftView(image: #imageLiteral(resourceName: "passwordOn"))
         let nameleftView = addLeftView(image: #imageLiteral(resourceName: "nameOn"))
-        let nicknameLeftView = addLeftView(image: #imageLiteral(resourceName: "idOn"))
-        let emailLeftView = addLeftView(image: #imageLiteral(resourceName: "idOn"))
+        let nicknameLeftView = addLeftView(image: #imageLiteral(resourceName: "nicknameOn"))
+        let emailLeftView = addLeftView(image: #imageLiteral(resourceName: "emailOn"))
     
         
         // 오토레이아웃 적용
-        view.addSubview(profileImage)
+        view.addSubview(profileImageContainerView)
+        profileImageContainerView.backgroundColor = .clear
+        profileImageContainerView.setDimensions(height: profileImageConstant,
+                                                width: profileImageConstant)
+        profileImageContainerView.centerX(inView: view)
+        profileImageContainerView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                         paddingTop: viewWidth * 0.11)
+        
+        profileImageContainerView.addSubview(profileImage)
         profileImage.addShadow()
         profileImage.setDimensions(height: profileImageConstant,
                                    width: profileImageConstant)
         profileImage.layer.cornerRadius = profileImageConstant * 0.5
         profileImage.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
-        profileImage.centerX(inView: view)
-        profileImage.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                            paddingTop: viewWidth * 0.11)
+        profileImage.centerX(inView: profileImageContainerView)
+        profileImage.centerY(inView: profileImageContainerView)
+        
+        profileImageContainerView.addSubview(pictureImage)
+        pictureImage.setDimensions(height: 50,
+                                   width: 50)
+        pictureImage.anchor(bottom: profileImageContainerView.bottomAnchor,
+                            right: profileImageContainerView.rightAnchor,
+                            paddingBottom: -15,
+                            paddingRight: -15)
         
         view.addSubview(idTextField)
         setupTextField(idTextField, placehoder: "아이디", leftView: idleftView)
         idTextField.setDimensions(height: tfHeight, width: tfWidth)
         idTextField.centerX(inView: view)
-        idTextField.anchor(top: profileImage.topAnchor,
+        idTextField.anchor(top: profileImageContainerView.topAnchor,
                              paddingTop: verticalPadding + 30)
         
         view.addSubview(passwordTextField)
