@@ -19,7 +19,7 @@ class VideoSettingPopupController: BottomPopupViewController {
     
     weak var delegate: VideoSettingPopupControllerDelegate?
     var currentStateSubtitle = true
-    
+    var currentStateIsVideoPlayRate = String()
     
     var tableView = UITableView()
     var topView = UIView()
@@ -163,6 +163,7 @@ extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSourc
             let cell = tableView
                 .dequeueReusableCell(withIdentifier: VideoPlayRateCell.reusableIdentifier,
                                      for: indexPath) as! VideoPlayRateCell
+            cell.stateText = self.currentStateIsVideoPlayRate
             return cell
         }
     }
