@@ -267,17 +267,29 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
 extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
-            vc.id = videoID
-            let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
-            vc.koreanSeriesId = seriesID
-            vc.koreanSwitchValue = playSwitch
-            vc.koreanReceiveData = koreanEnglishMathVideo
-            vc.koreanSelectedBtn = selectBtn
-            vc.koreanViewTitle = viewTitle.text
-            present(vc, animated: true)
+            
+            if self.selectedItem == 0 {
+                let vc = VideoController()
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
+                vc.koreanSeriesId = seriesID
+                vc.koreanSwitchValue = playSwitch
+                vc.koreanReceiveData = koreanEnglishMathVideo
+                vc.koreanSelectedBtn = selectBtn
+                vc.koreanViewTitle = viewTitle.text
+                present(vc, animated: true)
+                
+            } else if self.selectedItem == 3 {
+                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            }
+
+            
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

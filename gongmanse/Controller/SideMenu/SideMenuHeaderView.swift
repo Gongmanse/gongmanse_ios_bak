@@ -42,7 +42,7 @@ class SideMenuHeaderView: UIView {
     /// 프로필 이미지
     public var profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         imageView.image = #imageLiteral(resourceName: "idOff")
         return imageView
     }()
@@ -207,6 +207,7 @@ class SideMenuHeaderView: UIView {
         let viewWidth = self.frame.width
         
         profileImageView.addShadow()
+        profileImageView.clipsToBounds = true
         profileImageView.setDimensions(height: profileImageConstant,
                                    width: profileImageConstant)
         profileImageView.layer.cornerRadius = profileImageConstant * 0.5
@@ -275,13 +276,18 @@ class SideMenuHeaderView: UIView {
         if viewModel.isLogin {
             
             nickName.text = viewModel.userID
-            
+            let profileImageConstant = Constant.width * 0.115
+
             if let imageURL = viewModel.profileImageURL {
-                profileImageView.sd_setImage(with: URL(string: "https://file.gongmanse.com/"+imageURL)!,
-                                         completed: nil)
+                profileImageView.sd_setImage(with: URL(string: "https://file.gongmanse.com/"+imageURL)!) { image, Error, SDImageCacheType, URL in
+                    self.profileImageView.addShadow()
+                    self.profileImageView.image = image
+                    self.profileImageView.clipsToBounds = true
+                    self.profileImageView.layer.masksToBounds = true
+                }
             }
-            profileImageView.addShadow()
-            
+            self.profileImageView.layer.cornerRadius = profileImageConstant
+
             loginBtn.setTitle("로그아웃", for: .normal)
 //            loginBtn.centerX(inView: self)
             loginBtn.updateConstraints()
