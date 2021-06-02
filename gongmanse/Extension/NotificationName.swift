@@ -28,6 +28,10 @@ extension Notification.Name {
     
     // 인기검색어 선택 시 검색전 서치바 text표시
     static let searchBeforeSearchBarText = Notification.Name(NotificationKey.searchBeforeText)
+    
+    // 일정등록 알림, 반복 선택 시
+    static let calendarAlarmList = Notification.Name(NotificationKey.calendarAlarmListKey)
+    static let calendarRepeatList = Notification.Name(NotificationKey.calendarRepeatListKey)
 }
 
 struct NotificationKey {
@@ -48,4 +52,8 @@ struct NotificationKey {
     
     // 인기검색어 선택 시 검색전 서치바 text표시
     static let searchBeforeText = "searchBarText"
+    
+    // 일정등록 알림
+    static let calendarAlarmListKey = "alarmList"
+    static let calendarRepeatListKey = "repeatList"
 }
