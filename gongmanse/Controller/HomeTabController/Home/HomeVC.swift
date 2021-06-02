@@ -22,10 +22,6 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let vc = LessonNoteController(id: "15188", token: Constant.token)
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
-        
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
 

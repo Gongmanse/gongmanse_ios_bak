@@ -12,7 +12,7 @@ import Alamofire
 class LessonNoteController: UIViewController {
     
     // MARK: - Properties
-    // MARK: 데이터
+    // MARK: Data
     private let id: String?
     private let token: String?
     private var url: String?
@@ -194,10 +194,11 @@ class LessonNoteController: UIViewController {
             self.writingImplementLeftConstraint?.constant = -(width * 0.8)
             self.writingImplementToggleButton.setImage(.none, for: .normal)
             self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
-            self.savingNoteButton.alpha = 0
-            self.previousButton.alpha = 1
-            self.nextButton.alpha = 1
+
             UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
+                self.savingNoteButton.alpha = 0
+                self.previousButton.alpha = 1
+                self.nextButton.alpha = 1
                 self.view.layoutIfNeeded()
             } completion: { _ in
                 //
@@ -209,10 +210,10 @@ class LessonNoteController: UIViewController {
             self.writingImplementToggleButton.setTitle("", for: .normal)
             self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
 
-            self.savingNoteButton.alpha = 1
-            self.previousButton.alpha = 0
-            self.nextButton.alpha = 0
             UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
+                self.savingNoteButton.alpha = 1
+                self.previousButton.alpha = 0
+                self.nextButton.alpha = 0
                 self.view.layoutIfNeeded()
             } completion: { _ in
                 //
@@ -242,6 +243,10 @@ class LessonNoteController: UIViewController {
         DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
     }
     
+    @objc func tapBackbutton() {
+//        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
+    }
     
     // MARK: - Heleprs
     
@@ -262,6 +267,9 @@ class LessonNoteController: UIViewController {
         canvas.delegate = self // canvas position 데이터 전달받기 위한 델리게이션
         setupScrollView()
         setupWritingImplement()
+        
+        let naviBackButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"), style: .plain, target: self, action: #selector(tapBackbutton))
+        navigationItem.leftBarButtonItem = naviBackButton
     }
     
     private func setupScrollView() {

@@ -169,7 +169,6 @@ class SideMenuVC: UITableViewController {
                            height: Int(headerViewHeight))
         let headerView = SideMenuHeaderView(frame: frame)
         headerView.viewModel = viewModel
-        
         // "headerView"에서 UIController을 대신해주기 위해 delegate를 설정한다.
         headerView.sideMenuHeaderViewDelegate = self
         headerView.passTicketContainerView.isHidden = viewModel.isLogin ? false : true
@@ -287,7 +286,7 @@ extension SideMenuVC {
         
         self.viewModel.name = response.sUsername
 
-        self.viewModel.userID = response.sUsername
+        self.viewModel.userID = response.sNickname
      
         tableView.reloadData()
     }
