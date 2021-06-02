@@ -48,7 +48,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=4") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -109,7 +109,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         
         if value.totalNum == "0" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
-            cell.emptyLabel.text = "질문 목록이 없습니다."
+            cell.emptyLabel.text = "상담 목록이 없습니다."
             return cell
             
         } else {

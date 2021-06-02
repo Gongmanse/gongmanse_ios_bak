@@ -13,6 +13,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var lectureQnA: FilterVideoModels?
+    private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
         didSet {
@@ -33,6 +34,9 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
 
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
+        
+        //xib 셀 등록
+        tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
         
         NotificationCenter.default.addObserver(self, selector: #selector(lectureQuestionsFilterNoti(_:)), name: NSNotification.Name("lectureQuestionsFilterText"), object: nil)
     }
@@ -89,51 +93,78 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let data = self.lectureQnA?.data else { return 0}
-        return data.count
+        guard let value = self.lectureQnA else { return 0 }
+        if value.totalNum == "0" {
+            return 1
+        } else {
+            guard let data = self.lectureQnA?.data else { return 0}
+            return data.count
+        }
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LectureQuestionsTVCell") as! LectureQuestionsTVCell
         
-        guard let json = self.lectureQnA else { return cell }
+        guard let value = self.lectureQnA else { return UITableViewCell() }
         
-        let indexData = json.data[indexPath.row]
-        let defaultURL = fileBaseURL
-        guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
-        let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
-        
-        cell.videoThumbnail.contentMode = .scaleAspectFill
-        cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
-        cell.upLoadDate.text = indexData.dtDateCreated
-        cell.subjects.text = indexData.sSubject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
-        
-        if indexData.sUnit == "" {
-            cell.term.isHidden = true
-        } else if indexData.sUnit == "1" {
-            cell.term.isHidden = false
-            cell.term.text = "i"
-        } else if indexData.sUnit == "2" {
-            cell.term.isHidden = false
-            cell.term.text = "ii"
+        if value.totalNum == "0" {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
+            cell.emptyLabel.text = "질문 목록이 없습니다."
+            return cell
+            
         } else {
-            cell.term.isHidden = false
-            cell.term.text = indexData.sUnit
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LectureQuestionsTVCell") as! LectureQuestionsTVCell
+            
+            guard let json = self.lectureQnA else { return cell }
+            
+            let indexData = json.data[indexPath.row]
+            let defaultURL = fileBaseURL
+            guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
+            let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.sTitle
+            cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
+            cell.upLoadDate.text = indexData.dtDateCreated
+            cell.subjects.text = indexData.sSubject
+            cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
+            
+            if indexData.sUnit == "" {
+                cell.term.isHidden = true
+            } else if indexData.sUnit == "1" {
+                cell.term.isHidden = false
+                cell.term.text = "i"
+            } else if indexData.sUnit == "2" {
+                cell.term.isHidden = false
+                cell.term.text = "ii"
+            } else {
+                cell.term.isHidden = false
+                cell.term.text = indexData.sUnit
+            }
+            
+            if indexData.iAnswer == "1" {
+                cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+                cell.answerStatus.text = "답변 완료 >"
+            } else {
+                cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+                cell.answerStatus.text = "대기중 >"
+            }
+            
+            return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let value = self.lectureQnA else { return 0 }
         
-        if indexData.iAnswer == "1" {
-            cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
-            cell.answerStatus.text = "답변 완료 >"
+        if value.totalNum == "0" {
+            return tableView.frame.height
         } else {
-            cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
-            cell.answerStatus.text = "대기중 >"
+            return 80
         }
-        
-        return cell
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제

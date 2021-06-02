@@ -13,6 +13,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var noteList: FilterVideoModels?
+    private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
         didSet {
@@ -33,6 +34,9 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         tableView.tableFooterView = UIView()
         
         getDataFromJson()
+        
+        //xib 셀 등록
+        tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
         
         NotificationCenter.default.addObserver(self, selector: #selector(noteListFilterNoti(_:)), name: NSNotification.Name("noteListFilterText"), object: nil)
     }
@@ -90,29 +94,56 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let data = self.noteList?.data else { return 0}
-        return data.count
+        guard let value = self.noteList else { return 0 }
+        if value.totalNum == "0" {
+            return 1
+        } else {
+            guard let data = self.noteList?.data else { return 0}
+            return data.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTVCell") as! NoteListTVCell
         
-        guard let json = self.noteList else { return cell }
+        guard let value = self.noteList else { return UITableViewCell() }
         
-        let indexData = json.data[indexPath.row]
-        let defaultURL = fileBaseURL
-        guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
-        let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
+        if value.totalNum == "0" {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
+            cell.emptyLabel.text = "질문 목록이 없습니다."
+            return cell
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTVCell") as! NoteListTVCell
+            
+            guard let json = self.noteList else { return cell }
+            
+            let indexData = json.data[indexPath.row]
+            let defaultURL = fileBaseURL
+            guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
+            let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.sTitle
+            cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
+            cell.upLoadDate.text = indexData.dtTimestamp
+            cell.subjects.text = indexData.sSubject
+            cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
+            
+            return cell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let value = self.noteList else { return 0 }
         
-        cell.videoThumbnail.contentMode = .scaleAspectFill
-        cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
-        cell.upLoadDate.text = indexData.dtTimestamp
-        cell.subjects.text = indexData.sSubject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
-        
-        return cell
+        if value.totalNum == "0" {
+            return tableView.frame.height
+        } else {
+            return 80
+        }
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제

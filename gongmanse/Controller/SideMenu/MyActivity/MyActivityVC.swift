@@ -9,6 +9,7 @@ class MyActivityVC: UIViewController {
     var noteListSortedIndex: Int = 0
     var lectureQuestionsSortedIndex: Int = 0
     var expertConsultSortedIndex: Int = 0
+    var bookMarkSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
 
@@ -127,6 +128,8 @@ class MyActivityVC: UIViewController {
             return contentVC
         } else if index == 4 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "BookMarkTVC") as! BookMarkTVC
+            contentVC.delegate = self
+            contentVC.sortedId = bookMarkSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else {
@@ -223,7 +226,7 @@ extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDele
     }
 }
 
-extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate, LectureQuestionsTVCDelegate, ExpertConsultTVCDelegate {
+extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate, LectureQuestionsTVCDelegate, ExpertConsultTVCDelegate, BookMarkTVCDelegate {
     func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int) {
         self.recentVideoSortedIndex = recentVideoSortedIndex
     }
@@ -238,5 +241,9 @@ extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate, LectureQuest
     
     func expertConsultPassSortedIdSettingValue(_ expertConsultSortedIndex: Int) {
         self.expertConsultSortedIndex = expertConsultSortedIndex
+    }
+    
+    func bookMarkPassSortedIdSettingValue(_ bookMarkSortedIndex: Int) {
+        self.bookMarkSortedIndex = bookMarkSortedIndex
     }
 }

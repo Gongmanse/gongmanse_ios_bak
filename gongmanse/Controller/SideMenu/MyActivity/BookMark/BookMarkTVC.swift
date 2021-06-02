@@ -1,6 +1,11 @@
 import UIKit
+import BottomPopup
 
-class BookMarkTVC: UITableViewController {
+protocol BookMarkTVCDelegate: AnyObject {
+    func bookMarkPassSortedIdSettingValue(_ bookMarkSortedIndex: Int)
+}
+
+class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
@@ -9,6 +14,19 @@ class BookMarkTVC: UITableViewController {
     
     var pageIndex: Int!
     var bookMark: FilterVideoModels?
+    private let emptyCellIdentifier = "EmptyTableViewCell"
+    
+    var sortedId: Int? {
+        didSet {
+            getDataFromJson()
+        }
+    }
+    
+    var delegate: BookMarkTVCDelegate?
+    
+    var height: CGFloat = 240
+    var presentDuration: Double = 0.2
+    var dismissDuration: Double = 0.5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,12 +36,22 @@ class BookMarkTVC: UITableViewController {
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
         
+        //xib 셀 등록
+        tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
+        
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(bookMarkFilterNoti(_:)), name: NSNotification.Name("bookMarkFilterText"), object: nil)
+    }
+    
+    @objc func bookMarkFilterNoti(_ sender: NotificationCenter) {
+        let filterButtonTitle = UserDefaults.standard.object(forKey: "bookMarkFilterText")
+        filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=20&sort_id=4") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -56,48 +84,103 @@ class BookMarkTVC: UITableViewController {
         
         self.countAll.attributedText = attributedString
     }
+    
+    @IBAction func alignment(_ sender: Any) {
+        let popupVC = self.storyboard?.instantiateViewController(identifier: "BookMarkBottomPopUpVC") as! BookMarkBottomPopUpVC
+        popupVC.height = height
+        popupVC.presentDuration = presentDuration
+        popupVC.dismissDuration = dismissDuration
+        popupVC.popupDelegate = self
+        popupVC.delegate = self
+        popupVC.sortedItem = self.sortedId
+        present(popupVC, animated: true)
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let data = self.bookMark?.data else { return 0}
-        return data.count
+        guard let value = self.bookMark else { return 0 }
+        if value.totalNum == "0" {
+            return 1
+        } else {
+            guard let data = self.bookMark?.data else { return 0}
+            return data.count
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BookMarkTVCell") as! BookMarkTVCell
         
-        guard let json = self.bookMark else { return cell }
+        guard let value = self.bookMark else { return UITableViewCell() }
         
-        let indexData = json.data[indexPath.row]
-        let defaultURL = fileBaseURL
-        guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
-        let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
-        
-        cell.videoThumbnail.contentMode = .scaleAspectFill
-        cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.sTitle
-        cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
-        cell.starRating.text = indexData.iRating
-        cell.subjects.text = indexData.sSubject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
-        
-        if indexData.sUnit == "" {
-            cell.term.isHidden = true
-        } else if indexData.sUnit == "1" {
-            cell.term.isHidden = false
-            cell.term.text = "i"
-        } else if indexData.sUnit == "2" {
-            cell.term.isHidden = false
-            cell.term.text = "ii"
+        if value.totalNum == "0" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
+            cell.emptyLabel.text = "질문 목록이 없습니다."
+            return cell
+            
         } else {
-            cell.term.isHidden = false
-            cell.term.text = indexData.sUnit
-        }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BookMarkTVCell") as! BookMarkTVCell
+            
+            guard let json = self.bookMark else { return cell }
+            
+            let indexData = json.data[indexPath.row]
+            let defaultURL = fileBaseURL
+            guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
+            let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.sTitle
+            cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
+            cell.starRating.text = indexData.iRating
+            cell.subjects.text = indexData.sSubject
+            cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
+            
+            if indexData.sUnit == "" {
+                cell.term.isHidden = true
+            } else if indexData.sUnit == "1" {
+                cell.term.isHidden = false
+                cell.term.text = "i"
+            } else if indexData.sUnit == "2" {
+                cell.term.isHidden = false
+                cell.term.text = "ii"
+            } else {
+                cell.term.isHidden = false
+                cell.term.text = indexData.sUnit
+            }
 
-        return cell
+            return cell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let value = self.bookMark else { return 0 }
+        
+        if value.totalNum == "0" {
+            return tableView.frame.height
+        } else {
+            return 80
+        }
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension BookMarkTVC: BookMarkBottomPopUpVCDelegate {
+    func bookMarkPassSortedIdRow(_ bookMarkSortedIdRowIndex: Int) {
+        
+        if bookMarkSortedIdRowIndex == 0 {          // 1 번째 Cell
+            self.sortedId = 0
+        } else if bookMarkSortedIdRowIndex == 1 {   // 2 번째 Cell
+            self.sortedId = 1
+        } else if bookMarkSortedIdRowIndex == 2 {   // 3 번째 Cell
+            self.sortedId = 2
+        } else {                            // 4 번째 Cell
+            self.sortedId = 3
+        }
+        
+        self.delegate?.bookMarkPassSortedIdSettingValue(bookMarkSortedIdRowIndex)
+        self.tableView.reloadData()
     }
 }
