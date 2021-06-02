@@ -1,4 +1,6 @@
 import UIKit
+import SDWebImage
+
 
 class SideMenuVC: UITableViewController {
     
@@ -11,7 +13,9 @@ class SideMenuVC: UITableViewController {
     
     ///목록 데이터 배열
     let titles = ["나의 활동", "나의 일정", "공만세란?", "공지사항", "고객센터", "설정"]
-    //let titles = ["공만세란?", "공지사항", "고객센터", "설정"]
+    
+    var profileImageURL: String?
+    var userID: String?
     
     ///아이콘 데이터 배열
     let icons = [
@@ -36,6 +40,7 @@ class SideMenuVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        networingAPIForGetProfileInfo()
         profileVM.reloadDelegate = self
         profileVM.requestProfileApi(Constant.token)
     }
@@ -62,7 +67,11 @@ class SideMenuVC: UITableViewController {
         tableView.tableFooterView = UIView()
     }
     
-    
+    func networingAPIForGetProfileInfo() {
+        
+        let inputData = EditingProfileInput(token: Constant.token)
+        EditingProfileDataManager().getProfileInfoFromAPIAtSideMenu(inputData, viewController: self)
+    }
     
     
     // MARK: - Table view data source
@@ -160,6 +169,7 @@ class SideMenuVC: UITableViewController {
                            height: Int(headerViewHeight))
         let headerView = SideMenuHeaderView(frame: frame)
         headerView.viewModel = viewModel
+        
         // "headerView"에서 UIController을 대신해주기 위해 delegate를 설정한다.
         headerView.sideMenuHeaderViewDelegate = self
         headerView.passTicketContainerView.isHidden = viewModel.isLogin ? false : true
@@ -261,5 +271,24 @@ extension SideMenuVC: TableReloadData {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+// MARK: - API
+
+extension SideMenuVC {
+    
+    // "01010. 프로필 정보 조회" API에서 프로필 이미지와 사용자 이름데이터를 가져온다.
+    func didSuccessNetworing(response: EditingProfileResponse) {
+        
+        if let profileImageURL = response.sImage {
+            self.viewModel.profileImageURL = profileImageURL
+        }
+        
+        self.viewModel.name = response.sUsername
+
+        self.viewModel.userID = response.sUsername
+     
+        tableView.reloadData()
     }
 }

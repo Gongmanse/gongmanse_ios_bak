@@ -1,6 +1,6 @@
 import UIKit
 
-class RecentVideoBottomPopUpCell: UITableViewCell {
+class NoteListBottomPopUpCell: UITableViewCell {
 
     @IBOutlet weak var selectTitle: UILabel!
     @IBOutlet weak var checkImage: UIImageView!

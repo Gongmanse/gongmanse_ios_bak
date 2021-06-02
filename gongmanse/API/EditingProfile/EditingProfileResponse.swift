@@ -12,10 +12,10 @@ struct EditingProfileResponse: Decodable {
     
     let sNickname: String
     let sFirstName: String
-    let sImage: String
+    let sImage: String?
     let sEmail: String
     let eType: String
     let sUsername: String
-    let dtPremiumActivate: String
-    let dtPremiumExpire: String
+    let dtPremiumActivate: String?
+    let dtPremiumExpire: String?
 }

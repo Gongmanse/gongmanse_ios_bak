@@ -1,6 +1,6 @@
 import UIKit
 
-class RecentVideoBottomPopUpCell: UITableViewCell {
+class LectureQuestionsBottomPopUpCell: UITableViewCell {
 
     @IBOutlet weak var selectTitle: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
@@ -15,5 +15,4 @@ class RecentVideoBottomPopUpCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

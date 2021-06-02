@@ -6,6 +6,9 @@ class MyActivityVC: UIViewController {
     
     var currentIndex: Int = 0
     var recentVideoSortedIndex: Int = 0
+    var noteListSortedIndex: Int = 0
+    var lectureQuestionsSortedIndex: Int = 0
+    var expertConsultSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
 
@@ -106,14 +109,20 @@ class MyActivityVC: UIViewController {
             return contentVC
         } else if index == 1 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "NoteListTVC") as! NoteListTVC
+            contentVC.delegate = self
+            contentVC.sortedId = noteListSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 2 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "LectureQuestionsTVC") as! LectureQuestionsTVC
+            contentVC.delegate = self
+            contentVC.sortedId = lectureQuestionsSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 3 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "ExpertConsultTVC") as! ExpertConsultTVC
+            contentVC.delegate = self
+            contentVC.sortedId = expertConsultSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 4 {
@@ -214,10 +223,20 @@ extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDele
     }
 }
 
-extension MyActivityVC: RecentVideoVCDelegate {
-    func recentVideoPassSortedIdSettingValue(_ recentVideosortedIndex: Int) {
-        self.recentVideoSortedIndex = recentVideosortedIndex
+extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate, LectureQuestionsTVCDelegate, ExpertConsultTVCDelegate {
+    func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int) {
+        self.recentVideoSortedIndex = recentVideoSortedIndex
     }
     
+    func noteListPassSortedIdSettingValue(_ noteListSortedIndex: Int) {
+        self.noteListSortedIndex = noteListSortedIndex
+    }
     
+    func lectureQuestionsPassSortedIdSettingValue(_ lectureQuestionsSortedIndex: Int) {
+        self.lectureQuestionsSortedIndex = lectureQuestionsSortedIndex
+    }
+    
+    func expertConsultPassSortedIdSettingValue(_ expertConsultSortedIndex: Int) {
+        self.expertConsultSortedIndex = expertConsultSortedIndex
+    }
 }

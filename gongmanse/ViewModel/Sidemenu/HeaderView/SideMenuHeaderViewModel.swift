@@ -12,6 +12,7 @@ class SideMenuHeaderViewModel {
     var name: String = ""
     var userID: String = ""
     var profileImage: UIImage = #imageLiteral(resourceName: "idOff")
+    var profileImageURL: String?
     var passTicketDate = "0"
     var token = ""
     var headerViewHeight: CGFloat?

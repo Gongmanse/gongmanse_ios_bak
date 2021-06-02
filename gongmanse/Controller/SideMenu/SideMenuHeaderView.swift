@@ -6,15 +6,15 @@
 //
 
 import UIKit
-
+import SDWebImage
 
 protocol SideMenuHeaderViewDelegate: AnyObject {
+    
     func handleDismiss()
     func clickedLoginButton()
     func clickedLogoutButton()
     func clickedRegistrationButton(isLogin: Bool)
     func clickedBuyingPassTicketButton()
-    
 }
 
 class SideMenuHeaderView: UIView {
@@ -40,7 +40,7 @@ class SideMenuHeaderView: UIView {
     
     
     /// 프로필 이미지
-    let profileImage: UIImageView = {
+    public var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = #imageLiteral(resourceName: "idOff")
@@ -48,7 +48,7 @@ class SideMenuHeaderView: UIView {
     }()
     
     /// 로그인 상태
-    let nickName: UILabel = {
+    public var nickName: UILabel = {
         let label = UILabel()
         label.text = "공만세 (master)"
         label.textColor = .mainOrange
@@ -186,7 +186,7 @@ class SideMenuHeaderView: UIView {
     /// 최초 초기화 시, UI구현을 위한 메소드
     func configureUI() {
         self.addSubview(closeButton)
-        self.addSubview(profileImage)
+        self.addSubview(profileImageView)
         self.addSubview(nickName)
         self.addSubview(membershipLevel)
         self.addSubview(loginBtn)
@@ -206,17 +206,18 @@ class SideMenuHeaderView: UIView {
         let profileImageConstant = self.frame.height * 0.32
         let viewWidth = self.frame.width
         
-        profileImage.addShadow()
-        profileImage.setDimensions(height: profileImageConstant,
+        profileImageView.addShadow()
+        profileImageView.setDimensions(height: profileImageConstant,
                                    width: profileImageConstant)
-        profileImage.layer.cornerRadius = profileImageConstant * 0.5
-        profileImage.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
-        profileImage.centerX(inView: self)
-        profileImage.anchor(top: self.safeAreaLayoutGuide.topAnchor,
+        profileImageView.layer.cornerRadius = profileImageConstant * 0.5
+        profileImageView.layer.masksToBounds = true
+        profileImageView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
+        profileImageView.centerX(inView: self)
+        profileImageView.anchor(top: self.safeAreaLayoutGuide.topAnchor,
                             paddingTop: viewWidth * 0.11)
         
         nickName.centerX(inView: self)
-        nickName.anchor(top: profileImage.bottomAnchor,
+        nickName.anchor(top: profileImageView.bottomAnchor,
                         paddingTop: viewWidth * 0.05,
                         height: viewWidth * 0.05)
         
@@ -274,6 +275,12 @@ class SideMenuHeaderView: UIView {
         if viewModel.isLogin {
             
             nickName.text = viewModel.userID
+            
+            if let imageURL = viewModel.profileImageURL {
+                profileImageView.sd_setImage(with: URL(string: "https://file.gongmanse.com/"+imageURL)!,
+                                         completed: nil)
+            }
+            profileImageView.addShadow()
             
             loginBtn.setTitle("로그아웃", for: .normal)
 //            loginBtn.centerX(inView: self)

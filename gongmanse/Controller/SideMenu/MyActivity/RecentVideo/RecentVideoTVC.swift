@@ -2,7 +2,7 @@ import UIKit
 import BottomPopup
 
 protocol RecentVideoVCDelegate: AnyObject {
-    func recentVideoPassSortedIdSettingValue(_ recentVideosortedIndex: Int)
+    func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int)
 }
 
 class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
@@ -36,11 +36,11 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         let tableViewLoadingCellNib = UINib(nibName: "LoadingCell", bundle: nil)
         self.tableView.register(tableViewLoadingCellNib, forCellReuseIdentifier: "LoadingCell")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("recentVideoFilterText"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(recentVideoFilterNoti(_:)), name: NSNotification.Name("recentVideoFilterText"), object: nil)
         
     }
     
-    @objc func videoFilterNoti(_ sender: NotificationCenter) {
+    @objc func recentVideoFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "recentVideoFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
