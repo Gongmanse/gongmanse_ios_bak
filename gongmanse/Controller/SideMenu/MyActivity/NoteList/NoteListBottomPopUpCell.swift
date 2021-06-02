@@ -1,10 +1,3 @@
-//
-//  NoteListBottomPopUpCell.swift
-//  gongmanse
-//
-//  Created by 김현수 on 2021/06/02.
-//
-
 import UIKit
 
 class NoteListBottomPopUpCell: UITableViewCell {

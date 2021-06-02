@@ -1,6 +1,11 @@
 import UIKit
+import BottomPopup
 
-class LectureQuestionsTVC: UITableViewController {
+protocol LectureQuestionsTVCDelegate: AnyObject {
+    func lectureQuestionsPassSortedIdSettingValue(_ lectureQuestionsSortedIndex: Int)
+}
+
+class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
@@ -8,6 +13,18 @@ class LectureQuestionsTVC: UITableViewController {
     
     var pageIndex: Int!
     var lectureQnA: FilterVideoModels?
+    
+    var sortedId: Int? {
+        didSet {
+            getDataFromJson()
+        }
+    }
+    
+    var delegate: LectureQuestionsTVCDelegate?
+    
+    var height: CGFloat = 240
+    var presentDuration: Double = 0.2
+    var dismissDuration: Double = 0.5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,10 +33,17 @@ class LectureQuestionsTVC: UITableViewController {
 
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(lectureQuestionsFilterNoti(_:)), name: NSNotification.Name("lectureQuestionsFilterText"), object: nil)
+    }
+    
+    @objc func lectureQuestionsFilterNoti(_ sender: NotificationCenter) {
+        let filterButtonTitle = UserDefaults.standard.object(forKey: "lectureQuestionsFilterText")
+        filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=4") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -51,6 +75,17 @@ class LectureQuestionsTVC: UITableViewController {
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
         
         self.countAll.attributedText = attributedString
+    }
+    
+    @IBAction func alignment(_ sender: Any) {
+        let popupVC = self.storyboard?.instantiateViewController(identifier: "LectureQuestionsBottomPopUpVC") as! LectureQuestionsBottomPopUpVC
+        popupVC.height = height
+        popupVC.presentDuration = presentDuration
+        popupVC.dismissDuration = dismissDuration
+        popupVC.popupDelegate = self
+        popupVC.delegate = self
+        popupVC.sortedItem = self.sortedId
+        present(popupVC, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,5 +139,23 @@ class LectureQuestionsTVC: UITableViewController {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension LectureQuestionsTVC: LectureQuestionsBottomPopUpVCDelegate {
+    func lectureQuestionsPassSortedIdRow(_ noteListSortedIdRowIndex: Int) {
+        
+        if noteListSortedIdRowIndex == 0 {          // 1 번째 Cell
+            self.sortedId = 0
+        } else if noteListSortedIdRowIndex == 1 {   // 2 번째 Cell
+            self.sortedId = 1
+        } else if noteListSortedIdRowIndex == 2 {   // 3 번째 Cell
+            self.sortedId = 2
+        } else {                            // 4 번째 Cell
+            self.sortedId = 3
+        }
+        
+        self.delegate?.lectureQuestionsPassSortedIdSettingValue(noteListSortedIdRowIndex)
+        self.tableView.reloadData()
     }
 }

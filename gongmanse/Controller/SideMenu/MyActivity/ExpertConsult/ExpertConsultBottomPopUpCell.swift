@@ -1,10 +1,10 @@
 import UIKit
 
-class RecentVideoBottomPopUpCell: UITableViewCell {
-
+class ExpertConsultBottomPopUpCell: UITableViewCell {
+    
     @IBOutlet weak var selectTitle: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

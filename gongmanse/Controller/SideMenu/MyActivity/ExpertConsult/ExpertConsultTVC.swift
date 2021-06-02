@@ -1,6 +1,11 @@
 import UIKit
+import BottomPopup
 
-class ExpertConsultTVC: UITableViewController {
+protocol ExpertConsultTVCDelegate: AnyObject {
+    func expertConsultPassSortedIdSettingValue(_ expertConsultSortedIndex: Int)
+}
+
+class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
@@ -9,6 +14,18 @@ class ExpertConsultTVC: UITableViewController {
     var pageIndex: Int!
     var expertConsult: ExpertModels?
     private let emptyCellIdentifier = "EmptyTableViewCell"
+    
+    var sortedId: Int? {
+        didSet {
+            getDataFromJson()
+        }
+    }
+    
+    var delegate: ExpertConsultTVCDelegate?
+    
+    var height: CGFloat = 240
+    var presentDuration: Double = 0.2
+    var dismissDuration: Double = 0.5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +38,13 @@ class ExpertConsultTVC: UITableViewController {
         //xib 셀 등록
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(expertConsultFilterNoti(_:)), name: NSNotification.Name("expertConsultFilterText"), object: nil)
+        
+    }
+    
+    @objc func expertConsultFilterNoti(_ sender: NotificationCenter) {
+        let filterButtonTitle = UserDefaults.standard.object(forKey: "expertConsultFilterText")
+        filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
     func getDataFromJson() {
@@ -56,6 +80,17 @@ class ExpertConsultTVC: UITableViewController {
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value.totalNum))
         
         self.countAll.attributedText = attributedString
+    }
+    
+    @IBAction func alignment(_ sender: Any) {
+        let popupVC = self.storyboard?.instantiateViewController(identifier: "ExpertConsultBottomPopUpVC") as! ExpertConsultBottomPopUpVC
+        popupVC.height = height
+        popupVC.presentDuration = presentDuration
+        popupVC.dismissDuration = dismissDuration
+        popupVC.popupDelegate = self
+        popupVC.delegate = self
+        popupVC.sortedItem = self.sortedId
+        present(popupVC, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -128,5 +163,23 @@ class ExpertConsultTVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension ExpertConsultTVC: ExpertConsultBottomPopUpVCDelegate {
+    func expertConsultPassSortedIdRow(_ expertConsultSortedIdRowIndex: Int) {
+        
+        if expertConsultSortedIdRowIndex == 0 {          // 1 번째 Cell
+            self.sortedId = 0
+        } else if expertConsultSortedIdRowIndex == 1 {   // 2 번째 Cell
+            self.sortedId = 1
+        } else if expertConsultSortedIdRowIndex == 2 {   // 3 번째 Cell
+            self.sortedId = 2
+        } else {                            // 4 번째 Cell
+            self.sortedId = 3
+        }
+        
+        self.delegate?.expertConsultPassSortedIdSettingValue(expertConsultSortedIdRowIndex)
+        self.tableView.reloadData()
     }
 }

@@ -1,24 +1,24 @@
 import UIKit
 import BottomPopup
 
-protocol NoteListBottomPopUpVCDelegate: class {
-    func noteListPassSortedIdRow(_ noteListSortedIdRowIndex: Int)
+protocol ExpertConsultBottomPopUpVCDelegate: class {
+    func expertConsultPassSortedIdRow(_ expertConsultSortedIdRowIndex: Int)
 }
 
-class NoteListBottomPopUpVC: BottomPopupViewController {
+class ExpertConsultBottomPopUpVC: BottomPopupViewController {
     
     @IBOutlet weak var lblCategory: UILabel!
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var sortedItem: Int?
-    weak var delegate: NoteListBottomPopUpVCDelegate?
+    weak var delegate: ExpertConsultBottomPopUpVCDelegate?
     var height: CGFloat?
     var topCornerRadius: CGFloat?
     var presentDuration: Double?
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
-    private var noteListFilterText = ""
+    private var expertConsultFilterText = ""
     
     var titleNames = ["이름순", "과목순", "평점순", "최신순"]
     
@@ -60,14 +60,14 @@ class NoteListBottomPopUpVC: BottomPopupViewController {
     
 }
 
-extension NoteListBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
+extension ExpertConsultBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titleNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id = "NoteListBottomPopUpCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: id) as! NoteListBottomPopUpCell
+        let id = "ExpertConsultBottomPopUpCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: id) as! ExpertConsultBottomPopUpCell
         
         cell.selectTitle.text = titleNames[indexPath.row]
         cell.checkImage.isHidden = true
@@ -84,13 +84,13 @@ extension NoteListBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! NoteListBottomPopUpCell
+        let cell = tableView.cellForRow(at: indexPath) as! ExpertConsultBottomPopUpCell
         
-        noteListFilterText = titleNames[indexPath.row]
+        expertConsultFilterText = titleNames[indexPath.row]
         
-        UserDefaults.standard.setValue(noteListFilterText, forKey: "noteListFilterText")
+        UserDefaults.standard.setValue(expertConsultFilterText, forKey: "expertConsultFilterText")
         
-        NotificationCenter.default.post(name: NSNotification.Name("noteListFilterText"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("expertConsultFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -114,6 +114,6 @@ extension NoteListBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         sortedItem = indexPath.row
-        delegate?.noteListPassSortedIdRow(indexPath.row)
+        delegate?.expertConsultPassSortedIdRow(indexPath.row)
     }
 }
