@@ -8,37 +8,27 @@
 import UIKit
 import BottomPopup
 
-enum AlramListState {
+enum AlarmListState {
     case Alram
     case Repeat
 }
 
-protocol cood {
-    var isActive: String { get }
-}
-enum Coordinator: cood {
-    var isActive: String {
-        return ""
-    }
+protocol AlarmListProtocol: AnyObject {
+    var alarmTextList: String { get set }
+    var repeatTextLlist: String { get set }
     
-    case push(vc: UIViewController)
-    case dismiss
-    
-    var coordinator: Void {
-        switch self {
-        case let .push(vc):
-            return vc.present(ScheduleAddViewController(), animated: true, completion: nil)
-        default:
-            break
-        }
-    }
+    func reloadTable()
 }
+
 
 // ------
 class AlramRelationListViewController: BottomPopupViewController {
 
+    // Enum
+    var alarmState: AlarmListState?
     
-    var alramState: AlramListState?
+    // Protocol
+    var alarmDelegate: AlarmListProtocol?
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -85,7 +75,7 @@ class AlramRelationListViewController: BottomPopupViewController {
     //
     
     
-    let alramListTextArray: [String] = ["없음", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전"]
+    let alramListTextArray: [String] = ["없음", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전", "1주 전"]
     let repeatListTextArray: [String] = ["없음", "매일", "매주", "매월", "매년"]
     
     override func viewDidLoad() {
@@ -103,7 +93,7 @@ class AlramRelationListViewController: BottomPopupViewController {
     }
     
     func setUpTopView() {
-        switch alramState {
+        switch alarmState {
         case .Alram:
             topLittleImage.image = UIImage(named: "timeline")
             topTextLabel.text = "알림"
@@ -124,7 +114,7 @@ extension AlramRelationListViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch alramState {
+        switch alarmState {
         
         case .Alram:
             return alramListTextArray.count
@@ -139,7 +129,7 @@ extension AlramRelationListViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch alramState {
+        switch alarmState {
         
         case .Alram:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AlarmListCell.identifier, for: indexPath) as? AlarmListCell else { return UITableViewCell() }
@@ -155,6 +145,29 @@ extension AlramRelationListViewController: UITableViewDelegate, UITableViewDataS
             
         default:
             return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch alarmState {
+        case .Alram:
+            
+            
+            alarmDelegate?.alarmTextList = alramListTextArray[indexPath.row]
+            alarmDelegate?.reloadTable()
+            
+            self.dismiss(animated: true, completion: nil)
+            
+        case .Repeat:
+            
+            alarmDelegate?.repeatTextLlist = repeatListTextArray[indexPath.row]
+            alarmDelegate?.reloadTable()
+            
+            self.dismiss(animated: true, completion: nil)
+
+        default:
+            return
         }
     }
 }

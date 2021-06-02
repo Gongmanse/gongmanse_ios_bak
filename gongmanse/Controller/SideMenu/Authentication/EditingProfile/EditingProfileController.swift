@@ -40,7 +40,7 @@ class EditingProfileController: UIViewController {
     // 아이디와 이름은 변경 불가능하게 하기 위한 View (반투명 검정View)
     private let blockViewForID: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        view.backgroundColor = .black
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
@@ -49,7 +49,7 @@ class EditingProfileController: UIViewController {
     
     private let blockViewForName: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        view.backgroundColor = .black
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)

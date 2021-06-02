@@ -7,10 +7,24 @@
 
 import UIKit
 
-class ScheduleAddViewController: UIViewController {
+class ScheduleAddViewController: UIViewController, AlarmListProtocol {
+    
+    
     
     // ScheduleAddCell
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
+    
+    var registViewModel: CalendarRegistViewModel? = CalendarRegistViewModel()
+    
+    var alarmTextList: String = ""
+    
+    var repeatTextLlist: String = ""
+    
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -34,29 +48,44 @@ class ScheduleAddViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
 //        navigationConfigure()
         configuration()
         constraints()
         
         registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
+        
+        
+        if let index = tableView.indexPathsForSelectedRows {
+            print("A", index)
+        }
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
-        print("A")
+        registViewModel?.requestRegistApi(title: "a", content: "a", wholeDay: "1", startDate: "2021-04-01 00:00", endDate: "2021-04-01 23:59", alarm: "before_30_mins", repeatAlarm: "daily", repeatCount: "6")
     }
+    
+    // 일정 
+    @objc func changeAlarmTitle(_ sender: Notification) {
+        
+    }
+    
+    
 }
 
 extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
+        
         case 0...1:
             return 50
+            
         case 2:
             return 130
+            
         case 3...4:
             return 50
+            
         default:
             return 0
         }
@@ -95,13 +124,23 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
             
             cell.timeLabel.text = titleText[indexPath.row]
-//            cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector))
+            cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                            action: #selector(startLabelAction(_:))))
+            
+            cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                          action: #selector(endLabelAction(_:))))
             return cell
             
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
             
+            
             cell.alarmSelectLabel.text = "없음"
+            
+            if alarmTextList != "" {
+                cell.alarmSelectLabel.text = alarmTextList
+            }
+            
             cell.alarmTextLabel.text = titleText[indexPath.row]
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(alarmList(_:))))
@@ -111,9 +150,15 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
             
             cell.alarmSelectLabel.text = "없음"
+            
+            if repeatTextLlist != "" {
+                cell.alarmSelectLabel.text = repeatTextLlist
+            }
+            
             cell.alarmTextLabel.text = titleText[indexPath.row]
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(repeatList(_:))))
+            
             return cell
             
         default:
@@ -121,22 +166,39 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    // indexPath 2 - 1
-    @objc func startLabelAction(_ sender: UITapGestureRecognizer) {
+    @objc func changeRepeatTitle(_ sender: Notification) {
         
     }
+    
+    // indexPath 2 - 1
+    @objc func startLabelAction(_ sender: UITapGestureRecognizer) {
+        let startDateVC = StartLabelPickerViewController()
+        
+        self.present(startDateVC, animated: true, completion: nil)
+    }
+    
+    // indexPath 2 - 2
+    @objc func endLabelAction(_ sender: UITapGestureRecognizer) {
+        let endDateVC = EndLabelPickerViewController()
+        
+        self.present(endDateVC, animated: true, completion: nil)
+    }
+    
     
     // indexPath 3
     @objc func alarmList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
-        vc.alramState = .Alram
+        vc.alarmState = .Alram
+        vc.alarmDelegate = self
         self.present(vc, animated: true, completion: nil)
 
     }
     // indexPath 4
     @objc func repeatList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
-        vc.alramState = .Repeat
+        vc.alarmDelegate = self
+        
+        vc.alarmState = .Repeat
         self.present(vc, animated: true, completion: nil)
     }
     
