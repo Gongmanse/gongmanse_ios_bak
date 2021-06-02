@@ -347,16 +347,23 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 현재 자막에 있는 keyword Array
     var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
     
+    var isStartVideo = false
+    
     
     // MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
-        let vc = IntroController()
-        vc.delegate = self
-        vc.modalPresentationStyle = .overFullScreen
-        present(vc, animated: false) {
-            self.player.pause()
+        
+        if isStartVideo == false {
+            let vc = IntroController()
+            vc.delegate = self
+            vc.modalPresentationStyle = .overFullScreen
+            present(vc, animated: false) {
+                self.player.pause()
+            }
+            self.isStartVideo = true
         }
+        
     }
     
     override func viewDidLoad() {

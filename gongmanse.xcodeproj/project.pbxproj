@@ -85,6 +85,7 @@
 		2580AB5D266717D700B42475 /* UpdateProfileImageInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB5C266717D600B42475 /* UpdateProfileImageInput.swift */; };
 		2580AB5F2667188200B42475 /* UpdateProfileImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB5E2667188200B42475 /* UpdateProfileImageResponse.swift */; };
 		2580AB61266718C100B42475 /* UpdateProfileImageDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB60266718C100B42475 /* UpdateProfileImageDataManager.swift */; };
+		2580AB64266748FB00B42475 /* LessonNoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB63266748FB00B42475 /* LessonNoteController.swift */; };
 		2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF44261A916300D78E4E /* BottomNoteCell.swift */; };
 		2580CF48261A916E00D78E4E /* BottomQnACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF47261A916E00D78E4E /* BottomQnACell.swift */; };
 		2580CF4B261A917700D78E4E /* BottomPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */; };
@@ -513,6 +514,7 @@
 		2580AB5C266717D600B42475 /* UpdateProfileImageInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageInput.swift; sourceTree = "<group>"; };
 		2580AB5E2667188200B42475 /* UpdateProfileImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageResponse.swift; sourceTree = "<group>"; };
 		2580AB60266718C100B42475 /* UpdateProfileImageDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageDataManager.swift; sourceTree = "<group>"; };
+		2580AB63266748FB00B42475 /* LessonNoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonNoteController.swift; sourceTree = "<group>"; };
 		2580CF44261A916300D78E4E /* BottomNoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNoteCell.swift; sourceTree = "<group>"; };
 		2580CF47261A916E00D78E4E /* BottomQnACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomQnACell.swift; sourceTree = "<group>"; };
 		2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPlaylistCell.swift; sourceTree = "<group>"; };
@@ -1338,6 +1340,14 @@
 				2580AB60266718C100B42475 /* UpdateProfileImageDataManager.swift */,
 			);
 			path = UpdateProfileImage;
+			sourceTree = "<group>";
+		};
+		2580AB62266748E600B42475 /* LessonNoteController */ = {
+			isa = PBXGroup;
+			children = (
+				2580AB63266748FB00B42475 /* LessonNoteController.swift */,
+			);
+			path = LessonNoteController;
 			sourceTree = "<group>";
 		};
 		2580CF42261A900C00D78E4E /* VideoController */ = {
@@ -2390,6 +2400,7 @@
 		6CF2E68025F0D956000FE084 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2580AB62266748E600B42475 /* LessonNoteController */,
 				252600882648E28400FEABE2 /* Video_Re */,
 				2580CF42261A900C00D78E4E /* VideoController */,
 				25D9761B2616FDE9000C2F4F /* Search_Re */,
@@ -3503,6 +3514,7 @@
 				2574592F26143C02007A2A5D /* FindingViewModel.swift in Sources */,
 				C233028B263932590058592E /* SearchMainCell.swift in Sources */,
 				2538EDC626436F240090E460 /* VideoFullScreenController.swift in Sources */,
+				2580AB64266748FB00B42475 /* LessonNoteController.swift in Sources */,
 				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
 				25BA75C9263686C700C1F8A0 /* DetailVideoInput.swift in Sources */,
 				25201DB926042894001098AC /* FindIDResultVC.swift in Sources */,
