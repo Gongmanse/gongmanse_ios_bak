@@ -6,6 +6,7 @@ class MyActivityVC: UIViewController {
     
     var currentIndex: Int = 0
     var recentVideoSortedIndex: Int = 0
+    var noteListSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
 
@@ -106,6 +107,8 @@ class MyActivityVC: UIViewController {
             return contentVC
         } else if index == 1 {
             let contentVC = storyboard?.instantiateViewController(withIdentifier: "NoteListTVC") as! NoteListTVC
+            contentVC.delegate = self
+            contentVC.sortedId = noteListSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 2 {
@@ -214,9 +217,13 @@ extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDele
     }
 }
 
-extension MyActivityVC: RecentVideoVCDelegate {
-    func recentVideoPassSortedIdSettingValue(_ recentVideosortedIndex: Int) {
-        self.recentVideoSortedIndex = recentVideosortedIndex
+extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate {
+    func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int) {
+        self.recentVideoSortedIndex = recentVideoSortedIndex
+    }
+    
+    func noteListPassSortedIdSettingValue(_ noteListSortedIndex: Int) {
+        self.noteListSortedIndex = noteListSortedIndex
     }
     
     

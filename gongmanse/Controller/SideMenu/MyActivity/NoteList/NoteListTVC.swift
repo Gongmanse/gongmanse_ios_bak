@@ -1,6 +1,11 @@
 import UIKit
+import BottomPopup
 
-class NoteListTVC: UITableViewController {
+protocol noteListTVCDelegate: AnyObject {
+    func noteListPassSortedIdSettingValue(_ noteListSortedIndex: Int)
+}
+
+class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
@@ -8,6 +13,18 @@ class NoteListTVC: UITableViewController {
     
     var pageIndex: Int!
     var noteList: FilterVideoModels?
+    
+    var sortedId: Int? {
+        didSet {
+            getDataFromJson()
+        }
+    }
+    
+    var delegate: noteListTVCDelegate?
+    
+    var height: CGFloat = 240
+    var presentDuration: Double = 0.2
+    var dismissDuration: Double = 0.5
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,10 +33,17 @@ class NoteListTVC: UITableViewController {
         tableView.tableFooterView = UIView()
         
         getDataFromJson()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(noteListFilterNoti(_:)), name: NSNotification.Name("noteListFilterText"), object: nil)
+    }
+    
+    @objc func noteListFilterNoti(_ sender: NotificationCenter) {
+        let filterButtonTitle = UserDefaults.standard.object(forKey: "noteListFilterText")
+        filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=0&limit=20&sort_id=4") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -53,6 +77,17 @@ class NoteListTVC: UITableViewController {
         
         self.countAll.attributedText = attributedString
     }
+    
+    @IBAction func alignment(_ sender: Any) {
+        let popupVC = self.storyboard?.instantiateViewController(identifier: "NoteListBottomPopUpVC") as! NoteListBottomPopUpVC
+        popupVC.height = height
+        popupVC.presentDuration = presentDuration
+        popupVC.dismissDuration = dismissDuration
+        popupVC.popupDelegate = self
+        popupVC.delegate = self
+        popupVC.sortedItem = self.sortedId
+        present(popupVC, animated: true)
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let data = self.noteList?.data else { return 0}
@@ -83,5 +118,23 @@ class NoteListTVC: UITableViewController {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension NoteListTVC: NoteListBottomPopUpVCDelegate {
+    func noteListPassSortedIdRow(_ noteListSortedIdRowIndex: Int) {
+        
+        if noteListSortedIdRowIndex == 0 {          // 1 번째 Cell
+            self.sortedId = 0
+        } else if noteListSortedIdRowIndex == 1 {   // 2 번째 Cell
+            self.sortedId = 1
+        } else if noteListSortedIdRowIndex == 2 {   // 3 번째 Cell
+            self.sortedId = 2
+        } else {                            // 4 번째 Cell
+            self.sortedId = 3
+        }
+        
+        self.delegate?.noteListPassSortedIdSettingValue(noteListSortedIdRowIndex)
+        self.tableView.reloadData()
     }
 }
