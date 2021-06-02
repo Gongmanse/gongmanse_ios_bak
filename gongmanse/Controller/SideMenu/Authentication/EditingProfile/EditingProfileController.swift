@@ -435,7 +435,10 @@ extension EditingProfileController {
         let name = receivedData.sFirstName
         let nickname = receivedData.sNickname
         let email = receivedData.sEmail
-        let profileImageURL = "https://file.gongmanse.com/" + receivedData.sImage
+        var profileImageURL = String()
+        if let imageURL = receivedData.sImage {
+            profileImageURL = "https://file.gongmanse.com/" + imageURL
+        }
         
         // UI에 데이터를 입력한다.
         /*

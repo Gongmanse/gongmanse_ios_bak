@@ -24,7 +24,7 @@ class EditingProfileDataManager {
                     viewController.didSuccessNetworing(response: response)
                     
                 case .failure(let error):
-                    print("DEBUG: 영상 API 통신 실패")
+                    print("DEBUG: 프로필데이터 수신 API 통신 실패")
                     print("DEBUG: faild connection \(error.localizedDescription)")
                 }
             }
