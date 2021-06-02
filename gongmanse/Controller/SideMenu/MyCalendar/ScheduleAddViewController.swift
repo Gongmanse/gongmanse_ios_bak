@@ -54,11 +54,6 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol {
         
         registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(changeAlarmTitle(_:)),
-                                               name: .calendarAlarmList,
-                                               object: nil)
-        
         
         if let index = tableView.indexPathsForSelectedRows {
             print("A", index)
@@ -160,10 +155,6 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(repeatList(_:))))
             
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(changeRepeatTitle(_:)),
-                                                   name: .calendarRepeatList,
-                                                   object: nil)
             return cell
             
         default:
