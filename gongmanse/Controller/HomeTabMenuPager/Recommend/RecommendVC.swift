@@ -77,8 +77,9 @@ class RecommendVC: UIViewController {
     }
     
     @objc private func refresh(sender: UIRefreshControl) {
-        recommendCollection.reloadData()
+        getDataFromJson()
         sender.endRefreshing()
+        recommendCollection.reloadData()
     }
 }
 

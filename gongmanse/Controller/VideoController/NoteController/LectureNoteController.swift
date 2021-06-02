@@ -23,7 +23,7 @@ class LectureNoteController: UIViewController {
     private var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(),
                                 UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
     private var noteImageCount = 0
-    private var receivedNoteImage: UIImage?
+//    private var receivedNoteImage: UIImage?
     
     // MARK: UI
     // 노트 객체
@@ -332,18 +332,18 @@ class LectureNoteController: UIViewController {
         // 여러 이미지를 하나의 UIImage로 변환한다.
         let convertedImage = mergeVerticallyImagesIntoImage(images:
                                                                 image01,
-                                                            image02,
-                                                            image03,
-                                                            image04,
-                                                            image05,
-                                                            image06,
-                                                            image07,
-                                                            image08,
-                                                            image09,
-                                                            image10,
-                                                            image11,
-                                                            image12,
-                                                            image13)
+                                                                image02,
+                                                                image03,
+                                                                image04,
+                                                                image05,
+                                                                image06,
+                                                                image07,
+                                                                image08,
+                                                                image09,
+                                                                image10,
+                                                                image11,
+                                                                image12,
+                                                                image13)
         imageView01.image = convertedImage
     }
     

@@ -55,6 +55,8 @@ struct FilterVideoModels: Codable {
 struct FilterVideoData: Codable {
     var id: String?
     var iSeriesId: String?
+    var iBookmarkId: String?
+    var dtRegister: String?
     var user_id: String?
     var video_id: String?
     var iActive: String?

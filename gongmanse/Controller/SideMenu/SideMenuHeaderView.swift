@@ -12,7 +12,7 @@ protocol SideMenuHeaderViewDelegate: AnyObject {
     func handleDismiss()
     func clickedLoginButton()
     func clickedLogoutButton()
-    func clickedRegistrationButton()
+    func clickedRegistrationButton(isLogin: Bool)
     func clickedBuyingPassTicketButton()
     
 }
@@ -42,8 +42,8 @@ class SideMenuHeaderView: UIView {
     /// 프로필 이미지
     let profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .center
-        imageView.image = #imageLiteral(resourceName: "logoIconGray")
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = #imageLiteral(resourceName: "idOff")
         return imageView
     }()
     
@@ -164,7 +164,10 @@ class SideMenuHeaderView: UIView {
     
     @objc
     func clickedRegistrationButton() {
-        sideMenuHeaderViewDelegate?.clickedRegistrationButton()
+        if let viewModel = viewModel {
+            let isLogin = viewModel.isLogin
+            sideMenuHeaderViewDelegate?.clickedRegistrationButton(isLogin: isLogin)
+        }
     }
     
     @objc
@@ -273,11 +276,11 @@ class SideMenuHeaderView: UIView {
             nickName.text = viewModel.userID
             
             loginBtn.setTitle("로그아웃", for: .normal)
-            loginBtn.centerX(inView: self)
+//            loginBtn.centerX(inView: self)
             loginBtn.updateConstraints()
             
             signUpBtn.setTitle("프로필 수정", for: .normal)
-            signUpBtn.alpha = 0
+            signUpBtn.alpha = 1
             
             buyingPassTicketLabel.text = "이용권 설정"
             
