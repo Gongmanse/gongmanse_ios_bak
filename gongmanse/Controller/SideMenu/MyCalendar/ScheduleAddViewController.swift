@@ -12,6 +12,8 @@ class ScheduleAddViewController: UIViewController {
     // ScheduleAddCell
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
     
+    var registViewModel: CalendarRegistViewModel? = CalendarRegistViewModel()
+    
     let tableView: UITableView = {
         let table = UITableView()
         table.separatorInset = .zero
@@ -43,7 +45,7 @@ class ScheduleAddViewController: UIViewController {
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
-        print("A")
+        registViewModel?.requestRegistApi(title: "a", content: "a", wholeDay: "1", startDate: "2021-04-01 00:00", endDate: "2021-04-01 23:59", alarm: "before_30_mins", repeatAlarm: "daily", repeatCount: "6")
     }
 }
 
