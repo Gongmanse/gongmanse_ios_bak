@@ -82,6 +82,9 @@
 		257FCBE22645224600EC0F42 /* VideoSubtitleMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FCBE12645224600EC0F42 /* VideoSubtitleMethod.swift */; };
 		257FCBE52645232A00EC0F42 /* VideoAVPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FCBE42645232A00EC0F42 /* VideoAVPlayerController.swift */; };
 		257FCBE8264524B900EC0F42 /* VideoControllerConfigureMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FCBE7264524B900EC0F42 /* VideoControllerConfigureMethod.swift */; };
+		2580AB5D266717D700B42475 /* UpdateProfileImageInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB5C266717D600B42475 /* UpdateProfileImageInput.swift */; };
+		2580AB5F2667188200B42475 /* UpdateProfileImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB5E2667188200B42475 /* UpdateProfileImageResponse.swift */; };
+		2580AB61266718C100B42475 /* UpdateProfileImageDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580AB60266718C100B42475 /* UpdateProfileImageDataManager.swift */; };
 		2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF44261A916300D78E4E /* BottomNoteCell.swift */; };
 		2580CF48261A916E00D78E4E /* BottomQnACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF47261A916E00D78E4E /* BottomQnACell.swift */; };
 		2580CF4B261A917700D78E4E /* BottomPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */; };
@@ -501,6 +504,9 @@
 		257FCBE12645224600EC0F42 /* VideoSubtitleMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSubtitleMethod.swift; sourceTree = "<group>"; };
 		257FCBE42645232A00EC0F42 /* VideoAVPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAVPlayerController.swift; sourceTree = "<group>"; };
 		257FCBE7264524B900EC0F42 /* VideoControllerConfigureMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControllerConfigureMethod.swift; sourceTree = "<group>"; };
+		2580AB5C266717D600B42475 /* UpdateProfileImageInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageInput.swift; sourceTree = "<group>"; };
+		2580AB5E2667188200B42475 /* UpdateProfileImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageResponse.swift; sourceTree = "<group>"; };
+		2580AB60266718C100B42475 /* UpdateProfileImageDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageDataManager.swift; sourceTree = "<group>"; };
 		2580CF44261A916300D78E4E /* BottomNoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNoteCell.swift; sourceTree = "<group>"; };
 		2580CF47261A916E00D78E4E /* BottomQnACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomQnACell.swift; sourceTree = "<group>"; };
 		2580CF4A261A917700D78E4E /* BottomPlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPlaylistCell.swift; sourceTree = "<group>"; };
@@ -1130,6 +1136,7 @@
 		25608EE426660CA200E3246C /* EditingProfile */ = {
 			isa = PBXGroup;
 			children = (
+				2580AB5B266717C300B42475 /* UpdateProfileImage */,
 				25608EE526660CAE00E3246C /* EditingProfileInput.swift */,
 				25608EE926660CBD00E3246C /* EditingProfileDataManager.swift */,
 				25608EEC26661DE100E3246C /* ChangePasswordInput.swift */,
@@ -1309,6 +1316,16 @@
 				257FCBE7264524B900EC0F42 /* VideoControllerConfigureMethod.swift */,
 			);
 			path = VideoControllerExtension;
+			sourceTree = "<group>";
+		};
+		2580AB5B266717C300B42475 /* UpdateProfileImage */ = {
+			isa = PBXGroup;
+			children = (
+				2580AB5C266717D600B42475 /* UpdateProfileImageInput.swift */,
+				2580AB5E2667188200B42475 /* UpdateProfileImageResponse.swift */,
+				2580AB60266718C100B42475 /* UpdateProfileImageDataManager.swift */,
+			);
+			path = UpdateProfileImage;
 			sourceTree = "<group>";
 		};
 		2580CF42261A900C00D78E4E /* VideoController */ = {
@@ -3223,6 +3240,7 @@
 				C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */,
 				6CBF2DE1264A56F10017870F /* ConsultUploadImageDefaultCell.swift in Sources */,
 				253135DB2612C34A00B51348 /* FindingIDByPhoneViewModel.swift in Sources */,
+				2580AB5F2667188200B42475 /* UpdateProfileImageResponse.swift in Sources */,
 				251C327E26491F4A00C765CE /* PlayerViewModel.swift in Sources */,
 				2526008D2648E47E00FEABE2 /* CustomPlayerController.swift in Sources */,
 				2584E8CC26084108000DFA20 /* Constant.swift in Sources */,
@@ -3246,6 +3264,7 @@
 				258B5EA32609D8AA00F470B7 /* CertificationResponse.swift in Sources */,
 				6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */,
 				6CBEEA88264B71AF0006795D /* DateTransfer.swift in Sources */,
+				2580AB61266718C100B42475 /* UpdateProfileImageDataManager.swift in Sources */,
 				C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */,
 				2541BF8C263F7FA7000853EF /* DisplaySubtitleCell.swift in Sources */,
 				6CF2E65125F09161000FE084 /* TabCell.swift in Sources */,
@@ -3328,6 +3347,7 @@
 				6CF2E67825F0C498000FE084 /* SearchVC.swift in Sources */,
 				2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */,
 				C2A39E10264E17A80046290D /* QnAMyChatCell.swift in Sources */,
+				2580AB5D266717D700B42475 /* UpdateProfileImageInput.swift in Sources */,
 				C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */,
 				C2657C542624369C0048B92F /* UIImageView.swift in Sources */,
 				C20C8E292645048100B0566A /* ApiManager.swift in Sources */,
