@@ -95,7 +95,11 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
             
             cell.timeLabel.text = titleText[indexPath.row]
-//            cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector))
+            cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                            action: #selector(startLabelAction(_:))))
+            
+            cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                          action: #selector(endLabelAction(_:))))
             return cell
             
         case 3:
@@ -123,8 +127,18 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     
     // indexPath 2 - 1
     @objc func startLabelAction(_ sender: UITapGestureRecognizer) {
+        let startDateVC = StartLabelPickerViewController()
         
+        self.present(startDateVC, animated: true, completion: nil)
     }
+    
+    // indexPath 2 - 2
+    @objc func endLabelAction(_ sender: UITapGestureRecognizer) {
+        let endDateVC = EndLabelPickerViewController()
+        
+        self.present(endDateVC, animated: true, completion: nil)
+    }
+    
     
     // indexPath 3
     @objc func alarmList(_ sender: UITapGestureRecognizer) {

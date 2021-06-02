@@ -25,6 +25,8 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         textview.text = "A!@#"
         textview.isUserInteractionEnabled = true
         textview.isEditable = true
+        textview.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor
+        textview.layer.borderWidth = 2
         return textview
     }()
     
@@ -124,6 +126,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     let startDateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
+        label.textAlignment = .right
         label.text = "2021.05.31 (목) 15:10"
         label.isUserInteractionEnabled = true
         return label
@@ -151,6 +154,7 @@ class ScheduleAddTimerCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.text = "2021.05.31 (목) 15:10"
+        label.textAlignment = .right
         label.isUserInteractionEnabled = true
         return label
     }()
