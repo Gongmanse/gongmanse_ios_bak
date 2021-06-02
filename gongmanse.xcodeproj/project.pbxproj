@@ -238,6 +238,8 @@
 		25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */; };
 		6C052CFC26661A0000083F59 /* RecentVideoBottomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C052CFB26661A0000083F59 /* RecentVideoBottomPopUpVC.swift */; };
 		6C052CFF26661B0E00083F59 /* RecentVideoBottomPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C052CFE26661B0E00083F59 /* RecentVideoBottomPopUpCell.swift */; };
+		6C052D042667222F00083F59 /* NoteListBottomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C052D032667222F00083F59 /* NoteListBottomPopUpVC.swift */; };
+		6C052D072667224400083F59 /* NoteListBottomPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C052D062667224400083F59 /* NoteListBottomPopUpCell.swift */; };
 		6C12E6E526366391005DB781 /* FooterCRV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C12E6E426366391005DB781 /* FooterCRV.swift */; };
 		6C12E6F2263950BD005DB781 /* ExpertConsultationBottomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C12E6F1263950BD005DB781 /* ExpertConsultationBottomPopUpVC.swift */; };
 		6C12E6F526395233005DB781 /* ExpertConsultationBottomPopUpTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C12E6F426395233005DB781 /* ExpertConsultationBottomPopUpTVCell.swift */; };
@@ -655,6 +657,8 @@
 		25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailDataManager.swift; sourceTree = "<group>"; };
 		6C052CFB26661A0000083F59 /* RecentVideoBottomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoBottomPopUpVC.swift; sourceTree = "<group>"; };
 		6C052CFE26661B0E00083F59 /* RecentVideoBottomPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVideoBottomPopUpCell.swift; sourceTree = "<group>"; };
+		6C052D032667222F00083F59 /* NoteListBottomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListBottomPopUpVC.swift; sourceTree = "<group>"; };
+		6C052D062667224400083F59 /* NoteListBottomPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListBottomPopUpCell.swift; sourceTree = "<group>"; };
 		6C12E6E426366391005DB781 /* FooterCRV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCRV.swift; sourceTree = "<group>"; };
 		6C12E6F1263950BD005DB781 /* ExpertConsultationBottomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationBottomPopUpVC.swift; sourceTree = "<group>"; };
 		6C12E6F426395233005DB781 /* ExpertConsultationBottomPopUpTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationBottomPopUpTVCell.swift; sourceTree = "<group>"; };
@@ -2186,6 +2190,8 @@
 			children = (
 				6CB83C3126018F00007AED64 /* NoteListTVC.swift */,
 				6C4C389E25FEE2BA00653A61 /* NoteListTVCell.swift */,
+				6C052D032667222F00083F59 /* NoteListBottomPopUpVC.swift */,
+				6C052D062667224400083F59 /* NoteListBottomPopUpCell.swift */,
 			);
 			path = NoteList;
 			sourceTree = "<group>";
@@ -3311,6 +3317,7 @@
 				6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */,
 				2582374A2664832C00CAE14B /* SharingInput.swift in Sources */,
 				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
+				6C052D072667224400083F59 /* NoteListBottomPopUpCell.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
 				258511C026520341003264F3 /* DetailNoteController.swift in Sources */,
 				6CA03CC026034136008958FB /* ExpertConsultationFloatingVC.swift in Sources */,
@@ -3460,6 +3467,7 @@
 				259B8C1E26030799009A7146 /* CurriculumCell.swift in Sources */,
 				25EDAB6E26154E0200D27DB5 /* FindingPwdByEmailInput.swift in Sources */,
 				6C8852562611CC820006BDB2 /* VideoCellModels.swift in Sources */,
+				6C052D042667222F00083F59 /* NoteListBottomPopUpVC.swift in Sources */,
 				6C4713AB25F7103100D68A2B /* SideMenuVC.swift in Sources */,
 				6C12E6F2263950BD005DB781 /* ExpertConsultationBottomPopUpVC.swift in Sources */,
 				259B8BA7260301D4009A7146 /* SearchConsultCell.swift in Sources */,
@@ -3630,7 +3638,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -3638,7 +3646,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.4;
+				MARKETING_VERSION = 1.7.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -3653,7 +3661,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -3661,7 +3669,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.4;
+				MARKETING_VERSION = 1.7.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
