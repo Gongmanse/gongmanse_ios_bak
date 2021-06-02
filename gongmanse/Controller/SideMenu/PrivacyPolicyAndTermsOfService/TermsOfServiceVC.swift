@@ -2,8 +2,22 @@ import UIKit
 import WebKit
 
 class TermsOfServiceVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
-
+    
+    // MARK: - Property
+    
     @IBOutlet weak var webView: WKWebView!
+    
+    private let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.backward.circle")
+        button.setImage(image, for: .normal)
+        button.tintColor = .darkGray
+        button.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+
+    
+    // MARK: - Lifecycle
     
     override func loadView() {
         super.loadView()
@@ -13,6 +27,17 @@ class TermsOfServiceVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         webView.navigationDelegate = self
 //        self.view = self.webView
     }
+    
+    
+    // MARK: - Action
+    
+    @objc func backButtonDidTap() {
+        
+        dismiss(animated: true)
+    }
+    
+    
+    // MARK: - Helepr
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,5 +56,13 @@ class TermsOfServiceVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         let request = URLRequest(url: url!)
         self.webView.allowsBackForwardNavigationGestures = true
         webView.load(request)
+        
+        
+        view.addSubview(backButton)
+        backButton.setDimensions(height: 30,
+                                 width: 30)
+        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                          left: view.leftAnchor,
+                          paddingLeft: 20)
     }
 }

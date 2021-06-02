@@ -43,6 +43,8 @@ class SideMenuVC: UITableViewController {
         networingAPIForGetProfileInfo()
         profileVM.reloadDelegate = self
         profileVM.requestProfileApi(Constant.token)
+        
+ 
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +67,8 @@ class SideMenuVC: UITableViewController {
         // tableView 설정
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        
+
     }
     
     func networingAPIForGetProfileInfo() {
@@ -180,40 +184,40 @@ class SideMenuVC: UITableViewController {
         return CGFloat(headerViewHeight)
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
-        guard section == 0 else { return nil }
-        
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
-        footerView.isUserInteractionEnabled = true
-        let termsOfServiceBtn = UIButton(frame: CGRect(x: 0, y: 310, width: tableView.frame.width / 2, height: 30))
-        let privacyPolicyBtn = UIButton(frame: CGRect(x: 157, y: 310, width: tableView.frame.width / 2, height: 30))
-        
-        termsOfServiceBtn.setTitle("이용약관", for: .normal)
-        termsOfServiceBtn.backgroundColor = .systemGray4
-        termsOfServiceBtn.tintColor = .white
-        termsOfServiceBtn.addTarget(self, action: #selector(showTermsOfService), for: .touchUpInside)
-        footerView.addSubview(termsOfServiceBtn)
-        termsOfServiceBtn.anchor(top: footerView.topAnchor,
-                                 left: footerView.leftAnchor)
-        termsOfServiceBtn.setDimensions(height: footerView.frame.height,
-                                        width: footerView.frame.width * 0.5)
-        
-        privacyPolicyBtn.setTitle("개인정보처리방침", for: .normal)
-        privacyPolicyBtn.backgroundColor = .systemGray4
-        privacyPolicyBtn.tintColor = .white
-        privacyPolicyBtn.addTarget(self, action: #selector(showPrivacyPolicy), for: .touchUpInside)
-        footerView.addSubview(privacyPolicyBtn)
-        privacyPolicyBtn.anchor(top: footerView.topAnchor,
-                                 right: footerView.rightAnchor)
-        privacyPolicyBtn.setDimensions(height: footerView.frame.height,
-                                        width: footerView.frame.width * 0.5)
-        
-        termsOfServiceBtn.translatesAutoresizingMaskIntoConstraints = false
-        
-        return footerView
-    }
-    
+//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//
+//        guard section == 0 else { return nil }
+//
+//        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
+//        footerView.isUserInteractionEnabled = true
+//        let termsOfServiceBtn = UIButton(frame: CGRect(x: 0, y: 310, width: tableView.frame.width / 2, height: 30))
+//        let privacyPolicyBtn = UIButton(frame: CGRect(x: 157, y: 310, width: tableView.frame.width / 2, height: 30))
+//
+//        termsOfServiceBtn.setTitle("이용약관", for: .normal)
+//        termsOfServiceBtn.backgroundColor = .systemGray4
+//        termsOfServiceBtn.tintColor = .white
+//        termsOfServiceBtn.addTarget(self, action: #selector(showTermsOfService), for: .touchUpInside)
+//        footerView.addSubview(termsOfServiceBtn)
+//        termsOfServiceBtn.anchor(top: footerView.topAnchor,
+//                                 left: footerView.leftAnchor)
+//        termsOfServiceBtn.setDimensions(height: footerView.frame.height,
+//                                        width: footerView.frame.width * 0.5)
+//
+//        privacyPolicyBtn.setTitle("개인정보처리방침", for: .normal)
+//        privacyPolicyBtn.backgroundColor = .systemGray4
+//        privacyPolicyBtn.tintColor = .white
+//        privacyPolicyBtn.addTarget(self, action: #selector(showPrivacyPolicy), for: .touchUpInside)
+//        footerView.addSubview(privacyPolicyBtn)
+//        privacyPolicyBtn.anchor(top: footerView.topAnchor,
+//                                 right: footerView.rightAnchor)
+//        privacyPolicyBtn.setDimensions(height: footerView.frame.height,
+//                                        width: footerView.frame.width * 0.5)
+//
+//        termsOfServiceBtn.translatesAutoresizingMaskIntoConstraints = false
+//
+//        return footerView
+//    }
+//
     @objc func showTermsOfService() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsOfServiceVC") as! TermsOfServiceVC
         vc.modalPresentationStyle = .fullScreen
