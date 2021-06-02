@@ -16,6 +16,7 @@ class SideMenuVC: UITableViewController {
     
     var profileImageURL: String?
     var userID: String?
+
     
     ///아이콘 데이터 배열
     let icons = [
@@ -39,12 +40,11 @@ class SideMenuVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         networingAPIForGetProfileInfo()
         profileVM.reloadDelegate = self
         profileVM.requestProfileApi(Constant.token)
-        
- 
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,6 +71,8 @@ class SideMenuVC: UITableViewController {
 
     }
     
+    // 사이드메뉴 Header에서 프로필 정보를 보여줘야하기 때문에, 이곳에서 API 호출을 한다.
+    // 현재 API는 로그인 시 token만 넘겨주고 있습니다.  21.06.02 기준
     func networingAPIForGetProfileInfo() {
         
         let inputData = EditingProfileInput(token: Constant.token)
@@ -286,6 +288,14 @@ extension SideMenuVC {
         
         if let profileImageURL = response.sImage {
             self.viewModel.profileImageURL = profileImageURL
+        }
+        
+        if let premiumActivateDate = response.dtPremiumActivate {
+            self.viewModel.activateDate = premiumActivateDate
+        }
+        
+        if let premiumExpireDate = response.dtPremiumExpire {
+            self.viewModel.expireDate = premiumExpireDate
         }
         
         self.viewModel.name = response.sUsername

@@ -16,6 +16,8 @@ class SideMenuHeaderViewModel {
     var passTicketDate = "0"
     var token = ""
     var headerViewHeight: CGFloat?
+    var activateDate: String?
+    var expireDate: String?
     
     var reloadDelegate: TableReloadData?
     
@@ -36,9 +38,11 @@ class SideMenuHeaderViewModel {
     init() {
         
     }
+    
     deinit {
         print("SideMenuHeaderViewModel Deinit")
     }
+    
     func requestProfileApi(_ token: String) {
         let profileApi = LoginGetProfileManager()
         profileApi.profileGetApi(token) { response in
@@ -52,5 +56,8 @@ class SideMenuHeaderViewModel {
                 print(err.localizedDescription)
             }
         }
+        
     }
+    
+
 }

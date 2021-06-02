@@ -36,9 +36,7 @@ class CustomSideMenuNavigation: SideMenuNavigationController, SideMenuNavigation
         self.presentationStyle.backgroundColor = .black
         self.presentationStyle.presentingEndAlpha = 0.5
         self.statusBarEndAlpha = 0.0
-        
-        
-        
+
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: menuWidth, height: 30))
         view.addSubview(footerView)
         footerView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
