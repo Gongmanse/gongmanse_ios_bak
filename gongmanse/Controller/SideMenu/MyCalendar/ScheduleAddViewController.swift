@@ -76,12 +76,16 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
+        
         case 0...1:
             return 50
+            
         case 2:
             return 130
+            
         case 3...4:
             return 50
+            
         default:
             return 0
         }

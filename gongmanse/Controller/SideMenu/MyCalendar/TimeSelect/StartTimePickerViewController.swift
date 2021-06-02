@@ -50,9 +50,9 @@ class StartTimePickerViewController: BottomPopupViewController {
     //
     
     
-    let todayButton: UIButton = {
+    let dismissBottomButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("오늘", for: .normal)
+        button.setTitle("뒤로", for: .normal)
         button.titleLabel?.font = .appBoldFontWith(size: 16)
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor
@@ -61,7 +61,7 @@ class StartTimePickerViewController: BottomPopupViewController {
     
     let confirmButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("시간 선택", for: .normal)
+        button.setTitle("확인", for: .normal)
         button.titleLabel?.font = .appBoldFontWith(size: 16)
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor
@@ -69,7 +69,7 @@ class StartTimePickerViewController: BottomPopupViewController {
     }()
     
     lazy var buttonStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [todayButton, confirmButton])
+        let stack = UIStackView(arrangedSubviews: [dismissBottomButton, confirmButton])
         stack.axis = .horizontal
         stack.alignment = .fill
         stack.distribution = .fillEqually
@@ -97,6 +97,13 @@ class StartTimePickerViewController: BottomPopupViewController {
         
         configuration()
         constraints()
+        
+        topDismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
+        dismissBottomButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
+    }
+    
+    @objc func dismissAction(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
 
 }
