@@ -1656,6 +1656,7 @@
 		259B8B4B2603000D009A7146 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				25C18E9A2667A7D70020AC22 /* MyActivity */,
 				259B8C3C26032E60009A7146 /* SideMenuView */,
 				259B8B7C260300F8009A7146 /* ProgressLearningView */,
 				259B8B7B260300F7009A7146 /* SearchView */,
@@ -2130,6 +2131,13 @@
 				25BD761026157BDC002B266C /* NewPasswordDataManager.swift */,
 			);
 			path = DataManager;
+			sourceTree = "<group>";
+		};
+		25C18E9A2667A7D70020AC22 /* MyActivity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyActivity;
 			sourceTree = "<group>";
 		};
 		25D9761B2616FDE9000C2F4F /* Search_Re */ = {

@@ -17,6 +17,12 @@ class TopImageBottomTitleView: UIView {
         return imgView
     }()
     
+    var button: UIButton = {
+        let button = UIButton(type: .system)
+        
+        return button
+    }()
+    
     var titleLabel = UILabel()
     
     // MARK: - Lifecylce

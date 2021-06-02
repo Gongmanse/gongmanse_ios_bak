@@ -5,6 +5,16 @@ class PrivacyPolicyVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     @IBOutlet weak var webView: WKWebView!
     
+    private let backButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.backward.circle")
+        button.tintColor = .darkGray
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    
     override func loadView() {
         super.loadView()
         
@@ -13,6 +23,12 @@ class PrivacyPolicyVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         webView.navigationDelegate = self
 //        self.view = self.webView
     }
+    
+    @objc func backButtonDidTap() {
+        
+        dismiss(animated: true)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +48,13 @@ class PrivacyPolicyVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.webView.allowsBackForwardNavigationGestures = true
         webView.configuration.preferences.javaScriptEnabled = true
         webView.load(request)
+        
+        view.addSubview(backButton)
+        backButton.setDimensions(height: 30,
+                                 width: 30)
+        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                          left: view.leftAnchor,
+                          paddingLeft: 20)
     }
     
     override func didReceiveMemoryWarning() {
