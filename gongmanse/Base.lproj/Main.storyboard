@@ -2715,12 +2715,22 @@
                                             <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z9H-Gf-TiB">
+                                            <rect key="frame" x="316" y="7" width="78" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="oi8-Yx-z8k"/>
+                                                <constraint firstAttribute="width" constant="78" id="vTH-AR-mem"/>
+                                            </constraints>
+                                            <state key="normal" image="notePlayButton"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Twh-1c-Ckd" firstAttribute="leading" secondItem="Uz0-6a-4OK" secondAttribute="trailing" constant="15" id="2Za-Ds-6ZT"/>
                                         <constraint firstItem="7gM-NU-8FQ" firstAttribute="top" secondItem="4cW-UK-2gJ" secondAttribute="bottom" constant="8" symbolic="YES" id="4Aw-hI-fmf"/>
                                         <constraint firstItem="Uz0-6a-4OK" firstAttribute="leading" secondItem="d2Y-nR-n74" secondAttribute="leading" constant="20" symbolic="YES" id="69X-u4-qm3"/>
+                                        <constraint firstItem="Z9H-Gf-TiB" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="7" id="7XK-rY-ypb"/>
                                         <constraint firstItem="Twh-1c-Ckd" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="8" id="EvC-nt-T0c"/>
+                                        <constraint firstAttribute="trailing" secondItem="Z9H-Gf-TiB" secondAttribute="trailing" constant="20" symbolic="YES" id="KmJ-A9-X9y"/>
                                         <constraint firstItem="4cW-UK-2gJ" firstAttribute="top" secondItem="Twh-1c-Ckd" secondAttribute="bottom" constant="8" symbolic="YES" id="Wf4-Xf-tTY"/>
                                         <constraint firstItem="7gM-NU-8FQ" firstAttribute="leading" secondItem="Uz0-6a-4OK" secondAttribute="trailing" constant="15" id="bIU-4L-f2M"/>
                                         <constraint firstItem="3IM-5H-gzM" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="61" id="bkL-g6-Z2M"/>
@@ -2730,6 +2740,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="noteVideoPlayBtn" destination="Z9H-Gf-TiB" id="9f7-Ve-BT0"/>
                                     <outlet property="subjects" destination="Twh-1c-Ckd" id="dxz-bk-Y0P"/>
                                     <outlet property="teachersName" destination="7gM-NU-8FQ" id="GUQ-0Y-NBp"/>
                                     <outlet property="upLoadDate" destination="3IM-5H-gzM" id="UlX-4E-W7f"/>
@@ -4635,6 +4646,7 @@
         <image name="homeOff" width="22.5" height="25.5"/>
         <image name="homeOn" width="22.5" height="25.5"/>
         <image name="list" width="22" height="20"/>
+        <image name="notePlayButton" width="78" height="20"/>
         <image name="photo" width="46" height="46"/>
         <image name="photoDefault" width="50" height="50"/>
         <image name="popupAlign" width="27" height="27"/>

@@ -7,7 +7,8 @@ class NoteListTVCell: UITableViewCell {
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var upLoadDate: UILabel!
-
+    @IBOutlet weak var noteVideoPlayBtn: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
