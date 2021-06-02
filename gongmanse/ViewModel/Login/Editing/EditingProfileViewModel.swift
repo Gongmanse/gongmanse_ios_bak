@@ -10,25 +10,23 @@ import Foundation
 
 struct EditingProfileViewModel {
     
-    var password: String = "DEFAULT"
-    var confirmPassword: String = "DEFAULT"
-    var username: String = "DEFAULT"
-    var nickname: String = "DEFAULT"
-    var email: String = "DEFAULT"
+    var password: String = ""
+    var confirmPassword: String = ""
+    var username: String = ""
+    var nickname: String = ""
+    var email: String = ""
     
-    var formIsValid: Bool {
-        return password == confirmPassword
-    }
+    
     
     var buttonBackgroundColor: UIColor {
-        return formIsValid ? .mainOrange : .progressBackgroundColor
+        return passwordIsValid && confirmPasswrdIsVaild && emailIsValid && nicknameIsValid ? .mainOrange : .gray
     }
     
     var buttonTitleColor: UIColor {
         return .white
     }
     
-    // 정규표현식 적용 -> Extension > String 에 작성
+    // 비밀번호 양식 준수 여부 Validation (Extension > String 에 코드 참조)
     var passwordIsValid: Bool {
         return password.validatePassword()
     }
@@ -36,5 +34,14 @@ struct EditingProfileViewModel {
     // 비밀번호 재입력 로직
     var confirmPasswrdIsVaild: Bool {
         return password == confirmPassword ? true : false
+    }
+    
+    var emailIsValid: Bool {
+        return email.validateEmail()
+    }
+    
+    // 닉네임 양식은 자유
+    var nicknameIsValid: Bool {
+        return !nickname.isEmpty
     }
 }
