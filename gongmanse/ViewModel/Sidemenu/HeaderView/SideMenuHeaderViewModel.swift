@@ -18,6 +18,8 @@ class SideMenuHeaderViewModel {
     var headerViewHeight: CGFloat?
     var activateDate: String?
     var expireDate: String?
+    var dateRemainingString: String?
+    
     var reloadDelegate: TableReloadData?
     
     init() {
@@ -63,9 +65,14 @@ class SideMenuHeaderViewModel {
         
         let dateRemaining = expireDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
         let result = Int(dateRemaining / 86400)
+        print("DEBUG: reslut \(result)")
         return result
     }
     
+    /// 이용권 남은 일자를 나타내는 연산프로퍼티
+    /// - "dateStringToDate(_:)" 메소드를 통해 String을 Date로 형변환
+    /// - "dateRemainingCalculate(startDate:expireDate:)" 메소드를 통해 Date를 Int로 형변환
+    /// - Date -> Int 로 형변환할 때, day 를 기준으로 연산
     var dateRemaining: String {
         
         guard let startDateString = self.activateDate else { return "" }
@@ -75,8 +82,8 @@ class SideMenuHeaderViewModel {
         let expireDate = dateStringToDate(expireDateString)
         
         let dateRemaining = dateRemainingCalculate(startDate: startDate, expireDate: expireDate)
-        
-        return String(dateRemaining / 86400)
+        self.dateRemainingString = "\(dateRemaining)"
+        return dateRemainingString!
     }
     
     

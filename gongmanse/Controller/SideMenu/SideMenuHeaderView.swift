@@ -291,13 +291,31 @@ class SideMenuHeaderView: UIView {
             loginBtn.setTitle("로그아웃", for: .normal)
 //            loginBtn.centerX(inView: self)
             loginBtn.updateConstraints()
-            
+        
             signUpBtn.setTitle("프로필 수정", for: .normal)
             signUpBtn.alpha = 1
             
-            buyingPassTicketLabel.text = "이용권 설정"
+            if viewModel.hasPreminum {
+                // 이용권 n일 남음 + 사용 기간 연장
+                buyingPassTicketLabel.text = "이용권     "
+                    + viewModel.dateRemaining + "일 남음"
+                buyingPassTicketButton.setTitle("사용 기간 연장",
+                                                for: .normal)
+                
+            } else {
+                // 이용권을 구매해주세요. + 이용권 구매
+                buyingPassTicketLabel.text = "이용권을 구매해주세요."
+                buyingPassTicketButton.setTitle("이용권 구매",
+                                                for: .normal)
+            }
             
-            buyingPassTicketButton.setTitle("사용 기간 연장", for: .normal)
+            
+            
+            
+        } else {
+            
+            nickName.text = "로그인을 해주세요."
+            membershipLevel.text = "로그인하고 더 많은 서비스를 누리세요."
         }
     }
 }
