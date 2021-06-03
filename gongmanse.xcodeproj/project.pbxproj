@@ -68,6 +68,8 @@
 		25608EEF26661E1600E3246C /* ChangePasswordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EEE26661E1600E3246C /* ChangePasswordResponse.swift */; };
 		25608EF22666213D00E3246C /* EditingProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EF12666213D00E3246C /* EditingProfileViewModel.swift */; };
 		25608EF42666284B00E3246C /* EditingProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608EF32666284B00E3246C /* EditingProfileResponse.swift */; };
+		256103BE2668D66A00D44B52 /* UpperTabberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256103BC2668D66A00D44B52 /* UpperTabberVC.swift */; };
+		256103BF2668D66A00D44B52 /* UpperTabberVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 256103BD2668D66A00D44B52 /* UpperTabberVC.xib */; };
 		2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF326119F4800CD24B8 /* ByEmailInput.swift */; };
 		2568EEF726119F5700CD24B8 /* ByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */; };
 		2568EEFA26119F6400CD24B8 /* FindingIDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */; };
@@ -504,6 +506,8 @@
 		25608EEE26661E1600E3246C /* ChangePasswordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordResponse.swift; sourceTree = "<group>"; };
 		25608EF12666213D00E3246C /* EditingProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileViewModel.swift; sourceTree = "<group>"; };
 		25608EF32666284B00E3246C /* EditingProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileResponse.swift; sourceTree = "<group>"; };
+		256103BC2668D66A00D44B52 /* UpperTabberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpperTabberVC.swift; sourceTree = "<group>"; };
+		256103BD2668D66A00D44B52 /* UpperTabberVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpperTabberVC.xib; sourceTree = "<group>"; };
 		2568EEF326119F4800CD24B8 /* ByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailInput.swift; sourceTree = "<group>"; };
 		2568EEF626119F5700CD24B8 /* ByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByEmailResponse.swift; sourceTree = "<group>"; };
 		2568EEF926119F6400CD24B8 /* FindingIDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingIDDataManager.swift; sourceTree = "<group>"; };
@@ -1180,6 +1184,15 @@
 				25608EF12666213D00E3246C /* EditingProfileViewModel.swift */,
 			);
 			path = Editing;
+			sourceTree = "<group>";
+		};
+		256103BB2668D63C00D44B52 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				256103BC2668D66A00D44B52 /* UpperTabberVC.swift */,
+				256103BD2668D66A00D44B52 /* UpperTabberVC.xib */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		2568EEEC26119EDB00CD24B8 /* Finding */ = {
@@ -2425,6 +2438,7 @@
 		6CF2E68025F0D956000FE084 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				256103BB2668D63C00D44B52 /* New Group */,
 				2580AB62266748E600B42475 /* LessonNoteController */,
 				252600882648E28400FEABE2 /* Video_Re */,
 				2580CF42261A900C00D78E4E /* VideoController */,
@@ -3170,6 +3184,7 @@
 				C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */,
 				259B8C1A26030646009A7146 /* LecturePlaylistVC.xib in Resources */,
 				259B8C0B26030632009A7146 /* ElementaryVC.xib in Resources */,
+				256103BF2668D66A00D44B52 /* UpperTabberVC.xib in Resources */,
 				25201DBA26042894001098AC /* FindIDResultVC.xib in Resources */,
 				259B8B5926030048009A7146 /* NanumSquareRoundR.ttf in Resources */,
 				6CD7C3CC25F086E00092D30E /* Main.storyboard in Resources */,
@@ -3576,6 +3591,7 @@
 				2538EDC626436F240090E460 /* VideoFullScreenController.swift in Sources */,
 				2580AB64266748FB00B42475 /* LessonNoteController.swift in Sources */,
 				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
+				256103BE2668D66A00D44B52 /* UpperTabberVC.swift in Sources */,
 				25BA75C9263686C700C1F8A0 /* DetailVideoInput.swift in Sources */,
 				25201DB926042894001098AC /* FindIDResultVC.swift in Sources */,
 				259B8C1E26030799009A7146 /* CurriculumCell.swift in Sources */,
