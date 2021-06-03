@@ -8,6 +8,11 @@
 import UIKit
 import BottomPopup
 
+protocol PassStartDateTime {
+    var allDateTimeString: String? { get set }
+    func reloadTable()
+}
+
 class StartTimePickerViewController: BottomPopupViewController {
 
     // topView
@@ -90,16 +95,38 @@ class StartTimePickerViewController: BottomPopupViewController {
         return picker
     }()
     
+    override var popupPresentDuration: Double {
+        return 0.3
+    }
+    
+    // 이전 VC에서 Date받는 변수 2020 02 20
+    var dateSelectString: String?
+    
+    var startDelegate: PassStartDateTime?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
+        // 오늘이라는 뜻이니 에러처리하기
+        if dateSelectString == nil {
+            
+        }
+        print(dateSelectString)
         configuration()
         constraints()
         
+        startTimePicker.addTarget(self, action: #selector(pickerTimeValue(_:)), for: .valueChanged)
         topDismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
         dismissBottomButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
+    }
+    
+    @objc func pickerTimeValue(_ sender: UIDatePicker) {
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        let selectTime: String = dateFormatter.string(from: sender.date)
+        startDelegate?.allDateTimeString = "\(dateSelectString ?? "")\(selectTime)"
+        startDelegate?.reloadTable()
     }
     
     @objc func dismissAction(_ sender: UIButton) {

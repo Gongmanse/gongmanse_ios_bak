@@ -10,6 +10,7 @@ import BottomPopup
 
 class StartLabelPickerViewController: BottomPopupViewController {
 
+    
     // topView
     let topLittleImage: UIImageView = {
         let image = UIImageView()
@@ -92,6 +93,15 @@ class StartLabelPickerViewController: BottomPopupViewController {
         return picker
     }()
     
+    // PopUp dismiss 속도 조절
+    override var popupDismissDuration: Double {
+        return 0.3
+    }
+    
+    // DatePicker 데이터 넣을 변수
+    var startDate: String?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -99,17 +109,32 @@ class StartLabelPickerViewController: BottomPopupViewController {
         
         configuration()
         constraints()
+        
+        startDatePicker.addTarget(self, action: #selector(pickerDateValue(_:)), for: .valueChanged)
         topDismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(nextTimePicker(_:)), for: .touchUpInside)
     }
 
+    @objc func pickerDateValue(_ sender: UIDatePicker) {
+        let dateformatter: DateFormatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy. MM. dd"
+        
+        let selectedDate: String = dateformatter.string(from: sender.date)
+        startDate = selectedDate
+    }
+    
     @objc func dismissAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func nextTimePicker(_ sender: UIButton) {
+        guard let selfViewController = self.presentingViewController else { return }
+        
         let startTiemVC = StartTimePickerViewController()
-        self.present(startTiemVC, animated: true, completion: nil)
+        startTiemVC.dateSelectString = startDate
+        self.dismiss(animated: true) {
+            selfViewController.present(startTiemVC, animated: true)
+        }
     }
 }
 
@@ -122,6 +147,8 @@ extension StartLabelPickerViewController {
         view.addSubview(topOrangeLineView)
         view.addSubview(buttonStack)
         view.addSubview(startDatePicker)
+        
+        
     }
     
     func constraints() {

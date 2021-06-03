@@ -44,6 +44,9 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol {
         return button
     }()
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -164,10 +167,6 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         default:
             return UITableViewCell()
         }
-    }
-    
-    @objc func changeRepeatTitle(_ sender: Notification) {
-        
     }
     
     // indexPath 2 - 1
