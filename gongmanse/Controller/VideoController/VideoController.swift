@@ -355,6 +355,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewWillAppear(_ animated: Bool) {
         
         if isStartVideo == false {
+            
             let vc = IntroController()
             vc.delegate = self
             vc.modalPresentationStyle = .overFullScreen
@@ -369,6 +370,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewDidLoad() {
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         super.viewDidLoad()
+        
+
+        
         configureDataAndNoti()
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
@@ -638,4 +642,15 @@ extension VideoController: IntroControllerDelegate {
     func playVideoEndedIntro() {
         player.play()
     }
+}
+
+
+// MARK: - OuttroVideoControllerDelegate
+
+extension VideoController: OuttroVideoControllerDelegate {
+    func playVideoEndedOuttro() {
+        print("DEBUG: 끝나면 호출되는 메소드")
+    }
+    
+    
 }

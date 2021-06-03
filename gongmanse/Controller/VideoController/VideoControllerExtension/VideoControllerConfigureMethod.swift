@@ -138,4 +138,6 @@ extension Notification.Name {
     
     /// 영상 속도 조절
     static let changePlayVideoRate = Notification.Name("changePlayVideoRate")
+    
+    static let outtroVideoDidReachEnd = Notification.Name("outtroVideoDidReachEnd")
 }

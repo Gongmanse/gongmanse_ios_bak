@@ -16,7 +16,6 @@ extension VideoController {
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
             }
-            
         }
     }
     
@@ -121,8 +120,17 @@ extension VideoController {
     
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-        player.seek(to: CMTime.zero)
-        player.pause()
+        // 21.06.03 코드로 지나는 가는데 호출이 안됨...
+        // TODO: 아웃트로 주석처리 - 자동재생 및 다른 것 연결 후 코드 수정필요
+//        let vc = OutroVideoController()
+//        vc.delegate = self
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: false)
+        
+//        player.seek(to: CMTime.zero)
+//        player.pause()
+        
+        
     }
 }
 
@@ -364,7 +372,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
         videoControlContainerView.addSubview(timeSlider)
         timeSlider.setDimensions(height: 5, width: convertedWidth - 32)
         timeSlider.centerX(inView: videoControlContainerView)
-        timeSlider.centerY(inView: videoControlContainerView,constant: -10)
+        timeSlider.centerY(inView: videoControlContainerView,
+                           constant: 0)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
         // 현재시간을 나타내는 레이블

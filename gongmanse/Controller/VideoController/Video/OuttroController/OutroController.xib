@@ -8,30 +8,30 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntroController" customModule="gongmanse" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OutroController" customModule="gongmanse" customModuleProvider="target">
             <connections>
-                <outlet property="IntroVideoContainerView" destination="hwl-re-Wt6" id="AJ2-b9-dzL"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="IntroVideoContainerView" destination="eoF-YK-WCz" id="rcb-WI-hJh"/>
+                <outlet property="view" destination="cPm-Ha-COZ" id="sEV-Sl-Wdb"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+        <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="cPm-Ha-COZ">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hwl-re-Wt6">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eoF-YK-WCz">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="242"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <viewLayoutGuide key="safeArea" id="6Ev-K5-WG4"/>
+            <color key="backgroundColor" white="0.0" alpha="0.064310844370860931" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="b18-wY-Cln"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.27" id="f39-4r-YvV"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="gnD-pd-2KI"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="shh-RM-BYo"/>
+                <constraint firstItem="eoF-YK-WCz" firstAttribute="top" secondItem="cPm-Ha-COZ" secondAttribute="top" id="9MX-E9-toE"/>
+                <constraint firstItem="eoF-YK-WCz" firstAttribute="centerX" secondItem="cPm-Ha-COZ" secondAttribute="centerX" id="DyA-3X-vo5"/>
+                <constraint firstItem="eoF-YK-WCz" firstAttribute="width" secondItem="cPm-Ha-COZ" secondAttribute="width" id="W7C-xr-cE7"/>
+                <constraint firstItem="eoF-YK-WCz" firstAttribute="height" secondItem="cPm-Ha-COZ" secondAttribute="height" multiplier="0.27" id="w8Q-Zb-uUS"/>
             </constraints>
             <point key="canvasLocation" x="111.59420289855073" y="79.6875"/>
         </view>

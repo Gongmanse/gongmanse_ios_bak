@@ -1,25 +1,25 @@
 //
-//  OutroController.swift
+//  OutroVideoController.swift
 //  gongmanse
 //
-//  Created by 김우성 on 2021/06/01.
+//  Created by 김우성 on 2021/06/03.
 //
 
-import UIKit
 import AVFoundation
+import UIKit
 
-protocol OutroControllerDelegate: AnyObject {
-    func playVideoEndedIntro()
+protocol OuttroVideoControllerDelegate: AnyObject {
+    func playVideoEndedOuttro()
 }
 
-class OutroController: UIViewController {
 
+class OutroVideoController: UIViewController {
+    
     // MARK: - Properties
     
-    weak var delegate: IntroControllerDelegate?
+    weak var delegate: OuttroVideoControllerDelegate?
     
-    // IBOutlet
-    @IBOutlet weak var IntroVideoContainerView: UIView!
+    @IBOutlet weak var outtroVideoContainerView: UIView!
     
     // Programmatic
     private var player: AVQueuePlayer?
@@ -31,38 +31,36 @@ class OutroController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
-        setupIntroVideo()
+        setupLayout()
     }
     
     
     // MARK: - Actions
     
     /// 영상 종료 시, 호출될 콜백메소드
-    @objc func playerItemDidReachEnd(notification: NSNotification) {
+    @objc func outtroVideoDidReachEnd(notification: NSNotification) {
         player?.pause()
         dismiss(animated: false) {
-            self.delegate?.playVideoEndedIntro()
+            self.delegate?.playVideoEndedOuttro()
         }
     }
     
     // MARK: - Heleprs
     
-    func setupIntroVideo() {
-        
-        let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: "아웃트로01",
-                                                            ofType: "mov")!)
+    func setupLayout() {
+        let outttroURL
+            = URL(fileURLWithPath:Bundle.main.path(forResource: "아웃트로01",
+                                                   ofType: "mov")!)
         player = AVQueuePlayer()
         playerLayer = AVPlayerLayer(player: player)
         
         guard let playerLayer = playerLayer else {
             fatalError("레이어 생성에 실패했습니다.")
         }
-        playerLayer.frame = IntroVideoContainerView.layer.bounds
-        IntroVideoContainerView.layer.addSublayer(playerLayer)
+        playerLayer.frame = outtroVideoContainerView.layer.bounds
+        outtroVideoContainerView.layer.addSublayer(playerLayer)
         
-        let videoAsset = AVURLAsset(url: introURL)
+        let videoAsset = AVURLAsset(url: outttroURL)
         
         videoAsset.loadValuesAsynchronously(forKeys: ["", ""]) {
             
@@ -73,11 +71,15 @@ class OutroController: UIViewController {
             }
         }
         
-        
         NotificationCenter.default
             .addObserver(self,
-                         selector: #selector(playerItemDidReachEnd),
-                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                         selector: #selector(outtroVideoDidReachEnd),
+                         name: NSNotification.Name.outtroVideoDidReachEnd,
                          object: nil)
     }
+    
 }
+
+
+
+
