@@ -74,9 +74,9 @@ class SearchVideoVC: UIViewController {
         searchVideoVM.reloadDelegate = self
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
-        autoVideoLabel.font = .appBoldFontWith(size: 16)
+        autoVideoLabel.font = .appBoldFontWith(size: 13.5)
         numberOfLesson.font = .appBoldFontWith(size: 16)
-        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 16)
+        sortButtonTitle.titleLabel?.font = .appBoldFontWith(size: 13)
         
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)

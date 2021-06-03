@@ -9,12 +9,15 @@ extension VideoController {
             self.isClickedSubtitleToggleButton = true
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 1
+                self.subtitleToggleButton.tintColor = .mainOrange
+                self.subtitleToggleButton.setImage(UIImage(named: "smallCaptionOn"), for: .normal)
             }
             
         } else {
             self.isClickedSubtitleToggleButton = false
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
+                self.subtitleToggleButton.setImage(UIImage(named: "자막토글버튼_제거"), for: .normal)
             }
             
         }

@@ -14,6 +14,7 @@ class TopImageBottomTitleView: UIView {
     var imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.tintColor = .black
+        imgView.contentMode = .scaleAspectFit
         return imgView
     }()
     

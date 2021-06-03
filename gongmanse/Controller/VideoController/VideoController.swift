@@ -280,7 +280,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
-        label.font = UIFont.appBoldFontWith(size: 16)
+        label.font = UIFont.appBoldFontWith(size: 13.5)
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -332,7 +332,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let button = UIButton(type: .system)
         let image = UIImage(named: "infoButton") // 이미지사이즈 조절할것.
         button.tintColor = .white
-        button.setBackgroundImage(image, for: .normal)
+        button.setImage(image, for: .normal)
+        button.contentMode = .scaleAspectFit
         button.backgroundColor = .mainOrange
         return button
     }()
@@ -367,21 +368,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     override func viewDidLoad() {
-        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
         super.viewDidLoad()
+        
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
         configureDataAndNoti()
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
+
     }
-    
-    // MARK: - Actions
-    
-    
-    
-    
+        
     // MARK: - Heleprs
-    
+
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
@@ -397,6 +397,19 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             changeConstraintToVideoContainer(isPortraitMode: false) //05.21 주석처리; 1차 배포를 위해
         }
         pageCollectionView.reloadData()
+    }
+    
+    
+    func introVideoStart() {
+        
+        let testView = UIView()
+        testView.backgroundColor = .mainOrange
+        view.addSubview(testView)
+        testView.setDimensions(height: view.frame.width * 0.57,
+                               width: view.frame.width)
+        testView.anchor(top: view.topAnchor,
+                        left: view.leftAnchor)
+
     }
 }
 
@@ -545,7 +558,7 @@ extension VideoController {
         
         // "sTeacher" -> LessonInfoController.teachernameLabel.text
         let teachername = response.data.sTeacher
-        self.lessonInfoController.teachernameLabel.text = teachername
+        self.lessonInfoController.teachernameLabel.text = teachername + "선생님"
         
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle

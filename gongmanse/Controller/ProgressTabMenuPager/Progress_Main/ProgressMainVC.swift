@@ -204,21 +204,19 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     func configureButton() {
         
         let borderColor = UIColor.mainOrange
-        
-        
-        gradeBtn.setTitle(getGradeData?.sGrade, for: .normal)
+
+        gradeBtn.setTitle(getGradeData?.sGrade ?? "모든학년", for: .normal)
         gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         gradeBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        gradeBtn.layer.borderWidth = 3.5
-        
+        gradeBtn.layer.borderWidth = 1.9
         
         chapterBtn.layer.borderColor = borderColor.cgColor
         chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
         chapterBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        chapterBtn.layer.borderWidth = 3.5
+        chapterBtn.layer.borderWidth = 1.9
         chapterBtn.setTitle("모든 단원", for: .normal)
     }
     

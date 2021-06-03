@@ -17,19 +17,19 @@ class LessonInfoController: UIViewController {
     public var sTagsCollectionView: UICollectionView?
     private lazy var bookmarkButton = TopImageBottomTitleView(frame: buttonSize,
                                                               title: "즐겨찾기",
-                                                              image: UIImage(systemName: "heart.fill")! )
+                                                              image: UIImage(named: "favoriteOff" )! )
     private lazy var rateLessonButton = TopImageBottomTitleView(frame: buttonSize,
                                                                 title: "평점",
-                                                                image: UIImage(systemName: "star.fill")! )
+                                                                image: UIImage(named: "gradeOff")! )
     private lazy var shareLessonButton = TopImageBottomTitleView(frame: buttonSize,
                                                                  title: "공유",
-                                                                 image: UIImage(systemName: "link")! )
+                                                                 image: UIImage(named: "share")! )
     private lazy var relatedSeriesButton = TopImageBottomTitleView(frame: buttonSize,
                                                                    title: "관련시리즈",
-                                                                   image: UIImage(systemName: "tray.full")!)
+                                                                   image: UIImage(named: "series")!)
     private lazy var problemSolvingButton = TopImageBottomTitleView(frame: buttonSize,
                                                                     title: "문제풀이",
-                                                                    image: UIImage(systemName: "book.fill")!)
+                                                                    image: UIImage(named: "question")!)
     // videoID
     var videoID: String?
     
@@ -174,7 +174,7 @@ class LessonInfoController: UIViewController {
 //        sUnitLabel02.labelText = "챕터명"
         
         // TODO: 정상적으로 view가 보이는지 TEST -> 05.03 OK
-        view.backgroundColor = .progressBackgroundColor
+        view.backgroundColor = #colorLiteral(red: 0.9293201566, green: 0.9294758439, blue: 0.9292996526, alpha: 1)
         
         // TODO: [UI] 강의 태그 -> 05.04 OK
         view.addSubview(sSubjectsUnitContainerView)
@@ -201,13 +201,14 @@ class LessonInfoController: UIViewController {
         
         // TODO: [UI] 강의 명 -> 05.04 OK
         sSubjectsUnitContainerView.addSubview(lessonnameLabel)
+        lessonnameLabel.numberOfLines = 2
         lessonnameLabel.anchor(top: sSubjectLabel.bottomAnchor,
                                left: sSubjectLabel.leftAnchor,
                                paddingTop: 10, paddingLeft: 5, height: 20)
         
         // TODO: [UI] 해쉬 태그 -> 05.04 UI 완성
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 2.5)
+        layout.sectionInset = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 2.5)
         layout.scrollDirection = .horizontal
         layout.itemSize.height = 20
         sTagsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -222,15 +223,17 @@ class LessonInfoController: UIViewController {
     }
     
     func configureCollectionView() {
+        
         sTagsCollectionView?.delegate = self
         sTagsCollectionView?.dataSource = self
         sTagsCollectionView?.register(sTagsCell.self, forCellWithReuseIdentifier: "sTagsCell")
-        sTagsCollectionView?.backgroundColor = .progressBackgroundColor
+        sTagsCollectionView?.backgroundColor = #colorLiteral(red: 0.9293201566, green: 0.9294758439, blue: 0.9292996526, alpha: 1)
         sTagsCollectionView?.isScrollEnabled = true
         sTagsCollectionView?.showsHorizontalScrollIndicator = false
     }
     
     func configureAddActions() {
+        
         let bookmarkButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleBookmarkAction))
         let rateLessonButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleRateLessonAction))
         let shareLessonButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleShareLessonAction))
@@ -258,7 +261,7 @@ class LessonInfoController: UIViewController {
         stack.isUserInteractionEnabled = true
         stack.distribution = .equalSpacing
         stack.axis = .horizontal
-        stack.spacing = buttonWidth
+        stack.spacing = buttonWidth - 5
         stack.alignment = .leading
         stack.centerX(inView: view)
         stack.anchor(top: sTagsCollectionView?.bottomAnchor, paddingTop: 10)
@@ -295,7 +298,7 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = sTagsArray[indexPath.row]
-        let itemSize = item.size(withAttributes: [NSAttributedString.Key.font : UIFont.appBoldFontWith(size: 10)])
+        let itemSize = item.size(withAttributes: [NSAttributedString.Key.font : UIFont.appBoldFontWith(size: 15)])
         return itemSize
     }
     
