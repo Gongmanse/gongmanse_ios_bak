@@ -821,6 +821,7 @@
 		C239203D2667234E00AC6912 /* CalendarRegisterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRegisterModel.swift; sourceTree = "<group>"; };
 		C23920412667256D00AC6912 /* CalendarAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAPIManager.swift; sourceTree = "<group>"; };
 		C23920452667294400AC6912 /* CalendarRegistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRegistViewModel.swift; sourceTree = "<group>"; };
+		C239204D2668F14700AC6912 /* Calendar.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Calendar.md; sourceTree = "<group>"; };
 		C2448C6126292912008CE4A1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C2448C642629642A008CE4A1 /* ProgressDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDetailModel.swift; sourceTree = "<group>"; };
 		C2448C6726296581008CE4A1 /* ProgressDetailListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDetailListAPI.swift; sourceTree = "<group>"; };
@@ -2228,6 +2229,7 @@
 		6C4713D325F8B3A300D68A2B /* MyCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				C239204D2668F14700AC6912 /* Calendar.md */,
 				C292A3782666249D00559C2E /* TimeSelect */,
 				6C4713B625F8534900D68A2B /* MyCalendarVC.swift */,
 				C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */,
