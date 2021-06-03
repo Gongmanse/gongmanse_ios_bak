@@ -181,8 +181,12 @@ extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSourc
             }
             
             tableView.reloadData()
+            
+            
         } else {
+            // 재생속도 BottomPopup을 호출한다.
             dismiss(animated: true) {
+                // Delgation을 통해 VideoController가 "SelectionVideoPlayRateVC" 를 호출한다.
                 self.delegate?.presentSelectionVideoPlayRateVC()
             }
         }
