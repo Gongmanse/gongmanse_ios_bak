@@ -52,7 +52,7 @@ class EndTimePickerViewController: BottomPopupViewController {
     
     let dismissBottomButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("뒤로", for: .normal)
+        button.setTitle("취소", for: .normal)
         button.titleLabel?.font = .appBoldFontWith(size: 16)
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor

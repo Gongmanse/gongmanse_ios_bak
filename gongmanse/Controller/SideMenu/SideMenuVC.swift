@@ -17,7 +17,6 @@ class SideMenuVC: UITableViewController {
     var profileImageURL: String?
     var userID: String?
 
-    
     ///아이콘 데이터 배열
     let icons = [
         UIImage(named: "myActivity"),
@@ -67,8 +66,6 @@ class SideMenuVC: UITableViewController {
         // tableView 설정
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
-        
-
     }
     
     // 사이드메뉴 Header에서 프로필 정보를 보여줘야하기 때문에, 이곳에서 API 호출을 한다.
@@ -175,6 +172,7 @@ class SideMenuVC: UITableViewController {
                            height: Int(headerViewHeight))
         let headerView = SideMenuHeaderView(frame: frame)
         headerView.viewModel = viewModel
+        print("DEBUG: 헤더뷰로 넘어가는 값: \(viewModel.dateRemaining)")
         // "headerView"에서 UIController을 대신해주기 위해 delegate를 설정한다.
         headerView.sideMenuHeaderViewDelegate = self
         headerView.passTicketContainerView.isHidden = viewModel.isLogin ? false : true
@@ -301,7 +299,7 @@ extension SideMenuVC {
         self.viewModel.name = response.sUsername
 
         self.viewModel.userID = response.sNickname
-     
+        
         tableView.reloadData()
     }
 }

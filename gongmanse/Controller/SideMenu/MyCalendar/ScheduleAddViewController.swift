@@ -7,15 +7,17 @@
 
 import UIKit
 
-class ScheduleAddViewController: UIViewController, AlarmListProtocol {
-    
-    
+class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate {    
     
     // ScheduleAddCell
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
     
     var registViewModel: CalendarRegistViewModel? = CalendarRegistViewModel()
     
+    // PassAllStartDate
+    var allStartDate: String?
+    
+    // AlarmListProtocol
     var alarmTextList: String = ""
     
     var repeatTextLlist: String = ""
@@ -43,6 +45,9 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol {
         button.layer.cornerRadius = 15
         return button
     }()
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,10 +125,16 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.titleAppear(text: titleText[indexPath.row])
             
             return cell
+            
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
             
             cell.timeLabel.text = titleText[indexPath.row]
+            
+            if allStartDate != nil {
+                cell.startDateLabel.text = allStartDate
+            }
+            
             cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action: #selector(startLabelAction(_:))))
             
@@ -166,14 +177,10 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    @objc func changeRepeatTitle(_ sender: Notification) {
-        
-    }
-    
     // indexPath 2 - 1
     @objc func startLabelAction(_ sender: UITapGestureRecognizer) {
         let startDateVC = StartLabelPickerViewController()
-        
+        startDateVC.allStartDelegate = self
         self.present(startDateVC, animated: true, completion: nil)
     }
     
