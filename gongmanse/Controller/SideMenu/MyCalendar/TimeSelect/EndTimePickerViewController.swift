@@ -107,7 +107,7 @@ class EndTimePickerViewController: BottomPopupViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        print(dateSelectString)
+        
         configuration()
         constraints()
         
@@ -132,7 +132,20 @@ class EndTimePickerViewController: BottomPopupViewController {
     
     @objc func confirmButton(_ sender: UIButton) {
         
-        endDelegate?.allDateTimeString = timePicker
+        switch timePicker {
+        case .some(let value):
+            endDelegate?.allDateTimeString = value
+            
+        case .none:
+            let datefomatter: DateFormatter = DateFormatter()
+            datefomatter.dateFormat = "HH:mm"
+            let encodeTiemString = datefomatter.string(from: Date())
+            timePicker = "\(dateSelectString ?? "") \(encodeTiemString)"
+
+            endDelegate?.allDateTimeString = timePicker
+        }
+        
+        
         self.dismiss(animated: true, completion: nil)
     }
     

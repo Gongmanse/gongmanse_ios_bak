@@ -112,7 +112,10 @@ class StartTimePickerViewController: BottomPopupViewController {
 
         // nil일 경우 오늘이라는 뜻이니 에러처리하기
         if dateSelectString == nil {
-            
+            let datefomatter: DateFormatter = DateFormatter()
+            datefomatter.dateFormat = "yyyy. MM. dd"
+            let encodeString = datefomatter.string(from: Date())
+            dateSelectString = encodeString
         }
         
         configuration()
@@ -139,7 +142,22 @@ class StartTimePickerViewController: BottomPopupViewController {
 
     @objc func confirmButton(_ sender: UIButton) {
         
-        startDelegate?.allDateTimeString = timePicker
+        // nil일 경우 지금이라는 뜻이니 에러처리하기
+        
+        switch timePicker {
+        case .some(let value):
+            startDelegate?.allDateTimeString = value
+            
+        case .none:
+            let datefomatter: DateFormatter = DateFormatter()
+            datefomatter.dateFormat = "HH:mm"
+            let encodeTiemString = datefomatter.string(from: Date())
+            timePicker = "\(dateSelectString ?? "") \(encodeTiemString)"
+
+            startDelegate?.allDateTimeString = timePicker
+        }
+        
+        
         self.dismiss(animated: true, completion: nil)
     }
 }
