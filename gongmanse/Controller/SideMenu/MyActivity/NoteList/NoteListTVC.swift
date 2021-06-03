@@ -12,7 +12,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var filteringBtn: UIButton!
     
     var pageIndex: Int!
-    var noteList: FilterVideoModels?
+    var noteList = FilterVideoModels(isMore: true, totalNum: "", data: [FilterVideoData]())
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -69,7 +69,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     func textSettings() {
         
-        guard let value = self.noteList else { return }
+        //guard let value = self.noteList else { return }
+        let value = self.noteList
         
         self.countAll.text = "총 \(value.totalNum ?? "nil")개"
         
@@ -94,18 +95,22 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let value = self.noteList else { return 0 }
+        //guard let value = self.noteList else { return 0 }
+        let value = self.noteList
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let data = self.noteList?.data else { return 0}
+            //guard let data = self.noteList?.data else { return 0}
+            let data = self.noteList.data
             return data.count
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let value = self.noteList else { return UITableViewCell() }
+        //guard let value = self.noteList else { return UITableViewCell() }
+        
+        let value = self.noteList
         
         if value.totalNum == "0" {
             
@@ -117,7 +122,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTVCell") as! NoteListTVCell
             
-            guard let json = self.noteList else { return cell }
+            //guard let json = self.noteList else { return cell }
+            let json = self.noteList
             
             let indexData = json.data[indexPath.row]
             let defaultURL = fileBaseURL
@@ -131,13 +137,34 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             cell.upLoadDate.text = indexData.dtTimestamp
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
+            //cell.noteVideoPlayBtn.addTarget(self, action: #selector(videoPlay), for: .touchUpInside)
             
             return cell
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let value = self.noteList else { return 0 }
+    @objc func videoPlay() {
+        
+        let token = Constant.token
+        
+        // 토큰이 없는 경우
+        if token.count < 3 {
+            
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            
+        } else {
+            
+            //guard let value = self.noteList else { return }
+            let value = self.noteList.data
+            
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+    }
+}
+    
+        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        //guard let value = self.noteList else { return 0 }
+        let value = self.noteList
         
         if value.totalNum == "0" {
             return tableView.frame.height
@@ -147,8 +174,14 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let videoID = noteList.data[indexPath.row].video_id
+        let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true)
     }
 }
 
