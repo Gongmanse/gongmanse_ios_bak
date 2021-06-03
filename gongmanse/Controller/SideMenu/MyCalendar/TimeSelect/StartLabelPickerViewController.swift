@@ -8,8 +8,14 @@
 import UIKit
 import BottomPopup
 
-class StartLabelPickerViewController: BottomPopupViewController {
+protocol PassAllStartDate: AnyObject {
+    var allStartDate: String? { get set }
+    func reloadTable()
+}
 
+class StartLabelPickerViewController: BottomPopupViewController, PassStartDateTime {
+    
+    weak var allStartDelegate: PassAllStartDate?
     
     // topView
     let topLittleImage: UIImageView = {
@@ -101,12 +107,21 @@ class StartLabelPickerViewController: BottomPopupViewController {
     // DatePicker 데이터 넣을 변수
     var startDate: String?
     
+    var allDateTimeString: String? {
+        get {
+            return allStartDelegate?.allStartDate
+        }
+        set(value) {
+            allStartDelegate?.allStartDate = value
+            allStartDelegate?.reloadTable()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+         
         configuration()
         constraints()
         
@@ -132,6 +147,9 @@ class StartLabelPickerViewController: BottomPopupViewController {
         
         let startTiemVC = StartTimePickerViewController()
         startTiemVC.dateSelectString = startDate
+        startTiemVC.startDelegate = self
+        
+        
         self.dismiss(animated: true) {
             selfViewController.present(startTiemVC, animated: true)
         }
@@ -180,3 +198,5 @@ extension StartLabelPickerViewController {
         
     }
 }
+
+

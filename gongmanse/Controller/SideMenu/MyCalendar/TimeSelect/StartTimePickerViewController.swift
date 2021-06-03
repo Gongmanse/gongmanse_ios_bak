@@ -10,7 +10,6 @@ import BottomPopup
 
 protocol PassStartDateTime {
     var allDateTimeString: String? { get set }
-    func reloadTable()
 }
 
 class StartTimePickerViewController: BottomPopupViewController {
@@ -102,22 +101,27 @@ class StartTimePickerViewController: BottomPopupViewController {
     // 이전 VC에서 Date받는 변수 2020 02 20
     var dateSelectString: String?
     
+    
+    // datePicker선택 시 저장 변수
+    var timePicker: String?
+    
     var startDelegate: PassStartDateTime?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 오늘이라는 뜻이니 에러처리하기
+        // nil일 경우 오늘이라는 뜻이니 에러처리하기
         if dateSelectString == nil {
             
         }
-        print(dateSelectString)
+        
         configuration()
         constraints()
         
         startTimePicker.addTarget(self, action: #selector(pickerTimeValue(_:)), for: .valueChanged)
         topDismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
         dismissBottomButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(confirmButton(_:)), for: .touchUpInside)
     }
     
     @objc func pickerTimeValue(_ sender: UIDatePicker) {
@@ -125,14 +129,19 @@ class StartTimePickerViewController: BottomPopupViewController {
         dateFormatter.dateFormat = "HH:mm"
         
         let selectTime: String = dateFormatter.string(from: sender.date)
-        startDelegate?.allDateTimeString = "\(dateSelectString ?? "")\(selectTime)"
-        startDelegate?.reloadTable()
+        timePicker = "\(dateSelectString ?? "") \(selectTime)"
+        
     }
     
     @objc func dismissAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
 
+    @objc func confirmButton(_ sender: UIButton) {
+        
+        startDelegate?.allDateTimeString = timePicker
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension StartTimePickerViewController {
