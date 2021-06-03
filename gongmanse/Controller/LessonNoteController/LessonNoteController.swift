@@ -129,6 +129,7 @@ class LessonNoteController: UIViewController {
         return button
     }()
     
+    
     // MARK: - Lifecycle
 
     init(id: String, token: String) {
