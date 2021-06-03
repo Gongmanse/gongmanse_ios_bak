@@ -1302,6 +1302,13 @@
 			path = FindingPwd;
 			sourceTree = "<group>";
 		};
+		257C4FFD2668D9AB00C65355 /* Video_ReMaster */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Video_ReMaster;
+			sourceTree = "<group>";
+		};
 		257C61352602E85700153BF3 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -2438,6 +2445,7 @@
 		6CF2E68025F0D956000FE084 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				257C4FFD2668D9AB00C65355 /* Video_ReMaster */,
 				256103BB2668D63C00D44B52 /* New Group */,
 				2580AB62266748E600B42475 /* LessonNoteController */,
 				252600882648E28400FEABE2 /* Video_Re */,
