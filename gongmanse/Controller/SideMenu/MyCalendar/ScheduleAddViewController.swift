@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate {    
+class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate, PassAllEndDate {
+    
+    
     
     // ScheduleAddCell
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
@@ -16,6 +18,9 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     
     // PassAllStartDate
     var allStartDate: String?
+    
+    // PassAllEndDate
+    var allEndDate: String?
     
     // AlarmListProtocol
     var alarmTextList: String = ""
@@ -135,6 +140,10 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.startDateLabel.text = allStartDate
             }
             
+            if allEndDate != nil {
+                cell.endDateLabel.text = allEndDate
+            }
+            
             cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action: #selector(startLabelAction(_:))))
             
@@ -187,7 +196,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     // indexPath 2 - 2
     @objc func endLabelAction(_ sender: UITapGestureRecognizer) {
         let endDateVC = EndLabelPickerViewController()
-        
+        endDateVC.allEndDelegate = self
         self.present(endDateVC, animated: true, completion: nil)
     }
     
