@@ -373,7 +373,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         super.viewDidLoad()
         
         // 가로모드를 제한한다.
-        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+//        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
         configureDataAndNoti()
         configureUI()                    // 전반적인 UI 구현 메소드

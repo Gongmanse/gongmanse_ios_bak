@@ -97,10 +97,10 @@ class LessonInfoController: UIViewController {
     
     @objc func handleRateLessonAction() {
         
-        if rateLessonButton.viewTintColor == .mainOrange {
-            rateLessonButton.viewTintColor = .black
-        } else {
+        if rateLessonButton.titleLabel.text != "평점" {
             rateLessonButton.viewTintColor = .mainOrange
+        } else {
+            rateLessonButton.viewTintColor = .black
         }
         
         let vc = RatingController(videoID: 1)
