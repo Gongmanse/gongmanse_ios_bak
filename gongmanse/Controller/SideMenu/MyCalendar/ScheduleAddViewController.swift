@@ -136,10 +136,12 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.timeLabel.text = titleText[indexPath.row]
             
+            cell.startDateLabel.text = registViewModel?.currentStartDate()
             if allStartDate != nil {
                 cell.startDateLabel.text = allStartDate
             }
             
+            cell.endDateLabel.text = registViewModel?.currentEndDate()
             if allEndDate != nil {
                 cell.endDateLabel.text = allEndDate
             }

@@ -134,8 +134,14 @@ class StartLabelPickerViewController: BottomPopupViewController, PassStartDateTi
         let dateformatter: DateFormatter = DateFormatter()
         dateformatter.dateFormat = "yyyy. MM. dd"
         
+        let dayformatter: DateFormatter = DateFormatter()
+        dayformatter.dateFormat = "EE"
+        dayformatter.locale = Locale(identifier: "ko_KR")
+        
         let selectedDate: String = dateformatter.string(from: sender.date)
-        startDate = selectedDate
+        let dayString: String = dayformatter.string(from: sender.date)
+        
+        startDate = "\(selectedDate) (\(dayString))"
     }
     
     @objc func dismissAction(_ sender: UIButton) {
