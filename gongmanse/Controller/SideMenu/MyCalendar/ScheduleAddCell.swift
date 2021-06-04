@@ -22,15 +22,19 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         let textview = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
         textview.textAlignment = .justified
         textview.font = .systemFont(ofSize: 16)
-        textview.text = "A!@#"
         textview.isUserInteractionEnabled = true
         textview.isEditable = true
         textview.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor
         textview.layer.borderWidth = 2
+        textview.autocorrectionType = .no
         return textview
     }()
     
     var textChanged: ((String) -> Void)?
+    
+    var textSave: String?
+    
+    var onUpdated: () -> Void = {}
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,6 +45,19 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "제목" || textView.text == "내용" {
+            textView.text = ""
+            registerTextView.textColor = .black
+        }
+
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textChanged?(textView.text)
+        textSave = textView.text
     }
     
     func textChanged(action: @escaping (String) -> Void) {
@@ -54,6 +71,7 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
     func titleAppear(text: String) {
         titleLabels.text = text
         registerTextView.text = text
+        registerTextView.textColor = .lightGray
     }
     
     

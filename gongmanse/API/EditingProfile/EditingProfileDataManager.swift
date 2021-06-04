@@ -8,12 +8,14 @@
 import Alamofire
 import UIKit
 
+
 class EditingProfileDataManager {
     func getProfileInfoFromAPI(_ parameters: EditingProfileInput, viewController: EditingProfileController) {
         
         let data = parameters
         let url = "https://api.gongmanse.com/v/member/getuserinfo?token=\(data.token)"
-        
+        URLCache.shared.removeAllCachedResponses()
+
         /// HTTP Method: GET
         /// API 명: "01010. 프로필 정보 조회"
         AF.request(url)
@@ -36,6 +38,9 @@ class EditingProfileDataManager {
         let data = parameters
         let url = "https://api.gongmanse.com/v/member/getuserinfo?token=\(data.token)"
         
+        
+        URLCache.shared.removeAllCachedResponses()
+
         /// HTTP Method: GET
         /// API 명: "01010. 프로필 정보 조회"
         AF.request(url)
@@ -52,3 +57,4 @@ class EditingProfileDataManager {
             }
     }
 }
+

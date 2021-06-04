@@ -11,6 +11,25 @@ protocol BottomPlaylistCellDelegate: AnyObject {
 
 class BottomPlaylistCell: UICollectionViewCell {
     
+    // MARK: - Property
+    
+    // "플레이리스트" 와 " n / m " Label을 담을 ContainerView
+    private let topPlayListTitleContainerView = UIView()
+    
+    private let playlistTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "플레이리스트"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        return label
+    }()
+    
+    public let numberOFplaylistLabel: UILabel = {
+        let label = UILabel()
+        label.text = "1 / 28"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        return label
+    }()
+    
     weak var delegate: BottomPlaylistCellDelegate?
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
@@ -106,8 +125,37 @@ class BottomPlaylistCell: UICollectionViewCell {
         
         tableView.rowHeight = 81
         
+        self.addSubview(topPlayListTitleContainerView)
+        topPlayListTitleContainerView.translatesAutoresizingMaskIntoConstraints = false
+        topPlayListTitleContainerView.backgroundColor = .white
+        
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.topAnchor),
+            topPlayListTitleContainerView.topAnchor.constraint(equalTo: self.topAnchor),
+            topPlayListTitleContainerView.leftAnchor.constraint(equalTo: self.leftAnchor),
+            topPlayListTitleContainerView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            topPlayListTitleContainerView.heightAnchor.constraint(equalToConstant: 35)
+        ])
+        
+        topPlayListTitleContainerView.addSubview(playlistTitleLabel)
+        topPlayListTitleContainerView.addSubview(numberOFplaylistLabel)
+        
+        playlistTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            playlistTitleLabel.centerYAnchor.constraint(equalTo: topPlayListTitleContainerView.centerYAnchor),
+            playlistTitleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
+            playlistTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        numberOFplaylistLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            numberOFplaylistLabel.centerYAnchor.constraint(equalTo: topPlayListTitleContainerView.centerYAnchor),
+            numberOFplaylistLabel.leftAnchor.constraint(equalTo: playlistTitleLabel.rightAnchor, constant: 10),
+            numberOFplaylistLabel.heightAnchor.constraint(equalTo: playlistTitleLabel.heightAnchor)
+        ])
+        
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: topPlayListTitleContainerView.bottomAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
@@ -715,6 +763,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        tableView.deselectRow(at: indexPath, animated: true)
             let data = playlist
             let videoID = data.data[indexPath.row].id
             delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)

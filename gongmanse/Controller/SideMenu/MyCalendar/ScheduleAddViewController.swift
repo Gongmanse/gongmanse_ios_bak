@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate {    
+class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate, PassAllEndDate {
+    
+    
     
     // ScheduleAddCell
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
@@ -16,6 +18,9 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     
     // PassAllStartDate
     var allStartDate: String?
+    
+    // PassAllEndDate
+    var allEndDate: String?
     
     // AlarmListProtocol
     var alarmTextList: String = ""
@@ -28,11 +33,14 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         }
     }
     
+    var tg: () -> Void = {}
+    
     let tableView: UITableView = {
         let table = UITableView()
         table.separatorInset = .zero
         table.isUserInteractionEnabled = true
         table.estimatedRowHeight = 50
+        table.separatorEffect = .none
         return table
     }()
     
@@ -46,7 +54,11 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         return button
     }()
     
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        self.tableView.endEditing(true)
+    }
     
     
     override func viewDidLoad() {
@@ -58,22 +70,26 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         constraints()
         
         registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
-        
-        
-        if let index = tableView.indexPathsForSelectedRows {
-            print("A", index)
-        }
+        tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
-        registViewModel?.requestRegistApi(title: "a", content: "a", wholeDay: "1", startDate: "2021-04-01 00:00", endDate: "2021-04-01 23:59", alarm: "before_30_mins", repeatAlarm: "daily", repeatCount: "6")
-    }
-    
-    // 일정 
-    @objc func changeAlarmTitle(_ sender: Notification) {
         
+        registViewModel?.requestRegistApi(title: "a",
+                                          content: "a",
+                                          wholeDay: "1",
+                                          startDate: "2021-04-01 00:00",
+                                          endDate: "2021-04-01 23:59",
+                                          alarm: "before_30_mins",
+                                          repeatAlarm: "daily",
+                                          repeatCount: "6")
     }
     
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            tableView.endEditing(true)
+        }
+    }
     
 }
 
@@ -119,27 +135,41 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         
-        case 0...1:
+        case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
             
             cell.titleAppear(text: titleText[indexPath.row])
+            cell.selectionStyle = .none
+        
+            return cell
             
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+            
+            cell.titleAppear(text: titleText[indexPath.row])
+            cell.selectionStyle = .none
+        
             return cell
             
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
             
+            
+            
             cell.timeLabel.text = titleText[indexPath.row]
             
-            if allStartDate != nil {
-                cell.startDateLabel.text = allStartDate
-            }
+            
+            cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
+            cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
+            
             
             cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action: #selector(startLabelAction(_:))))
             
             cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                           action: #selector(endLabelAction(_:))))
+            
+            cell.selectionStyle = .none
             return cell
             
         case 3:
@@ -155,6 +185,8 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.alarmTextLabel.text = titleText[indexPath.row]
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(alarmList(_:))))
+            
+            cell.selectionStyle = .none
             return cell
             
         case 4:
@@ -170,6 +202,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(repeatList(_:))))
             
+            cell.selectionStyle = .none
             return cell
             
         default:
@@ -187,7 +220,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     // indexPath 2 - 2
     @objc func endLabelAction(_ sender: UITapGestureRecognizer) {
         let endDateVC = EndLabelPickerViewController()
-        
+        endDateVC.allEndDelegate = self
         self.present(endDateVC, animated: true, completion: nil)
     }
     
@@ -209,9 +242,6 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         self.present(vc, animated: true, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-    }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()

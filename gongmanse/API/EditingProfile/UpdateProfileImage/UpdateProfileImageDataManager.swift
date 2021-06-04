@@ -48,6 +48,9 @@ class UpdateProfileImageDataManager {
         // Controller에서 데이터 수신
         let data = parameters
         
+        print("DEBUG: username is \(data.username)")
+        print("DEBUG: username is \(data.password)")
+        
         // 받은 데이터를 AF를 통한 업로드
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append(Data("\(data.username)".utf8), withName: "username")
@@ -63,7 +66,7 @@ class UpdateProfileImageDataManager {
                 if response.code == 200 {
                     // 회원가입 성공 시, 성공메세지 전달
                     print("DEBUG: \(#function) 성공")
-                    
+                    viewController.didSuccessChangePassword(response: response)
                     
                 } else {
                     // 화원가입 실패 시, 실패메세지 전달 (실패한 항목이 많으면 그만큼 메세지 항목이 많아짐)

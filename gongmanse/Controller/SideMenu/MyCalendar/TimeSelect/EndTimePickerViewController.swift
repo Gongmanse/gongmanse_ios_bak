@@ -8,6 +8,10 @@
 import UIKit
 import BottomPopup
 
+protocol PassEndDateTime {
+    var allDateTimeString: String? { get set }
+}
+
 class EndTimePickerViewController: BottomPopupViewController {
 
     // topView
@@ -76,7 +80,7 @@ class EndTimePickerViewController: BottomPopupViewController {
         return stack
     }()
     
-    let startTimePicker: UIDatePicker = {
+    let endTimePicker: UIDatePicker = {
         let picker = UIDatePicker()
         if #available(iOS 13.4, *) {
             picker.preferredDatePickerStyle = .wheels
@@ -90,21 +94,67 @@ class EndTimePickerViewController: BottomPopupViewController {
         return picker
     }()
     
+    
+    // 이전 VC에서 Date받는 변수 2020 02 20
+    var dateSelectString: String?
+    
+    // datePicker선택 시 저장 변수
+    var timePicker: String?
+    
+    var endDelegate: PassEndDateTime?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // nil일 경우 오늘이라는 뜻이니 에러처리하기
+        if dateSelectString == nil {
+            let datefomatter: DateFormatter = DateFormatter()
+            datefomatter.dateFormat = "yyyy. MM. dd"
+            let encodeString = datefomatter.string(from: Date())
+            dateSelectString = encodeString
+        }
         
         configuration()
         constraints()
         
+        endTimePicker.addTarget(self, action: #selector(pickerTimeValue(_:)), for: .valueChanged)
         topDismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
         dismissBottomButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(confirmButton(_:)), for: .touchUpInside)
+    }
+    
+    @objc func pickerTimeValue(_ sender: UIDatePicker) {
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        let selectTime: String = dateFormatter.string(from: sender.date)
+        timePicker = "\(dateSelectString ?? "") \(selectTime)"
+        
     }
     
     @objc func dismissAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func confirmButton(_ sender: UIButton) {
+        
+        switch timePicker {
+        case .some(let value):
+            endDelegate?.allDateTimeString = value
+            
+        case .none:
+            let datefomatter: DateFormatter = DateFormatter()
+            datefomatter.dateFormat = "HH:mm"
+            let encodeTiemString = datefomatter.string(from: Date())
+            timePicker = "\(dateSelectString ?? "") \(encodeTiemString)"
+
+            endDelegate?.allDateTimeString = timePicker
+        }
+        
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 extension EndTimePickerViewController {
@@ -115,7 +165,7 @@ extension EndTimePickerViewController {
         view.addSubview(topStackView)
         view.addSubview(topOrangeLineView)
         view.addSubview(buttonStack)
-        view.addSubview(startTimePicker)
+        view.addSubview(endTimePicker)
     }
     
     func constraints() {
@@ -139,11 +189,11 @@ extension EndTimePickerViewController {
         buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        startTimePicker.translatesAutoresizingMaskIntoConstraints = false
-        startTimePicker.topAnchor.constraint(equalTo: topOrangeLineView.bottomAnchor).isActive = true
-        startTimePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        startTimePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        startTimePicker.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
+        endTimePicker.translatesAutoresizingMaskIntoConstraints = false
+        endTimePicker.topAnchor.constraint(equalTo: topOrangeLineView.bottomAnchor).isActive = true
+        endTimePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        endTimePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        endTimePicker.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
         
     }
 }

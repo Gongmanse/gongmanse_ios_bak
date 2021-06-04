@@ -10,6 +10,30 @@ import Alamofire
 
 struct CalendarAPIManager {
     
+    static func myCalendarApi(_ parameter: MyCalendarPostModel,
+                              completion: @escaping resultModel<CalendarMyCalendarModel>) {
+    
+        let data = parameter
+        print(data)
+        
+        let calendarUrl = "\(apiBaseURL)/v/calendar/mycalendar"
+        
+        AF.upload(multipartFormData: {
+            $0.append("\(data.token)".data(using: .utf8)!, withName: "token")
+            $0.append("\(data.date)".data(using: .utf8)!, withName: "date")
+        }, to: calendarUrl)
+        
+        .responseDecodable(of: CalendarMyCalendarModel.self) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(_):
+                completion(.failure(.noRequest))
+            }
+        }
+    }
+    
+    
     static func calendarRegisterApi(_ parameter: CalendarRegisterModel,
                                     completion: @escaping resultModel<CalendarRegistResponseModel>) {
         

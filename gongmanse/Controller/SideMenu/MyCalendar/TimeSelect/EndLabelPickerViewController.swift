@@ -8,7 +8,17 @@
 import UIKit
 import BottomPopup
 
-class EndLabelPickerViewController: BottomPopupViewController {
+
+protocol PassAllEndDate: AnyObject {
+    var allEndDate: String? { get set }
+    func reloadTable()
+}
+
+class EndLabelPickerViewController: BottomPopupViewController, PassEndDateTime {
+    
+    
+    
+    weak var allEndDelegate: PassAllEndDate?
 
     // topView
     let topLittleImage: UIImageView = {
@@ -91,23 +101,63 @@ class EndLabelPickerViewController: BottomPopupViewController {
         return picker
     }()
     
+    // DatePicker 데이터 넣을 변수
+    var startDate: String?
+    
+    var allDateTimeString: String?{
+        get {
+            return allEndDelegate?.allEndDate
+        }
+        set(value) {
+            allEndDelegate?.allEndDate = value
+            allEndDelegate?.reloadTable()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         configuration()
         constraints()
+        
+        endDatePicker.addTarget(self, action: #selector(pickerDateValue(_:)), for: .valueChanged)
         topDismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(nextTimePicker(_:)), for: .touchUpInside)
     }
 
+    @objc func pickerDateValue(_ sender: UIDatePicker) {
+        let dateformatter: DateFormatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy. MM. dd"
+        
+        
+        let dayformatter: DateFormatter = DateFormatter()
+        dayformatter.dateFormat = "EE"
+        dayformatter.locale = Locale(identifier: "ko_KR")
+        
+        let selectedDate: String = dateformatter.string(from: sender.date)
+        let dayString: String = dayformatter.string(from: sender.date)
+        
+        startDate = "\(selectedDate) (\(dayString))"
+    }
+    
     @objc func dismissAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
 
     @objc func nextTimePicker(_ sender: UIButton) {
+        
+        
+        guard let selfViewController = self.presentingViewController else { return }
+        
         let endTiemVC = EndTimePickerViewController()
-        self.present(endTiemVC, animated: true, completion: nil)
+        endTiemVC.dateSelectString = startDate
+        endTiemVC.endDelegate = self
+        
+        
+        self.dismiss(animated: true) {
+            selfViewController.present(endTiemVC, animated: true)
+        }
     }
 }
 
