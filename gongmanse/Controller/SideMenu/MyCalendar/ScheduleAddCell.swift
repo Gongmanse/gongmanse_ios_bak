@@ -32,6 +32,10 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
     
     var textChanged: ((String) -> Void)?
     
+    var textSave: String?
+    
+    var onUpdated: () -> Void = {}
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         	
@@ -51,13 +55,17 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
 
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textChanged?(textView.text)
+        textSave = textView.text
+    }
+    
     func textChanged(action: @escaping (String) -> Void) {
         self.textChanged = action
     }
     
     func textViewDidChange(_ textView: UITextView) {
         textChanged?(textView.text)
-        print(textView.text)
     }
     
     func titleAppear(text: String) {

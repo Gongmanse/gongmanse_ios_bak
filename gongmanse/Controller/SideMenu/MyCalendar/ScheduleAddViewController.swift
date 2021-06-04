@@ -33,11 +33,14 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         }
     }
     
+    var tg: () -> Void = {}
+    
     let tableView: UITableView = {
         let table = UITableView()
         table.separatorInset = .zero
         table.isUserInteractionEnabled = true
         table.estimatedRowHeight = 50
+        table.separatorEffect = .none
         return table
     }()
     
@@ -132,15 +135,26 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         
-        case 0...1:
+        case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
             
             cell.titleAppear(text: titleText[indexPath.row])
+            cell.selectionStyle = .none
+        
+            return cell
             
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+            
+            cell.titleAppear(text: titleText[indexPath.row])
+            cell.selectionStyle = .none
+        
             return cell
             
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
+            
+            
             
             cell.timeLabel.text = titleText[indexPath.row]
             
@@ -154,6 +168,8 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                           action: #selector(endLabelAction(_:))))
+            
+            cell.selectionStyle = .none
             return cell
             
         case 3:
@@ -169,6 +185,8 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.alarmTextLabel.text = titleText[indexPath.row]
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(alarmList(_:))))
+            
+            cell.selectionStyle = .none
             return cell
             
         case 4:
@@ -184,6 +202,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action:               #selector(repeatList(_:))))
             
+            cell.selectionStyle = .none
             return cell
             
         default:
@@ -223,9 +242,6 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         self.present(vc, animated: true, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-    }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
