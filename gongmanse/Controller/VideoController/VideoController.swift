@@ -228,8 +228,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     let subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(named: "자막토글버튼_제거")
+        let image = UIImage(named: "smallCaptionOn")
         button.setImage(image, for: .normal)
+        button.tintColor = .mainOrange
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
         return button
     }()

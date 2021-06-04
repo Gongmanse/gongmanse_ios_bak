@@ -11,6 +11,7 @@ class LessonInfoController: UIViewController {
     public var sTagsArray = [String]() {
         didSet { sTagsCollectionView?.reloadData() }
     }
+    
     let buttonSize = CGRect(x: 0, y: 0, width: 40, height: 40)
     public var teachernameLabel = PlainLabel("김우성 선생님", fontSize: 11.5)
     public var lessonnameLabel = PlainLabel("분석명제와 종합명제", fontSize: 17)
@@ -110,9 +111,7 @@ class LessonInfoController: UIViewController {
     
     @objc func handleShareLessonAction() {
         // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
-        
-        
-        
+
     }
     @objc func handleRelatedSeriesAction() {
         
@@ -313,3 +312,12 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 
+extension LessonInfoController: RatingControllerDelegate {
+    
+    func ratingAvaergePassVC(rating: String) {
+        
+        rateLessonButton.titleLabel.text = rating
+    }
+    
+    
+}

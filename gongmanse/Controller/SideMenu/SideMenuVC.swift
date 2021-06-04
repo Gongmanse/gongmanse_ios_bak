@@ -72,6 +72,7 @@ class SideMenuVC: UITableViewController {
     // 현재 API는 로그인 시 token만 넘겨주고 있습니다.  21.06.02 기준
     func networingAPIForGetProfileInfo() {
         
+
         let inputData = EditingProfileInput(token: Constant.token)
         EditingProfileDataManager().getProfileInfoFromAPIAtSideMenu(inputData, viewController: self)
     }
@@ -172,7 +173,6 @@ class SideMenuVC: UITableViewController {
                            height: Int(headerViewHeight))
         let headerView = SideMenuHeaderView(frame: frame)
         headerView.viewModel = viewModel
-        print("DEBUG: 헤더뷰로 넘어가는 값: \(viewModel.dateRemaining)")
         // "headerView"에서 UIController을 대신해주기 위해 delegate를 설정한다.
         headerView.sideMenuHeaderViewDelegate = self
         headerView.passTicketContainerView.isHidden = viewModel.isLogin ? false : true
@@ -254,6 +254,7 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         
         if isLogin {
             let vc = EditingProfileController()
+            vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else {
@@ -302,4 +303,15 @@ extension SideMenuVC {
         
         tableView.reloadData()
     }
+}
+
+
+extension SideMenuVC: EditingProfileControllerDelegate {
+    func profileImageChange(image: UIImage) {
+        self.viewModel.profileImage = image
+        tableView.reloadData()
+    }
+    
+    
+    
 }
