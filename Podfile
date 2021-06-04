@@ -12,4 +12,6 @@ target 'gongmanse' do
   pod 'BottomPopup'
   pod 'FSCalendar'
   pod 'XLPagerTabStrip', '~> 9.0'
+  pod 'Kingfisher', '~> 6.0'
+
 end
