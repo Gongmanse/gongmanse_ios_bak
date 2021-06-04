@@ -104,6 +104,7 @@ class LessonInfoController: UIViewController {
         }
         
         let vc = RatingController(videoID: 1)
+        vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
         self.present(vc, animated: false)
     }
@@ -317,6 +318,7 @@ extension LessonInfoController: RatingControllerDelegate {
     func ratingAvaergePassVC(rating: String) {
         
         rateLessonButton.titleLabel.text = rating
+        print("DEBUG: rating is \(rating)")
     }
     
     

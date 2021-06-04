@@ -99,11 +99,12 @@ class RatingController: UIViewController {
     
     func networkingAPI() {
         
-        let inputData = DetailVideoInput(video_id: "15188",
-                                         token: Constant.token)
-        DetailVideoDataManager().apiPassRatingDataToRatingVC(inputData,
-                                                             viewController: self)
-
+        if let videoID = self.videoID {
+            let inputData = DetailVideoInput(video_id: "\(videoID)",
+                                             token: Constant.token)
+            DetailVideoDataManager().apiPassRatingDataToRatingVC(inputData,
+                                                                 viewController: self)
+        }
     }
     
     func setupButtonTintColor(point: Int, color: UIColor) {
@@ -130,7 +131,10 @@ extension RatingController {
         // 사용자가 평가한 평점
         let ratingLesson = response.data.iRating
         ratingPointLabel.text = ratingLesson + ".0"
-        setupButtonTintColor(point: Int(ratingLesson)!, color: .mainOrange)
+        
+        let convertRatingLesson = Float(ratingLesson)
+        
+        setupButtonTintColor(point: Int(convertRatingLesson!), color: .mainOrange)
         
         // 이 강의에 평가한 인원수
         let numberOfRating = response.data.iRatingNum
