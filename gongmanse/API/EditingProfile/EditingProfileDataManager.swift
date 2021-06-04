@@ -8,6 +8,7 @@
 import Alamofire
 import UIKit
 
+
 class EditingProfileDataManager {
     func getProfileInfoFromAPI(_ parameters: EditingProfileInput, viewController: EditingProfileController) {
         
