@@ -33,7 +33,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         super.viewDidLoad()
         
         getDataFromJson()
-        //floatingButton()
+        floatingButton()
         
         //테이블 뷰 빈칸 숨기기
         expertConsultationTV.tableFooterView = UIView()

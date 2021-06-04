@@ -12,9 +12,13 @@ class MyActivityVC: UIViewController {
     var bookMarkSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
+    
+    let recentVideoItems = RecentVideoTVCell()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let deleteBarButton = UIBarButtonItem(image: UIImage(named: "deletePage"), style: .plain, target: self, action: #selector(trashImageAction(_:)))
 
         //네비게이션 바 타이틀 정하기
         self.navigationItem.title = "나의 활동"
@@ -25,9 +29,29 @@ class MyActivityVC: UIViewController {
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
         
+        //delete 바버튼 추가
+        navigationItem.rightBarButtonItem = deleteBarButton
+        
         setupTabs()
         setupPageViewController()
         addBottomBorder()
+    }
+    
+    @objc func trashImageAction(_ sender: UIButton) {
+        
+        guard let recentButton = recentVideoItems.deleteButton else { return }
+
+        guard let recentView = recentVideoItems.deleteView else { return }
+
+        if recentButton.isHidden == true && recentView.isHidden == true {
+            recentButton.isHidden = false
+            recentView.isHidden = false
+        } else if recentButton.isHidden == false && recentView.isHidden == false {
+            recentButton.isHidden = true
+            recentView.isHidden = true
+        }
+        
+        print("태애앱")
     }
     
     func addBottomBorder() {
@@ -227,6 +251,7 @@ extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDele
 }
 
 extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate, LectureQuestionsTVCDelegate, ExpertConsultTVCDelegate, BookMarkTVCDelegate {
+    
     func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int) {
         self.recentVideoSortedIndex = recentVideoSortedIndex
     }
@@ -246,4 +271,5 @@ extension MyActivityVC: RecentVideoVCDelegate, noteListTVCDelegate, LectureQuest
     func bookMarkPassSortedIdSettingValue(_ bookMarkSortedIndex: Int) {
         self.bookMarkSortedIndex = bookMarkSortedIndex
     }
+    
 }
