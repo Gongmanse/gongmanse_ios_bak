@@ -136,15 +136,10 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.timeLabel.text = titleText[indexPath.row]
             
-            cell.startDateLabel.text = registViewModel?.currentStartDate()
-            if allStartDate != nil {
-                cell.startDateLabel.text = allStartDate
-            }
             
-            cell.endDateLabel.text = registViewModel?.currentEndDate()
-            if allEndDate != nil {
-                cell.endDateLabel.text = allEndDate
-            }
+            cell.startDateLabel.text = allEndDate != nil ? allStartDate : registViewModel?.currentStartDate()
+            cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
+            
             
             cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                             action: #selector(startLabelAction(_:))))
