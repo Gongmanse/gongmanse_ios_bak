@@ -41,6 +41,10 @@ class MyCalendarVC: UIViewController {
         return button
     }()
     
+    let tableView: UITableView = {
+        let table = UITableView()
+        return table
+    }()
     
     var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
     // MARK: - LifeCycle
@@ -61,6 +65,21 @@ class MyCalendarVC: UIViewController {
     @objc func scheduleRegistration(_ sender: UIButton) {
         let vc = ScheduleAddViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - TableView
+
+extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyCalendarCell.identifier, for: indexPath) as? MyCalendarCell else { return UITableViewCell() }
+        cell.textLabel?.text = "A"
+        return cell
     }
 }
 
@@ -89,10 +108,13 @@ extension MyCalendarVC {
         
         view.addSubview(calendarView)
         view.addSubview(floatingButton)
+        view.addSubview(tableView)
         
         calendarView.delegate = self
         calendarView.dataSource = self
-        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(MyCalendarCell.self, forCellReuseIdentifier: MyCalendarCell.identifier)
     }
     
     func constraints() {
@@ -104,7 +126,15 @@ extension MyCalendarVC {
         calendarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(height / 3)).isActive = true
         
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
-        floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
+        floatingButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -30).isActive = true
         floatingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -view.frame.size.height / 3).isActive = true
+        
+        
     }
 }

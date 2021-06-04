@@ -433,6 +433,7 @@
 		C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A92FB7263FAC9C00098F92 /* SearchAfterTableCell.xib */; };
 		C2CBA536266A0B55000ADD5D /* CalendarMyCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CBA535266A0B55000ADD5D /* CalendarMyCalendarModel.swift */; };
 		C2CBA539266A1101000ADD5D /* MyCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CBA538266A1101000ADD5D /* MyCalendarViewModel.swift */; };
+		C2CBA53E266A180A000ADD5D /* MyCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CBA53D266A180A000ADD5D /* MyCalendarCell.swift */; };
 		C2CF7B14265CF74000F1E50A /* RelationSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B13265CF74000F1E50A /* RelationSeriesModel.swift */; };
 		C2CF7B1C265F4A2B00F1E50A /* VideoDetailInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */; };
 		C2CF7B1F265F4B0A00F1E50A /* VideoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */; };
@@ -879,6 +880,7 @@
 		C2A92FB7263FAC9C00098F92 /* SearchAfterTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchAfterTableCell.xib; sourceTree = "<group>"; };
 		C2CBA535266A0B55000ADD5D /* CalendarMyCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMyCalendarModel.swift; sourceTree = "<group>"; };
 		C2CBA538266A1101000ADD5D /* MyCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCalendarViewModel.swift; sourceTree = "<group>"; };
+		C2CBA53D266A180A000ADD5D /* MyCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCalendarCell.swift; sourceTree = "<group>"; };
 		C2CF7B13265CF74000F1E50A /* RelationSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationSeriesModel.swift; sourceTree = "<group>"; };
 		C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailInfoModel.swift; sourceTree = "<group>"; };
 		C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewModel.swift; sourceTree = "<group>"; };
@@ -2263,6 +2265,7 @@
 				C239204D2668F14700AC6912 /* Calendar.md */,
 				C292A3782666249D00559C2E /* TimeSelect */,
 				6C4713B625F8534900D68A2B /* MyCalendarVC.swift */,
+				C2CBA53C266A1800000ADD5D /* MyCalendarCell */,
 				C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */,
 				C26E23892664911400156F8A /* ScheduleAddCell.swift */,
 				C292A3742665E59F00559C2E /* AlramRelationListViewController.swift */,
@@ -3068,6 +3071,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		C2CBA53C266A1800000ADD5D /* MyCalendarCell */ = {
+			isa = PBXGroup;
+			children = (
+				C2CBA53D266A180A000ADD5D /* MyCalendarCell.swift */,
+			);
+			path = MyCalendarCell;
+			sourceTree = "<group>";
+		};
 		C2F22729261D3EEB00559065 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -3352,6 +3363,7 @@
 				C2A39E1C264E5AA00046290D /* VideoQnAAPIManager.swift in Sources */,
 				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
 				C2CF7B1C265F4A2B00F1E50A /* VideoDetailInfoModel.swift in Sources */,
+				C2CBA53E266A180A000ADD5D /* MyCalendarCell.swift in Sources */,
 				2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */,
 				C239202D2667055700AC6912 /* StartLabelPickerViewController.swift in Sources */,
 				259B8B72260300CC009A7146 /* ProgressPopupViewModel.swift in Sources */,
