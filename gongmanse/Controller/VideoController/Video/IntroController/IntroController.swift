@@ -31,8 +31,6 @@ class IntroController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
         setupIntroVideo()
     }
     
@@ -45,6 +43,11 @@ class IntroController: UIViewController {
         dismiss(animated: false) {
             self.delegate?.playVideoEndedIntro()
         }
+    }
+    
+    @objc func userTapView() {
+        
+        presentAlert(message: "로딩중입니다. 잠시만 기다려주세요.")
     }
     
     // MARK: - Heleprs
@@ -79,5 +82,11 @@ class IntroController: UIViewController {
                          selector: #selector(playerItemDidReachEnd),
                          name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                          object: nil)
+        
+        // 인트로 도중 클릭 시, alert을 호출한다.
+        // 이를 위해 UITapGesutre를 추가한다.
+        let viewTapGesutre = UITapGestureRecognizer(target: self, action: #selector(userTapView))
+        view.addGestureRecognizer(viewTapGesutre)
+        
     }
 }

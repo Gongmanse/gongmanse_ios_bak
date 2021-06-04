@@ -371,6 +371,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         
         super.viewDidLoad()
         
+        // 가로모드를 제한한다.
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
         configureDataAndNoti()
@@ -396,7 +397,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         } else {
             changeConstraintToVideoContainer(isPortraitMode: false) //05.21 주석처리; 1차 배포를 위해
         }
-        pageCollectionView.reloadData()
+//        pageCollectionView.reloadData()
     }
     
     
@@ -437,7 +438,6 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
                                left: cell.view.leftAnchor,
                                bottom: cell.view.bottomAnchor,
                                right: cell.view.rightAnchor)
-            
             return cell
             
         case 1:

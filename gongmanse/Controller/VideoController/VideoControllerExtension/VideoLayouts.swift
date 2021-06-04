@@ -254,8 +254,7 @@ extension VideoController {
         pageCollectionViewLandscapeRightConstraint?.isActive = isActive
         pageCollectionViewLandscapeBottomConstraint?.isActive = isActive
         pageCollectionViewLandscapeTopConstraint?.isActive = isActive
-        
-        
+
         // TODO: "TeachInfoView" 제약조건
         // TODO: "CollectionView" 제약조건
     }
