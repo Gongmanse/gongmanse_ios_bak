@@ -41,6 +41,8 @@ class MyCalendarVC: UIViewController {
         return button
     }()
     
+    
+    var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -53,6 +55,7 @@ class MyCalendarVC: UIViewController {
         
         floatingButton.addTarget(self, action: #selector(scheduleRegistration(_:)), for: .touchUpInside)
         
+//        myCalendarVM?.myCalendarApi("2021-04")
     }
     
     @objc func scheduleRegistration(_ sender: UIButton) {

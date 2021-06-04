@@ -431,6 +431,8 @@
 		C2A92FB3263FAAE800098F92 /* SearchAfterBottomPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A92FB1263FAAE800098F92 /* SearchAfterBottomPopup.xib */; };
 		C2A92FB8263FAC9C00098F92 /* SearchAfterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A92FB6263FAC9C00098F92 /* SearchAfterTableCell.swift */; };
 		C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2A92FB7263FAC9C00098F92 /* SearchAfterTableCell.xib */; };
+		C2CBA536266A0B55000ADD5D /* CalendarMyCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CBA535266A0B55000ADD5D /* CalendarMyCalendarModel.swift */; };
+		C2CBA539266A1101000ADD5D /* MyCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CBA538266A1101000ADD5D /* MyCalendarViewModel.swift */; };
 		C2CF7B14265CF74000F1E50A /* RelationSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B13265CF74000F1E50A /* RelationSeriesModel.swift */; };
 		C2CF7B1C265F4A2B00F1E50A /* VideoDetailInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */; };
 		C2CF7B1F265F4B0A00F1E50A /* VideoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */; };
@@ -875,6 +877,8 @@
 		C2A92FB1263FAAE800098F92 /* SearchAfterBottomPopup.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchAfterBottomPopup.xib; sourceTree = "<group>"; };
 		C2A92FB6263FAC9C00098F92 /* SearchAfterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAfterTableCell.swift; sourceTree = "<group>"; };
 		C2A92FB7263FAC9C00098F92 /* SearchAfterTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchAfterTableCell.xib; sourceTree = "<group>"; };
+		C2CBA535266A0B55000ADD5D /* CalendarMyCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMyCalendarModel.swift; sourceTree = "<group>"; };
+		C2CBA538266A1101000ADD5D /* MyCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCalendarViewModel.swift; sourceTree = "<group>"; };
 		C2CF7B13265CF74000F1E50A /* RelationSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationSeriesModel.swift; sourceTree = "<group>"; };
 		C2CF7B1B265F4A2B00F1E50A /* VideoDetailInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailInfoModel.swift; sourceTree = "<group>"; };
 		C2CF7B1E265F4B0A00F1E50A /* VideoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewModel.swift; sourceTree = "<group>"; };
@@ -2793,6 +2797,7 @@
 			isa = PBXGroup;
 			children = (
 				C239203D2667234E00AC6912 /* CalendarRegisterModel.swift */,
+				C2CBA535266A0B55000ADD5D /* CalendarMyCalendarModel.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -2808,6 +2813,7 @@
 		C23920442667292F00AC6912 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				C2CBA538266A1101000ADD5D /* MyCalendarViewModel.swift */,
 				C23920452667294400AC6912 /* CalendarRegistViewModel.swift */,
 			);
 			path = Calendar;
@@ -3380,6 +3386,7 @@
 				6CF2E67B25F0C4CF000FE084 /* ExpertConsultationVC.swift in Sources */,
 				258B5EA32609D8AA00F470B7 /* CertificationResponse.swift in Sources */,
 				6CB83C2B2600BF99007AED64 /* RecentVideoTVC.swift in Sources */,
+				C2CBA536266A0B55000ADD5D /* CalendarMyCalendarModel.swift in Sources */,
 				6CBEEA88264B71AF0006795D /* DateTransfer.swift in Sources */,
 				2580AB61266718C100B42475 /* UpdateProfileImageDataManager.swift in Sources */,
 				C2F22727261D3DB800559065 /* FilteringSubjectPopUpVC.swift in Sources */,
@@ -3427,6 +3434,7 @@
 				A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */,
 				C2172467262FEE9A003959AB /* NotificationName.swift in Sources */,
 				C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */,
+				C2CBA539266A1101000ADD5D /* MyCalendarViewModel.swift in Sources */,
 				2541BFCC263F990B000853EF /* LessonInfoController.swift in Sources */,
 				258511C52652074E003264F3 /* NoteInput.swift in Sources */,
 				251C32692649014E00C765CE /* DetailScreenNoteCell.swift in Sources */,
