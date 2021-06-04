@@ -6,7 +6,7 @@ class sTagsCell: UICollectionViewCell {
 
     var cellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.appBoldFontWith(size: 10)
+        label.font = UIFont.appBoldFontWith(size: 14)
         label.text = "TEST"
         label.textColor = UIColor.rgb(red: 128, green: 128, blue: 128)
         label.textAlignment = .center
@@ -36,12 +36,16 @@ class sTagsCell: UICollectionViewCell {
     
     func configure() {
         
-        backgroundColor = .progressBackgroundColor
+        backgroundColor = #colorLiteral(red: 0.9293201566, green: 0.9294758439, blue: 0.9292996526, alpha: 1)
         self.addSubview(cellLabel)
-        cellLabel.setDimensions(height: self.frame.height, width: self.frame.width)
-        cellLabel.centerX(inView: self)
-        cellLabel.centerY(inView: self)
-        cellLabel.adjustsFontSizeToFitWidth = true
+//        cellLabel.setDimensions(height: self.frame.height, width: self.frame.width)
+//        cellLabel.centerX(inView: self)
+//        cellLabel.centerY(inView: self)
+        cellLabel.anchor(top: self.topAnchor,
+                         left: self.leftAnchor,
+                         bottom: self.bottomAnchor,
+                         right: self.rightAnchor)
+//        cellLabel.adjustsFontSizeToFitWidth = true
     }
     
 }

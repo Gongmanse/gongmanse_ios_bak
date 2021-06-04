@@ -89,9 +89,7 @@ class SearchVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         

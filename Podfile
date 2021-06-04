@@ -11,4 +11,7 @@ target 'gongmanse' do
   pod 'SDWebImage', '~>4.4.2'
   pod 'BottomPopup'
   pod 'FSCalendar'
+  pod 'XLPagerTabStrip', '~> 9.0'
+  pod 'Kingfisher', '~> 6.0'
+
 end

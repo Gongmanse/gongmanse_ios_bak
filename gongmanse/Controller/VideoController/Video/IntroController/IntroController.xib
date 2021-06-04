@@ -20,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hwl-re-Wt6">
-                    <rect key="frame" x="0.0" y="44" width="414" height="242"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="236"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
@@ -28,12 +28,13 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="hwl-re-Wt6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.57" id="FMz-bB-Z2v"/>
                 <constraint firstItem="hwl-re-Wt6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="b18-wY-Cln"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.27" id="f39-4r-YvV"/>
                 <constraint firstItem="hwl-re-Wt6" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="gnD-pd-2KI"/>
                 <constraint firstItem="hwl-re-Wt6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="shh-RM-BYo"/>
             </constraints>
-            <point key="canvasLocation" x="111.59420289855073" y="79.6875"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="100" y="82"/>
         </view>
     </objects>
 </document>

@@ -65,7 +65,6 @@ class SideMenuHeaderViewModel {
         
         let dateRemaining = expireDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
         let result = Int(dateRemaining / 86400)
-        print("DEBUG: reslut \(result)")
         return result
     }
     

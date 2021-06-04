@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol RatingControllerDelegate: AnyObject {
+    func ratingAvaergePassVC(rating: String)
+}
+
 class RatingController: UIViewController {
     
     // MARK: - Properties
+    
+    weak var delegate: RatingControllerDelegate?
+    
     // 클릭된 별표의 위치를 저장할 프로퍼티
     var clickedNumber = 3 {
         didSet { setupButtonTintColor(point: clickedNumber, color: .mainOrange)}
@@ -41,7 +48,9 @@ class RatingController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupLayout()
+        networkingAPI()
     }
     
     
@@ -88,6 +97,15 @@ class RatingController: UIViewController {
         dividerLineView.backgroundColor = .mainOrange
     }
     
+    func networkingAPI() {
+        
+        let inputData = DetailVideoInput(video_id: "15188",
+                                         token: Constant.token)
+        DetailVideoDataManager().apiPassRatingDataToRatingVC(inputData,
+                                                             viewController: self)
+
+    }
+    
     func setupButtonTintColor(point: Int, color: UIColor) {
         // 입력한 point의 숫자만큼 그 숫자에 해당하는 tag 값의 tintColor를 변경한다.
         let tagNumber = point
@@ -100,4 +118,27 @@ class RatingController: UIViewController {
     }
     
 
+}
+
+
+// MARK: - API
+
+extension RatingController {
+    
+    func didSuccessNetworking(response: DetailVideoResponse) {
+        
+        // 사용자가 평가한 평점
+        let ratingLesson = response.data.iRating
+        ratingPointLabel.text = ratingLesson + ".0"
+        setupButtonTintColor(point: Int(ratingLesson)!, color: .mainOrange)
+        
+        // 이 강의에 평가한 인원수
+        let numberOfRating = response.data.iRatingNum
+        numberOfParticipantsLabel.text = numberOfRating + " 명"
+        
+        // 강의의 평점
+        if let ratingaAverage = response.data.iUserRating {
+            delegate?.ratingAvaergePassVC(rating: ratingaAverage)
+        }
+    }
 }

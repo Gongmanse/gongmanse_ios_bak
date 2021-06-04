@@ -4,26 +4,31 @@ class TopImageBottomTitleView: UIView {
     
     // MARK: - Properties
 
-    lazy var viewTintColor: UIColor = .black {
+    lazy public var viewTintColor: UIColor = .black {
         didSet {
             imageView.tintColor = viewTintColor
             titleLabel.textColor = viewTintColor
         }
     }
     
-    var imageView: UIImageView = {
+    public var imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.tintColor = .black
+        imgView.contentMode = .scaleAspectFit
         return imgView
     }()
     
-    var button: UIButton = {
+    public var button: UIButton = {
         let button = UIButton(type: .system)
         
         return button
     }()
     
-    var titleLabel = UILabel()
+    public var titleLabel = UILabel() {
+        didSet {
+            commonInit()
+        }
+    }
     
     // MARK: - Lifecylce
     
@@ -34,6 +39,7 @@ class TopImageBottomTitleView: UIView {
         image.withRenderingMode(.alwaysTemplate)
         self.titleLabel.text = title
         self.imageView.image = image
+        self.imageView.tintColor = viewTintColor
         self.commonInit()
     }
     

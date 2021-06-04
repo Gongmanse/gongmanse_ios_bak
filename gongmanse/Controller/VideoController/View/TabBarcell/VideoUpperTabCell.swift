@@ -17,9 +17,7 @@ class VideoUpperCell: UICollectionViewCell {
     
     public var leftImageView = UIImageView()
     
-    
-    
-    
+
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -27,7 +25,7 @@ class VideoUpperCell: UICollectionViewCell {
        // initialize what is needed
         self.addSubview(label)
         self.backgroundColor = .white
-        label.centerX(inView: self)
+        label.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 17).isActive = true
         label.centerY(inView: self)
         
         self.addSubview(leftImageView)

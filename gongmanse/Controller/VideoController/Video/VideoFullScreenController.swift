@@ -34,7 +34,7 @@ class VideoFullScreenController: UIViewController{
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .gray
+        view.backgroundColor = .black
         return view
     }()
     
@@ -376,6 +376,7 @@ class VideoFullScreenController: UIViewController{
     }
     
     func configureConstraint() {
+        
         /* view <- VideoContainerView */
         view.addSubview(videoContainerView)
         videoContainerView.setDimensions(height: view.frame.height,
@@ -386,7 +387,10 @@ class VideoFullScreenController: UIViewController{
         /* VideoContainerView <- playerController.view */
         self.videoContainerView.addSubview(playerController.view)
         playerController.view.anchor(top: videoContainerView.topAnchor,
-                                     left: videoContainerView.leftAnchor)
+                                     left: videoContainerView.leftAnchor,
+                                     bottom: videoContainerView.bottomAnchor,
+                                     right: videoContainerView.rightAnchor,
+                                     paddingBottom: 30)
         
         /* videoContainerView <- videoControlContainerView */
         configureVideoControlView()
@@ -395,7 +399,9 @@ class VideoFullScreenController: UIViewController{
         videoContainerView.addSubview(subtitleLabel)
         subtitleLabel.centerX(inView: view)
         subtitleLabel.anchor(bottom: view.bottomAnchor,
+                             paddingBottom: 30,
                              width: view.frame.width)
+        
         player.isMuted = false
         playerController.showsPlaybackControls = false
         
@@ -428,7 +434,7 @@ class VideoFullScreenController: UIViewController{
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
-                                         paddingBottom: 17)
+                                         paddingBottom: 60)
         // backButton
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,

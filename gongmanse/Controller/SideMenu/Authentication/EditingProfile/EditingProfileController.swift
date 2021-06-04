@@ -8,9 +8,15 @@
 import UIKit
 import SDWebImage
 
+protocol EditingProfileControllerDelegate: AnyObject {
+    func profileImageChange(image: UIImage)
+}
+
 class EditingProfileController: UIViewController {
     
     // MARK: - Properties
+    
+    weak var delegate: EditingProfileControllerDelegate?
     
     var viewModel = EditingProfileViewModel()
     let imagePickerController = UIImagePickerController()
@@ -41,6 +47,7 @@ class EditingProfileController: UIViewController {
     private let blockViewForID: UIView = {
         let view = UIView()
         view.backgroundColor = .black
+        view.alpha = 0.11
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
@@ -51,6 +58,7 @@ class EditingProfileController: UIViewController {
         let view = UIView()
         view.backgroundColor = .black
         view.clipsToBounds = true
+        view.alpha = 0.11
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
         return view
@@ -455,16 +463,18 @@ extension EditingProfileController {
         
         profileImageView.sd_setImage(with: URL(string: profileImageURL), completed: nil)
         idTextField.text = id
+        viewModel.username = id
         nameTextField.text = name
         nicknameTextField.text = nickname
         viewModel.nickname = nickname
         emailTextField.text = email
         viewModel.email = email
+        
     }
     
     
     func didSuccessChangePassword(response: ChangePasswordResponse) {
-        print("DEBUG: 비밀번호 변경되면 이 메소드를 호출합니다. ", #function)
+        print("DEBUG: 비밀번호변경 API \(response)")
     }
     
     func didSuccessUpdateProfileImage(response: UpdateProfileImageResponse) {
@@ -480,8 +490,12 @@ extension EditingProfileController: UIImagePickerControllerDelegate, UINavigatio
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[UIImagePickerController.InfoKey.originalImage] {
-            profileImageView.image = image as! UIImage
-            willChangeProfileImage = image as! UIImage
+            
+            let image = image as! UIImage
+            profileImageView.image = image
+            willChangeProfileImage = image
+            self.delegate?.profileImageChange(image: image)
+            
         }
         dismiss(animated: true) {
             

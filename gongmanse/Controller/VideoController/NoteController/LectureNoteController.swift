@@ -27,6 +27,7 @@ class LectureNoteController: UIViewController {
     
     // MARK: UI
     // 노트 객체
+    var isNoteTaking: Bool = false
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let imageView01: UIImageView = {
@@ -38,7 +39,7 @@ class LectureNoteController: UIViewController {
     public let canvas = Canvas()
     private let savingNoteButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("노트\n저장", for: .normal)
+        button.setTitle("노트\n보기", for: .normal)
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
@@ -51,9 +52,14 @@ class LectureNoteController: UIViewController {
         return button
     }()
     
+    private var isFoldingWritingImplement = true  // 필기도구 View가 축소된 상태면 false
+    private var writingImplementLeftConstraint: NSLayoutConstraint?
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .mainOrange
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 5
+        button.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner]
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
@@ -154,47 +160,96 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func openWritingImplement() {
-        let noteMode = self.scrollView.isScrollEnabled
-        scrollView.isScrollEnabled.toggle()
         
+        var noteMode = scrollView.isScrollEnabled
+        scrollView.isScrollEnabled.toggle()
+        let width = view.frame.width * 0.5
+
         // !noteMode -> 노트필기 가능한상태
         
         if !noteMode {
-            UIView.animate(withDuration: 0.33) {
-                self.writingImplement.frame.origin.x = -150
-                self.writingImplementToggleButton.setImage(.none, for: .normal)
-                self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
+            
+            self.writingImplementLeftConstraint?.constant = -(width * 0.8)
+            self.writingImplementToggleButton.setImage(.none, for: .normal)
+            self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
+            self.savingNoteButton.setTitle("노트\n보기", for: .normal)
+
+            UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                //
             }
             
+            // 0604이전작업
+//            UIView.animate(withDuration: 0.33) {
+////                self.writingImplement.frame.origin.x = -150
+//                self.writingImplementToggleButton.setImage(.none, for: .normal)
+//                self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
+//            }
+            
         } else {
-            UIView.animate(withDuration: 0.33) {
-                self.writingImplement.frame.origin.x = 0
-                self.writingImplementToggleButton.setTitle("", for: .normal)
-                self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
+            
+            self.writingImplementLeftConstraint?.constant = 0
+            self.writingImplementToggleButton.setTitle("", for: .normal)
+            self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
+            self.savingNoteButton.setTitle("노트\n저장", for: .normal)
+            UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
+                
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                //
             }
+            
+            // 0604 이전작업
+//            UIView.animate(withDuration: 0.33) {
+////                self.writingImplement.frame.origin.x = 0
+//                self.writingImplementToggleButton.setTitle("", for: .normal)
+//                self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
+//            }
         }
     }
     
     @objc fileprivate func handleSavingNote() {
         
-        // canvas 객체로 부터 x,y 위치 정보를 받는다.
-        canvas.saveNoteTakingData()
+    
+        // 노트보기 -> 노트만 보여주는 상세화면으로 이동한다.
+        // 노트저장 -> 노트저장 API를 호출한다.
+        if !isNoteTaking {
+            // TODO: 노트보기
+            isNoteTaking = !isNoteTaking
+            if let id = self.id {
+                let vc = LessonNoteController(id: id, token: Constant.token)
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            }
+            
+        } else {
+            // TODO: 노트저장
+            isNoteTaking = !isNoteTaking
+            
+            // canvas 객체로 부터 x,y 위치 정보를 받는다.
+            canvas.saveNoteTakingData()
+            
+            // 이 클래스의 전역범위에 있는 데이터를 지역변수로 옮긴다.
+            guard let token = self.token else { return }
+            guard let id = self.id else { return }
+            
+            // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
+            let intID = Int(id)!
+            
+            let sJson = "{\"aspectRatio\":0.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
+            
+            let willPassNoteData = NoteTakingInput(token: token,
+                                                   video_id: intID,
+                                                   sjson: sJson)
+    //        print("DEBUG: 결과값 \(willPassNoteData)")
+            // 노트 필기 좌표 입력하는 API메소드
+            DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
+            
+        }
         
-        // 이 클래스의 전역범위에 있는 데이터를 지역변수로 옮긴다.
-        guard let token = self.token else { return }
-        guard let id = self.id else { return }
-        
-        // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
-        let intID = Int(id)!
-        
-        let sJson = "{\"aspectRatio\":0.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
-        
-        let willPassNoteData = NoteTakingInput(token: token,
-                                               video_id: intID,
-                                               sjson: sJson)
-//        print("DEBUG: 결과값 \(willPassNoteData)")
-        // 노트 필기 좌표 입력하는 API메소드
-        DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
+
     }
     
     
@@ -275,7 +330,7 @@ class LectureNoteController: UIViewController {
         var image12 = noteImageArr[11]
         var image13 = noteImageArr[12]
         
-        // 이미지의 크기를 줄인다.
+        // 이미지의 크기를 줄인다. (이미지 전체의 크기는 줄어들고, 노트적힌 부분이 확대된다.)
         let scale = CGFloat(0.45)
         resize(image: image01, scale: scale) { image in
             image01 = image!
@@ -357,18 +412,20 @@ class LectureNoteController: UIViewController {
         view.addSubview(writingImplement)
         writingImplement.setDimensions(height: height,
                                        width: width)
-        writingImplement.anchor(left: view.leftAnchor,
-                                bottom: view.bottomAnchor,
-                                paddingLeft: -150,
+        writingImplement.anchor(bottom: view.bottomAnchor,
                                 paddingBottom: bottomPadding)
+        
+        writingImplementLeftConstraint
+            = writingImplement.leftAnchor.constraint(equalTo: view.leftAnchor,
+                                                     constant: -(width * 0.8))
+        
+        writingImplementLeftConstraint?.isActive = true
         
         view.addSubview(savingNoteButton)
         savingNoteButton.setDimensions(height: height, width: width * 0.25)
         savingNoteButton.anchor(bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
                                 paddingBottom: bottomPadding)
-        
-        
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,

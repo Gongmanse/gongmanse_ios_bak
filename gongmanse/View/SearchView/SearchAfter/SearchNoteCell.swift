@@ -41,6 +41,7 @@ class SearchNoteCell: UICollectionViewCell {
             
             chemistry.clipsToBounds = true
             chemistry.layer.cornerRadius = 10
+            chemistry.adjustsFontSizeToFitWidth = true
             
             titleImage.layer.cornerRadius = 15
             titleImage.contentMode = .scaleAspectFill

@@ -75,7 +75,7 @@ extension VideoController {
         // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
         attributedString
             .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.appBoldFontWith(size: 16),
+                          value: UIFont.appBoldFontWith(size: 13.5),
                           range: (text as NSString).range(of: ("\(array[aIndex])")))
         attributedString
             .addAttribute(NSAttributedString.Key.foregroundColor,
