@@ -51,7 +51,11 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         return button
     }()
     
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        self.tableView.endEditing(true)
+    }
     
     
     override func viewDidLoad() {
@@ -63,22 +67,26 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         constraints()
         
         registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
-        
-        
-        if let index = tableView.indexPathsForSelectedRows {
-            print("A", index)
-        }
+        tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
-        registViewModel?.requestRegistApi(title: "a", content: "a", wholeDay: "1", startDate: "2021-04-01 00:00", endDate: "2021-04-01 23:59", alarm: "before_30_mins", repeatAlarm: "daily", repeatCount: "6")
-    }
-    
-    // 일정 
-    @objc func changeAlarmTitle(_ sender: Notification) {
         
+        registViewModel?.requestRegistApi(title: "a",
+                                          content: "a",
+                                          wholeDay: "1",
+                                          startDate: "2021-04-01 00:00",
+                                          endDate: "2021-04-01 23:59",
+                                          alarm: "before_30_mins",
+                                          repeatAlarm: "daily",
+                                          repeatCount: "6")
     }
     
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            tableView.endEditing(true)
+        }
+    }
     
 }
 
@@ -137,7 +145,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             cell.timeLabel.text = titleText[indexPath.row]
             
             
-            cell.startDateLabel.text = allEndDate != nil ? allStartDate : registViewModel?.currentStartDate()
+            cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
             cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
             
             

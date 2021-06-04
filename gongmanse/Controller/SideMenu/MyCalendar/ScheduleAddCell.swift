@@ -22,11 +22,11 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         let textview = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
         textview.textAlignment = .justified
         textview.font = .systemFont(ofSize: 16)
-        textview.text = "A!@#"
         textview.isUserInteractionEnabled = true
         textview.isEditable = true
         textview.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor
         textview.layer.borderWidth = 2
+        textview.autocorrectionType = .no
         return textview
     }()
     
@@ -43,17 +43,27 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "제목" || textView.text == "내용" {
+            textView.text = ""
+            registerTextView.textColor = .black
+        }
+
+    }
+    
     func textChanged(action: @escaping (String) -> Void) {
         self.textChanged = action
     }
     
     func textViewDidChange(_ textView: UITextView) {
         textChanged?(textView.text)
+        print(textView.text)
     }
     
     func titleAppear(text: String) {
         titleLabels.text = text
         registerTextView.text = text
+        registerTextView.textColor = .lightGray
     }
     
     
