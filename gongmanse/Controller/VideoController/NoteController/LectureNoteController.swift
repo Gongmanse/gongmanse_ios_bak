@@ -285,12 +285,15 @@ class LectureNoteController: UIViewController {
         
         scrollView.centerX(inView: view)
         scrollView.anchor(top: view.topAnchor,
+                          left: view.leftAnchor,
                           bottom: view.bottomAnchor,
-                          width: view.frame.width)
+                          right: view.rightAnchor)
         
-        contentView.centerX(inView: view)
+//        contentView.centerX(inView: view)
         contentView.anchor(top: scrollView.topAnchor,
-                           bottom: scrollView.bottomAnchor)
+                           left: scrollView.leftAnchor,
+                           bottom: scrollView.bottomAnchor,
+                           right: scrollView.rightAnchor)
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.backgroundColor = .white
         

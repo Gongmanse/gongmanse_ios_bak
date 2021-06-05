@@ -295,9 +295,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 자막을 클릭 했을 때, 제스쳐로 인지할 제스쳐 인스턴스
     lazy var gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedSubtitle))
     
+    
+    var collectionViewLayout = UICollectionViewFlowLayout()
+    
     /// 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
-    var pageCollectionView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
+    lazy var pageCollectionView: UICollectionView = {
+        
         collectionViewLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -384,6 +387,18 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         
     // MARK: - Heleprs
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        let width = pageCollectionView.frame.width
+        let height = pageCollectionView.frame.height
+        
+        collectionViewLayout.itemSize = CGSize(width: width,
+                                               height: height)
+        
+        print("DEBUG: 서브뷰를 업데이트합니다.")
+    }
+    
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
