@@ -8,9 +8,25 @@
 import UIKit
 import AVKit
 
+struct PIPVideoData {
+    
+    var isOnPIP: Bool
+    var videoURL: NSURL?
+    var currentVideoTime: Float
+    var videoTitle: String
+    var teacherName: String
+}
+
 class PIPController: UIViewController {
 
     // MARK: - Properties
+    
+    // Data
+    var isOnPIP: Bool = false
+    var pipVideoData: PIPVideoData? {
+        didSet { setupVideo() }
+    }
+    
     // AVPlayer
     // AVPlayer
     var asset: AVAsset?
@@ -18,18 +34,25 @@ class PIPController: UIViewController {
     var playerController = AVPlayerViewController()
     var playItem: AVPlayerItem?
     var playerLayer: AVPlayerLayer?
-    
+    var timeObserverToken: Any?
+
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .black
         return view
     }()
+    
+
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+    }
+    
+    deinit {
+        print("DEBUG: PIP 모드가 종료됩니다.")
     }
     
     // MARK: - Actions
@@ -43,13 +66,19 @@ class PIPController: UIViewController {
     
     func setupLayout() {
         
+        
         view.addSubview(containerView)
         containerView.anchor(top: view.topAnchor,
                              left: view.leftAnchor,
                              bottom: view.bottomAnchor,
                              right: view.rightAnchor)
+    }
+    
+    func setupVideo() {
         
-        self.asset = AVAsset(url: URL(string: "https://file.gongmanse.com/access/lectures/video?access_key=ZGRkZTU5OGRlMDAxNTY2ZTk3MDM2OTU4OGY5NDBlZTU4ZmUyMzg2NDRkZWEyMGQ5ZjI1YmE3NmI3NGFjMzkxYWQ5ZDcxMzRlMzNmMWE2NzBmYTBlZDQyNzgyNjdlNmIzNmRhMjcwY2MzYTZkNWRjZjBmOTY3NDMwZGNjNTJmYTJPN3U4ZWpucEhYNzkvNFJpUUo5Y1FPb21BSlBJaDdUbDBtQjBTVU9MN01ZQjc1dHN1R2ltVG9LeFlsV29FRFoxQW1oSmYxOHNEVkI2eUltalQ1OUhkRVlGakhJb0Z6OFQvQWRHeHV5S0YwYnFFRmc0dlpOckpXRlNHNDlqaWUrSmltWFZOWCtJZTRFbHducVRPdFBXU2g3dytCMjJUVEpmS21FeWVZUjNmZzc1bm1HdzVIT0szb0p3S01RYmY0WXAzVjk3S3gvTnBGeXZpckRnV0VGaDhiVWJoWVVRc0xxTjhyNGNGSG1xUzhIOFRBbitObmxnSlNOR2cvdUZvZXQzSHJDQTR4YTd4akRwTTVZbWY3SDNUQXpxQzJHTmpYRlFYb01pWWVVcmxsNWs1QzlIYVRrWXNYQ1NTZXlBSmlkK3dtVEYyNWVOL2RQbnlWbnowMFdrc0ZWT21xNm1PMWpmektQWi9pWmU3RDg9")!)
+        guard let pipVideoData = self.pipVideoData else { return }
+        
+        self.asset = AVAsset(url: pipVideoData.videoURL! as URL)
         
         let keys: [String] = ["playable"]
         
@@ -67,14 +96,19 @@ class PIPController: UIViewController {
                         playerLayer.videoGravity = AVLayerVideoGravity.resizeAspect
                         playerLayer.frame = self.containerView.bounds
                         self.containerView.layer.addSublayer(playerLayer)
+                        let seconds: Int64 = Int64(pipVideoData.currentVideoTime)
+                        let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
+                        self.player?.seek(to: targetTime)
                         self.player?.play()
                     }
                     break
+                    
             case .failed:
                 DispatchQueue.main.async {
                     print("DEBUG: 실패했습니다.")
                 }
                 break
+                
             case .cancelled:
                 DispatchQueue.main.async {
                     print("DEBUG: 취소했습니다.")
@@ -85,5 +119,14 @@ class PIPController: UIViewController {
         })
     }
 
-
+    public func removePeriodicTimeObserver() {
+        if let timeObserverToken = timeObserverToken {
+            player!.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+    }
+    
+    func dismissVC() {
+        dismiss(animated: true)
+    }
 }

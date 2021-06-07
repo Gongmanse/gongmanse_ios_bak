@@ -1,8 +1,19 @@
 import UIKit
 
+protocol LessonInfoControllerDelegate: AnyObject {
+    func videoVCPauseVideo()
+    func videoVCPassCurrentVideoTimeToLessonInfo()
+}
+
 class LessonInfoController: UIViewController {
     
     // MARK: - Properties
+    
+    var pipVideoData: PIPVideoData?   // PIP 재생을 위해 필요한 구조체
+    var currentVideoPlayTime: Float?  // 현재 영상이 재생되고 있는 시간
+    var currentVideoURL: NSURL?       // 현재 영싱의 VideoID
+    
+    weak var delegate: LessonInfoControllerDelegate?
     
     public var sSubjectLabel = sUnitLabel("DEFAULT", .brown)
     public var sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
@@ -285,30 +296,60 @@ extension LessonInfoController {
 
 extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        
         return sTagsArray.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let item = sTagsArray[indexPath.row]
         let cell = sTagsCollectionView?.dequeueReusableCell(withReuseIdentifier: "sTagsCell", for: indexPath) as! sTagsCell
         cell.cellLabel.text = item
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let item = sTagsArray[indexPath.row]
         let itemSize = item.size(withAttributes: [NSAttributedString.Key.font : UIFont.appBoldFontWith(size: 15)])
         return itemSize
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
+        // 키워드를 클릭했을 때, 현재 영상의 재생 시간값을 받아온다.
+        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
+        
+        // 클릭한 키워드를 입력한다.
         let data = sTagsArray[indexPath.row]
+        
+        // 재생중이던 영상을 일시중지한다. 동시에, PIP를 재생한다. -> Delegation 필요 -> 완료
+        delegate?.videoVCPauseVideo()
+
         let vc = SearchAfterVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         vc.searchData.searchText = data
-        present(nav, animated: true)
+
+        guard let videoURL = self.currentVideoURL else { return }
+        
+        present(nav, animated: true) {
+            let pipVideoData = PIPVideoData(isOnPIP: true,
+                                            videoURL: videoURL,
+                                            currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
+                                            videoTitle: self.lessonnameLabel.text ?? "",
+                                            teacherName: self.teachernameLabel.text ?? "")
+            vc.pipVideoData = pipVideoData
+            
+            // isPlayPIP 값을 "SearchAfterVC" 에 전달한다. -> 완료
+            // 그 값에 따라서 PIP 재생여부를 결정한다.
+            vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+        }
     }
 }
 

@@ -48,6 +48,9 @@ extension VideoController {
     
     /// 전반적인 UI 구현 메소드
     func configureUI() {
+        // 강의정보 키워드 클릭 시, 영상을 일시중지하기 위한 Delegation
+        lessonInfoController.delegate = self
+        
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = .white
         navigationController?.hidesBarsOnSwipe = true
@@ -88,26 +91,6 @@ extension VideoController {
         pageCollectionView.register(BottomPlaylistCell.self,
                                     forCellWithReuseIdentifier: BottomPlaylistCell.reusableIdentifier)
         view.addSubview(pageCollectionView)
-        
-        // PIP 모드 구현을 위한 AutoLayout을 설정한다.
-        let pipHeight = view.frame.height * 0.1
-        
-        view.addSubview(pipContainerView)
-        pipContainerView.anchor(left: view.leftAnchor,
-                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                                right: view.rightAnchor,
-                                height: pipHeight)
-        
-        let pipVC = PIPController()
-        pipContainerView.addSubview(pipVC.view)
-        pipVC.view.anchor(top:pipContainerView.topAnchor)
-        pipVC.view.centerY(inView: pipContainerView)
-        pipVC.view.setDimensions(height: 100, width: 150)
-        
-        
-        
-        
-        
     }
     
     /// 동영상 바로 하단에 위치한 강의정보 및 선생님 정보가 적힌 View 설정을 위한 메소드
