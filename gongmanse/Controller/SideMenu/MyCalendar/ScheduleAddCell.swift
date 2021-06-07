@@ -145,7 +145,7 @@ class ScheduleAddTimerCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.textAlignment = .right
-        label.text = "2021.05.31 (목) 15:10"
+        label.text = "2021-05-31 (목) 15:10"
         label.isUserInteractionEnabled = true
         return label
     }()
@@ -171,7 +171,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     let endDateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
-        label.text = "2021.05.31 (목) 15:10"
+        label.text = "2021-05-31 (목) 15:10"
         label.textAlignment = .right
         label.isUserInteractionEnabled = true
         return label

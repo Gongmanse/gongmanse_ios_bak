@@ -132,7 +132,7 @@ class StartLabelPickerViewController: BottomPopupViewController, PassStartDateTi
 
     @objc func pickerDateValue(_ sender: UIDatePicker) {
         let dateformatter: DateFormatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy. MM. dd"
+        dateformatter.dateFormat = "yyyy-MM-dd"
         
         let dayformatter: DateFormatter = DateFormatter()
         dayformatter.dateFormat = "EE"

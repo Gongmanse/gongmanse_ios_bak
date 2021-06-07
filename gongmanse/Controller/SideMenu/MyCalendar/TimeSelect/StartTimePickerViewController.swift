@@ -113,7 +113,7 @@ class StartTimePickerViewController: BottomPopupViewController {
         // nil일 경우 오늘이라는 뜻이니 에러처리하기
         if dateSelectString == nil {
             let datefomatter: DateFormatter = DateFormatter()
-            datefomatter.dateFormat = "yyyy. MM. dd"
+            datefomatter.dateFormat = "yyyy-MM-dd"
             let encodeString = datefomatter.string(from: Date())
             dateSelectString = encodeString
         }
