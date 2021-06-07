@@ -1,4 +1,5 @@
 import UIKit
+import AVKit
 
 extension VideoController {
     /// 강의 및 선생님 정보 View 하단에 있는 버튼 toggle 기능담당 메소드
@@ -47,6 +48,9 @@ extension VideoController {
     
     /// 전반적인 UI 구현 메소드
     func configureUI() {
+        // 강의정보 키워드 클릭 시, 영상을 일시중지하기 위한 Delegation
+        lessonInfoController.delegate = self
+        
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = .white
         navigationController?.hidesBarsOnSwipe = true
@@ -73,7 +77,7 @@ extension VideoController {
     }
     
     /// "노트보기" ... 등 CollectionView 설정을 위한 메소드
-    func setupPageCollectionView(){
+    func setupPageCollectionView() {
         pageCollectionView.isScrollEnabled = false
         pageCollectionView.delegate = self
         pageCollectionView.dataSource = self

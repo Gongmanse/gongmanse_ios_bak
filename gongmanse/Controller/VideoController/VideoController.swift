@@ -13,6 +13,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
     
+    /**
+     PIP 창이 나와야하는 경우
+     - 영상 > 키워드 클릭 > 검색화면 으로 화면을 이동했을 경우
+     - 영상 > 관련시리즈 로 화면을 이동했을 경우
+     두 가지 경우이다. 그러면 "VideoController" 에서 영상 PIP 객체를 생성하는 것이 아닌,
+    "상세검색화면" 과 "관련 시리즈" 에서 PIP 객체를 가지고 있다가 실행시켜주면 된다.
+     이를 구현하기 위한 객체로 PIP를 켜야할지 말아야할 지알려주는 변수이다.
+     */
+    var isOnPIP: Bool = false
+    
     var currentVideoPlayRate = Float(1.0) {
         didSet {
             player.playImmediately(atRate: currentVideoPlayRate)
@@ -59,7 +69,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(videoID: id!)
-
+    
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -108,6 +118,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var topBorderLinePorTraitTopConstraint: NSLayoutConstraint?
     var topBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
     
+    // Constraint 객체 - 가로모드
+    var topBorderLineLandScapeCenterXConstraint: NSLayoutConstraint?
+    var topBorderLineLandScapeHeightConstraint: NSLayoutConstraint?
+    var topBorderLineLandScapeTopConstraint: NSLayoutConstraint?
+    var topBorderLineLandScapeWidthConstraint: NSLayoutConstraint?
+    
     /* bottomBorderLine */
     // Constraint 객체 - 세로모드
     var bottomBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?
@@ -128,6 +144,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var pageCollectionViewLandscapeTopConstraint: NSLayoutConstraint?
     var pageCollectionViewLandscapeLeftConstraint: NSLayoutConstraint?
     
+    // 유사 PIP모드 Constraint
+    var pipViewHeightConstraint: NSLayoutConstraint?
+    
     /* Constraint 객체 - 선생님 정보 및 강의정보 View */
     /// 최초로드 시, 선생님정보 및 강의 정보에 적용될 제약조건
     var teacherInfoFoldConstraint: NSLayoutConstraint?
@@ -135,6 +154,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var teacherInfoUnfoldConstraint: NSLayoutConstraint?
     
     // MARK: Video Properties
+    
+    // 유사 PIP 기능을 위한 ContainerView
+    let pipContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        return view
+    }()
     
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
@@ -359,6 +385,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         
+        // 인트로를 실행한다.
         if isStartVideo == false {
             let vc = IntroController()
             vc.delegate = self
@@ -599,6 +626,7 @@ extension VideoController {
         // lessionInfo로 VideoID 넘기기
         self.lessonInfoController.videoID = id
         playVideo()
+//        pipPlayer.play()
     }
     
     func failToConnectVideoByTicket() {
@@ -656,8 +684,6 @@ extension VideoController: SelectVideoPlayRateVCDelegate {
     func changeVideoPlayRateByBottomPopup(rate: Float) {
         self.currentVideoPlayRate = rate
     }
-    
-    
 }
 
 
@@ -666,5 +692,25 @@ extension VideoController: SelectVideoPlayRateVCDelegate {
 extension VideoController: IntroControllerDelegate {
     func playVideoEndedIntro() {
         player.play()
+    }
+}
+
+
+// MARK: - LessonInfoControllerDelegate
+/**
+ "강의정보" view 내부에 키워드를 클릭 했을 때, 검색화면으로 이동한다.
+ 그때, 재생되던 영상을 일시정지하기 위해서 Delegation 메소드를 활용한다.
+ */
+
+extension VideoController: LessonInfoControllerDelegate {
+    
+    func videoVCPassCurrentVideoTimeToLessonInfo() {
+        self.lessonInfoController.currentVideoPlayTime = timeSlider.value
+        self.lessonInfoController.currentVideoURL = self.videoURL
+    }
+    
+    
+    func videoVCPauseVideo() {
+        self.player.pause()
     }
 }

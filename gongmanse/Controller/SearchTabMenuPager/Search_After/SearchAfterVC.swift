@@ -8,18 +8,69 @@
 
 import UIKit
 
-protocol ReloadDataRecentKeywordDelegate: class {
+protocol ReloadDataRecentKeywordDelegate: AnyObject {
     func reloadTableView()
 }
 
-protocol SearchAfterVCDelegate: class {
+protocol SearchAfterVCDelegate: AnyObject {
     func passTheKeywordData(keyword: String)
 }
 
 class SearchAfterVC: UIViewController {
 
     //MARK: - Properties
-
+    
+    // PIP 모드를 위한 프로퍼티
+    var isOnPIP: Bool = false
+    var pipVC: PIPController?
+    var pipVideoData: PIPVideoData? {
+        didSet {
+            setupPIPView()
+            pipVC?.pipVideoData = pipVideoData
+        }
+    }
+    
+    /// 유사 PIP 기능을 위한 ContainerView
+    let pipContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private let lessonTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 13)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let teachernameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        label.textColor = .gray
+        return label
+    }()
+    
+    private var isPlayPIPVideo: Bool = true
+    private let playPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let xButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    
     // delegate
     weak var reloadDelegate: ReloadDataRecentKeywordDelegate?
     weak var delegate: SearchAfterVCDelegate?
@@ -84,10 +135,36 @@ class SearchAfterVC: UIViewController {
     //MARK: - Actions
     
     @objc func dismissVC() {
-        // TODO: delegate 메소드를 호출하여 "RecentKeywordVC"를 Reload 한다.
+        
+        // PIP 모드가 실행중이였다면, 종료시킨다.
+        dismissPIPView()
+        
         self.reloadDelegate?.reloadTableView()
         self.dismiss(animated: true)
     }
+    
+    @objc func playPauseButtonDidTap() {
+        isPlayPIPVideo = !isPlayPIPVideo
+        
+        if isPlayPIPVideo {
+            pipVC?.player?.pause()
+            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
+        } else {
+            pipVC?.player?.play()
+            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        }
+    }
+    
+    @objc func xButtonDidTap() {
+        
+        pipVC?.player?.pause()
+        pipVC?.player = nil
+        
+        UIView.animate(withDuration: 0.22, animations: {
+            self.pipContainerView.alpha = 0
+        }, completion: nil)
+    }
+    
     
     //MARK: - Helper functions
     
@@ -119,6 +196,7 @@ class SearchAfterVC: UIViewController {
                         right: view.rightAnchor,
                         paddingTop: 5,
                         height: 55)
+
     }
     
     func configureNavi() {
@@ -166,6 +244,10 @@ class SearchAfterVC: UIViewController {
     }
     
     func setupPageViewController() {
+        
+        // 검색화면에서 상세 영상 실행될 때, PIP를 dismiss하기 위한 Delegation
+        searchVideo.pipDelegate = self
+        
         self.pageController = TabsPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.addChild(self.pageController)
         self.view.addSubview(self.pageController.view)
@@ -224,6 +306,63 @@ class SearchAfterVC: UIViewController {
         
     }
     
+    func setupPIPView() {
+        
+        let pipHeight = view.frame.height * 0.085
+        view.addSubview(pipContainerView)
+        pipContainerView.anchor(left: view.leftAnchor,
+                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                right: view.rightAnchor,
+                                height: pipHeight)
+        
+        pipVC = PIPController()
+        guard let pipVC = self.pipVC else { return }
+        
+        pipContainerView.layer.borderColor = UIColor.gray.cgColor
+        pipContainerView.layer.borderWidth = CGFloat(0.5)
+        pipContainerView.addSubview(pipVC.view)
+        pipVC.view.anchor(top:pipContainerView.topAnchor)
+        pipVC.view.centerY(inView: pipContainerView)
+        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        
+        pipContainerView.addSubview(xButton)
+        xButton.setDimensions(height: 25, width: 25)
+        xButton.centerY(inView: pipContainerView)
+        xButton.anchor(right: pipContainerView.rightAnchor,
+                       paddingRight: 5)
+        
+        pipContainerView.addSubview(playPauseButton)
+        playPauseButton.setDimensions(height: 25, width: 25)
+        playPauseButton.centerY(inView: pipContainerView)
+        playPauseButton.anchor(right: xButton.leftAnchor,
+                       paddingRight: 20)
+        
+        pipContainerView.addSubview(lessonTitleLabel)
+        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
+                                left: pipContainerView.leftAnchor,
+                                paddingTop: 13,
+                                paddingLeft: pipHeight * 1.77 + 5,
+                                height: 17)
+        lessonTitleLabel.text = pipVideoData?.videoTitle ?? ""
+        
+        pipContainerView.addSubview(teachernameLabel)
+        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
+                                left: lessonTitleLabel.leftAnchor,
+                                paddingTop: 5,
+                                height: 15)
+        teachernameLabel.text = pipVideoData?.teacherName ?? ""
+        
+        
+    }
+    
+    func dismissPIPView() {
+        // PIP 모드가 실행중이였다면, 종료시킨다.
+        pipVC?.player?.pause()
+        pipVC?.player = nil
+        pipVC?.removePeriodicTimeObserver()
+        pipVC?.removeFromParent()
+        pipVC = nil
+    }
     
 }
 
@@ -375,4 +514,10 @@ extension SearchAfterVC: RecentKeywordVCDelegate {
     }
     
     
+}
+
+extension SearchAfterVC: SearchVideoVCDelegate {
+    func serachAfterVCPIPViewDismiss() {
+        pipVC?.player?.pause()
+    }
 }
