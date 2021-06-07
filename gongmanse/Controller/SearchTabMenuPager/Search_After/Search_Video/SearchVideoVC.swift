@@ -7,9 +7,15 @@ import UIKit
  */
 private let cellId = "SearchVideoCell"
 
+protocol SearchVideoVCDelegate: AnyObject {
+    func serachAfterVCPIPViewDismiss()
+}
+
 class SearchVideoVC: UIViewController {
     
     //MARK: - Properties
+    
+    weak var pipDelegate: SearchVideoVCDelegate?
     
     var pageIndex: Int!
     let searchVideoVM = SearchVideoViewModel()
@@ -187,6 +193,10 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                         didSelectItemAt indexPath: IndexPath) {
         
         if Constant.isLogin {
+            
+            // PIP를 dismiss한다.
+            pipDelegate?.serachAfterVCPIPViewDismiss()
+            
             let vc = VideoController()
             let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
             let videoID = receviedVideoID

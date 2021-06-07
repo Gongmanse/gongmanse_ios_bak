@@ -137,11 +137,7 @@ class SearchAfterVC: UIViewController {
     @objc func dismissVC() {
         
         // PIP 모드가 실행중이였다면, 종료시킨다.
-        pipVC?.player?.pause()
-        pipVC?.player = nil
-        pipVC?.removePeriodicTimeObserver()
-        pipVC?.removeFromParent()
-        pipVC = nil
+        dismissPIPView()
         
         self.reloadDelegate?.reloadTableView()
         self.dismiss(animated: true)
@@ -248,6 +244,10 @@ class SearchAfterVC: UIViewController {
     }
     
     func setupPageViewController() {
+        
+        // 검색화면에서 상세 영상 실행될 때, PIP를 dismiss하기 위한 Delegation
+        searchVideo.pipDelegate = self
+        
         self.pageController = TabsPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.addChild(self.pageController)
         self.view.addSubview(self.pageController.view)
@@ -353,6 +353,15 @@ class SearchAfterVC: UIViewController {
         teachernameLabel.text = pipVideoData?.teacherName ?? ""
         
         
+    }
+    
+    func dismissPIPView() {
+        // PIP 모드가 실행중이였다면, 종료시킨다.
+        pipVC?.player?.pause()
+        pipVC?.player = nil
+        pipVC?.removePeriodicTimeObserver()
+        pipVC?.removeFromParent()
+        pipVC = nil
     }
     
 }
@@ -505,4 +514,10 @@ extension SearchAfterVC: RecentKeywordVCDelegate {
     }
     
     
+}
+
+extension SearchAfterVC: SearchVideoVCDelegate {
+    func serachAfterVCPIPViewDismiss() {
+        pipVC?.player?.pause()
+    }
 }
