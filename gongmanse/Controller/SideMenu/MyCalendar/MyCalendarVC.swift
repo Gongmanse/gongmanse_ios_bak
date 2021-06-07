@@ -7,6 +7,19 @@ class MyCalendarVC: UIViewController {
     
     private let height = UIScreen.main.bounds.height
     
+    var tableConstrant: NSLayoutConstraint?
+    
+    private var isBottomTableHeight: Bool = false {
+        didSet {
+            tableConstrant?.constant = isBottomTableHeight ? -height / 3 + 30 : 0
+            
+            UIView.animate(withDuration: 2) {
+                self.tableView.topAnchor.constraint(equalTo: self.view.bottomAnchor,
+                                                    constant: self.tableConstrant!.constant).isActive = true
+            }
+        }
+    }
+    
     private var calendarView: FSCalendar = {
         let view = FSCalendar()
         view.appearance.headerDateFormat = "YYYY년 M월"                              // 헤더 ( 년 월 )
@@ -48,6 +61,14 @@ class MyCalendarVC: UIViewController {
     
     var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
     // MARK: - LifeCycle
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
+        
+        isBottomTableHeight = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +112,11 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
 
 extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
     
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        isBottomTableHeight = true
+        
+        tableView.reloadData()
+    }
 }
 
 // MARK: - UI
@@ -137,7 +163,8 @@ extension MyCalendarVC {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -view.frame.size.height / 3).isActive = true
+        tableConstrant = tableView.topAnchor.constraint(equalTo: view.bottomAnchor)
+        tableConstrant?.isActive = true
         
         
     }
