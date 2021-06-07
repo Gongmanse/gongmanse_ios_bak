@@ -60,6 +60,7 @@ class MyCalendarVC: UIViewController {
     }()
     
     var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
+    
     // MARK: - LifeCycle
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,14 +74,14 @@ class MyCalendarVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
 
         navigationConfigure()
         configuration()
         constraints()
         
         floatingButton.addTarget(self, action: #selector(scheduleRegistration(_:)), for: .touchUpInside)
-        
-//        myCalendarVM?.myCalendarApi("2021-04")
+    
     }
     
     @objc func scheduleRegistration(_ sender: UIButton) {
@@ -116,6 +117,15 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
         isBottomTableHeight = true
         
         tableView.reloadData()
+    }
+    
+    // 페이지 넘길 때 한번 호출
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy-MM"
+        
+        let currentDate = dateformatter.string(from: calendar.currentPage)
+        myCalendarVM?.myCalendarApi(currentDate)
     }
 }
 
