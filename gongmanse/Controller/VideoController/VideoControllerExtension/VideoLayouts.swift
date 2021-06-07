@@ -91,7 +91,7 @@ extension VideoController {
         teacherInfoFoldConstraint?.priority = UILayoutPriority(rawValue: 999)
         teacherInfoUnfoldConstraint?.priority = UILayoutPriority(rawValue: 999)
         teacherInfoFoldConstraint
-            = lessonInfoView.heightAnchor.constraint(equalToConstant: 5)
+            = lessonInfoView.heightAnchor.constraint(equalToConstant: 0)
         teacherInfoUnfoldConstraint
             = lessonInfoView.heightAnchor.constraint(equalToConstant: 190)
         
@@ -112,6 +112,7 @@ extension VideoController {
             = lessonInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         
         /* TeacherInfoView (top/bottom)BorderLine */
+        // Portrait 제약조건 정의
         lessonInfoView.addSubview(topBorderLine)
         lessonInfoView.addSubview(bottomBorderLine)
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +122,7 @@ extension VideoController {
         topBorderLinePorTraitCenterXConstraint
             = topBorderLine.centerXAnchor.constraint(equalTo: lessonInfoView.centerXAnchor)
         topBorderLinePorTraitHeightConstraint
-            = topBorderLine.heightAnchor.constraint(equalToConstant: 5)
+            = topBorderLine.heightAnchor.constraint(equalToConstant: 0)
         topBorderLinePorTraitWidthConstraint
             = topBorderLine.widthAnchor.constraint(equalTo: lessonInfoView.widthAnchor)
         bottomBorderLinePorTraitBottomConstraint
@@ -132,6 +133,16 @@ extension VideoController {
             = bottomBorderLine.heightAnchor.constraint(equalToConstant: 5)
         bottomBorderLinePorTraitWidthConstraint
             = bottomBorderLine.widthAnchor.constraint(equalTo: lessonInfoView.widthAnchor)
+        
+        // LandScape 제약조건 정의
+        topBorderLineLandScapeCenterXConstraint =
+            topBorderLine.centerXAnchor.constraint(equalTo: pageCollectionView.centerXAnchor)
+        topBorderLineLandScapeHeightConstraint =
+            topBorderLine.heightAnchor.constraint(equalToConstant: 0)
+        topBorderLineLandScapeTopConstraint =
+            topBorderLine.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
+        topBorderLineLandScapeWidthConstraint =
+            topBorderLine.widthAnchor.constraint(equalTo: customMenuBar.widthAnchor)
         
         /* pageCollectionView */
         // Portrait 제약조건 정의

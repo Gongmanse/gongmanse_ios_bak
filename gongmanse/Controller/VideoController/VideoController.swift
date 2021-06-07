@@ -108,6 +108,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var topBorderLinePorTraitTopConstraint: NSLayoutConstraint?
     var topBorderLinePorTraitWidthConstraint: NSLayoutConstraint?
     
+    // Constraint 객체 - 가로모드
+    var topBorderLineLandScapeCenterXConstraint: NSLayoutConstraint?
+    var topBorderLineLandScapeHeightConstraint: NSLayoutConstraint?
+    var topBorderLineLandScapeTopConstraint: NSLayoutConstraint?
+    var topBorderLineLandScapeWidthConstraint: NSLayoutConstraint?
+    
     /* bottomBorderLine */
     // Constraint 객체 - 세로모드
     var bottomBorderLinePorTraitCenterXConstraint: NSLayoutConstraint?
@@ -359,6 +365,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         
+        // 인트로를 실행한다.
         if isStartVideo == false {
             let vc = IntroController()
             vc.delegate = self

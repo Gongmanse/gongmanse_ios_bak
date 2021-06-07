@@ -20,6 +20,12 @@ class VideoMenuBar: UIView {
     let qnaOnLeftImage = UIImage(named: "강의QnA버튼_on")
     let playlistOnLeftImage = UIImage(named: "재생목록버튼_on")
     
+    public let borderLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .mainOrange
+        return view
+    }()
+    
     weak var delegate: VideoMenuBarDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +65,12 @@ class VideoMenuBar: UIView {
         videoMenuBarTabBarCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         videoMenuBarTabBarCollectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         videoMenuBarTabBarCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        self.addSubview(borderLineView)
+        borderLineView.anchor(left: videoMenuBarTabBarCollectionView.leftAnchor,
+                              bottom: videoMenuBarTabBarCollectionView.bottomAnchor,
+                              right: videoMenuBarTabBarCollectionView.rightAnchor,
+                              height: 5)
     }
     
 }
