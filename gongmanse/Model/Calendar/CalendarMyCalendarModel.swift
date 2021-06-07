@@ -11,10 +11,10 @@ import Foundation
 // 내 캘린더 데이터 받을 모델
 struct CalendarMyCalendarModel: Codable {
     
-    let data: [CalendarMyDatamodel]
+    let data: [CalendarMyDataModel]
 }
 
-struct CalendarMyDatamodel: Codable {
+struct CalendarMyDataModel: Codable {
     let date: String
     let description: [CalendarMyDescriptionModel]
 }

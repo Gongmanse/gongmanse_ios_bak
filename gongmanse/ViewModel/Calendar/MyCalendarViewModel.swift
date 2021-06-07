@@ -11,7 +11,13 @@ class MyCalendarViewModel {
     
     var myDate: CalendarMyCalendarModel? = nil
     
-    func myCalendarApi(_ date: String) {
+    // Description 값이 있는 데이터만 담을 배열
+    var dataArr: [CalendarMyDataModel] = []
+    
+    
+    var dateList: [Date] = []
+    
+    func requestMyCalendarApi(_ date: String) {
         
         let parameter = MyCalendarPostModel(token: Constant.token,
                                             date: date)
@@ -19,11 +25,38 @@ class MyCalendarViewModel {
         CalendarAPIManager.myCalendarApi(parameter) { response in
             switch response {
             case .success(let data):
-                self.myDate = data
+                self.calendarCheckData(data)
+//                self.myDate = data
                 
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+    }
+    
+    func calendarCheckData(_ data: CalendarMyCalendarModel) {
+        
+        for receive in data.data {
+            if !receive.description.isEmpty {
+                dataArr.append(receive)
+                stringConvertDate(receive)
+                print(receive)
+            }
+            
+        }
+        
+    }
+    
+    func stringConvertDate(_ date: CalendarMyDataModel) {
+        
+        
+        let dateformatter = DateFormatter()
+        dateformatter.locale = Locale(identifier: "ko_KR")
+        dateformatter.dateFormat = "yyyy-MM-dd"
+        
+        if let dateConvert = dateformatter.date(from: date.date) {
+            dateList.append(dateConvert)
+            print(dateConvert)
         }
     }
 }

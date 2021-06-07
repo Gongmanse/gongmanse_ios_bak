@@ -31,7 +31,7 @@ class MyCalendarVC: UIViewController {
         // 현재달에서 다음달, 이전달 날짜 나오는 상태 변경
         view.placeholderType = .none
         
-        view.locale = Locale(identifier: "ko_KR")
+        view.locale = Locale(identifier: "ko-KR")
         view.calendarWeekdayView.weekdayLabels[0].textColor = .rgb(red: 255, green: 0, blue: 35)    // 일 색 변경
         view.calendarWeekdayView.weekdayLabels[6].textColor = .rgb(red: 21, green: 176, blue: 172)  // 토 색 변경
         
@@ -122,10 +122,22 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
     // 페이지 넘길 때 한번 호출
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let dateformatter = DateFormatter()
+        dateformatter.locale = Locale(identifier: "ko_KR")
         dateformatter.dateFormat = "yyyy-MM"
         
         let currentDate = dateformatter.string(from: calendar.currentPage)
-        myCalendarVM?.myCalendarApi(currentDate)
+        myCalendarVM?.requestMyCalendarApi(currentDate)
+    
+        print(myCalendarVM?.dateList)
+    }
+    
+    // 이벤트 개수 표현하는 메소드
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+//        if let calendarData = myCalendarVM?.dataArr {
+//
+//        }
+//
+        return 0
     }
 }
 
