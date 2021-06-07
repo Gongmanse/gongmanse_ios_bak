@@ -68,9 +68,13 @@ class MyCalendarVC: UIViewController {
     }
 }
 
-// MARK: - TableView
+// MARK: - BottomTableView
 
 extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -78,7 +82,7 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyCalendarCell.identifier, for: indexPath) as? MyCalendarCell else { return UITableViewCell() }
-        cell.textLabel?.text = "A"
+        
         return cell
     }
 }
