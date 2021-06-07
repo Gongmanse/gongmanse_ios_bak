@@ -169,6 +169,8 @@ extension VideoController {
         self.videoContainerView.addSubview(playerController.view)
         playerController.view.anchor(top: videoContainerView.topAnchor,
                                      left: videoContainerView.leftAnchor)
+        
+
     }
     
     ///  화면전환에 따른 Constraint 적용
@@ -192,8 +194,8 @@ extension VideoController {
     /// Portait 제약조건 활성화 메소드
     func portraitConstraint(_ isActive: Bool) {
         
-        pageCollectionView.reloadData()
-        customMenuBar.setNeedsLayout()
+//        pageCollectionView.reloadData()
+//        customMenuBar.setNeedsLayout()
         
         // "videoContainerView" 제약조건
         videoContainerViewPorTraitWidthConstraint?.isActive = isActive
@@ -235,8 +237,8 @@ extension VideoController {
     /// Landscape 제약조건 활성화 메소드
     func landscapeConstraint(_ isActive: Bool) {
         
-        pageCollectionView.reloadData()
-        customMenuBar.setNeedsLayout()
+//        pageCollectionView.reloadData()
+//        customMenuBar.setNeedsLayout()
         
         // "videoContainerView" 제약조건
         videoContainerViewLandscapeWidthConstraint?.isActive = isActive

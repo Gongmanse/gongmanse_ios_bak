@@ -134,6 +134,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var pageCollectionViewLandscapeTopConstraint: NSLayoutConstraint?
     var pageCollectionViewLandscapeLeftConstraint: NSLayoutConstraint?
     
+    // 유사 PIP모드 Constraint
+    var pipViewHeightConstraint: NSLayoutConstraint?
+    
     /* Constraint 객체 - 선생님 정보 및 강의정보 View */
     /// 최초로드 시, 선생님정보 및 강의 정보에 적용될 제약조건
     var teacherInfoFoldConstraint: NSLayoutConstraint?
@@ -141,6 +144,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var teacherInfoUnfoldConstraint: NSLayoutConstraint?
     
     // MARK: Video Properties
+    
+    // 유사 PIP 기능을 위한 ContainerView
+    let pipContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        return view
+    }()
     
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
@@ -606,6 +616,7 @@ extension VideoController {
         // lessionInfo로 VideoID 넘기기
         self.lessonInfoController.videoID = id
         playVideo()
+//        pipPlayer.play()
     }
     
     func failToConnectVideoByTicket() {
