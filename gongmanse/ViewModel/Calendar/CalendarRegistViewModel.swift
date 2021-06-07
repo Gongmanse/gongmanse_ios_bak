@@ -18,43 +18,31 @@ class CalendarRegistViewModel {
     
     func currentStartDate() -> String {
         let dateformatter: DateFormatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy. MM. dd"
-        
-        let dayformatter: DateFormatter = DateFormatter()
-        dayformatter.dateFormat = "EE"
-        dayformatter.locale = Locale(identifier: "ko_KR")
-        
+        dateformatter.dateFormat = "yyyy-MM-dd"
         
         let timeformatter: DateFormatter = DateFormatter()
         timeformatter.dateFormat = "HH:mm"
         
         
         let dateString = dateformatter.string(from: Date())
-        let dayString = dayformatter.string(from: Date())
         let timeString = timeformatter.string(from: Date())
         
-        let allCurrent = "\(dateString) (\(dayString)) \(timeString)"
+        let allCurrent = "\(dateString) \(timeString)"
         
         return allCurrent
     }
     
     func currentEndDate() -> String {
         let dateformatter: DateFormatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy. MM. dd"
-        
-        let dayformatter: DateFormatter = DateFormatter()
-        dayformatter.dateFormat = "EE"
-        dayformatter.locale = Locale(identifier: "ko_KR")
-        
+        dateformatter.dateFormat = "yyyy-MM-dd"
         
         let timeformatter: DateFormatter = DateFormatter()
         timeformatter.dateFormat = "HH:mm"
         
         let dateString = dateformatter.string(from: Date())
-        let dayString = dayformatter.string(from: Date())
         let timeString = timeformatter.string(from: Date(timeIntervalSinceNow: 600))
         
-        let allCurrent = "\(dateString) (\(dayString)) \(timeString)"
+        let allCurrent = "\(dateString) \(timeString)"
         
         return allCurrent
     }
