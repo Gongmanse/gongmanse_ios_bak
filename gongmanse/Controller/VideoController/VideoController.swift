@@ -8,6 +8,16 @@ import AVKit
 import Foundation
 import UIKit
 
+class PIPDataManager {
+    
+    static let shared = PIPDataManager()
+    
+    var previousVideoID: String?
+    var currentVideoID: String?
+    
+    private init() { }
+}
+
 protocol VideoControllerDelegate: AnyObject {
     func recommandVCPresentVideoVC()
 }
@@ -503,12 +513,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
         setRemoveNotification()
-        guard let id = id else { return }
-        let inputData = DetailVideoInput(video_id: "15188", token: Constant.token)
-        
-        // "상세화면 영상 API"를 호출한다.
-        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
-        
+
+        if let currentVideID = self.id {
+            let inputData = DetailVideoInput(video_id: currentVideID, token: Constant.token)
+            
+            // "상세화면 영상 API"를 호출한다.
+            DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        }
     }
     
     // MARK: - Helper
@@ -787,6 +798,9 @@ extension VideoController {
         
         
         // PIP
+        let pipDataManager = PIPDataManager.shared
+        pipDataManager.previousVideoID = self.id
+        pipDataManager.currentVideoID = self.id
         let pipData = PIPVideoData(isPlayPIP: false,
                                    videoURL: videoURL,
                                    currentVideoTime: 0.0,

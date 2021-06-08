@@ -231,7 +231,7 @@ class LecturePlaylistVC: UIViewController {
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-        
+        print("DEBUG: PIP View를 탭했습니다.")
     }
     
     @objc func xButtonDidTap() {
