@@ -223,6 +223,7 @@ extension RecommendVC: UICollectionViewDelegate {
         } else {
             
             let vc = VideoController()
+            vc.delegate = self
             vc.id = recommendVideo.body[indexPath.row].videoId
             vc.modalPresentationStyle = .fullScreen
             let seriesID = recommendVideoSecond?.data[indexPath.row].iSeriesId
@@ -261,6 +262,18 @@ extension RecommendVC: RecommendCRVDelegate {
         vc.modalPresentationStyle = .fullScreen
         vc.id = videoID
         present(vc, animated: true)
+    }
+    
+    
+}
+
+extension RecommendVC: VideoControllerDelegate {
+    
+    func recommandVCPresentVideoVC() {
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.id = "15188"
+        self.present(vc, animated: false)
     }
     
     

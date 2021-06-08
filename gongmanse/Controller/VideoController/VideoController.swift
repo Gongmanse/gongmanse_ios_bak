@@ -8,9 +8,16 @@ import AVKit
 import Foundation
 import UIKit
 
+protocol VideoControllerDelegate: AnyObject {
+    func recommandVCPresentVideoVC()
+}
+
 class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
+    
+    weak var delegate: VideoControllerDelegate?
+    
     /**
      PIP 창이 나와야하는 경우
      - 영상 > 키워드 클릭 > 검색화면 으로 화면을 이동했을 경우
@@ -209,6 +216,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: Video Properties
     
+    // MARK: PIP
     // 유사 PIP 기능을 위한 ContainerView
     let pipContainerView: UIView = {
         let view = UIView()
@@ -217,7 +225,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         view.layer.borderColor = UIColor.gray.cgColor
         return view
     }()
-    
+        
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
         let view = UIView()
@@ -491,6 +499,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         }
     }
     
+    @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
+        setRemoveNotification()
+        guard let id = id else { return }
+        let inputData = DetailVideoInput(video_id: "15188", token: Constant.token)
+        
+        // "상세화면 영상 API"를 호출한다.
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        
+    }
     
     // MARK: - Helper
 
@@ -527,7 +544,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         flowLayout.invalidateLayout()
     }
     
-    
     func introVideoStart() {
         
         let testView = UIView()
@@ -546,11 +562,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         let pipVC = PIPController(isVideoVC: true)
         
         /* pipContainerView - Constraint */
+
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
                                 bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 right: view.rightAnchor,
                                 height: pipHeight)
+        
+        let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipViewDidTap))
+        pipContainerView.addGestureRecognizer(pipTapGesture)
+        pipContainerView.isUserInteractionEnabled = true
         
         /* pipVC.view - Constraint  */
         pipVC.pipVideoData = pipData
