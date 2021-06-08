@@ -4,7 +4,6 @@
  * 상단 탭바의 각각의 항목을 담당하는 객체: TabBarCell 폴더 내부 객체
  * 하단 "노트보기", "강의 QnA" 그리고 "재생목록"을 담당하는 객체: BottomCell 폴더 내부 객체
  */
-import AVFoundation
 import AVKit
 import Foundation
 import UIKit
@@ -12,7 +11,6 @@ import UIKit
 class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
-    
     /**
      PIP 창이 나와야하는 경우
      - 영상 > 키워드 클릭 > 검색화면 으로 화면을 이동했을 경우
@@ -21,7 +19,28 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     "상세검색화면" 과 "관련 시리즈" 에서 PIP 객체를 가지고 있다가 실행시켜주면 된다.
      이를 구현하기 위한 객체로 PIP를 켜야할지 말아야할 지알려주는 변수이다.
      */
-    var isOnPIP: Bool = false
+    var isOnPIP: Bool = true
+    // 이전 영상에 대한 VideoURL을 가지고 있다가, PIP View를 켤 때, 해당 URL로 비디오를 연결한다.
+    var teachername: String?
+    var lessonname: String?
+    
+    var pipData: PIPVideoData? {
+        didSet {
+            if self.isOnPIP {
+                configurePIPView(pipData: pipData)
+            }
+        }
+    }
+    
+//    var pipVideoURL: NSURL? {
+//        didSet {
+//            pipData = PIPVideoData(isOnPIP: self.isOnPIP,
+//                                   videoURL: pipVideoURL,
+//                                   currentVideoTime: self.timeSlider.value,
+//                                   videoTitle: self.lessonname ?? "",
+//                                   teacherName: self.teachername ?? "")
+//        }
+//    }
     
     var currentVideoPlayRate = Float(1.0) {
         didSet {
@@ -69,6 +88,41 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(videoID: id!)
+    
+    /* PIPView */
+    private let lessonTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 13)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let teachernameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        label.textColor = .gray
+        return label
+    }()
+    
+    private var isPlayPIPVideo: Bool = true
+    private let pipPlayPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .black
+//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let xButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
     
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
@@ -158,7 +212,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     // 유사 PIP 기능을 위한 ContainerView
     let pipContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.gray.cgColor
         return view
     }()
     
@@ -328,7 +384,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var pageCollectionView: UICollectionView = {
         
         collectionViewLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0,
+                                                            width: 500,
+                                                            height: 500),
+                                              collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -383,6 +442,18 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Lifecycle
     
+    init() { super.init(nibName: nil, bundle: nil) }
+    
+    // PIP 창이 필요한 경우 init
+    init(isOnPIP: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        self.isOnPIP = isOnPIP
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         
         // 인트로를 실행한다.
@@ -409,21 +480,28 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
-
     }
         
-    // MARK: - Heleprs
+    
+    // MARK: - Action
+    
+    @objc func xButtonDidTap() {
+        UIView.animate(withDuration: 0.33) {
+            self.pipContainerView.alpha = 0
+        }
+    }
+    
+    
+    // MARK: - Helper
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        let width = pageCollectionView.frame.width
-        let height = pageCollectionView.frame.height
-        
-        collectionViewLayout.itemSize = CGSize(width: width,
-                                               height: height)
-        
-        print("DEBUG: 서브뷰를 업데이트합니다.")
+//        let width = pageCollectionView.frame.width
+//        let height = pageCollectionView.frame.height
+//
+//        collectionViewLayout.itemSize = CGSize(width: width,
+//                                               height: height)
     }
     
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
@@ -434,13 +512,19 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 //                                        at: UICollectionView.ScrollPosition.left,
 //                                        animated: true)
         super.viewWillTransition(to: size, with: coordinator)
+        
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
             changeConstraintToVideoContainer(isPortraitMode: true)
         } else {
             changeConstraintToVideoContainer(isPortraitMode: false) //05.21 주석처리; 1차 배포를 위해
         }
-//        pageCollectionView.reloadData()
+        
+        // 가로모드 대응을 위해 flowLayout을 재정의한다.
+        guard let flowLayout = pageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        flowLayout.invalidateLayout()
     }
     
     
@@ -453,7 +537,51 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                width: view.frame.width)
         testView.anchor(top: view.topAnchor,
                         left: view.leftAnchor)
-
+    }
+    
+    func configurePIPView(pipData: PIPVideoData?) {
+        
+        guard let pipData = self.pipData else { return }
+        let pipHeight = view.frame.height * 0.085
+        let pipVC = PIPController(isVideoVC: true)
+        
+        /* pipContainerView - Constraint */
+        view.addSubview(pipContainerView)
+        pipContainerView.anchor(left: view.leftAnchor,
+                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                right: view.rightAnchor,
+                                height: pipHeight)
+        
+        /* pipVC.view - Constraint  */
+        pipVC.pipVideoData = pipData
+        pipContainerView.addSubview(pipVC.view)
+        pipVC.view.anchor(top:pipContainerView.topAnchor)
+        pipVC.view.centerY(inView: pipContainerView)
+        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        
+        /* xButton - Constraint */
+        pipContainerView.addSubview(xButton)
+        xButton.setDimensions(height: 25, width: 25)
+        xButton.centerY(inView: pipContainerView)
+        xButton.anchor(right: pipContainerView.rightAnchor,
+                       paddingRight: 5)
+        
+        /* lessonTitleLabel - Constraint */
+        pipContainerView.addSubview(lessonTitleLabel)
+        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
+                                left: pipContainerView.leftAnchor,
+                                paddingTop: 13,
+                                paddingLeft: pipHeight * 1.77 + 5,
+                                height: 17)
+        lessonTitleLabel.text = pipData.videoTitle
+        
+        /* teachernameLabel - Constraint */
+        pipContainerView.addSubview(teachernameLabel)
+        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
+                                left: lessonTitleLabel.leftAnchor,
+                                paddingTop: 5,
+                                height: 15)
+        teachernameLabel.text = pipData.teacherName + " 선생님"
     }
 }
 
@@ -558,7 +686,9 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: pageCollectionView.frame.width, height: pageCollectionView.frame.height)
+        
+        return CGSize(width: pageCollectionView.frame.width,
+                      height: pageCollectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -575,9 +705,12 @@ extension VideoController {
     
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
+        
+        var videoURL: NSURL?
         if let sourceURL = response.data.source_url {
             let url = URL(string: sourceURL) as NSURL?
             self.videoURL = url
+            videoURL = url
             self.videoAndVttURL.videoURL = url
         }
         
@@ -601,10 +734,12 @@ extension VideoController {
         
         // "sTeacher" -> LessonInfoController.teachernameLabel.text
         let teachername = response.data.sTeacher
-        self.lessonInfoController.teachernameLabel.text = teachername + "선생님"
+        self.teachername = response.data.sTeacher + " 선생님"
+        self.lessonInfoController.teachernameLabel.text = teachername + " 선생님"
         
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle
+        self.lessonname = response.data.sTitle
         self.lessonInfoController.lessonnameLabel.text = lessonTitle
         
         // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
@@ -627,6 +762,16 @@ extension VideoController {
         self.lessonInfoController.videoID = id
         playVideo()
 //        pipPlayer.play()
+        
+        
+        // PIP
+        let pipData = PIPVideoData(isOnPIP: self.isOnPIP,
+                                   videoURL: videoURL,
+                                   currentVideoTime: 0.0,
+                                   videoTitle: lessonTitle,
+                                   teacherName: teachername)
+        
+        self.pipData = pipData
     }
     
     func failToConnectVideoByTicket() {

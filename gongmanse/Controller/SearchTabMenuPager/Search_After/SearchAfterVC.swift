@@ -323,7 +323,8 @@ class SearchAfterVC: UIViewController {
         pipContainerView.addSubview(pipVC.view)
         pipVC.view.anchor(top:pipContainerView.topAnchor)
         pipVC.view.centerY(inView: pipContainerView)
-        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        pipVC.view.setDimensions(height: pipHeight,
+                                 width: pipHeight * 1.77)
         
         pipContainerView.addSubview(xButton)
         xButton.setDimensions(height: 25, width: 25)
@@ -332,7 +333,8 @@ class SearchAfterVC: UIViewController {
                        paddingRight: 5)
         
         pipContainerView.addSubview(playPauseButton)
-        playPauseButton.setDimensions(height: 25, width: 25)
+        playPauseButton.setDimensions(height: 25,
+                                      width: 25)
         playPauseButton.centerY(inView: pipContainerView)
         playPauseButton.anchor(right: xButton.leftAnchor,
                        paddingRight: 20)
