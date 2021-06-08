@@ -21,7 +21,10 @@ class PIPDataManager {
     var previousVideoID: String?
     var previousVideoURL: NSURL?
     var currentVideoID: String?
-    
+    var isPlayPIP: Bool = true
+    var currentVideoTime: Float = 0.0
+    var videoTitle: String = "클린코드"
+    var teacherName: String = "김우성"
     
     private init() { }
 }
@@ -779,11 +782,13 @@ extension VideoController {
         let teachername = response.data.sTeacher
         self.teachername = response.data.sTeacher + " 선생님"
         self.lessonInfoController.teachernameLabel.text = teachername + " 선생님"
+        pipDataManager.teacherName = teachername
         
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle
         self.lessonname = response.data.sTitle
         self.lessonInfoController.lessonnameLabel.text = lessonTitle
+        pipDataManager.videoTitle = lessonTitle
         
         // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
         let subjectname = response.data.sSubject
@@ -805,7 +810,6 @@ extension VideoController {
         self.lessonInfoController.videoID = id
         playVideo()
 //        pipPlayer.play()
-        
         
         // PIP
         pipDataManager.previousVideoID = self.id
@@ -896,6 +900,7 @@ extension VideoController: IntroControllerDelegate {
 extension VideoController: LessonInfoControllerDelegate {
     
     func videoVCPassCurrentVideoTimeToLessonInfo() {
+        
         self.lessonInfoController.currentVideoPlayTime = timeSlider.value
         self.lessonInfoController.currentVideoURL = self.videoURL
     }

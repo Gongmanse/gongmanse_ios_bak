@@ -185,13 +185,15 @@ class LecturePlaylistVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let pipDataManager = PIPDataManager.shared
+        
         let url = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MTAxNjYwMWU0MDhlZTEwNWI5MTMyMDE5NjdhNmY2ZWI1ZTkwMTQ5OWQ4NGVlYmNjODljMDA1NjFiM2QzNDE3MmRmYWJlMDVjMzc4MDM1MGNjNTEwZDY2NmNjNjlhMTM5MGM2NmZlM2E5OWY0NDlhMWIzMDNjMjgwYzgwOTBlOGNEbytoV2xvWUwwZzZpM1VhbG9mRHlSNUl6aEV0TENhcFlHNE8xa0tZZkI1Tk9Ia3UvUkZCSkt2UEpNSmJ1Y2VzZkdXOEJ0NXZITkJLWVdPaGVQSFhuajkxWnNyTHlIdUt5MDBzQXdKczhma2VXV1pJWW1qc1BLbjI2OEU3TnRpU1RMQnBIRlplamZjMWFhRGJPZ1RDNk1YaWVPdDNDV28wT21jNFV5Szg3QlI1MXlvMmhJcEtwU0g5ZHNRcnA1VCtvYVFQVXhvVHF1LzE5SnBZSmtSWmk5RXp2ZlgvYVUxRnNMcGloMy9oaEZ4QU90ZEFvQVVIWTFZTEwrbDZvdWVxMWR2U002eDZjbG5hUmVFUjUyMXhEejhsbFg5QmIybk02NzNiaUxieFVjSDBsakdCZm9ZeURIU29uZTlDU241a0ZUM0dxRmQwRGFTbnhnWG5hdDh1a3VJTTBGTFBqZ0dHY0w4eVZMUUZwTys3MFBOSUU4d00vKzRnRXdLbmJwdEc%3D")
         
         let dummyData = PIPVideoData(isPlayPIP: true,
-                                     videoURL: url,
-                                     currentVideoTime: 0.0,
-                                     videoTitle: "클린코드",
-                                     teacherName: "김우성 선생님")
+                                     videoURL: pipDataManager.previousVideoURL,
+                                     currentVideoTime: pipDataManager.currentVideoTime,
+                                     videoTitle: pipDataManager.videoTitle,
+                                     teacherName: pipDataManager.teacherName)
         
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
@@ -231,7 +233,7 @@ class LecturePlaylistVC: UIViewController {
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-        print("DEBUG: PIP View를 탭했습니다.")
+        print("DEBUG: PIP View를 탭했습니다")
     }
     
     @objc func xButtonDidTap() {
@@ -300,6 +302,8 @@ class LecturePlaylistVC: UIViewController {
     }
     
     func configurePIPView(pipData: PIPVideoData?) {
+        
+        let pipDataManager = PIPDataManager.shared
         
         guard let pipData = pipData else { return }
         let pipHeight = view.frame.height * 0.085

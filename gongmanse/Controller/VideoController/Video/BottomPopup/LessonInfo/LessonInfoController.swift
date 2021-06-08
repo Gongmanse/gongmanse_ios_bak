@@ -10,7 +10,15 @@ class LessonInfoController: UIViewController {
     // MARK: - Properties
     
     var pipVideoData: PIPVideoData?   // PIP 재생을 위해 필요한 구조체
-    var currentVideoPlayTime: Float?  // 현재 영상이 재생되고 있는 시간
+    
+    // "LessonInfoController"에서 "관련시리즈" 혹은 "sTags"를 클릭했을 때, 영상재생시간을 dataManager에 입력한다.
+    var currentVideoPlayTime: Float? {
+        didSet {
+            let pipDataManager = PIPDataManager.shared
+            pipDataManager.currentVideoTime = currentVideoPlayTime ?? 0.0
+        }
+    }
+    
     var currentVideoURL: NSURL?       // 현재 영싱의 VideoID
     
     weak var delegate: LessonInfoControllerDelegate?
@@ -107,6 +115,9 @@ class LessonInfoController: UIViewController {
     }
     
     @objc func handleRateLessonAction() {
+        
+        // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
+        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
         if rateLessonButton.titleLabel.text != "평점" {
             rateLessonButton.viewTintColor = .mainOrange
@@ -322,7 +333,7 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         
-        // 키워드를 클릭했을 때, 현재 영상의 재생 시간값을 받아온다.
+        // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
         delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
         // 클릭한 키워드를 입력한다.
