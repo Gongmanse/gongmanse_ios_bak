@@ -165,8 +165,13 @@ class LectureNoteController: UIViewController {
         scrollView.isScrollEnabled.toggle()
         let width = view.frame.width * 0.5
 
-        // !noteMode -> 노트필기 가능한상태
+        isNoteTaking = !isNoteTaking
         
+        /**
+         if   : !noteMode -> 노트필기 가능한상태
+         true : 필기도구가 닫혀있는 상태 -> 왼쪽 녹색 label.text 노트보기
+         false: 필기도구가 열려있는 상태 -> 왼쪽 녹색 label.text 노트저장
+        */
         if !noteMode {
             
             self.writingImplementLeftConstraint?.constant = -(width * 0.8)
@@ -174,38 +179,27 @@ class LectureNoteController: UIViewController {
             self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             self.savingNoteButton.setTitle("노트\n보기", for: .normal)
 
-            UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
-                self.view.layoutIfNeeded()
-            } completion: { _ in
-                //
-            }
-            
-            // 0604이전작업
-//            UIView.animate(withDuration: 0.33) {
-////                self.writingImplement.frame.origin.x = -150
-//                self.writingImplementToggleButton.setImage(.none, for: .normal)
-//                self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
-//            }
+            UIView.animate(withDuration: 0.7,
+                           delay: 0.0,
+                           usingSpringWithDamping: 0.7,
+                           initialSpringVelocity: 0.0,
+                           options: [],
+                           animations: { self.view.layoutIfNeeded() },
+                           completion: nil)
             
         } else {
-            
             self.writingImplementLeftConstraint?.constant = 0
             self.writingImplementToggleButton.setTitle("", for: .normal)
             self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
             self.savingNoteButton.setTitle("노트\n저장", for: .normal)
-            UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
-                
-                self.view.layoutIfNeeded()
-            } completion: { _ in
-                //
-            }
             
-            // 0604 이전작업
-//            UIView.animate(withDuration: 0.33) {
-////                self.writingImplement.frame.origin.x = 0
-//                self.writingImplementToggleButton.setTitle("", for: .normal)
-//                self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
-//            }
+            UIView.animate(withDuration: 0.7,
+                           delay: 0.0,
+                           usingSpringWithDamping: 0.7,
+                           initialSpringVelocity: 0.0,
+                           options: [],
+                           animations: { self.view.layoutIfNeeded() },
+                           completion: nil)
         }
     }
     
@@ -215,8 +209,7 @@ class LectureNoteController: UIViewController {
         // 노트보기 -> 노트만 보여주는 상세화면으로 이동한다.
         // 노트저장 -> 노트저장 API를 호출한다.
         if !isNoteTaking {
-            // TODO: 노트보기
-            isNoteTaking = !isNoteTaking
+            // Logic: 노트보기
             if let id = self.id {
                 let vc = LessonNoteController(id: id, token: Constant.token)
                 let nav = UINavigationController(rootViewController: vc)
@@ -225,9 +218,7 @@ class LectureNoteController: UIViewController {
             }
             
         } else {
-            // TODO: 노트저장
-            isNoteTaking = !isNoteTaking
-            
+            // Logic: 노트저장
             // canvas 객체로 부터 x,y 위치 정보를 받는다.
             canvas.saveNoteTakingData()
             
