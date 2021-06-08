@@ -105,6 +105,7 @@ class LecturePlaylistVC: UIViewController {
                 gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
                 colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
                 configurelabel(value: detailVM?.relationSeriesList?.totalNum ?? "")
+                emptyStackView.isHidden = true
                 
             case .none:
                 view.addSubview(emptyStackView)

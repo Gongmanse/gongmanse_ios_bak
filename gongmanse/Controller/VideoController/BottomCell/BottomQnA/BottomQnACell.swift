@@ -139,15 +139,7 @@ class BottomQnACell: UICollectionViewCell {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
         
-        contentView.addSubview(emptyStackView)
-        emptyStackView.addArrangedSubview(emptyAlert)
-        emptyStackView.addArrangedSubview(lectureQnALabel)
         
-        emptyStackView.translatesAutoresizingMaskIntoConstraints = false
-        emptyStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     @objc func endKeyboard() {
@@ -162,6 +154,7 @@ class BottomQnACell: UICollectionViewCell {
             print(keyboardHeight)
             UIView.animate(withDuration: 1) {
                 print(self.bottomStackView.frame.origin.y)
+                self.emptyStackView.frame.origin.y -= keyboardHeight
                 self.bottomStackView.frame.origin.y -= keyboardHeight
             }
             
@@ -177,6 +170,7 @@ class BottomQnACell: UICollectionViewCell {
             print(keyboardHeight)
             UIView.animate(withDuration: 1) {
                 print(self.bottomStackView.frame.origin.y)
+                self.emptyStackView.frame.origin.y += keyboardHeight
                 self.bottomStackView.frame.origin.y += keyboardHeight
             }
             
@@ -256,6 +250,10 @@ extension BottomQnACell {
         
         contentView.addSubview(tableView)
         contentView.addSubview(bottomStackView)
+        contentView.addSubview(emptyStackView)
+        emptyStackView.addArrangedSubview(emptyAlert)
+        emptyStackView.addArrangedSubview(lectureQnALabel)
+        
         
         bottomStackView.addArrangedSubview(sendText)
         bottomStackView.addArrangedSubview(sendButton)
@@ -287,6 +285,12 @@ extension BottomQnACell {
         // 전송 버튼 width == 60
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        emptyStackView.translatesAutoresizingMaskIntoConstraints = false
+        emptyStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }
 
