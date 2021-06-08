@@ -10,7 +10,7 @@ import AVKit
 
 struct PIPVideoData {
     
-    var isOnPIP: Bool = true
+    var isPlayPIP: Bool = false
     var videoURL: NSURL?
     var currentVideoTime: Float = 0.0
     var videoTitle: String = ""
@@ -32,17 +32,7 @@ class PIPController: UIViewController {
      true : 영상 > 검색 > 영상 : PIP 영상을 실행하지 않는다.
      false: 영상 > 검색       : PIP 영상을 실행한다.
      */
-    lazy var comeFromVideoVC: Bool = false {
-        didSet {
-            if isOnPIP {
-                if comeFromVideoVC {
-                    player?.pause()
-                } else {
-                    player?.play()
-                }
-            }
-        }
-    }
+    var isPlayPIP: Bool = true
     
     // AVPlayer
     // AVPlayer
@@ -66,9 +56,9 @@ class PIPController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(isVideoVC: Bool) {
+    init(isPlayPIP: Bool) {
         super.init(nibName: nil, bundle: nil)
-        self.comeFromVideoVC = isVideoVC
+        self.isPlayPIP = isPlayPIP
     }
     
     required init?(coder: NSCoder) {
@@ -128,7 +118,15 @@ class PIPController: UIViewController {
                         let seconds: Int64 = Int64(pipVideoData.currentVideoTime)
                         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
                         self.player?.seek(to: targetTime)
-//                        self.player?.play()
+                        
+                        if let pipVideoData = self.pipVideoData {
+                            if pipVideoData.isPlayPIP {
+                                self.player?.play()
+                            } else {
+                                self.player?.pause()
+                            }
+                        }
+                        
                     }
                     break
                     

@@ -127,7 +127,7 @@ class LessonInfoController: UIViewController {
     }
     @objc func handleRelatedSeriesAction() {
         
-        
+        delegate?.videoVCPauseVideo()
         let presentVC = LecturePlaylistVC(videoID ?? "")
         presentVC.lectureState = .videoList
         let nav = UINavigationController(rootViewController: presentVC)
@@ -339,7 +339,7 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let videoURL = self.currentVideoURL else { return }
         
         present(nav, animated: true) {
-            let pipVideoData = PIPVideoData(isOnPIP: true,
+            let pipVideoData = PIPVideoData(isPlayPIP: true,
                                             videoURL: videoURL,
                                             currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
                                             videoTitle: self.lessonnameLabel.text ?? "",

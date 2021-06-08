@@ -18,6 +18,11 @@ class LecturePlaylistVC: UIViewController {
 
     // MARK: - Properties
     
+    // MARK: PIP
+    var pipVC: PIPController?
+
+    
+    
     var lectureState: LectureState?
     
     // 강사별 강의
@@ -88,6 +93,48 @@ class LecturePlaylistVC: UIViewController {
         return stack
     }()
     
+    // MARK: PIP
+    private let pipContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.gray.cgColor
+        return view
+    }()
+    
+    private var isPlayPIPVideo: Bool = true
+    private let pipPlayPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .black
+//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let xButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let lessonTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 13)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let teachernameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        label.textColor = .gray
+        return label
+    }()
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -132,11 +179,23 @@ class LecturePlaylistVC: UIViewController {
         }
     }
     
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let url = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MTAxNjYwMWU0MDhlZTEwNWI5MTMyMDE5NjdhNmY2ZWI1ZTkwMTQ5OWQ4NGVlYmNjODljMDA1NjFiM2QzNDE3MmRmYWJlMDVjMzc4MDM1MGNjNTEwZDY2NmNjNjlhMTM5MGM2NmZlM2E5OWY0NDlhMWIzMDNjMjgwYzgwOTBlOGNEbytoV2xvWUwwZzZpM1VhbG9mRHlSNUl6aEV0TENhcFlHNE8xa0tZZkI1Tk9Ia3UvUkZCSkt2UEpNSmJ1Y2VzZkdXOEJ0NXZITkJLWVdPaGVQSFhuajkxWnNyTHlIdUt5MDBzQXdKczhma2VXV1pJWW1qc1BLbjI2OEU3TnRpU1RMQnBIRlplamZjMWFhRGJPZ1RDNk1YaWVPdDNDV28wT21jNFV5Szg3QlI1MXlvMmhJcEtwU0g5ZHNRcnA1VCtvYVFQVXhvVHF1LzE5SnBZSmtSWmk5RXp2ZlgvYVUxRnNMcGloMy9oaEZ4QU90ZEFvQVVIWTFZTEwrbDZvdWVxMWR2U002eDZjbG5hUmVFUjUyMXhEejhsbFg5QmIybk02NzNiaUxieFVjSDBsakdCZm9ZeURIU29uZTlDU241a0ZUM0dxRmQwRGFTbnhnWG5hdDh1a3VJTTBGTFBqZ0dHY0w4eVZMUUZwTys3MFBOSUU4d00vKzRnRXdLbmJwdEc%3D")
+        
+        let dummyData = PIPVideoData(isPlayPIP: true,
+                                     videoURL: url,
+                                     currentVideoTime: 0.0,
+                                     videoTitle: "클린코드",
+                                     teacherName: "김우성 선생님")
+        
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
+        configurePIPView(pipData: dummyData)
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -163,7 +222,27 @@ class LecturePlaylistVC: UIViewController {
     
     // 뒤로가기 버튼 로직
     @objc func dismissVC() {
+        
+        if let pipVC = self.pipVC {
+            pipVC.player?.pause()
+        }
         self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
+        
+    }
+    
+    @objc func xButtonDidTap() {
+        
+        if let pipVC = self.pipVC {
+            pipVC.player?.pause()
+        }
+        
+        UIView.animate(withDuration: 0.33) {
+            self.pipContainerView.alpha = 0
+        }
     }
     
     
@@ -178,6 +257,7 @@ class LecturePlaylistVC: UIViewController {
         // gradeLabel
         gradeLabel.backgroundColor = .white
         gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.adjustsFontSizeToFitWidth = true
         gradeLabel.clipsToBounds = true
         gradeLabel.layer.cornerRadius = 8.5
         gradeLabel.textColor = UIColor(hex: getTeacherList?.sSubjectColor ?? "000000")
@@ -218,7 +298,56 @@ class LecturePlaylistVC: UIViewController {
         
         numberOfLesson.attributedText = attributedString
     }
+    
+    func configurePIPView(pipData: PIPVideoData?) {
+        
+        guard let pipData = pipData else { return }
+        let pipHeight = view.frame.height * 0.085
+        self.pipVC = PIPController(isPlayPIP: false)
+        guard let pipVC = self.pipVC else { return }
+        pipVC.pipVideoData = pipData
 
+        /* pipContainerView - Constraint */
+        view.addSubview(pipContainerView)
+        pipContainerView.anchor(left: view.leftAnchor,
+                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                right: view.rightAnchor,
+                                height: pipHeight)
+        
+        let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipViewDidTap))
+        pipContainerView.addGestureRecognizer(pipTapGesture)
+        pipContainerView.isUserInteractionEnabled = true
+        
+        /* pipVC.view - Constraint  */
+        pipContainerView.addSubview(pipVC.view)
+        pipVC.view.anchor(top:pipContainerView.topAnchor)
+        pipVC.view.centerY(inView: pipContainerView)
+        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        
+        /* xButton - Constraint */
+        pipContainerView.addSubview(xButton)
+        xButton.setDimensions(height: 25, width: 25)
+        xButton.centerY(inView: pipContainerView)
+        xButton.anchor(right: pipContainerView.rightAnchor,
+                       paddingRight: 5)
+        
+        /* lessonTitleLabel - Constraint */
+        pipContainerView.addSubview(lessonTitleLabel)
+        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
+                                left: pipContainerView.leftAnchor,
+                                paddingTop: 13,
+                                paddingLeft: pipHeight * 1.77 + 5,
+                                height: 17)
+        lessonTitleLabel.text = pipData.videoTitle
+        
+        /* teachernameLabel - Constraint */
+        pipContainerView.addSubview(teachernameLabel)
+        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
+                                left: lessonTitleLabel.leftAnchor,
+                                paddingTop: 5,
+                                height: 15)
+        teachernameLabel.text = pipData.teacherName + " 선생님"
+    }
 }
 
 

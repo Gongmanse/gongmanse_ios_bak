@@ -26,14 +26,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     "상세검색화면" 과 "관련 시리즈" 에서 PIP 객체를 가지고 있다가 실행시켜주면 된다.
      이를 구현하기 위한 객체로 PIP를 켜야할지 말아야할 지알려주는 변수이다.
      */
-    var isOnPIP: Bool = true
+    var isDisplayPIP: Bool = true
     // 이전 영상에 대한 VideoURL을 가지고 있다가, PIP View를 켤 때, 해당 URL로 비디오를 연결한다.
     var teachername: String?
     var lessonname: String?
     
     var pipData: PIPVideoData? {
         didSet {
-            if self.isOnPIP {
+            if self.isDisplayPIP {
                 configurePIPView(pipData: pipData)
             }
         }
@@ -96,40 +96,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(videoID: id!)
     
-    /* PIPView */
-    private let lessonTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "DEFAULT"
-        label.font = UIFont.appBoldFontWith(size: 13)
-        label.textColor = .black
-        return label
-    }()
-    
-    private let teachernameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "DEFAULT"
-        label.font = UIFont.appBoldFontWith(size: 11)
-        label.textColor = .gray
-        return label
-    }()
-    
-    private var isPlayPIPVideo: Bool = true
-    private let pipPlayPauseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        button.tintColor = .black
-//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
-        return button
-    }()
-    
-    private let xButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
-        return button
-    }()
-    
+
     
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
@@ -226,6 +193,41 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return view
     }()
         
+    /* PIPView */
+    private let lessonTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 13)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let teachernameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        label.textColor = .gray
+        return label
+    }()
+    
+    private var isPlayPIPVideo: Bool = true
+    private let pipPlayPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .black
+//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let xButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
         let view = UIView()
@@ -453,9 +455,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     init() { super.init(nibName: nil, bundle: nil) }
     
     // PIP 창이 필요한 경우 init
-    init(isOnPIP: Bool) {
+    init(isPlayPIP: Bool) {
         super.init(nibName: nil, bundle: nil)
-        self.isOnPIP = isOnPIP
+        self.isDisplayPIP = isPlayPIP
     }
     
     required init?(coder: NSCoder) {
@@ -559,10 +561,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         
         guard let pipData = self.pipData else { return }
         let pipHeight = view.frame.height * 0.085
-        let pipVC = PIPController(isVideoVC: true)
+        let pipVC = PIPController(isPlayPIP: false)
         
         /* pipContainerView - Constraint */
-
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
                                 bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -786,7 +787,7 @@ extension VideoController {
         
         
         // PIP
-        let pipData = PIPVideoData(isOnPIP: self.isOnPIP,
+        let pipData = PIPVideoData(isPlayPIP: false,
                                    videoURL: videoURL,
                                    currentVideoTime: 0.0,
                                    videoTitle: lessonTitle,
