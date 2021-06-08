@@ -384,7 +384,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var pageCollectionView: UICollectionView = {
         
         collectionViewLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0,
+                                                            width: 500,
+                                                            height: 500),
+                                              collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -494,11 +497,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        let width = pageCollectionView.frame.width
-        let height = pageCollectionView.frame.height
-        
-        collectionViewLayout.itemSize = CGSize(width: width,
-                                               height: height)
+//        let width = pageCollectionView.frame.width
+//        let height = pageCollectionView.frame.height
+//
+//        collectionViewLayout.itemSize = CGSize(width: width,
+//                                               height: height)
     }
     
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
@@ -509,6 +512,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 //                                        at: UICollectionView.ScrollPosition.left,
 //                                        animated: true)
         super.viewWillTransition(to: size, with: coordinator)
+        
         /// true == 가로모드, false == 세로모드
         if UIDevice.current.orientation.isLandscape {
             changeConstraintToVideoContainer(isPortraitMode: true)
@@ -676,7 +680,9 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: pageCollectionView.frame.width, height: pageCollectionView.frame.height)
+        
+        return CGSize(width: pageCollectionView.frame.width,
+                      height: pageCollectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView,

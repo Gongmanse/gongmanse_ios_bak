@@ -23,7 +23,6 @@ class LectureNoteController: UIViewController {
     private var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(),
                                 UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
     private var noteImageCount = 0
-//    private var receivedNoteImage: UIImage?
     
     // MARK: UI
     // 노트 객체
@@ -129,13 +128,9 @@ class LectureNoteController: UIViewController {
     
     // MARK: - Actions
     
-    @objc fileprivate func handleUndo() {
-        canvas.undo()
-    }
+    @objc fileprivate func handleUndo() { canvas.undo() }
     
-    @objc fileprivate func handleClear() {
-        canvas.clear()
-    }
+    @objc fileprivate func handleClear() { canvas.clear() }
     
     @objc fileprivate func handleColorChange(button: UIButton) {
         
@@ -205,11 +200,12 @@ class LectureNoteController: UIViewController {
     
     @objc fileprivate func handleSavingNote() {
         
-    
-        // 노트보기 -> 노트만 보여주는 상세화면으로 이동한다.
-        // 노트저장 -> 노트저장 API를 호출한다.
+        /**
+         if   : !noteMode -> 노트필기 가능한상태
+         true : 상세노트VC present
+         false: 노트저장 API 호출
+        */
         if !isNoteTaking {
-            // Logic: 노트보기
             if let id = self.id {
                 let vc = LessonNoteController(id: id, token: Constant.token)
                 let nav = UINavigationController(rootViewController: vc)
@@ -218,7 +214,6 @@ class LectureNoteController: UIViewController {
             }
             
         } else {
-            // Logic: 노트저장
             // canvas 객체로 부터 x,y 위치 정보를 받는다.
             canvas.saveNoteTakingData()
             
@@ -234,13 +229,10 @@ class LectureNoteController: UIViewController {
             let willPassNoteData = NoteTakingInput(token: token,
                                                    video_id: intID,
                                                    sjson: sJson)
-    //        print("DEBUG: 결과값 \(willPassNoteData)")
             // 노트 필기 좌표 입력하는 API메소드
             DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
             
         }
-        
-
     }
     
     
@@ -281,7 +273,6 @@ class LectureNoteController: UIViewController {
                           right: view.rightAnchor,
                           paddingTop: 13)
         
-//        contentView.centerX(inView: view)
         contentView.anchor(top: scrollView.topAnchor,
                            left: scrollView.leftAnchor,
                            bottom: scrollView.bottomAnchor,
@@ -624,7 +615,6 @@ extension LectureNoteController: CanvasDelegate {
             // 이러한 구성요소를 배열의 형태로 저장하고 있다.
             tempArr.append(strokes)
         }
-        
         
         // 하나의 String으로 하나의 Line을 표현했지만, 이것들을 다시 하나의 String으로 묶어서
         // API에 request해주어야 PATCH가 동작한다. (API가 이런식으로 되어있어서 어쩔 수 없음)
