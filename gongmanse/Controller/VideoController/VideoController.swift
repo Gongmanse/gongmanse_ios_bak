@@ -8,12 +8,20 @@ import AVKit
 import Foundation
 import UIKit
 
+/**
+ PIP 관련 데이터를 관리하는 싱글톤 객체입니다.
+ - 이전 영상에 대한 ID와 URL을 저장합니다.
+   이를 통해, PIP에 이전 영상의 데이터를 보여줍니다.
+ - 현재 영상 ID 데이터를 저장합니다. 이후, 이전영상 데이터ID에 입력합니다.
+ */
 class PIPDataManager {
     
     static let shared = PIPDataManager()
     
     var previousVideoID: String?
+    var previousVideoURL: NSURL?
     var currentVideoID: String?
+    
     
     private init() { }
 }
@@ -738,11 +746,13 @@ extension VideoController {
     
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
-        
+        let pipDataManager = PIPDataManager.shared
+
         var videoURL: NSURL?
         if let sourceURL = response.data.source_url {
             let url = URL(string: sourceURL) as NSURL?
             self.videoURL = url
+            pipDataManager.previousVideoURL = url
             videoURL = url
             self.videoAndVttURL.videoURL = url
         }
@@ -798,9 +808,9 @@ extension VideoController {
         
         
         // PIP
-        let pipDataManager = PIPDataManager.shared
         pipDataManager.previousVideoID = self.id
         pipDataManager.currentVideoID = self.id
+        
         let pipData = PIPVideoData(isPlayPIP: false,
                                    videoURL: videoURL,
                                    currentVideoTime: 0.0,
