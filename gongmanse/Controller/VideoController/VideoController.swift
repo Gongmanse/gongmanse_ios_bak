@@ -519,6 +519,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         } else {
             changeConstraintToVideoContainer(isPortraitMode: false) //05.21 주석처리; 1차 배포를 위해
         }
+        
+        // 가로모드 대응을 위해 flowLayout을 재정의한다.
+        guard let flowLayout = pageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        flowLayout.invalidateLayout()
     }
     
     

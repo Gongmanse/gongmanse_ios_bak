@@ -317,7 +317,7 @@ class LectureNoteController: UIViewController {
         var image13 = noteImageArr[12]
         
         // 이미지의 크기를 줄인다. (이미지 전체의 크기는 줄어들고, 노트적힌 부분이 확대된다.)
-        let scale = CGFloat(0.42)
+        let scale = CGFloat(0.40)
         resize(image: image01, scale: scale) { image in
             image01 = image!
         }
