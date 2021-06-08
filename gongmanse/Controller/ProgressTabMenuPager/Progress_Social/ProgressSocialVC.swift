@@ -199,12 +199,14 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         gradeBtn.titleLabel?.font = .appBoldFontWith(size: 13)
+        gradeBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
         
         chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
         chapterBtn.layer.borderWidth = 3.5
         chapterBtn.layer.borderColor = borderColor.cgColor
         chapterBtn.layer.cornerRadius = 13
+        chapterBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
     }
     
     
