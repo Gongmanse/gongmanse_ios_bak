@@ -169,8 +169,6 @@ extension VideoController {
         self.videoContainerView.addSubview(playerController.view)
         playerController.view.anchor(top: videoContainerView.topAnchor,
                                      left: videoContainerView.leftAnchor)
-        
-
     }
     
     ///  화면전환에 따른 Constraint 적용

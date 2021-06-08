@@ -10,11 +10,11 @@ import AVKit
 
 struct PIPVideoData {
     
-    var isOnPIP: Bool
+    var isOnPIP: Bool = true
     var videoURL: NSURL?
-    var currentVideoTime: Float
-    var videoTitle: String
-    var teacherName: String
+    var currentVideoTime: Float = 0.0
+    var videoTitle: String = ""
+    var teacherName: String = ""
 }
 
 class PIPController: UIViewController {
@@ -25,6 +25,23 @@ class PIPController: UIViewController {
     var isOnPIP: Bool = false
     var pipVideoData: PIPVideoData? {
         didSet { setupVideo() }
+    }
+    
+    /**
+     [didSet 로직]
+     true : 영상 > 검색 > 영상 : PIP 영상을 실행하지 않는다.
+     false: 영상 > 검색       : PIP 영상을 실행한다.
+     */
+    lazy var comeFromVideoVC: Bool = false {
+        didSet {
+            if isOnPIP {
+                if comeFromVideoVC {
+                    player?.pause()
+                } else {
+                    player?.play()
+                }
+            }
+        }
     }
     
     // AVPlayer
@@ -43,8 +60,20 @@ class PIPController: UIViewController {
     }()
     
 
-    
     // MARK: - Lifecycle
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(isVideoVC: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        self.comeFromVideoVC = isVideoVC
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +128,7 @@ class PIPController: UIViewController {
                         let seconds: Int64 = Int64(pipVideoData.currentVideoTime)
                         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
                         self.player?.seek(to: targetTime)
-                        self.player?.play()
+//                        self.player?.play()
                     }
                     break
                     
@@ -130,3 +159,4 @@ class PIPController: UIViewController {
         dismiss(animated: true)
     }
 }
+
