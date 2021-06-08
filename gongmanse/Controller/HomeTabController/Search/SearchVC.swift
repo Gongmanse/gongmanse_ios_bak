@@ -54,8 +54,17 @@ class SearchVC: UIViewController {
     @IBOutlet weak var searchBarButton: UIButton!
     
     let buttonContainerView = UIView()
-    let gradeButton = UIButton(type: .system)
-    let subjectButton = UIButton(type: .system)
+    let gradeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
+        return button
+    }()
+    
+    let subjectButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
+        return button
+    }()
     
     let searchMainVM = SearchMainViewModel()
 

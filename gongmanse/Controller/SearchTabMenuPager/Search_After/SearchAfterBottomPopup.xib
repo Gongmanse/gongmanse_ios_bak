@@ -71,7 +71,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popupClass" translatesAutoresizingMaskIntoConstraints="NO" id="vAo-6f-eI5">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popupAlign" translatesAutoresizingMaskIntoConstraints="NO" id="vAo-6f-eI5">
                     <rect key="frame" x="20" y="54" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="24" id="m1D-hZ-HPy"/>
@@ -98,7 +98,7 @@
         </view>
     </objects>
     <resources>
-        <image name="popupClass" width="24" height="24"/>
+        <image name="popupAlign" width="27" height="27"/>
         <image name="smallX" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

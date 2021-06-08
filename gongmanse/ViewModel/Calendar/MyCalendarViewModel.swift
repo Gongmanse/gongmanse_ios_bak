@@ -25,6 +25,7 @@ class MyCalendarViewModel {
         CalendarAPIManager.myCalendarApi(parameter) { response in
             switch response {
             case .success(let data):
+                print(data)
                 self.calendarCheckData(data)
 //                self.myDate = data
                 
@@ -49,14 +50,20 @@ class MyCalendarViewModel {
     
     func stringConvertDate(_ date: CalendarMyDataModel) {
         
+        dateList.removeAll()
         
         let dateformatter = DateFormatter()
         dateformatter.locale = Locale(identifier: "ko_KR")
         dateformatter.dateFormat = "yyyy-MM-dd"
         
-        if let dateConvert = dateformatter.date(from: date.date) {
+        print(date.date)
+        
+        
+        if var dateConvert = dateformatter.date(from: date.date) {
+            print("stringConverDate: ", dateConvert)
+            dateConvert.addTimeInterval(32400)
             dateList.append(dateConvert)
-            print(dateConvert)
+            
         }
     }
 }

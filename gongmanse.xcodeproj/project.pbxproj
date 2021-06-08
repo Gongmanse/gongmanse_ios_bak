@@ -335,7 +335,6 @@
 		6CFA77CE262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFA77CD262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift */; };
 		6CFAAEC8263A427200C18531 /* ExpertConsultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFAAEC7263A427200C18531 /* ExpertConsultModels.swift */; };
 		6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFAAED8263BF1EA00C18531 /* ExpertConsultationDetailVC.swift */; };
-		8D28CD261F65FD3CEF6AE324 /* Pods_gongmanse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */; };
 		A9129ECE26169F4B00041CC5 /* NoticeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129ECA26169F4A00041CC5 /* NoticeListVC.swift */; };
 		A9129ECF26169F4B00041CC5 /* EventListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129ECB26169F4A00041CC5 /* EventListVC.swift */; };
 		A9129ED026169F4B00041CC5 /* EventListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9129ECC26169F4B00041CC5 /* EventListVC.xib */; };
@@ -394,6 +393,7 @@
 		C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */; };
 		C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */; };
 		C2657C542624369C0048B92F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C532624369C0048B92F /* UIImageView.swift */; };
+		C26A75F0266F0F2500F3ECD9 /* Pods_gongmanse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */; };
 		C26E238726648DFE00156F8A /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */; };
 		C26E238A2664911400156F8A /* ScheduleAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26E23892664911400156F8A /* ScheduleAddCell.swift */; };
 		C279FA7F264CB165009FA317 /* Enum+Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279FA7E264CB165009FA317 /* Enum+Grade.swift */; };
@@ -905,7 +905,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D28CD261F65FD3CEF6AE324 /* Pods_gongmanse.framework in Frameworks */,
+				C26A75F0266F0F2500F3ECD9 /* Pods_gongmanse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3752,7 +3752,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3808,7 +3808,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

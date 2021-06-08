@@ -25,7 +25,7 @@ class SearchMainViewModel {
     // 초등학교 1학년 -> 초등
     func convertGrade() -> String? {
         
-        guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return ""}
+        guard let gradeText = UserDefaults.standard.object(forKey: "gradeFilterText") as? String else { return nil }
         
         
         if gradeText.contains("초등") {

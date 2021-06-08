@@ -47,6 +47,16 @@ class MyCalendarVC: UIViewController {
         return view
     }()
     
+    var events: [Date] = []
+    
+    private let formatter: DateFormatter = {
+        let date = DateFormatter()
+        date.dateFormat = "yyyy-MM"
+        date.locale = Locale(identifier: "ko_KR")
+        
+        return date
+    }()
+    
     let floatingButton: UIButton = {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 56, height: 56)
@@ -82,6 +92,10 @@ class MyCalendarVC: UIViewController {
         
         floatingButton.addTarget(self, action: #selector(scheduleRegistration(_:)), for: .touchUpInside)
     
+        
+        let currentDate = formatter.string(from: Date())
+        myCalendarVM?.requestMyCalendarApi(currentDate)
+        
     }
     
     @objc func scheduleRegistration(_ sender: UIButton) {
@@ -121,23 +135,31 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
     
     // 페이지 넘길 때 한번 호출
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        let dateformatter = DateFormatter()
-        dateformatter.locale = Locale(identifier: "ko_KR")
-        dateformatter.dateFormat = "yyyy-MM"
         
-        let currentDate = dateformatter.string(from: calendar.currentPage)
+        let currentDate = formatter.string(from: calendar.currentPage)
         myCalendarVM?.requestMyCalendarApi(currentDate)
     
-        print(myCalendarVM?.dateList)
+        
     }
     
     // 이벤트 개수 표현하는 메소드
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//        if let calendarData = myCalendarVM?.dataArr {
-//
+        
+        
+        guard let dateList = myCalendarVM?.dateList else { return 0 }
+        print(dateList)
+        if dateList.contains(date) {
+            return 1
+        }
+//        if let calendarData = myCalendarVM?.dateList {
+//            print(calendarData)
+//            print(date)
+//            if calendarData.contains(tt) {
+//                return 1
+//            }
 //        }
-//
         return 0
+        
     }
 }
 
