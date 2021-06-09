@@ -1,8 +1,10 @@
 import UIKit
+import AVFoundation
 
 protocol LessonInfoControllerDelegate: AnyObject {
     func videoVCPauseVideo()
     func videoVCPassCurrentVideoTimeToLessonInfo()
+    func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime)
 }
 
 class LessonInfoController: UIViewController {
@@ -16,6 +18,14 @@ class LessonInfoController: UIViewController {
         didSet {
             let pipDataManager = PIPDataManager.shared
             pipDataManager.currentVideoTime = currentVideoPlayTime ?? 0.0
+        }
+    }
+    
+    var currentPIPVideoPlayTime: CMTime? {
+        didSet {
+            if let currentPIPVideoPlayTime = currentPIPVideoPlayTime {
+                delegate?.LessonInfoPassCurrentVideoTimeInPIP(currentPIPVideoPlayTime)
+            }
         }
     }
     
@@ -65,7 +75,7 @@ class LessonInfoController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(videoID: String) {
+    init(videoID: String?) {
         super.init(nibName: nil, bundle: nil)
         self.videoID = videoID
     }
@@ -83,6 +93,17 @@ class LessonInfoController: UIViewController {
 //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
+    /**
+     1. PIP에서 재생된 시간을 받아서 class 내부 변수에 값을 할당합니다.
+     2. 값을 받는 변수에 didSet을 통해 delegate Method를 호출합니다.
+     3. delegate Method를 통해서 videoController의 재생 시작위치를 변경합니다.
+    */
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        print("DEBUG: LessonInfoController Appear!!!")
+        let pipDataManager = PIPDataManager.shared
+        self.currentPIPVideoPlayTime = pipDataManager.currentVideoCMTime
+    }
     
     // MARK: - Actions
     

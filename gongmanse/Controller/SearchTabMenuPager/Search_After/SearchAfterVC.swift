@@ -16,6 +16,7 @@ protocol SearchAfterVCDelegate: AnyObject {
     func passTheKeywordData(keyword: String)
 }
 
+
 class SearchAfterVC: UIViewController {
 
     //MARK: - Properties
@@ -101,6 +102,11 @@ class SearchAfterVC: UIViewController {
     
     //MARK: - Lifecycle
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        print("DEBUG: SearchAfterVC is deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -138,7 +144,7 @@ class SearchAfterVC: UIViewController {
         
         // PIP 모드가 실행중이였다면, 종료시킨다.
         dismissPIPView()
-        
+        setRemoveNotification()
         self.reloadDelegate?.reloadTableView()
         self.dismiss(animated: true)
     }
@@ -164,6 +170,21 @@ class SearchAfterVC: UIViewController {
             self.pipContainerView.alpha = 0
         }, completion: nil)
     }
+    
+    // 가장 최근에 재생하던 Video로 돌아갑니다.
+    // 그러므로 새로운 VC 인스턴스를 생성하지 않고 dismiss + videoLogic으로 처리합니다. 21.06.09 김우성
+    @objc func pipContainerViewDidTap(_ sender: UITapGestureRecognizer) {
+        
+        setRemoveNotification()
+        dismissSearchAfterVCOnPlayingPIP()
+        // PIP에 이전영상에 대한 기록이 있으므로 화면을 새로 생성하지 않고 이전영상으로 돌아간다.
+        // 재생된 시간은 전달해줘서 PIP AVPlayer가 진행된 부분부터 진행한다.
+        // Delegation을 사용하지 말고, VideoController
+        // 이전 영상의 Player를 조작해야하므로 Delegation을 사용한다.
+        // Delegation Method를 통해 "player.seek()" 를 호출한다.
+        // 이 때 seek 메소드의 파라미터로 "pipDataManager.currentPlayTime"을 입력한다.
+    }
+    
     
     
     //MARK: - Helper functions
@@ -318,6 +339,9 @@ class SearchAfterVC: UIViewController {
         pipVC = PIPController()
         guard let pipVC = self.pipVC else { return }
         
+        let pipContainerViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipContainerViewDidTap))
+        pipContainerView.addGestureRecognizer(pipContainerViewTapGesture)
+        pipContainerView.isUserInteractionEnabled = true
         pipContainerView.layer.borderColor = UIColor.gray.cgColor
         pipContainerView.layer.borderWidth = CGFloat(0.5)
         pipContainerView.addSubview(pipVC.view)
@@ -366,6 +390,24 @@ class SearchAfterVC: UIViewController {
         pipVC = nil
     }
     
+    /// PIP 영상이 실행되고 있는데, 이전 영상화면으로 돌아가고 싶은 경우 호출하는 메소드
+    func dismissSearchAfterVCOnPlayingPIP() {
+        // 1 PIP 영상을 제거한다.
+
+        // 2 PIP-Player에서 현재까지 재생된 시간을 SingleTon 에 입력한다.
+        let pipDataManager = PIPDataManager.shared
+        guard let pipVC = self.pipVC else { return }
+            
+        pipVC.player?.pause()
+        setRemoveNotification()
+        // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
+        pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
+        dismiss(animated: false)
+    }
+        
+    func setRemoveNotification() {
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+    }
 }
 
 //MARK: - TabsDelegate

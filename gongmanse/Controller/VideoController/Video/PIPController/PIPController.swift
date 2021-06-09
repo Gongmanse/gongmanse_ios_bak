@@ -27,6 +27,13 @@ class PIPController: UIViewController {
         didSet { setupVideo() }
     }
     
+    // PIP 현재 재생시간을 CMTime으로 전달받기 위한 연산 프로퍼티
+    // "영상 > sTags클릭 > 검색화면 > PIP재생 > 다시 이전영상" 에서 dismiss 시, 활용하고 있다.
+    var currentVideoTime: CMTime {
+        guard let player = self.player else { return CMTime() }
+        return player.currentTime()
+    }
+    
     /**
      [didSet 로직]
      true : 영상 > 검색 > 영상 : PIP 영상을 실행하지 않는다.

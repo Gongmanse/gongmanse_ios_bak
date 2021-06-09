@@ -22,11 +22,16 @@ class PIPDataManager {
     var previousVideoURL: NSURL?
     var currentVideoID: String?
     var isPlayPIP: Bool = true
-    var currentVideoTime: Float = 0.0
     var videoTitle: String = "클린코드"
     var teacherName: String = "김우성"
     
-    private init() { }
+    /// 다음화면으로 넘어갈 때, PIPVC에서 Float -> CMTime으로 변환해주므로 Float로 받아습니다.
+    var currentVideoTime: Float = 0.0         // 다음화면으로 넘어갈 때 사용
+    
+    /// "AVPlayer.seek" 파라미터가 CMTIME이므로 바로 접근하기 위해 변수를 2개로 만들었습니다.
+    var currentVideoCMTime: CMTime = CMTime() // 이전화면으로 돌아올 때 사용
+    
+    private init() { }  // 싱글톤 인스턴스 2 개 생성 방지하기 위해 "private"으로 작성했습니다.
 }
 
 protocol VideoControllerDelegate: AnyObject {
@@ -48,7 +53,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
      이를 구현하기 위한 객체로 PIP를 켜야할지 말아야할 지알려주는 변수이다.
      */
     var isDisplayPIP: Bool = true
-    // 이전 영상에 대한 VideoURL을 가지고 있다가, PIP View를 켤 때, 해당 URL로 비디오를 연결한다.
     var teachername: String?
     var lessonname: String?
     
@@ -59,17 +63,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             }
         }
     }
-    
-//    var pipVideoURL: NSURL? {
-//        didSet {
-//            pipData = PIPVideoData(isOnPIP: self.isOnPIP,
-//                                   videoURL: pipVideoURL,
-//                                   currentVideoTime: self.timeSlider.value,
-//                                   videoTitle: self.lessonname ?? "",
-//                                   teacherName: self.teachername ?? "")
-//        }
-//    }
-    
+
     var currentVideoPlayRate = Float(1.0) {
         didSet {
             player.playImmediately(atRate: currentVideoPlayRate)
@@ -115,7 +109,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var otherSubjectsViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
-    lazy var lessonInfoController = LessonInfoController(videoID: id!)
+    lazy var lessonInfoController = LessonInfoController(videoID: id)
     
 
     
@@ -484,6 +478,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        removePeriodicTimeObserver()
+        setRemoveNotification()
+        print("DEBUG: deinit is Activate")
+    }
+    
 
     override func viewWillAppear(_ animated: Bool) {
         
@@ -899,14 +901,30 @@ extension VideoController: IntroControllerDelegate {
 
 extension VideoController: LessonInfoControllerDelegate {
     
+    /// PIP에서 재생시간을 받아와서 현재 영상에 재생하는 Delegate 메소드
+    func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime) {
+        if currentTime != CMTime(value: CMTimeValue(0), timescale: CMTimeScale(0)) {
+            print("DEBUG: 받은 시간은 : \(currentTime) 입니다.")
+            player.seek(to: currentTime)
+            player.play()
+            UIView.animate(withDuration: 0.33) {
+                self.pipContainerView.alpha = 0
+            }
+        }
+        
+    }
+    
+    /// VideoVC에서 재생시간을 slider에서 받아서 LessonInfoVC에 전달해주는 메소드
     func videoVCPassCurrentVideoTimeToLessonInfo() {
         
         self.lessonInfoController.currentVideoPlayTime = timeSlider.value
         self.lessonInfoController.currentVideoURL = self.videoURL
     }
     
-    
+    // 화면 이동시 현재 영상을 일시정지하기 위한 메소드
     func videoVCPauseVideo() {
         self.player.pause()
     }
 }
+
+

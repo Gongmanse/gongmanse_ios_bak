@@ -187,8 +187,6 @@ class LecturePlaylistVC: UIViewController {
         
         let pipDataManager = PIPDataManager.shared
         
-        let url = NSURL(string: "https://file.gongmanse.com/access/lectures/video?access_key=MTAxNjYwMWU0MDhlZTEwNWI5MTMyMDE5NjdhNmY2ZWI1ZTkwMTQ5OWQ4NGVlYmNjODljMDA1NjFiM2QzNDE3MmRmYWJlMDVjMzc4MDM1MGNjNTEwZDY2NmNjNjlhMTM5MGM2NmZlM2E5OWY0NDlhMWIzMDNjMjgwYzgwOTBlOGNEbytoV2xvWUwwZzZpM1VhbG9mRHlSNUl6aEV0TENhcFlHNE8xa0tZZkI1Tk9Ia3UvUkZCSkt2UEpNSmJ1Y2VzZkdXOEJ0NXZITkJLWVdPaGVQSFhuajkxWnNyTHlIdUt5MDBzQXdKczhma2VXV1pJWW1qc1BLbjI2OEU3TnRpU1RMQnBIRlplamZjMWFhRGJPZ1RDNk1YaWVPdDNDV28wT21jNFV5Szg3QlI1MXlvMmhJcEtwU0g5ZHNRcnA1VCtvYVFQVXhvVHF1LzE5SnBZSmtSWmk5RXp2ZlgvYVUxRnNMcGloMy9oaEZ4QU90ZEFvQVVIWTFZTEwrbDZvdWVxMWR2U002eDZjbG5hUmVFUjUyMXhEejhsbFg5QmIybk02NzNiaUxieFVjSDBsakdCZm9ZeURIU29uZTlDU241a0ZUM0dxRmQwRGFTbnhnWG5hdDh1a3VJTTBGTFBqZ0dHY0w4eVZMUUZwTys3MFBOSUU4d00vKzRnRXdLbmJwdEc%3D")
-        
         let dummyData = PIPVideoData(isPlayPIP: true,
                                      videoURL: pipDataManager.previousVideoURL,
                                      currentVideoTime: pipDataManager.currentVideoTime,
