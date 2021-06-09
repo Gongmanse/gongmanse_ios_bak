@@ -184,9 +184,7 @@ class SearchAfterVC: UIViewController {
         // Delegation Method를 통해 "player.seek()" 를 호출한다.
         // 이 때 seek 메소드의 파라미터로 "pipDataManager.currentPlayTime"을 입력한다.
     }
-    
-    
-    
+
     //MARK: - Helper functions
     
     func configureSearchBar() {
