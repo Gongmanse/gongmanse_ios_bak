@@ -198,8 +198,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             guard let topVC = UIApplication.shared.topViewController() else { return }
             let pipDataManager = PIPDataManager.shared
             // TODO: 각 값들을 초기화 한다.
-            
-            
+            // PIP를 dismiss한다.
             pipDelegate?.serachAfterVCPIPViewDismiss()
             let vc = VideoController()
             
