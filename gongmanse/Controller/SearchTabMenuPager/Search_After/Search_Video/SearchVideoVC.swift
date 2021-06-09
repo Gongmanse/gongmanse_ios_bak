@@ -201,6 +201,12 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
             let videoID = receviedVideoID
             vc.id = videoID
+            
+            // "영상 > 검색 > 영상" 화면이동으로 왔음을 판별하기 위해 id값을 싱글톤에 입력합니다.
+            // "currentVideoID" 와 "previousVideoID"를 비교하여 판별합니다.
+            let pipDataManager = PIPDataManager.shared
+            pipDataManager.currentVideoID = videoID
+            
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true)
             
