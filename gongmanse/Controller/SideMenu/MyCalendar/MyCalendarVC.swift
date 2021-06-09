@@ -82,6 +82,40 @@ class MyCalendarVC: UIViewController {
         return button
     }()
     
+    // 테이블 헤더 프로퍼티
+    lazy var headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
+    
+    let calendarImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.image = UIImage(named: "schedule")
+        return image
+    }()
+    
+    let headerTitlte: UILabel = {
+        let label = UILabel()
+        label.text = "일정"
+        label.font = .appBoldFontWith(size: 14)
+        label.textAlignment = .left
+        label.setContentHuggingPriority(.defaultLow - 5, for: .horizontal)
+        return label
+    }()
+    
+    let dismissButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "close24Px"), for: .normal)
+        return button
+    }()
+    
+    lazy var headerStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [calendarImage, headerTitlte, dismissButton])
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fillProportionally
+        stack.spacing = 2
+        return stack
+    }()
+    //
     
     var currentPage: Date?
     var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
@@ -111,8 +145,12 @@ class MyCalendarVC: UIViewController {
         
         previousButton.addTarget(self, action: #selector(tappedPrevBtn(_:)), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(tappedNextBtn(_:)), for: .touchUpInside)
+        dismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)
         
-        
+    }
+    
+    @objc func dismissAction(_ sender: UIButton) {
+        tableConstrant?.constant = 0
     }
     
     @objc func scheduleRegistration(_ sender: UIButton) {
@@ -134,6 +172,17 @@ class MyCalendarVC: UIViewController {
 // MARK: - BottomTableView
 
 extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        headerView.backgroundColor = .rgb(red: 237, green: 237, blue: 237)
+        
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
@@ -218,6 +267,8 @@ extension MyCalendarVC {
         view.addSubview(floatingButton)
         view.addSubview(tableView)
         
+
+        headerView.addSubview(headerStackView)
         calendarView.delegate = self
         calendarView.dataSource = self
         tableView.delegate = self
@@ -257,6 +308,20 @@ extension MyCalendarVC {
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        
+        // TableView Section
+        headerStackView.translatesAutoresizingMaskIntoConstraints = false
+        headerStackView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        headerStackView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
+        headerStackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
+        
+        calendarImage.translatesAutoresizingMaskIntoConstraints = false
+        calendarImage.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        calendarImage.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        dismissButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        dismissButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
     }
 }
