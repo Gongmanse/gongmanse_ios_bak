@@ -31,8 +31,9 @@ class MyCalendarViewModel {
             case .success(let data):
                 
                 self.calendarCheckData(data)
+                self.myDate = data
                 self.calendarDelegate?.reloadCollection()
-//                self.myDate = data
+
                 
             case .failure(let err):
                 print(err.localizedDescription)

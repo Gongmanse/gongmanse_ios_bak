@@ -14,8 +14,7 @@ class MyCalendarVC: UIViewController {
             tableConstrant?.constant = isBottomTableHeight ? -height / 3 + 30 : 0
             
             UIView.animate(withDuration: 0.3) {
-                self.tableView.topAnchor.constraint(equalTo: self.view.bottomAnchor,
-                                                    constant: self.tableConstrant!.constant).isActive = true
+                
                 self.view.layoutIfNeeded()
             }
         }
@@ -132,7 +131,7 @@ class MyCalendarVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationConfigure()
         configuration()
         constraints()
@@ -150,7 +149,7 @@ class MyCalendarVC: UIViewController {
     }
     
     @objc func dismissAction(_ sender: UIButton) {
-        tableConstrant?.constant = 0
+        isBottomTableHeight = false
     }
     
     @objc func scheduleRegistration(_ sender: UIButton) {
@@ -298,7 +297,8 @@ extension MyCalendarVC {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableConstrant = tableView.topAnchor.constraint(equalTo: view.bottomAnchor)
         tableConstrant?.isActive = true
-
+//        self.tableView.topAnchor.constraint(equalTo: self.view.bottomAnchor,
+//                                            constant: 0).isActive = true
         
         previousButton.translatesAutoresizingMaskIntoConstraints = false
         previousButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
@@ -323,6 +323,7 @@ extension MyCalendarVC {
         dismissButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         dismissButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
+ 
     }
 }
 
