@@ -301,37 +301,79 @@ extension VideoController: AVPlayerViewControllerDelegate {
     func playVideo() {
         playerController.delegate = self
         
-        // AVPlayer에 외부 URL을 포함한 값을 입력한다.
+//        self.asset = AVAsset(url: videoURL! as URL)
+//        let keys: [String] = ["playable"]
+//
+//        asset?.loadValuesAsynchronously(forKeys: keys, completionHandler: {
+//
+//            var error: NSError? = nil
+//            guard let asset = self.asset else { return }
+//            let status = asset.statusOfValue(forKey: "playable", error: &error)
+//            switch status {
+//            case .loaded:
+//                DispatchQueue.main.async {
+//                    let item = AVPlayerItem(asset: asset)
+//                    self.player = AVPlayer(playerItem: item)
+//                    let playerLayer = AVPlayerLayer(player: self.player)
+//                    playerLayer.videoGravity = AVLayerVideoGravity.resizeAspect
+//                    playerLayer.frame = self.videoContainerView.bounds
+//                    self.videoContainerView.layer.addSublayer(playerLayer)
+//                    let seconds: Int64 = Int64(0.0)
+//                    let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
+//                    self.player.seek(to: targetTime)
+//                }
+//                break
+//            case .failed:
+//                DispatchQueue.main.async {
+//                    print("DEBUG: 실패했습니다.")
+//                }
+//                break
+//            case .cancelled:
+//                DispatchQueue.main.async {
+//                    print("DEBUG: 취소했습니다.")
+//                }
+//            default:
+//                break
+//
+//
+//            }
+//        })
+        
+        
+//        // AVPlayer에 외부 URL을 포함한 값을 입력한다.
         player = AVPlayer(url: videoURL! as URL)
         playerController.player = player
-        
+//
         // AVPlayerController를 "ViewController" childController로 등록한다.
         self.addChild(playerController)
-        
+
         /// 공만세 적용 한글 인코딩 결과 값
         let subtitleInKor = makeStringKoreanEncoded(vttURL)
         let subtitleRemoteUrl = URL(string: subtitleInKor)
-        
+
         // 자막URL을 포함한 값을 AVPlayer와 연동한다.
         open(fileFromRemote: subtitleRemoteUrl!)
-        
+
         // Text 색상 변경값 입력한다.
         subtitleLabel.textColor = UIColor.white
         subtitleLabel.textColor = .white
         let convertedHeight = convertHeight(231, standardView: view)
         let convertedConstant = convertHeight(65.45, standardView: view)
-        
+
         playerController.view.setDimensions(height: view.frame.width * 0.57,
                                             width: view.frame.width)
         playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
                                              height: convertedHeight - convertedConstant)
         playerController.view.contentMode = .scaleToFill
-        
+//
         playerController.didMove(toParent: self)
         
-        player.play()
-//        pageCollectionView.reloadData()
-//        pageCollectionView.setNeedsDisplay()
+        DispatchQueue.main.async {
+            self.player.play()
+        }
+        
+        pageCollectionView.reloadData()
+        pageCollectionView.setNeedsDisplay()
         player.isMuted = false
     }
     

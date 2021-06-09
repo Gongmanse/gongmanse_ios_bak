@@ -399,6 +399,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
     
+    // MARK: Refactoring
+    var asset: AVAsset?
+    
+    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
@@ -541,13 +545,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-        setRemoveNotification()
 
         let pipDataManager = PIPDataManager.shared
         
         if let currentVideID = pipDataManager.previousVideoID {
             setRemoveNotification()
-            let inputData = DetailVideoInput(video_id: currentVideID, token: Constant.token)
+            let inputData = DetailVideoInput(video_id: currentVideID,
+                                             token: Constant.token)
             
             // "상세화면 영상 API"를 호출한다.
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
