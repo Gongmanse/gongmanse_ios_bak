@@ -51,7 +51,8 @@ class LectureNoteController: UIViewController {
         return button
     }()
     
-    private var isFoldingWritingImplement = true  // 필기도구 View가 축소된 상태면 false
+    private var isLandscapeMode: Bool = false
+    private var isFoldingWritingImplement: Bool = true  // 필기도구 View가 축소된 상태면 false
     private var writingImplementLeftConstraint: NSLayoutConstraint?
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
@@ -103,6 +104,9 @@ class LectureNoteController: UIViewController {
         return button
     }()
     
+    // MARK: NSLayoutConstraint 객체
+    var writingImplementFoldingWidth: NSLayoutConstraint?
+    var writingImplementUnfoldingWidth: NSLayoutConstraint?
     
     // MARK: - Lifecycle
     
@@ -127,6 +131,17 @@ class LectureNoteController: UIViewController {
     
     
     // MARK: - Actions
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        if UIDevice.current.orientation.isLandscape {
+            isLandscapeMode = true
+                
+        } else {
+            isLandscapeMode = false
+        }
+    }
     
     @objc fileprivate func handleUndo() { canvas.undo() }
     
@@ -169,7 +184,7 @@ class LectureNoteController: UIViewController {
         */
         if !noteMode {
             
-            self.writingImplementLeftConstraint?.constant = -(width * 0.8)
+            self.writingImplementLeftConstraint?.constant = isLandscapeMode ? -(width) : -(width * 0.8)
             self.writingImplementToggleButton.setImage(.none, for: .normal)
             self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             self.savingNoteButton.setTitle("노트\n보기", for: .normal)
@@ -393,18 +408,21 @@ class LectureNoteController: UIViewController {
         let width = view.frame.width * 0.5
         let bottomPadding = view.frame.height * 0.07
         let height = view.frame.height * 0.09
-        
+
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
-        writingImplement.setDimensions(height: height,
-                                       width: width)
         writingImplement.anchor(bottom: view.bottomAnchor,
-                                paddingBottom: bottomPadding)
-        
+                                paddingBottom: bottomPadding,
+                                height: height)
+
+        writingImplementFoldingWidth
+            = writingImplement.widthAnchor.constraint(equalToConstant: width)
+
         writingImplementLeftConstraint
             = writingImplement.leftAnchor.constraint(equalTo: view.leftAnchor,
                                                      constant: -(width * 0.8))
         
+        writingImplementFoldingWidth?.isActive = true
         writingImplementLeftConstraint?.isActive = true
         
         view.addSubview(savingNoteButton)
