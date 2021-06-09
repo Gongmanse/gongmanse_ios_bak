@@ -16,6 +16,10 @@ class MyCalendarViewModel {
     
     
     var dateList: [Date] = []
+    //
+    
+    weak var calendarDelegate: CollectionReloadData?
+    
     
     func requestMyCalendarApi(_ date: String) {
         
@@ -27,6 +31,7 @@ class MyCalendarViewModel {
             case .success(let data):
                 print(data)
                 self.calendarCheckData(data)
+                self.calendarDelegate?.reloadCollection()
 //                self.myDate = data
                 
             case .failure(let err):

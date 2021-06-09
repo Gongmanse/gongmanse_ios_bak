@@ -27,6 +27,7 @@ class MyCalendarVC: UIViewController {
         view.appearance.headerTitleFont = .appBoldFontWith(size: 26)                // 헤더 ( 년 월 ) 폰트 사이즈
         view.appearance.titleDefaultColor = .rgb(red: 112, green: 112, blue: 112)   // 일정라벨 색 변경
         view.appearance.titleFont = .appBoldFontWith(size: 20)                      // 일정라벨 ( 1, 2, 3 -- ) 폰트 변경
+        view.appearance.headerMinimumDissolvedAlpha = 0
         
         // 현재달에서 다음달, 이전달 날짜 나오는 상태 변경
         view.placeholderType = .none
@@ -43,6 +44,7 @@ class MyCalendarVC: UIViewController {
         view.calendarWeekdayView.weekdayLabels[4].font = .appBoldFontWith(size: 18)
         view.calendarWeekdayView.weekdayLabels[5].font = .appBoldFontWith(size: 18)
         view.calendarWeekdayView.weekdayLabels[6].font = .appBoldFontWith(size: 18)
+        
         
         return view
     }()
@@ -69,6 +71,19 @@ class MyCalendarVC: UIViewController {
         return table
     }()
     
+    let previousButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "scheduleLeft"), for: .normal)
+        return button
+    }()
+    
+    let nextButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "scheduleRight"), for: .normal)
+        return button
+    }()
+    
+    var currentPage: Date?
     var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
     
     // MARK: - LifeCycle
@@ -85,7 +100,6 @@ class MyCalendarVC: UIViewController {
         super.viewDidLoad()
 
         
-
         navigationConfigure()
         configuration()
         constraints()
@@ -96,12 +110,26 @@ class MyCalendarVC: UIViewController {
         let currentDate = formatter.string(from: Date())
         myCalendarVM?.requestMyCalendarApi(currentDate)
         
+        previousButton.addTarget(self, action: #selector(tappedPrevBtn(_:)), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(tappedNextBtn(_:)), for: .touchUpInside)
+        
+        
     }
     
     @objc func scheduleRegistration(_ sender: UIButton) {
+
         let vc = ScheduleAddViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @objc func tappedPrevBtn(_ sender: UIButton) {
+        self.moveCurrentPage(moveUp: false)
+    }
+    
+    @objc func tappedNextBtn(_ sender: UIButton) {
+        self.moveCurrentPage(moveUp: true)
+    }
+    
 }
 
 // MARK: - BottomTableView
@@ -126,6 +154,16 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
 // MARK: - Calendar
 
 extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
+    
+    private func moveCurrentPage(moveUp: Bool) {
+        
+        var dateComponents = DateComponents()
+        dateComponents.month = moveUp ? 1 : -1
+        
+        let calendarCurrent = Calendar.current
+        currentPage = calendarCurrent.date(byAdding: dateComponents, to: currentPage ?? Date())
+        self.calendarView.setCurrentPage(currentPage!, animated: true)
+    }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         isBottomTableHeight = true
@@ -178,9 +216,15 @@ extension MyCalendarVC {
         self.navigationController?.navigationBar.topItem?.title = ""
     }
     
+    
+
+    
     func configuration() {
         
+        myCalendarVM?.calendarDelegate = self
         view.addSubview(calendarView)
+        view.addSubview(previousButton)
+        view.addSubview(nextButton)
         view.addSubview(floatingButton)
         view.addSubview(tableView)
         
@@ -189,7 +233,11 @@ extension MyCalendarVC {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(MyCalendarCell.self, forCellReuseIdentifier: MyCalendarCell.identifier)
+        
+        
     }
+    
+    
     
     func constraints() {
         
@@ -209,7 +257,24 @@ extension MyCalendarVC {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableConstrant = tableView.topAnchor.constraint(equalTo: view.bottomAnchor)
         tableConstrant?.isActive = true
+
+        
+        previousButton.translatesAutoresizingMaskIntoConstraints = false
+        previousButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        previousButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        
+    }
+}
+
+extension MyCalendarVC: CollectionReloadData {
+    func reloadCollection() {
+        DispatchQueue.main.async {
+            self.calendarView.reloadData()
+        }
     }
 }
