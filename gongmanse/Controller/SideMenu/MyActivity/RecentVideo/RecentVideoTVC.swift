@@ -1,8 +1,14 @@
 import UIKit
 import BottomPopup
+import Alamofire
 
 protocol RecentVideoVCDelegate: AnyObject {
     func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int)
+}
+
+struct DeleteInput: Encodable {
+    var history_id = ""
+    var token = Constant.token
 }
 
 class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
@@ -10,6 +16,12 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
+    
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     
     var pageIndex: Int!
     var recentViedo: FilterVideoModels?
@@ -22,6 +34,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     }
     
     var delegate: RecentVideoVCDelegate?
+    var myActivity: MyActivityVC?
     
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
@@ -41,6 +54,8 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         self.tableView.register(tableViewLoadingCellNib, forCellReuseIdentifier: "LoadingCell")
         
         NotificationCenter.default.addObserver(self, selector: #selector(recentVideoFilterNoti(_:)), name: NSNotification.Name("recentVideoFilterText"), object: nil)
+        
+//        myActivity.delegate = self
         
     }
     
@@ -134,8 +149,60 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
             
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.tag = indexPath.row
+            
+            cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
+            
             return cell
         }
+    }
+    
+    @objc func deleteAction(_ sender: UIButton) {
+        guard let json = self.recentViedo else { return }
+        guard let id = json.data[sender.tag].id else { return }
+        
+//        func sendIdAndToken(_ parameters: DeleteInput) {
+//            // Controller에서 휴대전화번호 데이터 받음
+//            let data = parameters
+//            let userID = data.history_id
+//
+//            // 로그인정보 post
+//            AF.upload(multipartFormData: { MultipartFormData in
+//                MultipartFormData.append("\(data.history_id)".data(using: .utf8)!, withName: "history_id")
+//                MultipartFormData.append("\(data.token)".data(using: .utf8)!, withName: "token")
+//
+//            }, to: "\(Constant.BASE_URL)/v1/auth/token")
+//        }
+        
+        let url = "https://api.gongmanse.com/v/member/watchhistory"
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 10
+        
+        //Post로 보낼 정보
+        let params = ["history_id": id, "token": Constant.token]
+        print(id)
+        
+        //httpBody 에 파라미터 추가
+        do {
+            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            print("http Body Error")
+        }
+        
+        AF.request(request).response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                print(response)
+            case.failure:
+                print("error")
+            }
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -155,6 +222,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
 }
 
 extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
+    
     func recentPassSortedIdRow(_ recentSortedIdRowIndex: Int) {
         
         if recentSortedIdRowIndex == 0 {          // 1 번째 Cell
@@ -166,7 +234,6 @@ extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
         } else {                            // 4 번째 Cell
             self.sortedId = 3
         }
-        
         
         self.delegate?.recentVideoPassSortedIdSettingValue(recentSortedIdRowIndex)
         self.tableView.reloadData()

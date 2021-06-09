@@ -4,6 +4,13 @@ class MyActivityVC: UIViewController {
     
     @IBOutlet weak var tabsView: TabsView!
     
+    // MARK: 하위 컨트롤러 인스턴스
+    lazy var recentVideoTVC = storyboard?.instantiateViewController(withIdentifier: "RecentVideoTVC") as! RecentVideoTVC
+    lazy var noteListTVC = storyboard?.instantiateViewController(withIdentifier: "NoteListTVC") as! NoteListTVC
+    lazy var lectureQuestionsTVC = storyboard?.instantiateViewController(withIdentifier: "LectureQuestionsTVC") as! LectureQuestionsTVC
+    lazy var expertConsultTVC = storyboard?.instantiateViewController(withIdentifier: "ExpertConsultTVC") as! ExpertConsultTVC
+    lazy var bookMarkTVC = storyboard?.instantiateViewController(withIdentifier: "BookMarkTVC") as! BookMarkTVC
+    
     var currentIndex: Int = 0
     var recentVideoSortedIndex: Int = 0
     var noteListSortedIndex: Int = 0
@@ -12,13 +19,12 @@ class MyActivityVC: UIViewController {
     var bookMarkSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
+    var isSelected: Bool = true
     
-    let recentVideoItems = RecentVideoTVCell()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let deleteBarButton = UIBarButtonItem(image: UIImage(named: "deletePage"), style: .plain, target: self, action: #selector(trashImageAction(_:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "deletePage"), style: .plain, target: self, action: #selector(trashImageAction(_:)))
 
         //네비게이션 바 타이틀 정하기
         self.navigationItem.title = "나의 활동"
@@ -29,9 +35,6 @@ class MyActivityVC: UIViewController {
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
         
-        //delete 바버튼 추가
-        navigationItem.rightBarButtonItem = deleteBarButton
-        
         setupTabs()
         setupPageViewController()
         addBottomBorder()
@@ -39,19 +42,12 @@ class MyActivityVC: UIViewController {
     
     @objc func trashImageAction(_ sender: UIButton) {
         
-        guard let recentButton = recentVideoItems.deleteButton else { return }
-
-        guard let recentView = recentVideoItems.deleteView else { return }
-
-        if recentButton.isHidden == true && recentView.isHidden == true {
-            recentButton.isHidden = false
-            recentView.isHidden = false
-        } else if recentButton.isHidden == false && recentView.isHidden == false {
-            recentButton.isHidden = true
-            recentView.isHidden = true
-        }
-        
-        print("태애앱")
+        isSelected = !isSelected
+        recentVideoTVC.isDeleteMode = isSelected
+        noteListTVC.isDeleteMode = isSelected
+        lectureQuestionsTVC.isDeleteMode = isSelected
+        expertConsultTVC.isDeleteMode = isSelected
+        bookMarkTVC.isDeleteMode = isSelected
     }
     
     func addBottomBorder() {
@@ -127,37 +123,39 @@ class MyActivityVC: UIViewController {
         currentIndex = index
         
         if index == 0 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecentVideoTVC") as! RecentVideoTVC
+            let contentVC = self.recentVideoTVC
             contentVC.delegate = self
             contentVC.sortedId = recentVideoSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "NoteListTVC") as! NoteListTVC
+            let contentVC = self.noteListTVC
             contentVC.delegate = self
             contentVC.sortedId = noteListSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 2 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "LectureQuestionsTVC") as! LectureQuestionsTVC
+            let contentVC = self.lectureQuestionsTVC
             contentVC.delegate = self
             contentVC.sortedId = lectureQuestionsSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 3 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "ExpertConsultTVC") as! ExpertConsultTVC
+            let contentVC = self.expertConsultTVC
             contentVC.delegate = self
             contentVC.sortedId = expertConsultSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else if index == 4 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "BookMarkTVC") as! BookMarkTVC
+            let contentVC = self.bookMarkTVC
             contentVC.delegate = self
             contentVC.sortedId = bookMarkSortedIndex
             contentVC.pageIndex = index
             return contentVC
         } else {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecentVideoTVC") as! RecentVideoTVC
+            let contentVC = self.recentVideoTVC
+            contentVC.delegate = self
+            contentVC.sortedId = recentVideoSortedIndex
             contentVC.pageIndex = index
             return contentVC
         }

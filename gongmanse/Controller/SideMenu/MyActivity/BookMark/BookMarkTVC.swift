@@ -12,6 +12,12 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var bookMark: FilterVideoModels?
     private let emptyCellIdentifier = "EmptyTableViewCell"
@@ -146,6 +152,9 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 cell.term.isHidden = false
                 cell.term.text = indexData.sUnit
             }
+            
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
 
             return cell
         }

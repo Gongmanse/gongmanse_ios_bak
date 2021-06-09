@@ -11,6 +11,12 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var noteList: FilterVideoModels?
     // didSelect로부터 받은 indexPath.row
@@ -135,9 +141,11 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
             cell.indexPathRow = indexPath.row
-            cell.delegate = self
             cell.noteVideoPlayBtn.tag = indexPath.row
             cell.noteVideoPlayBtn.addTarget(self, action: #selector(videoPlay(_:)), for: .touchUpInside)
+            
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
             
             return cell
         }
@@ -209,13 +217,4 @@ extension NoteListTVC: NoteListBottomPopUpVCDelegate {
         self.delegate?.noteListPassSortedIdSettingValue(noteListSortedIdRowIndex)
         self.tableView.reloadData()
     }
-}
-
-
-extension NoteListTVC: NoteListTVCellDelegate {
-    func indexPathPassVC(indexPath: Int) {
-        self.selectedRow = indexPath
-    }
-    
-    
 }

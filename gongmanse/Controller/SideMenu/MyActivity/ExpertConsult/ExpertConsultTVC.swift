@@ -11,6 +11,12 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var expertConsult: ExpertModels?
     private let emptyCellIdentifier = "EmptyTableViewCell"
@@ -146,6 +152,9 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
                     cell.profileImage.sd_setImage(with: profileURL)
                 }
             }
+            
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
             
             return cell
         }
