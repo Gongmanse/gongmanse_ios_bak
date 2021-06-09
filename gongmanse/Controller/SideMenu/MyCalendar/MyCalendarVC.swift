@@ -13,9 +13,10 @@ class MyCalendarVC: UIViewController {
         didSet {
             tableConstrant?.constant = isBottomTableHeight ? -height / 3 + 30 : 0
             
-            UIView.animate(withDuration: 2) {
+            UIView.animate(withDuration: 0.3) {
                 self.tableView.topAnchor.constraint(equalTo: self.view.bottomAnchor,
                                                     constant: self.tableConstrant!.constant).isActive = true
+                self.view.layoutIfNeeded()
             }
         }
     }
@@ -45,11 +46,9 @@ class MyCalendarVC: UIViewController {
         view.calendarWeekdayView.weekdayLabels[5].font = .appBoldFontWith(size: 18)
         view.calendarWeekdayView.weekdayLabels[6].font = .appBoldFontWith(size: 18)
         
-        
+        view.appearance.eventDefaultColor = .mainOrange
         return view
     }()
-    
-    var events: [Date] = []
     
     private let formatter: DateFormatter = {
         let date = DateFormatter()
@@ -83,6 +82,7 @@ class MyCalendarVC: UIViewController {
         return button
     }()
     
+    
     var currentPage: Date?
     var myCalendarVM: MyCalendarViewModel? = MyCalendarViewModel()
     
@@ -99,7 +99,6 @@ class MyCalendarVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         navigationConfigure()
         configuration()
         constraints()
@@ -183,21 +182,12 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
     // 이벤트 개수 표현하는 메소드
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         
-        
         guard let dateList = myCalendarVM?.dateList else { return 0 }
-        print(dateList)
+        
         if dateList.contains(date) {
             return 1
         }
-//        if let calendarData = myCalendarVM?.dateList {
-//            print(calendarData)
-//            print(date)
-//            if calendarData.contains(tt) {
-//                return 1
-//            }
-//        }
         return 0
-        
     }
 }
 

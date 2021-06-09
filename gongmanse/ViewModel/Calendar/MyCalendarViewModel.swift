@@ -29,7 +29,7 @@ class MyCalendarViewModel {
         CalendarAPIManager.myCalendarApi(parameter) { response in
             switch response {
             case .success(let data):
-                print(data)
+                
                 self.calendarCheckData(data)
                 self.calendarDelegate?.reloadCollection()
 //                self.myDate = data
@@ -42,6 +42,8 @@ class MyCalendarViewModel {
     
     func calendarCheckData(_ data: CalendarMyCalendarModel) {
         
+        dateList.removeAll()
+        
         for receive in data.data {
             if !receive.description.isEmpty {
                 dataArr.append(receive)
@@ -53,9 +55,9 @@ class MyCalendarViewModel {
         
     }
     
+    var onUpated: () -> Void = {}
+    
     func stringConvertDate(_ date: CalendarMyDataModel) {
-        
-        dateList.removeAll()
         
         let dateformatter = DateFormatter()
         dateformatter.locale = Locale(identifier: "ko_KR")
@@ -64,11 +66,9 @@ class MyCalendarViewModel {
         print(date.date)
         
         
-        if var dateConvert = dateformatter.date(from: date.date) {
-            print("stringConverDate: ", dateConvert)
-            dateConvert.addTimeInterval(32400)
+        if let dateConvert = dateformatter.date(from: date.date) {
             dateList.append(dateConvert)
-            
         }
     }
 }
+
