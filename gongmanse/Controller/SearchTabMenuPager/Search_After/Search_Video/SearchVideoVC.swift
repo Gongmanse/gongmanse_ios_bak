@@ -1,5 +1,5 @@
 //  Created by 김우성 on 2021/03/11.
-
+import AVFoundation
 import UIKit
 /**
  // 중간 텍스트 글자 색 변경예정
@@ -194,15 +194,42 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         if Constant.isLogin {
             
+            //  UIApplication 에서 화면전환을 한다,
+            guard let topVC = UIApplication.shared.topViewController() else { return }
+            let pipDataManager = PIPDataManager.shared
+            // TODO: 각 값들을 초기화 한다.
             // PIP를 dismiss한다.
             pipDelegate?.serachAfterVCPIPViewDismiss()
-            
             let vc = VideoController()
+            
             let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
-            let videoID = receviedVideoID
-            vc.id = videoID
+            
+            vc.id = receviedVideoID  // dummy Data
+            
+            // TODO: video ID를 받아서 할당하고, PIPDataManager의 값들을 초기화한다.
+            
+            
+            let layout = UICollectionViewFlowLayout()
+            vc.collectionViewLayout = layout
             vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
+            topVC.present(vc, animated: true)
+            
+            //            // PIP를 dismiss한다.
+            //            pipDelegate?.serachAfterVCPIPViewDismiss()
+            //
+            //            let vc = VideoController()
+            //            let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+            //            let videoID = receviedVideoID
+            //            vc.id = videoID
+            //
+            //            // "영상 > 검색 > 영상" 화면이동으로 왔음을 판별하기 위해 id값을 싱글톤에 입력합니다.
+            //            // "currentVideoID" 와 "previousVideoID"를 비교하여 판별합니다.
+            //            let pipDataManager = PIPDataManager.shared
+            //            pipDataManager.currentVideoID = videoID
+            //
+            //
+            //            vc.modalPresentationStyle = .fullScreen
+            //            present(vc, animated: true)
             
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
