@@ -1,8 +1,10 @@
 import UIKit
+import AVFoundation
 
 protocol LessonInfoControllerDelegate: AnyObject {
     func videoVCPauseVideo()
     func videoVCPassCurrentVideoTimeToLessonInfo()
+    func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime)
 }
 
 class LessonInfoController: UIViewController {
@@ -10,7 +12,23 @@ class LessonInfoController: UIViewController {
     // MARK: - Properties
     
     var pipVideoData: PIPVideoData?   // PIP 재생을 위해 필요한 구조체
-    var currentVideoPlayTime: Float?  // 현재 영상이 재생되고 있는 시간
+    
+    // "LessonInfoController"에서 "관련시리즈" 혹은 "sTags"를 클릭했을 때, 영상재생시간을 dataManager에 입력한다.
+    var currentVideoPlayTime: Float? {
+        didSet {
+            let pipDataManager = PIPDataManager.shared
+            pipDataManager.currentVideoTime = currentVideoPlayTime ?? 0.0
+        }
+    }
+    
+    var currentPIPVideoPlayTime: CMTime? {
+        didSet {
+            if let currentPIPVideoPlayTime = currentPIPVideoPlayTime {
+                delegate?.LessonInfoPassCurrentVideoTimeInPIP(currentPIPVideoPlayTime)
+            }
+        }
+    }
+    
     var currentVideoURL: NSURL?       // 현재 영싱의 VideoID
     
     weak var delegate: LessonInfoControllerDelegate?
@@ -57,7 +75,7 @@ class LessonInfoController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(videoID: String) {
+    init(videoID: String?) {
         super.init(nibName: nil, bundle: nil)
         self.videoID = videoID
     }
@@ -75,6 +93,17 @@ class LessonInfoController: UIViewController {
 //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
+    /**
+     1. PIP에서 재생된 시간을 받아서 class 내부 변수에 값을 할당합니다.
+     2. 값을 받는 변수에 didSet을 통해 delegate Method를 호출합니다.
+     3. delegate Method를 통해서 videoController의 재생 시작위치를 변경합니다.
+    */
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        print("DEBUG: LessonInfoController Appear!!!")
+        let pipDataManager = PIPDataManager.shared
+        self.currentPIPVideoPlayTime = pipDataManager.currentVideoCMTime
+    }
     
     // MARK: - Actions
     
@@ -108,6 +137,9 @@ class LessonInfoController: UIViewController {
     
     @objc func handleRateLessonAction() {
         
+        // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
+        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
+        
         if rateLessonButton.titleLabel.text != "평점" {
             rateLessonButton.viewTintColor = .mainOrange
         } else {
@@ -127,7 +159,7 @@ class LessonInfoController: UIViewController {
     }
     @objc func handleRelatedSeriesAction() {
         
-        
+        delegate?.videoVCPauseVideo()
         let presentVC = LecturePlaylistVC(videoID ?? "")
         presentVC.lectureState = .videoList
         let nav = UINavigationController(rootViewController: presentVC)
@@ -322,7 +354,7 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         
-        // 키워드를 클릭했을 때, 현재 영상의 재생 시간값을 받아온다.
+        // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
         delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
         // 클릭한 키워드를 입력한다.
@@ -339,7 +371,7 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let videoURL = self.currentVideoURL else { return }
         
         present(nav, animated: true) {
-            let pipVideoData = PIPVideoData(isOnPIP: true,
+            let pipVideoData = PIPVideoData(isPlayPIP: true,
                                             videoURL: videoURL,
                                             currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
                                             videoTitle: self.lessonnameLabel.text ?? "",

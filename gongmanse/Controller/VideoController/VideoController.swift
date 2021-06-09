@@ -8,6 +8,46 @@ import AVKit
 import Foundation
 import UIKit
 
+/**
+ PIP 관련 데이터를 관리하는 싱글톤 객체입니다.
+ - 이전 영상에 대한 ID와 URL을 저장합니다.
+   이를 통해, PIP에 이전 영상의 데이터를 보여줍니다.
+ - 현재 영상 ID 데이터를 저장합니다. 이후, 이전영상 데이터ID에 입력합니다.
+ */
+class PIPDataManager {
+    
+    static let shared = PIPDataManager()
+    
+    var isPlayPIP: Bool = true
+    
+    var previousVideoURL: NSURL?
+    var currentVideoURL: NSURL?
+    
+    var previousVideoID: String?
+    var currentVideoID: String?
+    
+    var previousVideoTitle: String = "클린코드"
+    var currentVideoTitle: String = "클린코드"
+    
+    var previousTeacherName: String = "김우성"
+    var currentTeacherName: String = "김우성2"
+
+    /// videoController가 처음으로 호출되었는지 판단하는 연산 프로퍼티
+    /// - ture  : 처음으로 호출 된 경우
+    /// - false : 처음아 아닌 경우
+    var isDisplayVideoFirstTime: Bool {
+        return previousVideoID == nil
+    }
+    
+    /// 다음화면으로 넘어갈 때, PIPVC에서 Float -> CMTime으로 변환해주므로 Float로 받아습니다.
+    var currentVideoTime: Float = 0.0         // 다음화면으로 넘어갈 때 사용
+    
+    /// "AVPlayer.seek" 파라미터가 CMTIME이므로 바로 접근하기 위해 변수를 2개로 만들었습니다.
+    var currentVideoCMTime: CMTime = CMTime() // 이전화면으로 돌아올 때 사용
+    
+    private init() { }  // 싱글톤 인스턴스 2 개 생성 방지하기 위해 "private"으로 작성했습니다.
+}
+
 protocol VideoControllerDelegate: AnyObject {
     func recommandVCPresentVideoVC()
 }
@@ -26,29 +66,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     "상세검색화면" 과 "관련 시리즈" 에서 PIP 객체를 가지고 있다가 실행시켜주면 된다.
      이를 구현하기 위한 객체로 PIP를 켜야할지 말아야할 지알려주는 변수이다.
      */
-    var isOnPIP: Bool = true
-    // 이전 영상에 대한 VideoURL을 가지고 있다가, PIP View를 켤 때, 해당 URL로 비디오를 연결한다.
+    var isDisplayPIP: Bool = true
     var teachername: String?
     var lessonname: String?
     
     var pipData: PIPVideoData? {
         didSet {
-            if self.isOnPIP {
+            let pipDataManager = PIPDataManager.shared
+            print("DEBUG: isDisplayVideoFirstTime is \(pipDataManager.isDisplayVideoFirstTime)")
+            if !pipDataManager.isDisplayVideoFirstTime {
                 configurePIPView(pipData: pipData)
             }
         }
     }
-    
-//    var pipVideoURL: NSURL? {
-//        didSet {
-//            pipData = PIPVideoData(isOnPIP: self.isOnPIP,
-//                                   videoURL: pipVideoURL,
-//                                   currentVideoTime: self.timeSlider.value,
-//                                   videoTitle: self.lessonname ?? "",
-//                                   teacherName: self.teachername ?? "")
-//        }
-//    }
-    
+
     var currentVideoPlayRate = Float(1.0) {
         didSet {
             player.playImmediately(atRate: currentVideoPlayRate)
@@ -94,42 +125,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var otherSubjectsViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
-    lazy var lessonInfoController = LessonInfoController(videoID: id!)
+    lazy var lessonInfoController = LessonInfoController(videoID: id)
     
-    /* PIPView */
-    private let lessonTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "DEFAULT"
-        label.font = UIFont.appBoldFontWith(size: 13)
-        label.textColor = .black
-        return label
-    }()
-    
-    private let teachernameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "DEFAULT"
-        label.font = UIFont.appBoldFontWith(size: 11)
-        label.textColor = .gray
-        return label
-    }()
-    
-    private var isPlayPIPVideo: Bool = true
-    private let pipPlayPauseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        button.tintColor = .black
-//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
-        return button
-    }()
-    
-    private let xButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
-        return button
-    }()
-    
+
     
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
@@ -226,6 +224,41 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return view
     }()
         
+    /* PIPView */
+    private let lessonTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 13)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let teachernameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "DEFAULT"
+        label.font = UIFont.appBoldFontWith(size: 11)
+        label.textColor = .gray
+        return label
+    }()
+    
+    private var isPlayPIPVideo: Bool = true
+    private let pipPlayPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .black
+//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    private let xButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
         let view = UIView()
@@ -366,6 +399,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
     
+    // MARK: Refactoring
+    var asset: AVAsset?
+    
+    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
@@ -453,14 +490,22 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     init() { super.init(nibName: nil, bundle: nil) }
     
     // PIP 창이 필요한 경우 init
-    init(isOnPIP: Bool) {
+    init(isPlayPIP: Bool) {
         super.init(nibName: nil, bundle: nil)
-        self.isOnPIP = isOnPIP
+        self.isDisplayPIP = isPlayPIP
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        removePeriodicTimeObserver()
+        setRemoveNotification()
+        print("DEBUG: deinit is Activate")
+    }
+    
 
     override func viewWillAppear(_ animated: Bool) {
         
@@ -480,7 +525,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
         // 가로모드를 제한한다.
 //        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
@@ -500,13 +545,17 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-        setRemoveNotification()
-        guard let id = id else { return }
-        let inputData = DetailVideoInput(video_id: "15188", token: Constant.token)
+
+        let pipDataManager = PIPDataManager.shared
         
-        // "상세화면 영상 API"를 호출한다.
-        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
-        
+        if let currentVideID = pipDataManager.previousVideoID {
+            setRemoveNotification()
+            let inputData = DetailVideoInput(video_id: currentVideID,
+                                             token: Constant.token)
+            
+            // "상세화면 영상 API"를 호출한다.
+            DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        }
     }
     
     // MARK: - Helper
@@ -558,11 +607,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     func configurePIPView(pipData: PIPVideoData?) {
         
         guard let pipData = self.pipData else { return }
+        let pipDataManager = PIPDataManager.shared
         let pipHeight = view.frame.height * 0.085
-        let pipVC = PIPController(isVideoVC: true)
+        let pipVC = PIPController(isPlayPIP: false)
         
         /* pipContainerView - Constraint */
-
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
                                 bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -594,7 +643,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 height: 17)
-        lessonTitleLabel.text = pipData.videoTitle
+        lessonTitleLabel.text = pipDataManager.previousVideoTitle
         
         /* teachernameLabel - Constraint */
         pipContainerView.addSubview(teachernameLabel)
@@ -602,7 +651,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 left: lessonTitleLabel.leftAnchor,
                                 paddingTop: 5,
                                 height: 15)
-        teachernameLabel.text = pipData.teacherName + " 선생님"
+        teachernameLabel.text = pipDataManager.previousTeacherName + " 선생님"
     }
 }
 
@@ -726,13 +775,33 @@ extension VideoController {
     
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
+        let pipDataManager = PIPDataManager.shared
         
+        // PIP
+        if pipDataManager.currentVideoID == nil {
+//            pipDataManager.previousVideoID = self.id
+            pipDataManager.currentVideoID = self.id
+        } else {
+            pipDataManager.previousVideoID = pipDataManager.currentVideoID
+            pipDataManager.currentVideoID = self.id
+        }
+        
+
         var videoURL: NSURL?
         if let sourceURL = response.data.source_url {
             let url = URL(string: sourceURL) as NSURL?
             self.videoURL = url
             videoURL = url
             self.videoAndVttURL.videoURL = url
+            
+            // PIP
+            if pipDataManager.isDisplayVideoFirstTime {
+                pipDataManager.previousVideoURL = url
+                pipDataManager.currentVideoURL = url
+            } else {
+                pipDataManager.previousVideoURL = pipDataManager.currentVideoURL
+                pipDataManager.currentVideoURL = url
+            }
         }
         
         // sSubtitles -> vttURL
@@ -758,10 +827,31 @@ extension VideoController {
         self.teachername = response.data.sTeacher + " 선생님"
         self.lessonInfoController.teachernameLabel.text = teachername + " 선생님"
         
+        // PIP
+        if pipDataManager.isDisplayVideoFirstTime {
+            pipDataManager.previousTeacherName = teachername
+            pipDataManager.currentTeacherName = teachername
+        } else {
+            pipDataManager.previousTeacherName = pipDataManager.currentTeacherName
+            pipDataManager.currentTeacherName = teachername
+        }
+        
+        
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle
         self.lessonname = response.data.sTitle
         self.lessonInfoController.lessonnameLabel.text = lessonTitle
+        pipDataManager.previousVideoTitle = lessonTitle
+        
+        // PIP
+        if pipDataManager.isDisplayVideoFirstTime {
+            pipDataManager.previousVideoTitle = lessonTitle
+            pipDataManager.currentVideoTitle = lessonTitle
+        } else {
+            pipDataManager.previousVideoTitle = pipDataManager.currentVideoTitle
+            pipDataManager.currentVideoTitle = lessonTitle
+        }
+        
         
         // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
         let subjectname = response.data.sSubject
@@ -784,13 +874,12 @@ extension VideoController {
         playVideo()
 //        pipPlayer.play()
         
-        
         // PIP
-        let pipData = PIPVideoData(isOnPIP: self.isOnPIP,
-                                   videoURL: videoURL,
+        let pipData = PIPVideoData(isPlayPIP: false,
+                                   videoURL: pipDataManager.previousVideoURL,
                                    currentVideoTime: 0.0,
-                                   videoTitle: lessonTitle,
-                                   teacherName: teachername)
+                                   videoTitle: pipDataManager.previousVideoTitle,
+                                   teacherName: pipDataManager.previousTeacherName)
         
         self.pipData = pipData
     }
@@ -870,13 +959,39 @@ extension VideoController: IntroControllerDelegate {
 
 extension VideoController: LessonInfoControllerDelegate {
     
+    /// PIP에서 재생시간을 받아와서 현재 영상에 재생하는 Delegate 메소드
+    func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime) {
+        if currentTime != CMTime(value: CMTimeValue(0), timescale: CMTimeScale(0)) {
+            print("DEBUG: 받은 시간은 : \(currentTime) 입니다.")
+            player.seek(to: currentTime)
+            player.play()
+            UIView.animate(withDuration: 0.33) {
+                self.pipContainerView.alpha = 0
+            }
+        }
+        
+    }
+    
+    /// VideoVC에서 재생시간을 slider에서 받아서 LessonInfoVC에 전달해주는 메소드
     func videoVCPassCurrentVideoTimeToLessonInfo() {
+        
         self.lessonInfoController.currentVideoPlayTime = timeSlider.value
         self.lessonInfoController.currentVideoURL = self.videoURL
     }
     
-    
+    // 화면 이동시 현재 영상을 일시정지하기 위한 메소드
     func videoVCPauseVideo() {
         self.player.pause()
+    }
+}
+
+
+extension UIViewController {
+    
+    func changeRootVCToMainTabBarVC(completion: @escaping () -> Void) {
+        let mainTabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarController") as! MainTabBarController
+        changeRootViewController(mainTabBarVC)
+        
+        completion()
     }
 }

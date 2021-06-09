@@ -16,6 +16,10 @@ class MyCalendarViewModel {
     
     
     var dateList: [Date] = []
+    //
+    
+    weak var calendarDelegate: CollectionReloadData?
+    
     
     func requestMyCalendarApi(_ date: String) {
         
@@ -25,9 +29,11 @@ class MyCalendarViewModel {
         CalendarAPIManager.myCalendarApi(parameter) { response in
             switch response {
             case .success(let data):
-                print(data)
+                
                 self.calendarCheckData(data)
-//                self.myDate = data
+                self.myDate = data
+                self.calendarDelegate?.reloadCollection()
+
                 
             case .failure(let err):
                 print(err.localizedDescription)
@@ -36,6 +42,8 @@ class MyCalendarViewModel {
     }
     
     func calendarCheckData(_ data: CalendarMyCalendarModel) {
+        
+        dateList.removeAll()
         
         for receive in data.data {
             if !receive.description.isEmpty {
@@ -48,9 +56,9 @@ class MyCalendarViewModel {
         
     }
     
+    var onUpated: () -> Void = {}
+    
     func stringConvertDate(_ date: CalendarMyDataModel) {
-        
-        dateList.removeAll()
         
         let dateformatter = DateFormatter()
         dateformatter.locale = Locale(identifier: "ko_KR")
@@ -59,11 +67,9 @@ class MyCalendarViewModel {
         print(date.date)
         
         
-        if var dateConvert = dateformatter.date(from: date.date) {
-            print("stringConverDate: ", dateConvert)
-            dateConvert.addTimeInterval(32400)
+        if let dateConvert = dateformatter.date(from: date.date) {
             dateList.append(dateConvert)
-            
         }
     }
 }
+

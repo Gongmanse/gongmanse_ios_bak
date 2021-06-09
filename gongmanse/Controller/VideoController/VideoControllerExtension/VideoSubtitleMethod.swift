@@ -18,9 +18,19 @@ extension VideoController {
         print("DEBUG: 6Rangs is \(keywordRanges[6])")
         print("DEBUG: 7Rangs is \(keywordRanges[7])")
         
+        // TODO: 검색결과를 나타낼 "SearchAfterVC"를 생성한다.
         let vc = SearchAfterVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
+        
+        
+        // TODO: 검석어를 검색한다. -> if절에서 하고 있다.
+        
+        // TODO: PIP에 값을 할당한다. -> PIPDataManager에서 하고 있다.
+        
+        // TODO: 이전 영상을 일시중지시킨다.
+        
+        // TODO: "SearchAfterVC"로 화면을 전환한다. -> if절에서 하고 있다.
         
         /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
