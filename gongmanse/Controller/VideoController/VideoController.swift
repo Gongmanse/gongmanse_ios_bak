@@ -525,7 +525,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
         // 가로모드를 제한한다.
 //        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
@@ -986,3 +986,12 @@ extension VideoController: LessonInfoControllerDelegate {
 }
 
 
+extension UIViewController {
+    
+    func changeRootVCToMainTabBarVC(completion: @escaping () -> Void) {
+        let mainTabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarController") as! MainTabBarController
+        changeRootViewController(mainTabBarVC)
+        
+        completion()
+    }
+}
