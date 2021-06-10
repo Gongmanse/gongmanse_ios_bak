@@ -400,6 +400,7 @@
 		C27A5713265BA5CB0047520E /* LectureDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27A5712265BA5CB0047520E /* LectureDetailViewModel.swift */; };
 		C27CB3EF265242DF00631B3A /* LectureAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CB3EE265242DF00631B3A /* LectureAPIManager.swift */; };
 		C27CB3F42652457100631B3A /* LectureTapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CB3F32652457100631B3A /* LectureTapViewModel.swift */; };
+		C27EB2542671965500A3C190 /* InfinityScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27EB2532671965500A3C190 /* InfinityScroll.swift */; };
 		C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */; };
 		C282207B26281E8A0066EC9B /* ProgressListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C282207A26281E8A0066EC9B /* ProgressListAPI.swift */; };
 		C28B27AE261C421700419E5E /* FilteringGradePopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B27AD261C421700419E5E /* FilteringGradePopUpVC.swift */; };
@@ -849,6 +850,7 @@
 		C27A5712265BA5CB0047520E /* LectureDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureDetailViewModel.swift; sourceTree = "<group>"; };
 		C27CB3EE265242DF00631B3A /* LectureAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureAPIManager.swift; sourceTree = "<group>"; };
 		C27CB3F32652457100631B3A /* LectureTapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureTapViewModel.swift; sourceTree = "<group>"; };
+		C27EB2532671965500A3C190 /* InfinityScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfinityScroll.swift; sourceTree = "<group>"; };
 		C282206B2627D02A0066EC9B /* UserQuestionWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuestionWrite.swift; sourceTree = "<group>"; };
 		C282207A26281E8A0066EC9B /* ProgressListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressListAPI.swift; sourceTree = "<group>"; };
 		C28B27AD261C421700419E5E /* FilteringGradePopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringGradePopUpVC.swift; sourceTree = "<group>"; };
@@ -3081,6 +3083,7 @@
 			isa = PBXGroup;
 			children = (
 				C2A92FA3263BCFA900098F92 /* ReloadDataProtocol.swift */,
+				C27EB2532671965500A3C190 /* InfinityScroll.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -3377,6 +3380,7 @@
 				C207F5D126266CEC0020A965 /* LectureListModel.swift in Sources */,
 				C2A39E1C264E5AA00046290D /* VideoQnAAPIManager.swift in Sources */,
 				25BD75FF26156B15002B266C /* FindingPwdByPhoneDataManager.swift in Sources */,
+				C27EB2542671965500A3C190 /* InfinityScroll.swift in Sources */,
 				C2CF7B1C265F4A2B00F1E50A /* VideoDetailInfoModel.swift in Sources */,
 				C2CBA53E266A180A000ADD5D /* MyCalendarCell.swift in Sources */,
 				2580CF45261A916300D78E4E /* BottomNoteCell.swift in Sources */,

@@ -11,7 +11,7 @@ import Foundation
 
 struct SearchVideoModel: Codable {
     let totalNum: String
-    let data: [SearchVideoDataModel]
+    var data: [SearchVideoDataModel]
 }
 
 

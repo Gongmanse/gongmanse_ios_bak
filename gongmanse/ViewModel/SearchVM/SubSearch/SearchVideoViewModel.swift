@@ -9,9 +9,15 @@ import Foundation
 import UIKit
 
 
-class SearchVideoViewModel {
+class SearchVideoViewModel: SearchInfinityScroll {
     
+    // infiniteScroll Protocol
+    var infinityBool = false
     
+    var allIntiniteScroll = true
+    
+    var listCount = 0
+    //
     
     weak var reloadDelegate: CollectionReloadData?
     
@@ -26,20 +32,43 @@ class SearchVideoViewModel {
                          sortid: String?,
                          limit: String?) {
         
+        var offsetTrans = offset
+        
+        if infinityBool {
+            listCount += 20
+            offsetTrans = "\(listCount)"
+        }
+        
         let postModel = SearchVideoPostModel(subject: subject,
                                              grade: grade,
                                              keyword: keyword,
-                                             offset: offset,
+                                             offset: offsetTrans,
                                              sortid: sortid,
                                              limit: limit)
+        
+       print(postModel)
         
         let videoAPI = SearchAfterVideoAPIManager()
         videoAPI.fetchVideoAPI(postModel) { [weak self] result in
             switch result {
             case .success(let data):
-//                print("data", data.data[0].sTitle)
-                self?.responseVideoModel = data
-                self?.reloadDelegate?.reloadCollection()
+                
+                if self?.infinityBool == true {
+                    
+                    if data.data.count == 0{
+                        self?.allIntiniteScroll = false
+                    }
+                    
+                    for i in 0..<data.data.count {
+                        self?.responseVideoModel?.data.append(data.data[i])
+                    }
+                    self?.reloadDelegate?.reloadCollection()
+
+                }else {
+                    self?.responseVideoModel = data
+                    self?.reloadDelegate?.reloadCollection()
+                }
+
                 
             case .failure(let error):
                 print(error.localizedDescription)

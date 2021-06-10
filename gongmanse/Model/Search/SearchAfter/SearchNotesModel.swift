@@ -9,7 +9,7 @@ import Foundation
 
 struct SearchNotesModel: Codable {
     let totalNum: String
-    let data: [SearchNotesDataModel]
+    var data: [SearchNotesDataModel]
 }
 
 struct SearchNotesDataModel: Codable {

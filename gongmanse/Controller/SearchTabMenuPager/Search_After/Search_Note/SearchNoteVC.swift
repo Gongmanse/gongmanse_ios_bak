@@ -187,7 +187,24 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cellCount = searchNoteVM.searchNotesDataModel?.data.count  else { return }
+
+        if indexPath.row == cellCount - 1 {
+            
+            if searchNoteVM.allIntiniteScroll {
+                searchNoteVM.infinityBool = true
+                searchNoteVM.reqeustNotesApi(subject: searchData.searchSubject,
+                                             grade: searchData.searchGrade,
+                                             keyword: searchData.searchText,
+                                             offset: "0",
+                                             sortID: "4")
+                
+                
+            }
+        }
+    }
 }
 
 

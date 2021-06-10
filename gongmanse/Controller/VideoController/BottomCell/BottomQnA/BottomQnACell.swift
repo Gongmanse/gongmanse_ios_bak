@@ -44,6 +44,8 @@ class BottomQnACell: UICollectionViewCell {
         text.setContentHuggingPriority(.defaultLow, for: .horizontal)
         text.placeholder = "질문을 입력해주세요."
         text.backgroundColor = .rgb(red: 237, green: 237, blue: 237)
+        text.keyboardType = .default
+        text.returnKeyType = .default
         return text
     }()
     
@@ -142,9 +144,7 @@ class BottomQnACell: UICollectionViewCell {
         
     }
     
-    @objc func endKeyboard() {
-        sendText.resignFirstResponder()
-    }
+    
     
     @objc func keyboardWillShow(_ sender: Notification) {
         if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
@@ -197,6 +197,7 @@ class BottomQnACell: UICollectionViewCell {
         if sendText.text != "" {
             videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
             videoVM.requestVideoQnA(videoID)
+            
             
             sendText.text = ""
         }
