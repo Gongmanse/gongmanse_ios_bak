@@ -18,7 +18,7 @@ class StoreVC: UIViewController {
     
     let sku: [String] = ["30일", "90일", "150일"]
     
-    let purchaseOn: [String] = ["30DayTicketOn","90DayTicketOn","150DayTicketOn"]
+    let purchaseOn: [String] = ["30DayTicketOn","90DayTicketOn","1YearTicketOn"]
     let purchaseOff: [String] = ["30DayTicketOff","90DayTicketOff","150DayTicketOff"]
     
     var buttonText = ""
@@ -31,7 +31,7 @@ class StoreVC: UIViewController {
         
         "30days",
         "90days_new",
-        "150days"
+        "1year"
     ]
     
     // MARK: - IBOutlet
@@ -130,7 +130,7 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
             buttonText = "90일"
             break
         case 2:
-            buttonText = "150일"
+            buttonText = "1년"
             break
         default:
             buttonText = "Non"
@@ -214,7 +214,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         public static let store90 = IAPHelper(productIds: InAppProducts90.productIdentifiers)
     }
     public struct InAppProducts150 {
-        public static let product150 = "150days"
+        public static let product150 = "1year"
         private static let productIdentifiers: Set<ProductIdentifier> = [InAppProducts150.product150]
         public static let store150 = IAPHelper(productIds: InAppProducts150.productIdentifiers)
     }

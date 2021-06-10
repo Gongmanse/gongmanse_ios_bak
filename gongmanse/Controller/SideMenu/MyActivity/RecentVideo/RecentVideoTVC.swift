@@ -163,6 +163,8 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         let indexPath = IndexPath(row: sender.tag, section: 0)
         self.tableViewInputData?.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
+        print(indexPath.row)
+        print(sender.tag)
         
 //        self.tableViewInputData?.remove(at: sender.tag)
         RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
