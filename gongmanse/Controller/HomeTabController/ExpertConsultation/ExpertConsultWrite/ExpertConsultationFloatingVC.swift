@@ -3,7 +3,7 @@ import Photos
 import Alamofire
 
 protocol ExpertConsultationFloatingVCDelegate: AnyObject {
-    func sendButtonSelected()
+    func sendButtonSelected(completion: @escaping () -> Void)
 }
 
 class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
@@ -128,6 +128,7 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(self.answerTextView.text!)".data(using: .utf8)!, withName: "question")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+            MultipartFormData.append("\(self.images)".data(using: .utf8)!, withName: "media[]")
 
         }, to: "https://api.gongmanse.com/v1/my/expert/consultations_urgent").response { (response) in
             switch response.result {
@@ -139,38 +140,13 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
                 print("error")
             }
         }
-        
-//        let url = "https://api.gongmanse.com/v1/my/expert/consultations_urgent"
-//        var request = URLRequest(url: URL(string: url)!)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.timeoutInterval = 10
-//
-//        //POST 로 보낼 정보
-//        let params = ["question": answerTextView.text!, "token": Constant.token] as Dictionary
-//
-//        //httpBody 에 Parameters 추가
-//        do {
-//            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
-//        } catch {
-//            print("http Body Error")
-//        }
-//
-//        AF.request(request).responseString { (response) in
-//            switch response.result {
-//            case .success:
-//                print("POST 성공")
-//            case .failure:
-//                print("POST 실패")
-//            }
-//        }
-        floatingDelegate?.sendButtonSelected()
-        
-        self.navigationController?.popViewController(animated: true)
     }
     
     func didSuccessPostAPI() {
-        self.view.layoutIfNeeded()
+        
+        floatingDelegate?.sendButtonSelected(completion: {
+            self.navigationController?.popViewController(animated: true)
+        })
     }
     
     @IBAction func addImageAndVideo(_ sender: Any) {
