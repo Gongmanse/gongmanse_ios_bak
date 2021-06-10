@@ -257,10 +257,6 @@ extension SearchVideoVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        
-        let lastSection = collectionView.numberOfSections - 1
-        let lastRow = collectionView.numberOfItems(inSection: lastSection) - 1
-        
         guard let cellCount = searchVideoVM.responseVideoModel?.data.count  else { return }
 
         if indexPath.row == cellCount - 1 {
