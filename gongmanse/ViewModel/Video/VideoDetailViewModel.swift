@@ -16,7 +16,7 @@ class VideoDetailViewModel {
     var isCommentary: Bool = false
     
     
-    let tokens = "YWI3NmY2MzE5ZjEwNTYwNGYxYzg3YzE0NmEwNDhkNTA5NzVhODc0YjA2MzIzNmUxNThlMmM0YmZjMWQxZGUxMjNkYWQwYjQ3NGIxNmQzMzNlMjBiMGY2NzA1YzJhMmFiYWIwMDAwMjkzODg2NzE2MTNkMjE4ZGQ0MjViYzIzYmJ5bWJ3RDR1OWhpTGoxSEhGSUZrb3pnbFZ3ZzZMQUsyUFVhbkZBcUdYYU5qZDRxSUhuUnpsQUVldFRHeDBsbUVoQzhKU2JBWUJteFAyMzFLU3NYRlpwUT09"
+    let tokens = Constant.token
     
     func requestVideoDetailApi(_ videoID: String) {
         

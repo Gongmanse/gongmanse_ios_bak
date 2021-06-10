@@ -226,8 +226,8 @@ extension RecommendVC: UICollectionViewDelegate {
             vc.delegate = self
             vc.id = recommendVideo.body[indexPath.row].videoId
             vc.modalPresentationStyle = .fullScreen
-            let seriesID = recommendVideoSecond?.data[indexPath.row].iSeriesId
-            vc.recommendSeriesId = seriesID
+//            let seriesID = recommendVideoSecond?.data[indexPath.row].iSeriesId
+//            vc.recommendSeriesId = seriesID
             vc.recommendReceiveData = recommendVideo
             self.present(vc, animated: true) {
 //                sleep(1)
