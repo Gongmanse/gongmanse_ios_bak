@@ -472,6 +472,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
+    
+    private let introOuttroContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .red
+        return view
+    }()
+    
     var isPlaying: Bool { player.rate != 0 && player.error == nil }
     
     // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
@@ -548,9 +555,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 
         let pipDataManager = PIPDataManager.shared
         
-        if let currentVideID = pipDataManager.previousVideoID {
+        if let previousVideoID = pipDataManager.previousVideoID {
             setRemoveNotification()
-            let inputData = DetailVideoInput(video_id: currentVideID,
+            let inputData = DetailVideoInput(video_id: previousVideoID,
                                              token: Constant.token)
             
             // "상세화면 영상 API"를 호출한다.
@@ -654,6 +661,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         if let previousTeacherName = pipDataManager.previousTeacherName {
             teachernameLabel.text = previousTeacherName + " 선생님"
         }
+    }
+    
+    func setupIntroOuttroVideoContainerView() {
+        // TODO: 인트로 및 아웃트로 를 위한 컨테이너뷰를 넣어야 한다.
+//        introOuttroContainerView
     }
 }
 
@@ -873,6 +885,10 @@ extension VideoController {
 
         // lessionInfo로 VideoID 넘기기
         self.lessonInfoController.videoID = id
+        
+        self.recommendSeriesId = response.data.iSeriesId
+        
+        
         playVideo()
 //        pipPlayer.play()
         
@@ -922,6 +938,28 @@ extension VideoController: VideoFullScreenControllerDelegate {
 // MARK: - BottomPlaylistCellDelegate
 
 extension VideoController: BottomPlaylistCellDelegate {
+    
+    
+    func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String) {
+
+        setRemoveNotification()
+        let inputData = DetailVideoInput(video_id: videoID,
+                                         token: Constant.token)
+        
+        let pipDataManager = PIPDataManager.shared
+        pipDataManager.currentVideoID = videoID
+        self.id = videoID
+        // "상세화면 영상 API"를 호출한다.
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        
+        // 노트 데이터를 불러온다.
+//        pipContainerView.alpha = 0
+        pageCollectionView.reloadData()
+//        let noteIndexPath = IndexPath(item: 1, section: 0)
+//        let qnaIndexPath = IndexPath(item: 2, section: 0)
+//        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
+    }
+    
     
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
         let vc = VideoController()

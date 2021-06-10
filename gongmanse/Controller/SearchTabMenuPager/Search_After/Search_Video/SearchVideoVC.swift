@@ -209,16 +209,16 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
             // 싱글톤 객체에 들어간 데이터를 초기화한다.
             let pipDataManager = PIPDataManager.shared
-            pipDataManager.currentTeacherName = nil
-            pipDataManager.currentVideoURL = nil
-            pipDataManager.currentVideoCMTime = nil
-            pipDataManager.currentVideoID = nil
-            pipDataManager.currentVideoTitle = nil
-            pipDataManager.previousVideoID = nil
-            pipDataManager.previousTeacherName = nil
-            pipDataManager.previousVideoURL = nil
-            pipDataManager.previousVideoTitle = nil
-            pipDataManager.previousVideoURL = nil
+//            pipDataManager.currentTeacherName = nil
+//            pipDataManager.currentVideoURL = nil
+//            pipDataManager.currentVideoCMTime = nil
+//            pipDataManager.currentVideoID = nil
+//            pipDataManager.currentVideoTitle = nil
+//            pipDataManager.previousVideoID = nil
+//            pipDataManager.previousTeacherName = nil
+//            pipDataManager.previousVideoURL = nil
+//            pipDataManager.previousVideoTitle = nil
+//            pipDataManager.previousVideoURL = nil
             
             // PIP를 dismiss한다.
             pipDelegate?.serachAfterVCPIPViewDismiss()
