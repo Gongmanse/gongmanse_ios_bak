@@ -25,6 +25,7 @@ class IntroController: UIViewController {
     private var player: AVQueuePlayer?
     private var playerLayer: AVPlayerLayer?
     
+    @IBOutlet weak var introHeightConstraint: NSLayoutConstraint!
     
     // MARK: - Lifecycle
     
@@ -53,6 +54,14 @@ class IntroController: UIViewController {
     // MARK: - Heleprs
     
     func setupIntroVideo() {
+        
+         
+        
+        introHeightConstraint
+            = IntroVideoContainerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.57)
+        introHeightConstraint.isActive = true
+        
+        IntroVideoContainerView.contentMode = .scaleAspectFit
         
         let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: "인트로영상01",
                                                             ofType: "mov")!)

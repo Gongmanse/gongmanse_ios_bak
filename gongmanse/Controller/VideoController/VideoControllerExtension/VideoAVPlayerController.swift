@@ -387,7 +387,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
-        let height = convertHeight(15, standardView: view)
+        let height = convertHeight(30, standardView: view)
         
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
@@ -426,7 +426,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                                 height: 13)
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
-        changeOrientationButton.setDimensions(height: 20, width: 20)
+        changeOrientationButton.setDimensions(height: 40, width: 40)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 5)

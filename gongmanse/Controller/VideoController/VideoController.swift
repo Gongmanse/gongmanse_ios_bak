@@ -472,6 +472,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
+    
+    private let introOuttroContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .red
+        return view
+    }()
+    
     var isPlaying: Bool { player.rate != 0 && player.error == nil }
     
     // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
@@ -510,15 +517,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewWillAppear(_ animated: Bool) {
         
         // 인트로를 실행한다.
-        if isStartVideo == false {
-            let vc = IntroController()
-            vc.delegate = self
-            vc.modalPresentationStyle = .overFullScreen
-            present(vc, animated: false) {
-                self.player.pause()
-            }
-            self.isStartVideo = true
-        }
+//        if isStartVideo == false {
+//            let vc = IntroController()
+//            vc.delegate = self
+//            vc.modalPresentationStyle = .overFullScreen
+//            present(vc, animated: false) {
+//                self.player.pause()
+//            }
+//            self.isStartVideo = true
+//        }
         
     }
     
@@ -654,6 +661,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         if let previousTeacherName = pipDataManager.previousTeacherName {
             teachernameLabel.text = previousTeacherName + " 선생님"
         }
+    }
+    
+    func setupIntroOuttroVideoContainerView() {
+        
+//        view.addSubview(<#T##view: UIView##UIView#>)
     }
 }
 
