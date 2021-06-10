@@ -1,5 +1,6 @@
 import UIKit
 import BottomPopup
+import Alamofire
 
 protocol noteListTVCDelegate: AnyObject {
     func noteListPassSortedIdSettingValue(_ noteListSortedIndex: Int)
@@ -11,8 +12,16 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var noteList: FilterVideoModels?
+    var tableViewInputData: [FilterVideoData]?
+    
     // didSelect로부터 받은 indexPath.row
     var selectedRow: Int?
     
@@ -60,6 +69,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.noteList = json
+                    self.tableViewInputData = json.data
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -98,11 +108,12 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.noteList else { return 0 }
+        
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let data = self.noteList?.data else { return 0}
-            return data.count
+            guard let tableViewInputData = tableViewInputData else { return 0 }
+            return tableViewInputData.count
         }
     }
     
@@ -113,7 +124,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
-            cell.emptyLabel.text = "질문 목록이 없습니다."
+            cell.emptyLabel.text = "노트 목록이 없습니다."
             return cell
             
         } else {
@@ -135,12 +146,30 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
             cell.indexPathRow = indexPath.row
-            cell.delegate = self
             cell.noteVideoPlayBtn.tag = indexPath.row
             cell.noteVideoPlayBtn.addTarget(self, action: #selector(videoPlay(_:)), for: .touchUpInside)
             
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.tag = indexPath.row
+            
+            cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
+            
             return cell
         }
+    }
+    
+    @objc func deleteAction(_ sender: UIButton) {
+        guard let json = self.noteList else { return }
+        guard let id = json.data[sender.tag].id else { return }
+
+        let inputData = NoteListInput(id: id)
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        self.tableViewInputData?.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        
+//        self.tableViewInputData?.remove(at: sender.tag)
+        NoteListTVCDataManager().postRemoveNoteList(param: inputData, viewController: self)
     }
     
     @objc func videoPlay(_ sender: UIButton) {
@@ -153,8 +182,6 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             
         } else {
-            
-           
             
             guard let value = self.noteList else { return }
             let data = value.data
@@ -211,11 +238,44 @@ extension NoteListTVC: NoteListBottomPopUpVCDelegate {
     }
 }
 
+// MARK: - API
 
-extension NoteListTVC: NoteListTVCellDelegate {
-    func indexPathPassVC(indexPath: Int) {
-        self.selectedRow = indexPath
+extension NoteListTVC {
+    func didSuccessPostAPI() {
+        
+        //self.tableView.reloadData()
+        self.view.layoutIfNeeded()
     }
+}
+
+
+struct NoteListInput: Encodable {
     
+    var id: String
+    var token = Constant.token
+}
+
+class NoteListTVCDataManager {
     
+    func postRemoveNoteList(param: NoteListInput, viewController: NoteListTVC) {
+        
+        let id = param.id
+        
+        // 로그인정보 post
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "note_id")
+            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+
+        }, to: "https://api.gongmanse.com/v/member/mynotes").response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                viewController.didSuccessPostAPI()
+                print(response)
+            case.failure:
+                print("error")
+            }
+        }
+        
+    }
 }

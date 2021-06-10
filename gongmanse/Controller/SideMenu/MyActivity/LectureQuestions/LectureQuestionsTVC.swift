@@ -11,6 +11,12 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var lectureQnA: FilterVideoModels?
     private let emptyCellIdentifier = "EmptyTableViewCell"
@@ -152,6 +158,9 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
                 cell.answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
                 cell.answerStatus.text = "대기중 >"
             }
+            
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
             
             return cell
         }

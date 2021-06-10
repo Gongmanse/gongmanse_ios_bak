@@ -1,13 +1,6 @@
 import UIKit
 
-protocol NoteListTVCellDelegate: AnyObject {
-    func indexPathPassVC(indexPath: Int)
-}
-
-
 class NoteListTVCell: UITableViewCell {
-    
-    weak var delegate: NoteListTVCellDelegate?
     
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var subjects: UILabel!
@@ -15,6 +8,8 @@ class NoteListTVCell: UITableViewCell {
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var upLoadDate: UILabel!
     @IBOutlet weak var noteVideoPlayBtn: UIButton!
+    @IBOutlet weak var deleteView: UIView!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var indexPathRow: Int?
     
@@ -27,12 +22,12 @@ class NoteListTVCell: UITableViewCell {
         subjects.layer.cornerRadius = 7
         subjects.clipsToBounds = true
         
-        //subjects label text 지정
-        subjects.text = "화학"
-
-        if let index = self.indexPathRow {
-            delegate?.indexPathPassVC(indexPath: index)
-        }
+        //deleteView 라운딩 처리
+        deleteView.roundCorners(corners: [.topLeft, .bottomLeft], radius: 13.0)
+        
+        //버튼, 버튼 뷰 숨김
+        deleteView.isHidden = true
+        deleteButton.isHidden = true
         
     }
 

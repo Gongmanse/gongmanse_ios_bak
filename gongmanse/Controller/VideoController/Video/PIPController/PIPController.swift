@@ -91,8 +91,6 @@ class PIPController: UIViewController {
     // MARK: - Heleprs
     
     func setupLayout() {
-        
-        
         view.addSubview(containerView)
         containerView.anchor(top: view.topAnchor,
                              left: view.leftAnchor,
@@ -104,7 +102,9 @@ class PIPController: UIViewController {
         
         guard let pipVideoData = self.pipVideoData else { return }
         
-        self.asset = AVAsset(url: pipVideoData.videoURL! as URL)
+        let pipDataManager = PIPDataManager.shared
+        
+        self.asset = AVAsset(url: pipDataManager.previousVideoURL! as URL)
         
         let keys: [String] = ["playable"]
         

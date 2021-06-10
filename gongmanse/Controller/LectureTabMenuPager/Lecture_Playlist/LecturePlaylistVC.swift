@@ -102,12 +102,12 @@ class LecturePlaylistVC: UIViewController {
         return view
     }()
     
-    private var isPlayPIPVideo: Bool = true
+    private var isPlayPIPVideo: Bool = false
     private let pipPlayPauseButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.tintColor = .black
-//        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -189,9 +189,9 @@ class LecturePlaylistVC: UIViewController {
         
         let dummyData = PIPVideoData(isPlayPIP: true,
                                      videoURL: pipDataManager.previousVideoURL,
-                                     currentVideoTime: pipDataManager.currentVideoTime,
-                                     videoTitle: pipDataManager.videoTitle,
-                                     teacherName: pipDataManager.teacherName)
+                                     currentVideoTime: pipDataManager.currentVideoTime ?? Float(),
+                                     videoTitle: pipDataManager.previousVideoTitle ?? "",
+                                     teacherName: pipDataManager.previousTeacherName ?? "")
         
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
@@ -231,7 +231,9 @@ class LecturePlaylistVC: UIViewController {
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-        print("DEBUG: PIP View를 탭했습니다")
+
+        setRemoveNotification()
+        dismissLecturePlaylistVCOnPlayingPIP()
     }
     
     @objc func xButtonDidTap() {
@@ -242,6 +244,18 @@ class LecturePlaylistVC: UIViewController {
         
         UIView.animate(withDuration: 0.33) {
             self.pipContainerView.alpha = 0
+        }
+    }
+    
+    @objc func playPauseButtonDidTap() {
+        isPlayPIPVideo = !isPlayPIPVideo
+        
+        if isPlayPIPVideo {
+            pipVC?.player?.pause()
+            pipPlayPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
+        } else {
+            pipVC?.player?.play()
+            pipPlayPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         }
     }
     
@@ -315,7 +329,7 @@ class LecturePlaylistVC: UIViewController {
                                 bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 right: view.rightAnchor,
                                 height: pipHeight)
-        
+    
         let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipViewDidTap))
         pipContainerView.addGestureRecognizer(pipTapGesture)
         pipContainerView.isUserInteractionEnabled = true
@@ -324,14 +338,24 @@ class LecturePlaylistVC: UIViewController {
         pipContainerView.addSubview(pipVC.view)
         pipVC.view.anchor(top:pipContainerView.topAnchor)
         pipVC.view.centerY(inView: pipContainerView)
-        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        pipVC.view.setDimensions(height: pipHeight,
+                                 width: pipHeight * 1.77)
         
         /* xButton - Constraint */
         pipContainerView.addSubview(xButton)
-        xButton.setDimensions(height: 25, width: 25)
+        xButton.setDimensions(height: 25,
+                              width: 25)
         xButton.centerY(inView: pipContainerView)
         xButton.anchor(right: pipContainerView.rightAnchor,
                        paddingRight: 5)
+        
+        /* pipPlayPauseButton - Constraint*/
+        pipContainerView.addSubview(pipPlayPauseButton)
+        pipPlayPauseButton.setDimensions(height: 25,
+                                         width: 25)
+        pipPlayPauseButton.centerY(inView: xButton)
+        pipPlayPauseButton.anchor(right: xButton.leftAnchor,
+                                  paddingRight: 10)
         
         /* lessonTitleLabel - Constraint */
         pipContainerView.addSubview(lessonTitleLabel)
@@ -349,6 +373,25 @@ class LecturePlaylistVC: UIViewController {
                                 paddingTop: 5,
                                 height: 15)
         teachernameLabel.text = pipData.teacherName + " 선생님"
+    }
+    
+    func setRemoveNotification() {
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    /// PIP 영상이 실행되고 있는데, 이전 영상화면으로 돌아가고 싶은 경우 호출하는 메소드
+    func dismissLecturePlaylistVCOnPlayingPIP() {
+        // 1 PIP 영상을 제거한다.
+
+        // 2 PIP-Player에서 현재까지 재생된 시간을 SingleTon 에 입력한다.
+        let pipDataManager = PIPDataManager.shared
+        guard let pipVC = self.pipVC else { return }
+            
+        pipVC.player?.pause()
+        setRemoveNotification()
+        // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
+        pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
+        dismiss(animated: false)
     }
 }
 
@@ -396,7 +439,73 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         }
 
     }
+
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if Constant.isLogin {
+            /**
+             검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
+             - 영상 > 검색결과 > 영상
+                이런식으로 넘어오다보니 영상관련 Controller 가 너무 많아져서 메모리 관리가 어려움
+             - 그래서 rootView를 변경하는 식으로 구현
+             */
+            
+            //  UIApplication 에서 화면전환을 한다,
+            guard let topVC = UIApplication.shared.topViewController() else { return }
+            NotificationCenter.default.removeObserver(self)
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+            
+
+            // 싱글톤 객체에 들어간 데이터를 초기화한다.
+            let pipDataManager = PIPDataManager.shared
+            pipDataManager.currentTeacherName = nil
+            pipDataManager.currentVideoURL = nil
+            pipDataManager.currentVideoCMTime = nil
+            pipDataManager.currentVideoID = nil
+            pipDataManager.currentVideoTitle = nil
+            pipDataManager.previousVideoID = nil
+            pipDataManager.previousTeacherName = nil
+            pipDataManager.previousVideoURL = nil
+            pipDataManager.previousVideoTitle = nil
+            pipDataManager.previousVideoURL = nil
+            
+            // PIP를 dismiss한다.
+//            pipDelegate?.serachAfterVCPIPViewDismiss()
+            pipVC?.player?.pause()
+            pipVC?.removePeriodicTimeObserver()
+            pipVC?.player = nil
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+            let mainTabVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController")
+            
+            // TODO: video ID를 받아서 할당하고, PIPDataManager의 값들을 초기화한다.
+            
+            topVC.changeRootViewController(mainTabVC) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let mainTabVC2 = storyboard.instantiateViewController(withIdentifier: "MainTabBarController")
+                mainTabVC2.modalPresentationStyle = .fullScreen
+                let vc = VideoController()
+                vc.modalPresentationStyle = .fullScreen
+                
+//                let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+                let receviedVideoID = "15188"
+                vc.id = receviedVideoID
+
+                let layout = UICollectionViewFlowLayout()
+                vc.collectionViewLayout = layout
+                vc.modalPresentationStyle = .fullScreen
+                mainTabVC.present(mainTabVC2, animated: false) {
+                    mainTabVC2.present(vc, animated: true)
+                }
+                
+            }
+
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+    }
     
 }
 

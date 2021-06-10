@@ -1,5 +1,6 @@
 import UIKit
 import BottomPopup
+import Alamofire
 
 protocol RecentVideoVCDelegate: AnyObject {
     func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int)
@@ -11,8 +12,16 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var recentViedo: FilterVideoModels?
+    var tableViewInputData: [FilterVideoData]?
+    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -60,6 +69,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.recentViedo = json
+                    self.tableViewInputData = json.data
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -98,11 +108,12 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.recentViedo else { return 0 }
+        
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let data = self.recentViedo?.data else { return 0}
-            return data.count
+            guard let tableViewInputData = tableViewInputData else { return 0 }
+            return tableViewInputData.count
         }
     }
     
@@ -113,7 +124,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
-            cell.emptyLabel.text = "질문 목록이 없습니다."
+            cell.emptyLabel.text = "영상 목록이 없습니다."
             return cell
             
         } else {
@@ -134,8 +145,27 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
             
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.tag = indexPath.row
+            
+            cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
+            
             return cell
         }
+    }
+    
+    @objc func deleteAction(_ sender: UIButton) {
+        guard let json = self.recentViedo else { return }
+        guard let id = json.data[sender.tag].id else { return }
+
+        let inputData = RecentVideoInput(id: id)
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        self.tableViewInputData?.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        
+//        self.tableViewInputData?.remove(at: sender.tag)
+        RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -151,10 +181,12 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
 }
 
 extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
+    
     func recentPassSortedIdRow(_ recentSortedIdRowIndex: Int) {
         
         if recentSortedIdRowIndex == 0 {          // 1 번째 Cell
@@ -167,8 +199,50 @@ extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
             self.sortedId = 3
         }
         
-        
         self.delegate?.recentVideoPassSortedIdSettingValue(recentSortedIdRowIndex)
         self.tableView.reloadData()
+    }
+}
+
+
+// MARK: - API
+
+extension RecentVideoTVC {
+    func didSuccessPostAPI() {
+        
+        //self.tableView.reloadData()
+        self.view.layoutIfNeeded()
+    }
+}
+
+
+struct RecentVideoInput: Encodable {
+    
+    var id: String
+    var token = Constant.token
+}
+
+class RecentVideoTVCDataManager {
+    
+    func postRemoveRecentVideo(param: RecentVideoInput, viewController: RecentVideoTVC) {
+        
+        let id = param.id
+        
+        // 로그인정보 post
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "history_id")
+            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+
+        }, to: "https://api.gongmanse.com/v/member/watchhistory").response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                viewController.didSuccessPostAPI()
+                print(response)
+            case.failure:
+                print("error")
+            }
+        }
+        
     }
 }

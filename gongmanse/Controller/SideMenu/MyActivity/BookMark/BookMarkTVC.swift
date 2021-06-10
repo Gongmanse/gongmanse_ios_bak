@@ -5,6 +5,12 @@ protocol BookMarkTVCDelegate: AnyObject {
     func bookMarkPassSortedIdSettingValue(_ bookMarkSortedIndex: Int)
 }
 
+struct BookMarkInput: Encodable {
+    
+    var id: String
+    var token = Constant.token
+}
+
 class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     @IBOutlet weak var tableHeaderView: UIView!
@@ -12,8 +18,16 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
     
+    var isDeleteMode: Bool = true {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var pageIndex: Int!
     var bookMark: FilterVideoModels?
+    var tableViewInputData: [FilterVideoData]?
+    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -61,6 +75,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.bookMark = json
+                    self.tableViewInputData = json.data
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -98,11 +113,12 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.bookMark else { return 0 }
+        
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let data = self.bookMark?.data else { return 0}
-            return data.count
+            guard let tableViewInputData = tableViewInputData else { return 0 }
+            return tableViewInputData.count
         }
     }
 
@@ -112,7 +128,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         
         if value.totalNum == "0" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
-            cell.emptyLabel.text = "질문 목록이 없습니다."
+            cell.emptyLabel.text = "즐겨찾기 목록이 없습니다."
             return cell
             
         } else {
@@ -146,9 +162,59 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 cell.term.isHidden = false
                 cell.term.text = indexData.sUnit
             }
+            
+            cell.deleteButton.isHidden = isDeleteMode
+            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.tag = indexPath.row
+            
+            cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
 
             return cell
         }
+    }
+    
+    @objc func deleteAction(_ sender: UIButton) {
+        guard let json = self.bookMark else { return }
+        guard let id = json.data[sender.tag].iBookmarkId else { return }
+        
+        let baseURL = URL(string: "https://api.gongmanse.com/v/member/mybookmark")!
+        let fullURL = baseURL.appendingPathComponent("/put")
+        
+        var request = URLRequest(url: fullURL)
+        request.httpMethod = "PUT"
+        request.allHTTPHeaderFields = [
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "bookmark_id": Int(id) ?? 0,
+            "token": Constant.token
+        ]
+        
+        let data = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        
+        URLSession.shared.uploadTask(with: request, from: data) { (responseData, response, error) in
+            if let error = error {
+                print("Error making PUT request: \(error.localizedDescription)")
+                return
+            }
+            
+            if let responseCode = (response as? HTTPURLResponse)?.statusCode, let responseData = responseData {
+                guard responseCode == 200 else {
+                    print("InValid response code: \(responseCode)")
+                    return
+                }
+                
+                if let responseJSONData = try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments) {
+                    print("Response JSON data = \(responseJSONData)")
+                }
+            }
+        }.resume()
+        
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        self.tableViewInputData?.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -8,7 +8,9 @@ class BookMarkTVCell: UITableViewCell {
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var starRating: UILabel!
-
+    @IBOutlet weak var deleteView: UIView!
+    @IBOutlet weak var deleteButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -20,6 +22,13 @@ class BookMarkTVCell: UITableViewCell {
         //용어 label background 라운딩 처리
         term.layer.cornerRadius = 7
         term.clipsToBounds = true
+        
+        //deleteView 라운딩 처리
+        deleteView.roundCorners(corners: [.topLeft, .bottomLeft], radius: 13.0)
+        
+        //버튼, 버튼 뷰 숨김
+        deleteView.isHidden = true
+        deleteButton.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

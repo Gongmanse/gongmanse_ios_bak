@@ -246,7 +246,6 @@ class LectureNoteController: UIViewController {
                                                    sjson: sJson)
             // 노트 필기 좌표 입력하는 API메소드
             DetailNoteDataManager().savingNoteTakingAPI(willPassNoteData, viewController: self)
-            
         }
     }
     

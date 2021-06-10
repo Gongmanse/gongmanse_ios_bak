@@ -18,18 +18,32 @@ class PIPDataManager {
     
     static let shared = PIPDataManager()
     
-    var previousVideoID: String?
-    var previousVideoURL: NSURL?
-    var currentVideoID: String?
     var isPlayPIP: Bool = true
-    var videoTitle: String = "클린코드"
-    var teacherName: String = "김우성"
+    
+    var previousVideoURL: NSURL?
+    var currentVideoURL: NSURL?
+    
+    var previousVideoID: String?
+    var currentVideoID: String?
+    
+    var previousVideoTitle: String? = "클린코드"
+    var currentVideoTitle: String? = "클린코드"
+    
+    var previousTeacherName: String? = "김우성"
+    var currentTeacherName: String? = "김우성2"
+
+    /// videoController가 처음으로 호출되었는지 판단하는 연산 프로퍼티
+    /// - ture  : 처음으로 호출 된 경우
+    /// - false : 처음아 아닌 경우
+    var isDisplayVideoFirstTime: Bool {
+        return previousVideoID == nil
+    }
     
     /// 다음화면으로 넘어갈 때, PIPVC에서 Float -> CMTime으로 변환해주므로 Float로 받아습니다.
-    var currentVideoTime: Float = 0.0         // 다음화면으로 넘어갈 때 사용
+    var currentVideoTime: Float? = 0.0         // 다음화면으로 넘어갈 때 사용
     
     /// "AVPlayer.seek" 파라미터가 CMTIME이므로 바로 접근하기 위해 변수를 2개로 만들었습니다.
-    var currentVideoCMTime: CMTime = CMTime() // 이전화면으로 돌아올 때 사용
+    var currentVideoCMTime: CMTime? = CMTime() // 이전화면으로 돌아올 때 사용
     
     private init() { }  // 싱글톤 인스턴스 2 개 생성 방지하기 위해 "private"으로 작성했습니다.
 }
@@ -58,7 +72,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var pipData: PIPVideoData? {
         didSet {
-            if self.isDisplayPIP {
+            let pipDataManager = PIPDataManager.shared
+            print("DEBUG: isDisplayVideoFirstTime is \(pipDataManager.isDisplayVideoFirstTime)")
+            if !pipDataManager.isDisplayVideoFirstTime {
                 configurePIPView(pipData: pipData)
             }
         }
@@ -383,12 +399,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsArray = [String]()
     var tempsTagsArray = [String]()
     
+    // MARK: Refactoring
+    var asset: AVAsset?
+    
+    
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
-        label.font = UIFont.appBoldFontWith(size: 13.5)
+        label.font = UIFont.appBoldFontWith(size: 15)
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -505,7 +525,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
         // 가로모드를 제한한다.
 //        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
@@ -525,10 +545,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-        setRemoveNotification()
 
-        if let currentVideID = self.id {
-            let inputData = DetailVideoInput(video_id: currentVideID, token: Constant.token)
+        let pipDataManager = PIPDataManager.shared
+        
+        if let currentVideID = pipDataManager.previousVideoID {
+            setRemoveNotification()
+            let inputData = DetailVideoInput(video_id: currentVideID,
+                                             token: Constant.token)
             
             // "상세화면 영상 API"를 호출한다.
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
@@ -584,6 +607,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     func configurePIPView(pipData: PIPVideoData?) {
         
         guard let pipData = self.pipData else { return }
+        let pipDataManager = PIPDataManager.shared
         let pipHeight = view.frame.height * 0.085
         let pipVC = PIPController(isPlayPIP: false)
         
@@ -619,7 +643,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 height: 17)
-        lessonTitleLabel.text = pipData.videoTitle
+        lessonTitleLabel.text = pipDataManager.previousVideoTitle
         
         /* teachernameLabel - Constraint */
         pipContainerView.addSubview(teachernameLabel)
@@ -627,7 +651,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 left: lessonTitleLabel.leftAnchor,
                                 paddingTop: 5,
                                 height: 15)
-        teachernameLabel.text = pipData.teacherName + " 선생님"
+        if let previousTeacherName = pipDataManager.previousTeacherName {
+            teachernameLabel.text = previousTeacherName + " 선생님"
+        }
     }
 }
 
@@ -752,14 +778,32 @@ extension VideoController {
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
         let pipDataManager = PIPDataManager.shared
+        
+        // PIP
+        if pipDataManager.currentVideoID == nil {
+//            pipDataManager.previousVideoID = self.id
+            pipDataManager.currentVideoID = self.id
+        } else {
+            pipDataManager.previousVideoID = pipDataManager.currentVideoID
+            pipDataManager.currentVideoID = self.id
+        }
+        
 
         var videoURL: NSURL?
         if let sourceURL = response.data.source_url {
             let url = URL(string: sourceURL) as NSURL?
             self.videoURL = url
-            pipDataManager.previousVideoURL = url
             videoURL = url
             self.videoAndVttURL.videoURL = url
+            
+            // PIP
+            if pipDataManager.isDisplayVideoFirstTime {
+                pipDataManager.previousVideoURL = url
+                pipDataManager.currentVideoURL = url
+            } else {
+                pipDataManager.previousVideoURL = pipDataManager.currentVideoURL
+                pipDataManager.currentVideoURL = url
+            }
         }
         
         // sSubtitles -> vttURL
@@ -784,13 +828,32 @@ extension VideoController {
         let teachername = response.data.sTeacher
         self.teachername = response.data.sTeacher + " 선생님"
         self.lessonInfoController.teachernameLabel.text = teachername + " 선생님"
-        pipDataManager.teacherName = teachername
+        
+        // PIP
+        if pipDataManager.isDisplayVideoFirstTime {
+            pipDataManager.previousTeacherName = teachername
+            pipDataManager.currentTeacherName = teachername
+        } else {
+            pipDataManager.previousTeacherName = pipDataManager.currentTeacherName
+            pipDataManager.currentTeacherName = teachername
+        }
+        
         
         // "sTitle" -> LessonInfoController.lessonnameLabel.text
         let lessonTitle = response.data.sTitle
         self.lessonname = response.data.sTitle
         self.lessonInfoController.lessonnameLabel.text = lessonTitle
-        pipDataManager.videoTitle = lessonTitle
+        pipDataManager.previousVideoTitle = lessonTitle
+        
+        // PIP
+        if pipDataManager.isDisplayVideoFirstTime {
+            pipDataManager.previousVideoTitle = lessonTitle
+            pipDataManager.currentVideoTitle = lessonTitle
+        } else {
+            pipDataManager.previousVideoTitle = pipDataManager.currentVideoTitle
+            pipDataManager.currentVideoTitle = lessonTitle
+        }
+        
         
         // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
         let subjectname = response.data.sSubject
@@ -814,14 +877,11 @@ extension VideoController {
 //        pipPlayer.play()
         
         // PIP
-        pipDataManager.previousVideoID = self.id
-        pipDataManager.currentVideoID = self.id
-        
         let pipData = PIPVideoData(isPlayPIP: false,
-                                   videoURL: videoURL,
+                                   videoURL: pipDataManager.previousVideoURL,
                                    currentVideoTime: 0.0,
-                                   videoTitle: lessonTitle,
-                                   teacherName: teachername)
+                                   videoTitle: pipDataManager.previousVideoTitle ?? "",
+                                   teacherName: pipDataManager.previousTeacherName ?? "")
         
         self.pipData = pipData
     }
@@ -928,3 +988,12 @@ extension VideoController: LessonInfoControllerDelegate {
 }
 
 
+extension UIViewController {
+    
+    func changeRootVCToMainTabBarVC(completion: @escaping () -> Void) {
+        let mainTabBarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarController") as! MainTabBarController
+//        changeRootViewController(mainTabBarVC)
+        
+        completion()
+    }
+}

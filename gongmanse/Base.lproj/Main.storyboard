@@ -2579,7 +2579,7 @@
                                                     <state key="normal" image="deleteThing"/>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="bC7-UY-NnK" firstAttribute="top" secondItem="RIH-U3-2vx" secondAttribute="top" constant="22" id="WIu-AN-cZ4"/>
                                                 <constraint firstAttribute="height" constant="65" id="f8n-ie-qas"/>
@@ -2590,7 +2590,6 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="MHo-Xi-LDZ" firstAttribute="leading" secondItem="Mh8-Hc-KCT" secondAttribute="trailing" constant="15" id="4za-LV-GfY"/>
-                                        <constraint firstAttribute="bottom" secondItem="RIH-U3-2vx" secondAttribute="bottom" constant="7" id="93K-Zq-CAm"/>
                                         <constraint firstItem="Udk-k9-tWa" firstAttribute="leading" secondItem="Mh8-Hc-KCT" secondAttribute="trailing" constant="15" id="CI0-Ya-p9l"/>
                                         <constraint firstItem="Mh8-Hc-KCT" firstAttribute="top" secondItem="Udu-Fd-q4g" secondAttribute="top" constant="8" id="EOo-Id-rpf"/>
                                         <constraint firstItem="eUv-JO-T6o" firstAttribute="top" secondItem="Udu-Fd-q4g" secondAttribute="top" constant="61" id="IXo-y6-0fK"/>
@@ -2642,15 +2641,29 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJI-8h-Rzb">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJI-8h-Rzb" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                     <rect key="frame" x="18" y="17" width="64" height="16"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="64" id="6lt-Pl-ma1"/>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="64" id="6lt-Pl-ma1"/>
                                         <constraint firstAttribute="height" constant="16" id="ggM-I9-Fjw"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                            <real key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                            <real key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="S20-cP-a0G">
                                     <rect key="frame" x="90" y="11" width="45" height="28"/>
@@ -2762,6 +2775,26 @@
                                             </constraints>
                                             <state key="normal" image="notePlayButton"/>
                                         </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QgC-uy-ze1">
+                                            <rect key="frame" x="20" y="8" width="40" height="65"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZKj-oS-CAk">
+                                                    <rect key="frame" x="12" y="22" width="16" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="16" id="Dyv-mh-KB8"/>
+                                                        <constraint firstAttribute="height" constant="20" id="nH0-FA-E8y"/>
+                                                    </constraints>
+                                                    <state key="normal" image="deleteThing"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="65" id="4gj-Oo-WFN"/>
+                                                <constraint firstItem="ZKj-oS-CAk" firstAttribute="leading" secondItem="QgC-uy-ze1" secondAttribute="leading" constant="12" id="Fwf-fG-aDs"/>
+                                                <constraint firstAttribute="width" constant="40" id="Jli-VA-lMd"/>
+                                                <constraint firstItem="ZKj-oS-CAk" firstAttribute="top" secondItem="QgC-uy-ze1" secondAttribute="top" constant="22" id="eK7-lW-ZOp"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Twh-1c-Ckd" firstAttribute="leading" secondItem="Uz0-6a-4OK" secondAttribute="trailing" constant="15" id="2Za-Ds-6ZT"/>
@@ -2769,16 +2802,20 @@
                                         <constraint firstItem="Uz0-6a-4OK" firstAttribute="leading" secondItem="d2Y-nR-n74" secondAttribute="leading" constant="20" symbolic="YES" id="69X-u4-qm3"/>
                                         <constraint firstItem="Z9H-Gf-TiB" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="7" id="7XK-rY-ypb"/>
                                         <constraint firstItem="Twh-1c-Ckd" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="8" id="EvC-nt-T0c"/>
+                                        <constraint firstItem="QgC-uy-ze1" firstAttribute="leading" secondItem="d2Y-nR-n74" secondAttribute="leading" constant="20" symbolic="YES" id="JHJ-9U-rLT"/>
                                         <constraint firstAttribute="trailing" secondItem="Z9H-Gf-TiB" secondAttribute="trailing" constant="20" symbolic="YES" id="KmJ-A9-X9y"/>
                                         <constraint firstItem="4cW-UK-2gJ" firstAttribute="top" secondItem="Twh-1c-Ckd" secondAttribute="bottom" constant="8" symbolic="YES" id="Wf4-Xf-tTY"/>
                                         <constraint firstItem="7gM-NU-8FQ" firstAttribute="leading" secondItem="Uz0-6a-4OK" secondAttribute="trailing" constant="15" id="bIU-4L-f2M"/>
                                         <constraint firstItem="3IM-5H-gzM" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="61" id="bkL-g6-Z2M"/>
+                                        <constraint firstItem="QgC-uy-ze1" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="8" id="cLo-ZI-QZ2"/>
                                         <constraint firstAttribute="trailing" secondItem="3IM-5H-gzM" secondAttribute="trailing" constant="20" symbolic="YES" id="eLk-ir-fgB"/>
                                         <constraint firstItem="4cW-UK-2gJ" firstAttribute="leading" secondItem="Uz0-6a-4OK" secondAttribute="trailing" constant="15" id="g2V-e5-EoP"/>
                                         <constraint firstItem="Uz0-6a-4OK" firstAttribute="top" secondItem="d2Y-nR-n74" secondAttribute="top" constant="8" id="wZY-bx-JLC"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="deleteButton" destination="ZKj-oS-CAk" id="PPe-f6-RfS"/>
+                                    <outlet property="deleteView" destination="QgC-uy-ze1" id="eSf-gW-gF7"/>
                                     <outlet property="noteVideoPlayBtn" destination="Z9H-Gf-TiB" id="9f7-Ve-BT0"/>
                                     <outlet property="subjects" destination="Twh-1c-Ckd" id="dxz-bk-Y0P"/>
                                     <outlet property="teachersName" destination="7gM-NU-8FQ" id="GUQ-0Y-NBp"/>
@@ -2949,6 +2986,26 @@
                                             <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O9T-9H-w7D">
+                                            <rect key="frame" x="20" y="8" width="40" height="65"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V0n-yk-x4b">
+                                                    <rect key="frame" x="12" y="22" width="16" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="16" id="jHO-U9-Efu"/>
+                                                        <constraint firstAttribute="height" constant="20" id="v5D-vP-1iS"/>
+                                                    </constraints>
+                                                    <state key="normal" image="deleteThing"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="V0n-yk-x4b" firstAttribute="leading" secondItem="O9T-9H-w7D" secondAttribute="leading" constant="12" id="4aO-xv-QKk"/>
+                                                <constraint firstItem="V0n-yk-x4b" firstAttribute="top" secondItem="O9T-9H-w7D" secondAttribute="top" constant="22" id="L81-TQ-7D7"/>
+                                                <constraint firstAttribute="width" constant="40" id="dat-o3-ZXJ"/>
+                                                <constraint firstAttribute="height" constant="65" id="fAl-dw-GN4"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="05O-VL-No7" firstAttribute="leading" secondItem="Y4j-X5-3YH" secondAttribute="trailing" constant="15" id="B2M-fl-z2V"/>
@@ -2957,7 +3014,9 @@
                                         <constraint firstItem="Y4j-X5-3YH" firstAttribute="top" secondItem="Ldo-nY-Bmm" secondAttribute="top" constant="8" id="KH0-q6-bVL"/>
                                         <constraint firstItem="RZZ-mN-agy" firstAttribute="top" secondItem="Ldo-nY-Bmm" secondAttribute="top" constant="8" id="MAz-tD-Q7U"/>
                                         <constraint firstItem="Y4j-X5-3YH" firstAttribute="leading" secondItem="Ldo-nY-Bmm" secondAttribute="leading" constant="20" symbolic="YES" id="UeA-3A-iRu"/>
+                                        <constraint firstItem="O9T-9H-w7D" firstAttribute="leading" secondItem="Ldo-nY-Bmm" secondAttribute="leading" constant="20" symbolic="YES" id="WdS-5q-9dp"/>
                                         <constraint firstAttribute="trailing" secondItem="RZZ-mN-agy" secondAttribute="trailing" constant="20" symbolic="YES" id="d6e-5J-cJM"/>
+                                        <constraint firstItem="O9T-9H-w7D" firstAttribute="top" secondItem="Ldo-nY-Bmm" secondAttribute="top" constant="8" id="dVI-JW-N0x"/>
                                         <constraint firstItem="05O-VL-No7" firstAttribute="top" secondItem="eNx-uq-1ZS" secondAttribute="bottom" constant="8" symbolic="YES" id="h4p-M1-TbU"/>
                                         <constraint firstItem="eNx-uq-1ZS" firstAttribute="top" secondItem="Qty-do-yjY" secondAttribute="bottom" constant="8" symbolic="YES" id="iPj-mb-TCo"/>
                                         <constraint firstItem="Uf7-Cf-CHm" firstAttribute="top" secondItem="Ldo-nY-Bmm" secondAttribute="top" constant="8" id="idC-YD-ejo"/>
@@ -2969,6 +3028,8 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="answerStatus" destination="RZZ-mN-agy" id="ru6-fy-4jx"/>
+                                    <outlet property="deleteButton" destination="V0n-yk-x4b" id="S7c-9C-rYw"/>
+                                    <outlet property="deleteView" destination="O9T-9H-w7D" id="IOI-3b-BgU"/>
                                     <outlet property="subjects" destination="Qty-do-yjY" id="WDZ-0S-uRM"/>
                                     <outlet property="teachersName" destination="05O-VL-No7" id="dFj-OO-waR"/>
                                     <outlet property="term" destination="Uf7-Cf-CHm" id="y8B-So-uY6"/>
@@ -2991,7 +3052,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVd-2A-gEb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3704" y="-532"/>
+            <point key="canvasLocation" x="-3704.347826086957" y="-532.36607142857144"/>
         </scene>
         <!--Expert ConsultTVC-->
         <scene sceneID="mmh-XU-m0b">
@@ -3111,9 +3172,30 @@
                                             <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwk-vc-ajj">
+                                            <rect key="frame" x="20" y="8" width="40" height="65"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcy-dy-VGA">
+                                                    <rect key="frame" x="12" y="22" width="16" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="GvV-7H-DmL"/>
+                                                        <constraint firstAttribute="width" constant="16" id="MWI-JV-65s"/>
+                                                    </constraints>
+                                                    <state key="normal" image="deleteThing"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="fcy-dy-VGA" firstAttribute="top" secondItem="cwk-vc-ajj" secondAttribute="top" constant="22" id="BIq-LK-c6s"/>
+                                                <constraint firstAttribute="height" constant="65" id="Hp0-Ru-FDR"/>
+                                                <constraint firstItem="fcy-dy-VGA" firstAttribute="leading" secondItem="cwk-vc-ajj" secondAttribute="leading" constant="12" id="dLx-tD-RqD"/>
+                                                <constraint firstAttribute="width" constant="40" id="fBv-8K-ZUF"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="LPW-dl-4ry" firstAttribute="top" secondItem="xqI-c6-p1J" secondAttribute="top" constant="8" id="4Ah-5e-mje"/>
+                                        <constraint firstItem="cwk-vc-ajj" firstAttribute="top" secondItem="xqI-c6-p1J" secondAttribute="top" constant="8" id="61S-LR-rrv"/>
                                         <constraint firstItem="LPW-dl-4ry" firstAttribute="leading" secondItem="qxO-wC-HdW" secondAttribute="trailing" constant="10" id="6TN-VY-0qf"/>
                                         <constraint firstAttribute="trailing" secondItem="CRt-aD-Af3" secondAttribute="trailing" constant="21" id="9d2-fT-wQd"/>
                                         <constraint firstItem="6lC-X9-rfw" firstAttribute="leading" secondItem="rjj-YJ-4p1" secondAttribute="trailing" constant="3" id="CAa-mn-lrJ"/>
@@ -3125,12 +3207,15 @@
                                         <constraint firstItem="rjj-YJ-4p1" firstAttribute="leading" secondItem="qxO-wC-HdW" secondAttribute="trailing" constant="10" id="o0I-Ph-EfY"/>
                                         <constraint firstItem="KGp-FB-zF9" firstAttribute="top" secondItem="xqI-c6-p1J" secondAttribute="top" constant="8" id="rhF-QH-swb"/>
                                         <constraint firstAttribute="trailing" secondItem="KGp-FB-zF9" secondAttribute="trailing" constant="20" symbolic="YES" id="w5H-bB-SwX"/>
+                                        <constraint firstItem="cwk-vc-ajj" firstAttribute="leading" secondItem="xqI-c6-p1J" secondAttribute="leading" constant="20" symbolic="YES" id="y9Y-OS-kKg"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="answerStatus" destination="KGp-FB-zF9" id="815-hY-G97"/>
                                     <outlet property="consultThumbnail" destination="qxO-wC-HdW" id="5wL-Io-l28"/>
                                     <outlet property="consultTitle" destination="LPW-dl-4ry" id="RvM-Km-LwR"/>
+                                    <outlet property="deleteButton" destination="fcy-dy-VGA" id="Kxc-fS-5Et"/>
+                                    <outlet property="deleteView" destination="cwk-vc-ajj" id="bMl-QH-awV"/>
                                     <outlet property="nickName" destination="6lC-X9-rfw" id="LV5-rD-bOg"/>
                                     <outlet property="profileImage" destination="rjj-YJ-4p1" id="Fr9-L8-n4g"/>
                                     <outlet property="upLoadDate" destination="CRt-aD-Af3" id="O8a-JM-YDT"/>
@@ -3150,7 +3235,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AM9-9A-Awh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2967" y="-532"/>
+            <point key="canvasLocation" x="-2968.115942028986" y="-532.36607142857144"/>
         </scene>
         <!--Book MarkTVC-->
         <scene sceneID="6Uz-3g-8gs">
@@ -3327,8 +3412,29 @@
                                                 <constraint firstAttribute="width" constant="31.5" id="jGl-Ba-bpy"/>
                                             </constraints>
                                         </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RCc-Cv-9y9">
+                                            <rect key="frame" x="20" y="8" width="40" height="65"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8D-dH-pxn">
+                                                    <rect key="frame" x="12" y="22" width="16" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Xpd-NW-M3K"/>
+                                                        <constraint firstAttribute="width" constant="16" id="kCa-Jl-Wl9"/>
+                                                    </constraints>
+                                                    <state key="normal" image="deleteThing"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="O8D-dH-pxn" firstAttribute="top" secondItem="RCc-Cv-9y9" secondAttribute="top" constant="22" id="5uk-q6-TZr"/>
+                                                <constraint firstAttribute="height" constant="65" id="dOe-2L-YQu"/>
+                                                <constraint firstItem="O8D-dH-pxn" firstAttribute="leading" secondItem="RCc-Cv-9y9" secondAttribute="leading" constant="12" id="eWh-xk-zJy"/>
+                                                <constraint firstAttribute="width" constant="40" id="hrM-C0-6st"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="RCc-Cv-9y9" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="3P0-9r-NVM"/>
                                         <constraint firstItem="pK6-fa-KDA" firstAttribute="top" secondItem="K8a-9u-dEJ" secondAttribute="bottom" constant="8" symbolic="YES" id="4yb-2G-zHr"/>
                                         <constraint firstItem="T9K-4p-Ny6" firstAttribute="leading" secondItem="vvq-xf-4La" secondAttribute="trailing" constant="15" id="DUM-ch-ohA"/>
                                         <constraint firstItem="tqB-4g-B9M" firstAttribute="leading" secondItem="T9K-4p-Ny6" secondAttribute="trailing" constant="8" symbolic="YES" id="Hrv-X7-a0Z"/>
@@ -3337,6 +3443,7 @@
                                         <constraint firstItem="vvq-xf-4La" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="QyW-nn-ipv"/>
                                         <constraint firstItem="Xtv-tA-wnY" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="59" id="WCl-1V-gjL"/>
                                         <constraint firstItem="tqB-4g-B9M" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="b4i-aa-fuv"/>
+                                        <constraint firstItem="RCc-Cv-9y9" firstAttribute="leading" secondItem="ldF-UH-z89" secondAttribute="leading" constant="20" symbolic="YES" id="iG4-pR-QZG"/>
                                         <constraint firstItem="K8a-9u-dEJ" firstAttribute="leading" secondItem="vvq-xf-4La" secondAttribute="trailing" constant="15" id="omK-jm-ZYX"/>
                                         <constraint firstItem="T9K-4p-Ny6" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="uiE-K9-hxd"/>
                                         <constraint firstItem="pK6-fa-KDA" firstAttribute="leading" secondItem="vvq-xf-4La" secondAttribute="trailing" constant="15" id="vfm-Lh-LDs"/>
@@ -3344,6 +3451,8 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="deleteButton" destination="O8D-dH-pxn" id="Z5S-tD-wHz"/>
+                                    <outlet property="deleteView" destination="RCc-Cv-9y9" id="Flu-P5-Fz3"/>
                                     <outlet property="starRating" destination="Ic8-xe-cfM" id="Eqy-DS-nYb"/>
                                     <outlet property="subjects" destination="T9K-4p-Ny6" id="OfN-JP-DpP"/>
                                     <outlet property="teachersName" destination="pK6-fa-KDA" id="W7M-W1-DOh"/>
@@ -3367,7 +3476,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap5-tO-nUj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2251" y="-532"/>
+            <point key="canvasLocation" x="-2252.1739130434785" y="-532.36607142857144"/>
         </scene>
         <!--My ActivityVC-->
         <scene sceneID="94l-dZ-f5T">

@@ -1,5 +1,5 @@
 //  Created by 김우성 on 2021/03/11.
-
+import AVFoundation
 import UIKit
 /**
  // 중간 텍스트 글자 색 변경예정
@@ -194,16 +194,93 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                         didSelectItemAt indexPath: IndexPath) {
         
         if Constant.isLogin {
+            /**
+             검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
+             - 영상 > 검색결과 > 영상
+                이런식으로 넘어오다보니 영상관련 Controller 가 너무 많아져서 메모리 관리가 어려움
+             - 그래서 rootView를 변경하는 식으로 구현
+             */
+            
+            //  UIApplication 에서 화면전환을 한다,
+            guard let topVC = UIApplication.shared.topViewController() else { return }
+            NotificationCenter.default.removeObserver(self)
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+            
+
+            // 싱글톤 객체에 들어간 데이터를 초기화한다.
+            let pipDataManager = PIPDataManager.shared
+            pipDataManager.currentTeacherName = nil
+            pipDataManager.currentVideoURL = nil
+            pipDataManager.currentVideoCMTime = nil
+            pipDataManager.currentVideoID = nil
+            pipDataManager.currentVideoTitle = nil
+            pipDataManager.previousVideoID = nil
+            pipDataManager.previousTeacherName = nil
+            pipDataManager.previousVideoURL = nil
+            pipDataManager.previousVideoTitle = nil
+            pipDataManager.previousVideoURL = nil
             
             // PIP를 dismiss한다.
             pipDelegate?.serachAfterVCPIPViewDismiss()
             
-            let vc = VideoController()
-            let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
-            let videoID = receviedVideoID
-            vc.id = videoID
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+            let mainTabVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController")
+            
+            // TODO: video ID를 받아서 할당하고, PIPDataManager의 값들을 초기화한다.
+            
+            topVC.changeRootViewController(mainTabVC) {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let mainTabVC2 = storyboard.instantiateViewController(withIdentifier: "MainTabBarController")
+                mainTabVC2.modalPresentationStyle = .fullScreen
+                let vc = VideoController()
+                vc.modalPresentationStyle = .fullScreen
+                
+                let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+                
+                vc.id = receviedVideoID
+
+                let layout = UICollectionViewFlowLayout()
+                vc.collectionViewLayout = layout
+                vc.modalPresentationStyle = .fullScreen
+                
+//                let loginVC = LoginVC()
+                mainTabVC.present(mainTabVC2, animated: false) {
+                    mainTabVC2.present(vc, animated: true)
+                }
+                
+            }
+            
+//            topVC.present(mainTabVC, animated: true) {
+//                let vc = VideoController()
+//
+//                let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+//
+//                vc.id = receviedVideoID  // dummy Data
+//
+//                let layout = UICollectionViewFlowLayout()
+//                vc.collectionViewLayout = layout
+//                vc.modalPresentationStyle = .fullScreen
+//
+//                mainTabVC.present(vc, animated: false)
+//            }
+            
+            //            // PIP를 dismiss한다.
+            //            pipDelegate?.serachAfterVCPIPViewDismiss()
+            //
+            //            let vc = VideoController()
+            //            let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+            //            let videoID = receviedVideoID
+            //            vc.id = videoID
+            //
+            //            // "영상 > 검색 > 영상" 화면이동으로 왔음을 판별하기 위해 id값을 싱글톤에 입력합니다.
+            //            // "currentVideoID" 와 "previousVideoID"를 비교하여 판별합니다.
+            //            let pipDataManager = PIPDataManager.shared
+            //            pipDataManager.currentVideoID = videoID
+            //
+            //
+            //            vc.modalPresentationStyle = .fullScreen
+            //            present(vc, animated: true)
             
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")

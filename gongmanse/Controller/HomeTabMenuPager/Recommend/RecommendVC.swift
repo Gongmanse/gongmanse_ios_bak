@@ -230,7 +230,7 @@ extension RecommendVC: UICollectionViewDelegate {
             vc.recommendSeriesId = seriesID
             vc.recommendReceiveData = recommendVideo
             self.present(vc, animated: true) {
-                sleep(1)
+//                sleep(1)
             }
         }
         
