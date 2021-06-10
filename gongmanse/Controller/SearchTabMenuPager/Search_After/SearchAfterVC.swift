@@ -103,6 +103,8 @@ class SearchAfterVC: UIViewController {
     //MARK: - Lifecycle
 
     deinit {
+        dismissPIPView()
+        setRemoveNotification()
         NotificationCenter.default.removeObserver(self)
         print("DEBUG: SearchAfterVC is deinit")
     }

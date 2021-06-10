@@ -19,9 +19,32 @@ extension VideoController {
         print("DEBUG: 7Rangs is \(keywordRanges[7])")
         
         // TODO: 검색결과를 나타낼 "SearchAfterVC"를 생성한다.
-        let vc = SearchAfterVC()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
+ 
+        
+        // PIP를 재생할 수 있게 데이터를 넣어준다.
+        let pipDataManager = PIPDataManager.shared
+        
+        // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
+        let currentPlaytime = playerItem.currentTime()
+        
+        // 클릭한 키워드를 입력한다. -> if 절
+        
+        // 재생중이던 영상을 일시중지한다. 동시에, PIP를 재생한다. -> Delegation 필요 -> 완료
+        player.pause()
+        
+        
+        guard let videoURL = pipDataManager.currentVideoURL else { return }
+        
+        
+        let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                        videoURL: videoURL,
+                                        currentVideoTime: pipDataManager.currentVideoTime ?? Float(0.0),
+                                        videoTitle: pipDataManager.previousVideoTitle ?? "",
+                                        teacherName: pipDataManager.previousTeacherName ?? "")
+        
+        // isPlayPIP 값을 "SearchAfterVC" 에 전달한다. -> 완료
+        // 그 값에 따라서 PIP 재생여부를 결정한다.
+        
         
         
         // TODO: 검석어를 검색한다. -> if절에서 하고 있다.
@@ -36,23 +59,45 @@ extension VideoController {
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
+            self.player.pause()
+            let vc = SearchAfterVC()
+            vc.pipVideoData = pipVideoData
+            vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
             vc.searchData.searchText = currentKeywords[0]
+            vc.searchBar.text = currentKeywords[0]
 //            let vc = TestSearchController(clickedText: currentKeywords[0])
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
+            self.player.pause()
+            let vc = SearchAfterVC()
+            vc.pipVideoData = pipVideoData
+            vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
             print("DEBUG: \(currentKeywords[2])?")
             vc.searchData.searchText = currentKeywords[2]
+            vc.searchBar.text = currentKeywords[2]
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
+            self.player.pause()
+            let vc = SearchAfterVC()
+            vc.pipVideoData = pipVideoData
+            vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
             print("DEBUG: \(currentKeywords[4])?")
             vc.searchData.searchText = currentKeywords[4]
+            vc.searchBar.text = currentKeywords[4]
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
             
         } else {
             print("DEBUG: 키워드가 없나요?")
         }
+        
     }
     
     /// 1,2,....100과 같은 값을 받았을 때, 00:00 의 형식으로 출력해주는 메소드
@@ -85,7 +130,7 @@ extension VideoController {
         // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
         attributedString
             .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.appBoldFontWith(size: 13.5),
+                          value: UIFont.appBoldFontWith(size: 15),
                           range: (text as NSString).range(of: ("\(array[aIndex])")))
         attributedString
             .addAttribute(NSAttributedString.Key.foregroundColor,
