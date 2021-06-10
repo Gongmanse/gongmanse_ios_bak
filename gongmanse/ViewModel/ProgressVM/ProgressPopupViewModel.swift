@@ -22,11 +22,7 @@ struct ProgressPopupViewModel {
         self.data = data
     }
 }
-protocol ProgressInfinityScroll: class {
-    var islistMore: Bool? { get set }
-    var listCount: Int { get set }
-    func scrollMethod()
-}
+
 
 extension ProgressInfinityScroll {
     
