@@ -178,6 +178,9 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         
 //        self.tableViewInputData?.remove(at: sender.tag)
         ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
+        
+        getDataFromJson()
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -236,7 +239,6 @@ class ExpertConsultTVCDataManager {
         
         let id = param.id
         
-        // 로그인정보 post
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "con_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
@@ -251,6 +253,5 @@ class ExpertConsultTVCDataManager {
                 print("error")
             }
         }
-        
     }
 }

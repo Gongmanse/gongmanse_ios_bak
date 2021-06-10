@@ -2,6 +2,10 @@ import UIKit
 import Photos
 import Alamofire
 
+protocol ExpertConsultationFloatingVCDelegate: AnyObject {
+    func sendButtonSelected()
+}
+
 class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     
     //ExpertConsultView전체 변수들
@@ -23,6 +27,7 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     var images = [UIImage]()
     
     var isEmptyImage: Bool = false
+    var floatingDelegate: ExpertConsultationFloatingVCDelegate?
     
     //var allPhotos: PHFetchResult<PHAsset>!
     //let imageManager = PHCachingImageManager()
@@ -119,63 +124,53 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func writeBtnAction(_ sender: Any) {
-        let paramData: [String: Any] = ["question": answerTextView.text!, "token": Constant.testToken]
-        var request = URLRequest(url: URL(string: "https://api.gongmanse.com/v1/my/expert/consultations_urgent")!)
-        request.httpMethod = "POST"
         
-        do {
-            try request.httpBody = JSONSerialization.data(withJSONObject: paramData, options: [])
-        } catch {
-            return
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(self.answerTextView.text!)".data(using: .utf8)!, withName: "question")
+            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+
+        }, to: "https://api.gongmanse.com/v1/my/expert/consultations_urgent").response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                self.didSuccessPostAPI()
+                print(response)
+            case.failure:
+                print("error")
+            }
         }
         
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        URLSession.shared.dataTask(with: request, completionHandler: { ( data, response, error ) -> Void in
-            if let response = response as? HTTPURLResponse, 200...299 ~= response.statusCode {
-                print("success")
-            } else {
-                print("failed")
-            }
-        })
-        
-//        let url = URL(string: "https://api.gongmanse.com/v1/my/expert/consultations_urgent")
-//
-//        let session = URLSession.shared
-//
-//        var request = URLRequest(url: url!)
+//        let url = "https://api.gongmanse.com/v1/my/expert/consultations_urgent"
+//        var request = URLRequest(url: URL(string: url)!)
 //        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.timeoutInterval = 10
 //
+//        //POST 로 보낼 정보
+//        let params = ["question": answerTextView.text!, "token": Constant.token] as Dictionary
+//
+//        //httpBody 에 Parameters 추가
 //        do {
-//            request.httpBody = try JSONSerialization.data(withJSONObject: paramData, options: .prettyPrinted)
-//        } catch let error {
-//            print(error.localizedDescription)
+//            try request.httpBody = JSONSerialization.data(withJSONObject: params, options: [])
+//        } catch {
+//            print("http Body Error")
 //        }
 //
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
-//
-//        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-//            guard error == nil else {
-//                return
+//        AF.request(request).responseString { (response) in
+//            switch response.result {
+//            case .success:
+//                print("POST 성공")
+//            case .failure:
+//                print("POST 실패")
 //            }
-//
-//            guard let data = data else {
-//                return
-//            }
-//
-//            do {
-//                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-//                    print(json)
-//                }
-//            } catch let error {
-//                print(error.localizedDescription)
-//            }
-//        })
-//        task.resume()
+//        }
+        floatingDelegate?.sendButtonSelected()
         
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func didSuccessPostAPI() {
+        self.view.layoutIfNeeded()
     }
     
     @IBAction func addImageAndVideo(_ sender: Any) {

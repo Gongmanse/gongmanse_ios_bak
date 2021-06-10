@@ -215,6 +215,9 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         let indexPath = IndexPath(row: sender.tag, section: 0)
         self.tableViewInputData?.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
+        
+        getDataFromJson()
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
