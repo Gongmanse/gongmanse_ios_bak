@@ -19,38 +19,6 @@ class FrequentlyAskViewContoler: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    /* * 다시 살펴 볼 예정
-    let questionMarkLabelSection: UILabel = {
-       let label = UILabel()
-        label.text = "Q."
-        label.font = UIFont(name: "NanumSquareRoundEB", size: 14)
-        label.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
-        label.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    var questionTextLableSection: UILabel = {
-       let label = UILabel()
-        label.font = UIFont(name: "NanumSquareRoundE", size: 14)
-//        label.font = .systemFont(ofSize: 14)
-        label.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let sectionLabelStack: UIStackView = {
-       let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = 3
-        stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    */
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -133,10 +101,8 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
 
         // expand 버튼
         let expandAllowImage = UIImageView()
-//        원본
-//        expandAllowImage.image = UIImage(named: "noticeShow")
-//        임시
-        expandAllowImage.image = UIImage(named: "notice")
+
+        expandAllowImage.image = UIImage(named: "noticeShow")
         
         
         // Q라벨과 질문리스트 담을 스택뷰
@@ -183,7 +149,6 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         datamodel[sectionNumber].expanState = !datamodel[sectionNumber].expanState
         
         if datamodel[sectionNumber].expanState {
-            
             
             tableView.reloadSections(IndexSet(sectionNumber...sectionNumber), with: .automatic)
         }
