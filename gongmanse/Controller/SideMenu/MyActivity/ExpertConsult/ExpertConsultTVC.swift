@@ -1,5 +1,6 @@
 import UIKit
 import BottomPopup
+import Alamofire
 
 protocol ExpertConsultTVCDelegate: AnyObject {
     func expertConsultPassSortedIdSettingValue(_ expertConsultSortedIndex: Int)
@@ -19,6 +20,8 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var expertConsult: ExpertModels?
+    var tableViewInputData: [ExpertModelData]?
+    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -64,6 +67,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
                     //print(json.body)
                     self.expertConsult = json
+                    self.tableViewInputData = json.data
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -101,14 +105,14 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.expertConsult else { return 0 }
+        
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let data = self.expertConsult?.data else { return 0}
-            return data.count
+            guard let tableViewInputData = tableViewInputData else { return 0 }
+            return tableViewInputData.count
         }
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let value = self.expertConsult else { return UITableViewCell() }
@@ -155,9 +159,25 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
             
             cell.deleteButton.isHidden = isDeleteMode
             cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.tag = indexPath.row
+            
+            cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
             
             return cell
         }
+    }
+    
+    @objc func deleteAction(_ sender: UIButton) {
+        guard let json = self.expertConsult else { return }
+        guard let id = json.data[sender.tag].consultation_id else { return }
+
+        let inputData = ExpertConsultInput(id: id)
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        self.tableViewInputData?.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        
+//        self.tableViewInputData?.remove(at: sender.tag)
+        ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -190,5 +210,47 @@ extension ExpertConsultTVC: ExpertConsultBottomPopUpVCDelegate {
         
         self.delegate?.expertConsultPassSortedIdSettingValue(expertConsultSortedIdRowIndex)
         self.tableView.reloadData()
+    }
+}
+
+// MARK: - API
+
+extension ExpertConsultTVC {
+    func didSuccessPostAPI() {
+        
+        //self.tableView.reloadData()
+        self.view.layoutIfNeeded()
+    }
+}
+
+
+struct ExpertConsultInput: Encodable {
+    
+    var id: String
+    var token = Constant.token
+}
+
+class ExpertConsultTVCDataManager {
+    
+    func postRemoveExpertConsult(param: ExpertConsultInput, viewController: ExpertConsultTVC) {
+        
+        let id = param.id
+        
+        // 로그인정보 post
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "con_id")
+            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+
+        }, to: "https://api.gongmanse.com/v/member/myconsultation").response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                viewController.didSuccessPostAPI()
+                print(response)
+            case.failure:
+                print("error")
+            }
+        }
+        
     }
 }
