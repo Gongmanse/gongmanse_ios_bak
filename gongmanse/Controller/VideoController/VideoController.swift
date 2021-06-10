@@ -517,15 +517,15 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewWillAppear(_ animated: Bool) {
         
         // 인트로를 실행한다.
-//        if isStartVideo == false {
-//            let vc = IntroController()
-//            vc.delegate = self
-//            vc.modalPresentationStyle = .overFullScreen
-//            present(vc, animated: false) {
-//                self.player.pause()
-//            }
-//            self.isStartVideo = true
-//        }
+        if isStartVideo == false {
+            let vc = IntroController()
+            vc.delegate = self
+            vc.modalPresentationStyle = .overFullScreen
+            present(vc, animated: false) {
+                self.player.pause()
+            }
+            self.isStartVideo = true
+        }
         
     }
     
@@ -555,9 +555,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 
         let pipDataManager = PIPDataManager.shared
         
-        if let currentVideID = pipDataManager.previousVideoID {
+        if let previousVideoID = pipDataManager.previousVideoID {
             setRemoveNotification()
-            let inputData = DetailVideoInput(video_id: currentVideID,
+            let inputData = DetailVideoInput(video_id: previousVideoID,
                                              token: Constant.token)
             
             // "상세화면 영상 API"를 호출한다.
@@ -664,8 +664,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     func setupIntroOuttroVideoContainerView() {
-        
-//        view.addSubview(<#T##view: UIView##UIView#>)
+        // TODO: 인트로 및 아웃트로 를 위한 컨테이너뷰를 넣어야 한다.
+//        introOuttroContainerView
     }
 }
 
@@ -790,15 +790,20 @@ extension VideoController {
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
         let pipDataManager = PIPDataManager.shared
-        
-        // PIP
-        if pipDataManager.currentVideoID == nil {
-//            pipDataManager.previousVideoID = self.id
-            pipDataManager.currentVideoID = self.id
-        } else {
-            pipDataManager.previousVideoID = pipDataManager.currentVideoID
-            pipDataManager.currentVideoID = self.id
-        }
+  
+        // 21.06.10 원래 여기있었는데 재생목록 클릭 시, PIP 에러 발생해서 playVideo 이후로 옮김.
+        // 추후 버그발생 시, 조정할 것.
+//        // PIP
+//        // 최초접속일 때,
+//        if pipDataManager.currentVideoID == nil {
+////            pipDataManager.previousVideoID = self.id
+//            pipDataManager.currentVideoID = self.id
+//
+//        // 두 번째 접속일 때,
+//        } else {
+//            pipDataManager.previousVideoID = pipDataManager.currentVideoID
+//            pipDataManager.currentVideoID = self.id
+//        }
         
 
         var videoURL: NSURL?
@@ -885,9 +890,24 @@ extension VideoController {
 
         // lessionInfo로 VideoID 넘기기
         self.lessonInfoController.videoID = id
+        
+        self.recommendSeriesId = response.data.iSeriesId
+        
+        
         playVideo()
 //        pipPlayer.play()
-        
+        // PIP
+        // 최초접속일 때,
+        if pipDataManager.currentVideoID == nil {
+//            pipDataManager.previousVideoID = self.id
+            pipDataManager.currentVideoID = self.id
+            
+        // 두 번째 접속일 때,
+        } else {
+            pipDataManager.previousVideoID = pipDataManager.currentVideoID
+            pipDataManager.currentVideoID = self.id
+        }
+
         // PIP
         let pipData = PIPVideoData(isPlayPIP: false,
                                    videoURL: pipDataManager.previousVideoURL,
@@ -934,6 +954,28 @@ extension VideoController: VideoFullScreenControllerDelegate {
 // MARK: - BottomPlaylistCellDelegate
 
 extension VideoController: BottomPlaylistCellDelegate {
+    
+    
+    func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String) {
+
+        setRemoveNotification()
+        let inputData = DetailVideoInput(video_id: videoID,
+                                         token: Constant.token)
+        
+        let pipDataManager = PIPDataManager.shared
+        pipDataManager.currentVideoID = videoID
+        self.id = videoID
+        // "상세화면 영상 API"를 호출한다.
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        
+        // 노트 데이터를 불러온다.
+        
+        pageCollectionView.reloadData()
+//        let noteIndexPath = IndexPath(item: 1, section: 0)
+//        let qnaIndexPath = IndexPath(item: 2, section: 0)
+//        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
+    }
+    
     
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
         let vc = VideoController()

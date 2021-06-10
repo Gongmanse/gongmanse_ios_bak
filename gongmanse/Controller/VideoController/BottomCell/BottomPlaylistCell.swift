@@ -7,6 +7,7 @@ import UIKit
 
 protocol BottomPlaylistCellDelegate: AnyObject {
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String)
+    func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String)
 }
 
 class BottomPlaylistCell: UICollectionViewCell {
@@ -764,10 +765,10 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-            let data = playlist
-            let videoID = data.data[indexPath.row].id
-            delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
-        
+        let data = playlist
+        let videoID = data.data[indexPath.row].id
+//        delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
+        delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
     }
     
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
