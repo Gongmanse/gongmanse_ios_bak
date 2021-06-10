@@ -790,20 +790,15 @@ extension VideoController {
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
         let pipDataManager = PIPDataManager.shared
-  
-        // 21.06.10 원래 여기있었는데 재생목록 클릭 시, PIP 에러 발생해서 playVideo 이후로 옮김.
-        // 추후 버그발생 시, 조정할 것.
-//        // PIP
-//        // 최초접속일 때,
-//        if pipDataManager.currentVideoID == nil {
-////            pipDataManager.previousVideoID = self.id
-//            pipDataManager.currentVideoID = self.id
-//
-//        // 두 번째 접속일 때,
-//        } else {
-//            pipDataManager.previousVideoID = pipDataManager.currentVideoID
-//            pipDataManager.currentVideoID = self.id
-//        }
+        
+        // PIP
+        if pipDataManager.currentVideoID == nil {
+//            pipDataManager.previousVideoID = self.id
+            pipDataManager.currentVideoID = self.id
+        } else {
+            pipDataManager.previousVideoID = pipDataManager.currentVideoID
+            pipDataManager.currentVideoID = self.id
+        }
         
 
         var videoURL: NSURL?
@@ -896,18 +891,7 @@ extension VideoController {
         
         playVideo()
 //        pipPlayer.play()
-        // PIP
-        // 최초접속일 때,
-        if pipDataManager.currentVideoID == nil {
-//            pipDataManager.previousVideoID = self.id
-            pipDataManager.currentVideoID = self.id
-            
-        // 두 번째 접속일 때,
-        } else {
-            pipDataManager.previousVideoID = pipDataManager.currentVideoID
-            pipDataManager.currentVideoID = self.id
-        }
-
+        
         // PIP
         let pipData = PIPVideoData(isPlayPIP: false,
                                    videoURL: pipDataManager.previousVideoURL,
@@ -969,7 +953,7 @@ extension VideoController: BottomPlaylistCellDelegate {
         DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
         
         // 노트 데이터를 불러온다.
-        
+//        pipContainerView.alpha = 0
         pageCollectionView.reloadData()
 //        let noteIndexPath = IndexPath(item: 1, section: 0)
 //        let qnaIndexPath = IndexPath(item: 2, section: 0)

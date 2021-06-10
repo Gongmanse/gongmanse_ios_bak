@@ -183,9 +183,12 @@ class BottomPlaylistCell: UICollectionViewCell {
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
                         self.playlist = json
+                        
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+//                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -206,6 +209,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -221,9 +226,12 @@ class BottomPlaylistCell: UICollectionViewCell {
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
                         self.playlist = json
+                        
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -242,6 +250,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -257,9 +267,11 @@ class BottomPlaylistCell: UICollectionViewCell {
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
                         self.playlist = json
+                        
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
                     }
                     
                 }.resume()
@@ -278,6 +290,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()

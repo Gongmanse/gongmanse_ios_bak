@@ -125,6 +125,18 @@ extension VideoController {
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
         player.seek(to: CMTime.zero)
+        
+        // 여기에 영상 API를 호출하면 자동재생 구현 가능.
+//        let pipDataManager = PIPDataManager.shared
+//        let videoID = pipDataManager.currentVideoID
+//        let inputData = DetailVideoInput(video_id: videoID!,
+//                                         token: Constant.token)
+//
+//        pipDataManager.currentVideoID = videoID
+//        self.id = videoID
+//        // "상세화면 영상 API"를 호출한다.
+//        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        
         player.pause()
     }
 }
