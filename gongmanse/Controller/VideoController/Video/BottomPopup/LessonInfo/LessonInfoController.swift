@@ -5,6 +5,7 @@ protocol LessonInfoControllerDelegate: AnyObject {
     func videoVCPauseVideo()
     func videoVCPassCurrentVideoTimeToLessonInfo()
     func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime)
+    func problemSolvingLectureVideoPlay(videoID: String)
 }
 
 class LessonInfoController: UIViewController {
@@ -170,6 +171,9 @@ class LessonInfoController: UIViewController {
     
     @objc func handleProblemSolvingAction() {
         
+        // TODO: Delegation을 이용해서,영상의 URL의 네트워킹을 통해 변경해주면 될 것 같다.
+        // ex) 재생목록 영상 바꾸듯이.
+        
         isChangedName = !isChangedName
         
         problemSolvingButton.titleLabel.text = isChangedName ? "개념정리" : "문제풀이"
@@ -181,18 +185,21 @@ class LessonInfoController: UIViewController {
         case true:  // 문제풀이
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
             
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            vc.id = videoDetailVM?.commantaryID
-            self.present(vc, animated: true)
+            delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
+//            let vc = VideoController()
+//            vc.modalPresentationStyle = .fullScreen
+//            vc.id = videoDetailVM?.commantaryID
+//            self.present(vc, animated: false)
             
         case false: // 개념정리
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.videoID ?? "")
             
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            vc.id = videoDetailVM?.videoID
-            self.present(vc, animated: true)
+            delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.videoID ?? "15188")
+            
+//            let vc = VideoController()
+//            vc.modalPresentationStyle = .fullScreen
+//            vc.id = videoDetailVM?.videoID
+//            self.present(vc, animated: false)
         }
     }
     

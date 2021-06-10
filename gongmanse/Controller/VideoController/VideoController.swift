@@ -888,8 +888,10 @@ extension VideoController {
         
         self.recommendSeriesId = response.data.iSeriesId
         
+        DispatchQueue.main.async {
+            self.playVideo()
+        }
         
-        playVideo()
 //        pipPlayer.play()
         
         // PIP
@@ -998,6 +1000,13 @@ extension VideoController: IntroControllerDelegate {
  */
 
 extension VideoController: LessonInfoControllerDelegate {
+    func problemSolvingLectureVideoPlay(videoID: String) {
+        
+        let inputData = DetailVideoInput(video_id: videoID,
+                                         token: Constant.token)
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+    }
+    
     
     /// PIP에서 재생시간을 받아와서 현재 영상에 재생하는 Delegate 메소드
     func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime) {
