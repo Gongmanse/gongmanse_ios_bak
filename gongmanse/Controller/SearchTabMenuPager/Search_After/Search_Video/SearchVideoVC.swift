@@ -202,7 +202,10 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
             //  UIApplication 에서 화면전환을 한다,
             guard let topVC = UIApplication.shared.topViewController() else { return }
+            NotificationCenter.default.removeObserver(self)
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
             
+
             // 싱글톤 객체에 들어간 데이터를 초기화한다.
             let pipDataManager = PIPDataManager.shared
             pipDataManager.currentTeacherName = nil
