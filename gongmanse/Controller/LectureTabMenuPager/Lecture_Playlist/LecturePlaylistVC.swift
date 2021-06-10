@@ -189,9 +189,9 @@ class LecturePlaylistVC: UIViewController {
         
         let dummyData = PIPVideoData(isPlayPIP: true,
                                      videoURL: pipDataManager.previousVideoURL,
-                                     currentVideoTime: pipDataManager.currentVideoTime,
-                                     videoTitle: pipDataManager.previousVideoTitle,
-                                     teacherName: pipDataManager.previousTeacherName)
+                                     currentVideoTime: pipDataManager.currentVideoTime ?? Float(),
+                                     videoTitle: pipDataManager.previousVideoTitle ?? "",
+                                     teacherName: pipDataManager.previousTeacherName ?? "")
         
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
