@@ -57,7 +57,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     }
     
     func getDataFromJson() {
-        if let url = URL(string: ExpertConsultation_URL + "limit=57&offset=0&sort_id=\(sortedId ?? 4)") {
+        if let url = URL(string: ExpertConsultation_URL + "limit=64&offset=0&sort_id=\(sortedId ?? 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             

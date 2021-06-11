@@ -281,6 +281,8 @@
 		6C576F4A26083C77001B28E6 /* ScienceCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4926083C77001B28E6 /* ScienceCVCell.swift */; };
 		6C576F4D26087962001B28E6 /* SocialStudiesCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */; };
 		6C576F562608852A001B28E6 /* OtherSubjectsCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */; };
+		6C741A9E26733BB70038EAA1 /* LectureQuestionsDeleteBottomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C741A9D26733BB70038EAA1 /* LectureQuestionsDeleteBottomPopUpVC.swift */; };
+		6C741AA126733C410038EAA1 /* LectureQuestionsDeleteBottomPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C741AA026733C410038EAA1 /* LectureQuestionsDeleteBottomPopUpCell.swift */; };
 		6C8852562611CC820006BDB2 /* VideoCellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852552611CC820006BDB2 /* VideoCellModels.swift */; };
 		6C88525A2611CDE20006BDB2 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8852592611CDE20006BDB2 /* Address.swift */; };
 		6C9BEEBB265E163C00FFF655 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9BEEB9265E163C00FFF655 /* EmptyTableViewCell.swift */; };
@@ -728,6 +730,8 @@
 		6C576F4926083C77001B28E6 /* ScienceCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceCVCell.swift; sourceTree = "<group>"; };
 		6C576F4C26087962001B28E6 /* SocialStudiesCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialStudiesCVCell.swift; sourceTree = "<group>"; };
 		6C576F552608852A001B28E6 /* OtherSubjectsCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherSubjectsCVCell.swift; sourceTree = "<group>"; };
+		6C741A9D26733BB70038EAA1 /* LectureQuestionsDeleteBottomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureQuestionsDeleteBottomPopUpVC.swift; sourceTree = "<group>"; };
+		6C741AA026733C410038EAA1 /* LectureQuestionsDeleteBottomPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureQuestionsDeleteBottomPopUpCell.swift; sourceTree = "<group>"; };
 		6C8852552611CC820006BDB2 /* VideoCellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCellModels.swift; sourceTree = "<group>"; };
 		6C8852592611CDE20006BDB2 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		6C9BEEB9265E163C00FFF655 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
@@ -2319,6 +2323,8 @@
 				6C4C38A425FEFCF600653A61 /* LectureQuestionsTVCell.swift */,
 				6C052D0A266751E600083F59 /* LectureQuestionsBottomPopUpVC.swift */,
 				6C052D0D2667520B00083F59 /* LectureQuestionsBottomPopUpCell.swift */,
+				6C741A9D26733BB70038EAA1 /* LectureQuestionsDeleteBottomPopUpVC.swift */,
+				6C741AA026733C410038EAA1 /* LectureQuestionsDeleteBottomPopUpCell.swift */,
 			);
 			path = LectureQuestions;
 			sourceTree = "<group>";
@@ -3357,6 +3363,7 @@
 				259B8B6126030065009A7146 /* UIView.swift in Sources */,
 				6CBEEAB9264E42CB0006795D /* ImageSliderCollectionViewCell.swift in Sources */,
 				A952484B261A92DF000F2473 /* NoticeCell.swift in Sources */,
+				6C741AA126733C410038EAA1 /* LectureQuestionsDeleteBottomPopUpCell.swift in Sources */,
 				A9129EE82616DD8900041CC5 /* QuestionListViewModel.swift in Sources */,
 				259B8C4026032E87009A7146 /* StoreCell.swift in Sources */,
 				259B8BF8260305E6009A7146 /* SearchConsultVC.swift in Sources */,
@@ -3600,6 +3607,7 @@
 				259B8C2E26031C76009A7146 /* PassTicketVC.swift in Sources */,
 				6CF2E65825F0A992000FE084 /* RecommendVC.swift in Sources */,
 				6CC81BB226253CC1009260CB /* KoreanEnglishMathBottomPopUpTVCell.swift in Sources */,
+				6C741A9E26733BB70038EAA1 /* LectureQuestionsDeleteBottomPopUpVC.swift in Sources */,
 				6CF2E66C25F0AB9B000FE084 /* HomeVC.swift in Sources */,
 				C233027B263904EE0058592E /* PopularKeywordViewModel.swift in Sources */,
 				259B8BAC260301D8009A7146 /* SearchVideoCell.swift in Sources */,
@@ -3831,7 +3839,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -3839,7 +3847,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.9;
+				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3856,7 +3864,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -3864,7 +3872,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.9;
+				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
