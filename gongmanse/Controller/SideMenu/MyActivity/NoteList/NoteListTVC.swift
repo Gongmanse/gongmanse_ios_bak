@@ -170,6 +170,9 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         
 //        self.tableViewInputData?.remove(at: sender.tag)
         NoteListTVCDataManager().postRemoveNoteList(param: inputData, viewController: self)
+        
+        getDataFromJson()
+        tableView.reloadData()
     }
     
     @objc func videoPlay(_ sender: UIButton) {

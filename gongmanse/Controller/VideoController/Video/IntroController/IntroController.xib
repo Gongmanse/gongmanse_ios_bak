@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntroController" customModule="gongmanse" customModuleProvider="target">
             <connections>
                 <outlet property="IntroVideoContainerView" destination="hwl-re-Wt6" id="AJ2-b9-dzL"/>
+                <outlet property="introHeightConstraint" destination="FMz-bB-Z2v" id="qKb-tV-JyL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,7 +22,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hwl-re-Wt6">
                     <rect key="frame" x="0.0" y="44" width="414" height="236"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.94278651479999998" green="0.84646475320000003" blue="0.31626036759999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

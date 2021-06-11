@@ -162,12 +162,17 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         let inputData = RecentVideoInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
         self.tableViewInputData?.remove(at: indexPath.row)
+        print(indexPath.row)
+        print(sender.tag)
         tableView.deleteRows(at: [indexPath], with: .fade)
         print(indexPath.row)
         print(sender.tag)
         
 //        self.tableViewInputData?.remove(at: sender.tag)
         RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+        
+        getDataFromJson()
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

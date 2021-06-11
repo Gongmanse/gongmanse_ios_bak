@@ -7,6 +7,7 @@ import UIKit
 
 protocol BottomPlaylistCellDelegate: AnyObject {
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String)
+    func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String)
 }
 
 class BottomPlaylistCell: UICollectionViewCell {
@@ -182,9 +183,12 @@ class BottomPlaylistCell: UICollectionViewCell {
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
                         self.playlist = json
+                        
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+//                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -205,6 +209,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -220,9 +226,12 @@ class BottomPlaylistCell: UICollectionViewCell {
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
                         self.playlist = json
+                        
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -241,6 +250,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -256,9 +267,11 @@ class BottomPlaylistCell: UICollectionViewCell {
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
                         //print(json.data)
                         self.playlist = json
+                        
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
                     }
                     
                 }.resume()
@@ -277,6 +290,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.numberOFplaylistLabel.text = self.playlist.totalNum
+
                     }
                     
                 }.resume()
@@ -764,10 +779,10 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-            let data = playlist
-            let videoID = data.data[indexPath.row].id
-            delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
-        
+        let data = playlist
+        let videoID = data.data[indexPath.row].id
+//        delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
+        delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
     }
     
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {

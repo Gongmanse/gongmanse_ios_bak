@@ -12,6 +12,13 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     
     var expertConsultSortedIndex: Int = 0
     var consultModels: ExpertModels?
+    var consultModelData: [ExpertModelData]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.expertConsultationTV.reloadData()
+            }
+        }
+    }
     var delegate: ExpertConsultationVCDelegate?
     
     var height: CGFloat = 200
@@ -32,7 +39,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromJson()
+        //getDataFromJson()
         floatingButton()
         
         //테이블 뷰 빈칸 숨기기
@@ -60,9 +67,9 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
                     //print(json.body)
                     self.consultModels = json
+                    self.consultModelData = json.data
                 }
                 DispatchQueue.main.async {
-                    self.expertConsultationTV.reloadData()
                     self.textSettings()
                 }
             }.resume()
@@ -96,6 +103,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         //네비게이션 바 타이틀 지정
         self.navigationItem.title = "전문가 상담"
         
@@ -111,6 +119,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         
         //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
         self.tabBarController?.tabBar.isHidden = false
+        getDataFromJson()
     }
     
     //플로팅 버튼 생성 및 크기 지정 후 뷰 이동
@@ -145,16 +154,15 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     
     @objc func buttonTapped() {
         let floatingVC = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationFloatingVC") as! ExpertConsultationFloatingVC
+        floatingVC.floatingDelegate = self
         self.navigationController?.pushViewController(floatingVC, animated: true)
     }
 }
 
 extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let data = self.consultModels?.data else { return 0 }
+        guard let data = self.consultModelData else { return 0 }
         return data.count
-        //        guard let data = self.consultModels?.body else { return 0 }
-        //        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -205,7 +213,13 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 /// 필터 메뉴를 클릭하면, 호출되는 메소드 구현을 위한 `extension`
-extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate {
+extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate, ExpertConsultationFloatingVCDelegate {
+    func sendButtonSelected(completion: @escaping () -> Void) {
+        getDataFromJson()
+        completion()
+    }
+
+    
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
         if sortedIdRowIndex == 0 {          // 1 번째 Cell
