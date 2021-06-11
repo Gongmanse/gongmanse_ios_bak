@@ -92,11 +92,11 @@ extension VideoController {
         
         /// 연산프로퍼티 "isPlaying" 에 따라서 플레이어를 정지 혹은 재생시킨다.
         if isPlaying {
-            playPauseButton.setBackgroundImage(pauseImage, for: .normal)
+            playPauseButton.setBackgroundImage(playImage, for: .normal)
             player.pause()
             
         } else {
-            playPauseButton.setBackgroundImage(playImage, for: .normal)
+            playPauseButton.setBackgroundImage(pauseImage, for: .normal)
             player.play()
         }
     }

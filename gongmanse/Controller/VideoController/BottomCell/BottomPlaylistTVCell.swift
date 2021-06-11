@@ -29,6 +29,9 @@ class BottomPlaylistTVCell: UITableViewCell {
         //용어 label background 라운딩 처리
         term.layer.cornerRadius = 7
         term.clipsToBounds = true
+        
+        // 안드로이드에 평점이 없으므로 UI변경 06.11
+        starRating.alpha = 0
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

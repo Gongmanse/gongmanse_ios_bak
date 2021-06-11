@@ -68,6 +68,15 @@ extension VideoController {
         
         // 영상 플레이어컨트롤러 하단 상태표시슬라이드 display 여부
         playerController.showsPlaybackControls = false
+        
+        // 시작 시, 영상 컨트롤 버튼을 숨긴다.
+        self.blackViewOncontrolMode.backgroundColor = .clear
+        self.videoControlContainerView.alpha = 0
+        self.playPauseButton.alpha = 0
+        self.videoForwardTimeButton.alpha = 0
+        self.videoBackwardTimeButton.alpha = 0
+        self.videoSettingButton.alpha = 0
+        self.subtitleToggleButton.alpha = 0
     }
     
     /// customMenuBar의 sroll관련 로직을 처리하는 메소드
