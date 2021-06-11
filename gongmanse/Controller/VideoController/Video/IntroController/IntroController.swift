@@ -55,15 +55,18 @@ class IntroController: UIViewController {
     
     func setupIntroVideo() {
         
-         
+        IntroVideoContainerView.layer.bounds = CGRect(x: 0,
+                                                      y: 0,
+                                                      width: Constant.width,
+                                                      height: Constant.height * 0.32)
         
         introHeightConstraint
             = IntroVideoContainerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.57)
         introHeightConstraint.isActive = true
         
-        IntroVideoContainerView.contentMode = .scaleAspectFit
+        IntroVideoContainerView.contentMode = .scaleAspectFill
         
-        let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: "인트로영상01",
+        let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: "비율수정인트로영상",
                                                             ofType: "mov")!)
         player = AVQueuePlayer()
         playerLayer = AVPlayerLayer(player: player)
@@ -73,7 +76,7 @@ class IntroController: UIViewController {
         }
         playerLayer.frame = IntroVideoContainerView.layer.bounds
         IntroVideoContainerView.layer.addSublayer(playerLayer)
-        
+
         let videoAsset = AVURLAsset(url: introURL)
         
         videoAsset.loadValuesAsynchronously(forKeys: ["", ""]) {

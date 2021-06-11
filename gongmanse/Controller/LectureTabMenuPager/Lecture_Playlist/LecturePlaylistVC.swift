@@ -15,12 +15,14 @@ enum LectureState {
 private let cellId = "LectureCell"
 
 class LecturePlaylistVC: UIViewController {
-
+    
     // MARK: - Properties
     
     // MARK: PIP
     var pipVC: PIPController?
-
+    var pipData: PIPVideoData? {
+        didSet { configurePIPView(pipData: pipData) }
+    }
     
     
     var lectureState: LectureState?
@@ -31,7 +33,7 @@ class LecturePlaylistVC: UIViewController {
     var totalNum: String?
     var gradeText: String?
     var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
-
+    
     
     // 관련시리즈
     lazy var videoNumber: String = ""
@@ -59,7 +61,7 @@ class LecturePlaylistVC: UIViewController {
     // 비디오 영상에서 ID받음
     init(_ videoID: String) {
         super.init(nibName: nil, bundle: nil)
-            
+        
         videoNumber = videoID
     }
     
@@ -184,22 +186,12 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let pipDataManager = PIPDataManager.shared
-        
-        let dummyData = PIPVideoData(isPlayPIP: true,
-                                     videoURL: pipDataManager.previousVideoURL,
-                                     currentVideoTime: pipDataManager.currentVideoTime ?? Float(),
-                                     videoTitle: pipDataManager.previousVideoTitle ?? "",
-                                     teacherName: pipDataManager.previousTeacherName ?? "")
-        
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
-        configurePIPView(pipData: dummyData)
         collectionView.delegate = self
         collectionView.dataSource = self
         
-
+        
         // UISwitch UI 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
@@ -215,7 +207,7 @@ class LecturePlaylistVC: UIViewController {
             detailVM?.relationSeries(videoNumber)
         }
     }
-
+    
     
     
     // MARK: - Actions
@@ -231,7 +223,7 @@ class LecturePlaylistVC: UIViewController {
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
-
+        
         setRemoveNotification()
         dismissLecturePlaylistVCOnPlayingPIP()
     }
@@ -267,7 +259,7 @@ class LecturePlaylistVC: UIViewController {
         // subjectLabel
         subjectLabel.font = .appBoldFontWith(size: 12)
         subjectLabel.textColor = .white
-
+        
         // gradeLabel
         gradeLabel.backgroundColor = .white
         gradeLabel.font = .appBoldFontWith(size: 12)
@@ -317,19 +309,26 @@ class LecturePlaylistVC: UIViewController {
         
         let pipDataManager = PIPDataManager.shared
         
-        guard let pipData = pipData else { return }
+        let videoDataManager = VideoDataManager.shared
+        
+        let pipData = PIPVideoData(isPlayPIP: true,
+                                   videoURL: videoDataManager.previousVideoURL,
+                                   currentVideoTime: pipDataManager.currentVideoTime ?? Float(),
+                                   videoTitle: videoDataManager.previousVideoTitle ?? "",
+                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
+        
         let pipHeight = view.frame.height * 0.085
-        self.pipVC = PIPController(isPlayPIP: false)
+        self.pipVC = PIPController(isPlayPIP: true)
         guard let pipVC = self.pipVC else { return }
         pipVC.pipVideoData = pipData
-
+        
         /* pipContainerView - Constraint */
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
                                 bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 right: view.rightAnchor,
                                 height: pipHeight)
-    
+        
         let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipViewDidTap))
         pipContainerView.addGestureRecognizer(pipTapGesture)
         pipContainerView.isUserInteractionEnabled = true
@@ -382,11 +381,11 @@ class LecturePlaylistVC: UIViewController {
     /// PIP 영상이 실행되고 있는데, 이전 영상화면으로 돌아가고 싶은 경우 호출하는 메소드
     func dismissLecturePlaylistVCOnPlayingPIP() {
         // 1 PIP 영상을 제거한다.
-
+        
         // 2 PIP-Player에서 현재까지 재생된 시간을 SingleTon 에 입력한다.
         let pipDataManager = PIPDataManager.shared
         guard let pipVC = self.pipVC else { return }
-            
+        
         pipVC.player?.pause()
         setRemoveNotification()
         // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
@@ -437,9 +436,9 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         default:
             return UICollectionViewCell()
         }
-
+        
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -447,7 +446,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
             /**
              검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
              - 영상 > 검색결과 > 영상
-                이런식으로 넘어오다보니 영상관련 Controller 가 너무 많아져서 메모리 관리가 어려움
+             이런식으로 넘어오다보니 영상관련 Controller 가 너무 많아져서 메모리 관리가 어려움
              - 그래서 rootView를 변경하는 식으로 구현
              */
             
@@ -456,27 +455,30 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
             NotificationCenter.default.removeObserver(self)
             NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
             
-
+            
             // 싱글톤 객체에 들어간 데이터를 초기화한다.
+            
+            let videoDataManager = VideoDataManager.shared
+
             let pipDataManager = PIPDataManager.shared
-            pipDataManager.currentTeacherName = nil
-            pipDataManager.currentVideoURL = nil
-            pipDataManager.currentVideoCMTime = nil
-            pipDataManager.currentVideoID = nil
-            pipDataManager.currentVideoTitle = nil
-            pipDataManager.previousVideoID = nil
-            pipDataManager.previousTeacherName = nil
-            pipDataManager.previousVideoURL = nil
-            pipDataManager.previousVideoTitle = nil
-            pipDataManager.previousVideoURL = nil
+//            pipDataManager.currentTeacherName = nil
+//            pipDataManager.currentVideoURL = nil
+//            pipDataManager.currentVideoCMTime = nil
+//            pipDataManager.currentVideoID = nil
+//            pipDataManager.currentVideoTitle = nil
+//            pipDataManager.previousVideoID = nil
+//            pipDataManager.previousTeacherName = nil
+//            pipDataManager.previousVideoURL = nil
+//            pipDataManager.previousVideoTitle = nil
+//            pipDataManager.previousVideoURL = nil
             
             // PIP를 dismiss한다.
-//            pipDelegate?.serachAfterVCPIPViewDismiss()
+            //            pipDelegate?.serachAfterVCPIPViewDismiss()
             pipVC?.player?.pause()
             pipVC?.removePeriodicTimeObserver()
             pipVC?.player = nil
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
+            
             let mainTabVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController")
             
             // TODO: video ID를 받아서 할당하고, PIPDataManager의 값들을 초기화한다.
@@ -487,11 +489,12 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 mainTabVC2.modalPresentationStyle = .fullScreen
                 let vc = VideoController()
                 vc.modalPresentationStyle = .fullScreen
-                
+                videoDataManager.isFirstPlayVideo = false
+                let receviedVideoID = self.detailVM?.relationSeriesList?.data[indexPath.row].id
 //                let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
-                let receviedVideoID = "15188"
+//                let receviedVideoID = videoDataManager.currentVideoID
                 vc.id = receviedVideoID
-
+                
                 let layout = UICollectionViewFlowLayout()
                 vc.collectionViewLayout = layout
                 vc.modalPresentationStyle = .fullScreen
@@ -500,7 +503,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 }
                 
             }
-
+            
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
@@ -513,26 +516,26 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
 //MARK: - UICollectionViewDelegateFlowLayout
 
 extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
-
+    
     
     // cell 간격을 설정하는 메소드(가로)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         let padding = self.view.frame.width * 0.035
         return padding
     }
-
+    
     // cell 간격을 설정하는 메소드(세로)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 25
     }
-
+    
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding = self.view.frame.width * 0.035
         let width = view.frame.width - (padding * 2)
         return CGSize(width: width, height: width * 0.66)
     }
-
+    
 }
 
 extension LecturePlaylistVC: CollectionReloadData {

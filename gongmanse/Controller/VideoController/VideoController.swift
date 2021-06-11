@@ -75,7 +75,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var pipData: PIPVideoData? {
         didSet {
-            if !videoDataManager.isFirstPlayVideo {
+            print("DEBUG: videoDataManager.isFirstPlayVideo is \(videoDataManager.isFirstPlayVideo)")
+            if !(videoDataManager.isFirstPlayVideo) {
                 configurePIPView(pipData: pipData)
             }
         }
