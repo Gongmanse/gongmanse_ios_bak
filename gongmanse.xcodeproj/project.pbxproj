@@ -390,6 +390,7 @@
 		C2448C6226292912008CE4A1 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C6126292912008CE4A1 /* PaddingLabel.swift */; };
 		C2448C652629642A008CE4A1 /* ProgressDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C642629642A008CE4A1 /* ProgressDetailModel.swift */; };
 		C2448C6826296581008CE4A1 /* ProgressDetailListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2448C6726296581008CE4A1 /* ProgressDetailListAPI.swift */; };
+		C259D8B92672FCB60072C36D /* MyCalendarMofifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C259D8B82672FCB60072C36D /* MyCalendarMofifyViewController.swift */; };
 		C2657C4D2623F22F0048B92F /* NoticeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */; };
 		C2657C4E2623F22F0048B92F /* NoticeWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */; };
 		C2657C542624369C0048B92F /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2657C532624369C0048B92F /* UIImageView.swift */; };
@@ -841,6 +842,7 @@
 		C2448C6126292912008CE4A1 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C2448C642629642A008CE4A1 /* ProgressDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDetailModel.swift; sourceTree = "<group>"; };
 		C2448C6726296581008CE4A1 /* ProgressDetailListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDetailListAPI.swift; sourceTree = "<group>"; };
+		C259D8B82672FCB60072C36D /* MyCalendarMofifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCalendarMofifyViewController.swift; sourceTree = "<group>"; };
 		C2657C4B2623F22F0048B92F /* NoticeWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeWebViewController.swift; sourceTree = "<group>"; };
 		C2657C4C2623F22F0048B92F /* NoticeWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeWebViewController.xib; sourceTree = "<group>"; };
 		C2657C532624369C0048B92F /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
@@ -2281,6 +2283,7 @@
 				C239204D2668F14700AC6912 /* Calendar.md */,
 				C292A3782666249D00559C2E /* TimeSelect */,
 				6C4713B625F8534900D68A2B /* MyCalendarVC.swift */,
+				C259D8B82672FCB60072C36D /* MyCalendarMofifyViewController.swift */,
 				C2CBA53C266A1800000ADD5D /* MyCalendarCell */,
 				C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */,
 				C26E23892664911400156F8A /* ScheduleAddCell.swift */,
@@ -3495,6 +3498,7 @@
 				6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */,
 				2582374A2664832C00CAE14B /* SharingInput.swift in Sources */,
 				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
+				C259D8B92672FCB60072C36D /* MyCalendarMofifyViewController.swift in Sources */,
 				6C052D072667224400083F59 /* NoteListBottomPopUpCell.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
 				258511C026520341003264F3 /* DetailNoteController.swift in Sources */,

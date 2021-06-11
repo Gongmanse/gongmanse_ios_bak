@@ -170,6 +170,7 @@ class MyCalendarVC: UIViewController {
     @objc func scheduleRegistration(_ sender: UIButton) {
 
         let vc = ScheduleAddViewController()
+        vc.calendarState = .addCalendar
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -187,6 +188,7 @@ class MyCalendarVC: UIViewController {
 
 extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
     
+    // TableHeader
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
@@ -198,6 +200,7 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
+    // TableCell
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
@@ -212,6 +215,14 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
         cell.setDescription(selectDatePass?.description[indexPath.row])
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let presentVC = ScheduleAddViewController()
+        presentVC.calendarState = .modifyCalendar
+        presentVC.passedDateModel = selectDatePass
+        presentVC.passedIndexPath = indexPath.row
+        self.navigationController?.pushViewController(presentVC, animated: true)
     }
 }
 
