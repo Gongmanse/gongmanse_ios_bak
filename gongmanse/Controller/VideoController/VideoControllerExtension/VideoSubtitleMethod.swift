@@ -60,6 +60,7 @@ extension VideoController {
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             self.player.pause()
+            videoDataManager.isFirstPlayVideo = false
             let vc = SearchAfterVC()
 //            vc.pipVideoData = pipVideoData
             vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
@@ -72,6 +73,7 @@ extension VideoController {
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             self.player.pause()
+            videoDataManager.isFirstPlayVideo = false
             let vc = SearchAfterVC()
 //            vc.pipVideoData = pipVideoData
             vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
@@ -84,6 +86,7 @@ extension VideoController {
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             self.player.pause()
+            videoDataManager.isFirstPlayVideo = false
             let vc = SearchAfterVC()
 //            vc.pipVideoData = pipVideoData
             vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수

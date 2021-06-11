@@ -257,7 +257,10 @@ class LectureNoteController: UIViewController {
         guard let id = self.id else { return }
         guard let token = self.token else { return }
         
-        let dataForSearchNote = NoteInput(video_id: id,
+        let videoDataManager = VideoDataManager.shared
+        guard let currentVideoID = videoDataManager.currentVideoID else { return }
+        
+        let dataForSearchNote = NoteInput(video_id: currentVideoID,
                                           token: token)
         // 노트이미지 불러오는 API메소드
         DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,

@@ -75,9 +75,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var pipData: PIPVideoData? {
         didSet {
-            let pipDataManager = PIPDataManager.shared
-            print("DEBUG: isDisplayVideoFirstTime is \(pipDataManager.isDisplayVideoFirstTime)")
-            if !pipDataManager.isDisplayVideoFirstTime {
+            if !videoDataManager.isFirstPlayVideo {
                 configurePIPView(pipData: pipData)
             }
         }
@@ -558,13 +556,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 
         let pipDataManager = PIPDataManager.shared
         
-        if let previousVideoID = pipDataManager.previousVideoID {
+        if let previousVideoID = videoDataManager.previousVideoID {
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
                                              token: Constant.token)
             
             // "상세화면 영상 API"를 호출한다.
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+            pageCollectionView.reloadData()
         }
     }
     
@@ -653,7 +652,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 height: 17)
-        lessonTitleLabel.text = pipDataManager.previousVideoTitle
+        lessonTitleLabel.text = videoDataManager.previousVideoTitle
         
         /* teachernameLabel - Constraint */
         pipContainerView.addSubview(teachernameLabel)
@@ -661,7 +660,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 left: lessonTitleLabel.leftAnchor,
                                 paddingTop: 5,
                                 height: 15)
-        if let previousTeacherName = pipDataManager.previousTeacherName {
+        if let previousTeacherName = videoDataManager.previousVideoTeachername {
             teachernameLabel.text = previousTeacherName + " 선생님"
         }
     }
@@ -793,6 +792,9 @@ extension VideoController {
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
         
+        // 현재 VideoID를 추가한다.
+        videoDataManager.addVideoIDLog(videoID: response.data.id)
+        
         // videoURL을 저장한다.
         if let videoURL = response.data.source_url {
             
@@ -860,6 +862,14 @@ extension VideoController {
         DispatchQueue.main.async {
             self.playVideo()
         }
+        
+        let pipData = PIPVideoData(isPlayPIP: false,
+                                   videoURL: videoDataManager.previousVideoURL,
+                                   currentVideoTime: 0.0,
+                                   videoTitle: videoDataManager.previousVideoTitle ?? "",
+                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
+        
+        self.pipData = pipData
     }
     
     
