@@ -104,8 +104,9 @@ class PIPController: UIViewController {
         
         let pipDataManager = PIPDataManager.shared
         
+        let videoDataManager = VideoDataManager.shared
         
-        self.asset = AVAsset(url: pipVideoData.videoURL! as URL)
+        self.asset = AVAsset(url: (videoDataManager.previousVideoURL ?? NSURL()) as URL)
         
         let keys: [String] = ["playable"]
         

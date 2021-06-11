@@ -1,5 +1,6 @@
 import UIKit
 import Photos
+import MobileCoreServices
 import Alamofire
 
 protocol ExpertConsultationFloatingVCDelegate: AnyObject {
@@ -25,9 +26,11 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     
     let imagePicker = UIImagePickerController()
     var images = [UIImage]()
+    var videoURL: NSURL?
     
     var isEmptyImage: Bool = false
     var floatingDelegate: ExpertConsultationFloatingVCDelegate?
+    var allVideos: PHFetchResult<PHAsset>?
     
     //var allPhotos: PHFetchResult<PHAsset>!
     //let imageManager = PHCachingImageManager()
@@ -125,6 +128,8 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     
     @IBAction func writeBtnAction(_ sender: Any) {
         
+        //let encodedImages = images.compactMap({ $0.jpegData(compressionQuality: 0.7)?.base64EncodedString()})
+        
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(self.answerTextView.text!)".data(using: .utf8)!, withName: "question")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
@@ -209,6 +214,16 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func selectVideoAction(_ sender: Any) {
+//        self.imagePicker.sourceType = .savedPhotosAlbum
+//        self.imagePicker.mediaTypes = [kUTTypeMovie as String, kUTTypeVideo as String, kUTTypeMPEG4 as String]
+//        self.imagePicker.delegate = self
+//        self.imagePicker.allowsEditing = true
+//        self.present(imagePicker, animated: true, completion: nil)
+        
+        let alert = UIAlertController(title: "알림", message: "준비중입니다.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -288,12 +303,24 @@ extension ExpertConsultationFloatingVC: UICollectionViewDelegateFlowLayout {
 
 extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else { return }
+    
+        if selectPhoto.isSelected == true {
+            guard let image = info[.editedImage] as? UIImage else { return }
+            dismiss(animated: true, completion: nil)
+            alertViewBackground.isHidden = true
+            
+            images.insert(image, at: 0)
+            uploadImageCollectionView.reloadData()
+        } else if selectVideo.isSelected == true {
+            if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
+                
+            }
+            
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
-        alertViewBackground.isHidden = true
-        
-        images.insert(image, at: 0)
-        uploadImageCollectionView.reloadData()
     }
 }
 

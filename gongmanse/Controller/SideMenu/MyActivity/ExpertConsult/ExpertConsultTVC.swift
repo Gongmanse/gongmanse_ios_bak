@@ -138,6 +138,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
             cell.consultThumbnail.contentMode = .scaleAspectFill
             cell.consultThumbnail.sd_setImage(with: url)
             cell.consultTitle.text = indexData.sQuestion
+            cell.nickName.text = indexData.sNickname
             cell.profileImage.contentMode = .scaleAspectFill
             cell.upLoadDate.text = indexData.dtRegister
             
@@ -169,7 +170,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     
     @objc func deleteAction(_ sender: UIButton) {
         guard let json = self.expertConsult else { return }
-        guard let id = json.data[sender.tag].consultation_id else { return }
+        guard let id = json.data[sender.tag].cu_id else { return }
 
         let inputData = ExpertConsultInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)

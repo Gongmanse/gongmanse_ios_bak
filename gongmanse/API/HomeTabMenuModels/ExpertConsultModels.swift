@@ -7,6 +7,7 @@ struct ExpertModels: Codable {
 }
 
 struct ExpertModelData: Codable {
+    var cu_id: String?
     var iAuthor: String?
     var iViews: String?
     var consultation_id: String?
