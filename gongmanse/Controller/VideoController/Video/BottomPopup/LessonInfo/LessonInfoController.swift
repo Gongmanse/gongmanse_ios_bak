@@ -160,9 +160,18 @@ class LessonInfoController: UIViewController {
     }
     @objc func handleRelatedSeriesAction() {
         
+        let videoDataManager = VideoDataManager.shared
+        
         delegate?.videoVCPauseVideo()
         let presentVC = LecturePlaylistVC(videoID ?? "")
         presentVC.lectureState = .videoList
+        
+        let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                        videoURL: videoDataManager.previousVideoURL,
+                                        currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
+                                        videoTitle: self.lessonnameLabel.text ?? "",
+                                        teacherName: self.teachernameLabel.text ?? "")
+        presentVC.pipData = pipVideoData
         let nav = UINavigationController(rootViewController: presentVC)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true)

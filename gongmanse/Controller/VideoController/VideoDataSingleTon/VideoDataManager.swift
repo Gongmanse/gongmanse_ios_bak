@@ -44,7 +44,7 @@ class VideoDataManager {
     var previousVideoURL: NSURL? {
         // TODO: 만약 로그가 하나인 경우, 어떻게 처리할지 고민해야한다.
         if videoPlayURLLog.count < 2 {
-            return NSURL()
+            return videoPlayURLLog.first ?? NSURL()
         } else {
             return videoPlayURLLog[videoPlayURLLog.count - 2]
         }
@@ -54,7 +54,7 @@ class VideoDataManager {
     var previousVideoTitle: String? {
         // TODO: 만약 로그가 하나인 경우, 어떻게 처리할지 고민해야한다.
         if videoTitleLog.count < 2 {
-            return "공만세"
+            return videoTitleLog.first
         } else {
             return videoTitleLog[videoTitleLog.count - 2]
         }
@@ -64,7 +64,7 @@ class VideoDataManager {
     var previousVideoTeachername: String? {
         // TODO: 만약 로그가 하나인 경우, 어떻게 처리할지 고민해야한다.
         if videoTeachernameLog.count < 2 {
-            return "공만세"
+            return videoTeachernameLog.first
         } else {
             return videoTeachernameLog[videoTeachernameLog.count - 2]
         }
