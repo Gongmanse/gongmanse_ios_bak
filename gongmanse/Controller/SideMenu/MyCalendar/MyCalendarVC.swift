@@ -9,6 +9,7 @@ class MyCalendarVC: UIViewController {
     
     var tableConstrant: NSLayoutConstraint?
     
+    // TableAnimate
     private var isBottomTableHeight: Bool = false {
         didSet {
             tableConstrant?.constant = isBottomTableHeight ? -height / 3 + 30 : 0
@@ -17,6 +18,13 @@ class MyCalendarVC: UIViewController {
                 
                 self.view.layoutIfNeeded()
             }
+        }
+    }
+    
+    private var selectDatePass: CalendarMyDataModel? {
+        didSet {
+            
+            self.tableView.reloadData()
         }
     }
     
@@ -64,11 +72,18 @@ class MyCalendarVC: UIViewController {
         return button
     }()
     
+    
     let tableView: UITableView = {
         let table = UITableView()
+        table.tableFooterView = UIView()
         return table
     }()
     
+    // 테이블 헤더 프로퍼티
+    lazy var headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
+    
+    
+    // 일정 날짜 바꾸는 버튼
     let previousButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "scheduleLeft"), for: .normal)
@@ -80,9 +95,9 @@ class MyCalendarVC: UIViewController {
         button.setImage(UIImage(named: "scheduleRight"), for: .normal)
         return button
     }()
+    //
     
-    // 테이블 헤더 프로퍼티
-    lazy var headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
+    
     
     let calendarImage: UIImageView = {
         let image = UIImageView()
@@ -188,11 +203,13 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return selectDatePass?.description.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyCalendarCell.identifier, for: indexPath) as? MyCalendarCell else { return UITableViewCell() }
+        
+        cell.setDescription(selectDatePass?.description[indexPath.row])
         
         return cell
     }
@@ -214,6 +231,19 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         isBottomTableHeight = true
+        
+        let formatters = DateFormatter()
+        formatters.dateFormat = "yyyy-MM-dd"
+        formatters.locale = Locale(identifier: "ko-KR")
+        
+        guard let tt = myCalendarVM?.dataArr else { return }
+        
+        for i in 0..<tt.count  {
+            if formatters.string(from: date).contains(myCalendarVM?.dataArr[i].date ?? "") {
+                selectDatePass = myCalendarVM?.dataArr[i]
+            }
+        }
+        
         
         tableView.reloadData()
     }
