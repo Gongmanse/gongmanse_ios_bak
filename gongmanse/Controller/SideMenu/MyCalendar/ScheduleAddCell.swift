@@ -52,12 +52,10 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
             textView.text = ""
             registerTextView.textColor = .black
         }
-
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         textChanged?(textView.text)
-        textSave = textView.text
     }
     
     func textChanged(action: @escaping (String) -> Void) {

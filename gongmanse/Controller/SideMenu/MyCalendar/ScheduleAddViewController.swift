@@ -27,10 +27,23 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     
     // PassAllStartDate
     var allStartDate: String?
+    let startFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        formatter.string(from: Date())
+        
+        return formatter
+    }()
     
     // PassAllEndDate
     var allEndDate: String?
-    
+    let endFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        
+        
+        return formatter
+    }()
     // AlarmListProtocol
     var alarmTextList: String = ""
     
@@ -42,7 +55,8 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         }
     }
     
-    var tg: () -> Void = {}
+    var addCalendarDelegate: CollectionReloadData?
+    var addTableListDelegate: TableReloadData?
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -62,6 +76,10 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         button.layer.cornerRadius = 15
         return button
     }()
+    
+    lazy var cellTitleText: String? = nil
+    
+    lazy var cellContentText: String? = nil
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -97,14 +115,23 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     
     @objc func registerAlarm(_ sender: UIButton) {
         
-        registViewModel?.requestRegistApi(title: "a",
-                                          content: "a",
+        let startString = startFormatter.string(from: Date())
+        let endString = endFormatter.string(from: Date(timeIntervalSinceNow: 600))
+        
+        
+        
+        registViewModel?.requestRegistApi(title: cellTitleText  ?? "",
+                                          content: cellContentText ?? "",
                                           wholeDay: "1",
-                                          startDate: "2021-04-01 00:00",
-                                          endDate: "2021-04-01 23:59",
+                                          startDate: allStartDate ?? startString,
+                                          endDate: allEndDate ?? endString,
                                           alarm: "before_30_mins",
                                           repeatAlarm: "daily",
                                           repeatCount: "6")
+        
+//        addCalendarDelegate?.reloadCollection()
+//        addTableListDelegate?.reloadTable()
+        
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
@@ -179,14 +206,25 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.titleAppear(text: titleText[indexPath.row])
                 cell.selectionStyle = .none
-            
+                
+                cell.textChanged { [weak self] text in
+                    self?.cellTitleText = text
+                }
+                
                 return cell
                 
             case 1:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
+                
+                
                 cell.titleAppear(text: titleText[indexPath.row])
                 cell.selectionStyle = .none
+                
+                cell.textChanged { [weak self] text in
+                    self?.cellContentText = text
+                }
+                
             
                 return cell
                 

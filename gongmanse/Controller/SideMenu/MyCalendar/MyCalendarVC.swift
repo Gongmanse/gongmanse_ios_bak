@@ -144,6 +144,14 @@ class MyCalendarVC: UIViewController {
         isBottomTableHeight = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let currentDate = formatter.string(from: Date())
+        myCalendarVM?.requestMyCalendarApi(currentDate)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -154,8 +162,7 @@ class MyCalendarVC: UIViewController {
         floatingButton.addTarget(self, action: #selector(scheduleRegistration(_:)), for: .touchUpInside)
     
         
-        let currentDate = formatter.string(from: Date())
-        myCalendarVM?.requestMyCalendarApi(currentDate)
+        
         
         previousButton.addTarget(self, action: #selector(tappedPrevBtn(_:)), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(tappedNextBtn(_:)), for: .touchUpInside)
@@ -171,6 +178,8 @@ class MyCalendarVC: UIViewController {
 
         let vc = ScheduleAddViewController()
         vc.calendarState = .addCalendar
+        vc.addCalendarDelegate = self
+        vc.addTableListDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -247,9 +256,9 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
         formatters.dateFormat = "yyyy-MM-dd"
         formatters.locale = Locale(identifier: "ko-KR")
         
-        guard let tt = myCalendarVM?.dataArr else { return }
+        guard let calendarData = myCalendarVM?.dataArr else { return }
         
-        for i in 0..<tt.count  {
+        for i in 0..<calendarData.count  {
             if formatters.string(from: date).contains(myCalendarVM?.dataArr[i].date ?? "") {
                 selectDatePass = myCalendarVM?.dataArr[i]
             }
@@ -372,6 +381,14 @@ extension MyCalendarVC: CollectionReloadData {
     func reloadCollection() {
         DispatchQueue.main.async {
             self.calendarView.reloadData()
+        }
+    }
+}
+
+extension MyCalendarVC: TableReloadData {
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 }
