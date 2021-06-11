@@ -361,6 +361,9 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         
+        let videoDataManager = VideoDataManager.shared
+        videoDataManager.isFirstPlayVideo = false
+        
         // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
         delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
