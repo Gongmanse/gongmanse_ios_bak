@@ -284,8 +284,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 재생 및 일시정지 버튼
     let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(named: "영상재생버튼")
-        button.setBackgroundImage(image, for: .normal)
+        let pauseImage = UIImage(named: "영상일시정지버튼")
+        button.setBackgroundImage(pauseImage, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
         return button
@@ -539,6 +539,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
+
     }
         
     
