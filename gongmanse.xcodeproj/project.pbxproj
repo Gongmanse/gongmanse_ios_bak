@@ -226,6 +226,7 @@
 		259B8C4926033EF8009A7146 /* PaymentHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */; };
 		259B8C4A26033EF8009A7146 /* PaymentHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */; };
 		25AB851A2672E576003A182C /* VideoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AB85192672E576003A182C /* VideoDataManager.swift */; };
+		25AB851E26733F6E003A182C /* 비율수정인트로영상.mov in Resources */ = {isa = PBXBuildFile; fileRef = 25AB851D26733F6E003A182C /* 비율수정인트로영상.mov */; };
 		25AEF354264B6F2A00F584AF /* NoteImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEF353264B6F2A00F584AF /* NoteImageCell.swift */; };
 		25BA75C9263686C700C1F8A0 /* DetailVideoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA75C8263686C700C1F8A0 /* DetailVideoInput.swift */; };
 		25BA75CC263686CE00C1F8A0 /* DetailVideoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA75CB263686CE00C1F8A0 /* DetailVideoResponse.swift */; };
@@ -673,6 +674,7 @@
 		259B8C4726033EF8009A7146 /* PaymentHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentHistoryCell.swift; sourceTree = "<group>"; };
 		259B8C4826033EF8009A7146 /* PaymentHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaymentHistoryCell.xib; sourceTree = "<group>"; };
 		25AB85192672E576003A182C /* VideoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDataManager.swift; sourceTree = "<group>"; };
+		25AB851D26733F6E003A182C /* 비율수정인트로영상.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "비율수정인트로영상.mov"; sourceTree = "<group>"; };
 		25AEF353264B6F2A00F584AF /* NoteImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteImageCell.swift; sourceTree = "<group>"; };
 		25BA75C8263686C700C1F8A0 /* DetailVideoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVideoInput.swift; sourceTree = "<group>"; };
 		25BA75CB263686CE00C1F8A0 /* DetailVideoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVideoResponse.swift; sourceTree = "<group>"; };
@@ -2453,6 +2455,7 @@
 				6CD7C3C425F086E00092D30E /* AppDelegate.swift */,
 				6CD7C3C625F086E00092D30E /* SceneDelegate.swift */,
 				25608EDB2665E53600E3246C /* 인트로영상01.mov */,
+				25AB851D26733F6E003A182C /* 비율수정인트로영상.mov */,
 				6CD7C3CA25F086E00092D30E /* Main.storyboard */,
 				6CD7C3CD25F086E60092D30E /* Assets.xcassets */,
 				6CD7C3CF25F086E60092D30E /* LaunchScreen.storyboard */,
@@ -3209,6 +3212,7 @@
 				A9850EE12616123000908BA4 /* FrequentlyAskViewContoler.xib in Resources */,
 				C2A39E11264E17A80046290D /* QnAMyChatCell.xib in Resources */,
 				259B8B832603013F009A7146 /* EmptyStateViewCell.xib in Resources */,
+				25AB851E26733F6E003A182C /* 비율수정인트로영상.mov in Resources */,
 				A9129ED82616A0B000041CC5 /* GongManseStoryVC.xib in Resources */,
 				C2F2274B261EA02900559065 /* GradeListCell.xib in Resources */,
 				25608EDA2665DE8600E3246C /* IntroController.xib in Resources */,
