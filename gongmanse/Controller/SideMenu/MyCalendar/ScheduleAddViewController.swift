@@ -169,7 +169,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let modifyIndexPath = passedIndexPath else { return UITableViewCell() }
+        
         switch calendarState {
         case .addCalendar:
             switch indexPath.row {
@@ -249,6 +249,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             }
             
         case .modifyCalendar:
+            guard let modifyIndexPath = passedIndexPath else { return UITableViewCell() }
             switch indexPath.row {
             
             case 0:
