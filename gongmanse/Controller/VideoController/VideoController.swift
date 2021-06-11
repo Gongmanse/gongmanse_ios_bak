@@ -129,7 +129,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var lessonInfoController = LessonInfoController(videoID: id)
     
 
-    
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -258,7 +257,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
         return button
     }()
-    
     
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
@@ -472,7 +470,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         button.backgroundColor = .mainOrange
         return button
     }()
-    
     
     private let introOuttroContainerView: UIView = {
         let view = UIView()
