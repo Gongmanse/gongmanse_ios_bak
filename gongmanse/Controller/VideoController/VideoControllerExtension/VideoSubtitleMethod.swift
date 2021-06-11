@@ -30,17 +30,17 @@ extension VideoController {
         // 클릭한 키워드를 입력한다. -> if 절
         
         // 재생중이던 영상을 일시중지한다. 동시에, PIP를 재생한다. -> Delegation 필요 -> 완료
-        player.pause()
+//        player.pause()
         
         
-        guard let videoURL = pipDataManager.currentVideoURL else { return }
-        
-        
-        let pipVideoData = PIPVideoData(isPlayPIP: true,
-                                        videoURL: videoURL,
-                                        currentVideoTime: pipDataManager.currentVideoTime ?? Float(0.0),
-                                        videoTitle: pipDataManager.previousVideoTitle ?? "",
-                                        teacherName: pipDataManager.previousTeacherName ?? "")
+//        guard let videoURL = pipDataManager.currentVideoURL else { return }
+//
+//
+//        let pipVideoData = PIPVideoData(isPlayPIP: true,
+//                                        videoURL: videoURL,
+//                                        currentVideoTime: pipDataManager.currentVideoTime ?? Float(0.0),
+//                                        videoTitle: pipDataManager.previousVideoTitle ?? "",
+//                                        teacherName: pipDataManager.previousTeacherName ?? "")
         
         // isPlayPIP 값을 "SearchAfterVC" 에 전달한다. -> 완료
         // 그 값에 따라서 PIP 재생여부를 결정한다.
@@ -61,10 +61,10 @@ extension VideoController {
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             self.player.pause()
             let vc = SearchAfterVC()
-            vc.pipVideoData = pipVideoData
+//            vc.pipVideoData = pipVideoData
             vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
             vc.searchData.searchText = currentKeywords[0]
-            vc.searchBar.text = currentKeywords[0]
+//            vc.searchBar.text = currentKeywords[0]
 //            let vc = TestSearchController(clickedText: currentKeywords[0])
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
@@ -73,11 +73,11 @@ extension VideoController {
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             self.player.pause()
             let vc = SearchAfterVC()
-            vc.pipVideoData = pipVideoData
+//            vc.pipVideoData = pipVideoData
             vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
             print("DEBUG: \(currentKeywords[2])?")
             vc.searchData.searchText = currentKeywords[2]
-            vc.searchBar.text = currentKeywords[2]
+//            vc.searchBar.text = currentKeywords[2]
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
@@ -85,11 +85,11 @@ extension VideoController {
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             self.player.pause()
             let vc = SearchAfterVC()
-            vc.pipVideoData = pipVideoData
+//            vc.pipVideoData = pipVideoData
             vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
             print("DEBUG: \(currentKeywords[4])?")
             vc.searchData.searchText = currentKeywords[4]
-            vc.searchBar.text = currentKeywords[4]
+//            vc.searchBar.text = currentKeywords[4]
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)

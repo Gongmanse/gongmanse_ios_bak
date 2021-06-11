@@ -399,7 +399,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
-        let height = convertHeight(30, standardView: view)
+        let height = convertHeight(15, standardView: view)
         
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
