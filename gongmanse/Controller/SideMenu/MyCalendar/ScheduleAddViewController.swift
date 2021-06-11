@@ -5,12 +5,21 @@
 //  Created by wallter on 2021/05/31.
 //
 
+enum CalendarState {
+    case addCalendar
+    case modifyCalendar
+}
+
 import UIKit
 
 class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate, PassAllEndDate {
     
     
+    var calendarState: CalendarState?
     
+    // CalendarState == modifyCalendar
+    var passedDateModel: CalendarMyDataModel?
+    var passedIndexPath: Int?
     // ScheduleAddCell
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
     
@@ -71,6 +80,19 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         
         registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
         tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
+        
+        switch calendarState {
+        case .addCalendar:
+            registerButton.setTitle("등록하기", for: .normal)
+            navigationItem.rightBarButtonItem = nil
+            
+        case .modifyCalendar:
+            registerButton.setTitle("수정하기", for: .normal)
+            
+        default:
+            return
+        }
+        
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
@@ -89,6 +111,19 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         if sender.state == .ended {
             tableView.endEditing(true)
         }
+    }
+    
+    @objc func trashNavigationAction(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+            
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
@@ -133,81 +168,169 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
         
-        case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
-            
-            cell.titleAppear(text: titleText[indexPath.row])
-            cell.selectionStyle = .none
         
-            return cell
+        switch calendarState {
+        case .addCalendar:
+            switch indexPath.row {
             
-        case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+            case 0:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+                
+                cell.titleAppear(text: titleText[indexPath.row])
+                cell.selectionStyle = .none
             
-            cell.titleAppear(text: titleText[indexPath.row])
-            cell.selectionStyle = .none
-        
-            return cell
+                return cell
+                
+            case 1:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+                
+                cell.titleAppear(text: titleText[indexPath.row])
+                cell.selectionStyle = .none
             
-        case 2:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
-            
-            
-            
-            cell.timeLabel.text = titleText[indexPath.row]
-            
-            
-            cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
-            cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
-            
-            
-            cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                            action: #selector(startLabelAction(_:))))
-            
-            cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                          action: #selector(endLabelAction(_:))))
-            
-            cell.selectionStyle = .none
-            return cell
-            
-        case 3:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
-            
-            
-            cell.alarmSelectLabel.text = "없음"
-            
-            if alarmTextList != "" {
-                cell.alarmSelectLabel.text = alarmTextList
+                return cell
+                
+            case 2:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
+                
+                
+                
+                cell.timeLabel.text = titleText[indexPath.row]
+                
+                
+                cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
+                cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
+                
+                
+                cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                action: #selector(startLabelAction(_:))))
+                
+                cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                              action: #selector(endLabelAction(_:))))
+                
+                cell.selectionStyle = .none
+                return cell
+                
+            case 3:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+                
+                
+                cell.alarmSelectLabel.text = "없음"
+                
+                if alarmTextList != "" {
+                    cell.alarmSelectLabel.text = alarmTextList
+                }
+                
+                cell.alarmTextLabel.text = titleText[indexPath.row]
+                cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                action:               #selector(alarmList(_:))))
+                
+                cell.selectionStyle = .none
+                return cell
+                
+            case 4:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+                
+                cell.alarmSelectLabel.text = "없음"
+                
+                if repeatTextLlist != "" {
+                    cell.alarmSelectLabel.text = repeatTextLlist
+                }
+                
+                cell.alarmTextLabel.text = titleText[indexPath.row]
+                cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                action:               #selector(repeatList(_:))))
+                
+                cell.selectionStyle = .none
+                return cell
+                
+            default:
+                return UITableViewCell()
             }
             
-            cell.alarmTextLabel.text = titleText[indexPath.row]
-            cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                            action:               #selector(alarmList(_:))))
+        case .modifyCalendar:
+            guard let modifyIndexPath = passedIndexPath else { return UITableViewCell() }
+            switch indexPath.row {
             
-            cell.selectionStyle = .none
-            return cell
+            case 0:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+                
+                cell.titleAppear(text: titleText[indexPath.row])
+                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "제목")
+                cell.selectionStyle = .none
             
-        case 4:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+                return cell
+                
+            case 1:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
+                
+                cell.titleAppear(text: titleText[indexPath.row])
+                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "내용")
+                cell.selectionStyle = .none
             
-            cell.alarmSelectLabel.text = "없음"
-            
-            if repeatTextLlist != "" {
-                cell.alarmSelectLabel.text = repeatTextLlist
+                return cell
+                
+            case 2:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
+                
+                
+                
+                cell.timeLabel.text = titleText[modifyIndexPath]
+                
+                
+                cell.startDateLabel.text = passedDateModel?.description[modifyIndexPath].dtStartDate
+                cell.endDateLabel.text = passedDateModel?.description[modifyIndexPath].dtEndDate
+                
+                
+                cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                action: #selector(startLabelAction(_:))))
+                
+                cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                              action: #selector(endLabelAction(_:))))
+                
+                cell.selectionStyle = .none
+                return cell
+                
+            case 3:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+                
+                
+                cell.alarmSelectLabel.text = passedDateModel?.description[modifyIndexPath].sAlarmCode ?? "없음"
+                
+                if alarmTextList != "" {
+                    cell.alarmSelectLabel.text = alarmTextList
+                }
+                
+                cell.alarmTextLabel.text = titleText[indexPath.row]
+                cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                action:               #selector(alarmList(_:))))
+                
+                cell.selectionStyle = .none
+                return cell
+                
+            case 4:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
+                
+                cell.alarmSelectLabel.text = passedDateModel?.description[modifyIndexPath].sRepeatCode ?? "없음"
+                
+                if repeatTextLlist != "" {
+                    cell.alarmSelectLabel.text = repeatTextLlist
+                }
+                
+                cell.alarmTextLabel.text = titleText[indexPath.row]
+                cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                action:               #selector(repeatList(_:))))
+                
+                cell.selectionStyle = .none
+                return cell
+                
+            default:
+                return UITableViewCell()
             }
-            
-            cell.alarmTextLabel.text = titleText[indexPath.row]
-            cell.alarmSelectLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                            action:               #selector(repeatList(_:))))
-            
-            cell.selectionStyle = .none
-            return cell
-            
         default:
             return UITableViewCell()
         }
+        
     }
     
     // indexPath 2 - 1
@@ -259,7 +382,11 @@ extension ScheduleAddViewController {
         
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
+        
+        
     }
+    
+    
 
     func configuration() {
         
@@ -272,6 +399,11 @@ extension ScheduleAddViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+                                                            target: self,
+                                                            action: #selector(trashNavigationAction(_:)))
+        
     }
     
     func constraints() {

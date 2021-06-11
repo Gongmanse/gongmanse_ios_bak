@@ -56,6 +56,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     // MARK: - Properties
     
+    // video 영상 데이터 및 PIP 재생에 관련된 데이터를 관리하는 싱글톤 객체를 생성한다.
+    let videoDataManager = VideoDataManager.shared
+    
     weak var delegate: VideoControllerDelegate?
     
     /**
@@ -72,9 +75,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var pipData: PIPVideoData? {
         didSet {
-            let pipDataManager = PIPDataManager.shared
-            print("DEBUG: isDisplayVideoFirstTime is \(pipDataManager.isDisplayVideoFirstTime)")
-            if !pipDataManager.isDisplayVideoFirstTime {
+            print("DEBUG: videoDataManager.isFirstPlayVideo is \(videoDataManager.isFirstPlayVideo)")
+            if !(videoDataManager.isFirstPlayVideo) {
                 configurePIPView(pipData: pipData)
             }
         }
@@ -128,7 +130,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     lazy var lessonInfoController = LessonInfoController(videoID: id)
     
 
-    
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -258,7 +259,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
-    
     /// AVPlayerController를 담을 UIView
     let videoContainerView: UIView = {
         let view = UIView()
@@ -284,8 +284,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     /// 재생 및 일시정지 버튼
     let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(named: "영상재생버튼")
-        button.setBackgroundImage(image, for: .normal)
+        let pauseImage = UIImage(named: "영상일시정지버튼")
+        button.setBackgroundImage(pauseImage, for: .normal)
         button.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(playPausePlayer), for: .touchUpInside)
         return button
@@ -472,7 +472,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         return button
     }()
     
-    
     private let introOuttroContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .red
@@ -540,6 +539,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
+
     }
         
     
@@ -555,13 +555,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 
         let pipDataManager = PIPDataManager.shared
         
-        if let previousVideoID = pipDataManager.previousVideoID {
+        if let previousVideoID = videoDataManager.previousVideoID {
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
                                              token: Constant.token)
             
             // "상세화면 영상 API"를 호출한다.
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+            pageCollectionView.reloadData()
         }
     }
     
@@ -650,7 +651,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 height: 17)
-        lessonTitleLabel.text = pipDataManager.previousVideoTitle
+        lessonTitleLabel.text = videoDataManager.previousVideoTitle
         
         /* teachernameLabel - Constraint */
         pipContainerView.addSubview(teachernameLabel)
@@ -658,7 +659,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
                                 left: lessonTitleLabel.leftAnchor,
                                 paddingTop: 5,
                                 height: 15)
-        if let previousTeacherName = pipDataManager.previousTeacherName {
+        if let previousTeacherName = videoDataManager.previousVideoTeachername {
             teachernameLabel.text = previousTeacherName + " 선생님"
         }
     }
@@ -787,6 +788,91 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
 
 extension VideoController {
     
+    /// 06.11 이후에 작성한 API메소드
+    func didSuccessReceiveVideoData(response: DetailVideoResponse) {
+        
+        // 현재 VideoID를 추가한다.
+        videoDataManager.addVideoIDLog(videoID: response.data.id)
+        
+        // videoURL을 저장한다.
+        if let videoURL = response.data.source_url {
+            
+            let url = URL(string: videoURL) as NSURL?
+            videoDataManager.addVideoURLLog(videoURL: url)
+            self.videoURL = url
+            self.videoAndVttURL.videoURL = url
+        }
+        
+        // videoSubtitleURL을 저장한다.
+        let subtitleURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        videoDataManager.addVideoSubtitleURLLog(videoSubtitleURL: subtitleURL)
+        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.videoAndVttURL.vttURL = self.vttURL
+        
+        // sTags
+        let receivedsTagsData = response.data.sTags
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+        self.lessonInfoController.sTagsArray = sTagsArray
+        
+        // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
+        self.sTagsArray.removeAll()
+        
+        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.(자막에서 색상칠할 키워드 찾는용도)
+        for index in 0 ... sTagsArray.count - 1 {
+            let inputData = String(sTagsArray[index])
+            self.tempsTagsArray.append(inputData)
+        }
+        
+        // 선생님이름을 저장한다.
+        let teachername = response.data.sTeacher
+        self.teachername = response.data.sTeacher + " 선생님"
+        self.lessonInfoController.teachernameLabel.text = teachername + " 선생님"
+        videoDataManager.addVideoTeachername(teachername: teachername)
+        
+        // 영상제목을 저장한다.
+        let lessonTitle = response.data.sTitle
+        self.lessonname = response.data.sTitle
+        self.lessonInfoController.lessonnameLabel.text = lessonTitle
+        videoDataManager.addVideoTitle(videoTitle: lessonTitle)
+        
+        // 이후 코드는 이 컨트롤러에서 보여주는 UI를 업데이트 하기 위한 코드
+        // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
+        let subjectname = response.data.sSubject
+        self.lessonInfoController.sSubjectLabel.labelText = subjectname
+        
+        // "sSubjectColor" -> LessonInfoController.sSubjectLabel.labelBackgroundColor
+        let subjectColor = response.data.sSubjectColor
+        self.lessonInfoController.sSubjectLabel.labelBackgroundColor = UIColor.init(hex: "\(subjectColor)")
+        
+        // "sUnit" -> LessonInfoController.sUnitLabel01.labelText
+        let unitname01 = response.data.sUnit
+        if unitname01 == "" {
+            self.lessonInfoController.sUnitLabel01.labelText = "DEFAULT"
+        } else {
+            self.lessonInfoController.sUnitLabel01.labelText = unitname01
+        }
+
+        // lessionInfo로 VideoID를 전달한다.
+        self.lessonInfoController.videoID = id
+        
+        // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
+        self.recommendSeriesId = response.data.iSeriesId
+        
+        DispatchQueue.main.async {
+            self.playVideo()
+        }
+        
+        let pipData = PIPVideoData(isPlayPIP: false,
+                                   videoURL: videoDataManager.previousVideoURL,
+                                   currentVideoTime: 0.0,
+                                   videoTitle: videoDataManager.previousVideoTitle ?? "",
+                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
+        
+        self.pipData = pipData
+    }
+    
+    
+    /// 06.11 이전에 작성한 API메소드
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL
         let pipDataManager = PIPDataManager.shared
@@ -800,7 +886,6 @@ extension VideoController {
             pipDataManager.currentVideoID = self.id
         }
         
-
         var videoURL: NSURL?
         if let sourceURL = response.data.source_url {
             let url = URL(string: sourceURL) as NSURL?

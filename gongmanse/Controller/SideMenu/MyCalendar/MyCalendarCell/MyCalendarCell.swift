@@ -93,6 +93,12 @@ class MyCalendarCell: UITableViewCell {
         fatalError()
     }
     
+    func setDescription(_ type: CalendarMyDescriptionModel?) {
+        calendarTitle.text = type?.sTitle
+        startTimeDate.text = type?.dtStartDate
+        endTimeDate.text = type?.dtEndDate
+    }
+    
     func setUp() {
         
         contentView.addSubview(calendarTitle)

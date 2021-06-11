@@ -15,6 +15,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
         setRootViewController(scene)
+//        guard let windows = (scene as? UIWindowScene) else { return }
+//        window = UIWindow(windowScene: windows)
+//
+//        window?.rootViewController = LecturePlaylistVC("1766")
+//
+//        window?.makeKeyAndVisible()
+        
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -43,6 +43,7 @@ class MyCalendarViewModel {
     
     func calendarCheckData(_ data: CalendarMyCalendarModel) {
         
+        dataArr.removeAll()
         dateList.removeAll()
         
         for receive in data.data {

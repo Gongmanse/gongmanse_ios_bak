@@ -70,8 +70,21 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
     
     func titleAppear(text: String) {
         titleLabels.text = text
+    }
+    
+    func contentAppear(text: String) {
+        
         registerTextView.text = text
-        registerTextView.textColor = .lightGray
+        
+        switch text {
+        case "제목":
+            registerTextView.textColor = .lightGray
+        case "내용":
+            registerTextView.textColor = .lightGray
+        default:
+            registerTextView.textColor = .black
+        }
+        
     }
     
     

@@ -155,6 +155,8 @@ extension PopularVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
             let vc = VideoController()
+            let videoDataManager = VideoDataManager.shared
+            videoDataManager.isFirstPlayVideo = true
             vc.modalPresentationStyle = .fullScreen
             let videoID = popularVideo.body[indexPath.row].videoId
             vc.id = videoID

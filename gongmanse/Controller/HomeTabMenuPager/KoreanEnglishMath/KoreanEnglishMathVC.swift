@@ -270,6 +270,8 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             
             if self.selectedItem == 0 {
                 let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
                 vc.modalPresentationStyle = .fullScreen
                 let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
                 vc.id = videoID
