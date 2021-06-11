@@ -874,6 +874,8 @@ extension VideoController {
     
     /// 06.11 이전에 작성한 API메소드
     func didSucceedNetworking(response: DetailVideoResponse) {
+        setRemoveNotification()
+
         // source_url -> VideoURL
         let pipDataManager = PIPDataManager.shared
         
@@ -973,9 +975,9 @@ extension VideoController {
         
         self.recommendSeriesId = response.data.iSeriesId
         
-        DispatchQueue.main.async {
-            self.playVideo()
-        }
+//        DispatchQueue.main.async {
+//            self.playVideo()
+//        }
         
 //        pipPlayer.play()
         
@@ -987,6 +989,7 @@ extension VideoController {
                                    teacherName: pipDataManager.previousTeacherName ?? "")
         
         self.pipData = pipData
+        self.playVideo()
     }
     
     func failToConnectVideoByTicket() {
@@ -1041,10 +1044,10 @@ extension VideoController: BottomPlaylistCellDelegate {
         
         // 노트 데이터를 불러온다.
 //        pipContainerView.alpha = 0
-        pageCollectionView.reloadData()
-//        let noteIndexPath = IndexPath(item: 1, section: 0)
-//        let qnaIndexPath = IndexPath(item: 2, section: 0)
-//        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
+//        pageCollectionView.reloadData()
+        let noteIndexPath = IndexPath(item: 0, section: 0)
+        let qnaIndexPath = IndexPath(item: 1, section: 0)
+        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
     }
     
     
