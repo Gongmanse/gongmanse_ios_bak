@@ -73,14 +73,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var teachername: String?
     var lessonname: String?
     
-    var pipData: PIPVideoData? {
-        didSet {
-            print("DEBUG: videoDataManager.isFirstPlayVideo is \(videoDataManager.isFirstPlayVideo)")
-            if !(videoDataManager.isFirstPlayVideo) {
-                configurePIPView(pipData: pipData)
-            }
-        }
-    }
+    var pipData: PIPVideoData?
 
     var currentVideoPlayRate = Float(1.0) {
         didSet {
@@ -512,8 +505,24 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         print("DEBUG: deinit is Activate")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        DispatchQueue.main.async {
+            // TODO: 아래 코드 대신 등록된 Observer를 찾아서 제거해주어야한다.
+//            self.player.currentItem?.removeObserver(self, forKeyPath: "duration", context: nil)
+            NotificationCenter.default.removeObserver(self)
+            self.removePeriodicTimeObserver()
+            self.setRemoveNotification()
+            self.player.pause()
+        }
+    }
+    
+
+    
 
     override func viewWillAppear(_ animated: Bool) {
+        
+        setNotification()
         
         // 인트로를 실행한다.
         if isStartVideo == false {
@@ -559,7 +568,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
                                              token: Constant.token)
-            
+            // 여기에서 previousVideoID는 이전 ID가 명확하다.
+            // 그런데 pipView를 누르기 직전의 URL은 현재 URL이 들어가있다.
+            // 느낌상 새로 rootView를 바꿀때, 뭔가 문제가 있어보인다.
             // "상세화면 영상 API"를 호출한다.
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
             pageCollectionView.reloadData()
@@ -614,8 +625,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     func configurePIPView(pipData: PIPVideoData?) {
         
-        guard let pipData = self.pipData else { return }
-        let pipDataManager = PIPDataManager.shared
+//        guard let pipData = self.pipData else { return }
+//        let pipDataManager = PIPDataManager.shared
         let pipHeight = view.frame.height * 0.085
         let pipVC = PIPController(isPlayPIP: false)
         
@@ -858,6 +869,18 @@ extension VideoController {
         // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
         self.recommendSeriesId = response.data.iSeriesId
         
+        // 썸네일 이미지를 저장한다.
+        let imageStringURL = response.data.sThumbnail
+        let imageURL = URL(string: imageStringURL)
+        do {
+            let thumbnailData = try Data(contentsOf: imageURL!)
+            videoDataManager.addVideoThumbnailImage(videoImage: UIImage(data: thumbnailData)!)
+        } catch {
+            print("DEBUG: 이미지를 제대로 못받아왔습니다.")
+        }
+        
+        
+        
         DispatchQueue.main.async {
             self.playVideo()
         }
@@ -869,6 +892,10 @@ extension VideoController {
                                    teacherName: videoDataManager.previousVideoTeachername ?? "")
         
         self.pipData = pipData
+        
+        if !(videoDataManager.isFirstPlayVideo) {
+            configurePIPView(pipData: pipData)
+        }
     }
     
     
@@ -990,6 +1017,8 @@ extension VideoController {
         
         self.pipData = pipData
         self.playVideo()
+        
+        
     }
     
     func failToConnectVideoByTicket() {

@@ -208,7 +208,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
 
             // 싱글톤 객체에 들어간 데이터를 초기화한다.
-            let pipDataManager = PIPDataManager.shared
+//            let pipDataManager = PIPDataManager.shared
 //            pipDataManager.currentTeacherName = nil
 //            pipDataManager.currentVideoURL = nil
 //            pipDataManager.currentVideoCMTime = nil
@@ -237,6 +237,12 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 vc.modalPresentationStyle = .fullScreen
                 
                 let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+                
+                /**
+                 영상을 틀기 위해 "ID" 값을 서브스크립트로 전달한다.
+                 동시에 URL도 전달해야 VideoDataManager에서 URL의 PIP영상의 순서가 꼬이지 않는다.
+                 pip는 URL로 접근하고있고, VideoController는 ID로 영상을 송출하고 있기 때문이다.
+                 */
                 
                 vc.id = receviedVideoID
 
