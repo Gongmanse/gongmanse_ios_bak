@@ -52,3 +52,19 @@ struct BeforeApiData: Codable {
     var sUnit: String
 }
 
+struct LectureQnAModels: Codable {
+    var totalNum: String?
+    var data: [LectureQnAData]
+}
+
+struct LectureQnAData: Codable {
+    var sQid: String?
+    var sQuestion: String?
+    var dtRegister: String?
+    var sAnswer: String?
+    var sNickname: String?
+    var sTeacher: String?
+    var sUserImg: String?
+    var sTeacherImg: String?
+}
+

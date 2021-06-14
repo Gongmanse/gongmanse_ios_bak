@@ -4897,8 +4897,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popupDone" translatesAutoresizingMaskIntoConstraints="NO" id="fom-8D-rf7">
-                                                    <rect key="frame" x="20" y="9" width="24" height="24"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fom-8D-rf7">
+                                                    <rect key="frame" x="20" y="9.5" width="24" height="23"/>
+                                                    <color key="tintColor" systemColor="systemGray4Color"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="24" id="3Ql-T5-sPv"/>
                                                         <constraint firstAttribute="height" constant="24" id="hM2-aM-rC6"/>
@@ -4926,13 +4927,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="xfC-2k-x2E" firstAttribute="leading" secondItem="gLH-sy-8Z1" secondAttribute="trailing" constant="21" id="Akw-RU-pTV"/>
                                                 <constraint firstAttribute="bottom" secondItem="gLH-sy-8Z1" secondAttribute="bottom" constant="5.5" id="C5m-K0-ilP"/>
                                                 <constraint firstItem="gLH-sy-8Z1" firstAttribute="leading" secondItem="fom-8D-rf7" secondAttribute="trailing" constant="8" symbolic="YES" id="aUm-CD-7Ki"/>
+                                                <constraint firstItem="xfC-2k-x2E" firstAttribute="top" secondItem="7J4-Kc-bEq" secondAttribute="top" constant="5" id="aeG-3T-XTL"/>
                                                 <constraint firstItem="fom-8D-rf7" firstAttribute="top" secondItem="7J4-Kc-bEq" secondAttribute="top" constant="9" id="eiO-b6-Ucd"/>
                                                 <constraint firstItem="fom-8D-rf7" firstAttribute="leading" secondItem="7J4-Kc-bEq" secondAttribute="leading" constant="20" symbolic="YES" id="ofb-q4-qMS"/>
+                                                <constraint firstAttribute="trailing" secondItem="xfC-2k-x2E" secondAttribute="trailing" constant="20" symbolic="YES" id="tLC-Vx-ex2"/>
                                                 <constraint firstItem="gLH-sy-8Z1" firstAttribute="top" secondItem="7J4-Kc-bEq" secondAttribute="top" constant="5" id="uRP-CS-pnx"/>
-                                                <constraint firstItem="xfC-2k-x2E" firstAttribute="top" secondItem="7J4-Kc-bEq" secondAttribute="top" constant="5" id="w2Y-aP-aVM"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -5018,6 +5019,7 @@
         <image name="arrowBelowGray" width="8" height="8"/>
         <image name="chatOff" width="27" height="27"/>
         <image name="chatOn" width="27" height="27"/>
+        <image name="checkmark.circle" catalog="system" width="128" height="121"/>
         <image name="close24Px" width="24" height="24"/>
         <image name="deletePage" width="28" height="28"/>
         <image name="deleteThing" width="16" height="20"/>
@@ -5045,6 +5047,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
