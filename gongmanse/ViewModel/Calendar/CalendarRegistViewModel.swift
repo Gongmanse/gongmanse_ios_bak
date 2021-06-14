@@ -161,6 +161,33 @@ class CalendarRegistViewModel {
         }
     }
     
+    func requestUpdateApi(updateID: String,
+                          title: String,
+                          content: String,
+                          iswholeDay: String,
+                          startDate: String,
+                          endDate: String,
+                          alarm: String?,
+                          repeatAlarm: String?,
+                          repeatCount: String?) {
+        
+        let parameter = CalendarUpdatePostModel(id: updateID,
+                                                token: Constant.token,
+                                                title: title,
+                                                content: content,
+                                                isWholeDay: iswholeDay,
+                                                startDate: startDate,
+                                                endDate: endDate,
+                                                alarm: alarm ?? "",
+                                                repeatAlaram: repeatAlarm ?? "",
+                                                repeatCount: repeatCount ?? "")
+        
+        CalendarAPIManager.calendarUpdateApi(parameter) {
+            print("🗣 Success Update Calendar")
+        }
+    }
+    
+    
     func requestDeleteApi(deleteId: String) {
         
         let parameter = CalendarDeletePostModel(id: deleteId)

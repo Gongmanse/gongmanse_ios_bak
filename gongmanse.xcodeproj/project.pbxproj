@@ -401,6 +401,7 @@
 		C26E238726648DFE00156F8A /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */; };
 		C26E238A2664911400156F8A /* ScheduleAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26E23892664911400156F8A /* ScheduleAddCell.swift */; };
 		C27401B5267727E200A2B484 /* CalendarDeleteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27401B4267727E200A2B484 /* CalendarDeleteModel.swift */; };
+		C27401B82677397700A2B484 /* CalendarUpdateMOdel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27401B72677397700A2B484 /* CalendarUpdateMOdel.swift */; };
 		C279FA7F264CB165009FA317 /* Enum+Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279FA7E264CB165009FA317 /* Enum+Grade.swift */; };
 		C27A5713265BA5CB0047520E /* LectureDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27A5712265BA5CB0047520E /* LectureDetailViewModel.swift */; };
 		C27CB3EF265242DF00631B3A /* LectureAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CB3EE265242DF00631B3A /* LectureAPIManager.swift */; };
@@ -856,6 +857,7 @@
 		C26E238626648DFE00156F8A /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
 		C26E23892664911400156F8A /* ScheduleAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddCell.swift; sourceTree = "<group>"; };
 		C27401B4267727E200A2B484 /* CalendarDeleteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDeleteModel.swift; sourceTree = "<group>"; };
+		C27401B72677397700A2B484 /* CalendarUpdateMOdel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUpdateMOdel.swift; sourceTree = "<group>"; };
 		C279FA7E264CB165009FA317 /* Enum+Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+Grade.swift"; sourceTree = "<group>"; };
 		C27A5712265BA5CB0047520E /* LectureDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureDetailViewModel.swift; sourceTree = "<group>"; };
 		C27CB3EE265242DF00631B3A /* LectureAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureAPIManager.swift; sourceTree = "<group>"; };
@@ -2839,6 +2841,7 @@
 			children = (
 				C239203D2667234E00AC6912 /* CalendarRegisterModel.swift */,
 				C27401B4267727E200A2B484 /* CalendarDeleteModel.swift */,
+				C27401B72677397700A2B484 /* CalendarUpdateMOdel.swift */,
 				C2CBA535266A0B55000ADD5D /* CalendarMyCalendarModel.swift */,
 			);
 			path = Calendar;
@@ -3618,6 +3621,7 @@
 				C2F22734261D500300559065 /* FilteringViewModel.swift in Sources */,
 				253B4ECD260B15DB000B7DB9 /* String.swift in Sources */,
 				2588F852260985C10070C2FC /* RegistrationResponse.swift in Sources */,
+				C27401B82677397700A2B484 /* CalendarUpdateMOdel.swift in Sources */,
 				25608EEF26661E1600E3246C /* ChangePasswordResponse.swift in Sources */,
 				259B8C28260307A5009A7146 /* LectureCell.swift in Sources */,
 				2598E418266DBAB300C48BEB /* PIPController.swift in Sources */,
