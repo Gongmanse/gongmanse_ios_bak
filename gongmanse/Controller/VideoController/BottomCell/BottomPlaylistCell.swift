@@ -792,14 +792,19 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+            // 06.14 이전에 작성된 코드
 //        tableView.deselectRow(at: indexPath, animated: true)
-        let data = playlist
+//        let data = playlist
 //        let videoID = data.data[indexPath.row].id
-        if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
         
-//        delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
-            delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+        // 자동 재생일 때, autoplayDataManager에 있는 videoID를 가져온다.
+        if autoplayDataManager.isAutoplayMainSubject {
+            
+            if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
+                
+                // "VideoController" 에서 영상을 새롭게 실행시켜준다.
+                delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+            }
         }
     }
     
