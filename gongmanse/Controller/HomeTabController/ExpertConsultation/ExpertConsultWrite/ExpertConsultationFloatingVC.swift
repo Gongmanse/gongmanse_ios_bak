@@ -303,20 +303,13 @@ extension ExpertConsultationFloatingVC: UICollectionViewDelegateFlowLayout {
 
 extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    
-        if selectPhoto.isSelected == true {
+        
             guard let image = info[.editedImage] as? UIImage else { return }
             dismiss(animated: true, completion: nil)
             alertViewBackground.isHidden = true
             
             images.insert(image, at: 0)
             uploadImageCollectionView.reloadData()
-        } else if selectVideo.isSelected == true {
-            if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
-                
-            }
-            
-        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

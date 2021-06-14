@@ -8,6 +8,8 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     @IBOutlet weak var allCountView: UIView!
     @IBOutlet weak var countLabel: PaddingLabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var allSelectButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var height: CGFloat?
     var topCornerRadius: CGFloat?
@@ -18,18 +20,21 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        allCountView.layer.addBorder([.top], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
+        allSelectButton.layer.addBorder([.top, .left, .right, .bottom], color: .systemGray, width: 0.7)
+        deleteButton.layer.addBorder([.top, .right, .bottom], color: .systemGray, width: 0.7)
+        
     }
 
     @IBAction func closeBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func allSelect(_ sender: Any) {
+    @IBAction func allSelectButtonAction(_ sender: Any) {
         
     }
     
-    @IBAction func deleteButton(_ sender: Any) {
+    @IBAction func deleteButtonAction(_ sender: Any) {
     }
     
     override var popupHeight: CGFloat {
@@ -59,7 +64,7 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
 
 extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
