@@ -321,7 +321,6 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
-//                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "제목")
                 
                 cell.textChanged { [weak self] text in
                     self?.cellTitleText = text

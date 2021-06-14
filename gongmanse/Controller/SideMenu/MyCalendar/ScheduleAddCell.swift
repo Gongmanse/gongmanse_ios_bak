@@ -115,7 +115,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     let timeLabel: UILabel = {
         let label = UILabel()
         label.font = .appBoldFontWith(size: 16)
-        label.setContentHuggingPriority(.defaultLow-1, for: .horizontal)
+        
         return label
     }()
     
@@ -123,7 +123,9 @@ class ScheduleAddTimerCell: UITableViewCell {
         let label = UILabel()
         label.font = .appBoldFontWith(size: 14)
         label.text = "하루종일"
+        label.textAlignment = .right
         label.textColor = .rgb(red: 164, green: 164, blue: 164)
+        label.setContentHuggingPriority(.defaultLow-1, for: .horizontal)
         return label
     }()
     
@@ -135,11 +137,19 @@ class ScheduleAddTimerCell: UITableViewCell {
     }()
     
     lazy var timeLabelStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [timeLabel, allDayLabel, allDaySwitch])
+        let stack = UIStackView(arrangedSubviews: [allDayLabel, allDaySwitch])
         stack.axis = .horizontal
         stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        
+        stack.distribution = .fill
+        stack.spacing = 5
+        return stack
+    }()
+    
+    lazy var dayLabelStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [timeLabel, timeLabelStackView])
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fill
         return stack
     }()
     //
@@ -219,14 +229,14 @@ class ScheduleAddTimerCell: UITableViewCell {
     
     func setUp() {
         
-        contentView.addSubview(timeLabelStackView)
+        contentView.addSubview(dayLabelStackView)
         contentView.addSubview(startStackView)
         contentView.addSubview(endStackView)
         
-        timeLabelStackView.translatesAutoresizingMaskIntoConstraints = false
-        timeLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
-        timeLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        timeLabelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
+        dayLabelStackView.translatesAutoresizingMaskIntoConstraints = false
+        dayLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        dayLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        dayLabelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
         startStackView.translatesAutoresizingMaskIntoConstraints = false
         startStackView.topAnchor.constraint(equalTo: timeLabelStackView.bottomAnchor, constant: 15).isActive = true
