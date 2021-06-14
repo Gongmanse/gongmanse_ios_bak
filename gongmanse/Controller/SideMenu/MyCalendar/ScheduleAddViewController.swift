@@ -15,6 +15,8 @@ import UIKit
 class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate, PassAllEndDate {
     
     
+    
+    
     var calendarState: CalendarState?
     
     // CalendarState == modifyCalendar
@@ -46,8 +48,10 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     }()
     // AlarmListProtocol
     var alarmTextList: String = ""
+    var alarmConvertText: String = ""
     
     var repeatTextLlist: String = ""
+    var repeatConvertText: String = ""
     
     func reloadTable() {
         DispatchQueue.main.async {
@@ -122,15 +126,14 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         
         registViewModel?.requestRegistApi(title: cellTitleText  ?? "",
                                           content: cellContentText ?? "",
-                                          wholeDay: "1",
+                                          wholeDay: "0",
                                           startDate: allStartDate ?? startString,
                                           endDate: allEndDate ?? endString,
-                                          alarm: "before_30_mins",
-                                          repeatAlarm: "daily",
-                                          repeatCount: "6")
+                                          alarm: alarmConvertText,
+                                          repeatAlarm: repeatConvertText,
+                                          repeatCount: nil)
         
-//        addCalendarDelegate?.reloadCollection()
-//        addTableListDelegate?.reloadTable()
+        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -313,7 +316,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 
                 
-                cell.timeLabel.text = titleText[modifyIndexPath]
+                cell.timeLabel.text = titleText[indexPath.row]
                 
                 
                 cell.startDateLabel.text = passedDateModel?.description[modifyIndexPath].dtStartDate
@@ -390,6 +393,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     @objc func alarmList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
         vc.alarmState = .Alram
+        vc.registViewModel = registViewModel
         vc.alarmDelegate = self
         self.present(vc, animated: true, completion: nil)
 
@@ -398,7 +402,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     @objc func repeatList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
         vc.alarmDelegate = self
-        
+        vc.registViewModel = registViewModel
         vc.alarmState = .Repeat
         self.present(vc, animated: true, completion: nil)
     }
