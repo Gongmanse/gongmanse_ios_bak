@@ -12,6 +12,15 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     let autoplayDataManager = AutoplayDataManager.shared
 
     var delegate: KoreanEnglishMathVCDelegate?
+
+    var problemSolvingListData: FilterVideoModels? {
+        didSet {
+            if let input = problemSolvingListData {
+                autoplayDataManager.videoDataInMainSubjectsProblemSolvingTab = input
+            }
+            
+        }
+    }
     
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
@@ -154,6 +163,12 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.koreanEnglishMathVideoSecond = json
+                    
+                    // 문제풀이인 경우,
+                    if self.selectedItem == 2 {
+                        self.problemSolvingListData = json
+                    }
+                    
                 }
                 DispatchQueue.main.async {
                     self.koreanEnglishMathCollection.reloadData()
@@ -285,6 +300,11 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
             
+            // 시리즈보기: self.selectedItem == 1
+            // 문제풀이: self.selectedItem == 2
+            
+            
+            // 전체보기
             if self.selectedItem == 0 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
@@ -300,12 +320,23 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 vc.koreanViewTitle = viewTitle.text
                 present(vc, animated: true)
                 
+                
+            // 문제풀이
+            } else if self.selectedItem == 1 {
+                print("DEBUG: 1번")
+            
+            // 시리즈보기
+            } else if self.selectedItem == 2 {
+
+                print("DEBUG: 2번")
+            // 노트보기
             } else if self.selectedItem == 3 {
                 let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
+                print("DEBUG: 3번")
             }
 
             
@@ -366,9 +397,9 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
         } else if selectedRowIndex == 1 {
-            self.selectedItem = 2 // 시리즈 보기
+            self.selectedItem = 1 // 시리즈 보기
         } else if selectedRowIndex == 2 {
-            self.selectedItem = 1 // 문제 풀이
+            self.selectedItem = 2 // 문제 풀이
         } else {
             self.selectedItem = 3 // 노트 보기
         }
