@@ -14,8 +14,8 @@ import UIKit
 
 class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate, PassAllEndDate {
     
-    
-    
+    // 나의 일정 Desciption ID
+    var calendarId: String?
     
     var calendarState: CalendarState?
     
@@ -26,6 +26,10 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
     
     var registViewModel: CalendarRegistViewModel? = CalendarRegistViewModel()
+    
+    weak var delegateTable: TableReloadData?
+    weak var delegateCalendar: CollectionReloadData?
+    
     
     // PassAllStartDate
     var allStartDate: String?
@@ -147,7 +151,11 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         let alert = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
         
         let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+            self.registViewModel?.requestDeleteApi(deleteId: self.calendarId ?? "")
             
+            self.delegateCalendar?.reloadCollection()d
+            self.delegateTable?.reloadTable()
+            self.dismiss(animated: true, completion: nil)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(ok)

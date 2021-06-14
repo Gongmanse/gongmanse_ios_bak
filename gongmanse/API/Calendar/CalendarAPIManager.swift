@@ -72,6 +72,25 @@ struct CalendarAPIManager {
                 
             }
         }
+    }
+    
+    static func calendarDeleteApi(_ parameter: CalendarDeletePostModel, completion: @escaping () -> Void) {
+        let data = parameter
         
+        let deleteUrl = "\(apiBaseURL)/v/calendar/modifycalendar"
+        print(data)
+        
+        AF.upload(multipartFormData: {
+            $0.append(data.id.data(using: .utf8)!, withName: "id")
+        }, to: deleteUrl)
+        
+        .response { response in
+            switch response.result {
+            case .success(_):
+                completion()
+            case .failure(_):
+                completion()
+            }
+        }
     }
 }

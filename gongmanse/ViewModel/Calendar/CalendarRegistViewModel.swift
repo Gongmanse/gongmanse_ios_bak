@@ -5,6 +5,7 @@
 //  Created by wallter on 2021/06/02.
 //
 import Foundation
+
 enum alarmString {
     case none
     case rightTime
@@ -157,6 +158,15 @@ class CalendarRegistViewModel {
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+    }
+    
+    func requestDeleteApi(deleteId: String) {
+        
+        let parameter = CalendarDeletePostModel(id: deleteId)
+        
+        CalendarAPIManager.calendarDeleteApi(parameter) {
+            print("Calendar Delete Success")
         }
     }
 }
