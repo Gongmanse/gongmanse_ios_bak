@@ -14,6 +14,8 @@ import UIKit
 
 class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllStartDate, PassAllEndDate {
     
+    // 나의 일정 Desciption ID
+    var calendarId: String?
     
     var calendarState: CalendarState?
     
@@ -24,6 +26,10 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     let titleText: [String] = ["제목","내용","시간","알림", "반복"]
     
     var registViewModel: CalendarRegistViewModel? = CalendarRegistViewModel()
+    
+    weak var delegateTable: TableReloadData?
+    weak var delegateCalendar: CollectionReloadData?
+    
     
     // PassAllStartDate
     var allStartDate: String?
@@ -46,8 +52,10 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     }()
     // AlarmListProtocol
     var alarmTextList: String = ""
+    var alarmConvertText: String = ""
     
     var repeatTextLlist: String = ""
+    var repeatConvertText: String = ""
     
     func reloadTable() {
         DispatchQueue.main.async {
@@ -118,19 +126,34 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         let startString = startFormatter.string(from: Date())
         let endString = endFormatter.string(from: Date(timeIntervalSinceNow: 600))
         
+        switch calendarState {
+        case .addCalendar:
+            
+            registViewModel?.requestRegistApi(title: cellTitleText  ?? "",
+                                              content: cellContentText ?? "",
+                                              wholeDay: "0",
+                                              startDate: allStartDate ?? startString,
+                                              endDate: allEndDate ?? endString,
+                                              alarm: alarmConvertText,
+                                              repeatAlarm: repeatConvertText,
+                                              repeatCount: nil)
+        case .modifyCalendar:
+            
+            registViewModel?.requestUpdateApi(updateID: calendarId ?? "",
+                                              title: cellTitleText ?? "",
+                                              content: cellContentText ?? "",
+                                              iswholeDay: "0",
+                                              startDate: allStartDate ?? startString,
+                                              endDate: allEndDate ?? endString,
+                                              alarm: alarmConvertText,
+                                              repeatAlarm: repeatConvertText,
+                                              repeatCount: nil)
+        default:
+            return
+        }
+       
         
-        
-        registViewModel?.requestRegistApi(title: cellTitleText  ?? "",
-                                          content: cellContentText ?? "",
-                                          wholeDay: "1",
-                                          startDate: allStartDate ?? startString,
-                                          endDate: allEndDate ?? endString,
-                                          alarm: "before_30_mins",
-                                          repeatAlarm: "daily",
-                                          repeatCount: "6")
-        
-//        addCalendarDelegate?.reloadCollection()
-//        addTableListDelegate?.reloadTable()
+        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -144,7 +167,11 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         let alert = UIAlertController(title: nil, message: "삭제하시겠습니까?", preferredStyle: .alert)
         
         let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+            self.registViewModel?.requestDeleteApi(deleteId: self.calendarId ?? "")
             
+            self.delegateCalendar?.reloadCollection()
+            self.delegateTable?.reloadTable()
+            self.dismiss(animated: true, completion: nil)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(ok)
@@ -294,7 +321,11 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
-                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "제목")
+//                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "제목")
+                
+                cell.textChanged { [weak self] text in
+                    self?.cellTitleText = text
+                }
                 cell.selectionStyle = .none
             
                 return cell
@@ -303,7 +334,11 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
-                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "내용")
+//                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "내용")
+                
+                cell.textChanged { [weak self] text in
+                    self?.cellContentText = text
+                }
                 cell.selectionStyle = .none
             
                 return cell
@@ -311,15 +346,10 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             case 2:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
                 
-                
-                
-                cell.timeLabel.text = titleText[modifyIndexPath]
-                
-                
-                cell.startDateLabel.text = passedDateModel?.description[modifyIndexPath].dtStartDate
-                cell.endDateLabel.text = passedDateModel?.description[modifyIndexPath].dtEndDate
-                
-                
+                cell.timeLabel.text = titleText[indexPath.row]
+                cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
+                cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
+
                 cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                                 action: #selector(startLabelAction(_:))))
                 
@@ -390,6 +420,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     @objc func alarmList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
         vc.alarmState = .Alram
+        vc.registViewModel = registViewModel
         vc.alarmDelegate = self
         self.present(vc, animated: true, completion: nil)
 
@@ -398,7 +429,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     @objc func repeatList(_ sender: UITapGestureRecognizer) {
         let vc = AlramRelationListViewController()
         vc.alarmDelegate = self
-        
+        vc.registViewModel = registViewModel
         vc.alarmState = .Repeat
         self.present(vc, animated: true, completion: nil)
     }

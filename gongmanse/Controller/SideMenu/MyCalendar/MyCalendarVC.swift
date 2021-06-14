@@ -231,6 +231,9 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
         presentVC.calendarState = .modifyCalendar
         presentVC.passedDateModel = selectDatePass
         presentVC.passedIndexPath = indexPath.row
+        presentVC.calendarId = selectDatePass?.description[indexPath.row].id
+        presentVC.delegateTable = self
+        presentVC.delegateCalendar = self
         self.navigationController?.pushViewController(presentVC, animated: true)
     }
 }
@@ -251,6 +254,7 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         isBottomTableHeight = true
+        selectDatePass?.description.removeAll()
         
         let formatters = DateFormatter()
         formatters.dateFormat = "yyyy-MM-dd"

@@ -16,7 +16,7 @@ struct CalendarMyCalendarModel: Codable {
 
 struct CalendarMyDataModel: Codable {
     let date: String
-    let description: [CalendarMyDescriptionModel]
+    var description: [CalendarMyDescriptionModel]
 }
 
 

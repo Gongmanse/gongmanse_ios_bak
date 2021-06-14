@@ -15,7 +15,10 @@ enum AlarmListState {
 
 protocol AlarmListProtocol: AnyObject {
     var alarmTextList: String { get set }
+    var alarmConvertText: String { get set }
+    
     var repeatTextLlist: String { get set }
+    var repeatConvertText: String { get set }
     
     func reloadTable()
 }
@@ -27,6 +30,7 @@ class AlramRelationListViewController: BottomPopupViewController {
     // Enum
     var alarmState: AlarmListState?
     
+    var registViewModel: CalendarRegistViewModel?
     // Protocol
     var alarmDelegate: AlarmListProtocol?
     
@@ -74,8 +78,18 @@ class AlramRelationListViewController: BottomPopupViewController {
     }()
     //
     
+//    let alarmListTextArray: [String:String] = ["없음" : "none",
+//                                               "정시" : "right_on_time",
+//                                               "10분 전" : "before_10_mins",
+//                                               "30분 전" : "before_30_mins",
+//                                               "1시간 전" : "before_1_hours",
+//                                               "3시간 전" : "before_3_hours",
+//                                               "12시간 전" : "before_12_hours",
+//                                               "1일 전" : "before_1_day",
+//                                               "1주 전" : "before_1_week"]
     
-    let alramListTextArray: [String] = ["없음", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전", "1주 전"]
+    let alarmListTextArray: [String] = ["없음", "정시", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전","1주 전"]
+    
     let repeatListTextArray: [String] = ["없음", "매일", "매주", "매월", "매년"]
     
     override func viewDidLoad() {
@@ -117,7 +131,7 @@ extension AlramRelationListViewController: UITableViewDelegate, UITableViewDataS
         switch alarmState {
         
         case .Alram:
-            return alramListTextArray.count
+            return alarmListTextArray.count
             
         case .Repeat:
             return repeatListTextArray.count
@@ -134,7 +148,7 @@ extension AlramRelationListViewController: UITableViewDelegate, UITableViewDataS
         case .Alram:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AlarmListCell.identifier, for: indexPath) as? AlarmListCell else { return UITableViewCell() }
             
-            cell.textLabel?.text = alramListTextArray[indexPath.row]
+            cell.textLabel?.text = alarmListTextArray[indexPath.row]
             return cell
             
         case .Repeat:
@@ -153,15 +167,20 @@ extension AlramRelationListViewController: UITableViewDelegate, UITableViewDataS
         switch alarmState {
         case .Alram:
             
+            let selectAlarmText = alarmListTextArray[indexPath.row]
             
-            alarmDelegate?.alarmTextList = alramListTextArray[indexPath.row]
+            alarmDelegate?.alarmTextList = selectAlarmText
+            alarmDelegate?.alarmConvertText = registViewModel?.alarmConvertString(selectAlarmText) ?? ""
             alarmDelegate?.reloadTable()
             
             self.dismiss(animated: true, completion: nil)
             
         case .Repeat:
             
-            alarmDelegate?.repeatTextLlist = repeatListTextArray[indexPath.row]
+            let selectRepeatText = repeatListTextArray[indexPath.row]
+            
+            alarmDelegate?.repeatTextLlist = selectRepeatText
+            alarmDelegate?.repeatConvertText = registViewModel?.repeatConvertString(selectRepeatText) ?? ""
             alarmDelegate?.reloadTable()
             
             self.dismiss(animated: true, completion: nil)
