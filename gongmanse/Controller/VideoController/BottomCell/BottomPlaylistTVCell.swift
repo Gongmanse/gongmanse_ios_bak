@@ -9,6 +9,9 @@ import UIKit
 
 class BottomPlaylistTVCell: UITableViewCell {
 
+    // MARK: - Property
+    // Data
+    
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var subjects: PaddingLabel!
     @IBOutlet weak var term: PaddingLabel!
