@@ -430,7 +430,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 
                 return cell
                 
-            } else {
+                
+            } else { // 자동재생 Off
                 
                 if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
@@ -439,6 +440,35 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     tableView.isScrollEnabled = false
                     tableView.allowsSelection = false
 //                    cell.selectionStyle = .none
+                    return cell
+                    
+                // 시리즈보기
+                } else {
+                    
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
+//                    let mainSubjectBodyData = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row]
+//    //                let indexOnData = onJson.body[indexPath.row]
+//                    let indexOnData = mainSubjectBodyData!
+                    
+                    let indexOnData = playlist.data[indexPath.row]
+                    
+                    let url = URL(string: makeStringKoreanEncoded(indexOnData.sThumbnail ?? "nil"))
+                    cell.cellVideoID = indexOnData.id
+                    let videoDataManager = VideoDataManager.shared
+                    if cell.cellVideoID == videoDataManager.currentVideoID {
+                        cell.highlightView.backgroundColor = .progressBackgroundColor
+                    } else {
+                        cell.highlightView.backgroundColor = .clear
+                    }
+                    cell.videoThumbnail.sd_setImage(with: url)
+                    cell.videoThumbnail.contentMode = .scaleAspectFill
+                    cell.subjects.text = indexOnData.sSubject
+                    cell.videoTitle.text = indexOnData.sTitle
+                    cell.teachersName.text = (indexOnData.sTeacher ?? "nil") + " 선생님"
+//                    cell.starRating.text = indexOnData.r
+                    cell.subjects.backgroundColor = UIColor(hex: indexOnData.sSubjectColor ?? "nil")
+                    
+                    
                     return cell
                 }
                 

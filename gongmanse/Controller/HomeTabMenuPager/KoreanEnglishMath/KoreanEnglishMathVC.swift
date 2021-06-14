@@ -317,7 +317,8 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 vc.koreanSwitchValue = playSwitch
                 vc.koreanReceiveData = koreanEnglishMathVideo
                 vc.koreanSelectedBtn = selectBtn
-                vc.koreanViewTitle = viewTitle.text
+//                vc.koreanViewTitle = viewTitle.text
+                vc.koreanViewTitle = "국영수 강의"
                 present(vc, animated: true)
                 
                 

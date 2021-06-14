@@ -812,6 +812,8 @@ extension VideoController {
         // 현재 VideoID를 추가한다.
         videoDataManager.addVideoIDLog(videoID: response.data.id)
         
+        response.data.iSeriesId
+        
         // videoURL을 저장한다.
         if let videoURL = response.data.source_url {
             
@@ -1064,7 +1066,6 @@ extension VideoController: VideoFullScreenControllerDelegate {
 // MARK: - BottomPlaylistCellDelegate
 
 extension VideoController: BottomPlaylistCellDelegate {
-    
     
     func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String) {
 
