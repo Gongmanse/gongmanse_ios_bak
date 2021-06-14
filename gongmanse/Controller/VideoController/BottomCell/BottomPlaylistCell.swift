@@ -14,6 +14,9 @@ class BottomPlaylistCell: UICollectionViewCell {
     
     // MARK: - Property
     
+    // 자동재생 싱글톤 객체
+    let autoplayDataManager = AutoplayDataManager.shared
+    
     // "플레이리스트" 와 " n / m " Label을 담을 ContainerView
     private let topPlayListTitleContainerView = UIView()
     
@@ -61,7 +64,8 @@ class BottomPlaylistCell: UICollectionViewCell {
         didSet { getDataFromJson() }
     }
     
-    //추천
+    // 추천
+    // "RecommandVC" 에서 받아온 데이터
     var receiveRecommendModelData: VideoInput?
     
     //인기
@@ -389,11 +393,22 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
                 
                 guard let onJson = self.receiveKoreanModelData else { return cell }
-                let indexOnData = onJson.body[indexPath.row]
+
+                /* TEST - 자동재생 켰을 때, 재생목록 테스트중*/
+                let mainSubjectBodyData = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row]
+//                let indexOnData = onJson.body[indexPath.row]
+                let indexOnData = mainSubjectBodyData!
+                
                 let url = URL(string: makeStringKoreanEncoded(indexOnData.thumbnail ?? "nil"))
+                cell.cellVideoID = indexOnData.videoId
+                let videoDataManager = VideoDataManager.shared
+                if cell.cellVideoID == videoDataManager.currentVideoID {
+                    cell.highlightView.backgroundColor = .progressBackgroundColor
+                } else {
+                    cell.highlightView.backgroundColor = .clear
+                }
                 cell.videoThumbnail.sd_setImage(with: url)
                 cell.videoThumbnail.contentMode = .scaleAspectFill
-                
                 cell.subjects.text = indexOnData.subject
                 cell.videoTitle.text = indexOnData.title
                 cell.teachersName.text = (indexOnData.teacherName ?? "nil") + " 선생님"
@@ -777,12 +792,20 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+            // 06.14 이전에 작성된 코드
 //        tableView.deselectRow(at: indexPath, animated: true)
-        let data = playlist
-        let videoID = data.data[indexPath.row].id
-//        delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
-        delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+//        let data = playlist
+//        let videoID = data.data[indexPath.row].id
+        
+        // 자동 재생일 때, autoplayDataManager에 있는 videoID를 가져온다.
+        if autoplayDataManager.isAutoplayMainSubject {
+            
+            if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
+                
+                // "VideoController" 에서 영상을 새롭게 실행시켜준다.
+                delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+            }
+        }
     }
     
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {

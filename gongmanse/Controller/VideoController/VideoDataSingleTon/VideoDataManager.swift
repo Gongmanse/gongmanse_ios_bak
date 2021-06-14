@@ -49,7 +49,7 @@ class VideoDataManager {
         if videoPlayURLLog.count == 1 {
             return videoPlayURLLog.first ?? NSURL()
         } else if videoPlayURLLog.count == 2 {
-            return videoPlayURLLog.last ?? NSURL()
+            return videoPlayURLLog.first ?? NSURL()
         } else {
             // 2개 이상인 경우,
             return videoPlayURLLog[videoPlayURLLog.endIndex - 1]
@@ -81,7 +81,7 @@ class VideoDataManager {
         if videoThumbnailImageLog.count == 1 {
             return videoThumbnailImageLog.first
         } else if videoThumbnailImageLog.count == 2 {
-            return videoThumbnailImageLog.last
+            return videoThumbnailImageLog.first
         } else {
             return videoThumbnailImageLog[videoThumbnailImageLog.endIndex - 1]
         }
