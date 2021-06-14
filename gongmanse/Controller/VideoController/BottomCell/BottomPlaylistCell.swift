@@ -797,14 +797,81 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
 //        let data = playlist
 //        let videoID = data.data[indexPath.row].id
         
-        // 자동 재생일 때, autoplayDataManager에 있는 videoID를 가져온다.
-        if autoplayDataManager.isAutoplayMainSubject {
+        
+        // 06.14 이후 코드
+        if koreanViewTitleValue == "국영수 강의" {
             
-            if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
+            // 변경해야한다면, 싱글톤으로 만든 Switch on/off : autoplayDataManager.isAutoplayMainSubject
+            if koreanSwitchOnOffValue.isOn {
                 
-                // "VideoController" 에서 영상을 새롭게 실행시켜준다.
-                delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+                if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
+                    
+                    // "VideoController" 에서 영상을 새롭게 실행시켜준다.
+                    delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+                }
+                
+            // TODO: 시리즈보기
+            } else {
+                if koreanSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 국영수 > 전체보기 > 셀 클릭 -> Default
+                } else if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
+                    
+                    if let videoID = autoplayDataManager.videoDataInMainSubjectsProblemSolvingTab?.data[indexPath.row].id {
+                        delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+
+                    }
+                    // TODO: 국영수 > 문제풀이선택 > 셀 클릭
+                }
+                
             }
+            
+            
+            // 일단 국어만
+            
+        } else if scienceViewTitleValue == "과학 강의" {
+            if scienceSwitchOnOffValue.isOn {
+                // TODO: 과학 > 전체보기 > 셀 클릭
+
+            // TODO: 시리즈보기
+            } else {
+                
+                if scienceSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 과학 > 전체보기 > 셀 클릭
+                } else if scienceSelectedBtnValue.currentTitle == "문제 풀이" {
+                    // TODO: 과학 > 문제풀이선택 > 셀 클릭
+                }
+            }
+            
+        } else if socialStudiesViewTitleValue == "사회 강의" {
+            if socialStudiesSwitchOnOffValue.isOn {
+                // TODO: 사회 > 전체보기 > 셀 클릭
+
+                
+            // TODO: 시리즈보기
+            } else {
+                if socialStudiesSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 사회 > 전체보기 > 셀 클릭
+                } else if socialStudiesSelectedBtnValue.currentTitle == "문제 풀이" {
+                    // TODO: 사회 > 문제풀이선택 > 셀 클릭
+                }
+            }
+            
+        } else if otherSubjectsViewTitleValue == "기타 강의" {
+            if otherSubjectsSwitchOnOffValue.isOn {
+                // TODO: 기타 > 전체보기 > 셀 클릭
+            
+                
+            // TODO: 시리즈보기
+            } else {
+                if otherSubjectsSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 기타 > 전체보기 > 셀 클릭
+                } else if otherSubjectsSelectedBtnValue.currentTitle == "문제 풀이" {
+                    // TODO: 기타 > 문제풀이선택 > 셀 클릭
+                }
+            }
+            
+        } else {
+            
         }
     }
     

@@ -40,6 +40,9 @@ class AutoplayDataManager {
     /// "국영수"에 있는 데이터 20 개
     var videoDataInMainSubjectsTab: VideoInput?
     
+    /// "국영수" + "문제풀이" 에 있는 데이터 20 개
+    var videoDataInMainSubjectsProblemSolvingTab: FilterVideoModels?
+    
     /// "과학"에 있는 데이터 20 개
     var videoDataInScienceTab: VideoInput?
     
