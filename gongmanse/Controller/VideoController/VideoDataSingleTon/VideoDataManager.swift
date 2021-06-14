@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 class VideoDataManager {
     
@@ -19,6 +20,8 @@ class VideoDataManager {
     var videoPlaySubtitleURLLog = [String]()  // 실행된 영상의 subtitleURL을 저장하는 array
     var videoTeachernameLog = [String]()
     var videoTitleLog = [String]()
+    var videoThumbnailImageLog = [UIImage]()
+    
     
     /// 제일 최근에 재생된 비디오 ID
     var currentVideoID: String? {
@@ -43,10 +46,13 @@ class VideoDataManager {
     /// 바로 이전에 재생된 비디오 URL
     var previousVideoURL: NSURL? {
         // TODO: 만약 로그가 하나인 경우, 어떻게 처리할지 고민해야한다.
-        if videoPlayURLLog.count < 2 {
+        if videoPlayURLLog.count == 1 {
             return videoPlayURLLog.first ?? NSURL()
+        } else if videoPlayURLLog.count == 2 {
+            return videoPlayURLLog.last ?? NSURL()
         } else {
-            return videoPlayURLLog[videoPlayURLLog.count - 2]
+            // 2개 이상인 경우,
+            return videoPlayURLLog[videoPlayURLLog.endIndex - 1]
         }
     }
     
@@ -67,6 +73,17 @@ class VideoDataManager {
             return videoTeachernameLog.first
         } else {
             return videoTeachernameLog[videoTeachernameLog.count - 2]
+        }
+    }
+    
+    /// 바로 이전에 재생된 영상의 섬네일 이미지를 리턴한다.
+    var previousvideoThumbnailImage: UIImage? {
+        if videoThumbnailImageLog.count == 1 {
+            return videoThumbnailImageLog.first
+        } else if videoThumbnailImageLog.count == 2 {
+            return videoThumbnailImageLog.last
+        } else {
+            return videoThumbnailImageLog[videoThumbnailImageLog.endIndex - 1]
         }
     }
     
@@ -93,5 +110,10 @@ class VideoDataManager {
     /// 비디오 영상제목을 로그에 추가하는 메소드
     func addVideoTitle(videoTitle: String) {
         self.videoTitleLog.append(videoTitle)
+    }
+    
+    /// 썸네일 이미지를 로그에 추가하는 메소드
+    func addVideoThumbnailImage(videoImage: UIImage) {
+        self.videoThumbnailImageLog.append(videoImage)
     }
 }

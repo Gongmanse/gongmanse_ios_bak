@@ -79,6 +79,7 @@ class PIPController: UIViewController {
     
     deinit {
         print("DEBUG: PIP 모드가 종료됩니다.")
+        removePeriodicTimeObserver()
     }
     
     // MARK: - Actions
@@ -105,6 +106,10 @@ class PIPController: UIViewController {
         let pipDataManager = PIPDataManager.shared
         
         let videoDataManager = VideoDataManager.shared
+        
+        // 06.14 PIP 영상은 제대로 나오는데 처음에 나오는 이미지가 현재 이미지가 나와서 index 수정했었던 코드 -> 미해결
+//        let urlLog = videoDataManager.videoPlayURLLog
+//        let pipPreviousURL = urlLog[urlLog.endIndex - 1]
         
         self.asset = AVAsset(url: (videoDataManager.previousVideoURL ?? NSURL()) as URL)
         
@@ -160,6 +165,8 @@ class PIPController: UIViewController {
             player!.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
         }
+        NotificationCenter.default.removeObserver(self)
+
     }
     
     func dismissVC() {

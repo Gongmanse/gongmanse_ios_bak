@@ -423,7 +423,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     cell.emptyLabel.text = "재생 목록이 없습니다."
                     tableView.isScrollEnabled = false
                     tableView.allowsSelection = false
-                    cell.selectionStyle = .none
+//                    cell.selectionStyle = .none
                     return cell
                 }
                 
@@ -505,7 +505,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     cell.emptyLabel.text = "재생 목록이 없습니다."
                     tableView.isScrollEnabled = false
                     tableView.allowsSelection = false
-                    cell.selectionStyle = .none
+//                    cell.selectionStyle = .none
                     return cell
                 }
                 
@@ -579,7 +579,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     cell.emptyLabel.text = "재생 목록이 없습니다."
                     tableView.isScrollEnabled = false
                     tableView.allowsSelection = false
-                    cell.selectionStyle = .none
+//                    cell.selectionStyle = .none
                     return cell
                 }
                 
@@ -653,7 +653,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     cell.emptyLabel.text = "재생 목록이 없습니다."
                     tableView.isScrollEnabled = false
                     tableView.allowsSelection = false
-                    cell.selectionStyle = .none
+//                    cell.selectionStyle = .none
                     return cell
                 }
                 
@@ -778,7 +778,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
         let data = playlist
         let videoID = data.data[indexPath.row].id
 //        delegate?.videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: videoID)
