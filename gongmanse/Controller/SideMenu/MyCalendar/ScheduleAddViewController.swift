@@ -153,7 +153,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         let ok = UIAlertAction(title: "확인", style: .default) { (_) in
             self.registViewModel?.requestDeleteApi(deleteId: self.calendarId ?? "")
             
-            self.delegateCalendar?.reloadCollection()d
+            self.delegateCalendar?.reloadCollection()
             self.delegateTable?.reloadTable()
             self.dismiss(animated: true, completion: nil)
         }
