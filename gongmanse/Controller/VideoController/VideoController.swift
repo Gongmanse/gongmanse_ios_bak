@@ -1080,10 +1080,10 @@ extension VideoController: BottomPlaylistCellDelegate {
         
         // 노트 데이터를 불러온다.
 //        pipContainerView.alpha = 0
-//        pageCollectionView.reloadData()
-        let noteIndexPath = IndexPath(item: 0, section: 0)
-        let qnaIndexPath = IndexPath(item: 1, section: 0)
-        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
+        pageCollectionView.reloadData()
+//        let noteIndexPath = IndexPath(item: 0, section: 0)
+//        let qnaIndexPath = IndexPath(item: 1, section: 0)
+//        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
     }
     
     

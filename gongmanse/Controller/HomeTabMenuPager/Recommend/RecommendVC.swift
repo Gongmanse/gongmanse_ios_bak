@@ -46,6 +46,12 @@ class RecommendVC: UIViewController {
                     //print(json.body)
 //                    self.recommendVideo = json
                     self.recommendVideo.body.append(contentsOf: json.body)
+                    /**
+                     06.14
+                     자동재생을 on 했을 때, 추천에 나타난 데이터를 활용하기 위해 싱글톤을 사용했습니다.
+                     */
+                    let autoPlayDataManager = AutoplayDataManager.shared
+                    autoPlayDataManager.videoDataInRecommandTab? = json
                 }
                 DispatchQueue.main.async {
                     self.recommendCollection.reloadData()
