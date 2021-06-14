@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,6 +18,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ide-kq-OrL">
+                        <rect key="frame" x="5" y="5" width="404" height="71"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RXg-ND-Q7p">
                         <rect key="frame" x="20" y="8" width="95" height="65"/>
                         <color key="backgroundColor" red="0.50196078430000002" green="0.64313725489999995" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -116,11 +121,15 @@
                     </stackView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Ide-kq-OrL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="2eO-PW-bVS"/>
+                    <constraint firstItem="Ide-kq-OrL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="4Vf-iy-dyb"/>
                     <constraint firstItem="n3T-eq-jam" firstAttribute="top" secondItem="Soz-Iq-Jb3" secondAttribute="bottom" constant="8" symbolic="YES" id="FYi-YF-KFh"/>
                     <constraint firstItem="Soz-Iq-Jb3" firstAttribute="leading" secondItem="RXg-ND-Q7p" secondAttribute="trailing" constant="15" id="HFZ-39-tGC"/>
                     <constraint firstItem="Soz-Iq-Jb3" firstAttribute="top" secondItem="XEd-1X-7Lf" secondAttribute="bottom" constant="8" symbolic="YES" id="Hg7-8T-3nE"/>
                     <constraint firstItem="RXg-ND-Q7p" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="N76-qg-c1l"/>
                     <constraint firstItem="r7K-T5-JDx" firstAttribute="leading" secondItem="RXg-ND-Q7p" secondAttribute="trailing" constant="15" id="N8X-wn-nkn"/>
+                    <constraint firstAttribute="trailing" secondItem="Ide-kq-OrL" secondAttribute="trailing" constant="5" id="SKm-as-3wn"/>
+                    <constraint firstAttribute="bottom" secondItem="Ide-kq-OrL" secondAttribute="bottom" constant="5" id="Uau-JH-MUK"/>
                     <constraint firstItem="4wl-VE-RzF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="60" id="Y3m-QD-Sl0"/>
                     <constraint firstAttribute="trailing" secondItem="4wl-VE-RzF" secondAttribute="trailing" constant="9.5" id="a7W-WR-e9c"/>
                     <constraint firstItem="RXg-ND-Q7p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" symbolic="YES" id="sfM-28-mLB"/>
@@ -130,6 +139,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="highlightView" destination="Ide-kq-OrL" id="oJi-Aj-AL0"/>
                 <outlet property="starRating" destination="XlV-LZ-ByE" id="PJf-Bm-Ppm"/>
                 <outlet property="subjects" destination="XEd-1X-7Lf" id="Qam-pH-aDM"/>
                 <outlet property="teachersName" destination="n3T-eq-jam" id="3RY-MW-YsX"/>
@@ -137,10 +147,13 @@
                 <outlet property="videoThumbnail" destination="RXg-ND-Q7p" id="t1j-5X-L9D"/>
                 <outlet property="videoTitle" destination="Soz-Iq-Jb3" id="dbL-ka-1uT"/>
             </connections>
-            <point key="canvasLocation" x="-367" y="103"/>
+            <point key="canvasLocation" x="-368.11594202898556" y="102.79017857142857"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="star" width="10.5" height="9.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

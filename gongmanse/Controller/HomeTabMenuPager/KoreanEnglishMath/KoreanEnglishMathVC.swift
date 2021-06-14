@@ -8,6 +8,9 @@ protocol KoreanEnglishMathVCDelegate: AnyObject {
 
 class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     
+    // 자동재생기능 구현을 위한 싱글톤객체를 생성한다.
+    let autoplayDataManager = AutoplayDataManager.shared
+
     var delegate: KoreanEnglishMathVCDelegate?
     
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
@@ -25,7 +28,13 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     }
     
     var pageIndex: Int!
-    var koreanEnglishMathVideo: VideoInput?
+    var koreanEnglishMathVideo: VideoInput? {
+        didSet {
+            if let krEnMathData = koreanEnglishMathVideo {
+                self.autoplayDataManager.videoDataInMainSubjectsTab = krEnMathData
+            }
+        }
+    }
     var koreanEnglishMathVideoSecond: FilterVideoModels?
     
     var height: CGFloat = 240
@@ -63,6 +72,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
         
         autoPlayLabel.isHidden = true
         playSwitch.isHidden = true
+        playSwitch.addTarget(self, action: #selector(playSwitchValueChanged(_:)), for: .valueChanged)
         
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
@@ -80,6 +90,11 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     @objc func rateFilterNoti(_ sender: NotificationCenter) {
         let rateFilterButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
         ratingSequence.setTitle(rateFilterButtonTitle as? String, for: .normal)
+    }
+    
+    /// 자동재생 설정 여부를 확인하기 위한 콜백메소드
+    @objc func playSwitchValueChanged(_ sender: UISwitch) {
+        autoplayDataManager.isAutoplayMainSubject = sender.isOn
     }
     
     func textInput() {
@@ -113,10 +128,12 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
+                
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
                     self.koreanEnglishMathVideo = json
                 }
+                
                 DispatchQueue.main.async {
                     self.koreanEnglishMathCollection.reloadData()
                     self.textSettings()

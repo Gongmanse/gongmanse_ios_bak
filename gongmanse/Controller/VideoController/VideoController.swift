@@ -642,11 +642,18 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         pipContainerView.isUserInteractionEnabled = true
         
         /* pipVC.view - Constraint  */
-        pipVC.pipVideoData = pipData
-        pipContainerView.addSubview(pipVC.view)
-        pipVC.view.anchor(top:pipContainerView.topAnchor)
-        pipVC.view.centerY(inView: pipContainerView)
-        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        let pipThumbnailImageView = UIImageView()
+        pipThumbnailImageView.image = videoDataManager.previousvideoThumbnailImage ?? UIImage()
+        pipContainerView.addSubview(pipThumbnailImageView)
+        pipThumbnailImageView.anchor(top: pipContainerView.topAnchor)
+        pipThumbnailImageView.centerY(inView: pipContainerView)
+        pipThumbnailImageView.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        
+//        pipVC.pipVideoData = pipData
+//        pipContainerView.addSubview(pipVC.view)
+//        pipVC.view.anchor(top:pipContainerView.topAnchor)
+//        pipVC.view.centerY(inView: pipContainerView)
+//        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
         
         /* xButton - Constraint */
         pipContainerView.addSubview(xButton)
@@ -871,15 +878,15 @@ extension VideoController {
         
         // 썸네일 이미지를 저장한다.
         let imageStringURL = response.data.sThumbnail
-        let imageURL = URL(string: imageStringURL)
+        let convertThumbnailImageURL = "https://file.gongmanse.com/" + makeStringKoreanEncoded(imageStringURL)
+        let imageURL = URL(string: convertThumbnailImageURL)
+        
         do {
             let thumbnailData = try Data(contentsOf: imageURL!)
             videoDataManager.addVideoThumbnailImage(videoImage: UIImage(data: thumbnailData)!)
         } catch {
-            print("DEBUG: 이미지를 제대로 못받아왔습니다.")
+            print("DEBUG: 이미지를 제대로 못 받아왔습니다.")
         }
-        
-        
         
         DispatchQueue.main.async {
             self.playVideo()
@@ -1073,10 +1080,10 @@ extension VideoController: BottomPlaylistCellDelegate {
         
         // 노트 데이터를 불러온다.
 //        pipContainerView.alpha = 0
-//        pageCollectionView.reloadData()
-        let noteIndexPath = IndexPath(item: 0, section: 0)
-        let qnaIndexPath = IndexPath(item: 1, section: 0)
-        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
+        pageCollectionView.reloadData()
+//        let noteIndexPath = IndexPath(item: 0, section: 0)
+//        let qnaIndexPath = IndexPath(item: 1, section: 0)
+//        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
     }
     
     
