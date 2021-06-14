@@ -28,7 +28,7 @@ class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
         
         lblCategory.text = "카테고리"
         categoryView.layer.addBorder([.bottom], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
-        tableView.tableFooterView = UIView()
+        
     }
     
     @IBAction func closeBtn(_ sender: UIButton) {

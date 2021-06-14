@@ -4791,7 +4791,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="r36-m9-IHx">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popupQuestion" translatesAutoresizingMaskIntoConstraints="NO" id="TSt-LH-TGb">
@@ -4848,7 +4848,7 @@
                                     </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="JRD-U7-sE1">
-                                    <rect key="frame" x="0.0" y="170" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="177" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ugl-fG-ab7">
@@ -4862,7 +4862,7 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
-                                                <action selector="allSelect:" destination="ZdM-NF-7Qe" eventType="touchUpInside" id="PQq-wx-yOf"/>
+                                                <action selector="allSelectButtonAction:" destination="ZdM-NF-7Qe" eventType="touchUpInside" id="cYY-Q2-6LK"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FkX-di-IYg">
@@ -4876,7 +4876,7 @@
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
-                                                <action selector="deleteButton:" destination="ZdM-NF-7Qe" eventType="touchUpInside" id="PJF-hf-xG2"/>
+                                                <action selector="deleteButtonAction:" destination="ZdM-NF-7Qe" eventType="touchUpInside" id="oRV-J6-a5i"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -4891,7 +4891,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LectureQuestionsDeleteBottomPopUpCell" rowHeight="44" id="jkZ-ES-3dv" customClass="LectureQuestionsDeleteBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="105" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jkZ-ES-3dv" id="7J4-Kc-bEq">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -4951,7 +4951,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="26"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 3개" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Exf-ig-QXx" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="23" y="4" width="60" height="18"/>
+                                        <rect key="frame" x="23" y="8" width="60" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="CGH-Te-zKk"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="ITJ-ko-p65"/>
@@ -4977,8 +4977,8 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="Exf-ig-QXx" firstAttribute="leading" secondItem="1PB-UO-6AP" secondAttribute="leading" constant="23" id="GHE-QO-2Wz"/>
-                                    <constraint firstItem="Exf-ig-QXx" firstAttribute="top" secondItem="1PB-UO-6AP" secondAttribute="top" constant="4" id="HYI-43-ahY"/>
+                                    <constraint firstItem="Exf-ig-QXx" firstAttribute="leading" secondItem="1PB-UO-6AP" secondAttribute="leading" constant="23" id="fX0-83-fKR"/>
+                                    <constraint firstItem="Exf-ig-QXx" firstAttribute="top" secondItem="1PB-UO-6AP" secondAttribute="top" constant="8" id="jpj-uw-JhJ"/>
                                     <constraint firstAttribute="height" constant="26" id="zta-Yh-sZg"/>
                                 </constraints>
                             </view>
@@ -4987,9 +4987,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="mwd-ci-yll" firstAttribute="top" secondItem="IJH-zN-4ke" secondAttribute="top" id="AdE-24-eWD"/>
+                            <constraint firstItem="1PB-UO-6AP" firstAttribute="top" secondItem="IJH-zN-4ke" secondAttribute="top" constant="44" id="B7o-s3-P7n"/>
                             <constraint firstItem="mwd-ci-yll" firstAttribute="trailing" secondItem="NBQ-13-VLt" secondAttribute="trailing" id="F2e-Nt-vgz"/>
                             <constraint firstItem="1PB-UO-6AP" firstAttribute="trailing" secondItem="NBQ-13-VLt" secondAttribute="trailing" id="FNf-wL-8Fy"/>
-                            <constraint firstItem="1PB-UO-6AP" firstAttribute="top" secondItem="NBQ-13-VLt" secondAttribute="top" id="L8g-cB-XF6"/>
                             <constraint firstItem="mwd-ci-yll" firstAttribute="leading" secondItem="NBQ-13-VLt" secondAttribute="leading" id="ME6-cv-7t8"/>
                             <constraint firstAttribute="bottom" secondItem="mwd-ci-yll" secondAttribute="bottom" id="Szj-UP-HHO"/>
                             <constraint firstItem="1PB-UO-6AP" firstAttribute="leading" secondItem="NBQ-13-VLt" secondAttribute="leading" id="r9G-VJ-KlZ"/>
@@ -4997,8 +4997,10 @@
                     </view>
                     <connections>
                         <outlet property="allCountView" destination="1PB-UO-6AP" id="cPC-M8-aKO"/>
+                        <outlet property="allSelectButton" destination="Ugl-fG-ab7" id="xIx-PJ-eCe"/>
                         <outlet property="categoryView" destination="r36-m9-IHx" id="3pp-ja-6hE"/>
                         <outlet property="countLabel" destination="Exf-ig-QXx" id="umg-Hl-yXZ"/>
+                        <outlet property="deleteButton" destination="FkX-di-IYg" id="pan-5r-58B"/>
                         <outlet property="lectureTitle" destination="NYb-ir-Bw8" id="TPF-Vx-Oif"/>
                         <outlet property="tableView" destination="mwd-ci-yll" id="zpb-kR-9On"/>
                     </connections>

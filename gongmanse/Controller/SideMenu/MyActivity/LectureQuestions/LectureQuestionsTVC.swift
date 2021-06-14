@@ -29,7 +29,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     var delegate: LectureQuestionsTVCDelegate?
     
-    var height: CGFloat = 240
+    var height: CGFloat = 290
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
 
@@ -162,8 +162,18 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
             cell.deleteButton.isHidden = isDeleteMode
             cell.deleteView.isHidden = isDeleteMode
             
+            cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
+            
             return cell
         }
+    }
+    
+    @objc func deleteAction(_ sender: UIButton) {
+        let deleteBottomPopUpVC = self.storyboard?.instantiateViewController(identifier: "LectureQuestionsDeleteBottomPopUpVC") as! LectureQuestionsDeleteBottomPopUpVC
+        deleteBottomPopUpVC.height = height
+        deleteBottomPopUpVC.presentDuration = presentDuration
+        deleteBottomPopUpVC.dismissDuration = dismissDuration
+        present(deleteBottomPopUpVC, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

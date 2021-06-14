@@ -8,7 +8,12 @@ class LectureQuestionsDeleteBottomPopUpCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        //답변 상태 label background 라운딩 처리
+        answerStatus.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+        answerStatus.textColor = .white
+        answerStatus.layer.cornerRadius = 7
+        answerStatus.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
