@@ -40,7 +40,10 @@ class IntroController: UIViewController {
     
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func introPlayerItemDidReachEnd(notification: NSNotification) {
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         player?.pause()
+        player = nil
+        playerLayer?.removeFromSuperlayer()
         dismiss(animated: false) {
             self.delegate?.playVideoEndedIntro()
         }

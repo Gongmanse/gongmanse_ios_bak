@@ -160,10 +160,6 @@ class MyCalendarVC: UIViewController {
         constraints()
         
         floatingButton.addTarget(self, action: #selector(scheduleRegistration(_:)), for: .touchUpInside)
-    
-        
-        
-        
         previousButton.addTarget(self, action: #selector(tappedPrevBtn(_:)), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(tappedNextBtn(_:)), for: .touchUpInside)
         dismissButton.addTarget(self, action: #selector(dismissAction(_:)), for: .touchUpInside)

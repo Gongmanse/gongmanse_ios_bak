@@ -524,18 +524,18 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 
     override func viewWillAppear(_ animated: Bool) {
         
-        setNotification()
+//        setNotification()
         
         // 인트로를 실행한다.
-        if isStartVideo == false {
-            let vc = IntroController()
-            vc.delegate = self
-            vc.modalPresentationStyle = .overFullScreen
-            present(vc, animated: false) {
-                self.player.pause()
-            }
-            self.isStartVideo = true
-        }
+//        if isStartVideo == false {
+//            let vc = IntroController()
+//            vc.delegate = self
+//            vc.modalPresentationStyle = .overFullScreen
+//            present(vc, animated: false) {
+////                self.player.pause()
+//            }
+//            self.isStartVideo = true
+//        }
         
     }
     
@@ -1015,9 +1015,7 @@ extension VideoController {
         
         self.recommendSeriesId = response.data.iSeriesId
         
-//        DispatchQueue.main.async {
-//            self.playVideo()
-//        }
+        
         
 //        pipPlayer.play()
         
@@ -1029,7 +1027,9 @@ extension VideoController {
                                    teacherName: pipDataManager.previousTeacherName ?? "")
         
         self.pipData = pipData
-        self.playVideo()
+        DispatchQueue.main.async {
+            self.playVideo()
+        }
         
         
     }

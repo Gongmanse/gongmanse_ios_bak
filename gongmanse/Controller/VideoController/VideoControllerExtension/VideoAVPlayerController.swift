@@ -124,21 +124,67 @@ extension VideoController {
     
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-        player.seek(to: CMTime.zero)
+//        player.seek(to: CMTime.zero)
+        setRemoveNotification()
+        removePeriodicTimeObserver()
         
+        print("DEBUG: notification.name.rawValue \(notification.name.rawValue)")
         // 여기에 영상 API를 호출하면 자동재생 구현 가능.
 //        let pipDataManager = PIPDataManager.shared
 //        let videoID = pipDataManager.currentVideoID
-//        let inputData = DetailVideoInput(video_id: videoID!,
-//                                         token: Constant.token)
+        
 //
 //        pipDataManager.currentVideoID = videoID
-//        self.id = videoID
-//        // "상세화면 영상 API"를 호출한다.
-//        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
         
-        player.pause()
+//        let inputData = DetailVideoInput(video_id: self.id!,
+//                                         token: Constant.token)
+////        // "상세화면 영상 API"를 호출한다.
+//        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+
+//        let autoPlayDataManager = AutoplayDataManager.shared
+        
+        autoPlayVideo()
     }
+    
+    func autoPlayVideo() {
+
+        let autoPlayDataManager = AutoplayDataManager.shared
+        let endIndex = autoPlayDataManager.videoDataInMainSubjectsTab?.body.endIndex
+        let currentIndex = findCurrentIndexPath()
+        
+        if currentIndex == endIndex {
+            return
+        }
+        
+        let videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId
+        
+        guard let videoIDs = videoID else { return }
+        
+        let input = DetailVideoInput(video_id: videoIDs, token: Constant.token)
+        
+        DetailVideoDataManager().DetailVideoDataManager(input,
+                                                        viewController: self)
+    }
+    
+    
+    func findCurrentIndexPath() -> Int {
+        let autoPlayDataManager = AutoplayDataManager.shared
+        
+        var currentVideoIndexPath = Int()
+        
+        for (index, _) in autoPlayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
+            
+            let currentID = videoDataManager.currentVideoID
+            let autoPlayID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
+            
+            if currentID == autoPlayID {
+                currentVideoIndexPath = index
+            }
+        }
+        
+        return currentVideoIndexPath
+    }
+    
 }
 
 
