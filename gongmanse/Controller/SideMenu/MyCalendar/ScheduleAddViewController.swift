@@ -111,6 +111,9 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         switch calendarState {
         case .addCalendar:
             registerButton.setTitle("등록하기", for: .normal)
+            registerButton.isEnabled = false
+            registerButton.backgroundColor = .lightGray
+            
             navigationItem.rightBarButtonItem = nil
             
         case .modifyCalendar:
@@ -120,6 +123,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
             return
         }
         
+                
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
@@ -237,6 +241,18 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.textChanged { [weak self] text in
                     self?.cellTitleText = text
+                    
+                    if text != "" {
+                        DispatchQueue.main.async {
+                            self?.registerButton.isEnabled = true
+                            self?.registerButton.backgroundColor = .mainOrange
+                        }
+                    }else{
+                        DispatchQueue.main.async {
+                            self?.registerButton.isEnabled = false
+                            self?.registerButton.backgroundColor = .lightGray
+                        }
+                    }
                 }
                 
                 return cell
