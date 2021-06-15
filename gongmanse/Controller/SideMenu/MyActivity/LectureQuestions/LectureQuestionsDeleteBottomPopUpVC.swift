@@ -8,6 +8,7 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     @IBOutlet weak var allCountView: UIView!
     @IBOutlet weak var countLabel: PaddingLabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var allSelectButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     
@@ -19,15 +20,21 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     
     var deleteLectureQnA: LectureQnAModels?
     var video_id: String = ""
+    var video_title: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         allCountView.layer.addBorder([.top], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
-        allSelectButton.layer.addBorder([.top, .left, .right, .bottom], color: .systemGray, width: 0.7)
-        deleteButton.layer.addBorder([.top, .right, .bottom], color: .systemGray, width: 0.7)
+        allSelectButton.layer.addBorder([.top, .left, .right, .bottom], color: .systemGray4, width: 0.7)
+        deleteButton.layer.addBorder([.top, .right, .bottom], color: .systemGray4, width: 0.7)
         
         getDataFromJson()
+        lectureTitle.text = video_title
+        
+        footerView.addSubview(allSelectButton)
+        footerView.addSubview(deleteButton)
+        tableView.tableFooterView = footerView
     }
     
     func getDataFromJson() {
@@ -70,7 +77,12 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     }
     
     @IBAction func allSelectButtonAction(_ sender: Any) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LectureQuestionsDeleteBottomPopUpCell") as! LectureQuestionsDeleteBottomPopUpCell
         
+        cell.checkImage.image = UIImage(systemName: "checkmark.circle.fill")
+        cell.checkImage.tintColor = .mainOrange
+        
+        tableView.reloadData()
     }
     
     @IBAction func deleteButtonAction(_ sender: Any) {
@@ -139,6 +151,4 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
 }

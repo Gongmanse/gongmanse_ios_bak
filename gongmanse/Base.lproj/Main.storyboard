@@ -4998,10 +4998,11 @@
                     </view>
                     <connections>
                         <outlet property="allCountView" destination="1PB-UO-6AP" id="cPC-M8-aKO"/>
-                        <outlet property="allSelectButton" destination="Ugl-fG-ab7" id="xIx-PJ-eCe"/>
+                        <outlet property="allSelectButton" destination="Ugl-fG-ab7" id="58S-nX-qJk"/>
                         <outlet property="categoryView" destination="r36-m9-IHx" id="3pp-ja-6hE"/>
                         <outlet property="countLabel" destination="Exf-ig-QXx" id="umg-Hl-yXZ"/>
-                        <outlet property="deleteButton" destination="FkX-di-IYg" id="pan-5r-58B"/>
+                        <outlet property="deleteButton" destination="FkX-di-IYg" id="Eoa-V1-qhR"/>
+                        <outlet property="footerView" destination="JRD-U7-sE1" id="U2s-zN-mFk"/>
                         <outlet property="lectureTitle" destination="NYb-ir-Bw8" id="TPF-Vx-Oif"/>
                         <outlet property="tableView" destination="mwd-ci-yll" id="zpb-kR-9On"/>
                     </connections>

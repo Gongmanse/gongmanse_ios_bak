@@ -173,13 +173,14 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         
         guard let json = self.lectureQnA else { return }
         guard let id = json.data[sender.tag].id else { return }
-        print(id)
+        guard let title = json.data[sender.tag].sTitle else { return }
         
         let deleteBottomPopUpVC = self.storyboard?.instantiateViewController(identifier: "LectureQuestionsDeleteBottomPopUpVC") as! LectureQuestionsDeleteBottomPopUpVC
         deleteBottomPopUpVC.height = height
         deleteBottomPopUpVC.presentDuration = presentDuration
         deleteBottomPopUpVC.dismissDuration = dismissDuration
         deleteBottomPopUpVC.video_id = id
+        deleteBottomPopUpVC.video_title = title
         present(deleteBottomPopUpVC, animated: true)
     }
     
