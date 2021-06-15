@@ -173,9 +173,9 @@ class CalendarRegistViewModel {
                                               isWholeDay: wholeDay,
                                               startDate: startDateVariable,
                                               endDate: endDateVariable,
-                                              alarm: alarm ?? "",
-                                              repeatAlaram: repeatAlarm ?? "",
-                                              repeatCount: repeatCount ?? "")
+                                              alarm: alarm ?? "none",
+                                              repeatAlaram: repeatAlarm ?? "none",
+                                              repeatCount: repeatCount ?? "0")
         
         CalendarAPIManager.calendarRegisterApi(parameter) { (response) in
             switch response {
