@@ -37,7 +37,9 @@ class BottomPlaylistCell: UICollectionViewCell {
     weak var delegate: BottomPlaylistCellDelegate?
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
-    var playlist = PlayListModels(isMore: true, totalNum: "", seriesInfo: PlayListInfo.init(sTitle: "", sTeacher: "", sSubjectColor: "", sSubject: "", sGrade: ""), data: [PlayListData]())
+    var playlist = PlayListModels(isMore: true, totalNum: "", seriesInfo: PlayListInfo.init(sTitle: "", sTeacher: "", sSubjectColor: "", sSubject: "", sGrade: ""), data: [PlayListData]()) {
+        didSet { scrollTableView() }
+    }
     var isLoading = false
     
     
@@ -103,6 +105,7 @@ class BottomPlaylistCell: UICollectionViewCell {
         let tableview = UITableView()
         return tableview
     }()
+        
     
     
     //MARK: - Lifecycle
@@ -406,16 +409,12 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row > 11 {
-            scrollTableView()
-        }
-        
         if koreanViewTitleValue == "국영수 강의" {
             if autoplayDataManager.isAutoplayMainSubject { // 06.15 이후
 //            if koreanSwitchOnOffValue.isOn {             // 06.15 이전
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
-                
-                guard let onJson = self.receiveKoreanModelData else { return cell }
+    
+//                guard let onJson = self.receiveKoreanModelData else { return cell }
 
                 /* TEST - 자동재생 켰을 때, 재생목록 테스트중*/
                 let mainSubjectBodyData = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row]
@@ -790,7 +789,9 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if koreanViewTitleValue == "국영수 강의" {
-            if koreanSwitchOnOffValue.isOn {
+            if autoplayDataManager.isAutoplayMainSubject {
+//            if koreanSwitchOnOffValue.isOn {
+                
                 return 80
             } else {
                 if koreanSelectedBtnValue.currentTitle == "전체 보기" {
@@ -973,8 +974,11 @@ extension BottomPlaylistCell {
             if videoDataManager.currentVideoID == autoplayDataManager.videoDataInMainSubjectsTab?.body[index].videoId {
                 print("DEBUG: 하이라이트해야하는 Cell은 \(index)")
                 
-                self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                           at: .top, animated: true)
+                DispatchQueue.main.async {
+                    self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                                               at: .top, animated: true)
+                }
+                
             }
         }
         
