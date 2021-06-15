@@ -69,7 +69,11 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
         
+        playSwitch.addTarget(self, action: #selector(autoPlaySwitchDidTap(_:)), for: .valueChanged)
     }
+    
+    
+    // MARK: - Actions
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "videoFilterText")
@@ -80,6 +84,14 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
         let rateFilterButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
         filteringBtn.setTitle(rateFilterButtonTitle as? String, for: .normal)
     }
+    
+    @objc func autoPlaySwitchDidTap(_ sender: UISwitch) {
+        
+        let autoplayDataManager = AutoplayDataManager.shared
+        autoplayDataManager.isAutoplayOtherSubjects = sender.isOn
+    }
+    
+    // MARK: - Helper
     
     func textInput() {
         //label에 지정된 text 넣기
@@ -272,7 +284,7 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
             vc.otherSubjectsSwitchValue = playSwitch
             vc.otherSubjectsReceiveData = otherSubjectsVideo
             vc.otherSubjectsSelectedBtn = selectBtn
-            vc.otherSubjectsViewTitle = viewTitle.text
+            vc.otherSubjectsViewTitle = "기타 강의"
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
