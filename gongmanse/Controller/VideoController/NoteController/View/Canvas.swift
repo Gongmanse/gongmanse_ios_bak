@@ -39,8 +39,7 @@ class Canvas: UIView {
     public var lines = [Line]()
     {
         didSet {
-//            setNeedsDisplay() // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
-            
+            setNeedsDisplay() // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
         }
     }
     
@@ -50,8 +49,8 @@ class Canvas: UIView {
     
     // MARK: - Lifecycle
     
+
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
         
     }
