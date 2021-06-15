@@ -158,9 +158,9 @@ extension VideoController {
         
         let videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId
         
-        guard let videoID = videoID else { return }
+        guard let videoIDs = videoID else { return }
         
-        let input = DetailVideoInput(video_id: videoID, token: Constant.token)
+        let input = DetailVideoInput(video_id: videoIDs, token: Constant.token)
         
         DetailVideoDataManager().DetailVideoDataManager(input,
                                                         viewController: self)
