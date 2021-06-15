@@ -406,6 +406,10 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        if indexPath.row > 11 {
+            scrollTableView()
+        }
+        
         if koreanViewTitleValue == "국영수 강의" {
             if autoplayDataManager.isAutoplayMainSubject { // 06.15 이후
 //            if koreanSwitchOnOffValue.isOn {             // 06.15 이전
@@ -417,7 +421,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 let mainSubjectBodyData = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row]
 //                let indexOnData = onJson.body[indexPath.row]
                 let indexOnData = mainSubjectBodyData!
-                
+
                 let url = URL(string: makeStringKoreanEncoded(indexOnData.thumbnail ?? "nil"))
                 cell.cellVideoID = indexOnData.videoId
                 let videoDataManager = VideoDataManager.shared
@@ -946,4 +950,33 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
 //            }
 //        }
 //    }
+}
+
+
+extension BottomPlaylistCell {
+    
+    /// cell을 이동시키는 메소드
+    func move(from: IndexPath, to: IndexPath) {
+        UIView.animate(withDuration: 1, animations: {
+            self.tableView.moveRow(at: from, to: to)
+        }) { (true) in
+            // write here code to remove score from array at position "at" and insert at position "to" and after reloadData()
+        }
+    }
+    
+    func scrollTableView() {
+        
+        let videoDataManager = VideoDataManager.shared
+        
+        for (index, _) in autoplayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
+            
+            if videoDataManager.currentVideoID == autoplayDataManager.videoDataInMainSubjectsTab?.body[index].videoId {
+                print("DEBUG: 하이라이트해야하는 Cell은 \(index)")
+                
+                self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                                           at: .top, animated: true)
+            }
+        }
+        
+    }
 }
