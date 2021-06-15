@@ -80,8 +80,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             player.playImmediately(atRate: currentVideoPlayRate)
         }
     }
-    var id: String?
     
+    var id: String?
+    var seriesID: String?
+        
     //추천
     var recommendSeriesId: String?
     var recommendReceiveData: VideoInput?
@@ -722,6 +724,8 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
             
+            cell.seriesID = self.seriesID
+            
             //추천
             cell.recommendSeriesID = self.recommendSeriesId ?? ""
             cell.receiveRecommendModelData = self.recommendReceiveData
@@ -811,6 +815,8 @@ extension VideoController {
         
         // 현재 VideoID를 추가한다.
         videoDataManager.addVideoIDLog(videoID: response.data.id)
+        
+        self.seriesID = response.data.iSeriesId
         
         // videoURL을 저장한다.
         if let videoURL = response.data.source_url {
@@ -1064,7 +1070,6 @@ extension VideoController: VideoFullScreenControllerDelegate {
 // MARK: - BottomPlaylistCellDelegate
 
 extension VideoController: BottomPlaylistCellDelegate {
-    
     
     func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String) {
 

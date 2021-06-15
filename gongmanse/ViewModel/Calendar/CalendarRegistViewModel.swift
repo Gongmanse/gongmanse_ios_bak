@@ -58,6 +58,12 @@ class CalendarRegistViewModel {
         return text != "" && text.count != 0 ? true : false
     }
     
+    var allDaySwitch: Dynamic<Bool> = Dynamic(false)
+    
+    func allDayValueChange() {
+        
+    }
+    
     func currentStartDate() -> String {
         let dateformatter: DateFormatter = DateFormatter()
         dateformatter.dateFormat = "yyyy-MM-dd"
@@ -141,12 +147,32 @@ class CalendarRegistViewModel {
                           repeatAlarm: String?,
                           repeatCount: String?) {
         
+        var startDateVariable: String = ""
+        var endDateVariable: String = ""
+        
+        startDateVariable = startDate
+        endDateVariable = endDate
+        
+        if wholeDay == "1" {
+            let startFormatter = DateFormatter()
+            startFormatter.dateFormat = "yyyy-MM-dd 00:00"
+            
+            let endFormatter = DateFormatter()
+            endFormatter.dateFormat = "yyyy-MM-dd 23:59"
+            
+            startDateVariable = startFormatter.string(from: Date())
+            endDateVariable = endFormatter.string(from: Date())
+            
+            print(startDateVariable)
+            print(endDateVariable)
+        }
+        
         let parameter = CalendarRegisterModel(token: Constant.token,
                                               title: title,
                                               content: content,
                                               isWholeDay: wholeDay,
-                                              startDate: startDate,
-                                              endDate: endDate,
+                                              startDate: startDateVariable,
+                                              endDate: endDateVariable,
                                               alarm: alarm ?? "",
                                               repeatAlaram: repeatAlarm ?? "",
                                               repeatCount: repeatCount ?? "")
