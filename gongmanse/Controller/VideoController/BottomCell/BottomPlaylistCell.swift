@@ -35,11 +35,13 @@ class BottomPlaylistCell: UICollectionViewCell {
     }()
     
     weak var delegate: BottomPlaylistCellDelegate?
+    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
-    var playlist = PlayListModels(isMore: true, totalNum: "", seriesInfo: PlayListInfo.init(sTitle: "", sTeacher: "", sSubjectColor: "", sSubject: "", sGrade: ""), data: [PlayListData]())
+    var playlist = PlayListModels(isMore: true, totalNum: "", seriesInfo: PlayListInfo.init(sTitle: "", sTeacher: "", sSubjectColor: "", sSubject: "", sGrade: ""), data: [PlayListData]()) {
+        didSet { scrollUITableViewCellToCurrentVideo() }
+    }
     var isLoading = false
-    
     
     var seriesID: String?
     
@@ -97,12 +99,13 @@ class BottomPlaylistCell: UICollectionViewCell {
     var recieveOtherSubjectsModelData: VideoInput?
     var otherSubjectsSwitchOnOffValue: UISwitch!    // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
     var otherSubjectsSelectedBtnValue: UIButton!    // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
-    var otherSubjectsViewTitleValue: String = "기타 강의"
+    var otherSubjectsViewTitleValue: String = ""
     
     private let tableView: UITableView = {
         let tableview = UITableView()
         return tableview
     }()
+        
     
     
     //MARK: - Lifecycle
@@ -198,14 +201,14 @@ class BottomPlaylistCell: UICollectionViewCell {
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
 //                        self.numberOFplaylistLabel.text = self.playlist.totalNum
-
                     }
                     
                 }.resume()
             }
+            
         } else if koreanViewTitleValue == "국영수 강의" {
             if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=\(default1)") {
-                default1 += 20
+//                default1 += 20
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -213,9 +216,9 @@ class BottomPlaylistCell: UICollectionViewCell {
                     guard let data = data else { return }
                     let decoder = JSONDecoder()
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
-//                        print(json.data)
-                        //self.playlist = json
-                        self.playlist.data.append(contentsOf: json.data)
+
+                        self.playlist.data = json.data
+
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -352,6 +355,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
 //                    }
                    // guard let data = self.playlist?.data else { return 0 }
                     let data = self.playlist.data
+                    print("DEBUG: 국영수 + 자동재생 Off count \(data.count)")
                     return data.count
                 }
             }
@@ -406,16 +410,12 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row > 11 {
-            scrollTableView()
-        }
-        
         if koreanViewTitleValue == "국영수 강의" {
             if autoplayDataManager.isAutoplayMainSubject { // 06.15 이후
 //            if koreanSwitchOnOffValue.isOn {             // 06.15 이전
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
-                
-                guard let onJson = self.receiveKoreanModelData else { return cell }
+    
+//                guard let onJson = self.receiveKoreanModelData else { return cell }
 
                 /* TEST - 자동재생 켰을 때, 재생목록 테스트중*/
                 let mainSubjectBodyData = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row]
@@ -790,7 +790,9 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if koreanViewTitleValue == "국영수 강의" {
-            if koreanSwitchOnOffValue.isOn {
+            if autoplayDataManager.isAutoplayMainSubject {
+//            if koreanSwitchOnOffValue.isOn {
+                
                 return 80
             } else {
                 if koreanSelectedBtnValue.currentTitle == "전체 보기" {
@@ -848,28 +850,28 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
 //        let data = playlist
 //        let videoID = data.data[indexPath.row].id
         
+        let autoPlayDataManager = AutoplayDataManager.shared
         
         // 06.14 이후 코드
         if koreanViewTitleValue == "국영수 강의" {
             
             // 변경해야한다면, 싱글톤으로 만든 Switch on/off : autoplayDataManager.isAutoplayMainSubject
-            if koreanSwitchOnOffValue.isOn {
+//            if koreanSwitchOnOffValue.isOn {
+            if autoPlayDataManager.isAutoplayMainSubject { // 자동재생 On: 국영수 탭에 있는 플레이리스트를 가져온다.
                 
                 if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
-                    
                     // "VideoController" 에서 영상을 새롭게 실행시켜준다.
                     delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
                 }
                 
-            // TODO: 시리즈보기
-            } else {
+            } else { // 자동재생 Off : 현재 영상의 시리즈를 보여준다.
                 if koreanSelectedBtnValue.currentTitle == "전체 보기" {
-                    // TODO: 국영수 > 전체보기 > 셀 클릭 -> Default
-                } else if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
+                    let videoIDSelected = self.playlist.data[indexPath.row].id
+                    delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoIDSelected)
                     
+                } else if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
                     if let videoID = autoplayDataManager.videoDataInMainSubjectsProblemSolvingTab?.data[indexPath.row].id {
                         delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
-
                     }
                     // TODO: 국영수 > 문제풀이선택 > 셀 클릭
                 }
@@ -953,30 +955,51 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
 }
 
 
+// MARK: - 현재 재생중인 Cell로 스크롤
+
 extension BottomPlaylistCell {
-    
-    /// cell을 이동시키는 메소드
-    func move(from: IndexPath, to: IndexPath) {
-        UIView.animate(withDuration: 1, animations: {
-            self.tableView.moveRow(at: from, to: to)
-        }) { (true) in
-            // write here code to remove score from array at position "at" and insert at position "to" and after reloadData()
-        }
-    }
-    
-    func scrollTableView() {
+        
+    /// 재생목록의 cell들 중에서 현재 재생되고 있는 cell로 이동시켜주는 메소드
+    func scrollUITableViewCellToCurrentVideo() {
         
         let videoDataManager = VideoDataManager.shared
         
-        for (index, _) in autoplayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
-            
-            if videoDataManager.currentVideoID == autoplayDataManager.videoDataInMainSubjectsTab?.body[index].videoId {
-                print("DEBUG: 하이라이트해야하는 Cell은 \(index)")
+        if koreanViewTitleValue == "국영수 강의" && autoplayDataManager.isAutoplayMainSubject { // 국영수 + 자동재생 On
+        
+            for (index, _) in autoplayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
                 
-                self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                           at: .top, animated: true)
+                let playVideoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
+                
+                if videoDataManager.currentVideoID == playVideoID {
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                                                   at: .top, animated: true)
+                    }
+                }
             }
+            
+            // 국영수 + 자동재생 Off -> 시리즈보기
+        } else if koreanViewTitleValue == "국영수 강의" && !(autoplayDataManager.isAutoplayMainSubject) {
+            
+            for (index, _) in playlist.data.enumerated() {
+                
+                if videoDataManager.currentVideoID == playlist.data[index].id {
+                    print("DEBUG: 현재 강의 index는 \(index)")
+
+                    DispatchQueue.main.async {
+                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                                                   at: .top, animated: true)
+                    }
+                }
+            }
+            
         }
         
+        
     }
+    
+    
+    
+    
 }
