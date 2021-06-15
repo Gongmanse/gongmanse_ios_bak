@@ -568,9 +568,16 @@ extension LectureNoteController {
                 }
             }
         }
-        
+        /**
+         <06.15>
+         현재) 데이터 받고 -> 그림 그리기
+         변경) 데이터받고 -> 기다리고 -> 그림 그리고
+         
+         혹은 터치를 강제로 하도록. ->
+         */
         canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
-//        print("DEBUG: previousNoteTakingData \n\(previousNoteTakingData)")
+        
+        print("DEBUG: canvas.lines is \(canvas.lines)")
     }
     
     private func getImageFromURL(url: String, index: Int) {
