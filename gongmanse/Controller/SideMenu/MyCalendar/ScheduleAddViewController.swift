@@ -40,6 +40,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         
         return formatter
     }()
+    var wholeDayText: String = ""
     
     // PassAllEndDate
     var allEndDate: String?
@@ -131,7 +132,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
             
             registViewModel?.requestRegistApi(title: cellTitleText  ?? "",
                                               content: cellContentText ?? "",
-                                              wholeDay: "0",
+                                              wholeDay: wholeDayText,
                                               startDate: allStartDate ?? startString,
                                               endDate: allEndDate ?? endString,
                                               alarm: alarmConvertText,
@@ -142,7 +143,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
             registViewModel?.requestUpdateApi(updateID: calendarId ?? "",
                                               title: cellTitleText ?? "",
                                               content: cellContentText ?? "",
-                                              iswholeDay: "0",
+                                              iswholeDay: wholeDayText,
                                               startDate: allStartDate ?? startString,
                                               endDate: allEndDate ?? endString,
                                               alarm: alarmConvertText,
@@ -261,10 +262,18 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 
                 cell.timeLabel.text = titleText[indexPath.row]
+
+                registViewModel?.allDaySwitch.bindAndFire(listener: { [weak self] bool in
+                    cell.startDateLabel.text = bool ? "하루종일" : self?.registViewModel?.currentStartDate()
+                    cell.endDateLabel.text = bool ? "하루종일" : self?.registViewModel?.currentEndDate()
+                    self?.wholeDayText = bool ? "1" : "0"
+                })
                 
                 
                 cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
                 cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
+                
+
                 
                 
                 cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
@@ -272,6 +281,8 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                               action: #selector(endLabelAction(_:))))
+                
+                cell.allDaySwitch.addTarget(self, action: #selector(isValueChangedSwitch(_:)), for: .valueChanged)
                 
                 cell.selectionStyle = .none
                 return cell
@@ -321,6 +332,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
+                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "제목")
                 
                 cell.textChanged { [weak self] text in
                     self?.cellTitleText = text
@@ -333,7 +345,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
-//                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "내용")
+                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "내용")
                 
                 cell.textChanged { [weak self] text in
                     self?.cellContentText = text
@@ -346,14 +358,23 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddTimerCell.identifier, for: indexPath) as? ScheduleAddTimerCell else { return UITableViewCell() }
                 
                 cell.timeLabel.text = titleText[indexPath.row]
+                
+                registViewModel?.allDaySwitch.bindAndFire(listener: { [weak self] bool in
+                    cell.startDateLabel.text = bool ? "하루종일" : self?.registViewModel?.currentStartDate()
+                    cell.endDateLabel.text = bool ? "하루종일" : self?.registViewModel?.currentEndDate()
+                    self?.wholeDayText = bool ? "1" : "0"
+                })
+                
                 cell.startDateLabel.text = allStartDate != nil ? allStartDate : registViewModel?.currentStartDate()
                 cell.endDateLabel.text = allEndDate != nil ? allEndDate : registViewModel?.currentEndDate()
-
+                
                 cell.startDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                                 action: #selector(startLabelAction(_:))))
                 
                 cell.endDateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                                               action: #selector(endLabelAction(_:))))
+                
+                cell.allDaySwitch.addTarget(self, action: #selector(isValueChangedSwitch(_:)), for: .valueChanged)
                 
                 cell.selectionStyle = .none
                 return cell
@@ -398,6 +419,12 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             return UITableViewCell()
         }
         
+    }
+    
+    // Switch 누를때 호출 메소드
+    @objc func isValueChangedSwitch(_ sender: UISwitch) {
+        // databinding 해보기
+        registViewModel?.allDaySwitch.value = sender.isOn
     }
     
     // indexPath 2 - 1
