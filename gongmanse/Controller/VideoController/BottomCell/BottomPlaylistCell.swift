@@ -40,6 +40,9 @@ class BottomPlaylistCell: UICollectionViewCell {
     var playlist = PlayListModels(isMore: true, totalNum: "", seriesInfo: PlayListInfo.init(sTitle: "", sTeacher: "", sSubjectColor: "", sSubject: "", sGrade: ""), data: [PlayListData]())
     var isLoading = false
     
+    
+    var seriesID: String?
+    
     var recommendSeriesID: String = "" {
         didSet { getDataFromJson() }
     }
@@ -74,27 +77,27 @@ class BottomPlaylistCell: UICollectionViewCell {
     
     //국영수
     var receiveKoreanModelData: VideoInput?
-    var koreanSwitchOnOffValue: UISwitch!
-    var koreanSelectedBtnValue: UIButton!
+    var koreanSwitchOnOffValue: UISwitch!   // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
+    var koreanSelectedBtnValue: UIButton!   // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
     var koreanViewTitleValue: String = ""
     
     //과학
     var recieveScienceModelData: VideoInput?
-    var scienceSwitchOnOffValue: UISwitch!
-    var scienceSelectedBtnValue: UIButton!
+    var scienceSwitchOnOffValue: UISwitch!  // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
+    var scienceSelectedBtnValue: UIButton!  // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
     var scienceViewTitleValue: String = ""
     
     //사회
     var recieveSocialStudiesModelData: VideoInput?
-    var socialStudiesSwitchOnOffValue: UISwitch!
-    var socialStudiesSelectedBtnValue: UIButton!
+    var socialStudiesSwitchOnOffValue: UISwitch!    // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
+    var socialStudiesSelectedBtnValue: UIButton!    // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
     var socialStudiesViewTitleValue: String = ""
     
     //기타
     var recieveOtherSubjectsModelData: VideoInput?
-    var otherSubjectsSwitchOnOffValue: UISwitch!
-    var otherSubjectsSelectedBtnValue: UIButton!
-    var otherSubjectsViewTitleValue: String = ""
+    var otherSubjectsSwitchOnOffValue: UISwitch!    // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
+    var otherSubjectsSelectedBtnValue: UIButton!    // 데이터 전달과정에서 런타임에러 발생 -> 해당 객체가 포함된 로직을 싱글톤으로 대체할 예정 06.15
+    var otherSubjectsViewTitleValue: String = "기타 강의"
     
     private let tableView: UITableView = {
         let tableview = UITableView()
@@ -176,8 +179,11 @@ class BottomPlaylistCell: UICollectionViewCell {
     var default1 = 0
     
     func getDataFromJson() {
+        
+        guard let seriesID = seriesID else { return }
+        
         if popularViewTitleValue == "인기HOT! 동영상 강의" {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(popularSeriesID)&offset=0") {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=0") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -198,7 +204,7 @@ class BottomPlaylistCell: UICollectionViewCell {
                 }.resume()
             }
         } else if koreanViewTitleValue == "국영수 강의" {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(koreanSeriesID)&offset=\(default1)") {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=\(default1)") {
                 default1 += 20
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
@@ -207,7 +213,7 @@ class BottomPlaylistCell: UICollectionViewCell {
                     guard let data = data else { return }
                     let decoder = JSONDecoder()
                     if let json = try? decoder.decode(PlayListModels.self, from: data) {
-                        //print(json.data)
+//                        print(json.data)
                         //self.playlist = json
                         self.playlist.data.append(contentsOf: json.data)
                     }
@@ -220,7 +226,7 @@ class BottomPlaylistCell: UICollectionViewCell {
                 }.resume()
             }
         } else if scienceViewTitleValue == "과학 강의" {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(scienceSeriesID)&offset=0") {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=0") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -237,11 +243,11 @@ class BottomPlaylistCell: UICollectionViewCell {
                         self.numberOFplaylistLabel.text = self.playlist.totalNum
 
                     }
-                    
                 }.resume()
             }
+            
         } else if socialStudiesViewTitleValue == "사회 강의" {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(socialStudiesSeriesID)&offset=0") {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=0") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -260,8 +266,9 @@ class BottomPlaylistCell: UICollectionViewCell {
                     
                 }.resume()
             }
+            
         } else if otherSubjectsViewTitleValue == "기타 강의" {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(otherSubjectsSeriesID)&offset=0") {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=0") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -280,8 +287,8 @@ class BottomPlaylistCell: UICollectionViewCell {
                     
                 }.resume()
             }
-        } else {
-            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(recommendSeriesID)&offset=0") {
+        } else if receiveRecommendModelData != nil {
+            if let url = URL(string: apiBaseURL + "/v/video/serieslist?series_id=\(seriesID)&offset=0") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
@@ -318,10 +325,19 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                    numberOfRowsInSection section: Int) -> Int {
         
         if koreanViewTitleValue == "국영수 강의" {
-            if koreanSwitchOnOffValue.isOn {
+            
+            // 06.15 이후 코드
+            if autoplayDataManager.isAutoplayMainSubject {
                 guard let autoPlayOffdata = self.receiveKoreanModelData?.body else { return 0 }
                 return autoPlayOffdata.count
-            } else {
+            }
+            
+            // 06.15 이전 코드
+//            if koreanSwitchOnOffValue.isOn {
+//                guard let autoPlayOffdata = self.receiveKoreanModelData?.body else { return 0 }
+//                return autoPlayOffdata.count
+//            }
+            else {
                 if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
                     return 1
                 } else {
@@ -366,17 +382,20 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         } else if otherSubjectsViewTitleValue == "기타 강의" {
-            if otherSubjectsSwitchOnOffValue.isOn {
+            
+            if autoplayDataManager.isAutoplayOtherSubjects {
+//            if otherSubjectsSwitchOnOffValue.isOn {
                 guard let autoPlayOffdata = self.recieveOtherSubjectsModelData?.body else { return 0 }
                 return autoPlayOffdata.count
             } else {
-                if otherSubjectsSelectedBtnValue.currentTitle == "문제 풀이" {
-                    return 1
-                } else {
-                    //guard let data = self.playlist.data else { return 0 }
+                // 잠깐 주석처리
+//                if otherSubjectsSelectedBtnValue.currentTitle == "문제 풀이" {
+//                    return 1
+//                } else {
+//                    //guard let data = self.playlist.data else { return 0 }
                     let data = self.playlist.data
                     return data.count
-                }
+//                }
             }
         } else {
             //guard let data = self.playlist.data else { return 0 }
@@ -388,8 +407,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if koreanViewTitleValue == "국영수 강의" {
-            if koreanSwitchOnOffValue.isOn {
-                
+            if autoplayDataManager.isAutoplayMainSubject { // 06.15 이후
+//            if koreanSwitchOnOffValue.isOn {             // 06.15 이전
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
                 
                 guard let onJson = self.receiveKoreanModelData else { return cell }
@@ -430,7 +449,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 
                 return cell
                 
-            } else {
+                
+            } else { // 자동재생 Off
                 
                 if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
@@ -439,6 +459,33 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     tableView.isScrollEnabled = false
                     tableView.allowsSelection = false
 //                    cell.selectionStyle = .none
+                    return cell
+                    
+                    
+                } else { // 시리즈보기
+                    
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
+                    
+                    let indexOnData = playlist.data[indexPath.row]
+                    
+                    let urlString = "https://file.gongmanse.com/" + indexOnData.sThumbnail
+                    
+                    let url = URL(string: makeStringKoreanEncoded(urlString))
+                    cell.cellVideoID = indexOnData.id
+                    let videoDataManager = VideoDataManager.shared
+                    if cell.cellVideoID == videoDataManager.currentVideoID {
+                        cell.highlightView.backgroundColor = .progressBackgroundColor
+                    } else {
+                        cell.highlightView.backgroundColor = .clear
+                    }
+                    cell.videoThumbnail.sd_setImage(with: url)
+                    cell.videoThumbnail.contentMode = .scaleAspectFill
+                    cell.subjects.text = indexOnData.sSubject
+                    cell.videoTitle.text = indexOnData.sTitle
+                    cell.teachersName.text = (indexOnData.sTeacher ) + " 선생님"
+//                    cell.starRating.text = indexOnData.r
+                    cell.subjects.backgroundColor = UIColor(hex: indexOnData.sSubjectColor )
+                    
                     return cell
                 }
                 
@@ -797,14 +844,81 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
 //        let data = playlist
 //        let videoID = data.data[indexPath.row].id
         
-        // 자동 재생일 때, autoplayDataManager에 있는 videoID를 가져온다.
-        if autoplayDataManager.isAutoplayMainSubject {
+        
+        // 06.14 이후 코드
+        if koreanViewTitleValue == "국영수 강의" {
             
-            if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
+            // 변경해야한다면, 싱글톤으로 만든 Switch on/off : autoplayDataManager.isAutoplayMainSubject
+            if koreanSwitchOnOffValue.isOn {
                 
-                // "VideoController" 에서 영상을 새롭게 실행시켜준다.
-                delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+                if let videoID = autoplayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId {
+                    
+                    // "VideoController" 에서 영상을 새롭게 실행시켜준다.
+                    delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+                }
+                
+            // TODO: 시리즈보기
+            } else {
+                if koreanSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 국영수 > 전체보기 > 셀 클릭 -> Default
+                } else if koreanSelectedBtnValue.currentTitle == "문제 풀이" {
+                    
+                    if let videoID = autoplayDataManager.videoDataInMainSubjectsProblemSolvingTab?.data[indexPath.row].id {
+                        delegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: videoID)
+
+                    }
+                    // TODO: 국영수 > 문제풀이선택 > 셀 클릭
+                }
+                
             }
+            
+            
+            // 일단 국어만
+            
+        } else if scienceViewTitleValue == "과학 강의" {
+            if scienceSwitchOnOffValue.isOn {
+                // TODO: 과학 > 전체보기 > 셀 클릭
+
+            // TODO: 시리즈보기
+            } else {
+                
+                if scienceSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 과학 > 전체보기 > 셀 클릭
+                } else if scienceSelectedBtnValue.currentTitle == "문제 풀이" {
+                    // TODO: 과학 > 문제풀이선택 > 셀 클릭
+                }
+            }
+            
+        } else if socialStudiesViewTitleValue == "사회 강의" {
+            if socialStudiesSwitchOnOffValue.isOn {
+                // TODO: 사회 > 전체보기 > 셀 클릭
+
+                
+            // TODO: 시리즈보기
+            } else {
+                if socialStudiesSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 사회 > 전체보기 > 셀 클릭
+                } else if socialStudiesSelectedBtnValue.currentTitle == "문제 풀이" {
+                    // TODO: 사회 > 문제풀이선택 > 셀 클릭
+                }
+            }
+            
+        } else if otherSubjectsViewTitleValue == "기타 강의" {
+            if otherSubjectsSwitchOnOffValue.isOn {
+                // TODO: 기타 > 전체보기 > 셀 클릭
+            
+                
+            // TODO: 시리즈보기
+            } else {
+                if otherSubjectsSelectedBtnValue.currentTitle == "전체 보기" {
+                    // TODO: 기타 > 전체보기 > 셀 클릭
+                } else if otherSubjectsSelectedBtnValue.currentTitle == "문제 풀이" {
+                    // TODO: 기타 > 문제풀이선택 > 셀 클릭
+                }
+            }
+            
+        } else {
+            
         }
     }
     
