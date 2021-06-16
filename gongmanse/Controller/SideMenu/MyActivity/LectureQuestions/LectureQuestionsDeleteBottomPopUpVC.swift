@@ -1,8 +1,9 @@
 import UIKit
 import BottomPopup
+import Alamofire
 
 class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
-
+    
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var lectureTitle: PaddingLabel!
     @IBOutlet weak var allCountView: UIView!
@@ -21,20 +22,27 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     var deleteLectureQnA: LectureQnAModels?
     var video_id: String = ""
     var video_title: String = ""
+    var selectImageChange: Dynamic<Bool> = Dynamic(false)
+    var selectIndexId: Dynamic<Bool> = Dynamic(false)
+    var isSelect: Bool = false
+    var tableViewInputData: [LectureQnAData]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        allCountView.layer.addBorder([.top], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
-        allSelectButton.layer.addBorder([.top, .left, .right, .bottom], color: .systemGray4, width: 0.7)
-        deleteButton.layer.addBorder([.top, .right, .bottom], color: .systemGray4, width: 0.7)
+        
+        borderStyles()
         
         getDataFromJson()
         lectureTitle.text = video_title
         
-        footerView.addSubview(allSelectButton)
-        footerView.addSubview(deleteButton)
-        tableView.tableFooterView = footerView
+        allSelectButton.tag = 1
+        deleteButton.tag = 2
+    }
+    
+    func borderStyles() {
+        allCountView.layer.addBorder([.top], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
+        allSelectButton.layer.addBorder([.top, .left, .right, .bottom], color: .systemGray4, width: 0.7)
+        deleteButton.layer.addBorder([.top, .right, .bottom], color: .systemGray4, width: 0.7)
     }
     
     func getDataFromJson() {
@@ -71,21 +79,28 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
         
         self.countLabel.attributedText = attributedString
     }
-
+    
     @IBAction func closeBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func allSelectButtonAction(_ sender: Any) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LectureQuestionsDeleteBottomPopUpCell") as! LectureQuestionsDeleteBottomPopUpCell
-        
-        cell.checkImage.image = UIImage(systemName: "checkmark.circle.fill")
-        cell.checkImage.tintColor = .mainOrange
+    @IBAction func allSelectButtonAction(_ sender: UIButton) {
+        isSelect = !isSelect
+        selectImageChange.value = isSelect
         
         tableView.reloadData()
     }
     
-    @IBAction func deleteButtonAction(_ sender: Any) {
+    @IBAction func deleteButtonAction(_ sender: UIButton) {
+//        isSelect = !isSelect
+        selectIndexId.value = isSelect
+        guard let json = self.deleteLectureQnA else { return }
+        let indexid = json.data[sender.tag].sQid
+        let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid ?? "nil")
+        LectureQuestionsDeleteBottomPopUpVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
+        
+        getDataFromJson()
+        tableView.reloadData()
     }
     
     override var popupHeight: CGFloat {
@@ -125,7 +140,20 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         guard let json = self.deleteLectureQnA else { return cell }
         let indexData = json.data[indexPath.row]
         
+        if allSelectButton.tag == 1 {
+            selectImageChange.bindAndFire(listener: { bool in
+                cell.checkImage.image = bool ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
+                cell.checkImage.tintColor = bool ? UIColor.mainOrange : UIColor.systemGray4
+            })
+        } else if deleteButton.tag == 2 {
+            selectIndexId.bindAndFire(listener: { bool in
+                
+                
+            })
+        }
+        
         cell.deleteContext.text = indexData.sQuestion
+        deleteButton.tag = indexPath.row
         
         if indexData.sAnswer != nil {
             cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
@@ -150,5 +178,44 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - API
+
+extension LectureQuestionsDeleteBottomPopUpVC {
+    func didSuccessPostAPI() {
+        
+        //self.tableView.reloadData()
+        self.view.layoutIfNeeded()
+    }
+}
+
+struct LectureQuestionsDeleteBottomPopUpInput: Encodable {
+    
+    var id: String
+    var token = Constant.token
+}
+
+class LectureQuestionsDeleteBottomPopUpVCDataManager {
+    
+    func postRemoveExpertConsult(param: LectureQuestionsDeleteBottomPopUpInput, viewController: LectureQuestionsDeleteBottomPopUpVC) {
+        
+        let id = param.id
+        
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "qna_id")
+            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+            
+        }, to: "https://api.gongmanse.com/v/member/myqna").response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                viewController.didSuccessPostAPI()
+                print(response)
+            case.failure:
+                print("error")
+            }
+        }
     }
 }
