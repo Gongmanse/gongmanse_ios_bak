@@ -99,6 +99,8 @@ extension VideoController {
                                     forCellWithReuseIdentifier: BottomQnACell.reusableIdentifier)
         pageCollectionView.register(BottomPlaylistCell.self,
                                     forCellWithReuseIdentifier: BottomPlaylistCell.reusableIdentifier)
+        pageCollectionView.register(VideoPlaylistCell.self,
+                                    forCellWithReuseIdentifier: VideoPlaylistCell.reusableIdentifier)
         view.addSubview(pageCollectionView)
     }
     

@@ -13,6 +13,9 @@ class AutoplayDataManager {
     
     private init() { }
     
+    var currentViewTitleView: String = ""
+    var currentFiltering: String = ""
+    
     // TODO: 자동재생 여부를 판단하는 Boolean
     // 1: 국영수
     var isAutoplayMainSubject: Bool = false
@@ -37,6 +40,7 @@ class AutoplayDataManager {
     // 추후에 개선된 방법이 떠오르면 삭제할 예정
     // 추천의 경우 "receiveRecommendModelData"
     
+    /* 아래 경우는 모두 자동재생이 켜진 상태에서 호출할 데이터입니다. */
     /// "추천"에 있는 데이터 20 개
     var videoDataInRecommandTab: VideoInput?
     

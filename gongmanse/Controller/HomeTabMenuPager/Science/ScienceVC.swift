@@ -316,7 +316,7 @@ extension ScienceVC: UICollectionViewDelegate {
                 vc.scienceReceiveData = scienceVideo
                 vc.scienceSelectedBtn = selectBtn
                 vc.scienceViewTitle = "과학 강의"
-//                vc.koreanViewTitle = viewTitle.text
+                autoPlayDataManager.currentViewTitleView = "과학 강의"
                 present(vc, animated: true)
                 
                 

@@ -143,7 +143,7 @@ extension VideoController {
 
 //        let autoPlayDataManager = AutoplayDataManager.shared
         
-        autoPlayVideo()
+//        autoPlayVideo()
     }
     
     func autoPlayVideo() {

@@ -81,6 +81,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         }
     }
     
+    var videoPlaylistVC: VideoPlaylistVC?
+    
     var id: String?
     var seriesID: String?
         
@@ -123,6 +125,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(videoID: id)
+    
+    
     
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
@@ -719,49 +723,61 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             return cell
             
         case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
-            
-            cell.seriesID = self.seriesID
-            
-            //추천
-            cell.recommendSeriesID = self.recommendSeriesId ?? ""
-            cell.receiveRecommendModelData = self.recommendReceiveData
-            
-            //인기
-            cell.popularSeriesID = self.popularSeriesId ?? ""
-            cell.receivePopularModelData = self.popularReceiveData
-            cell.popularViewTitleValue = self.popularViewTitle ?? ""
-            
-            //국영수
-            cell.koreanSeriesID = self.koreanSeriesId ?? ""
-            cell.koreanSwitchOnOffValue = self.koreanSwitchValue
-            cell.receiveKoreanModelData = self.koreanReceiveData
-            cell.koreanSelectedBtnValue = self.koreanSelectedBtn
-            cell.koreanViewTitleValue = self.koreanViewTitle ?? ""
-            
-            //과학
-            cell.scienceSeriesID = self.scienceSeriesId ?? ""
-            cell.scienceSwitchOnOffValue = self.scienceSwitchValue
-            cell.recieveScienceModelData = self.scienceReceiveData
-            cell.scienceSelectedBtnValue = self.scienceSelectedBtn
-            cell.scienceViewTitleValue = self.scienceViewTitle ?? ""
-            
-            //사회
-            cell.socialStudiesSeriesID = self.socialStudiesSeriesId ?? ""
-            cell.socialStudiesSwitchOnOffValue = self.socialStudiesSwitchValue
-            cell.recieveSocialStudiesModelData = self.socialStudiesReceiveData
-            cell.socialStudiesSelectedBtnValue = self.socialStudiesSelectedBtn
-            cell.socialStudiesViewTitleValue = self.socialStudiesViewTitle ?? ""
-            
-            //기타
-            cell.otherSubjectsSeriesID = self.otherSubjectsSeriesId ?? ""
-            cell.otherSubjectsSwitchOnOffValue = self.otherSubjectsSwitchValue
-            cell.recieveOtherSubjectsModelData = self.otherSubjectsReceiveData
-            cell.otherSubjectsSelectedBtnValue = self.otherSubjectsSelectedBtn
-            cell.otherSubjectsViewTitleValue = self.otherSubjectsViewTitle ?? ""
-            
-            cell.delegate = self
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoPlaylistCell.reusableIdentifier, for: indexPath) as! VideoPlaylistCell
+            self.videoPlaylistVC = VideoPlaylistVC()
+            guard let videoPlaylistVC = self.videoPlaylistVC else { return UICollectionViewCell() }
+            self.addChild(videoPlaylistVC)
+            cell.addSubview(videoPlaylistVC.view)
+            videoPlaylistVC.view.anchor(top: cell.topAnchor,
+                                              left: cell.leftAnchor,
+                                              bottom: cell.bottomAnchor,
+                                              right: cell.rightAnchor)
+            videoPlaylistVC.didMove(toParent: self)
             return cell
+//        case 2:
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
+//
+//            cell.seriesID = self.seriesID
+//
+//            //추천
+//            cell.recommendSeriesID = self.recommendSeriesId ?? ""
+//            cell.receiveRecommendModelData = self.recommendReceiveData
+//
+//            //인기
+//            cell.popularSeriesID = self.popularSeriesId ?? ""
+//            cell.receivePopularModelData = self.popularReceiveData
+//            cell.popularViewTitleValue = self.popularViewTitle ?? ""
+//
+//            //국영수
+//            cell.koreanSeriesID = self.koreanSeriesId ?? ""
+//            cell.koreanSwitchOnOffValue = self.koreanSwitchValue
+//            cell.receiveKoreanModelData = self.koreanReceiveData
+//            cell.koreanSelectedBtnValue = self.koreanSelectedBtn
+//            cell.koreanViewTitleValue = self.koreanViewTitle ?? ""
+//
+//            //과학
+//            cell.scienceSeriesID = self.scienceSeriesId ?? ""
+//            cell.scienceSwitchOnOffValue = self.scienceSwitchValue
+//            cell.recieveScienceModelData = self.scienceReceiveData
+//            cell.scienceSelectedBtnValue = self.scienceSelectedBtn
+//            cell.scienceViewTitleValue = self.scienceViewTitle ?? ""
+//
+//            //사회
+//            cell.socialStudiesSeriesID = self.socialStudiesSeriesId ?? ""
+//            cell.socialStudiesSwitchOnOffValue = self.socialStudiesSwitchValue
+//            cell.recieveSocialStudiesModelData = self.socialStudiesReceiveData
+//            cell.socialStudiesSelectedBtnValue = self.socialStudiesSelectedBtn
+//            cell.socialStudiesViewTitleValue = self.socialStudiesViewTitle ?? ""
+//
+//            //기타
+//            cell.otherSubjectsSeriesID = self.otherSubjectsSeriesId ?? ""
+//            cell.otherSubjectsSwitchOnOffValue = self.otherSubjectsSwitchValue
+//            cell.recieveOtherSubjectsModelData = self.otherSubjectsReceiveData
+//            cell.otherSubjectsSelectedBtnValue = self.otherSubjectsSelectedBtn
+//            cell.otherSubjectsViewTitleValue = self.otherSubjectsViewTitle ?? ""
+//
+//            cell.delegate = self
+//            return cell
             
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell

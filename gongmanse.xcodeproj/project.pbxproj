@@ -246,6 +246,8 @@
 		25D976232616FF80000C2F4F /* CustomMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D976222616FF80000C2F4F /* CustomMenuBar.swift */; };
 		25D976262616FFEA000C2F4F /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D976252616FFEA000C2F4F /* SearchController.swift */; };
 		25DACDA02637B8B0002D03BB /* TestSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DACD9F2637B8B0002D03BB /* TestSearchController.swift */; };
+		25E2280A2679A68900EFE844 /* VideoPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E228092679A68900EFE844 /* VideoPlaylistCell.swift */; };
+		25E2280D2679A73700EFE844 /* VideoPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E2280C2679A73700EFE844 /* VideoPlaylistVC.swift */; };
 		25EDAB6E26154E0200D27DB5 /* FindingPwdByEmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */; };
 		25EDAB7126154E0A00D27DB5 /* FindingPwdByEmailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */; };
 		25EDAB7426154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */; };
@@ -697,6 +699,8 @@
 		25D976222616FF80000C2F4F /* CustomMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuBar.swift; sourceTree = "<group>"; };
 		25D976252616FFEA000C2F4F /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		25DACD9F2637B8B0002D03BB /* TestSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSearchController.swift; sourceTree = "<group>"; };
+		25E228092679A68900EFE844 /* VideoPlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaylistCell.swift; sourceTree = "<group>"; };
+		25E2280C2679A73700EFE844 /* VideoPlaylistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaylistVC.swift; sourceTree = "<group>"; };
 		25EDAB6D26154E0200D27DB5 /* FindingPwdByEmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailInput.swift; sourceTree = "<group>"; };
 		25EDAB7026154E0A00D27DB5 /* FindingPwdByEmailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailResponse.swift; sourceTree = "<group>"; };
 		25EDAB7326154E1B00D27DB5 /* FindingPwdByEmailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingPwdByEmailDataManager.swift; sourceTree = "<group>"; };
@@ -2228,6 +2232,23 @@
 			path = Search_Re;
 			sourceTree = "<group>";
 		};
+		25E228082679A65200EFE844 /* BottomPlaylist */ = {
+			isa = PBXGroup;
+			children = (
+				25E2280B2679A72100EFE844 /* VideoPlaylistVC */,
+				25E228092679A68900EFE844 /* VideoPlaylistCell.swift */,
+			);
+			path = BottomPlaylist;
+			sourceTree = "<group>";
+		};
+		25E2280B2679A72100EFE844 /* VideoPlaylistVC */ = {
+			isa = PBXGroup;
+			children = (
+				25E2280C2679A73700EFE844 /* VideoPlaylistVC.swift */,
+			);
+			path = VideoPlaylistVC;
+			sourceTree = "<group>";
+		};
 		25EDAB7626154E2500D27DB5 /* Email */ = {
 			isa = PBXGroup;
 			children = (
@@ -2880,6 +2901,7 @@
 		C26F03FE26527C8E00CAE415 /* BottomQnA */ = {
 			isa = PBXGroup;
 			children = (
+				25E228082679A65200EFE844 /* BottomPlaylist */,
 				2580CF47261A916E00D78E4E /* BottomQnACell.swift */,
 				C2A39E0E264E17A80046290D /* QnAMyChatCell.swift */,
 				C2A39E0F264E17A80046290D /* QnAMyChatCell.xib */,
@@ -3492,6 +3514,7 @@
 				257C50062668E03400C65355 /* VideoTabBarCell.swift in Sources */,
 				259B8C3926031CBE009A7146 /* PaymentHistoryVC.swift in Sources */,
 				A9850EE92616126F00908BA4 /* AskListCell.swift in Sources */,
+				25E2280A2679A68900EFE844 /* VideoPlaylistCell.swift in Sources */,
 				251C3276264901C400C765CE /* DetailScreenTabBarMenuCell.swift in Sources */,
 				25AB851A2672E576003A182C /* VideoDataManager.swift in Sources */,
 				C2A4B8952626BBC900173261 /* RequestEventAPI.swift in Sources */,
@@ -3683,6 +3706,7 @@
 				6C052CFC26661A0000083F59 /* RecentVideoBottomPopUpVC.swift in Sources */,
 				2574592F26143C02007A2A5D /* FindingViewModel.swift in Sources */,
 				C233028B263932590058592E /* SearchMainCell.swift in Sources */,
+				25E2280D2679A73700EFE844 /* VideoPlaylistVC.swift in Sources */,
 				2538EDC626436F240090E460 /* VideoFullScreenController.swift in Sources */,
 				2580AB64266748FB00B42475 /* LessonNoteController.swift in Sources */,
 				2568EEF426119F4800CD24B8 /* ByEmailInput.swift in Sources */,
