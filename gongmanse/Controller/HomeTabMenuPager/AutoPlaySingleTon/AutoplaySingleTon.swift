@@ -7,11 +7,28 @@
 
 import Foundation
 
+// 06.16 당시 리팩토링할 시간적 여유가 없어서 만들고 사용하지 않음
+// AutoPlayDataManager 의 currentViewtitleview 가능하면 enum으로 리팩토링할 것
+//enum currentViewTitleView {
+//    case series
+//    case mainSubject
+//    case science
+//    case social
+//    case others
+//}
+
+
 class AutoplayDataManager {
     
     static let shared = AutoplayDataManager()
     
     private init() { }
+    
+    /// 어떤 탭에서 클릭했는지 저장하는 프로퍼티
+    var currentViewTitleView: String = ""
+    
+    // 탭에서 선택한 필터링을 저장하는 프로퍼티
+    var currentFiltering: String = ""
     
     // TODO: 자동재생 여부를 판단하는 Boolean
     // 1: 국영수
@@ -37,6 +54,7 @@ class AutoplayDataManager {
     // 추후에 개선된 방법이 떠오르면 삭제할 예정
     // 추천의 경우 "receiveRecommendModelData"
     
+    /* 아래 경우는 모두 자동재생이 켜진 상태에서 호출할 데이터입니다. */
     /// "추천"에 있는 데이터 20 개
     var videoDataInRecommandTab: VideoInput?
     

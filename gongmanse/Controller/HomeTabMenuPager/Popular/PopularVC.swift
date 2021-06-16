@@ -164,6 +164,10 @@ extension PopularVC: UICollectionViewDelegate {
             vc.popularSeriesId = seriesID
             vc.popularReceiveData = popularVideo
             vc.popularViewTitle = viewTitle.text
+            
+            let autoDataManager = AutoplayDataManager.shared
+            autoDataManager.currentViewTitleView = "인기"
+            
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")

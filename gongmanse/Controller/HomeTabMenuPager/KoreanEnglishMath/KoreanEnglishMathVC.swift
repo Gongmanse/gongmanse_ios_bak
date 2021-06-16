@@ -302,8 +302,6 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             
             // 시리즈보기: self.selectedItem == 1
             // 문제풀이: self.selectedItem == 2
-            
-            
             // 전체보기
             if self.selectedItem == 0 {
                 let vc = VideoController()
@@ -319,6 +317,9 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 vc.koreanSelectedBtn = selectBtn
 //                vc.koreanViewTitle = viewTitle.text
                 vc.koreanViewTitle = "국영수 강의"
+//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                let autoDataManager = AutoplayDataManager.shared
+                autoDataManager.currentViewTitleView = "국영수"
                 present(vc, animated: true)
                 
                 

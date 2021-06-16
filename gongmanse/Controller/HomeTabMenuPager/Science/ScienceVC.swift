@@ -8,6 +8,9 @@ protocol ScienceVCDelegate: AnyObject {
 
 class ScienceVC: UIViewController, BottomPopupDelegate {
     
+    // 자동재생을 위한 싱글톤 객체를 생성한다.
+    let autoPlayDataManager = AutoplayDataManager.shared
+    
     var delegate: ScienceVCDelegate?
     
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
@@ -69,6 +72,8 @@ class ScienceVC: UIViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
         
+        playSwitch.addTarget(self, action: #selector(playSwitchValueChanged(_:)), for: .valueChanged)
+        
     }
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -111,8 +116,9 @@ class ScienceVC: UIViewController, BottomPopupDelegate {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.data)
+                    
                     self.scienceVideo = json
+                    self.autoPlayDataManager.videoDataInScienceTab = json
                 }
                 DispatchQueue.main.async {
                     self.scienceCollection.reloadData()
@@ -156,6 +162,14 @@ class ScienceVC: UIViewController, BottomPopupDelegate {
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
 
         self.videoTotalCount.attributedText = attributedString
+    }
+    
+    
+    // MARK: - Action
+    
+    @objc func playSwitchValueChanged(_ sender: UISwitch) {
+        // 싱글톤 객체에 현재 "과학" 과목의 자동재생여부를 위한 Boolean값을 입력한다.
+        autoPlayDataManager.isAutoplayScience = sender.isOn
     }
     
     @IBAction func selectMenuBtn(_ sender: Any) {
@@ -264,22 +278,72 @@ extension ScienceVC: UICollectionViewDataSource {
 
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        // 06.16 이전코드
+//        if Constant.isLogin {
+//            let vc = VideoController()
+//            vc.modalPresentationStyle = .fullScreen
+//            let videoID = scienceVideo?.body[indexPath.row].videoId
+//            vc.id = videoID
+//            let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
+//            vc.scienceSeriesId = seriesID
+//            vc.scienceSwitchValue = playSwitch
+//            vc.scienceReceiveData = scienceVideo
+//            vc.scienceSelectedBtn = selectBtn
+//            vc.scienceViewTitle = viewTitle.text
+//            present(vc, animated: true)
+//        } else {
+//            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+//        }
+//
+        
+        // 06.16 이후코드
         if Constant.isLogin {
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            let videoID = scienceVideo?.body[indexPath.row].videoId
-            vc.id = videoID
-            let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
-            vc.scienceSeriesId = seriesID
-            vc.scienceSwitchValue = playSwitch
-            vc.scienceReceiveData = scienceVideo
-            vc.scienceSelectedBtn = selectBtn
-            vc.scienceViewTitle = viewTitle.text
-            present(vc, animated: true)
+            
+            // 시리즈보기: self.selectedItem == 1
+            // 문제풀이: self.selectedItem == 2
+            // 전체보기
+            if self.selectedItem == 0 {
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = scienceVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
+                vc.scienceSeriesId = seriesID
+                vc.scienceSwitchValue = playSwitch
+                vc.scienceReceiveData = scienceVideo
+                vc.scienceSelectedBtn = selectBtn
+                vc.scienceViewTitle = "과학 강의"
+                autoPlayDataManager.currentViewTitleView = "과학"
+                present(vc, animated: true)
+                
+                
+            // 문제풀이
+            } else if self.selectedItem == 1 {
+                print("DEBUG: 1번")
+            
+            // 시리즈보기
+            } else if self.selectedItem == 2 {
+
+                print("DEBUG: 2번")
+            // 노트보기
+            } else if self.selectedItem == 3 {
+                let videoID = scienceVideo?.body[indexPath.row].videoId
+                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+                print("DEBUG: 3번")
+            }
+
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
+        
     }
+    
 }
 
 extension ScienceVC: UICollectionViewDelegateFlowLayout {
