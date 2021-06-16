@@ -26,14 +26,7 @@ class OneOnOneEnquiryVC: UIViewController {
             }
         }
     }
-//    tableShardVM.readSections(categoryId: categoryID).subscribe(onNext: { [weak self] category in
-//        if category.count == 0{
-//            self?.state = .hide
-//        }else{
-//            self?.state = .show
-//        }
-//    })
-//    .disposed(by: bag)
+    
     
     private let enquiryIdentifier = "EnquiryCell"
     private let emptyImage: UIImageView = {

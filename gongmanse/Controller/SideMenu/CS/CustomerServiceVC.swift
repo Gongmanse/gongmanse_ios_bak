@@ -69,8 +69,8 @@ extension CustomerServiceVC {
     func setupTabs() {
         //탭 추가
         tabsView.tabs = [
-            Tab(title: "자주묻는질문")
-            //Tab(title: "1:1 문의")
+            Tab(title: "자주묻는질문"),
+            Tab(title: "1:1 문의")
         ]
         
         //TabMode를 화면 전체 너비로 확장 된 탭의 경우 '.fixed'로 설정하고 모든 탭을 보려면 스크롤하려면 '.scrollable'로 설정
