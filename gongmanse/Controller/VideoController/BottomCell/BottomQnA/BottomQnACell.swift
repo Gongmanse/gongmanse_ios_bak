@@ -100,14 +100,11 @@ class BottomQnACell: UICollectionViewCell {
     }()
     
     //MARK: - Lifecycle
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
+    
+    override func setNeedsLayout() {
+        super.setNeedsLayout()
         
         videoVM.requestVideoQnA(videoID)
-        videoVM.reloadDelegate = self
-        sendText.delegate = self
         
         emptyStackView.isHidden = true
         tableView.isHidden = false
@@ -125,6 +122,9 @@ class BottomQnACell: UICollectionViewCell {
        // initialize what is needed
 
         self.backgroundColor = .white
+        
+        videoVM.reloadDelegate = self
+        sendText.delegate = self
         
         configuration()
         constraints()
@@ -153,13 +153,16 @@ class BottomQnACell: UICollectionViewCell {
             let keyboardHeight = keyboardRectangle.height
             print(keyboardHeight)
             UIView.animate(withDuration: 1) {
-                print(self.bottomStackView.frame.origin.y)
+                print("Empty == ", self.bottomStackView.frame.origin.y)
+                print("bottom == ", self.bottomStackView.frame.origin.y)
                 self.emptyStackView.frame.origin.y -= keyboardHeight
                 self.bottomStackView.frame.origin.y -= keyboardHeight
             }
             
             isKeyboardSelect = true
+            
         }
+        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
     }
  
     @objc func keyboardWillHide(_ sender: Notification) {
@@ -198,10 +201,14 @@ class BottomQnACell: UICollectionViewCell {
             videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
             videoVM.requestVideoQnA(videoID)
             
-            
             sendText.text = ""
         }
-        
+    }
+    
+    func scrollToBottom() {
+        let lastRow = tableView.numberOfRows(inSection: 0) - 1
+        let indexPath = IndexPath(row: lastRow, section: 0)
+        self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
 }
@@ -298,8 +305,16 @@ extension BottomQnACell {
 extension BottomQnACell: TableReloadData {
     
     func reloadTable() {
+        
+        if videoVM.videoQnAInformation?.data.count != 0 {
+            emptyStackView.isHidden = true
+            tableView.isHidden = false
+        }
+        
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.scrollToBottom()
         }
     }
 }

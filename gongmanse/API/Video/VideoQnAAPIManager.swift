@@ -14,6 +14,9 @@ struct VideoQnAAPIManager {
     
     func fetchVideoQnAGetApi(_ videoId: String, _ token: String, completion: @escaping resultModel<VideoQnAModel>) {
         
+        print(videoId)
+        print(token)
+        
         let videoUrl = "\(apiBaseURL)/v/video/detail_qna?video_id=\(videoId)&token=\(token)"
         
         AF.request(videoUrl, method: .get)
