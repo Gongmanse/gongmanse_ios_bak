@@ -15,12 +15,14 @@ class VideoQnAVideModel {
     
     let videoQnAManager = VideoQnAAPIManager()
     
+    /// 영상QnA 정보 불러오기
     func requestVideoQnA(_ videoId: String) {
         
         videoQnAManager.fetchVideoQnAGetApi(videoId, Constant.token) { response in
             
             switch response {
             case .success(let data):
+                print("Success Request")
                 self.videoQnAInformation = data
                 self.reloadDelegate?.reloadTable()
             case .failure(let err):
@@ -29,7 +31,7 @@ class VideoQnAVideModel {
         }
     }
     
-    
+    /// 영상 QnA 데이터 넣기
     func requestVideoQnAInsert(_ videoId: String, content: String) {
         
         let parameters = VideoQnAPostModel(videoID: videoId, token: Constant.token, content: content)
