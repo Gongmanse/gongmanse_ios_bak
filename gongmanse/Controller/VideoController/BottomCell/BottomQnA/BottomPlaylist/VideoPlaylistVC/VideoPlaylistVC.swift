@@ -57,7 +57,14 @@ class VideoPlaylistVC: UIViewController {
     
     private var videoCountLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "22/36"
+        lb.text = " "
+        lb.font = UIFont.appRegularFontWith(size: 11)
+        return lb
+    }()
+    
+    private var videoCountTotalLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = " "
         lb.font = UIFont.appRegularFontWith(size: 11)
         return lb
     }()
@@ -128,6 +135,11 @@ class VideoPlaylistVC: UIViewController {
         videoCountLabel.anchor(left: videoCountTitleLabel.rightAnchor,
                                paddingLeft: 10)
         
+        videoCountContainerView.addSubview(videoCountTotalLabel)
+        videoCountTotalLabel.centerY(inView: videoCountContainerView)
+        videoCountTotalLabel.anchor(left: videoCountLabel.rightAnchor,
+                                    paddingLeft: 1)
+        
         view.addSubview(tableView)
         tableView.anchor(top: videoCountContainerView.bottomAnchor,
                          left: view.leftAnchor,
@@ -196,7 +208,7 @@ extension VideoPlaylistVC {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.videoCountLabel.text = currentIndex + "/" + totalPlaylistNum
+            self.videoCountTotalLabel.text = "/" + totalPlaylistNum
         }
     }
 }
@@ -218,15 +230,17 @@ extension VideoPlaylistVC {
             var currentIndexPathRow = Int()
             
             for (index, data) in displayedData.enumerated() {
-                print("DEBUG: index \(index) ", data)
+                
                 if videoDataManager.currentVideoID == data.id {
                     currentIndexPathRow = index
-                    print("DEBUG: index \(index)")
+                    
                 }
             }
             
             self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
                                        at: .top, animated: true)
+            
+            self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
         }
         
         
