@@ -9,6 +9,7 @@ protocol SocialStudiesVCDelegate: class {
 class SocialStudiesVC: UIViewController, BottomPopupDelegate {
     
     var delegate: SocialStudiesVCDelegate?
+    let autoPlayDataManager = AutoplayDataManager.shared
     
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
@@ -68,6 +69,15 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
+        
+        playSwitch.addTarget(self, action: #selector(autoPlayValueChanged(_:)), for: .valueChanged)
+    }
+    
+    // MARK: - Action
+    
+    @objc func autoPlayValueChanged(_ sender: UISwitch) {
+        let autoDataManager = AutoplayDataManager.shared
+        autoDataManager.isAutoplaySocialStudy = sender.isOn
     }
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -112,6 +122,10 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.data)
                     self.socialStudiesVideo = json
+                    
+                    self.autoPlayDataManager.videoDataInSocialStudyTab = json
+                    
+
                 }
                 DispatchQueue.main.async {
                     self.socialStudiesCollection.reloadData()

@@ -9,7 +9,8 @@ protocol OtherSubjectsVCDelegate: class {
 class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
     
     var delegate: OtherSubjectsVCDelegate?
-    
+    let autoPlayDataManager = AutoplayDataManager.shared
+
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
     var selectedItem: Int? {
@@ -124,6 +125,8 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
                     self.otherSubjectsVideo = json
+                    let autoPlayDataManager = AutoplayDataManager.shared
+                    autoPlayDataManager.videoDataInOtherSubjectsTab = json
                 }
                 DispatchQueue.main.async {
                     self.otherSubjectsCollection.reloadData()
@@ -145,6 +148,8 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.otherSubjectsVideoSecond = json
+                    // 데이터모델이 다름..0616
+//                    autoPlayDataManager.videoDataInOtherSubjectsTab = jso
                 }
                 DispatchQueue.main.async {
                     self.otherSubjectsCollection.reloadData()

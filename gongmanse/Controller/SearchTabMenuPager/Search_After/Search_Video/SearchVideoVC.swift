@@ -206,6 +206,13 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             NotificationCenter.default.removeObserver(self)
             NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
             
+            
+            let autoDataManager = AutoplayDataManager.shared
+//            autoDataManager.currentViewTitleView = ""
+            autoDataManager.isAutoplayMainSubject = false
+            autoDataManager.isAutoplayScience = false
+            autoDataManager.isAutoplaySocialStudy = false
+            autoDataManager.isAutoplayOtherSubjects = false
 
             // 싱글톤 객체에 들어간 데이터를 초기화한다.
 //            let pipDataManager = PIPDataManager.shared
