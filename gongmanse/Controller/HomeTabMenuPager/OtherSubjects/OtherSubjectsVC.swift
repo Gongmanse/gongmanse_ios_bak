@@ -285,6 +285,8 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
             vc.otherSubjectsReceiveData = otherSubjectsVideo
             vc.otherSubjectsSelectedBtn = selectBtn
             vc.otherSubjectsViewTitle = "기타 강의"
+            let autoDataManager = AutoplayDataManager.shared
+            autoDataManager.currentViewTitleView = "기타"
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")

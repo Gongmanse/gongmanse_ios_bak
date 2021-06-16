@@ -10,7 +10,7 @@ import UIKit
 struct VideoPlaylistVCViewModel {
     
     let autoPlayDataManager = AutoplayDataManager.shared
- 
+    
     var videoData = PlayListModels(isMore: false,
                                    totalNum: "",
                                    seriesInfo: PlayListInfo(sTitle: "",
@@ -96,11 +96,11 @@ class VideoPlaylistVC: UIViewController {
     }
     
     // MARK: - Actions
-
+    
     // MARK: - Heleprs
-
+    
     func setupLayout() {
-
+        
         setupDataFromAPI()
         view.backgroundColor = .white
         setupTableView()
@@ -152,14 +152,12 @@ class VideoPlaylistVC: UIViewController {
     
     func setupDataFromAPI() {
         
-        
-        
         // 자동재생이 On인 경우 받아올 데이터
         // 국영수
         if autoPlayDataManager.isAutoplayMainSubject {
             guard let inpuData = autoPlayDataManager.videoDataInMainSubjectsTab else { return }
             viewModel.autoPlayVideoData = inpuData
-
+            
         } else {
             // 자동재생이 Off인 경우 받아올 데이터
             guard let seriesID = self.seriesID else { return }
@@ -168,7 +166,6 @@ class VideoPlaylistVC: UIViewController {
                                                                 offset: "0"),
                                              viewController: self)
         }
-        
     }
 }
 
@@ -198,6 +195,9 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                                                        for: indexPath) as? BottomPlaylistTVCell else
         { return UITableViewCell() }
         
+        /**
+         true : 추천
+         */
         if autoPlayDataManager.currentViewTitleView == "추천" {
             let cellData = self.viewModel.videoData.data[indexPath.row]
             cell.row = indexPath.row
@@ -208,12 +208,42 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             } else { cell.highlightView.backgroundColor = .clear }
             return cell
             
-        } else if autoPlayDataManager.isAutoplayMainSubject {
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == "인기" {
+            print("DEBUG: 인기입니다.")
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == "국영수" {
+            print("DEBUG: 국영수입니다.")
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == "과학" {
+            print("DEBUG: 과학입니다.")
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == "사회" {
+            print("DEBUG: 사회입니다.")
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == "기타" {
+            print("DEBUG: 기타입니다.")
+        }
+        
+        
+        /**
+         true : 국영수 + 자동재생 On
+         false: 국영수 + 자동재생 off
+         */
+        if autoPlayDataManager.isAutoplayMainSubject && autoPlayDataManager.currentViewTitleView == "국영수 강의" {
             let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
             cell.row = indexPath.row
             cell.autoPlayData = autoPlayData
             return cell
+        } else {
+            
         }
+        
         return cell
     }
     
@@ -249,7 +279,7 @@ extension VideoPlaylistVC {
 // MARK: - 현재 재생중인 Cell로 스크롤
 
 extension VideoPlaylistVC {
-        
+    
     /// 재생목록의 cell들 중에서 현재 재생되고 있는 cell로 이동시켜주는 메소드
     func scrollUITableViewCellToCurrentVideo() {
         
@@ -278,7 +308,7 @@ extension VideoPlaylistVC {
         
         
         if currentTabMenu == "국영수 강의" && autoPlayDataManager.isAutoplayMainSubject { // 국영수 + 자동재생 On
-        
+            
             for (index, _) in autoPlayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
                 
                 let playVideoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
@@ -286,10 +316,10 @@ extension VideoPlaylistVC {
                 if videoDataManager.currentVideoID == playVideoID {
                     print("DEBUG: 잇슴")
                     print("DEBUG: index is \(index)")
-//                    DispatchQueue.main.async {
-//                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-//                                                   at: .top, animated: true)
-//                    }
+                    //                    DispatchQueue.main.async {
+                    //                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                    //                                                   at: .top, animated: true)
+                    //                    }
                 }
             }
             
