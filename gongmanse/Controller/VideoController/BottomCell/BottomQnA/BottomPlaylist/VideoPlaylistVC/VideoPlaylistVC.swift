@@ -180,9 +180,15 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
         
-        let dataCount = viewModel.videoData.data.count
-        let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
-        return autoPlayDataCount
+        if autoPlayDataManager.isAutoplayMainSubject {
+            let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+            return autoPlayDataCount
+        } else {
+            let dataCount = viewModel.videoData.data.count
+            return dataCount
+        }
+        
+        
     }
     
     func tableView(_ tableView: UITableView,
