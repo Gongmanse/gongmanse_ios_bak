@@ -36,8 +36,12 @@ class VideoPlaylistVC: UIViewController {
     weak var playVideoDelegate: BottomPlaylistCellDelegate?
     
     // Data
+    let autoPlayDataManager = AutoplayDataManager.shared
     var viewModel = VideoPlaylistVCViewModel() {
-        didSet { tableView.reloadData() }
+        didSet {
+            tableView.reloadData()
+            scrollUITableViewCellToCurrentVideo()
+        }
     }
     
     var seriesID: String?
@@ -77,6 +81,9 @@ class VideoPlaylistVC: UIViewController {
         setupLayout()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
     
     // MARK: - Actions
 
@@ -155,8 +162,14 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BottomPlaylistTVCell.reusableIdentifier,
                                                        for: indexPath) as? BottomPlaylistTVCell else
         { return UITableViewCell() }
-        cell.viewModel = self.viewModel
+        let cellData = self.viewModel.videoData.data[indexPath.row]
         cell.row = indexPath.row
+        cell.cellData = cellData
+        
+        let videoDataManager = VideoDataManager.shared
+        if videoDataManager.currentVideoID == viewModel.videoData.data[indexPath.row].id {
+            cell.highlightView.backgroundColor = .progressBackgroundColor
+        } else { cell.highlightView.backgroundColor = .clear }
         return cell
     }
     
@@ -178,7 +191,6 @@ extension VideoPlaylistVC {
         
         let getData = response.data
         self.viewModel.videoData.data = getData
-        
         let totalPlaylistNum = response.totalNum
         let currentIndex = "2"
         
@@ -189,3 +201,55 @@ extension VideoPlaylistVC {
     }
 }
 
+// MARK: - 현재 재생중인 Cell로 스크롤
+
+extension VideoPlaylistVC {
+        
+    /// 재생목록의 cell들 중에서 현재 재생되고 있는 cell로 이동시켜주는 메소드
+    func scrollUITableViewCellToCurrentVideo() {
+        
+        let currentTabMenu = autoPlayDataManager.currentViewTitleView
+        let currentTabFiltering = autoPlayDataManager.currentFiltering
+        let videoDataManager = VideoDataManager.shared
+        
+        if currentTabMenu == "추천" {
+            
+            let displayedData = viewModel.videoData.data
+            var currentIndexPathRow = Int()
+            
+            for (index, data) in displayedData.enumerated() {
+                print("DEBUG: index \(index) ", data)
+                if videoDataManager.currentVideoID == data.id {
+                    currentIndexPathRow = index
+                    print("DEBUG: index \(index)")
+                }
+            }
+            
+            self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
+                                       at: .top, animated: true)
+        }
+        
+        
+        if currentTabMenu == "국영수 강의" && autoPlayDataManager.isAutoplayMainSubject { // 국영수 + 자동재생 On
+        
+            for (index, _) in autoPlayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
+                
+                let playVideoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
+                
+                if videoDataManager.currentVideoID == playVideoID {
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                                                   at: .top, animated: true)
+                    }
+                }
+            }
+            
+            // 국영수 + 자동재생 Off -> 시리즈보기
+        }
+    }
+    
+    
+    
+    
+}

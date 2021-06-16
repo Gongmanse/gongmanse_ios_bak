@@ -7,13 +7,27 @@
 
 import Foundation
 
+// 06.16 당시 리팩토링할 시간적 여유가 없어서 만들고 사용하지 않음
+// AutoPlayDataManager 의 currentViewtitleview 가능하면 enum으로 리팩토링할 것
+//enum currentViewTitleView {
+//    case series
+//    case mainSubject
+//    case science
+//    case social
+//    case others
+//}
+
+
 class AutoplayDataManager {
     
     static let shared = AutoplayDataManager()
     
     private init() { }
     
+    /// 어떤 탭에서 클릭했는지 저장하는 프로퍼티
     var currentViewTitleView: String = ""
+    
+    // 탭에서 선택한 필터링을 저장하는 프로퍼티
     var currentFiltering: String = ""
     
     // TODO: 자동재생 여부를 판단하는 Boolean

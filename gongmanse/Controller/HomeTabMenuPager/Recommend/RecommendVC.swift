@@ -6,6 +6,8 @@ class RecommendVC: UIViewController {
     
     var pageIndex: Int!
     
+    let autoPlayDataManager = AutoplayDataManager.shared
+    
     var loadingView: FooterCRV?
     var isLoading = false
     
@@ -239,6 +241,7 @@ extension RecommendVC: UICollectionViewDelegate {
 //            let seriesID = recommendVideoSecond?.data[indexPath.row].iSeriesId
 //            vc.recommendSeriesId = seriesID
             vc.recommendReceiveData = recommendVideo
+            autoPlayDataManager.currentViewTitleView = "추천"
             self.present(vc, animated: true) {
 //                sleep(1)
             }

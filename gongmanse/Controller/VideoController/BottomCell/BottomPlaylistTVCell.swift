@@ -13,7 +13,15 @@ class BottomPlaylistTVCell: UITableViewCell {
     // Data
     var cellVideoID: String?
     var viewModel: VideoPlaylistVCViewModel? {
-        didSet { updateUI() }
+        didSet {
+//            updateUI()
+        }
+    }
+    
+    var cellData: PlayListData? {
+        didSet {
+            updateUI()
+        }
     }
     var row: Int?
 
@@ -63,19 +71,20 @@ class BottomPlaylistTVCell: UITableViewCell {
     
     func updateUI() {
         
-        guard let viewModel = self.viewModel else { return }
-        guard let index = self.row else { return }
-        let receivedData = viewModel.videoData.data
-        self.videoTitle.text = receivedData[index].sTitle
-        self.teachersName.text = receivedData[index].sTeacher
-        self.subjects.text = receivedData[index].sSubject
-        self.term.text = receivedData[index].sUnit
-        self.term.isHidden = receivedData[index].sUnit.count < 2 ? true : false
-        let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + receivedData[index].sThumbnail)
+        guard let cellData = self.cellData else { return }
+        
+        self.videoTitle.text = cellData.sTitle
+        self.teachersName.text = cellData.sTeacher
+        self.subjects.text = cellData.sSubject
+        self.term.text = cellData.sUnit
+        self.term.isHidden = cellData.sUnit.count < 2 ? true : false
+        let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + cellData.sThumbnail)
         let url = URL(string: urlString)
         self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
             self.videoThumbnail.contentMode = .scaleAspectFill
         })
+        
+        
     }
 }
 
