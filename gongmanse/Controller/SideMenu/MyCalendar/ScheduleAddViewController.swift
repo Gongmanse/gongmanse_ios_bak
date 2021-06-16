@@ -27,7 +27,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
     
     var registViewModel: CalendarRegistViewModel? = CalendarRegistViewModel()
     
-    weak var delegateTable: TableReloadData?
+    
     weak var delegateCalendar: CollectionReloadData?
     
     
@@ -108,22 +108,13 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         registerButton.addTarget(self, action: #selector(registerAlarm(_:)), for: .touchUpInside)
         tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
         
-        switch calendarState {
-        case .addCalendar:
-            registerButton.setTitle("등록하기", for: .normal)
-            registerButton.isEnabled = false
-            registerButton.backgroundColor = .lightGray
-            
-            navigationItem.rightBarButtonItem = nil
-            
-        case .modifyCalendar:
-            registerButton.setTitle("수정하기", for: .normal)
-            
-        default:
-            return
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(popAction(_:)), name: NSNotification.Name("calendar"), object: nil)
         
-                
+        
+    }
+    
+    @objc func popAction(_ sender: Notification) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func registerAlarm(_ sender: UIButton) {
@@ -142,6 +133,9 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
                                               alarm: alarmConvertText,
                                               repeatAlarm: repeatConvertText,
                                               repeatCount: nil)
+            
+            
+            
         case .modifyCalendar:
             
             registViewModel?.requestUpdateApi(updateID: calendarId ?? "",
@@ -153,12 +147,14 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
                                               alarm: alarmConvertText,
                                               repeatAlarm: repeatConvertText,
                                               repeatCount: nil)
+            
+            
+            
         default:
             return
         }
        
-        
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
         
     }
     
@@ -175,8 +171,8 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
             self.registViewModel?.requestDeleteApi(deleteId: self.calendarId ?? "")
             
             self.delegateCalendar?.reloadCollection()
-            self.delegateTable?.reloadTable()
-            self.dismiss(animated: true, completion: nil)
+            
+            self.navigationController?.popViewController(animated: true)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(ok)
@@ -434,7 +430,6 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
         default:
             return UITableViewCell()
         }
-        
     }
     
     // Switch 누를때 호출 메소드
@@ -514,6 +509,21 @@ extension ScheduleAddViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
                                                             target: self,
                                                             action: #selector(trashNavigationAction(_:)))
+        
+        switch calendarState {
+        case .addCalendar:
+            registerButton.setTitle("등록하기", for: .normal)
+            registerButton.isEnabled = false
+            registerButton.backgroundColor = .lightGray
+            
+            navigationItem.rightBarButtonItem = nil
+            
+        case .modifyCalendar:
+            registerButton.setTitle("수정하기", for: .normal)
+            
+        default:
+            return
+        }
         
     }
     

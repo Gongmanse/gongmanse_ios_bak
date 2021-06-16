@@ -166,6 +166,12 @@ class MyCalendarVC: UIViewController {
         
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        isBottomTableHeight = false
+    }
+    
     @objc func dismissAction(_ sender: UIButton) {
         isBottomTableHeight = false
     }
@@ -228,7 +234,6 @@ extension MyCalendarVC: UITableViewDelegate, UITableViewDataSource {
         presentVC.passedDateModel = selectDatePass
         presentVC.passedIndexPath = indexPath.row
         presentVC.calendarId = selectDatePass?.description[indexPath.row].id
-        presentVC.delegateTable = self
         presentVC.delegateCalendar = self
         self.navigationController?.pushViewController(presentVC, animated: true)
     }
@@ -263,8 +268,6 @@ extension MyCalendarVC: FSCalendarDelegate, FSCalendarDataSource {
                 selectDatePass = myCalendarVM?.dataArr[i]
             }
         }
-        
-        
         tableView.reloadData()
     }
     

@@ -404,6 +404,7 @@
 		C27401B5267727E200A2B484 /* CalendarDeleteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27401B4267727E200A2B484 /* CalendarDeleteModel.swift */; };
 		C27401B82677397700A2B484 /* CalendarUpdateMOdel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27401B72677397700A2B484 /* CalendarUpdateMOdel.swift */; };
 		C27401C02677729A00A2B484 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27401BF2677729A00A2B484 /* Dynamic.swift */; };
+		C27401CB2679CE1200A2B484 /* Enum+CalendarConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27401CA2679CE1200A2B484 /* Enum+CalendarConvert.swift */; };
 		C279FA7F264CB165009FA317 /* Enum+Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279FA7E264CB165009FA317 /* Enum+Grade.swift */; };
 		C27A5713265BA5CB0047520E /* LectureDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27A5712265BA5CB0047520E /* LectureDetailViewModel.swift */; };
 		C27CB3EF265242DF00631B3A /* LectureAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CB3EE265242DF00631B3A /* LectureAPIManager.swift */; };
@@ -862,6 +863,7 @@
 		C27401B4267727E200A2B484 /* CalendarDeleteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDeleteModel.swift; sourceTree = "<group>"; };
 		C27401B72677397700A2B484 /* CalendarUpdateMOdel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUpdateMOdel.swift; sourceTree = "<group>"; };
 		C27401BF2677729A00A2B484 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		C27401CA2679CE1200A2B484 /* Enum+CalendarConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+CalendarConvert.swift"; sourceTree = "<group>"; };
 		C279FA7E264CB165009FA317 /* Enum+Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+Grade.swift"; sourceTree = "<group>"; };
 		C27A5712265BA5CB0047520E /* LectureDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureDetailViewModel.swift; sourceTree = "<group>"; };
 		C27CB3EE265242DF00631B3A /* LectureAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureAPIManager.swift; sourceTree = "<group>"; };
@@ -2929,6 +2931,7 @@
 			isa = PBXGroup;
 			children = (
 				C279FA7E264CB165009FA317 /* Enum+Grade.swift */,
+				C27401CA2679CE1200A2B484 /* Enum+CalendarConvert.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -3605,6 +3608,7 @@
 				C2158155264A2E5F004822C3 /* RecentKeywordModel.swift in Sources */,
 				6C88525A2611CDE20006BDB2 /* Address.swift in Sources */,
 				6CF2E65B25F0AA2C000FE084 /* PopularVC.swift in Sources */,
+				C27401CB2679CE1200A2B484 /* Enum+CalendarConvert.swift in Sources */,
 				C2158159264A2ED8004822C3 /* RecentKeywordAPIManager.swift in Sources */,
 				6CF2E67E25F0C59A000FE084 /* LectureByInstructorVC.swift in Sources */,
 				C2F2272B261D3EFE00559065 /* RequestSubjectAPI.swift in Sources */,

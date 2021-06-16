@@ -76,17 +76,6 @@ class AlramRelationListViewController: BottomPopupViewController {
         stack.distribution = .fillEqually
         return stack
     }()
-    //
-    
-//    let alarmListTextArray: [String:String] = ["없음" : "none",
-//                                               "정시" : "right_on_time",
-//                                               "10분 전" : "before_10_mins",
-//                                               "30분 전" : "before_30_mins",
-//                                               "1시간 전" : "before_1_hours",
-//                                               "3시간 전" : "before_3_hours",
-//                                               "12시간 전" : "before_12_hours",
-//                                               "1일 전" : "before_1_day",
-//                                               "1주 전" : "before_1_week"]
     
     let alarmListTextArray: [String] = ["없음", "정시", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전","1주 전"]
     

@@ -6,63 +6,13 @@
 //
 import Foundation
 
-enum alarmString {
-    case none
-    case rightTime
-    case before10m
-    case bofore30m
-    case before1h
-    case before3h
-    case before12h
-    case before1d
-    case before1w
-    
-    var convert: String {
-        switch self {
-        case .none:
-            return "none"
-        case .rightTime:
-            return "right_on_time"
-        case .before10m:
-            return "before_10_mins"
-        case .bofore30m:
-            return "before_30_mins"
-        case .before1h:
-            return "before_1_hours"
-        case .before3h:
-            return "before_3_hours"
-        case .before12h:
-            return "before_12_hours"
-        case .before1d:
-            return "before_1_day"
-        case .before1w:
-            return "before_1_week"
-        }
-    }
-}
-
-enum repeatString: String {
-    case none = "none"
-    case daily = "daily"
-    case weekly = "weekly"
-    case monthly = "monthly"
-    case yearly = "yearly"
-}
 
 class CalendarRegistViewModel {
     
     
     // 등록관련
     
-    func isWriteTitle(_ text: String) -> Bool {
-        return text != "" && text.count != 0 ? true : false
-    }
-    
     var allDaySwitch: Dynamic<Bool> = Dynamic(false)
-    
-    func allDayValueChange() {
-        
-    }
     
     func currentStartDate() -> String {
         let dateformatter: DateFormatter = DateFormatter()
@@ -137,7 +87,7 @@ class CalendarRegistViewModel {
         }
     }
     
-    // API 불러오기
+    /// 일정 추가하기
     func requestRegistApi(title: String,
                           content: String,
                           wholeDay: String,
@@ -181,12 +131,14 @@ class CalendarRegistViewModel {
             switch response {
             case .success(let data):
                 print(data)
+                NotificationCenter.default.post(name: NSNotification.Name("calendar"), object: nil)
             case .failure(let err):
                 print(err.localizedDescription)
             }
         }
     }
     
+    /// 일정 업데이트
     func requestUpdateApi(updateID: String,
                           title: String,
                           content: String,
@@ -210,6 +162,7 @@ class CalendarRegistViewModel {
         
         CalendarAPIManager.calendarUpdateApi(parameter) {
             print("🗣 Success Update Calendar")
+            NotificationCenter.default.post(name: NSNotification.Name("calendar"), object: nil)
         }
     }
     
