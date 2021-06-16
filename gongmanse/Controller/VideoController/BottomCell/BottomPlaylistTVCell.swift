@@ -4,7 +4,7 @@
 //
 //  Created by 김현수 on 2021/05/17.
 //
-
+import SDWebImage
 import UIKit
 
 class BottomPlaylistTVCell: UITableViewCell {
@@ -12,6 +12,10 @@ class BottomPlaylistTVCell: UITableViewCell {
     // MARK: - Property
     // Data
     var cellVideoID: String?
+    var viewModel: VideoPlaylistVCViewModel? {
+        didSet { updateUI() }
+    }
+    var row: Int?
 
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var subjects: PaddingLabel!
@@ -56,4 +60,33 @@ class BottomPlaylistTVCell: UITableViewCell {
         super.draw(rect)
 
     }
+    
+    func updateUI() {
+        
+        guard let viewModel = self.viewModel else { return }
+        guard let index = self.row else { return }
+        let receivedData = viewModel.videoData.data
+        self.videoTitle.text = receivedData[index].sTitle
+        self.teachersName.text = receivedData[index].sTeacher
+        self.subjects.text = receivedData[index].sSubject
+        self.term.text = receivedData[index].sUnit
+        self.term.isHidden = receivedData[index].sUnit.count < 2 ? true : false
+        let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + receivedData[index].sThumbnail)
+        let url = URL(string: urlString)
+        self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
+            self.videoThumbnail.contentMode = .scaleAspectFill
+        })
+    }
 }
+
+
+// MARK: - 한글인코딩
+
+extension BottomPlaylistTVCell {
+    /// 한글 인코딩 처리 메소드
+    func makeStringKoreanEncoded(_ string: String) -> String {
+        return string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? string
+    }
+}
+
+

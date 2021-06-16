@@ -724,7 +724,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoPlaylistCell.reusableIdentifier, for: indexPath) as! VideoPlaylistCell
-            self.videoPlaylistVC = VideoPlaylistVC()
+            self.videoPlaylistVC = VideoPlaylistVC(seriesID: self.seriesID ?? "100")
             guard let videoPlaylistVC = self.videoPlaylistVC else { return UICollectionViewCell() }
             self.addChild(videoPlaylistVC)
             cell.addSubview(videoPlaylistVC.view)
@@ -733,6 +733,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
                                               bottom: cell.bottomAnchor,
                                               right: cell.rightAnchor)
             videoPlaylistVC.didMove(toParent: self)
+            videoPlaylistVC.playVideoDelegate = self
             return cell
 //        case 2:
 //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomPlaylistCell.reusableIdentifier, for: indexPath) as! BottomPlaylistCell
