@@ -550,9 +550,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         configureUI()                    // 전반적인 UI 구현 메소드
         configureToggleButton()          // 선생님 정보 토글버튼 메소드
         configureVideoControlView()      // 비디오 상태바 관련 메소드
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(closeInfoView), name: NSNotification.Name("1234"), object: nil)
     }
         
+    @objc func closeInfoView() {
+        if teacherInfoFoldConstraint!.isActive == false {
+            teacherInfoFoldConstraint!.isActive = true
+            teacherInfoUnfoldConstraint!.isActive = false
+        }
+    }
     
     // MARK: - Action
     

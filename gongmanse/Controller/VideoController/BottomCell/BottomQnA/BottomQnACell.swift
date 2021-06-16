@@ -153,13 +153,16 @@ class BottomQnACell: UICollectionViewCell {
             let keyboardHeight = keyboardRectangle.height
             print(keyboardHeight)
             UIView.animate(withDuration: 1) {
-                print(self.bottomStackView.frame.origin.y)
+                print("Empty == ", self.bottomStackView.frame.origin.y)
+                print("bottom == ", self.bottomStackView.frame.origin.y)
                 self.emptyStackView.frame.origin.y -= keyboardHeight
                 self.bottomStackView.frame.origin.y -= keyboardHeight
             }
             
             isKeyboardSelect = true
+            
         }
+        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
     }
  
     @objc func keyboardWillHide(_ sender: Notification) {
