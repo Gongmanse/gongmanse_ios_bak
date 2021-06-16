@@ -23,6 +23,12 @@ class BottomPlaylistTVCell: UITableViewCell {
             updateUI()
         }
     }
+    
+    var autoPlayData: VideoModels? {
+        didSet {
+            updateUI()
+        }
+    }
     var row: Int?
 
     @IBOutlet weak var videoThumbnail: UIImageView!
@@ -70,20 +76,40 @@ class BottomPlaylistTVCell: UITableViewCell {
     }
     
     func updateUI() {
+
+        if let cellData = self.cellData {
+            self.videoTitle.text = cellData.sTitle
+            self.teachersName.text = cellData.sTeacher
+            self.subjects.text = cellData.sSubject
+            self.term.text = cellData.sUnit
+            self.term.isHidden = cellData.sUnit.count < 2 ? true : false
+            let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + cellData.sThumbnail)
+            let url = URL(string: urlString)
+            self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
+                self.videoThumbnail.contentMode = .scaleAspectFill
+            })
+        }
         
-        guard let cellData = self.cellData else { return }
+        if let autoPlayData = self.autoPlayData {
+            
+            self.videoTitle.text = autoPlayData.title ?? ""
+            self.teachersName.text = autoPlayData.teacherName
+            self.subjects.text = autoPlayData.subject
+            self.term.text = autoPlayData.unit
+            
+            if let unit = autoPlayData.unit {
+                self.term.isHidden = unit.count < 2 ? true : false
+            }
+            
+            let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + (autoPlayData.thumbnail ?? ""))
+            let url = URL(string: urlString)
+            self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
+                self.videoThumbnail.contentMode = .scaleAspectFill
+            })
+            
+        }
         
-        self.videoTitle.text = cellData.sTitle
-        self.teachersName.text = cellData.sTeacher
-        self.subjects.text = cellData.sSubject
-        self.term.text = cellData.sUnit
-        self.term.isHidden = cellData.sUnit.count < 2 ? true : false
-        let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + cellData.sThumbnail)
-        let url = URL(string: urlString)
-        self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
-            self.videoThumbnail.contentMode = .scaleAspectFill
-        })
-        
+
         
     }
 }

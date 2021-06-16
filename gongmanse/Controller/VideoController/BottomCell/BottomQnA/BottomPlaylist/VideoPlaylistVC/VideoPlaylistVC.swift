@@ -24,6 +24,8 @@ struct VideoPlaylistVCViewModel {
                                                        sTeacher: "", sSubjectColor: "",
                                                        sThumbnail: "", sUnit: "")])
     
+    var autoPlayVideoData = VideoInput(body: [VideoModels(seriesId: "", videoId: "", title: "", tags: "", teacherName: "", thumbnail: "", subject: "", subjectColor: "", unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: "")])
+    
     var totalPlaylistNum: String = ""
     
 }
@@ -148,11 +150,24 @@ class VideoPlaylistVC: UIViewController {
     }
     
     func setupDataFromAPI() {
-        guard let seriesID = self.seriesID else { return }
-        VideoPlaylistDataManager()
-            .getVideoPlaylistDataFromAPI(VideoPlaylistInput(seriesID: seriesID,
-                                                            offset: "0"),
-                                         viewController: self)
+        
+        
+        
+        // 자동재생이 On인 경우 받아올 데이터
+        // 국영수
+        if autoPlayDataManager.isAutoplayMainSubject {
+            guard let inpuData = autoPlayDataManager.videoDataInMainSubjectsTab else { return }
+            viewModel.autoPlayVideoData = inpuData
+
+        } else {
+            // 자동재생이 Off인 경우 받아올 데이터
+            guard let seriesID = self.seriesID else { return }
+            VideoPlaylistDataManager()
+                .getVideoPlaylistDataFromAPI(VideoPlaylistInput(seriesID: seriesID,
+                                                                offset: "0"),
+                                             viewController: self)
+        }
+        
     }
 }
 
@@ -165,7 +180,8 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                    numberOfRowsInSection section: Int) -> Int {
         
         let dataCount = viewModel.videoData.data.count
-        return dataCount
+        let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+        return autoPlayDataCount
     }
     
     func tableView(_ tableView: UITableView,
@@ -174,19 +190,29 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BottomPlaylistTVCell.reusableIdentifier,
                                                        for: indexPath) as? BottomPlaylistTVCell else
         { return UITableViewCell() }
-        let cellData = self.viewModel.videoData.data[indexPath.row]
-        cell.row = indexPath.row
-        cell.cellData = cellData
         
-        let videoDataManager = VideoDataManager.shared
-        if videoDataManager.currentVideoID == viewModel.videoData.data[indexPath.row].id {
-            cell.highlightView.backgroundColor = .progressBackgroundColor
-        } else { cell.highlightView.backgroundColor = .clear }
+        if autoPlayDataManager.currentViewTitleView == "추천" {
+            let cellData = self.viewModel.videoData.data[indexPath.row]
+            cell.row = indexPath.row
+            cell.cellData = cellData
+            let videoDataManager = VideoDataManager.shared
+            if videoDataManager.currentVideoID == viewModel.videoData.data[indexPath.row].id {
+                cell.highlightView.backgroundColor = .progressBackgroundColor
+            } else { cell.highlightView.backgroundColor = .clear }
+            return cell
+            
+        } else if autoPlayDataManager.isAutoplayMainSubject {
+            let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
+            cell.row = indexPath.row
+            cell.autoPlayData = autoPlayData
+            return cell
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
+        
         // "BottomPlaylistCell" 에서 사용하던 delegation 그대로 사용했습니다. 06.16
         let selectedID = viewModel.videoData.data[indexPath.row].id
         playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
@@ -251,11 +277,12 @@ extension VideoPlaylistVC {
                 let playVideoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
                 
                 if videoDataManager.currentVideoID == playVideoID {
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                                   at: .top, animated: true)
-                    }
+                    print("DEBUG: 잇슴")
+                    print("DEBUG: index is \(index)")
+//                    DispatchQueue.main.async {
+//                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+//                                                   at: .top, animated: true)
+//                    }
                 }
             }
             
