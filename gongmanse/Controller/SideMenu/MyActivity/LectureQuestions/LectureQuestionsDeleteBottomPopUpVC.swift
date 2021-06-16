@@ -4,15 +4,18 @@ import Alamofire
 
 class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     
-    @IBOutlet weak var categoryView: UIView!
-    @IBOutlet weak var lectureTitle: PaddingLabel!
-    @IBOutlet weak var allCountView: UIView!
+    // IBOutlet
+    @IBOutlet weak var lectureTitle: UILabel!
+    @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var countLabel: PaddingLabel!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var allSelectButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     
+    // Data
+    var clickedRow: Int?
+    var currentSelectedRowState = [Bool]()
+
     var height: CGFloat?
     var topCornerRadius: CGFloat?
     var presentDuration: Double?
@@ -35,12 +38,10 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
         getDataFromJson()
         lectureTitle.text = video_title
         
-        allSelectButton.tag = 1
-        deleteButton.tag = 2
     }
     
     func borderStyles() {
-        allCountView.layer.addBorder([.top], color: #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1), width: 3.0)
+        borderView.backgroundColor = .mainOrange
         allSelectButton.layer.addBorder([.top, .left, .right, .bottom], color: .systemGray4, width: 0.7)
         deleteButton.layer.addBorder([.top, .right, .bottom], color: .systemGray4, width: 0.7)
     }
@@ -88,20 +89,68 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
         isSelect = !isSelect
         selectImageChange.value = isSelect
         
+        for index in currentSelectedRowState.indices {
+            currentSelectedTableViewCell(index)
+        }
+        
         tableView.reloadData()
     }
     
     @IBAction func deleteButtonAction(_ sender: UIButton) {
-//        isSelect = !isSelect
-        selectIndexId.value = isSelect
+        //isSelect = !isSelect
+        //selectIndexId.value = isSelect
+        
+        var currentTrueIndex = [Int]()
+        
+        for (index, state) in currentSelectedRowState.enumerated() {
+            if state {
+                currentTrueIndex.append(index)
+            }
+        }
+        // 한 개 Row를 삭제하는 경우
+        if currentTrueIndex.count == 1 {
+            
+            guard let firstIndex = currentTrueIndex.first else { return }
+            deleteSelectedRowInAPI(firstIndex)
+            
+        } else {
+            // 여러 Row를 삭제하는 경우
+            for index in currentTrueIndex {
+                deleteSelectedRowInAPI(index)
+            }
+            
+        }
+
+        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.view.layoutIfNeeded()
+        }
+        
+//        guard let json = self.deleteLectureQnA else { return }
+//        let indexPath = IndexPath(row: sender.tag, section: 0)
+//        let indexid = json.data[indexPath.row].sQid
+//        let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid ?? "nil")
+//
+//        /**
+//         1. 삭제 API 호출힌디
+//         2. API 메소드를 호출한다.
+//         3. API메소드 내에서 현재 남은 QnA를 가져온다.
+//         4. layoutIfneeded를 호출하여 레이아웃을 업데이트한다.
+//         */
+//        LectureQuestionsDeleteBottomPopUpVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
+//        getDataFromJson()
+        
+    }
+    
+    /// (편집모드 클릭 후) 선택된 셀을 삭제하는 메소드
+    func deleteSelectedRowInAPI(_ selectedIndex: Int) {
+        
         guard let json = self.deleteLectureQnA else { return }
-        let indexid = json.data[sender.tag].sQid
+        let indexid = json.data[selectedIndex].sQid
         let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid ?? "nil")
         LectureQuestionsDeleteBottomPopUpVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
-        
-        getDataFromJson()
-        tableView.reloadData()
     }
+    
     
     override var popupHeight: CGFloat {
         return height ?? CGFloat(240)
@@ -131,6 +180,10 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
 extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let data = self.deleteLectureQnA?.data else { return 0}
+        
+        for _ in (data.indices) {
+            currentSelectedRowState.append(false)
+        }
         return data.count
     }
     
@@ -140,17 +193,10 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         guard let json = self.deleteLectureQnA else { return cell }
         let indexData = json.data[indexPath.row]
         
-        if allSelectButton.tag == 1 {
-            selectImageChange.bindAndFire(listener: { bool in
-                cell.checkImage.image = bool ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
-                cell.checkImage.tintColor = bool ? UIColor.mainOrange : UIColor.systemGray4
-            })
-        } else if deleteButton.tag == 2 {
-            selectIndexId.bindAndFire(listener: { bool in
-                
-                
-            })
-        }
+        selectImageChange.bindAndFire(listener: { bool in
+            cell.checkImage.image = bool ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
+            cell.checkImage.tintColor = bool ? UIColor.mainOrange : UIColor.systemGray4
+        })
         
         cell.deleteContext.text = indexData.sQuestion
         deleteButton.tag = indexPath.row
@@ -169,6 +215,11 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? LectureQuestionsDeleteBottomPopUpCell else { return }
         
+        let clickedRow = indexPath.row
+        self.clickedRow = clickedRow
+        
+        currentSelectedTableViewCell(clickedRow)
+        
         if cell.checkImage.image == UIImage(systemName: "checkmark.circle") {
             cell.checkImage.image = UIImage(systemName: "checkmark.circle.fill")
             cell.checkImage.tintColor = .mainOrange
@@ -177,7 +228,14 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
             cell.checkImage.tintColor = .systemGray4
         }
         
+        print("클릭된 cell IndexPath is \(indexPath.row)")
+        
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func currentSelectedTableViewCell(_ clickedRow: Int) {
+        // Boolean  배열을 생성해서 현재 클릭된 여부를 확인한다.
+        currentSelectedRowState[clickedRow].toggle()
     }
 }
 
@@ -185,9 +243,11 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
 
 extension LectureQuestionsDeleteBottomPopUpVC {
     func didSuccessPostAPI() {
+        self.getDataFromJson()
+    }
+    
+    func didSuccessDeleteQnACell() {
         
-        //self.tableView.reloadData()
-        self.view.layoutIfNeeded()
     }
 }
 
