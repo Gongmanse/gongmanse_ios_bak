@@ -309,12 +309,13 @@ extension BottomQnACell: TableReloadData {
         if videoVM.videoQnAInformation?.data.count != 0 {
             emptyStackView.isHidden = true
             tableView.isHidden = false
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.scrollToBottom()
+            }
         }
         
         
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.scrollToBottom()
-        }
+        
     }
 }
