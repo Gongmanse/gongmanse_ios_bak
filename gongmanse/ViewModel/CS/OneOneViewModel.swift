@@ -9,6 +9,11 @@ import Foundation
 
 class OneOneViewModel {
     
+    
+    var oneOneList: OneOneQnAList?
+    
+    weak var delegateTable: TableReloadData?
+    
     /// 1:1 목록
     func reqiestOneOneList() {
         
@@ -16,6 +21,8 @@ class OneOneViewModel {
             switch response {
             case .success(let data):
                 print(data)
+                self.oneOneList = data
+                self.delegateTable?.reloadTable()
             case .failure(let err):
                 print("reqiestOneOneList, Failure: \n", err.localizedDescription)
             }
