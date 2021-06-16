@@ -29,7 +29,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     var delegate: LectureQuestionsTVCDelegate?
     
-    var height: CGFloat = 260
+    var height: CGFloat = 360
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
 
