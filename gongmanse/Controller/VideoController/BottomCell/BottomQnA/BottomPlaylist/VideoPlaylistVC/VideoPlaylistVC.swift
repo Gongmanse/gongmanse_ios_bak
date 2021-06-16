@@ -41,7 +41,7 @@ class VideoPlaylistVC: UIViewController {
     // Data
     let autoPlayDataManager = AutoplayDataManager.shared
     let videoDataManager = VideoDataManager.shared
-
+    
     var viewModel = VideoPlaylistVCViewModel() {
         didSet {
             tableView.reloadData()
@@ -163,13 +163,35 @@ class VideoPlaylistVC: UIViewController {
             return
         }
         
+        // 국영수
         if autoPlayDataManager.isAutoplayMainSubject {
             guard let inpuData = autoPlayDataManager.videoDataInMainSubjectsTab else { return }
             viewModel.autoPlayVideoData = inpuData
             return
             
-        } else {
-            networkingAPIBySeriesID()
+        }
+        
+        // 과학
+        if autoPlayDataManager.isAutoplayScience {
+            guard let inpuData = autoPlayDataManager.videoDataInScienceTab else { return }
+            viewModel.autoPlayVideoData = inpuData
+            return
+            
+        }
+        
+        // 사회
+        if autoPlayDataManager.isAutoplaySocialStudy {
+            guard let inpuData = autoPlayDataManager.videoDataInSocialStudyTab else { return }
+            viewModel.autoPlayVideoData = inpuData
+            return
+        }
+        
+        // 기타
+        if autoPlayDataManager.isAutoplayOtherSubjects {
+            guard let inpuData = autoPlayDataManager.videoDataInOtherSubjectsTab else { return }
+            viewModel.autoPlayVideoData = inpuData
+            return
+            
         }
         
         
@@ -212,7 +234,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
                 return autoPlayDataCount
                 
-            // 자동재생 Off
+                // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
                 return dataCount
@@ -221,7 +243,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         
         
         /**
-         국영수 자동재생 On/Off
+         과학 자동재생 On/Off
          */
         if autoPlayDataManager.currentViewTitleView == "과학" {
             // 자동재생 On
@@ -229,7 +251,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
                 return autoPlayDataCount
                 
-            // 자동재생 Off
+                // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
                 return dataCount
@@ -245,7 +267,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
                 return autoPlayDataCount
                 
-            // 자동재생 Off
+                // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
                 return dataCount
@@ -261,7 +283,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
                 return autoPlayDataCount
                 
-            // 자동재생 Off
+                // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
                 return dataCount
@@ -278,7 +300,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView
                 .dequeueReusableCell(withIdentifier: BottomPlaylistTVCell.reusableIdentifier,
-                for: indexPath)
+                                     for: indexPath)
                 as? BottomPlaylistTVCell else { return UITableViewCell() }
         
         /**
@@ -296,7 +318,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         }
-
+        
         if autoPlayDataManager.currentViewTitleView == "국영수" {
             /**
              true : 국영수 + 자동재생 On
@@ -310,7 +332,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 cell.autoPlayData = autoPlayData
                 
                 guard let currentVideoID
-                 = autoPlayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId
+                        = autoPlayDataManager.videoDataInMainSubjectsTab?.body[indexPath.row].videoId
                 else { return cell }
                 
                 if videoDataManager.currentVideoID == currentVideoID {
@@ -318,10 +340,6 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 } else { cell.highlightView.backgroundColor = .clear }
                 
                 return cell
-
-            } else {
-                
-                
             }
         }
         
@@ -334,10 +352,16 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
                 cell.row = indexPath.row
                 cell.autoPlayData = autoPlayData
+                
+                guard let currentVideoID
+                        = autoPlayDataManager.videoDataInScienceTab?.body[indexPath.row].videoId
+                else { return cell }
+                
+                if videoDataManager.currentVideoID == currentVideoID {
+                    cell.highlightView.backgroundColor = .progressBackgroundColor
+                } else { cell.highlightView.backgroundColor = .clear }
+                
                 return cell
-            } else {
-                
-                
             }
         }
         
@@ -350,10 +374,15 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
                 cell.row = indexPath.row
                 cell.autoPlayData = autoPlayData
+                
+                guard let currentVideoID
+                        = autoPlayDataManager.videoDataInSocialStudyTab?.body[indexPath.row].videoId
+                else { return cell }
+                
+                if videoDataManager.currentVideoID == currentVideoID {
+                    cell.highlightView.backgroundColor = .progressBackgroundColor
+                } else { cell.highlightView.backgroundColor = .clear }
                 return cell
-            } else {
-                
-                
             }
         }
         
@@ -369,16 +398,13 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let videoDataManager = VideoDataManager.shared
                 
                 guard let currentVideoID
-                 = autoPlayDataManager.videoDataInOtherSubjectsTab?.body[indexPath.row].videoId
+                        = autoPlayDataManager.videoDataInOtherSubjectsTab?.body[indexPath.row].videoId
                 else { return cell }
                 
                 if videoDataManager.currentVideoID == currentVideoID {
                     cell.highlightView.backgroundColor = .progressBackgroundColor
                 } else { cell.highlightView.backgroundColor = .clear }
                 return cell
-            } else {
-                
-                
             }
         }
         
@@ -396,10 +422,14 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                    didSelectRowAt indexPath: IndexPath) {
         
         // "BottomPlaylistCell" 에서 사용하던 delegation 그대로 사용했습니다. 06.16
-        if autoPlayDataManager.isAutoplayMainSubject {
+        if autoPlayDataManager.isAutoplayMainSubject ||
+            autoPlayDataManager.isAutoplayScience ||
+            autoPlayDataManager.isAutoplaySocialStudy ||
+            autoPlayDataManager.isAutoplayOtherSubjects
+            {
             guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
             playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
-
+            
         } else {
             let selectedID = viewModel.videoData.data[indexPath.row].id
             playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
@@ -441,45 +471,68 @@ extension VideoPlaylistVC {
         let videoDataManager = VideoDataManager.shared
         
         if currentTabMenu == "추천" || currentTabMenu == "인기" {
-            
-            let displayedData = viewModel.videoData.data
-            var currentIndexPathRow = Int()
-            
-            for (index, data) in displayedData.enumerated() {
-                
-                if videoDataManager.currentVideoID == data.id {
-                    currentIndexPathRow = index
-                    
-                }
-            }
-            self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
-                                       at: .top, animated: true)
-            self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
-            return
+            defaultScrollTableView()
         }
-        
-        
-        if currentTabMenu == "국영수" &&
-            autoPlayDataManager.isAutoplayMainSubject { // 국영수 + 자동재생 On
-            
-            for (index, _) in autoPlayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
-                
-                let playVideoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
-                
-                if videoDataManager.currentVideoID == playVideoID {
 
-                    DispatchQueue.main.async {
-                        self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                                   at: .top, animated: true)
-                    }
-                }
-            }
-            return
+        if currentTabMenu == "국영수" { // 국영수 + 자동재생 On
             
-            // 국영수 + 자동재생 Off -> 시리즈보기
-        } else {
+            if autoPlayDataManager.isAutoplayMainSubject {
+                autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInMainSubjectsTab!.body)
+            } else {
+                defaultScrollTableView()
+            }
         }
         
+        if currentTabMenu == "과학" { // 과학 + 자동재생 On
+            
+            if autoPlayDataManager.isAutoplayScience {
+                autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInScienceTab!.body)
+            } else {
+                defaultScrollTableView()
+            }
+        }
+        
+        if currentTabMenu == "사회" { // 사회 + 자동재생 On
+            
+            if autoPlayDataManager.isAutoplaySocialStudy {
+                autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInSocialStudyTab!.body)
+            } else {
+                defaultScrollTableView()
+            }
+        }
+        
+        if currentTabMenu == "기타" { // 사회 + 자동재생 On
+            
+            if autoPlayDataManager.isAutoplaySocialStudy {
+                autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab!.body)
+            } else {
+                defaultScrollTableView()
+            }
+        }
+        
+
+        
+        
+    }
+    
+    func autoPlayScrollTableView(videoData: [VideoModels]) {
+        
+        for (index, _) in videoData.enumerated() {
+            
+            let playVideoID = videoData[index].videoId
+            
+            if videoDataManager.currentVideoID == playVideoID {
+
+                DispatchQueue.main.async {
+                    self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
+                                               at: .top, animated: true)
+                }
+            }
+        }
+    }
+    
+    
+    func defaultScrollTableView() {
         let displayedData = viewModel.videoData.data
         var currentIndexPathRow = Int()
         
@@ -494,8 +547,4 @@ extension VideoPlaylistVC {
                                    at: .top, animated: true)
         self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
     }
-    
-    
-    
-    
 }
