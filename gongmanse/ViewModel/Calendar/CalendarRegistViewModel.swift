@@ -128,7 +128,7 @@ class CalendarRegistViewModel {
             return repeatString.daily.rawValue
         case "매주":
             return repeatString.weekly.rawValue
-        case "매월":
+        case "매달":
             return repeatString.monthly.rawValue
         case "매년":
             return repeatString.yearly.rawValue

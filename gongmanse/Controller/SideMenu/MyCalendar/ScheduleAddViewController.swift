@@ -399,7 +399,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
                 
                 
-                cell.alarmSelectLabel.text = passedDateModel?.description[modifyIndexPath].sAlarmCode ?? "없음"
+                cell.alarmSelectLabel.text = passedDateModel?.description[modifyIndexPath].alarmCode ?? "없음"
                 
                 if alarmTextList != "" {
                     cell.alarmSelectLabel.text = alarmTextList
@@ -415,7 +415,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
             case 4:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddAlarmCell.identifier, for: indexPath) as? ScheduleAddAlarmCell else { return UITableViewCell() }
                 
-                cell.alarmSelectLabel.text = passedDateModel?.description[modifyIndexPath].sRepeatCode ?? "없음"
+                cell.alarmSelectLabel.text = passedDateModel?.description[modifyIndexPath].repeatCode ?? "없음"
                 
                 if repeatTextLlist != "" {
                     cell.alarmSelectLabel.text = repeatTextLlist

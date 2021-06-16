@@ -90,7 +90,7 @@ class AlramRelationListViewController: BottomPopupViewController {
     
     let alarmListTextArray: [String] = ["없음", "정시", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전","1주 전"]
     
-    let repeatListTextArray: [String] = ["없음", "매일", "매주", "매월", "매년"]
+    let repeatListTextArray: [String] = ["없음", "매일", "매주", "매달", "매년"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
