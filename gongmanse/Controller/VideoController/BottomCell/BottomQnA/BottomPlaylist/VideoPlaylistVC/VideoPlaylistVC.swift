@@ -24,6 +24,7 @@ struct VideoPlaylistVCViewModel {
                                                        sTeacher: "", sSubjectColor: "",
                                                        sThumbnail: "", sUnit: "")])
     
+    
     var autoPlayVideoData = VideoInput(body: [VideoModels(seriesId: "", videoId: "", title: "", tags: "", teacherName: "", thumbnail: "", subject: "", subjectColor: "", unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: "")])
     
     var totalPlaylistNum: String = ""
