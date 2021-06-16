@@ -124,7 +124,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(videoID: id)
     
-
     /* VideoContainterView */
     // Constraint 객체 - 세로모드
     var videoContainerViewPorTraitWidthConstraint: NSLayoutConstraint?
@@ -482,7 +481,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     var sTagsRanges = [Range<Int>]()
     /// 현재 자막에 있는 keyword Array
     var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
-    
     var isStartVideo = false
     
     
@@ -513,30 +511,29 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
             // TODO: 아래 코드 대신 등록된 Observer를 찾아서 제거해주어야한다.
 //            self.player.currentItem?.removeObserver(self, forKeyPath: "duration", context: nil)
             NotificationCenter.default.removeObserver(self)
+            self.player.pause()
             self.removePeriodicTimeObserver()
             self.setRemoveNotification()
-            self.player.pause()
+            
         }
     }
-    
-
-    
 
     override func viewWillAppear(_ animated: Bool) {
         
-//        setNotification()
+        setNotification()
         
         // 인트로를 실행한다.
-//        if isStartVideo == false {
-//            let vc = IntroController()
-//            vc.delegate = self
-//            vc.modalPresentationStyle = .overFullScreen
-//            present(vc, animated: false) {
-////                self.player.pause()
-//            }
-//            self.isStartVideo = true
-//        }
-        
+        if isStartVideo == false {
+            let vc = IntroController()
+            vc.delegate = self
+            vc.modalPresentationStyle = .overFullScreen
+            present(vc, animated: false) {
+                // 이 player의 Notification이 남아있어서 인트로종료 시, 아래 player의 Notification이 종료된다.
+                self.setRemoveNotification()
+                self.player.pause()
+            }
+            self.isStartVideo = true
+        }
     }
     
     override func viewDidLoad() {
@@ -812,7 +809,8 @@ extension VideoController {
     
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
-        
+//        setRemoveNotification()
+
         // 현재 VideoID를 추가한다.
         videoDataManager.addVideoIDLog(videoID: response.data.id)
         
@@ -1117,6 +1115,7 @@ extension VideoController: SelectVideoPlayRateVCDelegate {
 
 extension VideoController: IntroControllerDelegate {
     func playVideoEndedIntro() {
+        setNotification()
         player.play()
     }
 }
