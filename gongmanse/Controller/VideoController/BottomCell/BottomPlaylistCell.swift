@@ -360,7 +360,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         } else if scienceViewTitleValue == "과학 강의" {
-            if scienceSwitchOnOffValue.isOn {
+//            if scienceSwitchOnOffValue.isOn {
+            if autoplayDataManager.isAutoplayScience {
                 guard let autoPlayOffdata = self.recieveScienceModelData?.body else { return 0 }
                 return autoPlayOffdata.count
             } else {
@@ -533,12 +534,15 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
             }
             
         } else if scienceViewTitleValue == "과학 강의" {
-            if scienceSwitchOnOffValue.isOn {
-                
+//            if scienceSwitchOnOffValue.isOn {
+            if autoplayDataManager.isAutoplayScience { // 06.15 이후
+    
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
                 
-                guard let onJson = self.recieveScienceModelData else { return cell }
-                let indexOnData = onJson.body[indexPath.row]
+//                guard let onJson = self.recieveScienceModelData else { return cell } // 06.16 이전
+//                let indexOnData = onJson.body[indexPath.row]
+                guard let indexOnData = autoplayDataManager.videoDataInScienceTab?.body[indexPath.row] else { return cell } // 06.16 이후
+
                 let url = URL(string: makeStringKoreanEncoded(indexOnData.thumbnail ?? "nil"))
                 cell.videoThumbnail.sd_setImage(with: url)
                 cell.videoThumbnail.contentMode = .scaleAspectFill
