@@ -4,7 +4,7 @@
 //
 //  Created by 김현수 on 2021/05/17.
 //
-
+import SDWebImage
 import UIKit
 
 class BottomPlaylistTVCell: UITableViewCell {
@@ -12,6 +12,24 @@ class BottomPlaylistTVCell: UITableViewCell {
     // MARK: - Property
     // Data
     var cellVideoID: String?
+    var viewModel: VideoPlaylistVCViewModel? {
+        didSet {
+//            updateUI()
+        }
+    }
+    
+    var cellData: PlayListData? {
+        didSet {
+            updateUI()
+        }
+    }
+    
+    var autoPlayData: VideoModels? {
+        didSet {
+            updateUI()
+        }
+    }
+    var row: Int?
 
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var subjects: PaddingLabel!
@@ -56,4 +74,54 @@ class BottomPlaylistTVCell: UITableViewCell {
         super.draw(rect)
 
     }
+    
+    func updateUI() {
+
+        if let cellData = self.cellData {
+            self.videoTitle.text = cellData.sTitle
+            self.teachersName.text = cellData.sTeacher
+            self.subjects.text = cellData.sSubject
+            self.term.text = cellData.sUnit
+            self.term.isHidden = cellData.sUnit.count < 2 ? true : false
+            let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + cellData.sThumbnail)
+            let url = URL(string: urlString)
+            self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
+                self.videoThumbnail.contentMode = .scaleAspectFill
+            })
+        }
+        
+        if let autoPlayData = self.autoPlayData {
+            
+            self.videoTitle.text = autoPlayData.title ?? ""
+            self.teachersName.text = autoPlayData.teacherName
+            self.subjects.text = autoPlayData.subject
+            self.term.text = autoPlayData.unit
+            
+            if let unit = autoPlayData.unit {
+                self.term.isHidden = unit.count < 2 ? true : false
+            }
+            
+            let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + (autoPlayData.thumbnail ?? ""))
+            let url = URL(string: urlString)
+            self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
+                self.videoThumbnail.contentMode = .scaleAspectFill
+            })
+            
+        }
+        
+
+        
+    }
 }
+
+
+// MARK: - 한글인코딩
+
+extension BottomPlaylistTVCell {
+    /// 한글 인코딩 처리 메소드
+    func makeStringKoreanEncoded(_ string: String) -> String {
+        return string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? string
+    }
+}
+
+

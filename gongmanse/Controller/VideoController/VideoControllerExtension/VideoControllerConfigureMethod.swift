@@ -83,6 +83,9 @@ extension VideoController {
     func customMenuBar(scrollTo index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         self.pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        
+        // 현재 재생중인 cell 포커싱 + 하이라이트를 위한 로직 06.16
+        self.pageCollectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
     }
     
     /// "노트보기" ... 등 CollectionView 설정을 위한 메소드
@@ -99,6 +102,8 @@ extension VideoController {
                                     forCellWithReuseIdentifier: BottomQnACell.reusableIdentifier)
         pageCollectionView.register(BottomPlaylistCell.self,
                                     forCellWithReuseIdentifier: BottomPlaylistCell.reusableIdentifier)
+        pageCollectionView.register(VideoPlaylistCell.self,
+                                    forCellWithReuseIdentifier: VideoPlaylistCell.reusableIdentifier)
         view.addSubview(pageCollectionView)
     }
     
