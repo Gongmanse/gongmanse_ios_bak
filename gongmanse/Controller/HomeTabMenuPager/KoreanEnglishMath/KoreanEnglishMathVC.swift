@@ -6,7 +6,12 @@ protocol KoreanEnglishMathVCDelegate: AnyObject {
     func koreanPassSortedIdSettingValue(_ sortedIndex: Int)
 }
 
-class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
+protocol subjectVideoListInfinityScroll {
+    var listCount: Int { get set }
+    var isMoreBool: Bool { get set }
+}
+
+class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinityScroll{
     
     // 자동재생기능 구현을 위한 싱글톤객체를 생성한다.
     let autoplayDataManager = AutoplayDataManager.shared
@@ -26,12 +31,14 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
     var selectedItem: Int? {
         didSet {
+            listCount = 0
             getDataFromJson()
         }
     }
     
     var sortedId: Int? {
         didSet {
+            listCount = 0
             getDataFromJson()
         }
     }
@@ -71,6 +78,10 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
         sender.endRefreshing()
     }
     
+    // 무한 스크롤 프로퍼티
+    var listCount: Int = 0
+    var isMoreBool: Bool = true
+    //
     override func viewDidLoad() {
         super.viewDidLoad()
         koreanEnglishMathCollection.refreshControl = koreanEnglishMathRC
@@ -130,27 +141,49 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate{
     }
     
     func getDataFromJson() {
-        var default1 = 0
-        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=\(default1)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
-            default1 += 20
+        
+        if let url = URL(string: KoreanEnglishMath_Video_URL + "offset=\(listCount)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
+            
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                
-                if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.body)
-                    self.koreanEnglishMathVideo = json
-                }
-                
-                DispatchQueue.main.async {
-                    self.koreanEnglishMathCollection.reloadData()
-                    self.textSettings()
-                }
-                
-            }.resume()
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    
+                    if let json = try? decoder.decode(VideoInput.self, from: data) {
+                        //print(json.body)
+                        self.koreanEnglishMathVideo = json
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.koreanEnglishMathCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    
+                    if let json = try? decoder.decode(VideoInput.self, from: data) {
+                        guard let isMores = json.header?.isMore else { return}
+                        self.isMoreBool = Bool(isMores) ?? false
+                        for i in 0..<json.body.count {
+                            self.koreanEnglishMathVideo?.body.append(json.body[i])
+                        }
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.koreanEnglishMathCollection.reloadData()
+                    }
+                    
+                }.resume()
+            }
+            
         }
     }
     
@@ -364,7 +397,17 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
         
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cellCount = koreanEnglishMathVideo?.body.count  else { return }
+
+        if indexPath.row == cellCount - 1 {
+            
+            listCount += 20
+            getDataFromJson()
+
+        }
+    }
 }
 
 extension KoreanEnglishMathVC: UICollectionViewDelegateFlowLayout {

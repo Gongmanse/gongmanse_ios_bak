@@ -26,14 +26,7 @@ class OneOnOneEnquiryVC: UIViewController {
             }
         }
     }
-//    tableShardVM.readSections(categoryId: categoryID).subscribe(onNext: { [weak self] category in
-//        if category.count == 0{
-//            self?.state = .hide
-//        }else{
-//            self?.state = .show
-//        }
-//    })
-//    .disposed(by: bag)
+    
     
     private let enquiryIdentifier = "EnquiryCell"
     private let emptyImage: UIImageView = {
@@ -71,46 +64,44 @@ class OneOnOneEnquiryVC: UIViewController {
         button.addTarget(self, action: #selector(floatingButtonAction(_:)), for: .touchUpInside)
         return button
     }()
+    
     var pageIndex = 0
     
+    var oneOneViewModel: OneOneViewModel? = OneOneViewModel()
+        
     @IBOutlet weak var tableView: UITableView!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        oneOneViewModel?.reqiestOneOneList()
+        
+//        if oneOneViewModel?.oneOneList?.data == nil {
+//            emptyStateManage(state: false)
+//        } else {
+//            emptyStateManage(state: true)
+//        }
+        emptyStateManage(state: true)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.delegate = self
         tableView.dataSource = self
+        oneOneViewModel?.delegateTable = self
         
-        let numName = UINib(nibName: enquiryIdentifier, bundle: nil)
-        tableView.register(numName, forCellReuseIdentifier: enquiryIdentifier)
         
-        emptyStateManage(state: false)
-        
+                
         view.addSubview(floatingButton)
-        floatingButton.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-                                        
-            NSLayoutConstraint(item: floatingButton,
-                               attribute: .trailing,
-                               relatedBy: .equal,
-                               toItem: view,
-                               attribute: .trailing,
-                               multiplier: 1,
-                               constant: -20),
-                                             
-            NSLayoutConstraint(item: floatingButton,
-                               attribute: .bottom,
-                               relatedBy: .equal,
-                               toItem: view,
-                               attribute: .bottom,
-                               multiplier: 0.85,
-                               constant: 0)])
-        self.tableView.reloadData()
+        
+        configuration()
+        constraints()
     }
 
-    
+    // 상태관리
     func emptyStateManage(state: Bool) {
         
         tableView.isHidden = !state
@@ -154,18 +145,68 @@ class OneOnOneEnquiryVC: UIViewController {
 
 extension OneOnOneEnquiryVC: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
 }
 
 extension OneOnOneEnquiryVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return oneOneViewModel?.oneOneList?.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: enquiryIdentifier, for: indexPath) as? EnquiryCell else { return UITableViewCell() }
-        cell.textLabel?.text = "A"
+        
+        if let dataList = oneOneViewModel?.oneOneList?.data[indexPath.row] {
+            cell.setList(type: dataList)
+        }
+        
         return cell
+    }
+}
+
+extension OneOnOneEnquiryVC {
+    
+    func configuration() {
+        
+        let numName = UINib(nibName: enquiryIdentifier, bundle: nil)
+        tableView.register(numName, forCellReuseIdentifier: enquiryIdentifier)
+
+        
+    }
+    
+    func constraints() {
+        
+        floatingButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+                                        
+            NSLayoutConstraint(item: floatingButton,
+                               attribute: .trailing,
+                               relatedBy: .equal,
+                               toItem: view,
+                               attribute: .trailing,
+                               multiplier: 1,
+                               constant: -20),
+                                             
+            NSLayoutConstraint(item: floatingButton,
+                               attribute: .bottom,
+                               relatedBy: .equal,
+                               toItem: view,
+                               attribute: .bottom,
+                               multiplier: 0.85,
+                               constant: 0)])
+    }
+}
+
+extension OneOnOneEnquiryVC: TableReloadData {
+    
+    func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

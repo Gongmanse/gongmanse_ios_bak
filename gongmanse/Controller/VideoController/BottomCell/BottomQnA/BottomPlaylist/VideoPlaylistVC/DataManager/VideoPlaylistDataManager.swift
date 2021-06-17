@@ -16,7 +16,7 @@ class VideoPlaylistDataManager {
         let data = parameters
         
         // URL을 구성한다.
-        let url = apiBaseURL + "/v/video/serieslist?series_id=\(data.seriesID)&offset=0"
+        let url = apiBaseURL + "/v/video/serieslist?series_id=\(data.seriesID)&offset=\(data.offset)"
         
         /// HTTP Method: GET
         AF.request(url)

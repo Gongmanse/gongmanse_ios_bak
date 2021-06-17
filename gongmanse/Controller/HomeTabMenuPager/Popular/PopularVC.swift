@@ -17,12 +17,24 @@ class PopularVC: UIViewController {
     @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var popularCollection: UICollectionView!
 
+    // 무한 스크롤 프로퍼티
+    var gradeText: String = ""
+    var listCount: Int = 0
+    var isDataListMore: Bool = true
+    //
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if Constant.token != "" {
+            getDataFromJsonSecond(grade: gradeText, offset: listCount)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         popularCollection.refreshControl = popularRC
         
-        getDataFromJson()
-        getDataFromJsonSecond()
+//        getDataFromJson()
         viewTitleSettings()
         
     }
@@ -58,23 +70,62 @@ class PopularVC: UIViewController {
         }
     }
     
-    func getDataFromJsonSecond() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/trendingvid?offset=0&limit=30") {
+    /// 1.0 인기리스트 API
+    func getDataFromJsonSecond(grade: String, offset: Int) {
+        guard let gradeEncoding = grade.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        
+        if let url = URL(string: "\(apiBaseURL)/v/video/trendingvid?offset=\(offset)&limit=20&grade=\(gradeEncoding)") {
+            
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
 
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(BeforeApiModels?.self, from: data) {
-                    //print(json.body)
-                    self.popularVideoSecond = json
-                }
-                DispatchQueue.main.async {
-                    self.popularCollection.reloadData()
-                }
+            switch isDataListMore {
+            
+            case false:
+                return
+                
+            case true:
+                if offset == 0 {
+                    URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        
+                        guard let data = data else { return }
+                        let decoder = JSONDecoder()
+                        
+                        if let json = try? decoder.decode(BeforeApiModels.self, from: data) {
+                            self.popularVideoSecond = json
+                        }
+                        DispatchQueue.main.async {
+                            self.popularCollection.reloadData()
+                        }
 
-            }.resume()
+                    }.resume()
+                } else {
+                    URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        
+                        guard let data = data else { return }
+                        let decoder = JSONDecoder()
+                        
+                        if let json = try? decoder.decode(BeforeApiModels.self, from: data) {
+                            
+                            if json.data.count == 0 {
+                                self.isDataListMore = true
+                                return
+                            }
+                            
+                            for i in 0..<json.data.count {
+                                self.popularVideoSecond?.data.append(json.data[i])
+                            }
+                            
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.popularCollection.reloadData()
+                        }
+
+                    }.resume()
+                }
+            }
+            
         }
     }
     
@@ -87,38 +138,43 @@ class PopularVC: UIViewController {
 extension PopularVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //guard let data = self.popularVideo?.data else { return 0}
-        let popularData = self.popularVideo
-        return popularData.body.count
+//        let popularData = self.popularVideo
+//        return popularData.body.count
+        return popularVideoSecond?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularCVCell", for: indexPath) as! PopularCVCell
         //guard let json = self.popularVideo else { return cell }
+  
+        // 2.0 API
+//        let json = self.popularVideo
+//        let indexData = json.body[indexPath.row]
         
-        let json = self.popularVideo
-        let indexData = json.body[indexPath.row]
-        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
-        
+        // 1.0 API
+        let indexData = popularVideoSecond?.data[indexPath.row]
+        let url = URL(string: makeStringKoreanEncoded("\(fileBaseURL)/\(indexData?.sThumbnail ?? "")"))
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.title
-        cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
-        cell.subjects.text = indexData.subject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
-        cell.starRating.text = indexData.rating
-        
-        if indexData.unit != nil {
+        cell.videoTitle.text = indexData?.sTitle
+        cell.teachersName.text = (indexData?.sTeacher ?? "nil") + " 선생님"
+        cell.subjects.text = indexData?.sSubject
+        cell.subjects.backgroundColor = UIColor(hex: indexData?.sSubjectColor ?? "nil")
+        cell.starRating.text = indexData?.iRating
+
+        if indexData?.sUnit != "" {
             cell.term.isHidden = false
-            cell.term.text = indexData.unit
-        } else if indexData.unit == "1" {
+            cell.term.text = indexData?.sUnit
+        } else if indexData?.sUnit == "1" {
             cell.term.isHidden = false
             cell.term.text = "i"
-        } else if indexData.unit == "2" {
+        } else if indexData?.sUnit == "2" {
             cell.term.isHidden = false
             cell.term.text = "ii"
         } else {
             cell.term.isHidden = true
         }
+        
         
         return cell
     }
@@ -173,6 +229,20 @@ extension PopularVC: UICollectionViewDelegate {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cellCount = popularVideoSecond?.data.count  else { return }
+
+        if indexPath.row == cellCount - 1 {
+            
+            listCount += 20
+            print(listCount)
+            getDataFromJsonSecond(grade: gradeText, offset: listCount)
+            
+        }
+    }
+    
 }
 
 extension PopularVC: UICollectionViewDelegateFlowLayout {
