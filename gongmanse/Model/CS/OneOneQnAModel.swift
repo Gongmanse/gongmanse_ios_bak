@@ -5,7 +5,7 @@
 //  Created by wallter on 2021/06/16.
 //
 
-import Foundation
+import UIKit
 
 // 1:1문의 목록 조회 GET
 struct OneOneQnAList: Codable {
@@ -49,6 +49,16 @@ struct OneOneQnADataList: Codable {
         }
     }
     
+    var answerBackgroundColor: UIColor {
+        switch sStatus {
+        case "true":
+            return .mainOrange
+        case "false":
+            return .lightGray
+        default:
+            return .lightGray
+        }
+    }
     
     var dateConvert: String {
         let dateformatter: DateFormatter = DateFormatter()

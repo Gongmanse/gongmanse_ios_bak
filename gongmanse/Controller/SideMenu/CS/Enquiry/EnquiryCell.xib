@@ -42,6 +42,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylj-zH-fuw" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                         <rect key="frame" x="251.5" y="10" width="28.5" height="13.5"/>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -53,10 +54,10 @@
                                 <real key="value" value="2"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                <real key="value" value="6"/>
+                                <real key="value" value="10"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                <real key="value" value="6"/>
+                                <real key="value" value="10"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
@@ -65,7 +66,7 @@
                     <constraint firstItem="cXI-FG-aUo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="4qe-yG-dee"/>
                     <constraint firstItem="ylj-zH-fuw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="5gw-lQ-z3X"/>
                     <constraint firstItem="cXI-FG-aUo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="LQg-La-0Ia"/>
-                    <constraint firstItem="ylj-zH-fuw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cXI-FG-aUo" secondAttribute="trailing" constant="20" id="Zzu-bQ-8X4"/>
+                    <constraint firstItem="vMR-68-6hV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cXI-FG-aUo" secondAttribute="trailing" constant="20" id="Zzu-bQ-8X4"/>
                     <constraint firstAttribute="trailing" secondItem="vMR-68-6hV" secondAttribute="trailing" constant="20" id="gig-X7-Sj3"/>
                     <constraint firstAttribute="bottom" secondItem="vMR-68-6hV" secondAttribute="bottom" constant="10" id="mvq-WJ-eoh"/>
                     <constraint firstAttribute="trailing" secondItem="ylj-zH-fuw" secondAttribute="trailing" constant="20" id="tAo-GH-z1v"/>

@@ -20,8 +20,11 @@ class EnquiryCell: UITableViewCell {
         
         typeLabel.font = .appBoldFontWith(size: 12)
         questionDescriptionLabel.font = .appBoldFontWith(size: 14)
-        answerStateLabel.font = .appBoldFontWith(size: 10)
-        questionDateLabel.font = .appBoldFontWith(size: 10)
+        answerStateLabel.font = .appBoldFontWith(size: 13)
+        answerStateLabel.clipsToBounds = true
+        answerStateLabel.layer.cornerRadius = 10
+        answerStateLabel.textColor = .white
+        questionDateLabel.font = .appBoldFontWith(size: 12)
         
         questionDateLabel.textColor = .rgb(red: 164, green: 164, blue: 164)
     }
@@ -35,7 +38,9 @@ class EnquiryCell: UITableViewCell {
     func setList(type: OneOneQnADataList) {
         typeLabel.text = "[\(type.typeConvert)]"
         questionDescriptionLabel.text = type.sQuestion
+        answerStateLabel.backgroundColor = type.answerBackgroundColor
         answerStateLabel.text = type.answerStates
         questionDateLabel.text = type.dateConvert
+        
     }
 }

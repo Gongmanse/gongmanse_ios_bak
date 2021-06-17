@@ -92,11 +92,6 @@ class OneOnOneEnquiryVC: UIViewController {
         tableView.dataSource = self
         oneOneViewModel?.delegateTable = self
         
-        
-                
-        view.addSubview(floatingButton)
-        
-        
         configuration()
         constraints()
     }
@@ -146,7 +141,7 @@ class OneOnOneEnquiryVC: UIViewController {
 extension OneOnOneEnquiryVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 80
     }
 }
 
@@ -172,9 +167,13 @@ extension OneOnOneEnquiryVC {
     
     func configuration() {
         
+        view.addSubview(floatingButton)
+        
         let numName = UINib(nibName: enquiryIdentifier, bundle: nil)
         tableView.register(numName, forCellReuseIdentifier: enquiryIdentifier)
 
+        tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
     }
     
