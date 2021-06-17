@@ -31,12 +31,14 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
     var selectedItem: Int? {
         didSet {
+            listCount = 0
             getDataFromJson()
         }
     }
     
     var sortedId: Int? {
         didSet {
+            listCount = 0
             getDataFromJson()
         }
     }
