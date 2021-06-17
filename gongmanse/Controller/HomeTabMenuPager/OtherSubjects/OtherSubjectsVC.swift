@@ -6,7 +6,8 @@ protocol OtherSubjectsVCDelegate: class {
     func otherSubjectsPassSortedIdSettingValue(_ sortedIndex: Int)
 }
 
-class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
+class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinityScroll {
+    
     
     var delegate: OtherSubjectsVCDelegate?
     
@@ -14,12 +15,14 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
     var selectedItem: Int? {
         didSet {
+            listCount = 0
             getDataFromJson()
         }
     }
     
     var sortedId: Int? {
         didSet {
+            listCount = 0
             getDataFromJson()
         }
     }
@@ -46,6 +49,12 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
+    
+    // 무한스크롤
+    var listCount: Int = 0
+    
+    var isMoreBool: Bool = true
+    //
     
     //collectionView 새로고침 objc
     @objc private func refresh(sender: UIRefreshControl) {
@@ -114,23 +123,42 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: OtherSubjects_Video_URL + "offset=0&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
+        if let url = URL(string: OtherSubjects_Video_URL + "offset=\(listCount)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.body)
-                    self.otherSubjectsVideo = json
-                }
-                DispatchQueue.main.async {
-                    self.otherSubjectsCollection.reloadData()
-                    self.textSettings()
-                }
-                
-            }.resume()
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(VideoInput.self, from: data) {
+                        //print(json.body)
+                        self.otherSubjectsVideo = json
+                    }
+                    DispatchQueue.main.async {
+                        self.otherSubjectsCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(VideoInput.self, from: data) {
+                        
+                        for i in 0..<json.body.count {
+                            self.otherSubjectsVideo?.body.append(json.body[i])
+                        }
+                        
+                    }
+                    DispatchQueue.main.async {
+                        self.otherSubjectsCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            }
         }
     }
     
@@ -290,6 +318,16 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
             present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cellCount = otherSubjectsVideo?.body.count else { return }
+        
+        if indexPath.row == cellCount - 1 {
+            listCount += 20
+            getDataFromJson()
         }
     }
 }
