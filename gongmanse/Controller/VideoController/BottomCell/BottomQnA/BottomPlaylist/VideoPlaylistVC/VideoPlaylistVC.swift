@@ -449,6 +449,9 @@ extension VideoPlaylistVC {
         
         let getData = response.data
         self.viewModel.videoData.data = getData
+        
+        // 데이터 여러번 호출 하게 되면 아래 로직을 사용할 것 06.17
+//        self.viewModel.videoData.data.append(contentsOf: getData)
         let totalPlaylistNum = response.totalNum
         let currentIndex = "2"
         
