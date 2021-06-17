@@ -132,6 +132,8 @@ class SearchAfterVC: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor.white
         
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
+        searchVideo.pipDelegate = self
+
     }
     
     @objc func allKeyword(_ sender: Notification) {
@@ -267,7 +269,6 @@ class SearchAfterVC: UIViewController {
     func setupPageViewController() {
         
         // 검색화면에서 상세 영상 실행될 때, PIP를 dismiss하기 위한 Delegation
-        searchVideo.pipDelegate = self
         
         self.pageController = TabsPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.addChild(self.pageController)

@@ -574,7 +574,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
 
         let pipDataManager = PIPDataManager.shared
-        
+        pipContainerView.alpha = 0
         if let previousVideoID = videoDataManager.previousVideoID {
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
@@ -835,6 +835,8 @@ extension VideoController {
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
 
+        player.pause()
+        
         // 현재 VideoID를 추가한다.
         videoDataManager.addVideoIDLog(videoID: response.data.id)
         
@@ -1096,8 +1098,10 @@ extension VideoController: VideoFullScreenControllerDelegate {
 extension VideoController: BottomPlaylistCellDelegate {
     
     func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String) {
-
+            
+        player.pause()
         setRemoveNotification()
+
         let inputData = DetailVideoInput(video_id: videoID,
                                          token: Constant.token)
         

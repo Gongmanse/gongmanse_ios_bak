@@ -437,7 +437,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-
+        
         tableViewCellDidTap(indexPath: indexPath, "국영수")
         tableViewCellDidTap(indexPath: indexPath, "과학")
         tableViewCellDidTap(indexPath: indexPath, "사회")
@@ -451,12 +451,15 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableViewCellDidTap(indexPath: IndexPath, _ tabname: String) {
         let comeFromTabname = autoPlayDataManager.currentViewTitleView
+        
         if comeFromTabname == tabname {
+            
             if autoPlayDataManager.isAutoplayMainSubject {
                 guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
                 playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
                 videoDataManager.addVideoIDLog(videoID: selectedID)
                 return
+                
             } else {
                 let selectedID = viewModel.videoData.data[indexPath.row].id
                 playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
