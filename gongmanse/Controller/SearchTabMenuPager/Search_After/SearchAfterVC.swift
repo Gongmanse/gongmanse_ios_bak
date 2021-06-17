@@ -57,7 +57,7 @@ class SearchAfterVC: UIViewController {
     private var isPlayPIPVideo: Bool = true
     private let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "pause"), for: .normal)
         button.tintColor = .black
         button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
         return button
@@ -132,6 +132,8 @@ class SearchAfterVC: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor.white
         
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
+        searchVideo.pipDelegate = self
+
     }
     
     @objc func allKeyword(_ sender: Notification) {
@@ -156,10 +158,10 @@ class SearchAfterVC: UIViewController {
         
         if isPlayPIPVideo {
             pipVC?.player?.pause()
-            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
+            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         } else {
             pipVC?.player?.play()
-            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         }
     }
     
@@ -267,7 +269,6 @@ class SearchAfterVC: UIViewController {
     func setupPageViewController() {
         
         // 검색화면에서 상세 영상 실행될 때, PIP를 dismiss하기 위한 Delegation
-        searchVideo.pipDelegate = self
         
         self.pageController = TabsPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.addChild(self.pageController)

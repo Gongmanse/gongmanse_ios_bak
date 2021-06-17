@@ -1,4 +1,5 @@
 import UIKit
+import AVFoundation
 
 extension VideoController {
     
@@ -24,9 +25,13 @@ extension VideoController {
         // PIP를 재생할 수 있게 데이터를 넣어준다.
         let pipDataManager = PIPDataManager.shared
         
-        // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
-        let currentPlaytime = playerItem.currentTime()
+        var currentPlaytime = CMTime()
         
+        // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
+        if let playerItem = self.playerItem {
+            currentPlaytime = playerItem.currentTime()
+        }
+
         // 클릭한 키워드를 입력한다. -> if 절
         
         // 재생중이던 영상을 일시중지한다. 동시에, PIP를 재생한다. -> Delegation 필요 -> 완료

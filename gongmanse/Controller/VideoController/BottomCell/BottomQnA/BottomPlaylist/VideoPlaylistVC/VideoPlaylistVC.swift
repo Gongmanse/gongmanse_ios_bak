@@ -169,38 +169,31 @@ class VideoPlaylistVC: UIViewController {
         }
         
         // 국영수
-        if autoPlayDataManager.isAutoplayMainSubject {
-            guard let inpuData = autoPlayDataManager.videoDataInMainSubjectsTab else { return }
-            viewModel.autoPlayVideoData = inpuData
-            return
-            
-        }
+        let isAutoplayOnMainSubject = autoPlayDataManager.isAutoplayMainSubject
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInMainSubjectsTab,
+                                              isAutoPlay: isAutoplayOnMainSubject,
+                                              comeFromTab: "국영수")
         
         // 과학
-        if autoPlayDataManager.isAutoplayScience {
-            guard let inpuData = autoPlayDataManager.videoDataInScienceTab else { return }
-            viewModel.autoPlayVideoData = inpuData
-            return
-            
-        }
+        let isAutoplayOnScience = autoPlayDataManager.isAutoplayScience
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInScienceTab,
+                                              isAutoPlay: isAutoplayOnScience,
+                                              comeFromTab: "과학")
         
         // 사회
-        if autoPlayDataManager.isAutoplaySocialStudy {
-            guard let inpuData = autoPlayDataManager.videoDataInSocialStudyTab else { return }
-            viewModel.autoPlayVideoData = inpuData
-            return
-        }
-        
+        let isAutoplayOnSocial = autoPlayDataManager.isAutoplaySocialStudy
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInSocialStudyTab,
+                                              isAutoPlay: isAutoplayOnSocial,
+                                              comeFromTab: "사회")
+
         // 기타
-        if autoPlayDataManager.isAutoplayOtherSubjects {
-            guard let inpuData = autoPlayDataManager.videoDataInOtherSubjectsTab else { return }
-            viewModel.autoPlayVideoData = inpuData
-            return
-            
-        }
+        let isAutoplayOnOther = autoPlayDataManager.isAutoplayOtherSubjects
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInOtherSubjectsTab,
+                                              isAutoPlay: isAutoplayOnOther,
+                                              comeFromTab: "기타")
         
         
-        // 자동재생 Off
+        // 자동재생 Off - DEFAULT Setting
         networkingAPIBySeriesID()
     }
     
@@ -212,6 +205,20 @@ class VideoPlaylistVC: UIViewController {
                 .getVideoPlaylistDataFromAPI(VideoPlaylistInput(seriesID: seriesID,
                                                                 offset: "\(offSet)"),
                                              viewController: self)
+        }
+    }
+    
+    
+    func insertVideoDataToViewModelAutoPlaying(_ inputData: VideoInput?,
+                                               isAutoPlay: Bool,
+                                               comeFromTab: String) {
+        
+        if autoPlayDataManager.currentViewTitleView == comeFromTab {
+            if isAutoPlay {
+                guard let inpuData = inputData else { return }
+                viewModel.autoPlayVideoData = inpuData
+                return
+            }
         }
     }
     
@@ -338,7 +345,6 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             if autoPlayDataManager.isAutoplayMainSubject {
                 
                 let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
-                print("DEBUG: autoPlayData \(autoPlayData)")
                 cell.row = indexPath.row
                 cell.autoPlayData = autoPlayData
                 
@@ -432,21 +438,35 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         
-        // "BottomPlaylistCell" 에서 사용하던 delegation 그대로 사용했습니다. 06.16
-        if autoPlayDataManager.isAutoplayMainSubject ||
-            autoPlayDataManager.isAutoplayScience ||
-            autoPlayDataManager.isAutoplaySocialStudy ||
-            autoPlayDataManager.isAutoplayOtherSubjects
-            {
-            guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
-            playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+        tableViewCellDidTap(indexPath: indexPath, "국영수")
+        tableViewCellDidTap(indexPath: indexPath, "과학")
+        tableViewCellDidTap(indexPath: indexPath, "사회")
+        tableViewCellDidTap(indexPath: indexPath, "기타")
+        
+        // 추천 및 인기
+        let selectedID = viewModel.videoData.data[indexPath.row].id
+        playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+        videoDataManager.addVideoIDLog(videoID: selectedID)
+    }
+    
+    func tableViewCellDidTap(indexPath: IndexPath, _ tabname: String) {
+        let comeFromTabname = autoPlayDataManager.currentViewTitleView
+        
+        if comeFromTabname == tabname {
             
-        } else {
-            let selectedID = viewModel.videoData.data[indexPath.row].id
-            playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+            if autoPlayDataManager.isAutoplayMainSubject {
+                guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
+                
+            } else {
+                let selectedID = viewModel.videoData.data[indexPath.row].id
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
+            }
         }
-        
-        
     }
     
 }
@@ -462,6 +482,8 @@ extension VideoPlaylistVC {
         
         // 시리즈 상세리스트 불러올 때, 데이터가 더 있는지 확인하는 불리언 값
         viewModel.isMore = response.isMore
+        
+        
         if viewModel.isMore {
             networkingAPIBySeriesID(offSet: viewModel.currentOffset)
             viewModel.currentOffset += 20
@@ -536,10 +558,6 @@ extension VideoPlaylistVC {
                 defaultScrollTableView()
             }
         }
-        
-
-        
-        
     }
     
     func autoPlayScrollTableView(videoData: [VideoModels]) {
@@ -552,7 +570,7 @@ extension VideoPlaylistVC {
 
                 DispatchQueue.main.async {
                     self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                               at: .top, animated: true)
+                                               at: .top, animated: false)
                 }
             }
         }
@@ -571,7 +589,90 @@ extension VideoPlaylistVC {
             }
         }
         self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
-                                   at: .top, animated: true)
+                                   at: .top, animated: false)
         self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
+    }
+    
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset
+        let bounds = scrollView.bounds
+        let size = scrollView.contentSize
+        let inset = scrollView.contentInset
+        let y = offset.y + bounds.size.height - inset.bottom
+        let h = size.height
+        let reload_distance:CGFloat = 30.0
+        if y > (h + reload_distance) {
+            
+            /**
+             경우의 수
+             1. 하나만 켜진 경우 -> isAuto 로 확인하면된다.
+             2. 두 개 켜진 경우 -> 내가 들어온 탭 + isAuto를 확인하면 된다.
+             3. 세 개 켜진 경우 -> "
+             */
+            didScrollTableViewAction(comeFromTab: "국영수", autoPlayDataManager.isAutoplayMainSubject)
+            didScrollTableViewAction(comeFromTab: "과학", autoPlayDataManager.isAutoplayScience)
+            didScrollTableViewAction(comeFromTab: "사회", autoPlayDataManager.isAutoplaySocialStudy)
+            didScrollTableViewAction(comeFromTab: "기타", autoPlayDataManager.isAutoplayOtherSubjects)
+            
+            let tabname = autoPlayDataManager.currentViewTitleView
+            
+            if tabname == "추천" || tabname == "인기" {
+                presentAlertInPlaylist(message: "마지막 영상입니다.")
+            }
+        }
+    }
+    
+    func didScrollTableViewAction(comeFromTab: String, _ isAutoPlay: Bool =  false) {
+        if autoPlayDataManager.currentViewTitleView == comeFromTab {
+            if isAutoPlay {
+                // 탭에 있는 데이터를 API로 부터 가져온다.
+                
+                
+            } else {
+                // 시리즈보기를 재생목록에 보여준 상태이다.
+                presentAlertInPlaylist(message: "마지막 영상입니다.")
+            }
+        }
+    }
+    
+    func presentAlertInPlaylist(message: String) {
+        
+        let alertSuperView = UIView()
+        alertSuperView.backgroundColor
+            = UIColor.black.withAlphaComponent(0.05)
+        alertSuperView.layer.cornerRadius = 17
+        alertSuperView.isHidden = true
+        
+        let alertLabel = UILabel()
+        alertLabel.font = UIFont.appBoldFontWith(size: 12)
+        alertLabel.textColor = .white
+        
+        self.view.addSubview(alertSuperView)
+        alertSuperView.centerX(inView: self.view)
+        alertSuperView.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                              paddingBottom: 50,
+                              width: self.view.frame.width * 0.89,
+                              height: 37)
+        
+        alertSuperView.addSubview(alertLabel)
+        alertLabel.centerY(inView: alertSuperView)
+        alertLabel.centerX(inView: alertSuperView)
+        alertLabel.setDimensions(height: 37,
+                                 width: self.view.frame.width * 0.83)
+        alertLabel.textAlignment = .center
+        alertLabel.numberOfLines = 0
+        
+        alertLabel.text = message
+        alertSuperView.alpha = 1.0
+        alertSuperView.isHidden = false
+        UIView.animate(withDuration: 2.0,
+                       delay: 1.0,
+                       options: .curveEaseIn,
+                       animations: { alertSuperView.alpha = 0 },
+                       completion: { _ in
+                        alertSuperView.removeFromSuperview()
+                       })
     }
 }
