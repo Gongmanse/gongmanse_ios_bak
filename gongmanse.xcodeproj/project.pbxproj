@@ -324,6 +324,8 @@
 		6CD7C3D125F086E60092D30E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CD7C3CF25F086E60092D30E /* LaunchScreen.storyboard */; };
 		6CD9316526578D0900C76660 /* TermsOfServiceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9316426578D0900C76660 /* TermsOfServiceVC.swift */; };
 		6CD9316826578D2600C76660 /* PrivacyPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9316726578D2600C76660 /* PrivacyPolicyVC.swift */; };
+		6CE92DA9267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */; };
+		6CE92DAA267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */; };
 		6CF2E64E25F08B2A000FE084 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2E64D25F08B2A000FE084 /* TabsView.swift */; };
 		6CF2E65125F09161000FE084 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2E65025F09161000FE084 /* TabCell.swift */; };
 		6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2E65325F0A75F000FE084 /* TabsPageViewController.swift */; };
@@ -787,6 +789,8 @@
 		6CD7C3D225F086E60092D30E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6CD9316426578D0900C76660 /* TermsOfServiceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceVC.swift; sourceTree = "<group>"; };
 		6CD9316726578D2600C76660 /* PrivacyPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyVC.swift; sourceTree = "<group>"; };
+		6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathAllSeriesCell.swift; sourceTree = "<group>"; };
+		6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KoreanEnglishMathAllSeriesCell.xib; sourceTree = "<group>"; };
 		6CF2E64D25F08B2A000FE084 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		6CF2E65025F09161000FE084 /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		6CF2E65325F0A75F000FE084 /* TabsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsPageViewController.swift; sourceTree = "<group>"; };
@@ -2625,6 +2629,8 @@
 				6CC81BB126253CC1009260CB /* KoreanEnglishMathBottomPopUpTVCell.swift */,
 				6CFA77CA2624417D00040CBD /* KoreanEnglishMathAlignmentVC.swift */,
 				6CFA77CD262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift */,
+				6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */,
+				6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */,
 			);
 			path = KoreanEnglishMath;
 			sourceTree = "<group>";
@@ -3308,6 +3314,7 @@
 				A9129ED126169F4B00041CC5 /* NoticeListVC.xib in Resources */,
 				257C50022668DC9900C65355 /* NewVideoVC.xib in Resources */,
 				259B8BEE260305CB009A7146 /* SearchAfterVC.xib in Resources */,
+				6CE92DAA267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib in Resources */,
 				25201DBF26042A92001098AC /* FindingIDVC.xib in Resources */,
 				259B8C1F26030799009A7146 /* CurriculumCell.xib in Resources */,
 				25608EDC2665E53700E3246C /* 인트로영상01.mov in Resources */,
@@ -3628,6 +3635,7 @@
 				25608ED62665DB9600E3246C /* OutroController.swift in Sources */,
 				2588F8622609878D0070C2FC /* FindingPwdByPhoneVC.swift in Sources */,
 				C293D9422653BABA00A19D99 /* LoginGetProfileManager.swift in Sources */,
+				6CE92DA9267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift in Sources */,
 				C2F2274A261EA02900559065 /* GradeListCell.swift in Sources */,
 				259B8B98260301B0009A7146 /* PopularKeywordCell.swift in Sources */,
 				6CC1F06825F9CD6A00A909B0 /* RecommendCRV.swift in Sources */,
