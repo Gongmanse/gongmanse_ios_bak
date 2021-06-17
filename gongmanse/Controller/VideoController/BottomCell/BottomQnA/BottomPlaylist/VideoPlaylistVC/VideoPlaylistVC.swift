@@ -25,10 +25,15 @@ struct VideoPlaylistVCViewModel {
                                                        sThumbnail: "", sUnit: "")])
     
     
+    
     var autoPlayVideoData = VideoInput(body: [VideoModels(seriesId: "", videoId: "", title: "", tags: "", teacherName: "", thumbnail: "", subject: "", subjectColor: "", unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: "")])
     
     var totalPlaylistNum: String = ""
     
+    // 무한스크롤 구현을 위한 Index
+    var isMore: Bool = true
+    var currentOffset: Int = 20
+
 }
 
 class VideoPlaylistVC: UIViewController {
@@ -41,6 +46,7 @@ class VideoPlaylistVC: UIViewController {
     // Data
     let autoPlayDataManager = AutoplayDataManager.shared
     let videoDataManager = VideoDataManager.shared
+    
     
     var viewModel = VideoPlaylistVCViewModel() {
         didSet {
@@ -158,7 +164,6 @@ class VideoPlaylistVC: UIViewController {
         // 추천 및 인기
         if autoPlayDataManager.currentViewTitleView == "추천"
             || autoPlayDataManager.currentViewTitleView == "인기" {
-            
             networkingAPIBySeriesID()
             return
         }
@@ -199,12 +204,18 @@ class VideoPlaylistVC: UIViewController {
         networkingAPIBySeriesID()
     }
     
-    func networkingAPIBySeriesID() {
+    func networkingAPIBySeriesID(offSet: Int = 0) {
         guard let seriesID = self.seriesID else { return }
-        VideoPlaylistDataManager()
-            .getVideoPlaylistDataFromAPI(VideoPlaylistInput(seriesID: seriesID,offset: "0"),
-                                         viewController: self)
+        
+        if viewModel.isMore {
+            VideoPlaylistDataManager()
+                .getVideoPlaylistDataFromAPI(VideoPlaylistInput(seriesID: seriesID,
+                                                                offset: "\(offSet)"),
+                                             viewController: self)
+        }
     }
+    
+    
 }
 
 
@@ -448,12 +459,25 @@ extension VideoPlaylistVC {
     func didSuccessGetPlaylistData(_ response: VideoPlaylistResponse) {
         
         let getData = response.data
-        self.viewModel.videoData.data = getData
+        
+        // 시리즈 상세리스트 불러올 때, 데이터가 더 있는지 확인하는 불리언 값
+        viewModel.isMore = response.isMore
+        if viewModel.isMore {
+            networkingAPIBySeriesID(offSet: viewModel.currentOffset)
+            viewModel.currentOffset += 20
+        }
+        
+        
+        
+        if viewModel.videoData.data.first?.sTitle == "" {
+            self.viewModel.videoData.data = getData
+        } else {
+            self.viewModel.videoData.data.append(contentsOf: getData)
+        }
+        
         
         // 데이터 여러번 호출 하게 되면 아래 로직을 사용할 것 06.17
-//        self.viewModel.videoData.data.append(contentsOf: getData)
         let totalPlaylistNum = response.totalNum
-        let currentIndex = "2"
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
