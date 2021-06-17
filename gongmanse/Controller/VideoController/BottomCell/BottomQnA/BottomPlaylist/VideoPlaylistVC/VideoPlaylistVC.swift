@@ -443,10 +443,15 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         tableViewCellDidTap(indexPath: indexPath, "사회")
         tableViewCellDidTap(indexPath: indexPath, "기타")
         
-        // 추천 및 인기
-        let selectedID = viewModel.videoData.data[indexPath.row].id
-        playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
-        videoDataManager.addVideoIDLog(videoID: selectedID)
+        if autoPlayDataManager.currentViewTitleView == "추천" ||
+            autoPlayDataManager.currentViewTitleView == "인기" {
+            // 추천 및 인기
+            let selectedID = viewModel.videoData.data[indexPath.row].id
+            playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+            videoDataManager.addVideoIDLog(videoID: selectedID)
+        }
+        
+        
     }
     
     func tableViewCellDidTap(indexPath: IndexPath, _ tabname: String) {
@@ -506,6 +511,101 @@ extension VideoPlaylistVC {
             self.videoCountTotalLabel.text = "/" + totalPlaylistNum
         }
     }
+    
+    func didSuccessAddVideolistInAutoplaying(_ response: VideoInput) {
+     
+        if autoPlayDataManager.currentViewTitleView == "국영수" {
+            
+            if autoPlayDataManager.isAutoplayMainSubject {
+                autoPlayDataManager.videoDataInMainSubjectsTab?.body.append(contentsOf: response.body)
+                viewModel.autoPlayVideoData.body.append(contentsOf: response.body)
+                
+                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
+                    self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
+                                          at: .top, animated: false)
+                }
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "과학" {
+            
+            if autoPlayDataManager.isAutoplayScience {
+                autoPlayDataManager.videoDataInScienceTab?.body.append(contentsOf: response.body)
+                viewModel.autoPlayVideoData.body.append(contentsOf: response.body)
+                
+                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
+                    self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
+                                          at: .top, animated: false)
+                }
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "사회" {
+            
+            if autoPlayDataManager.isAutoplaySocialStudy {
+                autoPlayDataManager.videoDataInSocialStudyTab?.body.append(contentsOf: response.body)
+                viewModel.autoPlayVideoData.body.append(contentsOf: response.body)
+                
+                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
+                    self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
+                                          at: .top, animated: false)
+                }
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "기타" {
+            
+            if autoPlayDataManager.isAutoplayOtherSubjects {
+                autoPlayDataManager.videoDataInOtherSubjectsTab?.body.append(contentsOf: response.body)
+                viewModel.autoPlayVideoData.body.append(contentsOf: response.body)
+                
+                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
+                    self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
+                                          at: .top, animated: false)
+                }
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    func addVideoDataScrolledBottom(_ comeFromeTab: String,_ isAutoPlay: Bool, appendData: [VideoModels]) {
+        
+        var tabDataArr: VideoInput?
+        
+        if comeFromeTab == "국영수" {
+            tabDataArr = autoPlayDataManager.videoDataInMainSubjectsTab
+        } else if comeFromeTab == "과학" {
+            tabDataArr = autoPlayDataManager.videoDataInScienceTab
+        } else if comeFromeTab == "사회" {
+            tabDataArr = autoPlayDataManager.videoDataInSocialStudyTab
+        } else if comeFromeTab == "기타" {
+            tabDataArr = autoPlayDataManager.videoDataInOtherSubjectsTab
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == comeFromeTab {
+
+            if isAutoPlay {
+                tabDataArr?.body.append(contentsOf: appendData)
+                viewModel.autoPlayVideoData.body.append(contentsOf: appendData)
+                
+                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
+                    self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
+                                          at: .top, animated: false)
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: - 현재 재생중인 Cell로 스크롤
@@ -593,18 +693,39 @@ extension VideoPlaylistVC {
         self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
     }
     
-    
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset = scrollView.contentOffset
-        let bounds = scrollView.bounds
-        let size = scrollView.contentSize
-        let inset = scrollView.contentInset
-        let y = offset.y + bounds.size.height - inset.bottom
-        let h = size.height
-        let reload_distance:CGFloat = 30.0
-        if y > (h + reload_distance) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        print("DEBUG: 현재 인덱스는 \(indexPath.row)")
+        var cellCount = 0
+
+        if autoPlayDataManager.currentViewTitleView == "국영수" {
+            guard let cellCountKor = autoPlayDataManager.videoDataInMainSubjectsTab?.body.count else { return }
+            cellCount = cellCountKor
+
+        } else if autoPlayDataManager.currentViewTitleView == "과학" {
+            guard let cellCountSci = autoPlayDataManager.videoDataInScienceTab?.body.count else { return }
+            cellCount = cellCountSci
+
+        } else if autoPlayDataManager.currentViewTitleView == "사회" {
+            guard let cellCountSoc = autoPlayDataManager.videoDataInSocialStudyTab?.body.count else { return }
+            cellCount = cellCountSoc
+
+        } else if autoPlayDataManager.currentViewTitleView == "기타" {
+            guard let cellCountOth = autoPlayDataManager.videoDataInOtherSubjectsTab?.body.count else { return }
+            cellCount = cellCountOth
+
+        }
+        
+        
+        print("DEBUG: 셀카운트는 \(cellCount)")
+
+        
+        if indexPath.row > cellCount - 5 {
             
+            print("DEBUG: 마지막에 도달했음.")
+//            listCount += 20
+//            getDataFromJson()
+
             /**
              경우의 수
              1. 하나만 켜진 경우 -> isAuto 로 확인하면된다.
@@ -621,14 +742,57 @@ extension VideoPlaylistVC {
             if tabname == "추천" || tabname == "인기" {
                 presentAlertInPlaylist(message: "마지막 영상입니다.")
             }
+
+            
+            
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let offset = scrollView.contentOffset
+//        let bounds = scrollView.bounds
+//        let size = scrollView.contentSize
+//        let inset = scrollView.contentInset
+//        let y = offset.y + bounds.size.height - inset.bottom
+//        let h = size.height
+//        let reload_distance:CGFloat = 30.0
+//        if y > (h + reload_distance) {
+//
+//            /**
+//             경우의 수
+//             1. 하나만 켜진 경우 -> isAuto 로 확인하면된다.
+//             2. 두 개 켜진 경우 -> 내가 들어온 탭 + isAuto를 확인하면 된다.
+//             3. 세 개 켜진 경우 -> "
+//             */
+//            didScrollTableViewAction(comeFromTab: "국영수", autoPlayDataManager.isAutoplayMainSubject)
+//            didScrollTableViewAction(comeFromTab: "과학", autoPlayDataManager.isAutoplayScience)
+//            didScrollTableViewAction(comeFromTab: "사회", autoPlayDataManager.isAutoplaySocialStudy)
+//            didScrollTableViewAction(comeFromTab: "기타", autoPlayDataManager.isAutoplayOtherSubjects)
+//
+//            let tabname = autoPlayDataManager.currentViewTitleView
+//
+//            if tabname == "추천" || tabname == "인기" {
+//                presentAlertInPlaylist(message: "마지막 영상입니다.")
+//            }
+//        }
     }
     
     func didScrollTableViewAction(comeFromTab: String, _ isAutoPlay: Bool =  false) {
         if autoPlayDataManager.currentViewTitleView == comeFromTab {
             if isAutoPlay {
                 // 탭에 있는 데이터를 API로 부터 가져온다.
-                
+                var url = String()
+                if comeFromTab == "국영수" {
+                    url = KoreanEnglishMath_Video_URL
+                } else if  comeFromTab == "과학" {
+                    url = Science_Video_URL
+                } else if  comeFromTab == "사회" {
+                    url = SocialStudies_Video_URL
+                } else if  comeFromTab == "기타" {
+                    url = OtherSubjects_Video_URL
+                }
+
+                VideoPlaylistDataManager().addVideolistInAutoplaying(baseURL: url, self)
                 
             } else {
                 // 시리즈보기를 재생목록에 보여준 상태이다.

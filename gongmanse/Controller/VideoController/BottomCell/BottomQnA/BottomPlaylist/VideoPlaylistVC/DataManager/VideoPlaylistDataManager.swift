@@ -32,4 +32,37 @@ class VideoPlaylistDataManager {
                 }
             }
     }
+    
+    func addVideolistInAutoplaying(baseURL: String,
+                                   _ viewController: VideoPlaylistVC) {
+        
+        // viewModel -> paramters 를 통해 값을 전달한다.
+//        let data = parameters
+        let autoplayDM = AutoplayDataManager.shared
+
+        // dummy data
+        let sortedId = 3
+        let selectedItem = 0
+
+        autoplayDM.mainSubjectListCount += 20
+        
+        
+        // URL을 구성한다.
+        guard let url = URL(string: baseURL + "offset=\(autoplayDM.mainSubjectListCount)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") else { return }
+        
+        /// HTTP Method: GET
+        AF.request(url)
+            .responseDecodable(of: VideoInput.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    print("DEBUG: 무한스크롤 API 성공")
+                    viewController.didSuccessAddVideolistInAutoplaying(response)
+                    
+                case .failure(let error):
+                    print("DEBUG: 재생목록 API 통신 실패")
+                    print("DEBUG: faild connection \(error.localizedDescription)")
+                }
+            }
+    }
 }
