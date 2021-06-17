@@ -43,7 +43,10 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
+    @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var socialStudiesCollection: UICollectionView!
+    
+    private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
     //collectionView 새로고침
     let socialStudiesRC: UIRefreshControl = {
@@ -82,6 +85,9 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
         
         playSwitch.addTarget(self, action: #selector(autoPlayValueChanged(_:)), for: .valueChanged)
+        
+        //xib 셀 등록
+        socialStudiesCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
     }
     
     // MARK: - Action
@@ -283,35 +289,62 @@ extension SocialStudiesVC: UICollectionViewDataSource {
             addKeywordToCell()
             playSwitch.isHidden = false
             autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = false
+            filterImage.isHidden = false
             return cell
             
         } else if selectedItem == 1 {
-            // 시리즈 보기
+            // 문제 풀이
             setUpDefaultCellSetting()
             addKeywordToCell()
             playSwitch.isHidden = false
             autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
             return cell
             
         } else if selectedItem == 2 {
-            // 문제 풀이
-            setUpDefaultCellSetting()
-            addKeywordToCell()
+            // 시리즈 보기
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathAllSeriesCell", for: indexPath) as! KoreanEnglishMathAllSeriesCell
+            guard let json = self.socialStudiesVideo else { return cell }
+            let indexData = json.body[indexPath.row]
+            let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.title
+            cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
+            cell.subjects.text = indexData.subject
+            cell.seriesVideoCount.text = indexData.totalRows
+            cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
+            
+            cell.videoThumbnail.layer.cornerRadius = 13
+            cell.videoThumbnail.layer.masksToBounds = true
+            
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
             return cell
+            
         } else if selectedItem == 3 {
             // 노트 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
             return cell
             
         } else {
             // 전체 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = false
+            filterImage.isHidden = false
             return cell
         }
     }
@@ -320,22 +353,37 @@ extension SocialStudiesVC: UICollectionViewDataSource {
 extension SocialStudiesVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
-            let vc = VideoController()
-            let videoDataManager = VideoDataManager.shared
-            videoDataManager.isFirstPlayVideo = true
-            vc.modalPresentationStyle = .fullScreen
-            let videoID = socialStudiesVideo?.body[indexPath.row].videoId
-            vc.id = videoID
-            let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
-            vc.socialStudiesSeriesId = seriesID
-            vc.socialStudiesSwitchValue = playSwitch
-            vc.socialStudiesReceiveData = socialStudiesVideo
-            vc.socialStudiesSelectedBtn = selectBtn
-            vc.socialStudiesViewTitle = viewTitle.text
-            let autoDataManager = AutoplayDataManager.shared
-            autoDataManager.currentViewTitleView = "사회"
+            if self.selectedItem == 0 {
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = socialStudiesVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
+                vc.socialStudiesSeriesId = seriesID
+                vc.socialStudiesSwitchValue = playSwitch
+                vc.socialStudiesReceiveData = socialStudiesVideo
+                vc.socialStudiesSelectedBtn = selectBtn
+                vc.socialStudiesViewTitle = viewTitle.text
+                let autoDataManager = AutoplayDataManager.shared
+                autoDataManager.currentViewTitleView = "사회"
+                
+                present(vc, animated: true)
+            } else if self.selectedItem == 1 {
+                print("DEBUG: 1번")
+            } else if self.selectedItem == 2 {
+                let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
+                let seriesID = socialStudiesVideo?.body[indexPath.row].seriesId
+                vc.receiveSeriesId = seriesID
+                vc.modalPresentationStyle = .fullScreen
+                navigationController?.pushViewController(vc, animated: true)
+
+                print("DEBUG: 2번")
+            } else if self.selectedItem == 3 {
+                print("DEBUG: 3번")
+            }
             
-            present(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
@@ -374,13 +422,13 @@ extension SocialStudiesVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
         if sortedIdRowIndex == 0 {          // 1 번째 Cell
-            self.sortedId = 3 // 평점순
+            self.sortedId = 0 // 이름순
         } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
-            self.sortedId = 4 // 최신순
+            self.sortedId = 1 // 과목순
         } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
-            self.sortedId = 1 // 이름순
+            self.sortedId = 2 // 평점순
         } else if sortedIdRowIndex == 3 {                            // 4 번째 Cell
-            self.sortedId = 2 // 과목순
+            self.sortedId = 3 // 최신순
         }
         
         self.delegate?.socialStudiesPassSortedIdSettingValue(sortedIdRowIndex)
@@ -392,9 +440,9 @@ extension SocialStudiesVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
         } else if selectedRowIndex == 1 {
-            self.selectedItem = 2 // 시리즈 보기
-        } else if selectedRowIndex == 2 {
             self.selectedItem = 1 // 문제 풀이
+        } else if selectedRowIndex == 2 {
+            self.selectedItem = 2 // 시리즈 보기
         } else if selectedRowIndex == 3 {
             self.selectedItem = 3 // 노트 보기
         }

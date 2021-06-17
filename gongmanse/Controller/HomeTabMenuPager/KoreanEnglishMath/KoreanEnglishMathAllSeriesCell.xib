@@ -71,7 +71,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7v-gH-MKm" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                 <rect key="frame" x="1" y="238" width="60" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="PF4-5g-YB5"/>
+                                    <constraint firstAttribute="height" constant="25" id="F2u-7M-Veb"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="fyQ-ua-07v"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -97,12 +97,12 @@
                         <constraints>
                             <constraint firstItem="0RN-0H-35d" firstAttribute="leading" secondItem="gbb-uZ-AiC" secondAttribute="leading" id="5Gx-gw-y02"/>
                             <constraint firstItem="T1e-dV-J0C" firstAttribute="leading" secondItem="gbb-uZ-AiC" secondAttribute="leading" id="5nH-ti-e3J"/>
-                            <constraint firstItem="S7v-gH-MKm" firstAttribute="top" secondItem="NBC-1Y-Avv" secondAttribute="bottom" constant="8" symbolic="YES" id="7Oc-2a-f49"/>
                             <constraint firstItem="NBC-1Y-Avv" firstAttribute="top" secondItem="0RN-0H-35d" secondAttribute="bottom" constant="8" id="R6T-pU-a2r"/>
                             <constraint firstItem="bT0-0q-ETn" firstAttribute="top" secondItem="NBC-1Y-Avv" secondAttribute="bottom" constant="10" id="Xtw-Gc-b93"/>
                             <constraint firstItem="0RN-0H-35d" firstAttribute="top" secondItem="gbb-uZ-AiC" secondAttribute="top" id="Zip-qG-RCa"/>
                             <constraint firstItem="T1e-dV-J0C" firstAttribute="top" secondItem="gbb-uZ-AiC" secondAttribute="top" id="gdh-8Z-bZu"/>
                             <constraint firstItem="NBC-1Y-Avv" firstAttribute="leading" secondItem="gbb-uZ-AiC" secondAttribute="leading" constant="1" id="lm8-3T-MlZ"/>
+                            <constraint firstItem="S7v-gH-MKm" firstAttribute="top" secondItem="NBC-1Y-Avv" secondAttribute="bottom" constant="8" symbolic="YES" id="pB9-vT-KNS"/>
                             <constraint firstItem="S7v-gH-MKm" firstAttribute="leading" secondItem="gbb-uZ-AiC" secondAttribute="leading" constant="1" id="qu6-pD-QTA"/>
                             <constraint firstAttribute="trailing" secondItem="bT0-0q-ETn" secondAttribute="trailing" constant="8" id="tdL-n9-Tj1"/>
                         </constraints>

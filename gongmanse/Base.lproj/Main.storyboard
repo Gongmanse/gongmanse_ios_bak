@@ -1590,7 +1590,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxq-lW-IAb">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="27"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                        <state key="normal" title="평점순">
+                                        <state key="normal" title="이름순">
                                             <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -1658,6 +1658,7 @@
                     </view>
                     <connections>
                         <outlet property="autoPlayLabel" destination="miU-1r-l3x" id="lol-c9-h99"/>
+                        <outlet property="filterImage" destination="T7M-dl-SL3" id="lnO-j8-LIt"/>
                         <outlet property="koreanEnglishMathCollection" destination="qVo-db-s3g" id="aOJ-JX-CQ9"/>
                         <outlet property="playSwitch" destination="CrY-2R-inp" id="4KH-GX-4TN"/>
                         <outlet property="ratingSequence" destination="vxq-lW-IAb" id="tdY-ZX-DS6"/>
@@ -1843,7 +1844,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kge-lo-YAn">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="27"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                        <state key="normal" title="평점순">
+                                        <state key="normal" title="이름순">
                                             <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -1911,6 +1912,7 @@
                     </view>
                     <connections>
                         <outlet property="autoPlayLabel" destination="7uk-RL-khF" id="NC5-lZ-goh"/>
+                        <outlet property="filterImage" destination="FFF-nD-Z8m" id="etw-BY-5Tv"/>
                         <outlet property="filteringBtn" destination="kge-lo-YAn" id="OG6-VX-yuG"/>
                         <outlet property="playSwitch" destination="3rj-zf-sQz" id="VDq-IJ-OaF"/>
                         <outlet property="scienceCollection" destination="IjQ-fH-fBS" id="Io1-4A-zKJ"/>
@@ -2096,7 +2098,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="83U-wq-RMv">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="27"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                        <state key="normal" title="평점순">
+                                        <state key="normal" title="이름순">
                                             <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -2164,6 +2166,7 @@
                     </view>
                     <connections>
                         <outlet property="autoPlayLabel" destination="eng-xC-6oM" id="wEw-Be-ITw"/>
+                        <outlet property="filterImage" destination="YRj-aN-Vrz" id="ZEQ-S1-xLX"/>
                         <outlet property="filteringBtn" destination="83U-wq-RMv" id="hHP-UZ-Lod"/>
                         <outlet property="playSwitch" destination="I2Q-3N-AJ8" id="2Dy-YC-XvW"/>
                         <outlet property="selectBtn" destination="egH-xU-sT8" id="P9S-dT-WYs"/>
@@ -2349,7 +2352,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PxM-rb-o8q">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="27"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                        <state key="normal" title="평점순">
+                                        <state key="normal" title="이름순">
                                             <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -2417,6 +2420,7 @@
                     </view>
                     <connections>
                         <outlet property="autoPlayLabel" destination="cLi-Pc-Ynj" id="Lg3-ui-Ewg"/>
+                        <outlet property="filterImage" destination="XCN-9N-9sC" id="Y9E-Oq-eyY"/>
                         <outlet property="filteringBtn" destination="PxM-rb-o8q" id="5Pn-l5-65b"/>
                         <outlet property="otherSubjectsCollection" destination="ksI-OV-71X" id="WMl-L2-TOn"/>
                         <outlet property="playSwitch" destination="yQm-n5-TYD" id="LcV-z8-gz5"/>
