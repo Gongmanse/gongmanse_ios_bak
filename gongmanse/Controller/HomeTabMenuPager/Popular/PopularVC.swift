@@ -17,12 +17,24 @@ class PopularVC: UIViewController {
     @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var popularCollection: UICollectionView!
 
+    // 무한 스크롤 프로퍼티
+    var gradeText: String = ""
+    var listCount: Int = 0
+    var isDataListMore: Bool = true
+    //
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if Constant.token != "" {
+            getDataFromJsonSecond(grade: gradeText, offset: listCount)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         popularCollection.refreshControl = popularRC
         
-        getDataFromJson()
-        getDataFromJsonSecond()
+//        getDataFromJson()
         viewTitleSettings()
         
     }
@@ -59,24 +71,61 @@ class PopularVC: UIViewController {
     }
     
     /// 1.0 인기리스트 API
-    func getDataFromJsonSecond() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/trendingvid?offset=0&limit=30") {
+    func getDataFromJsonSecond(grade: String, offset: Int) {
+        guard let gradeEncoding = grade.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        
+        if let url = URL(string: "\(apiBaseURL)/v/video/trendingvid?offset=\(offset)&limit=20&grade=\(gradeEncoding)") {
+            
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
 
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
+            switch isDataListMore {
+            
+            case false:
+                return
                 
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                
-                if let json = try? decoder.decode(BeforeApiModels.self, from: data) {
-                    self.popularVideoSecond = json
-                }
-                DispatchQueue.main.async {
-                    self.popularCollection.reloadData()
-                }
+            case true:
+                if offset == 0 {
+                    URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        
+                        guard let data = data else { return }
+                        let decoder = JSONDecoder()
+                        
+                        if let json = try? decoder.decode(BeforeApiModels.self, from: data) {
+                            self.popularVideoSecond = json
+                        }
+                        DispatchQueue.main.async {
+                            self.popularCollection.reloadData()
+                        }
 
-            }.resume()
+                    }.resume()
+                } else {
+                    URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        
+                        guard let data = data else { return }
+                        let decoder = JSONDecoder()
+                        
+                        if let json = try? decoder.decode(BeforeApiModels.self, from: data) {
+                            
+                            if json.data.count == 0 {
+                                self.isDataListMore = true
+                                return
+                            }
+                            
+                            for i in 0..<json.data.count {
+                                self.popularVideoSecond?.data.append(json.data[i])
+                            }
+                            
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.popularCollection.reloadData()
+                        }
+
+                    }.resume()
+                }
+            }
+            
         }
     }
     
@@ -180,6 +229,20 @@ extension PopularVC: UICollectionViewDelegate {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cellCount = popularVideoSecond?.data.count  else { return }
+
+        if indexPath.row == cellCount - 1 {
+            
+            listCount += 20
+            print(listCount)
+            getDataFromJsonSecond(grade: gradeText, offset: listCount)
+            
+        }
+    }
+    
 }
 
 extension PopularVC: UICollectionViewDelegateFlowLayout {
