@@ -57,7 +57,7 @@ class SearchAfterVC: UIViewController {
     private var isPlayPIPVideo: Bool = true
     private let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "pause"), for: .normal)
         button.tintColor = .black
         button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
         return button
@@ -158,10 +158,10 @@ class SearchAfterVC: UIViewController {
         
         if isPlayPIPVideo {
             pipVC?.player?.pause()
-            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
+            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         } else {
             pipVC?.player?.play()
-            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         }
     }
     

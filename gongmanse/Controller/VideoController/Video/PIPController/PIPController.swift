@@ -135,7 +135,7 @@ class PIPController: UIViewController {
                         
                         if let pipVideoData = self.pipVideoData {
                             if pipVideoData.isPlayPIP {
-                                self.player?.play()
+                                self.player?.pause()
                             } else {
                                 self.player?.pause()
                             }
