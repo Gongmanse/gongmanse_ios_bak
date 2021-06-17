@@ -120,12 +120,22 @@ extension VideoController {
     }
     
     func setRemoveNotification() {
+        NotificationCenter.default.removeObserver(self, name: .removeVideoVCToken, object: nil)
         NotificationCenter.default.removeObserver(self, name: .switchSubtitleOnOff, object: nil)
         NotificationCenter.default.removeObserver(self, name: .changePlayVideoRate, object: nil)
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     func setNotification() {
+
+        // SearchAfterVC > 영상 테이블뷰 셀 클릭 시 호출하기 위해 생성한 NotificationCenter
+        // 중간에 addObser가 풀려서 호출이 안되는 상태 06.17
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(removeNotificationFromSearchAfterVC(_:)),
+                         name: NSNotification.Name.removeVideoVCToken,
+                         object: nil)
+        
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(playerItemDidReachEnd),
@@ -142,15 +152,14 @@ extension VideoController {
     }
 }
 
-
-extension Notification.Name {
-    static let detectVideoEnded = Notification.Name("videoEnded")
-}
-
 // MARK: - Notificaion
 
 extension Notification.Name {
     
+    static let removeVideoVCToken = Notification.Name("removeVideoVCToken")
+    
+    static let detectVideoEnded = Notification.Name("videoEnded")
+
     /// 자막보기 설정
     static let switchSubtitleOnOff = Notification.Name("switchSubtitleOnOff")
     

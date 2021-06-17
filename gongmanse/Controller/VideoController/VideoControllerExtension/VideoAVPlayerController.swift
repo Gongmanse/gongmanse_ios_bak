@@ -70,7 +70,10 @@ extension VideoController {
         self.tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
+        setRemoveNotification()
         removePeriodicTimeObserver()
+        
+        videoDataManager.isFirstPlayVideo = true
         self.dismiss(animated: true, completion: nil)
     }
     
