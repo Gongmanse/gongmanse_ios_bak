@@ -834,7 +834,9 @@ extension VideoController {
     
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
-
+        let autoPlayDM = AutoplayDataManager.shared
+        autoPlayDM.mainSubjectListCount = 0
+        
         player.pause()
         
         // 현재 VideoID를 추가한다.

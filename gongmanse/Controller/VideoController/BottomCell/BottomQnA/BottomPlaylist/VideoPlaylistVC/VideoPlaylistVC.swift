@@ -97,6 +97,8 @@ class VideoPlaylistVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        let autoPlayDM = AutoplayDataManager.shared
+        autoPlayDM.mainSubjectListCount = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
