@@ -80,10 +80,12 @@ class VideoDataManager {
     var previousvideoThumbnailImage: UIImage? {
         if videoThumbnailImageLog.count == 1 {
             return videoThumbnailImageLog.first
+            
         } else if videoThumbnailImageLog.count == 2 {
             return videoThumbnailImageLog.first
+            
         } else {
-            return videoThumbnailImageLog[videoThumbnailImageLog.endIndex - 1]
+            return videoThumbnailImageLog[videoThumbnailImageLog.count - 2]
         }
     }
     
