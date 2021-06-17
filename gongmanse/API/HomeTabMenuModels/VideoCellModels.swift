@@ -79,3 +79,32 @@ struct FilterVideoData: Codable {
     var iQnaId: String?
 }
 
+//시리즈 보기
+struct SeriesModels: Codable {
+    var isMore: Bool
+    var totalNum: String
+    var seriesInfo: SeriesMainInfo
+    var data: [SeriesData]
+    
+    struct SeriesMainInfo: Codable {
+        var sTitle: String
+        var sTeacher: String
+        var sSubjectColor: String
+        var sSubject: String
+        var sGrade: String
+    }
+}
+
+struct SeriesData: Codable {
+    var id: String
+    var iSeriesId: String
+    var sTitle: String
+    var dtDateCreated: String
+    var dtLastModified: String
+    var sSubject: String
+    var sTeacher: String
+    var sSubjectColor: String
+    var sThumbnail: String
+    var sUnit: String
+}
+

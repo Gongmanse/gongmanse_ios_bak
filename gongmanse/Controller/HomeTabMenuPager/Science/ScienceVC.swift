@@ -43,7 +43,10 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
+    @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var scienceCollection: UICollectionView!
+    
+    private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
     //collectionView 새로고침
     let scienceRC: UIRefreshControl = {
@@ -82,6 +85,8 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         
         playSwitch.addTarget(self, action: #selector(playSwitchValueChanged(_:)), for: .valueChanged)
         
+        //xib 셀 등록
+        scienceCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
     }
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -271,35 +276,62 @@ extension ScienceVC: UICollectionViewDataSource {
             addKeywordToCell()
             playSwitch.isHidden = false
             autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = false
+            filterImage.isHidden = false
             return cell
             
         } else if selectedItem == 1 {
-            // 시리즈 보기
+            // 문제 풀이
             setUpDefaultCellSetting()
             addKeywordToCell()
             playSwitch.isHidden = false
             autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
             return cell
             
         } else if selectedItem == 2 {
-            // 문제 풀이
-            setUpDefaultCellSetting()
-            addKeywordToCell()
+            // 시리즈 보기
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathAllSeriesCell", for: indexPath) as! KoreanEnglishMathAllSeriesCell
+            guard let json = self.scienceVideo else { return cell }
+            let indexData = json.body[indexPath.row]
+            let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.title
+            cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
+            cell.subjects.text = indexData.subject
+            cell.seriesVideoCount.text = indexData.totalRows
+            cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
+            
+            cell.videoThumbnail.layer.cornerRadius = 13
+            cell.videoThumbnail.layer.masksToBounds = true
+            
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
             return cell
+            
         } else if selectedItem == 3 {
             // 노트 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
             return cell
             
         } else {
             // 전체 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = false
+            filterImage.isHidden = false
             return cell
         }
     }
@@ -356,6 +388,11 @@ extension ScienceVC: UICollectionViewDelegate {
             
             // 시리즈보기
             } else if self.selectedItem == 2 {
+                let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
+                let seriesID = scienceVideo?.body[indexPath.row].seriesId
+                vc.receiveSeriesId = seriesID
+                vc.modalPresentationStyle = .fullScreen
+                navigationController?.pushViewController(vc, animated: true)
 
                 print("DEBUG: 2번")
             // 노트보기
@@ -407,13 +444,13 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
         if sortedIdRowIndex == 0 {          // 1 번째 Cell
-            self.sortedId = 3 // 평점순
+            self.sortedId = 0 // 이름순
         } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
-            self.sortedId = 4 // 최신순
+            self.sortedId = 1 // 과목순
         } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
-            self.sortedId = 1 // 이름순
+            self.sortedId = 2 // 평점순
         } else {                            // 4 번째 Cell
-            self.sortedId = 2 // 과목순
+            self.sortedId = 3 // 최신순
         }
         
         self.delegate?.sciencePassSortedIdSettingValue(sortedIdRowIndex)
@@ -426,9 +463,9 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
         } else if selectedRowIndex == 1 {
-            self.selectedItem = 2 // 시리즈 보기
-        } else if selectedRowIndex == 2 {
             self.selectedItem = 1 // 문제 풀이
+        } else if selectedRowIndex == 2 {
+            self.selectedItem = 2 // 시리즈 보기
         } else {
             self.selectedItem = 3 // 노트 보기
         }

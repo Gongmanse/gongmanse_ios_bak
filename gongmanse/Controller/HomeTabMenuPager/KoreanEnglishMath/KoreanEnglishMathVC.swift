@@ -63,6 +63,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     @IBOutlet weak var videoTotalCount: UILabel!
     @IBOutlet weak var ratingSequence: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
+    @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
     
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
@@ -297,6 +298,8 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             addKeywordToCell()
             playSwitch.isHidden = false
             autoPlayLabel.isHidden = false
+            ratingSequence.isHidden = false
+            filterImage.isHidden = false
             return cell
             
         } else if selectedItem == 1 {
@@ -305,6 +308,8 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             addKeywordToCell()
             playSwitch.isHidden = false
             autoPlayLabel.isHidden = false
+            ratingSequence.isHidden = true
+            filterImage.isHidden = true
             return cell
             
         } else if selectedItem == 2 {
@@ -327,6 +332,8 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            ratingSequence.isHidden = true
+            filterImage.isHidden = true
             return cell
         } else if selectedItem == 3 {
             // 노트 보기
@@ -334,12 +341,18 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             addKeywordToCell()
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            ratingSequence.isHidden = true
+            filterImage.isHidden = true
             return cell
             
         } else {
             // 전체 보기
             setUpDefaultCellSetting()
             addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
+            ratingSequence.isHidden = false
+            filterImage.isHidden = false
             return cell
         }
     }
@@ -378,6 +391,11 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             
             // 시리즈보기
             } else if self.selectedItem == 2 {
+                let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
+                let seriesID = koreanEnglishMathVideo?.body[indexPath.row].seriesId
+                vc.receiveSeriesId = seriesID
+                vc.modalPresentationStyle = .fullScreen
+                navigationController?.pushViewController(vc, animated: true)
 
                 print("DEBUG: 2번")
             // 노트보기
@@ -439,13 +457,13 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
         if sortedIdRowIndex == 0 {          // 1 번째 Cell
-            self.sortedId = 3 // 평점순
+            self.sortedId = 0 // 이름순
         } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
-            self.sortedId = 4 // 최신순
+            self.sortedId = 1 // 과목순
         } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
-            self.sortedId = 1 // 이름순
+            self.sortedId = 2 // 평점순
         } else {                            // 4 번째 Cell
-            self.sortedId = 2 // 과목순
+            self.sortedId = 3 // 최신순
         }
         
         self.delegate?.koreanPassSortedIdSettingValue(sortedIdRowIndex)
@@ -458,9 +476,9 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
         } else if selectedRowIndex == 1 {
-            self.selectedItem = 1 // 시리즈 보기
+            self.selectedItem = 1 // 문제 풀이
         } else if selectedRowIndex == 2 {
-            self.selectedItem = 2 // 문제 풀이
+            self.selectedItem = 2 // 시리즈 보기
         } else {
             self.selectedItem = 3 // 노트 보기
         }

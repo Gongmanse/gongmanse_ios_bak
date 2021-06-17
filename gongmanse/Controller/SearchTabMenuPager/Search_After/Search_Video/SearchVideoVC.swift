@@ -199,6 +199,9 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                         didSelectItemAt indexPath: IndexPath) {
         
         if Constant.isLogin {
+            
+            pipDelegate?.serachAfterVCPIPViewDismiss()
+
             /**
              검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
              - 영상 > 검색결과 > 영상
@@ -237,7 +240,6 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //            pipDataManager.previousVideoURL = nil
             
             // PIP를 dismiss한다.
-            pipDelegate?.serachAfterVCPIPViewDismiss()
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
 

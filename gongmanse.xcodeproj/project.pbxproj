@@ -326,6 +326,8 @@
 		6CD9316826578D2600C76660 /* PrivacyPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9316726578D2600C76660 /* PrivacyPolicyVC.swift */; };
 		6CE92DA9267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */; };
 		6CE92DAA267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */; };
+		6CE92DAE267AFB440018B43F /* SeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE92DAD267AFB440018B43F /* SeriesVC.swift */; };
+		6CE92DB1267AFD210018B43F /* SeriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE92DB0267AFD210018B43F /* SeriesCollectionViewCell.swift */; };
 		6CF2E64E25F08B2A000FE084 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2E64D25F08B2A000FE084 /* TabsView.swift */; };
 		6CF2E65125F09161000FE084 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2E65025F09161000FE084 /* TabCell.swift */; };
 		6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2E65325F0A75F000FE084 /* TabsPageViewController.swift */; };
@@ -796,6 +798,8 @@
 		6CD9316726578D2600C76660 /* PrivacyPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyVC.swift; sourceTree = "<group>"; };
 		6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathAllSeriesCell.swift; sourceTree = "<group>"; };
 		6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KoreanEnglishMathAllSeriesCell.xib; sourceTree = "<group>"; };
+		6CE92DAD267AFB440018B43F /* SeriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesVC.swift; sourceTree = "<group>"; };
+		6CE92DB0267AFD210018B43F /* SeriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		6CF2E64D25F08B2A000FE084 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		6CF2E65025F09161000FE084 /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		6CF2E65325F0A75F000FE084 /* TabsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsPageViewController.swift; sourceTree = "<group>"; };
@@ -2564,6 +2568,8 @@
 				6CF2E68925F21E96000FE084 /* Popular */,
 				6CF2E68D25F21EFA000FE084 /* SocialStudies */,
 				6CF2E68B25F21EB2000FE084 /* KoreanEnglishMath */,
+				6CE92DAD267AFB440018B43F /* SeriesVC.swift */,
+				6CE92DB0267AFD210018B43F /* SeriesCollectionViewCell.swift */,
 			);
 			path = HomeTabMenuPager;
 			sourceTree = "<group>";
@@ -3647,6 +3653,7 @@
 				2588F86C260987B30070C2FC /* CompleteChangePwdVC.swift in Sources */,
 				C2A39E10264E17A80046290D /* QnAMyChatCell.swift in Sources */,
 				2580AB5D266717D700B42475 /* UpdateProfileImageInput.swift in Sources */,
+				6CE92DB1267AFD210018B43F /* SeriesCollectionViewCell.swift in Sources */,
 				C2A4B89D2626CA6300173261 /* EventListCell.swift in Sources */,
 				C2657C542624369C0048B92F /* UIImageView.swift in Sources */,
 				C20C8E292645048100B0566A /* ApiManager.swift in Sources */,
@@ -3750,6 +3757,7 @@
 				251FFD07263256E0007A75FF /* SideMenuHeaderViewModel.swift in Sources */,
 				253F4EBD267722AF005D9094 /* AutoplaySingleTon.swift in Sources */,
 				6CBEEACC26526AFD0006795D /* PlayListAPI.swift in Sources */,
+				6CE92DAE267AFB440018B43F /* SeriesVC.swift in Sources */,
 				C27A5713265BA5CB0047520E /* LectureDetailViewModel.swift in Sources */,
 				A9850EFA261613FE00908BA4 /* EnquiryCell.swift in Sources */,
 				2580CF4E261A91BA00D78E4E /* VideoUpperTabCell.swift in Sources */,
@@ -3987,7 +3995,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4012,7 +4020,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
