@@ -80,7 +80,7 @@
                 <outlet property="questionDescriptionLabel" destination="f3L-EC-Qwi" id="fT8-Gd-uP7"/>
                 <outlet property="typeLabel" destination="MZZ-K4-eGa" id="PKs-pp-4dN"/>
             </connections>
-            <point key="canvasLocation" x="239" y="77"/>
+            <point key="canvasLocation" x="228" y="91"/>
         </tableViewCell>
     </objects>
 </document>

@@ -24,15 +24,15 @@ struct OneOneQnADataList: Codable {
     var typeConvert: String {
         switch iType {
         case "1":
-            return "이용방법"
+            return "[이용방법]"
         case "2":
-            return "서비스 장애"
+            return "[서비스 장애]"
         case "3":
-            return "결제 및 인증"
+            return "[결제 및 인증]"
         case "4":
-            return "기타문의"
+            return "[기타문의]"
         case "5":
-            return "강의요청"
+            return "[강의요청]"
         default:
             return "오류"
         }

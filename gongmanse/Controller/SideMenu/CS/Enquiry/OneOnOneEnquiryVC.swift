@@ -161,6 +161,14 @@ extension OneOnOneEnquiryVC: UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let enquiryVC = EnquiryUpdateDeleteVC()
+        enquiryVC.oneoneViewModel = oneOneViewModel
+        enquiryVC.oneoneModel = oneOneViewModel?.oneOneList?.data[indexPath.row]
+        enquiryVC.oneoneListID = oneOneViewModel?.oneOneList?.data[indexPath.row].id
+        self.navigationController?.pushViewController(enquiryVC, animated: true)
+    }
 }
 
 extension OneOnOneEnquiryVC {

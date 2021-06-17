@@ -7,13 +7,17 @@
 
 import Foundation
 
+protocol popDelgate: class {
+    func popViewController()
+}
+
 class OneOneViewModel {
     
     
     var oneOneList: OneOneQnAList?
     
     weak var delegateTable: TableReloadData?
-    
+    weak var delegatePop: popDelgate?
     /// 1:1 목록
     func reqiestOneOneList() {
         
@@ -30,9 +34,10 @@ class OneOneViewModel {
     }
     
     /// 1:1 등록
-    func requestOneOneRegist(question: String, type: String) {
+    func requestOneOneRegist(question: String, type: Int) {
         
-        let parameter = OneOneQnARegist(token: Constant.token, question: question, type: type)
+        
+        let parameter = OneOneQnARegist(token: Constant.token, question: question, type: "\(type)")
         
         OneOneAPIManager.fetchOneOneRegistApi(parameter) {
             print("requestOneOneRegist == ")
@@ -45,6 +50,7 @@ class OneOneViewModel {
         let parameter = OneOneQnADelete(id: id)
         
         OneOneAPIManager.fetchOneOneDeleteApi(parameter) {
+            self.delegatePop?.popViewController()
             print("requestOneOneDelete == ")
         }
     }

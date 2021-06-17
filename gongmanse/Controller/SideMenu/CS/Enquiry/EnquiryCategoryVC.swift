@@ -11,15 +11,6 @@
  */
 import UIKit
 
-class SelectButtonState: UIButton {
-    
-    override var isSelected: Bool {
-        didSet {
-            backgroundColor = isSelected ? UIColor.orange : UIColor.gray
-        }
-    }
-}
-
 class EnquiryCategoryVC: UIViewController {
 
     //label
@@ -27,12 +18,12 @@ class EnquiryCategoryVC: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     
     // Buttons
-    @IBOutlet weak var useButton: SelectButtonState!
-    @IBOutlet weak var serviceDisorderButton: SelectButtonState!
-    @IBOutlet weak var paymentAuthButton: SelectButtonState!
-    @IBOutlet weak var lectureRequestButton: SelectButtonState!
-    @IBOutlet weak var otherInquiryButton: SelectButtonState!
-    @IBOutlet weak var writeButton: SelectButtonState!
+    @IBOutlet weak var useButton: UIButton!
+    @IBOutlet weak var serviceDisorderButton: UIButton!
+    @IBOutlet weak var paymentAuthButton: UIButton!
+    @IBOutlet weak var lectureRequestButton: UIButton!
+    @IBOutlet weak var otherInquiryButton: UIButton!
+    @IBOutlet weak var registButton: UIButton!
     
     //textview
     @IBOutlet weak var QuestionTextView: UITextView!
@@ -41,12 +32,35 @@ class EnquiryCategoryVC: UIViewController {
     private var categoryButtonTag = 0
     private var questionText = ""
     
+    var enquiryViewModel: OneOneViewModel? = OneOneViewModel()
+    
+    var enquiryText: String?
+    
+    var buttonType: Int = 0
+        
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         navigationSetting()
         basicScreenUI()
+        configuration()
         
+        useButton.isSelected = true
+        
+    }
+    
+    @IBAction func registEnquiryAction(_ sender: UIButton) {
+        
+        if let question = enquiryText {
+            enquiryViewModel?.requestOneOneRegist(question: question, type: 1)//buttonType)
+        }
         
     }
 }
@@ -54,6 +68,21 @@ class EnquiryCategoryVC: UIViewController {
 
 //MARK: - extension drawing UI요소들만
 extension EnquiryCategoryVC {
+    
+    func configuration() {
+        
+        QuestionTextView.delegate = self
+        QuestionTextView.text = "질문을 입력해 주세요"
+        QuestionTextView.textColor = .lightGray
+        QuestionTextView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        QuestionTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        categoryLabel.font = .appBoldFontWith(size: 16)
+        categoryLabel.textColor = .rgb(red: 128, green: 128, blue: 128)
+        
+        questionLabel.font = .appBoldFontWith(size: 16)
+        questionLabel.textColor = .rgb(red: 128, green: 128, blue: 128)
+    }
     
     func basicScreenUI() {
         initButton()
@@ -97,14 +126,34 @@ extension EnquiryCategoryVC {
         otherInquiryButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         
-        writeButton.tintColor = .white
-        writeButton.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
-        writeButton.layer.cornerRadius = 10
-        writeButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
+        registButton.tintColor = .white
+        registButton.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
+        registButton.layer.cornerRadius = 10
+        registButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
     }
     
     @objc func sendTag(_ sender: UIButton) {
-        print(sender.tag)
+//        switch sender {
+//        case useButton:
+//            useButton.isSelected = true
+//            serviceDisorderButton.isSelected = false
+//            paymentAuthButton.isSelected = false
+//        case serviceDisorderButton:
+//            useButton.isSelected = false
+//            serviceDisorderButton.isSelected = true
+//            paymentAuthButton.isSelected = false
+//        case paymentAuthButton:
+//            useButton.isSelected = false
+//            serviceDisorderButton.isSelected = false
+//            paymentAuthButton.isSelected = true
+//        default:
+//            return
+//        }
+        
+        useButton.isSelected = false
+        serviceDisorderButton.isSelected = false
+        paymentAuthButton.isSelected = false
+        
     }
     
     func initTextView() {
@@ -126,4 +175,26 @@ extension EnquiryCategoryVC {
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
     }
+}
+
+extension EnquiryCategoryVC: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        
+        if textView.text == "질문을 입력해 주세요" {
+            textView.text = ""
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
+        if textView.text == "" {
+            textView.text = "질문을 입력해 주세요"
+            textView.textColor = .lightGray
+        } else {
+            enquiryText = textView.text
+        }
+    }
+    
 }
