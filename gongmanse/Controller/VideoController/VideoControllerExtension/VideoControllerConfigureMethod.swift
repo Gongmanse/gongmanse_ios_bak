@@ -43,7 +43,17 @@ extension VideoController {
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
         
         // "상세화면 영상 API"를 호출한다.
-        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        if Constant.token.count > 3 {
+            DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        } else {
+            GuestKeyDataManager().GuestKeyAPIGetData(videoID: id, viewController: self)
+        }
+        
+        
+        
+        
+        
+
     }
     
     /// 전반적인 UI 구현 메소드
