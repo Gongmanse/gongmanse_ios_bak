@@ -65,6 +65,8 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     @IBOutlet weak var playSwitch: UISwitch!
     @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
     
+    private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
+    
     let koreanEnglishMathRC: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
@@ -97,9 +99,9 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
         
+        //xib 셀 등록
+        koreanEnglishMathCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
         
-        // 셀등록
-        koreanEnglishMathCollection.register(UINib(nibName: "TeacherPlaylistCell", bundle: nil), forCellWithReuseIdentifier: TeacherPlaylistCell.reusableIdentifier)
     }
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -298,7 +300,7 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             return cell
             
         } else if selectedItem == 1 {
-            // 시리즈 보기
+            // 문제풀이
             setUpDefaultCellSetting()
             addKeywordToCell()
             playSwitch.isHidden = false
@@ -306,9 +308,23 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             return cell
             
         } else if selectedItem == 2 {
-            // 문제 풀이
-            setUpDefaultCellSetting()
-            addKeywordToCell()
+            // 시리즈보기
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathAllSeriesCell", for: indexPath) as! KoreanEnglishMathAllSeriesCell
+            guard let json = self.koreanEnglishMathVideo else { return cell }
+            let indexData = json.body[indexPath.row]
+            let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
+            
+            cell.videoThumbnail.contentMode = .scaleAspectFill
+            cell.videoThumbnail.sd_setImage(with: url)
+            cell.videoTitle.text = indexData.title
+            cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
+            cell.subjects.text = indexData.subject
+            cell.seriesVideoCount.text = indexData.totalRows
+            cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
+            
+            cell.videoThumbnail.layer.cornerRadius = 13
+            cell.videoThumbnail.layer.masksToBounds = true
+            
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
             return cell

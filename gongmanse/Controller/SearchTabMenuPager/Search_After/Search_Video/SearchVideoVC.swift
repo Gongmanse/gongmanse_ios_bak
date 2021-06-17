@@ -11,6 +11,10 @@ protocol SearchVideoVCDelegate: AnyObject {
     func serachAfterVCPIPViewDismiss()
 }
 
+protocol VideoVCDelegateSearchVideoVC: AnyObject {
+    func removeAVPlayerTokenVideoVC()
+}
+
 class SearchVideoVC: UIViewController {
     
     
@@ -18,6 +22,7 @@ class SearchVideoVC: UIViewController {
     //MARK: - Properties
     
     weak var pipDelegate: SearchVideoVCDelegate?
+    weak var videoRemoveTokenDelegate: VideoVCDelegateSearchVideoVC?
     
     var pageIndex: Int!
     let searchVideoVM = SearchVideoViewModel()
@@ -203,9 +208,20 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
             //  UIApplication 에서 화면전환을 한다,
             guard let topVC = UIApplication.shared.topViewController() else { return }
+            /* 컨트롤러에 남아있는 Notification들을 제거한다. */
+            // "VideoController" 에 남아있는 영상 토큰을 제거하기 위한 post
+            NotificationCenter.default.post(name: .removeVideoVCToken, object: nil)
+            
+            // pip에 남아있는 영상 토큰을 제거하기 위한 removeObsercer
             NotificationCenter.default.removeObserver(self)
             NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
-            
+
+            let autoDataManager = AutoplayDataManager.shared
+//            autoDataManager.currentViewTitleView = ""
+            autoDataManager.isAutoplayMainSubject = false
+            autoDataManager.isAutoplayScience = false
+            autoDataManager.isAutoplaySocialStudy = false
+            autoDataManager.isAutoplayOtherSubjects = false
 
             // 싱글톤 객체에 들어간 데이터를 초기화한다.
 //            let pipDataManager = PIPDataManager.shared

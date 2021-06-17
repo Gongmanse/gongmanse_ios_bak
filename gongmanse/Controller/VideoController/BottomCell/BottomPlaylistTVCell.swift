@@ -61,7 +61,9 @@ class BottomPlaylistTVCell: UITableViewCell {
         
         highlightView.layer.cornerRadius = 7.5
         highlightView.backgroundColor = .clear
+        videoThumbnail.contentMode = .scaleAspectFill
     }
+    
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -85,9 +87,7 @@ class BottomPlaylistTVCell: UITableViewCell {
             self.term.isHidden = cellData.sUnit.count < 2 ? true : false
             let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + cellData.sThumbnail)
             let url = URL(string: urlString)
-            self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
-                self.videoThumbnail.contentMode = .scaleAspectFill
-            })
+            self.videoThumbnail.sd_setImage(with: url, completed: nil)
         }
         
         if let autoPlayData = self.autoPlayData {
@@ -101,11 +101,9 @@ class BottomPlaylistTVCell: UITableViewCell {
                 self.term.isHidden = unit.count < 2 ? true : false
             }
             
-            let urlString = makeStringKoreanEncoded(fileBaseURL + "/" + (autoPlayData.thumbnail ?? ""))
+            let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
             let url = URL(string: urlString)
-            self.videoThumbnail.sd_setImage(with: url, completed: {_,_,_,_ in
-                self.videoThumbnail.contentMode = .scaleAspectFill
-            })
+            self.videoThumbnail.sd_setImage(with: url, completed: nil)
             
         }
         

@@ -523,8 +523,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
-        setNotification()
+        // 인트로 종료될 때, delegat로 해주고 있어서 잠시 주석처리했음. 06.17
+//        setNotification()
         
         // 인트로를 실행한다.
         if isStartVideo == false {
@@ -1195,4 +1195,19 @@ extension UIViewController {
         
         completion()
     }
+}
+
+extension VideoController {
+
+    // 영상 토큰이 남아있는 것을 방지하기 위해 "상세검색" 화면에서 토큰을 제거하기 위해 Notification을 이용한다.
+    @objc func removeNotificationFromSearchAfterVC(_ notification: Notification) {
+        self.player.pause()
+        self.setRemoveNotification()
+    }
+    
+    
+}
+
+// 영상 토큰이 남아있는 것을 방지하기 위해 "상세검색" 화면에서 토큰을 제거하기 위해 Notification을 이용한다.
+extension Notification.Name {
 }
