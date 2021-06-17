@@ -310,8 +310,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 타임라인 timerSlider
-    var timeSlider: UISlider = {
-        let slider = UISlider()
+    var timeSlider: CustomSlider = {
+        let slider = CustomSlider()
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
         slider.maximumTrackTintColor = .white
