@@ -128,60 +128,94 @@ extension VideoController {
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
 //        player.seek(to: CMTime.zero)
+
+
+        let autoPlayDataManager = AutoplayDataManager.shared
+        
+        if autoPlayDataManager.currentViewTitleView == "국영수" {
+            if autoPlayDataManager.isAutoplayMainSubject {
+                autoPlayVideo()
+                return
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "과학" {
+            if autoPlayDataManager.isAutoplayScience {
+                autoPlayVideo()
+                return
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "사회" {
+            if autoPlayDataManager.isAutoplaySocialStudy {
+                autoPlayVideo()
+                return
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "기타" {
+            if autoPlayDataManager.isAutoplayOtherSubjects {
+                autoPlayVideo()
+                return
+            }
+        }
         setRemoveNotification()
         removePeriodicTimeObserver()
-        
-        print("DEBUG: notification.name.rawValue \(notification.name.rawValue)")
-        // 여기에 영상 API를 호출하면 자동재생 구현 가능.
-//        let pipDataManager = PIPDataManager.shared
-//        let videoID = pipDataManager.currentVideoID
-        
-//
-//        pipDataManager.currentVideoID = videoID
-        
-//        let inputData = DetailVideoInput(video_id: self.id!,
-//                                         token: Constant.token)
-////        // "상세화면 영상 API"를 호출한다.
-//        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
-
-        let autoPlayDataManager = AutoplayDataManager.shared
-        
-        if autoPlayDataManager.isAutoplayMainSubject && autoPlayDataManager.currentViewTitleView == "국영수" {
-            autoPlayVideo()
-        }
-        
     }
-    
-    func autoPlayVideo() {
 
+    func autoPlayVideo() {
+        
+        // 플레이 리스트에서 현재 인덱스를 찾는다.
+        // 그 인덱스에 +1을 한다.
+        // +1 한 인덱스의 videoID를 추출한다.
+        // videoID를 "DetailVideoDataManager"에 할당한다.
+        // 영상이 실행된다.
+        
         let autoPlayDataManager = AutoplayDataManager.shared
-        let endIndex = autoPlayDataManager.videoDataInMainSubjectsTab?.body.endIndex
-        let currentIndex = findCurrentIndexPath()
+        
+        var endIndex = 10
+        var currentIndex = 1
+        var videoID = "15188"
+        
+        if autoPlayDataManager.currentViewTitleView == "국영수" {
+            endIndex = autoPlayDataManager.videoDataInMainSubjectsTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInMainSubjectsTab)
+            videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "과학" {
+            endIndex = autoPlayDataManager.videoDataInScienceTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInScienceTab)
+            videoID = autoPlayDataManager.videoDataInScienceTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "사회" {
+            endIndex = autoPlayDataManager.videoDataInSocialStudyTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInSocialStudyTab)
+            videoID = autoPlayDataManager.videoDataInSocialStudyTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "기타" {
+            endIndex = autoPlayDataManager.videoDataInOtherSubjectsTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab)
+            videoID = autoPlayDataManager.videoDataInOtherSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
+        }
         
         if currentIndex == endIndex {
             return
         }
-        
-        let videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId
-        
-        guard let videoIDs = videoID else { return }
-        
-        let input = DetailVideoInput(video_id: videoIDs, token: Constant.token)
+
+        let input = DetailVideoInput(video_id: videoID, token: Constant.token)
         
         DetailVideoDataManager().DetailVideoDataManager(input,
                                                         viewController: self)
     }
     
     
-    func findCurrentIndexPath() -> Int {
+    
+    
+    
+    
+    func findCurrentIndexPath(videoData: VideoInput?) -> Int {
         let autoPlayDataManager = AutoplayDataManager.shared
         
         var currentVideoIndexPath = Int()
         
-        for (index, _) in autoPlayDataManager.videoDataInMainSubjectsTab!.body.enumerated() {
-            
+        for (index, data) in videoData!.body.enumerated() {
+
             let currentID = videoDataManager.currentVideoID
-            let autoPlayID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[index].videoId
+            let autoPlayID = data.videoId
             
             if currentID == autoPlayID {
                 currentVideoIndexPath = index
@@ -246,7 +280,11 @@ extension VideoController: AVPlayerViewControllerDelegate {
     func addPeriodicNotification(parsedPayload: NSDictionary) {
         
         // 영상 시간을 나타내는 UISlider에 최대 * 최소값을 주기 위해서 아래 프로퍼티를 할당한다.
-        let duration: CMTime = playerItem.asset.duration
+        
+        var duration = CMTime()
+        if let playerItem = self.playerItem {
+            duration = playerItem.asset.duration
+        }
 //        let duration: CMTime = queuePlayerItem.items().first!.asset.duration
         let endSeconds: Float64 = CMTimeGetSeconds(duration)
         
@@ -254,6 +292,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.maximumValue = Float(endSeconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
+        
         
         // gesture 관련 속성을 설정한다.
         gesture.numberOfTapsRequired = 1

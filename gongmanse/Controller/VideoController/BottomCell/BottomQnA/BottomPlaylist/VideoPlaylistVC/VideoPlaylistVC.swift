@@ -345,7 +345,6 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             if autoPlayDataManager.isAutoplayMainSubject {
                 
                 let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
-                print("DEBUG: autoPlayData \(autoPlayData)")
                 cell.row = indexPath.row
                 cell.autoPlayData = autoPlayData
                 
@@ -438,22 +437,33 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
+
+        tableViewCellDidTap(indexPath: indexPath, "국영수")
+        tableViewCellDidTap(indexPath: indexPath, "과학")
+        tableViewCellDidTap(indexPath: indexPath, "사회")
+        tableViewCellDidTap(indexPath: indexPath, "기타")
         
-        // "BottomPlaylistCell" 에서 사용하던 delegation 그대로 사용했습니다. 06.16
-        if autoPlayDataManager.isAutoplayMainSubject ||
-            autoPlayDataManager.isAutoplayScience ||
-            autoPlayDataManager.isAutoplaySocialStudy ||
-            autoPlayDataManager.isAutoplayOtherSubjects
-            {
-            guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
-            playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
-            
-        } else {
-            let selectedID = viewModel.videoData.data[indexPath.row].id
-            playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+        // 추천 및 인기
+        let selectedID = viewModel.videoData.data[indexPath.row].id
+        playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+        videoDataManager.addVideoIDLog(videoID: selectedID)
+    }
+    
+    func tableViewCellDidTap(indexPath: IndexPath, _ tabname: String) {
+        let comeFromTabname = autoPlayDataManager.currentViewTitleView
+        if comeFromTabname == tabname {
+            if autoPlayDataManager.isAutoplayMainSubject {
+                guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
+            } else {
+                let selectedID = viewModel.videoData.data[indexPath.row].id
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
+            }
         }
-        
-        
     }
     
 }
@@ -557,7 +567,7 @@ extension VideoPlaylistVC {
 
                 DispatchQueue.main.async {
                     self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                               at: .top, animated: true)
+                                               at: .top, animated: false)
                 }
             }
         }
@@ -576,7 +586,7 @@ extension VideoPlaylistVC {
             }
         }
         self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
-                                   at: .top, animated: true)
+                                   at: .top, animated: false)
         self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
     }
     

@@ -388,8 +388,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     // AVPlayer 관련 프로퍼티
     var playerController = AVPlayerViewController()
     var timeObserverToken: Any?
-    lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
-    lazy var queuePlayerItem = AVQueuePlayer(items: [playerItem])
+//    lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
+    var playerItem: AVPlayerItem?
+//    lazy var queuePlayerItem = AVQueuePlayer(items: [playerItem])
     
     lazy var player = AVPlayer(playerItem: playerItem)
     var videoURL = NSURL(string: "")
@@ -833,7 +834,6 @@ extension VideoController {
     
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
-//        setRemoveNotification()
 
         // 현재 VideoID를 추가한다.
         videoDataManager.addVideoIDLog(videoID: response.data.id)
@@ -846,6 +846,8 @@ extension VideoController {
             let url = URL(string: videoURL) as NSURL?
             videoDataManager.addVideoURLLog(videoURL: url)
             self.videoURL = url
+//            print("DEBUG: time \(self.playerItem.duration.seconds)")
+            self.playerItem = AVPlayerItem(url: url! as URL)
             self.videoAndVttURL.videoURL = url
         }
         
