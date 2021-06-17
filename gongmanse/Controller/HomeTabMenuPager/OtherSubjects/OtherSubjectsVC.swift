@@ -148,8 +148,6 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.otherSubjectsVideoSecond = json
-                    // 데이터모델이 다름..0616
-//                    autoPlayDataManager.videoDataInOtherSubjectsTab = jso
                 }
                 DispatchQueue.main.async {
                     self.otherSubjectsCollection.reloadData()

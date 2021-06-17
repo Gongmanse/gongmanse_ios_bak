@@ -279,7 +279,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
          */
         if autoPlayDataManager.currentViewTitleView == "기타" {
             // 자동재생 On
-            if autoPlayDataManager.isAutoplayMainSubject {
+            if autoPlayDataManager.isAutoplayOtherSubjects {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
                 return autoPlayDataCount
                 
@@ -501,9 +501,9 @@ extension VideoPlaylistVC {
             }
         }
         
-        if currentTabMenu == "기타" { // 사회 + 자동재생 On
+        if currentTabMenu == "기타" { // 기타 + 자동재생 On
             
-            if autoPlayDataManager.isAutoplaySocialStudy {
+            if autoPlayDataManager.isAutoplayOtherSubjects {
                 autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab!.body)
             } else {
                 defaultScrollTableView()
