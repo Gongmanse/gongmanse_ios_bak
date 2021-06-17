@@ -378,6 +378,11 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             
             // 시리즈보기
             } else if self.selectedItem == 2 {
+                let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
+                let seriesID = koreanEnglishMathVideo?.body[indexPath.row].seriesId
+                vc.receiveSeriesId = seriesID
+                vc.modalPresentationStyle = .fullScreen
+                navigationController?.pushViewController(vc, animated: true)
 
                 print("DEBUG: 2번")
             // 노트보기

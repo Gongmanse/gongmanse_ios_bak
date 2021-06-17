@@ -4003,16 +4003,16 @@
             </objects>
             <point key="canvasLocation" x="2858" y="1548"/>
         </scene>
-        <!--SeriesVC-->
+        <!--시리즈 보기-->
         <scene sceneID="rDI-7b-39A">
             <objects>
-                <viewController storyboardIdentifier="SeriesVC" id="UJH-i4-noP" customClass="SeriesVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SeriesVC" hidesBottomBarWhenPushed="YES" id="UJH-i4-noP" customClass="SeriesVC" customModule="gongmanse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="25S-AK-isH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1w0-hq-bYP">
-                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="foj-Cg-uZg">
                                         <rect key="frame" x="22" y="8" width="244" height="27"/>
@@ -4030,7 +4030,7 @@
                                             <constraint firstAttribute="width" constant="90" id="3fs-uS-IqZ"/>
                                             <constraint firstAttribute="height" constant="25" id="VCA-xF-kes"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4057,7 +4057,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="31p-NA-0Zi">
-                                <rect key="frame" x="0.0" y="176" width="414" height="720"/>
+                                <rect key="frame" x="0.0" y="220" width="414" height="676"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="t2G-Vk-rrW">
                                     <size key="itemSize" width="360" height="265"/>
@@ -4086,17 +4086,17 @@
                                                         <constraint firstAttribute="height" constant="27" id="Ghd-9f-ZQA"/>
                                                         <constraint firstAttribute="width" constant="344" id="Iwv-A3-kxg"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bm1-OU-94I">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bm1-OU-94I" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                                     <rect key="frame" x="1" y="238" width="60" height="25"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="2EM-PH-Auc"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="2EM-PH-Auc"/>
                                                         <constraint firstAttribute="height" constant="25" id="cHQ-7m-AGy"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -4106,7 +4106,7 @@
                                                         <constraint firstAttribute="width" constant="60" id="JuT-9x-xVV"/>
                                                         <constraint firstAttribute="height" constant="25" id="Rdo-RP-tkP"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -4151,12 +4151,12 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 111개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0j-O1-r2H">
-                                <rect key="frame" x="25" y="140" width="77" height="16"/>
+                                <rect key="frame" x="25" y="184" width="77" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="77" id="d8d-r8-Nhl"/>
                                     <constraint firstAttribute="height" constant="16" id="pTP-fq-ogZ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -4176,6 +4176,13 @@
                             <constraint firstItem="31p-NA-0Zi" firstAttribute="trailing" secondItem="asa-Em-t9I" secondAttribute="trailing" id="iKW-ev-eVr"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="시리즈 보기" id="lOA-Yg-YVU">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="ztI-mg-YBu">
+                            <connections>
+                                <action selector="goToBack:" destination="UJH-i4-noP" id="R1D-mX-jrF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mainHeaderView" destination="1w0-hq-bYP" id="A06-LU-5rt"/>
                         <outlet property="mainSubjectTitle" destination="mgP-X5-gg9" id="wZZ-Oh-ZEe"/>
@@ -4187,7 +4194,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KdD-Jh-dsS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3711.594202898551" y="1547.5446428571429"/>
+            <point key="canvasLocation" x="4621.739130434783" y="1547.5446428571429"/>
         </scene>
         <!--Expert Consultation Bottom Pop UpVC-->
         <scene sceneID="a9b-Cz-4DF">
@@ -4305,7 +4312,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j5x-Jc-1Dd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6407" y="1511"/>
+            <point key="canvasLocation" x="7315.9420289855079" y="1510.7142857142856"/>
         </scene>
         <!--Privacy PolicyVC-->
         <scene sceneID="s5i-5o-H13">
@@ -5178,6 +5185,24 @@
             </objects>
             <point key="canvasLocation" x="-3704.347826086957" y="-1223.4375"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2Sk-Dy-2e8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jsq-GZ-Vb3" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="v97-DT-iag">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UJH-i4-noP" kind="relationship" relationship="rootViewController" id="oZw-E5-ayP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JMF-QV-xFn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3711.594202898551" y="1547.5446428571429"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ltC-PN-uOf"/>
@@ -5185,6 +5210,7 @@
     <resources>
         <image name="addPhoto" width="18" height="18"/>
         <image name="arrowBelowGray" width="8" height="8"/>
+        <image name="back" width="30" height="24"/>
         <image name="chatOff" width="27" height="27"/>
         <image name="chatOn" width="27" height="27"/>
         <image name="checkmark.circle" catalog="system" width="128" height="121"/>
