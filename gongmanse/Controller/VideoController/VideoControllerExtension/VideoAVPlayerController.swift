@@ -144,9 +144,12 @@ extension VideoController {
 ////        // "상세화면 영상 API"를 호출한다.
 //        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
 
-//        let autoPlayDataManager = AutoplayDataManager.shared
+        let autoPlayDataManager = AutoplayDataManager.shared
         
-//        autoPlayVideo()
+        if autoPlayDataManager.isAutoplayMainSubject && autoPlayDataManager.currentViewTitleView == "국영수" {
+            autoPlayVideo()
+        }
+        
     }
     
     func autoPlayVideo() {
