@@ -132,6 +132,8 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         selectBtn.layer.borderWidth = 2
         //전체보기 버튼 border 색상 적용
         selectBtn.layer.borderColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+        selectBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+        selectBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
     }
     
     func ChangeSwitchButton() {
