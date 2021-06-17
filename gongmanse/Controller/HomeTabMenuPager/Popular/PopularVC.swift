@@ -58,16 +58,18 @@ class PopularVC: UIViewController {
         }
     }
     
+    /// 1.0 인기리스트 API
     func getDataFromJsonSecond() {
         if let url = URL(string: "https://api.gongmanse.com/v/video/trendingvid?offset=0&limit=30") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
 
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
-                if let json = try? decoder.decode(BeforeApiModels?.self, from: data) {
-                    //print(json.body)
+                
+                if let json = try? decoder.decode(BeforeApiModels.self, from: data) {
                     self.popularVideoSecond = json
                 }
                 DispatchQueue.main.async {
@@ -87,38 +89,43 @@ class PopularVC: UIViewController {
 extension PopularVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //guard let data = self.popularVideo?.data else { return 0}
-        let popularData = self.popularVideo
-        return popularData.body.count
+//        let popularData = self.popularVideo
+//        return popularData.body.count
+        return popularVideoSecond?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularCVCell", for: indexPath) as! PopularCVCell
         //guard let json = self.popularVideo else { return cell }
+  
+        // 2.0 API
+//        let json = self.popularVideo
+//        let indexData = json.body[indexPath.row]
         
-        let json = self.popularVideo
-        let indexData = json.body[indexPath.row]
-        let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
-        
+        // 1.0 API
+        let indexData = popularVideoSecond?.data[indexPath.row]
+        let url = URL(string: makeStringKoreanEncoded("\(fileBaseURL)/\(indexData?.sThumbnail ?? "")"))
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
-        cell.videoTitle.text = indexData.title
-        cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
-        cell.subjects.text = indexData.subject
-        cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
-        cell.starRating.text = indexData.rating
-        
-        if indexData.unit != nil {
+        cell.videoTitle.text = indexData?.sTitle
+        cell.teachersName.text = (indexData?.sTeacher ?? "nil") + " 선생님"
+        cell.subjects.text = indexData?.sSubject
+        cell.subjects.backgroundColor = UIColor(hex: indexData?.sSubjectColor ?? "nil")
+        cell.starRating.text = indexData?.iRating
+
+        if indexData?.sUnit != "" {
             cell.term.isHidden = false
-            cell.term.text = indexData.unit
-        } else if indexData.unit == "1" {
+            cell.term.text = indexData?.sUnit
+        } else if indexData?.sUnit == "1" {
             cell.term.isHidden = false
             cell.term.text = "i"
-        } else if indexData.unit == "2" {
+        } else if indexData?.sUnit == "2" {
             cell.term.isHidden = false
             cell.term.text = "ii"
         } else {
             cell.term.isHidden = true
         }
+        
         
         return cell
     }

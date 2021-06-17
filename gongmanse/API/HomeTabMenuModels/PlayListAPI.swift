@@ -37,11 +37,10 @@ struct BeforeApiModels: Codable {
 
 struct BeforeApiData: Codable {
     var sTitle: String
-    var iSeriesId: String
     var id: String
+    var iSeriesId: String?
     var sTags: String
     var sFilename: String
-    var cRecommended: String?
     var dtDateCreated: String
     var dtLastModified: String
     var iRating: String
