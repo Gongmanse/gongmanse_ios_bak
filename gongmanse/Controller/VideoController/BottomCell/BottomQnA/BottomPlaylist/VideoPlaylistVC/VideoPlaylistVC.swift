@@ -279,7 +279,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
          */
         if autoPlayDataManager.currentViewTitleView == "기타" {
             // 자동재생 On
-            if autoPlayDataManager.isAutoplayMainSubject {
+            if autoPlayDataManager.isAutoplayOtherSubjects {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
                 return autoPlayDataCount
                 
@@ -449,6 +449,9 @@ extension VideoPlaylistVC {
         
         let getData = response.data
         self.viewModel.videoData.data = getData
+        
+        // 데이터 여러번 호출 하게 되면 아래 로직을 사용할 것 06.17
+//        self.viewModel.videoData.data.append(contentsOf: getData)
         let totalPlaylistNum = response.totalNum
         let currentIndex = "2"
         
@@ -501,9 +504,9 @@ extension VideoPlaylistVC {
             }
         }
         
-        if currentTabMenu == "기타" { // 사회 + 자동재생 On
+        if currentTabMenu == "기타" { // 기타 + 자동재생 On
             
-            if autoPlayDataManager.isAutoplaySocialStudy {
+            if autoPlayDataManager.isAutoplayOtherSubjects {
                 autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab!.body)
             } else {
                 defaultScrollTableView()
