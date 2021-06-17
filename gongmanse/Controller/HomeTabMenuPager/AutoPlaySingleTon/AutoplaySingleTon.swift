@@ -83,4 +83,9 @@ class AutoplayDataManager {
     
     /// "기타"에 있는 데이터 20 개
     var videoDataInOtherSubjectsTab: VideoInput?
+    
+    var mainSubjectListCount = 0
+    var scienceListCount = 0
+    var socialListCount = 0
+    var othersubjectListCount = 0
 }
