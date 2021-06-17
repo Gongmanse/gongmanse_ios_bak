@@ -542,8 +542,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
+        GuestKeyDataManager().DetailScreenDataManager(videoID: "15188", viewController: self)
 
         // 가로모드를 제한한다.
 //        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)

@@ -78,7 +78,7 @@ extension VideoController {
         self.videoSettingButton.alpha = 0
         self.subtitleToggleButton.alpha = 0
         
-//        timeSlider.transform = CGAffineTransform (scaleX: 1.0, y: 1.0)
+        timeSlider.transform = CGAffineTransform (scaleX: 1.05, y: 1.05)
         timeSlider.setThumbImage(#imageLiteral(resourceName: "checkFalse"), for: .normal)
     }
     
