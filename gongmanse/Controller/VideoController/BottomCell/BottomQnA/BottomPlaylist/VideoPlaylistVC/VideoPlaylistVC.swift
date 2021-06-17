@@ -97,6 +97,8 @@ class VideoPlaylistVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        let autoPlayDM = AutoplayDataManager.shared
+        autoPlayDM.mainSubjectListCount = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -508,7 +510,8 @@ extension VideoPlaylistVC {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.videoCountTotalLabel.text = "/" + totalPlaylistNum
+//            self.videoCountTotalLabel.text = "/" + totalPlaylistNum
+            self.videoCountTotalLabel.text = totalPlaylistNum
         }
     }
     
@@ -525,6 +528,8 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
+                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+                    self.defaultScrollTableView()
                 }
             }
         } else if autoPlayDataManager.currentViewTitleView == "과학" {
@@ -538,8 +543,11 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
+                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+                    self.defaultScrollTableView()
                 }
             }
+            
         } else if autoPlayDataManager.currentViewTitleView == "사회" {
             
             if autoPlayDataManager.isAutoplaySocialStudy {
@@ -551,6 +559,8 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
+                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+                    self.defaultScrollTableView()
                 }
             }
         } else if autoPlayDataManager.currentViewTitleView == "기타" {
@@ -564,13 +574,15 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
+                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+                    self.defaultScrollTableView()
                 }
             }
         }
         
         
         
-        
+
         
         
         

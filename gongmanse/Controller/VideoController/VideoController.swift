@@ -310,8 +310,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }()
     
     /// 타임라인 timerSlider
-    var timeSlider: UISlider = {
-        let slider = UISlider()
+    var timeSlider: CustomSlider = {
+        let slider = CustomSlider()
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
         slider.maximumTrackTintColor = .white
@@ -542,8 +542,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
 
         // 가로모드를 제한한다.
 //        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
@@ -834,7 +834,9 @@ extension VideoController {
     
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
-
+        let autoPlayDM = AutoplayDataManager.shared
+        autoPlayDM.mainSubjectListCount = 0
+        
         player.pause()
         
         // 현재 VideoID를 추가한다.
@@ -1063,6 +1065,112 @@ extension VideoController {
     func failToConnectVideoByTicket() {
         presentAlert(message: "이용권을 구매하세요.")
     }
+    
+    func networkingByGuestKey(response: GuestKeyResponse) {
+        let autoPlayDM = AutoplayDataManager.shared
+        autoPlayDM.mainSubjectListCount = 0
+        
+        player.pause()
+
+        self.seriesID = response.data.iSeriesId
+        
+        // videoURL을 저장한다.
+        let videoURL = response.data.source_url
+            
+        let url = URL(string: videoURL) as NSURL?
+        videoDataManager.addVideoURLLog(videoURL: url)
+        self.videoURL = url
+        //            print("DEBUG: time \(self.playerItem.duration.seconds)")
+        self.playerItem = AVPlayerItem(url: url! as URL)
+        self.videoAndVttURL.videoURL = url
+        
+        
+        // videoSubtitleURL을 저장한다.
+        let subtitleURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        videoDataManager.addVideoSubtitleURLLog(videoSubtitleURL: subtitleURL)
+        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.videoAndVttURL.vttURL = self.vttURL
+        
+        // sTags
+        let receivedsTagsData = response.data.sTags
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+        self.lessonInfoController.sTagsArray = sTagsArray
+        
+        // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
+        self.sTagsArray.removeAll()
+        
+        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.(자막에서 색상칠할 키워드 찾는용도)
+        for index in 0 ... sTagsArray.count - 1 {
+            let inputData = String(sTagsArray[index])
+            self.tempsTagsArray.append(inputData)
+        }
+        
+        // 선생님이름을 저장한다.
+        let teachername = response.data.sTeacher
+        self.teachername = response.data.sTeacher + " 선생님"
+        self.lessonInfoController.teachernameLabel.text = teachername + " 선생님"
+        videoDataManager.addVideoTeachername(teachername: teachername)
+        
+        // 영상제목을 저장한다.
+        let lessonTitle = response.data.sTitle
+        self.lessonname = response.data.sTitle
+        self.lessonInfoController.lessonnameLabel.text = lessonTitle
+        videoDataManager.addVideoTitle(videoTitle: lessonTitle)
+        
+        // 이후 코드는 이 컨트롤러에서 보여주는 UI를 업데이트 하기 위한 코드
+        // "sSubject" -> LessonInfoController.sSubjectLabel.labelText
+        let subjectname = response.data.sSubject
+        self.lessonInfoController.sSubjectLabel.labelText = subjectname
+        
+        // "sSubjectColor" -> LessonInfoController.sSubjectLabel.labelBackgroundColor
+        let subjectColor = response.data.sSubjectColor
+        self.lessonInfoController.sSubjectLabel.labelBackgroundColor = UIColor.init(hex: "\(subjectColor)")
+        
+        // "sUnit" -> LessonInfoController.sUnitLabel01.labelText
+        let unitname01 = response.data.sUnit
+        if unitname01 == "" {
+            self.lessonInfoController.sUnitLabel01.labelText = "DEFAULT"
+        } else {
+            self.lessonInfoController.sUnitLabel01.labelText = unitname01
+        }
+
+        // lessionInfo로 VideoID를 전달한다.
+        self.lessonInfoController.videoID = id
+        
+        // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
+        self.recommendSeriesId = response.data.iSeriesId
+        
+        // 썸네일 이미지를 저장한다.
+        let imageStringURL = response.data.sThumbnail
+        let convertThumbnailImageURL = "https://file.gongmanse.com/" + makeStringKoreanEncoded(imageStringURL)
+        let imageURL = URL(string: convertThumbnailImageURL)
+        
+        do {
+            let thumbnailData = try Data(contentsOf: imageURL!)
+            videoDataManager.addVideoThumbnailImage(videoImage: UIImage(data: thumbnailData)!)
+        } catch {
+            print("DEBUG: 이미지를 제대로 못 받아왔습니다.")
+        }
+        
+        DispatchQueue.main.async {
+            self.playVideo()
+        }
+        
+        let pipData = PIPVideoData(isPlayPIP: false,
+                                   videoURL: videoDataManager.previousVideoURL,
+                                   currentVideoTime: 0.0,
+                                   videoTitle: videoDataManager.previousVideoTitle ?? "",
+                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
+        
+        self.pipData = pipData
+        
+        if !(videoDataManager.isFirstPlayVideo) {
+            configurePIPView(pipData: pipData)
+        }
+        
+        
+    }
+    
 }
 
 
