@@ -510,7 +510,8 @@ extension VideoPlaylistVC {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.videoCountTotalLabel.text = "/" + totalPlaylistNum
+//            self.videoCountTotalLabel.text = "/" + totalPlaylistNum
+            self.videoCountTotalLabel.text = totalPlaylistNum
         }
     }
     
@@ -546,6 +547,7 @@ extension VideoPlaylistVC {
                     self.defaultScrollTableView()
                 }
             }
+            
         } else if autoPlayDataManager.currentViewTitleView == "사회" {
             
             if autoPlayDataManager.isAutoplaySocialStudy {

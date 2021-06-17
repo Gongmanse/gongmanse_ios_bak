@@ -77,6 +77,9 @@ extension VideoController {
         self.videoBackwardTimeButton.alpha = 0
         self.videoSettingButton.alpha = 0
         self.subtitleToggleButton.alpha = 0
+        
+//        timeSlider.transform = CGAffineTransform (scaleX: 1.0, y: 1.0)
+        timeSlider.setThumbImage(#imageLiteral(resourceName: "checkFalse"), for: .normal)
     }
     
     /// customMenuBar의 sroll관련 로직을 처리하는 메소드
