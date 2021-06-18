@@ -311,6 +311,25 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cellCount = searchVideoVM.responseVideoModel?.data.count  else { return }
+
+        if indexPath.row == cellCount - 1 {
+            
+            if searchVideoVM.allIntiniteScroll {
+                searchVideoVM.infinityBool = true
+                searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
+                                              grade: searchData.searchGrade,
+                                              keyword: searchData.searchText,
+                                              offset: "0",
+                                              sortid: "4",
+                                              limit: "20")
+            }
+        }
+    }
+    
 }
 
 
@@ -334,45 +353,6 @@ extension SearchVideoVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 80)
     }
     
-    /*
-     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-         let lastSectionIndex = tableView.numberOfSections - 1
-         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex && islistMore == true{
-             // print("this is the last cell")
-             let spinner = UIActivityIndicatorView(style: .large)
-             spinner.startAnimating()
-             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
-
-             self.tableview.tableFooterView = spinner
-             self.tableview.tableFooterView?.isHidden = false
-         }
-         
-     }
-     */
-    /*
-     남은 리스트가 있다는 bool 전역변수 필요
-     만약 true면 메소드 실행 아니면 그만
-     
-     */
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        guard let cellCount = searchVideoVM.responseVideoModel?.data.count  else { return }
-
-        if indexPath.row == cellCount - 1 {
-            
-            if searchVideoVM.allIntiniteScroll {
-                searchVideoVM.infinityBool = true
-                searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
-                                              grade: searchData.searchGrade,
-                                              keyword: searchData.searchText,
-                                              offset: "0",
-                                              sortid: "4",
-                                              limit: "20")
-            }
-        }
-    }
 }
 
 extension SearchVideoVC: CollectionReloadData {

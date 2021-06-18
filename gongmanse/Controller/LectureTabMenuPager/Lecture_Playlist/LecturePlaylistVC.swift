@@ -444,7 +444,13 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         
         switch lectureState {
         case .lectureList:
-            return
+            if Constant.isLogin {
+                // 비디오 연결
+                
+            } else {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
+            
         case .videoList:
             if Constant.isLogin {
                 /**
