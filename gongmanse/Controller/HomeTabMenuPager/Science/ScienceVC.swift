@@ -145,9 +145,9 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         
         switch sortedId {
         case 0:
-            inputSortNum = 3
-        case 1:
             inputSortNum = 4
+        case 1:
+            inputSortNum = 3
         case 2:
             inputSortNum = 1
         case 3:
