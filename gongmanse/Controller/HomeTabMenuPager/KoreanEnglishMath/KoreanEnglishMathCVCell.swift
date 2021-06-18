@@ -8,6 +8,7 @@ class KoreanEnglishMathCVCell: UICollectionViewCell {
     @IBOutlet weak var subjects: UILabel!
     @IBOutlet weak var term: UILabel!
     @IBOutlet weak var starRating: UILabel!
+    @IBOutlet weak var videoPlayButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

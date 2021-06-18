@@ -276,6 +276,9 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             cell.subjects.text = indexData.subject
             cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
             cell.starRating.text = indexData.rating
+            cell.videoPlayButton.addTarget(self, action: #selector(videoPlay(_:)), for: .touchUpInside)
+            cell.videoPlayButton.isHidden = true
+            cell.videoPlayButton.tag = indexPath.row
         }
         
         /// cell keyword 업데이트를 위한 메소드
@@ -337,6 +340,7 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             ratingSequence.isHidden = true
             filterImage.isHidden = true
             return cell
+            
         } else if selectedItem == 3 {
             // 노트 보기
             setUpDefaultCellSetting()
@@ -345,6 +349,7 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             autoPlayLabel.isHidden = true
             ratingSequence.isHidden = true
             filterImage.isHidden = true
+            cell.videoPlayButton.isHidden = false
             return cell
             
         } else {
@@ -356,6 +361,31 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             ratingSequence.isHidden = false
             filterImage.isHidden = false
             return cell
+        }
+    }
+    
+    @objc func videoPlay(_ sender: UIButton) {
+        
+        let token = Constant.token
+        
+        // 토큰이 없는 경우
+        if token.count < 3 {
+            
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            
+        } else {
+            
+            guard let value = self.koreanEnglishMathVideo else { return }
+            let data = value.body
+            
+//            guard let selectedVideoIndex = self.selectedRow else { return }
+//            print("slectedRow is \(selectedVideoIndex)")
+            let vc = VideoController()
+            vc.id = data[sender.tag].videoId
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true) {
+                sleep(1)
+            }
         }
     }
 }
