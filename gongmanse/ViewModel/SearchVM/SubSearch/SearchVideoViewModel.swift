@@ -12,7 +12,7 @@ import UIKit
 class SearchVideoViewModel: SearchInfinityScroll {
     
     // infiniteScroll Protocol
-    var infinityBool = false
+    var infinityBool = true
     
     var allIntiniteScroll = true
     
@@ -24,6 +24,8 @@ class SearchVideoViewModel: SearchInfinityScroll {
     // API 성공 시 데이터 받을 곳
     var responseVideoModel: SearchVideoModel? = nil
     
+    var offsetTrans: String?
+    
     // API 통신
     func requestVideoAPI(subject: String?,
                          grade: String?,
@@ -32,12 +34,15 @@ class SearchVideoViewModel: SearchInfinityScroll {
                          sortid: String?,
                          limit: String?) {
         
-        var offsetTrans = offset
+        offsetTrans = offset
         
-        if infinityBool {
-            listCount += 20
-            offsetTrans = "\(listCount)"
+        if offsetTrans == "" {
+            if infinityBool {
+                listCount += 20
+                offsetTrans = "\(listCount)"
+            }
         }
+        
         
         let postModel = SearchVideoPostModel(subject: subject,
                                              grade: grade,
@@ -53,10 +58,10 @@ class SearchVideoViewModel: SearchInfinityScroll {
             switch result {
             case .success(let data):
                 
-                if self?.infinityBool == true {
+                if self?.offsetTrans != "0" {
                     
                     if data.data.count == 0{
-                        self?.allIntiniteScroll = false
+                        self?.infinityBool = false
                     }
                     
                     for i in 0..<data.data.count {

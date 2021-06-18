@@ -178,6 +178,8 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.titleLabel.text = indexData?.sTitle
         cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData?.sSubjectColor ?? "000000")")
         cell.chemistry.text = indexData?.sSubject
+        cell.videoButton.addTarget(self, action: #selector(connectVideo(_:)), for: .touchUpInside)
+        cell.videoButton.tag = indexPath.row
         
         if indexData?.sThumbnail != nil {
             cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sThumbnail ?? "")")
@@ -187,10 +189,22 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
+    @objc func connectVideo(_ sender: UIButton) {
+        let vc = VideoController()
+        let videoDataManager = VideoDataManager.shared
+        videoDataManager.isFirstPlayVideo = true
+        vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if Constant.isLogin {
             // 노트 연결
-            
+            let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
+                                          token: Constant.token)
+            vc.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

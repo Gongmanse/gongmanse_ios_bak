@@ -129,7 +129,7 @@ class SearchVideoVC: UIViewController {
         
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         sortButtonTitle.setTitle("최신순 ▼", for: .normal)
-        
+        searchVideoVM.infinityBool = true
         searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
                                       grade: searchData.searchGrade,
                                       keyword: searchData.searchText,
@@ -318,15 +318,24 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
         if indexPath.row == cellCount - 1 {
             
-            if searchVideoVM.allIntiniteScroll {
-                searchVideoVM.infinityBool = true
+//            if searchVideoVM.allIntiniteScroll {
+//                searchVideoVM.infinityBool = true
+//                searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
+//                                              grade: searchData.searchGrade,
+//                                              keyword: searchData.searchText,
+//                                              offset: "",
+//                                              sortid: "4",
+//                                              limit: "20")
+//            }
+            if searchVideoVM.infinityBool {
                 searchVideoVM.requestVideoAPI(subject: searchData.searchSubjectNumber,
                                               grade: searchData.searchGrade,
                                               keyword: searchData.searchText,
-                                              offset: "0",
+                                              offset: "",
                                               sortid: "4",
                                               limit: "20")
             }
+            
         }
     }
     
