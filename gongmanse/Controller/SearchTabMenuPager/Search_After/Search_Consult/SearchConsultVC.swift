@@ -179,6 +179,34 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as? ExpertConsultationDetailVC else { return }
+        
+        let data = searchConsultationVM.responseDataModel?.data[indexPath.row]
+        
+        
+        let input = ExpertModelData(cu_id: data?.consultationID,
+                                    iAuthor: data?.iAuthor,
+                                    iViews: data?.iViews,
+                                    consultation_id: data?.consultationID,
+                                    dtAnswerRegister: data?.dtAnswerRegister,
+                                    sQuestion: data?.sQuestion,
+                                    sNickname: data?.sNickname,
+                                    sProfile: data?.sProfile,
+                                    sAnswer: data?.sAnswer,
+                                    iAnswer: data?.iAnswer,
+                                    dtRegister: data?.dtRegister,
+                                    sFilepaths: data?.sFilepaths)
+        vc.receiveData = input
+        
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
 }
 
 
