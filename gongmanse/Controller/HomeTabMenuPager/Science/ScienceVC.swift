@@ -46,6 +46,9 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var scienceCollection: UICollectionView!
     
+    var inputFilterNum = 0
+    var inputSortNum = 4
+    
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
     //collectionView 새로고침
@@ -125,7 +128,35 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     
     //API 호출
     func getDataFromJson() {
-        if let url = URL(string: Science_Video_URL + "offset=\(listCount)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
+        
+        switch selectedItem {
+        case 0:
+            inputFilterNum = 0
+        case 1:
+            inputFilterNum = 2
+        case 2:
+            inputFilterNum = 1
+        case 3:
+            inputFilterNum = 3
+        default:
+            inputFilterNum = 0
+        }
+        
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 3
+        case 1:
+            inputSortNum = 4
+        case 2:
+            inputSortNum = 1
+        case 3:
+            inputSortNum = 2
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: Science_Video_URL + "offset=\(listCount)&limit=20&sortId=\(inputSortNum)&type=\(inputFilterNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -263,9 +294,8 @@ extension ScienceVC: UICollectionViewDataSource {
         
         /// cell keyword 업데이트를 위한 메소드
         func addKeywordToCell() {
-            if indexData.unit != nil {
-                cell.term.isHidden = false
-                cell.term.text = indexData.unit
+            if indexData.unit == nil {
+                cell.term.isHidden = true
             } else if indexData.unit == "1" {
                 cell.term.isHidden = false
                 cell.term.text = "i"
@@ -273,7 +303,8 @@ extension ScienceVC: UICollectionViewDataSource {
                 cell.term.isHidden = false
                 cell.term.text = "ii"
             } else {
-                cell.term.isHidden = true
+                cell.term.isHidden = false
+                cell.term.text = indexData.unit
             }
         }
         
@@ -288,16 +319,6 @@ extension ScienceVC: UICollectionViewDataSource {
             return cell
             
         } else if selectedItem == 1 {
-            // 문제 풀이
-            setUpDefaultCellSetting()
-            addKeywordToCell()
-            playSwitch.isHidden = false
-            autoPlayLabel.isHidden = false
-            filteringBtn.isHidden = true
-            filterImage.isHidden = true
-            return cell
-            
-        } else if selectedItem == 2 {
             // 시리즈 보기
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathAllSeriesCell", for: indexPath) as! KoreanEnglishMathAllSeriesCell
             guard let json = self.scienceVideo else { return cell }
@@ -317,6 +338,16 @@ extension ScienceVC: UICollectionViewDataSource {
             
             playSwitch.isHidden = true
             autoPlayLabel.isHidden = true
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
+            return cell
+            
+        } else if selectedItem == 2 {
+            // 문제 풀이
+            setUpDefaultCellSetting()
+            addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
             filteringBtn.isHidden = true
             filterImage.isHidden = true
             return cell
@@ -374,6 +405,11 @@ extension ScienceVC: UICollectionViewDataSource {
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        }
+        
         // 06.16 이전코드
 //        if Constant.isLogin {
 //            let vc = VideoController()
@@ -415,17 +451,17 @@ extension ScienceVC: UICollectionViewDelegate {
                 present(vc, animated: true)
                 
                 
-            // 문제풀이
+            // 시리즈 보기
             } else if self.selectedItem == 1 {
-                print("DEBUG: 1번")
-            
-            // 시리즈보기
-            } else if self.selectedItem == 2 {
                 let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
                 let seriesID = scienceVideo?.body[indexPath.row].seriesId
                 vc.receiveSeriesId = seriesID
                 vc.modalPresentationStyle = .fullScreen
                 navigationController?.pushViewController(vc, animated: true)
+                print("DEBUG: 1번")
+            
+            // 문제 풀이
+            } else if self.selectedItem == 2 {
 
                 print("DEBUG: 2번")
             // 노트보기
@@ -476,14 +512,14 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
     
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
-        if sortedIdRowIndex == 0 {          // 1 번째 Cell
-            self.sortedId = 0 // 이름순
-        } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
-            self.sortedId = 1 // 과목순
-        } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
+        if sortedIdRowIndex == 2 {          // 1 번째 Cell
             self.sortedId = 2 // 평점순
-        } else {                            // 4 번째 Cell
+        } else if sortedIdRowIndex == 3 {   // 2 번째 Cell
             self.sortedId = 3 // 최신순
+        } else if sortedIdRowIndex == 0 {   // 3 번째 Cell
+            self.sortedId = 0 // 이름순
+        } else {                            // 4 번째 Cell
+            self.sortedId = 1 // 과목순
         }
         
         self.delegate?.sciencePassSortedIdSettingValue(sortedIdRowIndex)
@@ -495,10 +531,10 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
-        } else if selectedRowIndex == 1 {
-            self.selectedItem = 1 // 문제 풀이
         } else if selectedRowIndex == 2 {
             self.selectedItem = 2 // 시리즈 보기
+        } else if selectedRowIndex == 1 {
+            self.selectedItem = 1 // 문제 풀이
         } else {
             self.selectedItem = 3 // 노트 보기
         }

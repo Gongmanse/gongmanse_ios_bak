@@ -105,11 +105,16 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // TODO: 무한 페이징 + 클릭 시, 영상호출되도록 처리할 예정 05.21 김우성
-//        if let bannerData = self.recommendBanner {
-////            if let videoID = bannerData.body[indexPath.item].videoId {
-////                delegate?.presentVideoControllerInBanner(videoID: videoID)
-////            }
-//        }
+        if let bannerData = self.recommendBanner {
+            
+            let randomInt = Int.random(in: 1...12)
+            let index = IndexPath(item: randomInt, section: 0)
+            
+            
+            if let videoID = bannerData.body[randomInt].videoId {
+                delegate?.presentVideoControllerInBanner(videoID: videoID)
+            }
+        }
     }
     
     func startTimer() {

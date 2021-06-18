@@ -422,6 +422,12 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
 
 extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        }
+        
         if Constant.isLogin {
             
             // 시리즈보기: self.selectedItem == 1
@@ -447,7 +453,7 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 present(vc, animated: true)
                 
                 
-            // 문제풀이
+            // 시리즈 보기
             } else if self.selectedItem == 1 {
                 let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
                 let seriesID = koreanEnglishMathVideo?.body[indexPath.row].seriesId
@@ -456,7 +462,7 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 navigationController?.pushViewController(vc, animated: true)
                 print("DEBUG: 1번")
             
-            // 시리즈보기
+            // 문제 풀이
             } else if self.selectedItem == 2 {
 
                 print("DEBUG: 2번")
@@ -525,7 +531,7 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
         } else if sortedIdRowIndex == 0 {   // 3 번째 Cell
             self.sortedId = 0 // 이름순
         } else {                            // 4 번째 Cell
-            self.sortedId = 1 // 과목
+            self.sortedId = 1 // 과목순
         }
         
         self.delegate?.koreanPassSortedIdSettingValue(sortedIdRowIndex)

@@ -268,13 +268,16 @@ extension RecommendVC: UICollectionViewDelegateFlowLayout {
 
 extension RecommendVC: RecommendCRVDelegate {
     func presentVideoControllerInBanner(videoID: String) {
-        let videoID = videoID
-        let vc = VideoController()
         
-
-        vc.modalPresentationStyle = .fullScreen
+        let vc = VideoController()
+        let videoDataManager = VideoDataManager.shared
+        videoDataManager.isFirstPlayVideo = true
+        vc.delegate = self
         vc.id = videoID
-        present(vc, animated: true)
+        vc.modalPresentationStyle = .fullScreen
+        vc.recommendReceiveData = recommendVideo
+        autoPlayDataManager.currentViewTitleView = "추천"
+        self.present(vc, animated: true)
     }
     
     

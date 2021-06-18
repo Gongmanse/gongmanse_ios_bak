@@ -495,7 +495,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
-                                         paddingBottom: 17)
+                                         paddingBottom: 25)
         // backButton
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -510,9 +510,9 @@ extension VideoController: AVPlayerViewControllerDelegate {
         // 타임라인 timerSlider
         let convertedWidth = convertWidth(244, standardView: view)
         videoControlContainerView.addSubview(timeSlider)
-        timeSlider.setDimensions(height: 200, width: convertedWidth - 32)
+        timeSlider.setDimensions(height: 25, width: convertedWidth - 32)
         timeSlider.centerX(inView: videoControlContainerView)
-        timeSlider.centerY(inView: videoControlContainerView,constant: -10)
+        timeSlider.centerY(inView: videoControlContainerView,constant: 0)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
         // 현재시간을 나타내는 레이블
@@ -529,10 +529,10 @@ extension VideoController: AVPlayerViewControllerDelegate {
                                 height: 13)
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
-        changeOrientationButton.setDimensions(height: 40, width: 40)
+        changeOrientationButton.setDimensions(height: 50, width: 50)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
-                                       paddingLeft: 5)
+                                       paddingLeft: 2)
         // VideoSettingButton
         videoContainerView.addSubview(videoSettingButton)
         videoSettingButton.anchor(top: videoContainerView.topAnchor,

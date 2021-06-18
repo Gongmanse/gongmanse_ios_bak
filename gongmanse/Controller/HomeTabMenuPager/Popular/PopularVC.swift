@@ -212,15 +212,21 @@ extension PopularVC: UICollectionViewDataSource {
 
 extension PopularVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        }
+        
         if Constant.isLogin {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
             vc.modalPresentationStyle = .fullScreen
-            let videoID = popularVideo.body[indexPath.row].videoId
+            let videoID = popularVideoSecond?.data[indexPath.row].id
             vc.id = videoID
-            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
-            vc.popularSeriesId = seriesID
+//            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
+//            vc.popularSeriesId = seriesID
             vc.popularReceiveData = popularVideo
             vc.popularViewTitle = viewTitle.text
             

@@ -61,6 +61,14 @@ class SideMenuHeaderViewModel {
         return date
     }
     
+    func dateRemainingCalculateByTody(startDate: Date, expireDate: Date) -> Int {
+        
+        let dateRemaining = expireDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+        let result = Int(dateRemaining / 86400)
+        return result
+    }
+    
+    
     func dateRemainingCalculate(startDate: Date, expireDate: Date) -> Int {
         
         let dateRemaining = expireDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
@@ -80,7 +88,9 @@ class SideMenuHeaderViewModel {
         let startDate = dateStringToDate(startDateString)
         let expireDate = dateStringToDate(expireDateString)
         
-        let dateRemaining = dateRemainingCalculate(startDate: startDate, expireDate: expireDate)
+        let dateRemaining = dateRemainingCalculateByTody(startDate: startDate, expireDate: expireDate)
+        Constant.remainPremiumDateInt = dateRemaining
+        
         self.dateRemainingString = "\(dateRemaining)"
         return dateRemainingString!
     }

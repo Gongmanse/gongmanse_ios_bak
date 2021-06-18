@@ -70,6 +70,41 @@ class LessonInfoController: UIViewController {
     // ViewModel
     var videoDetailVM: VideoDetailViewModel? = VideoDetailViewModel()
     
+    // 즐겨찾기 여부
+    public var isBookmark: Bool = false {
+        didSet {
+            if isBookmark {
+                bookmarkButton.viewTintColor = .mainOrange
+            } else {
+                bookmarkButton.viewTintColor = .black
+            }
+        }
+    }
+    
+    /// 내가 준 점수
+    var myRating: String?
+    
+    /// 유저들의 평균 점수
+    var userRating: String? {
+        didSet {
+            // 내가 준 점수가 있다면, 유저들의 평균점수를 보여준다.
+            if myRating != nil {
+                if let userRating = userRating {
+                    if userRating == "" {
+                        rateLessonButton.titleLabel.text = "3.0"
+                    }
+                    rateLessonButton.titleLabel.text = userRating
+                    rateLessonButton.viewTintColor = .mainOrange
+                }
+            } else {
+                rateLessonButton.titleLabel.text = "평점"
+                rateLessonButton.tintColor = .black
+                rateLessonButton.viewTintColor = .black
+            }
+        }
+    }
+    
+    
     // MARK: - Lifecycle
     
     init() {
@@ -121,25 +156,29 @@ class LessonInfoController: UIViewController {
     }
     
     @objc func handleBookmarkAction(sender: UIView) {
-        
+        guard let videoID = self.videoID else { return }
         if bookmarkButton.viewTintColor == .mainOrange {
             // 즐겨찾기를 삭제한다.
+            
+            
             bookmarkButton.viewTintColor = .black
             BookmarkDataManager().deleteBookmarkToVideo(DeleteBookmarkInput(token: Constant.token,
-                                                                            video_id: "1"),
+                                                                            video_id: "\(videoID)"),
                                                         viewController: self)
         } else {
             // 즐겨찾기를 추가한다.
             bookmarkButton.viewTintColor = .mainOrange
-            BookmarkDataManager().addBookmarkToVideo(BookmarkInput(video_id: 1, token: Constant.token),
+            BookmarkDataManager().addBookmarkToVideo(BookmarkInput(video_id: Int(videoID) ?? 0,
+                                                                   token: Constant.token),
                                                      viewController: self)
         }
     }
     
+    /// 평점 버튼을 클릭하면 호출되는 콜백메소드
     @objc func handleRateLessonAction() {
         
         // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
-        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
+//        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
         if rateLessonButton.titleLabel.text != "평점" {
             rateLessonButton.viewTintColor = .mainOrange
@@ -147,15 +186,32 @@ class LessonInfoController: UIViewController {
             rateLessonButton.viewTintColor = .black
         }
         
-        let vc = RatingController(videoID: 1)
+        guard let videoID = self.videoID else { return }
+       
+        let vc = RatingController(videoID: Int(videoID) ?? 1)
         vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
+        
+        // 변동가능성 있는 부분
+        rateLessonButton.viewTintColor = .mainOrange
+        rateLessonButton.titleLabel.text = self.userRating
+        
+        if let myRatingPoint = self.myRating {
+            vc.clickedNumber = Int(myRatingPoint) ?? 3
+            vc.myRating = self.myRating
+        }
+        
+        vc.userRating = self.userRating
+        
+        
+        
         self.present(vc, animated: false)
     }
     
     
     @objc func handleShareLessonAction() {
         // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
+        presentAlert(message: "서비스 준비중입니다.")
 
     }
     @objc func handleRelatedSeriesAction() {
@@ -409,9 +465,11 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 extension LessonInfoController: RatingControllerDelegate {
     
     func ratingAvaergePassVC(rating: String) {
-        
+
+        self.myRating = rating
         rateLessonButton.titleLabel.text = rating
-        print("DEBUG: rating is \(rating)")
+        rateLessonButton.viewTintColor = .mainOrange
+        view.setNeedsDisplay()
     }
     
     

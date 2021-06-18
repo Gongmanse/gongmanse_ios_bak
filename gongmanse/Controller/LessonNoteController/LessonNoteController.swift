@@ -149,6 +149,30 @@ class LessonNoteController: UIViewController {
         setupData()
         setupLayout()
         setupNoteTaking()
+        
+        //네비게이션 바 색상 변경
+        navigationController?.navigationBar.barTintColor = UIColor.white
+        
+        //네비게이션 바 오른쪽 상단 플레이 버튼
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "play"), style: .plain, target: self, action: #selector(videoPlayAction(_:)))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //네비게이션 바 bottom border 제거 후 shadow 효과 적용
+        self.navigationController?.navigationBar.topItem?.title = "노트 보기"
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 1.0
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+    }
+    
+    @objc func videoPlayAction(_ sender: UIButton) {
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        let videoID = id
+        vc.id = videoID
+        present(vc, animated: true)
     }
     
     
