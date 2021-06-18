@@ -28,7 +28,6 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JQG-Zp-CbH">
                                 <rect key="frame" x="0.0" y="0.0" width="368" height="154"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.67300248645856309" green="1" blue="0.8208472872354633" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="displayP3"/>
                             </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Amj-PI-oXK">
                                 <rect key="frame" x="0.0" y="155" width="368" height="118"/>
