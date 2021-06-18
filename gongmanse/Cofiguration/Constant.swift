@@ -17,9 +17,29 @@ struct Constant {
     
     static var userID: String = ""
     static var token: String = ""
-    static var jwtToken: String = ""
+    static var refreshToken: String = "" {
+        didSet {
+            /**
+             1. 앱이 실행되면 AppDelegate -> 이 프로퍼티로 현재 존재하는 refreshToken을 전달한다.
+             2. didSet옵저버가 활성화되여 API연결을 한다.
+             3-true. 성공하면 Constant.token에 token을 할당한다.
+             3-false. 실패하면, 로그인을 token과 refreshToken 값을 비운다.
+             */
+            if refreshToken.count > 3 {
+                LoginDataManager().getTokenByRefreshToken(RefreshTokenInput(grant_type: "refresh_token",
+                                                                            refresh_token: Constant.refreshToken))
+            }
+            UserDefaults.standard.setValue(Constant.refreshToken, forKey: "refreshToken")
+        }
+    }
     static var dtPremiumActivate: String = ""
     static var dtPremiumExpire: String = ""
+    
+    var getRefreshToken: Void {
+        LoginDataManager().getTokenByRefreshToken(RefreshTokenInput(grant_type: "refresh_token",
+                                                                    refresh_token: Constant.refreshToken))
+    }
+    
     
     static var isGuestKey: Bool {
         return token.count < 10 ? true : false
