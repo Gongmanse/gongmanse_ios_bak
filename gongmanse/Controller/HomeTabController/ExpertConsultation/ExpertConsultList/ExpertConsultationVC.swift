@@ -178,8 +178,6 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         let profileImageURL = indexData.sProfile ?? ""
         let profileURL = URL(string: fileBaseURL + "/" + profileImageURL)
         
-        cell.consultThumbnail.contentMode = .scaleAspectFill
-        cell.consultThumbnail.sd_setImage(with: thumbnailURL)
         cell.consultTitle.text = indexData.sQuestion?.htmlEscaped
         cell.nickName.text = indexData.sNickname
         cell.answerStatus.text = indexData.iAnswer
@@ -199,6 +197,14 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
                 cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
             }else {
                 cell.profileImage.sd_setImage(with: profileURL)
+            }
+            
+            if indexData.sFilepaths == nil {
+                cell.consultThumbnail.contentMode = .scaleAspectFit
+                cell.consultThumbnail.image = UIImage(named: "app_icon")
+            } else {
+                cell.consultThumbnail.contentMode = .scaleAspectFill
+                cell.consultThumbnail.sd_setImage(with: thumbnailURL)
             }
         }
         return cell
