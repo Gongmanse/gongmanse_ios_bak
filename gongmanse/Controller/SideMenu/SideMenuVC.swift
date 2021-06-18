@@ -247,6 +247,15 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         Constant.token = ""
         viewModel.token = Constant.token
         headerViewHeight = viewModel.isHeaderHeight
+        
+        let autoPlayDataManager = AutoplayDataManager.shared
+        autoPlayDataManager.videoDataInPopularTab = nil
+        autoPlayDataManager.videoDataInRecommandTab = nil
+        autoPlayDataManager.videoDataInMainSubjectsTab = nil
+        autoPlayDataManager.videoDataInScienceTab = nil
+        autoPlayDataManager.videoDataInSocialStudyTab = nil
+        autoPlayDataManager.videoDataInOtherSubjectsTab = nil
+        autoPlayDataManager.videoDataInPopularTab = nil
         tableView.reloadData()
     }
     

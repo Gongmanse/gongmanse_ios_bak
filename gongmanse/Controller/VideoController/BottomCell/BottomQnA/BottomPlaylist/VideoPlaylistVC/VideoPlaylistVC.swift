@@ -322,7 +322,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 .dequeueReusableCell(withIdentifier: BottomPlaylistTVCell.reusableIdentifier,
                                      for: indexPath)
                 as? BottomPlaylistTVCell else { return UITableViewCell() }
-        
+        cell.selectionStyle = .none
         /**
          true : 추천
          */
@@ -439,6 +439,12 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
+
+        if Constant.isGuestKey {
+            presentAlert(message: "이용권이 없습니다.")
+            return
+        }
+        
         
         tableViewCellDidTap(indexPath: indexPath, "국영수")
         tableViewCellDidTap(indexPath: indexPath, "과학")
@@ -752,7 +758,7 @@ extension VideoPlaylistVC {
             let tabname = autoPlayDataManager.currentViewTitleView
             
             if tabname == "추천" || tabname == "인기" {
-                presentAlertInPlaylist(message: "마지막 영상입니다.")
+//                presentAlertInPlaylist(message: "마지막 영상입니다.")
             }
 
             
@@ -808,7 +814,7 @@ extension VideoPlaylistVC {
                 
             } else {
                 // 시리즈보기를 재생목록에 보여준 상태이다.
-                presentAlertInPlaylist(message: "마지막 영상입니다.")
+//                presentAlertInPlaylist(message: "마지막 영상입니다.")
             }
         }
     }

@@ -255,16 +255,24 @@ class LectureNoteController: UIViewController {
     private func setupData() {
         
         guard let id = self.id else { return }
-        guard let token = self.token else { return }
         
-        let videoDataManager = VideoDataManager.shared
-        guard let currentVideoID = videoDataManager.currentVideoID else { return }
         
-        let dataForSearchNote = NoteInput(video_id: currentVideoID,
-                                          token: token)
-        // 노트이미지 불러오는 API메소드
-        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
-                                                      viewController: self)
+        if Constant.isGuestKey {
+            GuestKeyDataManager().GuestKeyAPIGetNoteData(videoID: id, viewController: self)
+        } else {
+            // 노트이미지 불러오는 API메소드
+            guard let token = self.token else { return }
+            
+            let videoDataManager = VideoDataManager.shared
+            guard let currentVideoID = videoDataManager.currentVideoID else { return }
+            
+            let dataForSearchNote = NoteInput(video_id: currentVideoID,
+                                              token: token)
+            DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
+                                                          viewController: self)
+        }
+        
+        
     }
     
     private func setupLayout() {
@@ -595,6 +603,17 @@ extension LectureNoteController {
             }
             task.resume()
         }
+    }
+    
+    
+    func getNoteImageFromGuestKeyNoteAPI(response: GuestKeyNoteResponse) {
+        // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
+        self.noteImageCount = response.sNotes.count
+        for noteData in 0 ... (self.noteImageCount-1) {
+            let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(response.sNotes[noteData])")
+            getImageFromURL(url: convertedURL, index: noteData)
+        }
+        
     }
 }
 
