@@ -21,7 +21,7 @@ class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
     private var videoFilterNumber = ""
     private var videoFilterText = ""
     
-    var titleNames = ["전체 보기", "문제 풀이", "시리즈 보기", "노트 보기"]
+    var titleNames = ["전체 보기", "시리즈 보기", "문제 풀이", "노트 보기"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

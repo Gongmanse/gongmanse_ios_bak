@@ -197,6 +197,12 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        let videoID = lectureQnA?.data[indexPath.row].id
+        vc.id = videoID
+        present(vc, animated: true)
     }
 }
 
