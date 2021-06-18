@@ -7,8 +7,12 @@
 
 import Foundation
 
-protocol popDelgate: class {
+protocol PopDelgate: class {
     func popViewController()
+}
+
+protocol EnquiryListState: class {
+    var canEnquiryList: Bool { get set }
 }
 
 class OneOneViewModel {
@@ -17,17 +21,22 @@ class OneOneViewModel {
     var oneOneList: OneOneQnAList?
     
     weak var delegateTable: TableReloadData?
-    weak var delegatePop: popDelgate?
+    weak var delegatePop: PopDelgate?
+    weak var delegateState: EnquiryListState?
+    
     /// 1:1 목록
-    func reqiestOneOneList() {
+    func reqiestOneOneList(completionHandler: @escaping () -> Void) {
         
         OneOneAPIManager.fetchOneOneListApi { response in
             switch response {
             case .success(let data):
-                print(data)
+                self.delegateState?.canEnquiryList = true
                 self.oneOneList = data
                 self.delegateTable?.reloadTable()
+                completionHandler()
             case .failure(let err):
+                self.delegateState?.canEnquiryList = false
+                completionHandler()
                 print("reqiestOneOneList, Failure: \n", err.localizedDescription)
             }
         }
