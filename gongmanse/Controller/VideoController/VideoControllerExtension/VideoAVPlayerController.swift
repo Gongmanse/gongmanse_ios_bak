@@ -510,7 +510,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         // 타임라인 timerSlider
         let convertedWidth = convertWidth(244, standardView: view)
         videoControlContainerView.addSubview(timeSlider)
-        timeSlider.setDimensions(height: 5, width: convertedWidth - 32)
+        timeSlider.setDimensions(height: 200, width: convertedWidth - 32)
         timeSlider.centerX(inView: videoControlContainerView)
         timeSlider.centerY(inView: videoControlContainerView,constant: -10)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
