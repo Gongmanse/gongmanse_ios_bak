@@ -199,23 +199,23 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                     
                 }.resume()
             }
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.data)
-                    self.socialStudiesVideo = json
-                    
-                    self.autoPlayDataManager.videoDataInSocialStudyTab = json
-                    
-
-                }
-                DispatchQueue.main.async {
-                    self.socialStudiesCollection.reloadData()
-                    self.textSettings()
-                }
-                
-            }.resume()
+//            URLSession.shared.dataTask(with: request) { (data, response, error) in
+//                guard let data = data else { return }
+//                let decoder = JSONDecoder()
+//                if let json = try? decoder.decode(VideoInput.self, from: data) {
+//                    //print(json.data)
+//                    self.socialStudiesVideo = json
+//                    
+//                    self.autoPlayDataManager.videoDataInSocialStudyTab = json
+//                    
+//
+//                }
+//                DispatchQueue.main.async {
+//                    self.socialStudiesCollection.reloadData()
+//                    self.textSettings()
+//                }
+//                
+//            }.resume()
         }
     }
     
@@ -465,6 +465,11 @@ extension SocialStudiesVC: UICollectionViewDelegate {
         if indexPath.row == cellCount - 1 {
             listCount += 20
             getDataFromJson()
+            
+//            let moveIndex = ((socialStudiesVideoSecond?.data.count)! - 20)
+//            self.socialStudiesCollection.scrollToItem(at: IndexPath(item: moveIndex, section: 0),
+//                                                      at: .top, animated: false)
+            
         }
     }
 }
