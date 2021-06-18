@@ -8,6 +8,7 @@ class ScienceCVCell: UICollectionViewCell {
     @IBOutlet weak var term: UILabel!
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var starRating: UILabel!
+    @IBOutlet weak var videoPlayButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -189,6 +189,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     }
     
     func getDataFromJsonSecond() {
+//        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=37&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
         if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=37&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
@@ -197,7 +198,6 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    //print(json.body)
                     self.otherSubjectsVideoSecond = json
                 }
                 DispatchQueue.main.async {
@@ -268,6 +268,9 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             cell.subjects.text = indexData.subject
             cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
             cell.starRating.text = indexData.rating
+            cell.videoPlayButton.addTarget(self, action: #selector(videoPlay(_:)), for: .touchUpInside)
+            cell.videoPlayButton.isHidden = true
+            cell.videoPlayButton.tag = indexPath.row
         }
         
         /// cell keyword 업데이트를 위한 메소드
@@ -337,6 +340,7 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             autoPlayLabel.isHidden = true
             filteringBtn.isHidden = true
             filterImage.isHidden = true
+            cell.videoPlayButton.isHidden = false
             return cell
             
         } else {
@@ -348,6 +352,32 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             filteringBtn.isHidden = false
             filterImage.isHidden = false
             return cell
+        }
+    }
+    
+    @objc func videoPlay(_ sender: UIButton) {
+        
+        let token = Constant.token
+        
+        // 토큰이 없는 경우
+        if token.count < 3 {
+            
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            
+        } else {
+            
+            guard let value = self.otherSubjectsVideo else { return }
+            let data = value.body
+            print("data is \(data)")
+            print("senderTag is \(sender.tag)")
+//            guard let selectedVideoIndex = self.selectedRow else { return }
+//            print("slectedRow is \(selectedVideoIndex)")
+            let vc = VideoController()
+            vc.id = data[sender.tag].videoId
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true) {
+                sleep(1)
+            }
         }
     }
 }

@@ -29,7 +29,8 @@ class LecturePlaylistVC: UIViewController {
     
     // 강사별 강의
     var getTeacherList: LectureSeriesDataModel?
-    var seriesID: String?
+    var seriesID: String? {
+        didSet { detailVM?.lectureDetailApi(seriesID ?? "") } }
     var totalNum: String?
     var gradeText: String?
     var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
