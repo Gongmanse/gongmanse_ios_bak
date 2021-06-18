@@ -923,6 +923,10 @@ extension VideoController {
             print("DEBUG: 이미지를 제대로 못 받아왔습니다.")
         }
         
+        let isBookmark = response.data.sBookmarks
+        self.lessonInfoController.isBookmark = isBookmark
+        
+        
         DispatchQueue.main.async {
             self.playVideo()
         }

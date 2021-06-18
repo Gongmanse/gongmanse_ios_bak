@@ -70,6 +70,17 @@ class LessonInfoController: UIViewController {
     // ViewModel
     var videoDetailVM: VideoDetailViewModel? = VideoDetailViewModel()
     
+    // 즐겨찾기 여부
+    public var isBookmark: Bool = false {
+        didSet {
+            if isBookmark {
+                bookmarkButton.viewTintColor = .mainOrange
+            } else {
+                bookmarkButton.viewTintColor = .black
+            }
+        }
+    }
+    
     // MARK: - Lifecycle
     
     init() {
@@ -121,17 +132,20 @@ class LessonInfoController: UIViewController {
     }
     
     @objc func handleBookmarkAction(sender: UIView) {
-        
+        guard let videoID = self.videoID else { return }
         if bookmarkButton.viewTintColor == .mainOrange {
             // 즐겨찾기를 삭제한다.
+            
+            
             bookmarkButton.viewTintColor = .black
             BookmarkDataManager().deleteBookmarkToVideo(DeleteBookmarkInput(token: Constant.token,
-                                                                            video_id: "1"),
+                                                                            video_id: "\(videoID)"),
                                                         viewController: self)
         } else {
             // 즐겨찾기를 추가한다.
             bookmarkButton.viewTintColor = .mainOrange
-            BookmarkDataManager().addBookmarkToVideo(BookmarkInput(video_id: 1, token: Constant.token),
+            BookmarkDataManager().addBookmarkToVideo(BookmarkInput(video_id: Int(videoID) ?? 0,
+                                                                   token: Constant.token),
                                                      viewController: self)
         }
     }
