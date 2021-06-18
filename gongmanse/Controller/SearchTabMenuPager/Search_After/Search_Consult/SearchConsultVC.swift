@@ -66,6 +66,8 @@ class SearchConsultVC: UIViewController {
             emptyStackView.isHidden = false
             collectionView.isHidden = true
         }
+        
+        searchConsultationVM
     }
     
     override func viewDidLoad() {

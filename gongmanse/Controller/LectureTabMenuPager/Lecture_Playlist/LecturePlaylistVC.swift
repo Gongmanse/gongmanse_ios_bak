@@ -451,13 +451,21 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         case .lectureList:
             if Constant.isLogin {
                 // 비디오 연결
-                
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                let receviedVideoID = self.detailVM?.lectureDetail?.data[indexPath.row].id
+                vc.id = receviedVideoID
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+                return
             } else {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
             
         case .videoList:
             if Constant.isLogin {
+                
                 /**
                  검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
                  - 영상 > 검색결과 > 영상

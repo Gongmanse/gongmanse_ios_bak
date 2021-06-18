@@ -11,7 +11,7 @@ class CustomSlider: UISlider {
 
     @IBInspectable var trackHeight: CGFloat = 3
 
-    @IBInspectable var thumbRadius: CGFloat = 200
+    @IBInspectable var thumbRadius: CGFloat = 50
 
     // Custom thumb view which will be converted to UIImage
     // and set as thumb. You can customize it's colors, border, etc.
@@ -33,7 +33,7 @@ class CustomSlider: UISlider {
         // Set proper frame
         // y: radius / 2 will correctly offset the thumb
 
-        thumbView.frame = CGRect(x: 0, y: radius / 2, width: radius, height: radius)
+        thumbView.frame = CGRect(x: 0, y: 0, width: radius * 3, height: radius * 3 )
         thumbView.layer.cornerRadius = radius / 2
 
         // Convert thumbView to UIImage

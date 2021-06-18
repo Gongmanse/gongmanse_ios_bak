@@ -178,7 +178,14 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         if Constant.isLogin {
             // 비디오 연결
-            
+            let vc = VideoController()
+            let videoDataManager = VideoDataManager.shared
+            videoDataManager.isFirstPlayVideo = true
+            let receviedVideoID = self.progressBodyData?[indexPath.row].videoId
+            vc.id = receviedVideoID
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+            return
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
