@@ -33,6 +33,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     private let mainCellIdentifier = "ProgressMainCell"
     private let emptyCellIdentifier = "EmptyStateViewCell"
     private var progressBodyDataList: [ProgressBodyModel]?       // 리스트 받아오는 모델 body
+    var bodycopyDataList: [ProgressBodyModel]?
     private var progressHeaderData: ProgressHeaderModel?         // 리스트 받아오는 모델 header
     private var getGradeData: SubjectGetDataModel?               // 서버에서 학년 받아오는모델
     
@@ -117,15 +118,20 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         guard let userinfo = sender.userInfo else { return }
         guard let chapterName: String = userinfo["chapterName"] as? String else { return }
         guard let index: Int = userinfo["chapterNumber"] as? Int else { return }
-        guard let body = progressBodyDataList else { return }
+        guard let body = bodycopyDataList else { return }
         
         chapterBtn.setTitle(chapterName, for: .normal)
         
-        if body[index].title == chapterName {
-            progressBodyDataList = progressBodyDataList?.filter{$0.title == chapterName}
+        if index == 0 {
+            progressBodyDataList = bodycopyDataList
+            self.tableview.reloadData()
+            return
+        }
+        
+        if body[index - 1].title == chapterName {
+            progressBodyDataList = bodycopyDataList?.filter{$0.title == chapterName}
             self.tableview.reloadData()
         }
-        print(progressBodyDataList)
     }
     
     // 학년 popup에서 선택 시 API불러올 메소드
@@ -176,9 +182,10 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
             
             if offset == 0 {
                 self?.progressBodyDataList = result.body
-                
+                self?.bodycopyDataList = result.body
                 
                 self?.sendChapter.removeAll()
+                self?.sendChapter.append("모든 단원")
                 for i in 0..<(self?.progressBodyDataList!.count)! {
                     let tt = self?.progressBodyDataList?[i].title ?? ""
                     self?.sendChapter.append(tt)

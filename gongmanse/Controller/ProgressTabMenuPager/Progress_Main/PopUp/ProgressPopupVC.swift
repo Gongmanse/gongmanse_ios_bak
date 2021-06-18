@@ -127,6 +127,8 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
             ]
             NotificationCenter.default.post(name: NSNotification.Name("chapter"), object: nil, userInfo: hashable)
         }
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
 } 

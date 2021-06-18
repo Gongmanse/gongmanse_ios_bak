@@ -30,6 +30,7 @@ class ProgressOthers: UIViewController, ProgressInfinityScroll {
     
     private var othersHeaderDataList: ProgressHeaderModel?
     private var othersBodyDataList: [ProgressBodyModel]?
+    var bodycopyDataList: [ProgressBodyModel]?
     private var getGradeData: SubjectGetDataModel?
     
     // 전역변수 사용하기 위한 변수들
@@ -101,6 +102,31 @@ class ProgressOthers: UIViewController, ProgressInfinityScroll {
         configureTableView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: NSNotification.Name("chapter"), object: nil)
+        
+    }
+    
+    @objc func acceptChapter(_ sender: Notification) {
+        
+        
+        guard let userinfo = sender.userInfo else { return }
+        guard let chapterName: String = userinfo["chapterName"] as? String else { return }
+        guard let index: Int = userinfo["chapterNumber"] as? Int else { return }
+        guard let body = bodycopyDataList else { return }
+        
+        chapterBtn.setTitle(chapterName, for: .normal)
+        
+        if index == 0 {
+            othersBodyDataList = bodycopyDataList
+            self.tableview.reloadData()
+            return
+        }
+        
+        if body[index - 1].title == chapterName {
+            othersBodyDataList = bodycopyDataList?.filter{$0.title == chapterName}
+            self.tableview.reloadData()
+        }
     }
     
     // 학년 popup에서 선택 시 API불러올 메소드
@@ -148,9 +174,11 @@ class ProgressOthers: UIViewController, ProgressInfinityScroll {
             
             if offset == 0 {
                 self?.othersBodyDataList = result.body
-                
+                self?.bodycopyDataList = result.body
                 
                 self?.sendChapter.removeAll()
+                self?.sendChapter.append("모든 단원")
+                
                 for i in 0..<(self?.othersBodyDataList!.count)! {
                     let tt = self?.othersBodyDataList?[i].title ?? ""
                     self?.sendChapter.append(tt)

@@ -35,6 +35,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
     // 과학 모델
     private var scienceHeaderDataList: ProgressHeaderModel?
     private var scienceBodyDataList: [ProgressBodyModel]?
+    var bodycopyDataList: [ProgressBodyModel]?
     private var getGradeData: SubjectGetDataModel?
     
     
@@ -109,6 +110,31 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         configureTableView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: NSNotification.Name("chapter"), object: nil)
+        
+    }
+    
+    @objc func acceptChapter(_ sender: Notification) {
+        
+        
+        guard let userinfo = sender.userInfo else { return }
+        guard let chapterName: String = userinfo["chapterName"] as? String else { return }
+        guard let index: Int = userinfo["chapterNumber"] as? Int else { return }
+        guard let body = bodycopyDataList else { return }
+        
+        chapterBtn.setTitle(chapterName, for: .normal)
+        
+        if index == 0 {
+            scienceBodyDataList = bodycopyDataList
+            self.tableview.reloadData()
+            return
+        }
+        
+        if body[index - 1].title == chapterName {
+            scienceBodyDataList = bodycopyDataList?.filter{$0.title == chapterName}
+            self.tableview.reloadData()
+        }
     }
     
     // 학년 popup에서 선택 시 API불러올 메소드
@@ -157,9 +183,10 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
             
             if offset == 0 {
                 self?.scienceBodyDataList = result.body
-                
+                self?.bodycopyDataList = result.body
                 
                 self?.sendChapter.removeAll()
+                self?.sendChapter.append("모든 단원")
                 for i in 0..<(self?.scienceBodyDataList!.count)! {
                     let tt = self?.scienceBodyDataList?[i].title ?? ""
                     self?.sendChapter.append(tt)
