@@ -30,10 +30,14 @@ class LecturePlaylistVC: UIViewController {
     // 강사별 강의
     var getTeacherList: LectureSeriesDataModel?
     var seriesID: String? {
-        didSet { detailVM?.lectureDetailApi(seriesID ?? "") } }
+        didSet { detailVM?.lectureDetailApi(seriesID ?? "", offset: 0) } }
     var totalNum: String?
     var gradeText: String?
     var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
+    
+    
+    // Infinity Scroll
+    var listCount: Int = 0
     
     
     // 관련시리즈
@@ -200,12 +204,12 @@ class LecturePlaylistVC: UIViewController {
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
-        detailVM?.lectureDetailApi(seriesID ?? "")
+        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         detailVM?.delegate = self
         
         
         if videoNumber != "" {
-            detailVM?.relationSeries(videoNumber)
+            detailVM?.relationSeries(videoNumber, offset: 0)
         }
     }
     
@@ -524,6 +528,28 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let lectureCount = detailVM?.lectureDetail?.data.count else { return }
+        guard let videoCount = detailVM?.relationSeriesList?.data.count else { return }
+        
+        switch lectureState {
+        case .lectureList:
+            if indexPath.row == lectureCount - 1 {
+                listCount += 20
+                detailVM?.lectureDetailApi(seriesID ?? "", offset: listCount)
+            }
+        case .videoList:
+            if indexPath.row == videoCount - 1 {
+                listCount += 20
+                detailVM?.relationSeries(videoNumber, offset: listCount)
+            }
+        default:
+            return
+        }
+
+
+    }
 }
 
 

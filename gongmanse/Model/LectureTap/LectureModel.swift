@@ -63,7 +63,7 @@ struct SeriesDetailModel: Codable {
     let isMore: Bool?
     let totalNum: String?
     let seriesInfo: SeriesInfoModel?
-    let data: [SeriesDetailDataModel]
+    var data: [SeriesDetailDataModel]
 }
 
 struct SeriesInfoModel: Codable {
