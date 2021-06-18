@@ -54,6 +54,9 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var otherSubjectsCollection: UICollectionView!
     
+    var inputFilterNum = 0
+    var inputSortNum = 4
+    
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
     //collectionView 새로고침
@@ -143,7 +146,35 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     }
     
     func getDataFromJson() {
-        if let url = URL(string: OtherSubjects_Video_URL + "offset=\(listCount)&limit=20&sortId=\(sortedId ?? 3)&type=\(selectedItem ?? 0)") {
+        
+        switch selectedItem {
+        case 0:
+            inputFilterNum = 0
+        case 1:
+            inputFilterNum = 2
+        case 2:
+            inputFilterNum = 1
+        case 3:
+            inputFilterNum = 3
+        default:
+            inputFilterNum = 0
+        }
+        
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 3
+        case 1:
+            inputSortNum = 4
+        case 2:
+            inputSortNum = 1
+        case 3:
+            inputSortNum = 2
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: OtherSubjects_Video_URL + "offset=\(listCount)&limit=20&sortId=\(inputSortNum)&type=\(inputFilterNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -307,16 +338,6 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             return cell
             
         } else if selectedItem == 1 {
-            // 문제 풀이
-            setUpDefaultCellSetting()
-            addKeywordToCell()
-            playSwitch.isHidden = false
-            autoPlayLabel.isHidden = false
-            filteringBtn.isHidden = true
-            filterImage.isHidden = true
-            return cell
-            
-        } else if selectedItem == 2 {
             // 시리즈 보기
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KoreanEnglishMathAllSeriesCell", for: indexPath) as! KoreanEnglishMathAllSeriesCell
             guard let json = self.otherSubjectsVideo else { return cell }
@@ -339,6 +360,17 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             filteringBtn.isHidden = true
             filterImage.isHidden = true
             return cell
+            
+        } else if selectedItem == 2 {
+            // 문제 풀이
+            setUpDefaultCellSetting()
+            addKeywordToCell()
+            playSwitch.isHidden = false
+            autoPlayLabel.isHidden = false
+            filteringBtn.isHidden = true
+            filterImage.isHidden = true
+            return cell
+            
         } else if selectedItem == 3 {
             // 노트 보기
             setUpDefaultCellSetting()
@@ -408,13 +440,13 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
                 autoDataManager.currentViewTitleView = "기타"
                 present(vc, animated: true)
             } else if self.selectedItem == 1 {
-                print("DEBUG: 1번")
-            } else if self.selectedItem == 2 {
                 let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
                 let seriesID = otherSubjectsVideo?.body[indexPath.row].seriesId
                 vc.receiveSeriesId = seriesID
                 vc.modalPresentationStyle = .fullScreen
                 navigationController?.pushViewController(vc, animated: true)
+                print("DEBUG: 1번")
+            } else if self.selectedItem == 2 {
 
                 print("DEBUG: 2번")
             } else if self.selectedItem == 3 {
@@ -458,14 +490,14 @@ extension OtherSubjectsVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
     
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
-        if sortedIdRowIndex == 0 {          // 1 번째 Cell
-            self.sortedId = 0 // 이름순
-        } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
-            self.sortedId = 1 // 과목순
-        } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
+        if sortedIdRowIndex == 2 {          // 1 번째 Cell
             self.sortedId = 2 // 평점순
-        } else if sortedIdRowIndex == 3 {                            // 4 번째 Cell
+        } else if sortedIdRowIndex == 3 {   // 2 번째 Cell
             self.sortedId = 3 // 최신순
+        } else if sortedIdRowIndex == 0 {   // 3 번째 Cell
+            self.sortedId = 0 // 이름순
+        } else {                            // 4 번째 Cell
+            self.sortedId = 1 // 과목순
         }
         
         self.delegate?.otherSubjectsPassSortedIdSettingValue(sortedIdRowIndex)
@@ -476,10 +508,10 @@ extension OtherSubjectsVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
         
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
-        } else if selectedRowIndex == 1 {
-            self.selectedItem = 1 // 문제 풀이
         } else if selectedRowIndex == 2 {
             self.selectedItem = 2 // 시리즈 보기
+        } else if selectedRowIndex == 1 {
+            self.selectedItem = 1 // 문제 풀이
         } else if selectedRowIndex == 3 {
             self.selectedItem = 3 // 노트 보기
         }
