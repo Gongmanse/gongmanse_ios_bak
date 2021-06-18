@@ -41,6 +41,8 @@ class SearchAfterVC: UIViewController {
     private let lessonTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "DEFAULT"
+        label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
         label.font = UIFont.appBoldFontWith(size: 13)
         label.textColor = .black
         return label
@@ -330,10 +332,32 @@ class SearchAfterVC: UIViewController {
     
     func setupPIPView() {
         
-        let pipHeight = view.frame.height * 0.085
+        var pipHeight = view.frame.height * 0.085
+//        
+//        switch Constant.height {
+//        case 896.0:
+//            // pro max
+//        case 812.0
+//        //
+//        }
+//        
+        
+        switch Constant.width {
+        case 375.0:
+            pipHeight = view.frame.height * 0.085
+            break
+        case 414.0:
+            pipHeight = view.frame.height * 0.070
+            break
+        default:
+            pipHeight = view.frame.height * 0.085
+            break
+        }
+        
+        
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
-                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
                                 height: pipHeight)
         

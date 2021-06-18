@@ -535,7 +535,7 @@ extension VideoPlaylistVC {
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
-                    self.defaultScrollTableView()
+//                    self.defaultScrollTableView()
                 }
             }
         } else if autoPlayDataManager.currentViewTitleView == "과학" {
@@ -550,7 +550,7 @@ extension VideoPlaylistVC {
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
-                    self.defaultScrollTableView()
+//                    self.defaultScrollTableView()
                 }
             }
             
@@ -566,7 +566,7 @@ extension VideoPlaylistVC {
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
-                    self.defaultScrollTableView()
+//                    self.defaultScrollTableView()
                 }
             }
         } else if autoPlayDataManager.currentViewTitleView == "기타" {
@@ -581,7 +581,7 @@ extension VideoPlaylistVC {
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
-                    self.defaultScrollTableView()
+//                    self.defaultScrollTableView()
                 }
             }
         }
