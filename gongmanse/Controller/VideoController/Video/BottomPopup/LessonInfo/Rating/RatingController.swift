@@ -85,6 +85,9 @@ class RatingController: UIViewController {
         RatingDataManager().addRatingToVideo(inputData,
                                              viewController: self)
         
+        // 종료하더라도 기본값을 3 을 준다.
+        delegate?.ratingAvaergePassVC(rating: "\(clickedNumber)")
+
         UIView.animate(withDuration: 0.33) {
             self.view.alpha = 0
         } completion: { _ in
@@ -102,6 +105,10 @@ class RatingController: UIViewController {
         
         RatingDataManager().addRatingToVideo(inputData,
                                              viewController: self)
+        
+        // 바로 LessonInfoVC에 적용하기 위한 delegation
+        delegate?.ratingAvaergePassVC(rating: "\(clickedNumber)")
+        
         dismiss(animated: false)
         // 유저가 평점을 줬다면,
         // 1. dismiss 이후에, 모든 회원들의 평균 점수가 보여야한다.

@@ -251,7 +251,11 @@ extension LoginVC {
         guard let token = token else { return }
         Constant.token = token
         Constant.userID = userID
-
+        
+        EditingProfileDataManager().getPremiumDateFromAPI(EditingProfileInput(token: Constant.token),
+                                                          viewController: self)
+        
+        
         // 회면전환 - Main Controller 로 이동.
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
@@ -269,6 +273,46 @@ extension LoginVC {
 }
 
 
-
-
-
+// MARK: - 이용기한 남은지 확인하기 위한 API 메소드
+extension LoginVC {
+    
+    func didSuccessNetworing(response: EditingProfileResponse) {
+        
+        let activateDate: String? = response.dtPremiumActivate
+        let expireDate: String? = response.dtPremiumExpire
+        var dateRemainingString: String?
+        
+        guard let startDateString = activateDate else { return }
+        guard let expireDateString = expireDate else { return }
+        
+        let startDate = dateStringToDate(startDateString)
+        let endDate = dateStringToDate(expireDateString)
+        
+        let dateRemaining = dateRemainingCalculate(startDate: startDate, expireDate: endDate)
+        Constant.remainPremiumDateInt = dateRemaining
+        print("DEBUG: dateRemaining \(dateRemaining)")
+    }
+    
+    
+}
+extension LoginVC {
+    
+    
+    // 만약 이용권이 있다면, String로 받아온 값을 Date로 변경한다.
+    func dateStringToDate(_ dateString: String) -> Date {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+        
+        let date: Date = dateFormatter.date(from: dateString)!
+        return date
+    }
+    
+    func dateRemainingCalculate(startDate: Date, expireDate: Date) -> Int {
+        
+        let dateRemaining = expireDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
+        let result = Int(dateRemaining / 86400)
+        return result
+    }
+}

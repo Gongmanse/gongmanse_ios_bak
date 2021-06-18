@@ -529,10 +529,10 @@ extension VideoController: AVPlayerViewControllerDelegate {
                                 height: 13)
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
-        changeOrientationButton.setDimensions(height: 40, width: 40)
+        changeOrientationButton.setDimensions(height: 50, width: 50)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
-                                       paddingLeft: 5)
+                                       paddingLeft: 2)
         // VideoSettingButton
         videoContainerView.addSubview(videoSettingButton)
         videoSettingButton.anchor(top: videoContainerView.topAnchor,
