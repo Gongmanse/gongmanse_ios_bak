@@ -21,6 +21,9 @@ struct Constant {
     static var dtPremiumActivate: String = ""
     static var dtPremiumExpire: String = ""
     
+    static var isGuestKey: Bool {
+        return token.count < 10 ? true : false
+    }
     
     static var isTicket: Bool {
         dtPremiumActivate.count > 3

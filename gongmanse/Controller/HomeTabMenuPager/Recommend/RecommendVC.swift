@@ -220,34 +220,31 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let token = Constant.token
-        
-        // 토큰이 없는 경우
-        if token.count < 3 {
-            
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
-            
-        } else {
 
-            let vc = VideoController()
-            
-            let videoDataManager = VideoDataManager.shared
-            videoDataManager.isFirstPlayVideo = true
-            
-            vc.delegate = self
-            vc.id = recommendVideo.body[indexPath.row].videoId
-            vc.modalPresentationStyle = .fullScreen
-//            let seriesID = recommendVideoSecond?.data[indexPath.row].iSeriesId
-//            vc.recommendSeriesId = seriesID
-            vc.recommendReceiveData = recommendVideo
-            autoPlayDataManager.currentViewTitleView = "추천"
-            self.present(vc, animated: true) {
-//                sleep(1)
-            }
+        // 토큰이 없는 경우
+        // -> 추천 동영상 비디오 경로 API & 추천 동영상 비디오 노트 API를 호출한다.
+        if Constant.isGuestKey {
+            print("DEBUG: 게스트로입장")
+            presentVideoController(indexPath.row)
+//            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        } else {
+            // 이용권이 있는 계정으로 로그인
+            presentVideoController(indexPath.row)
         }
+    }
+    
+    /// 클릭한 cell의 indexPath.row를 입력받아 VideoController를 호출하는 메소드
+    func presentVideoController(_ selectedRow: Int) {
         
-        
+        let vc = VideoController()
+        let videoDataManager = VideoDataManager.shared
+        videoDataManager.isFirstPlayVideo = true
+        vc.delegate = self
+        vc.id = recommendVideo.body[selectedRow].videoId
+        vc.modalPresentationStyle = .fullScreen
+        vc.recommendReceiveData = recommendVideo
+        autoPlayDataManager.currentViewTitleView = "추천"
+        self.present(vc, animated: true)
     }
 }
 
