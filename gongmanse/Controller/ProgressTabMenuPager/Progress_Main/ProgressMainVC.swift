@@ -65,6 +65,8 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
                             offset: listCount,
                             limit: mainLimitNumber)
     }
+    var changeGrade: String?
+    var changeGradeNumber: Int?
     
     //MARK: - Lifecycle
     
@@ -83,12 +85,12 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
                 self?.getGradeData = result
                 self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
                 
-                let changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
-                let changeGradeNumber = self?.mainViewModel.transformGradeNumber(string: self?.getGradeData?.sGrade ?? "")
+                self?.changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
+                self?.changeGradeNumber = self?.mainViewModel.transformGradeNumber(string: self?.getGradeData?.sGrade ?? "")
                 
                 self?.requestProgressList(subject: self?.mainSubjectNumber ?? 0,
-                                          grade: changeGrade ?? "",
-                                          gradeNum: changeGradeNumber ?? 0,
+                                          grade: self?.changeGrade ?? "",
+                                          gradeNum: self?.changeGradeNumber ?? 0,
                                           offset: 0,
                                           limit: self?.mainLimitNumber ?? 0)
             }
@@ -106,6 +108,24 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: NSNotification.Name("chapter"), object: nil)
+    }
+    
+    @objc func acceptChapter(_ sender: Notification) {
+        
+        
+        guard let userinfo = sender.userInfo else { return }
+        guard let chapterName: String = userinfo["chapterName"] as? String else { return }
+        guard let index: Int = userinfo["chapterNumber"] as? Int else { return }
+        guard let body = progressBodyDataList else { return }
+        
+        chapterBtn.setTitle(chapterName, for: .normal)
+        
+        if body[index].title == chapterName {
+            progressBodyDataList = progressBodyDataList?.filter{$0.title == chapterName}
+            self.tableview.reloadData()
+        }
+        print(progressBodyDataList)
     }
     
     // 학년 popup에서 선택 시 API불러올 메소드
