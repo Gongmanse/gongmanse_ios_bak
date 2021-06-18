@@ -33,7 +33,10 @@ struct Constant {
         }
     }
     static var dtPremiumActivate: String = ""
+
     static var dtPremiumExpire: String = ""
+    
+    static var remainPremiumDateInt: Int?
     
     var getRefreshToken: Void {
         LoginDataManager().getTokenByRefreshToken(RefreshTokenInput(grant_type: "refresh_token",

@@ -405,6 +405,11 @@ extension ScienceVC: UICollectionViewDataSource {
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        }
+        
         // 06.16 이전코드
 //        if Constant.isLogin {
 //            let vc = VideoController()

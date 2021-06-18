@@ -308,10 +308,12 @@ extension SideMenuVC {
         
         if let premiumActivateDate = response.dtPremiumActivate {
             self.viewModel.activateDate = premiumActivateDate
+            Constant.dtPremiumActivate = premiumActivateDate
         }
         
         if let premiumExpireDate = response.dtPremiumExpire {
             self.viewModel.expireDate = premiumExpireDate
+            Constant.dtPremiumExpire = premiumExpireDate
         }
         
         self.viewModel.name = response.sUsername
