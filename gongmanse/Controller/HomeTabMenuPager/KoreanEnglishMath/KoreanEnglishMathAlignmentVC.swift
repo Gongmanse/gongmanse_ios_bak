@@ -20,8 +20,9 @@ class KoreanEnglishMathAlignmentVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     private var rateFilterNumber = ""
     private var rateFilterText = ""
+    var inputNum = 1
     
-    var titleNames = ["이름순", "과목순", "평점순", "최신순"]
+    var titleNames = ["평점순", "최신순", "이름순", "과목순"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +70,8 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
         cell.selectTitle.text = titleNames[indexPath.row]
         cell.checkImage.isHidden = true
         
-        if let sortedItem = sortedItem {
-            print("\(#function) \(sortedItem)")
+        if let sortedId = sortedItem {
+            print("\(#function) \(sortedId)")
             if sortedItem == indexPath.row {
                 cell.selectTitle.textColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
                 cell.checkImage.isHidden = false

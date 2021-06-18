@@ -28,6 +28,7 @@ class RecentVideoTVCell: UITableViewCell {
         //버튼, 버튼 뷰 숨김
         deleteView.isHidden = true
         deleteButton.isHidden = true
+        upLoadDate.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -15,7 +15,8 @@ class ElementaryVC: UIViewController {
     
     var pageIndex: Int!
     
-    let lectureVM = LectureTapViewModel()
+    var elemantaryViewModel: LectureTapViewModel?
+    
     //MARK: - IBOutlet
     
     @IBOutlet weak var collectionview: UICollectionView!
@@ -27,8 +28,8 @@ class ElementaryVC: UIViewController {
         super.viewDidLoad()
         
         configrueCollectionView()
-        lectureVM.reloadDelgate = self
-        lectureVM.lectureListGetApi(grade: "초등", offset: "0")
+        elemantaryViewModel?.reloadDelgate = self
+        elemantaryViewModel?.lectureListGetApi(grade: "초등", offset: "0")
         
     }
 
@@ -50,14 +51,14 @@ class ElementaryVC: UIViewController {
 
 extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return lectureVM.lectureList?.data.count ?? 0
+        return elemantaryViewModel?.lectureList?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CurriculumCell
         
-        let indexData = lectureVM.lectureList?.data[indexPath.row]
+        let indexData = elemantaryViewModel?.lectureList?.data[indexPath.row]
         let images = "\(fileBaseURL)/\(indexData?.sThumbnail ?? "")"
         
         cell.lectureImage.setImageUrl(images)
@@ -74,7 +75,7 @@ extension ElementaryVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
 //         클릭 시 선생별 플레이리스트 화면으로 이동
 //         추후에 아래 코드로 상세페이지 화면전환한다 - 영상페이지 테스트를 위한 임시 주석처리
-        guard let postData = lectureVM.lectureList?.data[indexPath.row] else { return }
+        guard let postData = elemantaryViewModel?.lectureList?.data[indexPath.row] else { return }
         let vc = TeacherPlaylistVC(postData)
         
         vc.instructorID = postData.id

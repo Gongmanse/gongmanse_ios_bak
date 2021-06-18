@@ -158,7 +158,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @objc func deleteAction(_ sender: UIButton) {
         guard let json = self.recentViedo else { return }
         guard let id = json.data[sender.tag].id else { return }
-
+        
         let inputData = RecentVideoInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
         self.tableViewInputData?.remove(at: indexPath.row)
@@ -168,7 +168,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         print(indexPath.row)
         print(sender.tag)
         
-//        self.tableViewInputData?.remove(at: sender.tag)
+        //        self.tableViewInputData?.remove(at: sender.tag)
         RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
         
         getDataFromJson()
@@ -189,6 +189,11 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        let videoID = recentViedo?.data[indexPath.row].video_id
+        vc.id = videoID
+        present(vc, animated: true)
     }
 }
 
@@ -239,7 +244,7 @@ class RecentVideoTVCDataManager {
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "history_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
-
+            
         }, to: "https://api.gongmanse.com/v/member/watchhistory").response { (response) in
             switch response.result {
             case .success:

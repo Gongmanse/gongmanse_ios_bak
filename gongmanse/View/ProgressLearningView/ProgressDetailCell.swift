@@ -38,7 +38,6 @@ class ProgressDetailCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
         lessonImage.layer.cornerRadius = 15
         lessonImage.layer.contentsRect = CGRect(x: 0, y: -0.15, width: 1, height: 1)
         

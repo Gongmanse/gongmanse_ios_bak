@@ -16,6 +16,7 @@ struct LectureAPIManager {
     
     init(_ grade: String, _ offset: String) {
         url = "\(apiBaseURL)/v/video/byteacher?grade=\(grade)&offset=\(offset)"
+        print(url)
     }
     
     // 강사별 보기

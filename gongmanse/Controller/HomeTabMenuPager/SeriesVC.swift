@@ -119,6 +119,15 @@ extension SeriesVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let vc = VideoController()
+        vc.modalPresentationStyle = .fullScreen
+        let videoID = seriesShow?.data[indexPath.row].id
+        vc.id = videoID
+        present(vc, animated: true)
+    }
 }
 
 extension SeriesVC: UICollectionViewDelegateFlowLayout {

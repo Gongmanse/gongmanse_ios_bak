@@ -19,36 +19,85 @@ class LectureDetailViewModel {
         
     var delegate: CollectionReloadData?
     
+    var isMoreList: Bool = true
+    
     // 강사별 강의
-    func lectureDetailApi(_ seriesID: String) {
+    func lectureDetailApi(_ seriesID: String, offset: Int) {
         
-        var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=0"
+        var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=\(offset)"
+        if isMoreList == false {
+            return 
+        }
         
-        getAlamofireGeneric(url: &detailUrl, isConvertUrl: false) { (response: Result<SeriesDetailModel, InfoError>) in
-            switch response {
-            case .success(let data):
-                self.lectureDetail = data
-                self.delegate?.reloadCollection()
-            case .failure(let err):
-                print(err.localizedDescription)
+        if offset == 0 {
+            getAlamofireGeneric(url: &detailUrl, isConvertUrl: false) { (response: Result<SeriesDetailModel, InfoError>) in
+                switch response {
+                case .success(let data):
+                    self.lectureDetail = data
+                    self.delegate?.reloadCollection()
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+        } else {
+            getAlamofireGeneric(url: &detailUrl, isConvertUrl: false) { (response: Result<SeriesDetailModel, InfoError>) in
+                switch response {
+                case .success(let data):
+                    
+                    if data.data.count == 0 {
+                        self.isMoreList = false
+                    }
+                    
+                    
+                    for i in 0..<data.data.count {
+                        self.lectureDetail?.data.append(data.data[i])
+                    }
+                    
+                    self.delegate?.reloadCollection()
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
             }
         }
+        
     }
     
     // 관련 시리즈
-    func relationSeries(_ videoID: String) {
+    func relationSeries(_ videoID: String, offset: Int) {
         
-        var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=\(videoID)"
-//        var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=15188"
+        var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=\(videoID)&offset=\(offset)"
         
-        getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
-            switch response {
-            case .success(let data):
-                print(data)
-                self.relationSeriesList = data
-                self.delegate?.reloadCollection()
-            case .failure(let err):
-                print(err.localizedDescription)
+        if isMoreList == false {
+            return
+        }
+        
+        if offset == 0 {
+            getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
+                switch response {
+                case .success(let data):
+                    
+                    self.relationSeriesList = data
+                    self.delegate?.reloadCollection()
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+        } else {
+            getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
+                switch response {
+                case .success(let data):
+                    
+                    if data.data.count == 0 {
+                        self.isMoreList = false
+                    }
+                    for i in 0..<data.data.count {
+                        self.relationSeriesList?.data.append(data.data[i])
+                    }
+                    
+                    self.delegate?.reloadCollection()
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
             }
         }
     }
