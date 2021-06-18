@@ -221,7 +221,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
 //                    self.otherSubjectsCollection.reloadData()
 //                    self.textSettings()
 //                }
-//                
+//
 //            }.resume()
         }
     }

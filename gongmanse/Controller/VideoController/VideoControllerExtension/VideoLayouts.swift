@@ -27,7 +27,7 @@ extension VideoController {
         videoContainerViewLandscapeTopConstraint
             = videoContainerView.topAnchor.constraint(equalTo: view.topAnchor)
         videoContainerViewLandscapeLeftConstraint
-            = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+            = videoContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: -5)
         
         
         /* playPauseButton(동영상 클릭 시, 재생 및 일시정지 버튼 */
@@ -107,7 +107,7 @@ extension VideoController {
         lessonInfoViewLandscapeTopConstraint
             = lessonInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         lessonInfoViewLandscapeLeftConstraint
-            = lessonInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            = lessonInfoView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -5)
         lessonInfoViewLandscapeRightConstraint
             = lessonInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         

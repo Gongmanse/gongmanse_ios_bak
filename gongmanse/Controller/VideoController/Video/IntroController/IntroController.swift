@@ -66,7 +66,22 @@ class IntroController: UIViewController {
         
         
         
-        let introVideoHeight = Constant.width == 375.0 ? view.frame.width * 0.52 : view.frame.width * 0.57
+        
+        
+        
+        var introVideoHeight = Constant.width == 375.0 ? view.frame.width * 0.52 : view.frame.width * 0.57
+        
+        switch Constant.height {
+        case 926:
+            introVideoHeight = view.frame.width * 0.6
+        case 844:
+            introVideoHeight = view.frame.width * 0.54
+        case 667:
+            introVideoHeight = view.frame.width * 0.52
+        default:
+            introVideoHeight = view.frame.width * 0.55
+        }
+        
         
         IntroVideoContainerView.centerX(inView: view)
         IntroVideoContainerView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
