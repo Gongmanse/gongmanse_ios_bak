@@ -113,8 +113,12 @@ class SideMenuVC: UITableViewController {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
         } else if indexPath.row == 1 {
-            let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
-            self.navigationController?.pushViewController(myCalendarVC, animated: true)
+            if Constant.isLogin {
+                let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
+                self.navigationController?.pushViewController(myCalendarVC, animated: true)
+            } else {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
         } else if indexPath.row == 2 {
             let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
             self.navigationController?.pushViewController(whatIsGongManseVC, animated: true)
@@ -125,10 +129,14 @@ class SideMenuVC: UITableViewController {
             let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
             self.navigationController?.pushViewController(customerServiceVC, animated: true)
         } else if indexPath.row == 5 {
-            
-            //test용 다이렉트
-            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
-            self.navigationController?.pushViewController(settingsVC, animated: true)
+            if Constant.isLogin {
+                
+                let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+                self.navigationController?.pushViewController(settingsVC, animated: true)
+            } else {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
+
             
 //            if indexPath.row == 0 {
 //                let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
@@ -247,6 +255,15 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         Constant.token = ""
         viewModel.token = Constant.token
         headerViewHeight = viewModel.isHeaderHeight
+        
+        let autoPlayDataManager = AutoplayDataManager.shared
+        autoPlayDataManager.videoDataInPopularTab = nil
+        autoPlayDataManager.videoDataInRecommandTab = nil
+        autoPlayDataManager.videoDataInMainSubjectsTab = nil
+        autoPlayDataManager.videoDataInScienceTab = nil
+        autoPlayDataManager.videoDataInSocialStudyTab = nil
+        autoPlayDataManager.videoDataInOtherSubjectsTab = nil
+        autoPlayDataManager.videoDataInPopularTab = nil
         tableView.reloadData()
     }
     

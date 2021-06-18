@@ -12,8 +12,7 @@ enum EmptyState {
     case show, hide
 }
 
-class OneOnOneEnquiryVC: UIViewController {
-
+class OneOnOneEnquiryVC: UIViewController, EnquiryListState {
     
     var emptyList: EmptyState = .hide{
         didSet{
@@ -69,19 +68,16 @@ class OneOnOneEnquiryVC: UIViewController {
     
     var oneOneViewModel: OneOneViewModel? = OneOneViewModel()
         
+    var canEnquiryList: Bool = false
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        oneOneViewModel?.reqiestOneOneList()
-        
-//        if oneOneViewModel?.oneOneList?.data == nil {
-//            emptyStateManage(state: false)
-//        } else {
-//            emptyStateManage(state: true)
-//        }
-        emptyStateManage(state: true)
+        oneOneViewModel?.reqiestOneOneList(completionHandler: {
+            self.emptyStateManage(state: self.canEnquiryList)
+        })
         
     }
     
@@ -91,6 +87,7 @@ class OneOnOneEnquiryVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         oneOneViewModel?.delegateTable = self
+        oneOneViewModel?.delegateState = self
         
         configuration()
         constraints()
@@ -133,8 +130,13 @@ class OneOnOneEnquiryVC: UIViewController {
     }
     
     @objc func floatingButtonAction(_ sender: UIButton) {
-        let enquiryCategoryVC = EnquiryCategoryVC()
-        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
+        
+        if Constant.isLogin {
+            let enquiryCategoryVC = EnquiryCategoryVC()
+            self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
     }
 }
 

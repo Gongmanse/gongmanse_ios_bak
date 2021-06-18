@@ -23,7 +23,11 @@ class ProgressDetailVC: UIViewController {
     private var progressBodyData: [ProgressDetailBody]?
     private var progressHeaderData: ProgressDetailHeader?
     private let detailCellIdentifier = "ProgressDetailCell"
-    private var cellCount = 0
+    
+    // 무한 스크롤
+    var cellCount: Int = 0
+    var isListMore: Bool = true
+    
     var progressIdentifier = ""                             // 서버와 통신할 progressID
     
     //MARK: - Lifecycle
@@ -60,6 +64,11 @@ class ProgressDetailVC: UIViewController {
                     self?.collectionView.reloadData()
                 }
             }else {
+                
+                if result.body?.count == 0 {
+                    self?.isListMore = false
+                }
+                
                 self?.progressBodyData?.append(contentsOf: result.body!)
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
@@ -158,11 +167,21 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.subjectSecond.backgroundColor = .mainOrange
         
         let totalRows = collectionView.numberOfItems(inSection: indexPath.section)
-        if indexPath.row == totalRows - 1{
+        if indexPath.row == totalRows - 1 && isListMore == true {
             cellCount += 20
             progressDataManager(progressID: progressIdentifier, limit: 20, offset: cellCount)
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if Constant.isLogin {
+            // 비디오 연결
+            
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
     }
 }
 

@@ -94,7 +94,7 @@ extension EnquiryUpdateDeleteVC {
     
 }
 
-extension EnquiryUpdateDeleteVC: popDelgate {
+extension EnquiryUpdateDeleteVC: PopDelgate {
     
     func popViewController() {
         self.navigationController?.popViewController(animated: true)
