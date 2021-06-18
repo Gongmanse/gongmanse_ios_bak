@@ -25,7 +25,7 @@ class IntroController: UIViewController {
     private var player: AVQueuePlayer?
     private var playerLayer: AVPlayerLayer?
     
-    @IBOutlet weak var introHeightConstraint: NSLayoutConstraint!
+ 
     
     // MARK: - Lifecycle
     
@@ -59,14 +59,26 @@ class IntroController: UIViewController {
     
     func setupIntroVideo() {
         
-        IntroVideoContainerView.layer.bounds = CGRect(x: 0,
-                                                      y: 0,
-                                                      width: Constant.width,
-                                                      height: Constant.height * 0.32)
+//        IntroVideoContainerView.layer.bounds = CGRect(x: 0,
+//                                                      y: 0,
+//                                                      width: Constant.width,
+//                                                      height: Constant.height * 0.32)
         
-        introHeightConstraint
-            = IntroVideoContainerView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.57)
-        introHeightConstraint.isActive = true
+        
+        
+        let introVideoHeight = Constant.width == 375.0 ? view.frame.width * 0.52 : view.frame.width * 0.57
+        
+        IntroVideoContainerView.centerX(inView: view)
+        IntroVideoContainerView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                       left: view.leftAnchor,
+                                       right: view.rightAnchor,
+                                       height: introVideoHeight)
+    
+        // 414.0 -> promax size
+        
+        // 375.0 -> se2
+        let phoneWidth = Constant.width
+        print("DEBUG: phoneWidth \(phoneWidth)")
         
         IntroVideoContainerView.contentMode = .scaleAspectFill
         
@@ -80,7 +92,8 @@ class IntroController: UIViewController {
         }
         playerLayer.frame = IntroVideoContainerView.layer.bounds
         IntroVideoContainerView.layer.addSublayer(playerLayer)
-
+        IntroVideoContainerView.clipsToBounds = true
+        
         let videoAsset = AVURLAsset(url: introURL)
         
         videoAsset.loadValuesAsynchronously(forKeys: ["", ""]) {

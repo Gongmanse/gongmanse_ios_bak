@@ -29,7 +29,16 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     }
     
     var pageIndex: Int!
-    var otherSubjectsVideo: VideoInput?
+    var otherSubjectsVideo: VideoInput? {
+        didSet {
+            if let inputData = otherSubjectsVideo {
+                autoPlayDataManager.videoDataInOtherSubjectsTab = inputData
+            }
+        }
+    }
+    
+    
+    
     var otherSubjectsVideoSecond: FilterVideoModels?
     
     var height: CGFloat = 240
@@ -176,8 +185,6 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
                     self.otherSubjectsVideo = json
-                    let autoPlayDataManager = AutoplayDataManager.shared
-                    autoPlayDataManager.videoDataInOtherSubjectsTab = json
                 }
                 DispatchQueue.main.async {
                     self.otherSubjectsCollection.reloadData()
