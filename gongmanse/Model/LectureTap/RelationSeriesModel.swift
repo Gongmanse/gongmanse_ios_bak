@@ -12,7 +12,7 @@ struct RelationSeriesModel: Codable {
     let isMore: Bool
     let totalNum: String
     let seriesInfo: RelationSeriesInfo?
-    let data: [RelationSeriesDataModel]
+    var data: [RelationSeriesDataModel]
 }
 
 struct RelationSeriesInfo: Codable {

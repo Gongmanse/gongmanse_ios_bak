@@ -15,18 +15,46 @@ class LectureTapViewModel {
     
     var lectureSeries: LectureSeriesModel?
     
+    var isMoreList: Bool = true
+    
+    
     func lectureListGetApi(grade: String, offset: String) {
         let lectureApiManager = LectureAPIManager(grade, offset)
         
-        lectureApiManager.initializeApi { response in
-            switch response {
-            case .success(let data):
-                self.lectureList = data
-                self.reloadDelgate?.reloadCollection()
-            case .failure(let err):
-                print(err.localizedDescription)
+        if isMoreList == false {
+            return
+        }
+        
+        if offset == "0" {
+            lectureApiManager.initializeApi { response in
+                switch response {
+                case .success(let data):
+                    self.lectureList = data
+                    self.reloadDelgate?.reloadCollection()
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+        } else {
+            lectureApiManager.initializeApi { response in
+                switch response {
+                case .success(let data):
+                    
+                    if data.data.count == 0 {
+                        self.isMoreList = false
+                    }
+                    
+                    for i in 0..<data.data.count {
+                        self.lectureList?.data.append(data.data[i])
+                    }
+                    
+                    self.reloadDelgate?.reloadCollection()
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
             }
         }
+        
     }
     
     // 강사별 강의

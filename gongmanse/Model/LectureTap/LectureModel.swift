@@ -10,7 +10,7 @@ import Foundation
 // 강사별보기 처음화면
 struct LectureModel: Codable {
     let totalNum: String
-    let data: [LectureDataModel]
+    var data: [LectureDataModel]
 }
 
 struct LectureDataModel: Codable {
@@ -63,7 +63,7 @@ struct SeriesDetailModel: Codable {
     let isMore: Bool?
     let totalNum: String?
     let seriesInfo: SeriesInfoModel?
-    let data: [SeriesDetailDataModel]
+    var data: [SeriesDetailDataModel]
 }
 
 struct SeriesInfoModel: Codable {

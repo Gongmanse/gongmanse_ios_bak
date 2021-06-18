@@ -13,7 +13,7 @@ class LessonInfoController: UIViewController {
     // MARK: - Properties
     
     var pipVideoData: PIPVideoData?   // PIP 재생을 위해 필요한 구조체
-    
+    var seriesID: String?
     // "LessonInfoController"에서 "관련시리즈" 혹은 "sTags"를 클릭했을 때, 영상재생시간을 dataManager에 입력한다.
     var currentVideoPlayTime: Float? {
         didSet {
@@ -165,7 +165,8 @@ class LessonInfoController: UIViewController {
         delegate?.videoVCPauseVideo()
         let presentVC = LecturePlaylistVC(videoID ?? "")
         presentVC.lectureState = .videoList
-        
+        // TODO: 버그해결중
+        presentVC.seriesID = seriesID
         let pipVideoData = PIPVideoData(isPlayPIP: true,
                                         videoURL: videoDataManager.previousVideoURL,
                                         currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),

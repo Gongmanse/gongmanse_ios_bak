@@ -21,12 +21,15 @@ class PopularVC: UIViewController {
     var gradeText: String = ""
     var listCount: Int = 0
     var isDataListMore: Bool = true
-    //
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if Constant.token != "" {
             getDataFromJsonSecond(grade: gradeText, offset: listCount)
+        } else {
+            getDataFromJsonSecond(grade: "", offset: listCount)
         }
     }
     

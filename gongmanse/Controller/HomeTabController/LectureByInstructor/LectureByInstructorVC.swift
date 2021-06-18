@@ -15,6 +15,7 @@ class LectureByInstructorVC: UIViewController {
     // tabViews들 중 클릭된 cell만 .mainOrange 색상 변경을 위한 Index
     private var selectedCellIndex = 0
     
+    var lectureViewModel: LectureTapViewModel? = LectureTapViewModel()
     
     //MARK: - Lifecycle
     
@@ -130,18 +131,22 @@ class LectureByInstructorVC: UIViewController {
         if index == 0 {
             let contentVC = ElementaryVC()
             contentVC.pageIndex = index
+            contentVC.elemantaryViewModel = lectureViewModel
             return contentVC
         } else if index == 1 {
             let contentVC = MiddleSchoolVC()
             contentVC.pageIndex = index
+            contentVC.middleVM = lectureViewModel
             return contentVC
         } else if index == 2 {
             let contentVC = HighSchoolVC()
             contentVC.pageIndex = index
+            contentVC.highVM = lectureViewModel
             return contentVC
         } else {
             let contentVC = ElementaryVC()
             contentVC.pageIndex = index
+            contentVC.elemantaryViewModel = lectureViewModel
             return contentVC
         }
     }

@@ -11,7 +11,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntroController" customModule="gongmanse" customModuleProvider="target">
             <connections>
                 <outlet property="IntroVideoContainerView" destination="hwl-re-Wt6" id="AJ2-b9-dzL"/>
-                <outlet property="introHeightConstraint" destination="FMz-bB-Z2v" id="qKb-tV-JyL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,20 +19,15 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hwl-re-Wt6">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hwl-re-Wt6">
                     <rect key="frame" x="0.0" y="44" width="414" height="236"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.94278651479999998" green="0.84646475320000003" blue="0.31626036759999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.57" id="FMz-bB-Z2v"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="b18-wY-Cln"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="gnD-pd-2KI"/>
-                <constraint firstItem="hwl-re-Wt6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="shh-RM-BYo"/>
-            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="100" y="82"/>
         </view>
