@@ -133,8 +133,13 @@ class OneOnOneEnquiryVC: UIViewController {
     }
     
     @objc func floatingButtonAction(_ sender: UIButton) {
-        let enquiryCategoryVC = EnquiryCategoryVC()
-        self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
+        
+        if Constant.isLogin {
+            let enquiryCategoryVC = EnquiryCategoryVC()
+            self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
     }
 }
 

@@ -113,8 +113,12 @@ class SideMenuVC: UITableViewController {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
         } else if indexPath.row == 1 {
-            let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
-            self.navigationController?.pushViewController(myCalendarVC, animated: true)
+            if Constant.isLogin {
+                let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
+                self.navigationController?.pushViewController(myCalendarVC, animated: true)
+            } else {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
         } else if indexPath.row == 2 {
             let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
             self.navigationController?.pushViewController(whatIsGongManseVC, animated: true)
