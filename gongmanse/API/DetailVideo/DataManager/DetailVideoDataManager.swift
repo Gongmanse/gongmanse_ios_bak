@@ -53,18 +53,15 @@ class DetailVideoDataManager {
         let url = Constant.BASE_URL + "/v/video/details?video_id=\(data.video_id)&token=\(data.token)"
         
         /// HTTP Method: GET
-        /// API 명: "02008. 동영상 상세 정보"
         AF.request(url)
             .responseDecodable(of: DetailVideoResponse.self) { response in
                 
                 switch response.result {
                 case .success(let response):
-                    print("DEBUG: 영상 API 통신 성공")
 //                    print("DEBUG: 통신한 데이텨 결과 \(response.data)")
                     viewController.didSuccessNetworking(response: response)
                     
                 case .failure(let error):
-                    print("DEBUG: 영상 API 통신 실패")
                     print("DEBUG: faild connection \(error.localizedDescription)")
                 }
             }

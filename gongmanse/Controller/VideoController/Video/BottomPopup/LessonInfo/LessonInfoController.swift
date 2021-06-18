@@ -81,6 +81,26 @@ class LessonInfoController: UIViewController {
         }
     }
     
+    /// 내가 준 점수
+    var myRating: String?
+    
+    /// 유저들의 평균 점수
+    var userRating: String? {
+        didSet {
+            // 내가 준 점수가 있다면, 유저들의 평균점수를 보여준다.
+            if myRating != nil {
+                if let userRating = userRating {
+                    rateLessonButton.titleLabel.text = userRating
+                    rateLessonButton.viewTintColor = .mainOrange
+                }
+            } else {
+                rateLessonButton.titleLabel.text = "평점"
+                rateLessonButton.viewTintColor = .black
+            }
+        }
+    }
+    
+    
     // MARK: - Lifecycle
     
     init() {
@@ -150,10 +170,11 @@ class LessonInfoController: UIViewController {
         }
     }
     
+    /// 평점 버튼을 클릭하면 호출되는 콜백메소드
     @objc func handleRateLessonAction() {
         
         // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
-        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
+//        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
         if rateLessonButton.titleLabel.text != "평점" {
             rateLessonButton.viewTintColor = .mainOrange
@@ -161,15 +182,32 @@ class LessonInfoController: UIViewController {
             rateLessonButton.viewTintColor = .black
         }
         
-        let vc = RatingController(videoID: 1)
+        guard let videoID = self.videoID else { return }
+       
+        let vc = RatingController(videoID: Int(videoID) ?? 1)
         vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
+        
+        // 변동가능성 있는 부분
+        rateLessonButton.viewTintColor = .mainOrange
+        rateLessonButton.titleLabel.text = self.userRating
+        
+        if let myRatingPoint = self.myRating {
+            vc.clickedNumber = Int(myRatingPoint) ?? 3
+            vc.myRating = self.myRating
+        }
+        
+        vc.userRating = self.userRating
+        
+        
+        
         self.present(vc, animated: false)
     }
     
     
     @objc func handleShareLessonAction() {
         // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
+        presentAlert(message: "서비스 준비중입니다.")
 
     }
     @objc func handleRelatedSeriesAction() {
@@ -423,9 +461,11 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 extension LessonInfoController: RatingControllerDelegate {
     
     func ratingAvaergePassVC(rating: String) {
-        
+
+        self.myRating = rating
         rateLessonButton.titleLabel.text = rating
-        print("DEBUG: rating is \(rating)")
+        rateLessonButton.viewTintColor = .mainOrange
+        view.setNeedsDisplay()
     }
     
     

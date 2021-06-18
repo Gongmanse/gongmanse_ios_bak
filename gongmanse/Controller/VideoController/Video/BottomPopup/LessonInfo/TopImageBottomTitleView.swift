@@ -8,6 +8,8 @@ class TopImageBottomTitleView: UIView {
         didSet {
             imageView.tintColor = viewTintColor
             titleLabel.textColor = viewTintColor
+            setNeedsDisplay()
+            setNeedsLayout()
         }
     }
     
@@ -27,7 +29,15 @@ class TopImageBottomTitleView: UIView {
     public var titleLabel = UILabel() {
         didSet {
             commonInit()
+            setNeedsDisplay()
+            setNeedsLayout()
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        
     }
     
     // MARK: - Lifecylce

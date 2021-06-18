@@ -926,6 +926,16 @@ extension VideoController {
         let isBookmark = response.data.sBookmarks
         self.lessonInfoController.isBookmark = isBookmark
         
+        /// 내가준 점수
+        if let lessonRating = response.data.iUserRating {
+            self.lessonInfoController.myRating = lessonRating
+        }
+        
+        /// 유저들의 평균점수
+        let avgRating = response.data.iRating
+        self.lessonInfoController.userRating = avgRating
+        
+        
         
         DispatchQueue.main.async {
             self.playVideo()
