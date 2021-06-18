@@ -129,10 +129,14 @@ class SideMenuVC: UITableViewController {
             let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
             self.navigationController?.pushViewController(customerServiceVC, animated: true)
         } else if indexPath.row == 5 {
-            
-            //test용 다이렉트
-            let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
-            self.navigationController?.pushViewController(settingsVC, animated: true)
+            if Constant.isLogin {
+                
+                let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+                self.navigationController?.pushViewController(settingsVC, animated: true)
+            } else {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
+
             
 //            if indexPath.row == 0 {
 //                let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
