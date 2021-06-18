@@ -223,8 +223,9 @@ extension RecommendVC: UICollectionViewDelegate {
 
         // 토큰이 없는 경우
         // -> 추천 동영상 비디오 경로 API & 추천 동영상 비디오 노트 API를 호출한다.
-        if Constant.isGuestKey {
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
             print("DEBUG: 게스트로입장")
+            Constant.token = ""
             presentVideoController(indexPath.row)
 //            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         } else {
