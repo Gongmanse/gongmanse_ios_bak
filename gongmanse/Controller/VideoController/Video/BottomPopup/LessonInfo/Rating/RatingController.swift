@@ -129,6 +129,8 @@ class RatingController: UIViewController {
         }
         
         ratingLeftLabel.font = UIFont.appRegularFontWith(size: 13)
+        ratingLeftLabel.adjustsFontSizeToFitWidth = true
+        numberOfParticipantsLabel.adjustsFontSizeToFitWidth = true
         ratingContainerView.layer.cornerRadius = 7.5
         applyButton.layer.cornerRadius = 7
         numberOfParticipantsLabel.textColor = .mainOrange

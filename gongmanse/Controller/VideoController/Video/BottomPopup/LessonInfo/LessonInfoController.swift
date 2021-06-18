@@ -90,7 +90,10 @@ class LessonInfoController: UIViewController {
             // 내가 준 점수가 있다면, 유저들의 평균점수를 보여준다.
             if myRating != nil {
                 if let userRating = userRating {
-                    rateLessonButton.titleLabel.text = userRating
+                    if userRating == "" {
+                        rateLessonButton.titleLabel.text = "3.0"
+                    }
+                    
                     rateLessonButton.viewTintColor = .mainOrange
                 }
             } else {
