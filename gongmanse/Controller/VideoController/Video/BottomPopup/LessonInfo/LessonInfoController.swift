@@ -93,11 +93,12 @@ class LessonInfoController: UIViewController {
                     if userRating == "" {
                         rateLessonButton.titleLabel.text = "3.0"
                     }
-                    
+                    rateLessonButton.titleLabel.text = userRating
                     rateLessonButton.viewTintColor = .mainOrange
                 }
             } else {
                 rateLessonButton.titleLabel.text = "평점"
+                rateLessonButton.tintColor = .black
                 rateLessonButton.viewTintColor = .black
             }
         }
