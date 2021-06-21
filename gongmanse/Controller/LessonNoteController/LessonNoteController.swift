@@ -15,7 +15,7 @@ class LessonNoteViewModel {
     
     var currentSeriesID = ""
     var videoIDArr = [String]()
-    var currentIndex = Int()
+    var currentIndex = 0
     
     var videoID = String()
     var seriesID: String?
@@ -73,8 +73,6 @@ class LessonNoteViewModel {
         for index in data.indices {
             tempArrVideID.append(data[index].id)
         }
-        
-        print("DEBUG: response.isMore \(response.isMore)")
         
         // isMore가 True 라면 API 메소드를 다시 호출한다. false가 될 때까지 호출한다.
         if response.isMore {
@@ -364,14 +362,16 @@ class LessonNoteController: UIViewController {
     }
     
     @objc func nextButtonDidTap() {
-//        guard let id = self.id else { return }
+        
         guard let token = self.token else { return }
         
-        let dataForSearchNote = NoteInput(video_id: "15188",
+        let nextID = viewModel.nextVideoID
+        let dataForSearchNote = NoteInput(video_id: nextID,
                                           token: token)
         // 노트이미지 불러오는 API메소드
         DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
                                                       viewController: self)
+        viewModel.currentIndex += 1
     }
     
     
