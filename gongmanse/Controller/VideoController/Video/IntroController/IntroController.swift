@@ -31,6 +31,8 @@ class IntroController: UIViewController {
     
     override func viewDidLoad() {
         
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
         super.viewDidLoad()
         setupIntroVideo()
     }

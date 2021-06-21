@@ -65,4 +65,28 @@ class VideoPlaylistDataManager {
                 }
             }
     }
+    
+    func getVideoPlaylistDataFromAPIInNote(_ parameters: VideoPlaylistInput, viewController: LessonNoteViewModel) {
+        
+        // viewModel -> paramters 를 통해 값을 전달한다.
+        let data = parameters
+        
+        // URL을 구성한다.
+        let url = apiBaseURL + "/v/video/serieslist?series_id=\(data.seriesID)&offset=\(data.offset)"
+        
+        /// HTTP Method: GET
+        AF.request(url)
+            .responseDecodable(of: VideoPlaylistResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    viewController.didSuccessAPI(response: response)
+                    print("DEBUG: 시리즈해당 VideoID가져오기 성공")
+                    
+                case .failure(let error):
+                    print("DEBUG: 시리즈해당 VideoID가져오기 실패")
+                    print("DEBUG: faild connection \(error.localizedDescription)")
+                }
+            }
+    }
 }

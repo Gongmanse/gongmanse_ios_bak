@@ -8,15 +8,126 @@
 import UIKit
 import Alamofire
 
+
+class LessonNoteViewModel {
+    
+    // MARK: - Property
+    
+    var currentSeriesID = ""
+    var videoIDArr = [String]()
+    var currentIndex = 0
+    
+    var videoID = String()
+    var seriesID: String?
+    var offSet = 0
+    
+    
+    // MARK: - Init
+    
+    init(seriesID: String,_ currentVideoID: String) {
+        // 시리즈 아이디를 받는다.
+        self.seriesID = seriesID
+        self.videoID = currentVideoID
+        // 시리즈 아이디를 이용하여 API를 호출하고 "videoIDArr"에 시리즈에 해당하는 VideoID를 할당한다.
+        networkingAPIBySeriesID(offSet: self.offSet)
+    }
+    
+    
+    
+    /// 다음 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
+    var nextVideoID: String {
+        guard seriesID == nil else { return "" }
+        print("DEBUG: currentIndex is \(currentIndex)")
+        print("DEBUG: videoIDArr.count is \(videoIDArr.count)")
+        if (videoIDArr.count - 1) == currentIndex {
+            return "BLOCK"
+        } else {
+            currentIndex += 1
+            return videoIDArr[currentIndex]
+        }
+    }
+    
+    /// 이전 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
+    var previousVideoID: String {
+        
+        if currentIndex <= 1 {
+            return "BLOCK"
+        } else {
+            currentIndex -= 1
+            return videoIDArr[currentIndex]
+        }
+    }
+    
+    // 최초에 SeriesID를 통해 VideoID를 호출하는 메소드(노트상세보기에서 사용)
+    func networkingAPIBySeriesID(offSet: Int = 0) {
+        guard let seriesID = self.seriesID else { return }
+        
+        VideoPlaylistDataManager()
+            .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+                                               viewController: self)
+    }
+    
+    /// 네트워크 성공 시, 시리즈에 해당하는 VideID를 지역변수에 할당하는 메소드 (노트상세보기에서 사용)
+    func didSuccessAPI(response: VideoPlaylistResponse) {
+        
+        guard let seriesID = self.seriesID else { return }
+        var tempArrVideID = [String]()
+        let data = response.data
+
+        // 시리즈에 해당하는 VideoID 모두 Array에 추가한다.
+        for index in data.indices {
+            tempArrVideID.append(data[index].id)
+        }
+        
+        // isMore가 True 라면 API 메소드를 다시 호출한다. false가 될 때까지 호출한다.
+        if response.isMore {
+            offSet += 20
+            VideoPlaylistDataManager()
+                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+                                                   viewController: self)
+        }
+        
+        // isMore가 False가 되면 videoIDArr에 VideoID값을 모두 추가한다.
+        videoIDArr.append(contentsOf: tempArrVideID)
+        let currentIndex = findCurrentIDIndexNum(videoIDArr, currentID: self.videoID)
+        self.currentIndex = currentIndex
+    }
+    
+    /// 현재 Video가 위치한 Index를 찾는 메소드
+    /// - 현재 Index를 알아야 다음 노트 VideoID를 호출할 수 있음
+    func findCurrentIDIndexNum(_ idArr: [String], currentID: String) -> Int {
+        
+        var currentIDIndex: Int?
+        
+        for (index, value) in idArr.enumerated() {
+            
+            if value == currentID {
+                currentIDIndex = index
+            }
+        }
+        guard let resultIndex = currentIDIndex else { return  0 }
+        return resultIndex
+    }
+    
+}
+
+
+
+
 /// 05.25 이후 노트 컨트롤러
 class LessonNoteController: UIViewController {
     
     // MARK: - Properties
     // MARK: Data
-    private let id: String?
+    
+    lazy var viewModel = LessonNoteViewModel(seriesID: seriesID, id ?? "15188")
+    
+    public var seriesID: String = ""
+    private var id: String?
     private let token: String?
     private var url: String?
     private var strokesString = ""
+    
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
@@ -103,7 +214,7 @@ class LessonNoteController: UIViewController {
         return button
     }()
     
-    private let previousButton: UIButton = {
+    public let previousButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("이전", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -113,10 +224,11 @@ class LessonNoteController: UIViewController {
         button.layer.masksToBounds = true
         button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(previousButtonDidTap), for: .touchUpInside)
         return button
     }()
     
-    private let nextButton: UIButton = {
+    public let nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("다음", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -126,6 +238,7 @@ class LessonNoteController: UIViewController {
         button.layer.masksToBounds = true
         button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
         return button
     }()
     
@@ -149,7 +262,7 @@ class LessonNoteController: UIViewController {
         setupData()
         setupLayout()
         setupNoteTaking()
-        
+        print("DEBUG: viewModel.videoIDArr \(viewModel.videoIDArr)")
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         
@@ -272,6 +385,47 @@ class LessonNoteController: UIViewController {
 //        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true)
     }
+    
+    /// 다음 노트를 호출하는 메소드
+    @objc func nextButtonDidTap() {
+        
+        if viewModel.nextVideoID == "BLOCK" {
+            presentAlert(message: "마지막 페이지 입니다.")
+            return
+        }
+        
+        guard let token = self.token else { return }
+        
+        let nextID = viewModel.nextVideoID
+        self.id = nextID
+        let dataForSearchNote = NoteInput(video_id: nextID,
+                                          token: token)
+
+        // 노트이미지 불러오는 API메소드
+        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
+                                                      viewController: self)
+    }
+    
+    /// 이전 노트를 호출하는 메소드
+    @objc func previousButtonDidTap() {
+        
+        if viewModel.previousVideoID == "BLOCK" {
+            presentAlert(message: "첫 페이지 입니다.")
+            return
+        }
+        
+        guard let token = self.token else { return }
+        
+        let previousID = viewModel.previousVideoID
+        self.id = previousID
+        let dataForSearchNote = NoteInput(video_id: previousID,
+                                          token: token)
+
+        // 노트이미지 불러오는 API메소드
+        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
+                                                      viewController: self)
+    }
+    
     
     // MARK: - Heleprs
     

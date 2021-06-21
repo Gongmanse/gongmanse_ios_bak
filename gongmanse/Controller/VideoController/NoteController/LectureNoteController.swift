@@ -224,6 +224,8 @@ class LectureNoteController: UIViewController {
             if let id = self.id {
                 let vc = LessonNoteController(id: id, token: Constant.token)
                 let nav = UINavigationController(rootViewController: vc)
+                vc.nextButton.alpha = 0
+                vc.previousButton.alpha = 0
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
             }
