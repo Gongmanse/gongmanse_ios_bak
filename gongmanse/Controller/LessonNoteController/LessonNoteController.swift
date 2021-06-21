@@ -36,7 +36,7 @@ class LessonNoteViewModel {
     
     /// 다음 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
     var nextVideoID: String {
-        
+        guard seriesID == nil else { return "" }
         print("DEBUG: currentIndex is \(currentIndex)")
         print("DEBUG: videoIDArr.count is \(videoIDArr.count)")
         if (videoIDArr.count - 1) == currentIndex {
@@ -123,7 +123,7 @@ class LessonNoteController: UIViewController {
     lazy var viewModel = LessonNoteViewModel(seriesID: seriesID, id ?? "15188")
     
     public var seriesID: String = ""
-    private let id: String?
+    private var id: String?
     private let token: String?
     private var url: String?
     private var strokesString = ""
@@ -214,7 +214,7 @@ class LessonNoteController: UIViewController {
         return button
     }()
     
-    private let previousButton: UIButton = {
+    public let previousButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("이전", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -228,7 +228,7 @@ class LessonNoteController: UIViewController {
         return button
     }()
     
-    private let nextButton: UIButton = {
+    public let nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("다음", for: .normal)
         button.titleLabel?.textAlignment = .center
@@ -389,14 +389,15 @@ class LessonNoteController: UIViewController {
     /// 다음 노트를 호출하는 메소드
     @objc func nextButtonDidTap() {
         
-        
         if viewModel.nextVideoID == "BLOCK" {
             presentAlert(message: "마지막 페이지 입니다.")
+            return
         }
         
         guard let token = self.token else { return }
         
         let nextID = viewModel.nextVideoID
+        self.id = nextID
         let dataForSearchNote = NoteInput(video_id: nextID,
                                           token: token)
 
@@ -410,11 +411,13 @@ class LessonNoteController: UIViewController {
         
         if viewModel.previousVideoID == "BLOCK" {
             presentAlert(message: "첫 페이지 입니다.")
+            return
         }
         
         guard let token = self.token else { return }
         
         let previousID = viewModel.previousVideoID
+        self.id = previousID
         let dataForSearchNote = NoteInput(video_id: previousID,
                                           token: token)
 
