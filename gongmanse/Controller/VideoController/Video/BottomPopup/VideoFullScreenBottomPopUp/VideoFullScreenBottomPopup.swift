@@ -1,25 +1,26 @@
 //
-//  VideoSettingPopupController.swift
+//  VideoFullScreenBottomPopup.swift
 //  gongmanse
 //
-//  Created by 김우성 on 2021/04/29.
+//  Created by 김우성 on 2021/06/21.
 //
 
 import UIKit
 import BottomPopup
 
-protocol VideoSettingPopupControllerDelegate: AnyObject {
-    func presentSelectionVideoPlayRateVC()
-    func updateSubtitleIsOnState(_ subtitleIsOn: Bool)
+protocol VideoFullScreenBottomPopupControllerDelegate: AnyObject {
+    func bottomPopupSwitchingSubtitleInFullScreenVC(subtitleOn: Bool)
+    func bottomPopupPresentPlayrateBottomPopUpInFullScreenVC()
 }
 
-class VideoSettingPopupController: BottomPopupViewController {
+class VideoFullScreenBottomPopupController: BottomPopupViewController {
     
     // MARK: - Properties
     
-    weak var delegate: VideoSettingPopupControllerDelegate?
+    weak var delegate: VideoFullScreenBottomPopupControllerDelegate?
+    
     var currentStateSubtitle = true
-    var currentStateIsVideoPlayRate = String()
+    var currentStateIsVideoPlayRate = "기본"
     
     var tableView = UITableView()
     var topView = UIView()
@@ -143,7 +144,7 @@ class VideoSettingPopupController: BottomPopupViewController {
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
-extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSource {
+extension VideoFullScreenBottomPopupController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
@@ -175,24 +176,25 @@ extension VideoSettingPopupController: UITableViewDelegate, UITableViewDataSourc
             
             if currentStateSubtitle {
                 currentStateSubtitle = false
-                delegate?.updateSubtitleIsOnState(currentStateSubtitle)
+                // VideoFullScreenController의 자막의 alpha값을 0으로 한다.
             } else {
                 currentStateSubtitle = true
-                delegate?.updateSubtitleIsOnState(currentStateSubtitle)
+                // VideoFullScreenController의 자막의 alpha값을 1으로 한다.
             }
-            
+            delegate?.bottomPopupSwitchingSubtitleInFullScreenVC(subtitleOn: currentStateSubtitle)
             tableView.reloadData()
             
             
         } else {
             // 재생속도를 결정하는 cell
             dismiss(animated: true) {
-                // Delgation을 통해 VideoController가 "SelectionVideoPlayRateVC" 를 호출한다.
-                self.delegate?.presentSelectionVideoPlayRateVC()
+                // 새로운 재생속도 BottomPopup을 호출한다.
+                self.delegate?.bottomPopupPresentPlayrateBottomPopUpInFullScreenVC()
             }
         }
     }
 }
+
 
 
 

@@ -50,6 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.lockOrientation(orientation)
             UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
         }
+        
+        
     }
 }
 

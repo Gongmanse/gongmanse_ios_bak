@@ -107,7 +107,7 @@ class VideoFullScreenController: UIViewController{
     /// 가로화면(전체화면)으로 전환되는 버튼
     let changeOrientationButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(systemName: "rectangle.lefthalf.inset.fill.arrow.left")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "전체화면버튼")
         button.addTarget(self, action: #selector(handleOrientation), for: .touchUpInside)
         button.setImage(image, for: .normal)
         return button
@@ -115,7 +115,8 @@ class VideoFullScreenController: UIViewController{
     
     let subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(named: "자막토글버튼_제거")
+        let image = UIImage(named: "smallCaptionOn")
+        button.tintColor = .mainOrange
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
         return button
@@ -187,13 +188,17 @@ class VideoFullScreenController: UIViewController{
     
     override func viewDidLoad() {
         
-        
         super.viewDidLoad()
         configureOrientation()
         configureDataAndNoti()
         configureConstraint()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        AppDelegate.AppUtility.lockOrientation(.all)
+    }
     
     // MARK: - Actions
     
@@ -207,7 +212,6 @@ class VideoFullScreenController: UIViewController{
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         self.dismiss(animated: true) {
             // 화면회전에 대한 제한을 변경한다. (세로모드)
-         
             
             // delegate를 통해 "VideoController"의 Notificaion을 활성화 시킨다.
             // (영상 속도조절 및 자막 생성 및 소멸 액션을 수행을 위해)
@@ -233,11 +237,11 @@ class VideoFullScreenController: UIViewController{
         
         /// 연산프로퍼티 "isPlaying" 에 따라서 플레이어를 정지 혹은 재생시킨다.
         if isPlaying {
-            playPauseButton.setBackgroundImage(pauseImage, for: .normal)
+            playPauseButton.setBackgroundImage(playImage, for: .normal)
             player.pause()
             
         } else {
-            playPauseButton.setBackgroundImage(playImage, for: .normal)
+            playPauseButton.setBackgroundImage(pauseImage, for: .normal)
             player.play()
         }
     }
@@ -265,7 +269,6 @@ class VideoFullScreenController: UIViewController{
     
     /// 알림 호출 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-        player.seek(to: CMTime.zero)
         player.pause()
     }
     
@@ -275,28 +278,33 @@ class VideoFullScreenController: UIViewController{
     
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
     @objc func handleSubtitleToggle() {
+        
+        let onImage = UIImage(named: "smallCaptionOn")
+        let offImage = UIImage(named: "자막토글버튼_제거")
+        
         if self.subtitleLabel.alpha == 0 {
             self.isClickedSubtitleToggleButton = true
+            self.subtitleToggleButton.tintColor = .mainOrange
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 1
+                self.subtitleToggleButton.setImage(onImage, for: .normal)
             }
             
         } else {
             self.isClickedSubtitleToggleButton = false
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
+                self.subtitleToggleButton.setImage(offImage, for: .normal)
+
             }
         }
     }
     
     /// 클릭 시, 설정 BottomPopupController 호출하는 메소드
     @objc func handleSettingButton() {
-        let vc = VideoSettingPopupController()
-//        vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
-        print("DEBUG: VideoController에서 보내준 값 \(isClickedSubtitleToggleButton)")
-//        vc.currentStateIsSubtitleOn = isClickedSubtitleToggleButton
+        let vc = VideoFullScreenBottomPopupController()
         vc.delegate = self
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: true)
     }
     
     // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
@@ -471,21 +479,21 @@ class VideoFullScreenController: UIViewController{
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 5)
-        changeOrientationButton.alpha = 0
+        changeOrientationButton.alpha = 1
         // VideoSettingButton
         videoContainerView.addSubview(videoSettingButton)
         videoSettingButton.anchor(top: videoContainerView.topAnchor,
                                   right: videoContainerView.rightAnchor,
                                   paddingTop: 10,
                                   paddingRight: 10)
-        videoSettingButton.alpha = 0
+        videoSettingButton.alpha = 1
         // 자막 생성 및 제거 버튼
         videoContainerView.addSubview(subtitleToggleButton)
         subtitleToggleButton.centerY(inView: videoSettingButton)
         subtitleToggleButton.anchor(right: videoSettingButton.leftAnchor,
                                     paddingRight: 3)
-                let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                            action: #selector(targetViewDidTapped))
+        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                    action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
         playerController.view.isUserInteractionEnabled = true
         playerController.view.addGestureRecognizer(gesture)
@@ -969,4 +977,28 @@ extension VideoFullScreenController: VideoSettingPopupControllerDelegate {
         let vc = SelectVideoPlayRateVC()
         present(vc, animated: true)
     }
+}
+
+
+extension VideoFullScreenController: VideoFullScreenBottomPopupControllerDelegate {
+    func bottomPopupSwitchingSubtitleInFullScreenVC(subtitleOn: Bool) {
+        if subtitleOn {
+            UIView.animate(withDuration: 0.22) {
+                self.subtitleLabel.alpha = 1
+            }
+            
+        } else {
+            UIView.animate(withDuration: 0.22) {
+                self.subtitleLabel.alpha = 0
+            }
+        }
+    }
+    
+    func bottomPopupPresentPlayrateBottomPopUpInFullScreenVC() {
+        
+        let vc = SelectVideoPlayRateVC()
+        present(vc, animated: true)
+    }
+    
+    
 }
