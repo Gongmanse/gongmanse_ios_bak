@@ -27,7 +27,6 @@ extension VideoController {
     @objc func handleSettingButton() {
         let vc = VideoSettingPopupController()
         vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
-        print("DEBUG: VideoController에서 보내준 값 \(isClickedSubtitleToggleButton)")
         vc.currentStateSubtitle = isClickedSubtitleToggleButton
         vc.delegate = self
         present(vc, animated: true, completion: nil)

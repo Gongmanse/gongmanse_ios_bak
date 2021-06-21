@@ -117,16 +117,27 @@ class VideoFullScreenController: UIViewController{
         return button
     }()
     
-    let subtitleToggleButton: UIButton = {
+    var isClickedSubtitleToggleButton: Bool = true {
+        didSet {
+            let onImage = UIImage(named: "smallCaptionOn") ?? UIImage()
+            let offImage = UIImage(named: "자막토글버튼_제거") ?? UIImage()
+            let image = self.isClickedSubtitleToggleButton ? onImage : offImage
+            subtitleToggleButton.setImage(image, for: .normal)
+        }
+    }
+    
+    lazy var subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = UIImage(named: "smallCaptionOn")
+        let onImage = UIImage(named: "smallCaptionOn") ?? UIImage()
+        let offImage = UIImage(named: "자막토글버튼_제거") ?? UIImage()
+
+        var image = self.isClickedSubtitleToggleButton ? onImage : offImage
+
         button.tintColor = .mainOrange
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
         return button
     }()
-    
-    var isClickedSubtitleToggleButton: Bool = false
     
     let videoSettingButton: UIButton = {
         let button = UIButton(type: .system)
@@ -277,7 +288,8 @@ class VideoFullScreenController: UIViewController{
     }
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
-    @objc func handleOrientation() { // -> 전체화면
+    @objc func handleOrientation() {
+        dismiss(animated: true)
     }
     
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
@@ -299,7 +311,6 @@ class VideoFullScreenController: UIViewController{
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
                 self.subtitleToggleButton.setImage(offImage, for: .normal)
-
             }
         }
     }
@@ -309,6 +320,7 @@ class VideoFullScreenController: UIViewController{
         let vc = VideoFullScreenBottomPopupController()
         vc.delegate = self
         vc.currentStateSubtitle = isClickedSubtitleToggleButton
+        vc.currentStateIsVideoPlayRate = currentVideoPlayRate == 1 ? "기본" : "\(currentVideoPlayRate)배"
         present(vc, animated: true)
     }
     
@@ -969,21 +981,6 @@ extension VideoFullScreenController {
         playVideo()
     }
 }
-
-
-// MARK: - VideoSettingPopupControllerDelegate
-
-extension VideoFullScreenController: VideoSettingPopupControllerDelegate {
-    func updateSubtitleIsOnState(_ subtitleIsOn: Bool) {
-        //
-    }
-        
-    func presentSelectionVideoPlayRateVC() {
-        let vc = SelectVideoPlayRateVC()
-        present(vc, animated: true)
-    }
-}
-
 
 extension VideoFullScreenController: VideoFullScreenBottomPopupControllerDelegate {
     func bottomPopupSwitchingSubtitleInFullScreenVC(subtitleOn: Bool) {
