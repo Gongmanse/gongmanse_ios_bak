@@ -447,6 +447,12 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
+            presentAlert(message: "이용권을 구매해주세요.")
+            return
+        }
+        
         switch lectureState {
         case .lectureList:
             if Constant.isLogin {
@@ -479,10 +485,13 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
                 
                 
+                
                 // 싱글톤 객체에 들어간 데이터를 초기화한다.
                 
                 let videoDataManager = VideoDataManager.shared
-
+                
+                
+                
                 let pipDataManager = PIPDataManager.shared
     //            pipDataManager.currentTeacherName = nil
     //            pipDataManager.currentVideoURL = nil

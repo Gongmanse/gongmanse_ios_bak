@@ -163,9 +163,9 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         
         switch sortedId {
         case 0:
-            inputSortNum = 3
-        case 1:
             inputSortNum = 4
+        case 1:
+            inputSortNum = 3
         case 2:
             inputSortNum = 1
         case 3:
@@ -210,19 +210,19 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                     
                 }.resume()
             }
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.body)
-                    self.otherSubjectsVideo = json
-                }
-                DispatchQueue.main.async {
-                    self.otherSubjectsCollection.reloadData()
-                    self.textSettings()
-                }
-                
-            }.resume()
+//            URLSession.shared.dataTask(with: request) { (data, response, error) in
+//                guard let data = data else { return }
+//                let decoder = JSONDecoder()
+//                if let json = try? decoder.decode(VideoInput.self, from: data) {
+//                    //print(json.body)
+//                    self.otherSubjectsVideo = json
+//                }
+//                DispatchQueue.main.async {
+//                    self.otherSubjectsCollection.reloadData()
+//                    self.textSettings()
+//                }
+//
+//            }.resume()
         }
     }
     

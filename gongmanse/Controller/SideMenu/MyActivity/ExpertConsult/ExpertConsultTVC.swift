@@ -156,6 +156,14 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
                 }else {
                     cell.profileImage.sd_setImage(with: profileURL)
                 }
+                
+                if indexData.sFilepaths == nil {
+                    cell.consultThumbnail.contentMode = .scaleAspectFit
+                    cell.consultThumbnail.image = UIImage(named: "app_icon")
+                } else {
+                    cell.consultThumbnail.contentMode = .scaleAspectFill
+                    cell.consultThumbnail.sd_setImage(with: url)
+                }
             }
             
             cell.deleteButton.isHidden = isDeleteMode

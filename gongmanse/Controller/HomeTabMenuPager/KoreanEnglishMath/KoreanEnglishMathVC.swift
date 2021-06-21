@@ -164,9 +164,9 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         
         switch sortedId {
         case 0:
-            inputSortNum = 3
-        case 1:
             inputSortNum = 4
+        case 1:
+            inputSortNum = 3
         case 2:
             inputSortNum = 1
         case 3:
