@@ -8,11 +8,98 @@
 import UIKit
 import Alamofire
 
+class LessonNoteViewModel {
+    
+    // MARK: - Property
+    
+    var currentSeriesID = ""
+    var videoIDArr = [String]()
+    var currentIndex = Int()
+    var seriesID: String?
+    var offSet = 0
+    
+    
+    // MARK: - Init
+    
+    init(SeriesID: String) {
+        self.seriesID = SeriesID
+        
+    }
+    
+    
+    
+    /// 다음 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
+    var nextVideoID: String {
+        
+        if (videoIDArr.count - 1) < currentIndex {
+            return "BLOCK"
+        } else {
+            return videoIDArr[currentIndex + 1]
+        }
+    }
+    
+    /// 이전 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
+    var previousVideoID: String {
+        
+        if currentIndex < 1 {
+            return "BLOCK"
+        } else {
+            return videoIDArr[currentIndex - 1]
+        }
+    }
+    
+    func networkingAPIBySeriesID(offSet: Int = 0) {
+        guard let seriesID = self.seriesID else { return }
+        
+        
+            VideoPlaylistDataManager()
+                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: ""),
+                                                   viewController: self)
+        
+    }
+    
+    func didSuccessAPI(response: VideoPlaylistResponse) {
+        
+        guard let seriesID = self.seriesID else { return }
+        var tempArrVideID = [String]()
+        let data = response.data
+        
+        // 첫 번째 호출할 때만 호출된다.
+        if offSet == 0 {
+            VideoPlaylistDataManager()
+                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+                                                   viewController: self)
+        }
+        
+        // 시리즈에 해당하는 VideoID 모두 Array에 추가한다.
+        for index in data.indices {
+            tempArrVideID.append(data[index].id)
+        }
+        
+        // isMore가 True 라면 API 메소드를 다시 호출한다. false가 될 때까지 호출한다.
+        if response.isMore {
+            offSet += 20
+            VideoPlaylistDataManager()
+                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+                                                   viewController: self)
+        }
+        
+        // isMore가 False가 되면 videoIDArr에 VideoID값을 모두 추가한다.
+        videoIDArr.append(contentsOf: tempArrVideID)
+    }
+}
+
+
+
+
 /// 05.25 이후 노트 컨트롤러
 class LessonNoteController: UIViewController {
     
     // MARK: - Properties
     // MARK: Data
+    
+    var viewModel = LessonNoteViewModel(SeriesID: "")
+    
     private let id: String?
     private let token: String?
     private var url: String?
@@ -273,6 +360,18 @@ class LessonNoteController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    @objc func nextButtonDidTap() {
+//        guard let id = self.id else { return }
+        guard let token = self.token else { return }
+        
+        let dataForSearchNote = NoteInput(video_id: "15188",
+                                          token: token)
+        // 노트이미지 불러오는 API메소드
+        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
+                                                      viewController: self)
+    }
+    
+    
     // MARK: - Heleprs
     
     private func setupData() {
@@ -459,6 +558,7 @@ class LessonNoteController: UIViewController {
         nextButton.anchor(top: previousButton.bottomAnchor,
                           right: view.rightAnchor,
                           paddingTop: 10)
+        nextButton.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,

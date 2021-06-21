@@ -10,6 +10,7 @@ import Alamofire
 
 class DetailNoteDataManager {
     
+    /// 영상 하단 노트 API 메소드
     func DetailNoteDataManager(_ parameters: NoteInput, viewController: DetailNoteController) {
         
         let data = parameters
@@ -31,7 +32,7 @@ class DetailNoteDataManager {
             }
     }
     
-    // 노트전체화면 API 메소드
+    /// 노트전체화면 API 메소드
     func DetailNoteDataManager(_ parameters: NoteInput, viewController: LessonNoteController) {
         
         let data = parameters
@@ -53,6 +54,7 @@ class DetailNoteDataManager {
             }
     }
     
+    /// 노트저장 API 메소드
     func savingNoteTakingAPI(_ inputData: NoteTakingInput, viewController: DetailNoteController) {
         
         let url = "https://api.gongmanse.com/v/video/detail_notes"
