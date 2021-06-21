@@ -73,6 +73,7 @@ class VideoPlaylistDataManager {
         
         // URL을 구성한다.
         let url = apiBaseURL + "/v/video/serieslist?series_id=\(data.seriesID)&offset=\(data.offset)"
+//        let url = "https://api.gongmanse.com/v/video/serieslist?series_id=643&offset=20"
         
         /// HTTP Method: GET
         AF.request(url)
@@ -80,7 +81,7 @@ class VideoPlaylistDataManager {
                 
                 switch response.result {
                 case .success(let response):
-//                    viewController.didSuccessGetPlaylistData(response)
+                    viewController.didSuccessAPI(response: response)
                     print("DEBUG: 시리즈해당 VideoID가져오기 성공")
                     
                 case .failure(let error):

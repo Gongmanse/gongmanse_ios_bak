@@ -8,6 +8,16 @@
 import UIKit
 import Alamofire
 
+/**
+ [다음노트 정보 가져오는 로직] 06.21 작성
+ -> 
+ 
+ 1. VideoID를 가져온다.
+ 2. VideoID를 통해 "02008. 동영상 상세정보" API를 호출하여 SeriesID를 가져온다.
+ 3. 가져온 SeriesID를 통해서 "02005. 시리즈 상세리스트" API를 호출한다.
+ 4. 호출 시, response.data(Array타입) 데어터를 ViewModel Array에 할당한다.
+ */
+
 class LessonNoteViewModel {
     
     // MARK: - Property
@@ -15,15 +25,20 @@ class LessonNoteViewModel {
     var currentSeriesID = ""
     var videoIDArr = [String]()
     var currentIndex = Int()
+    
+    var videoID = String()
     var seriesID: String?
     var offSet = 0
     
     
     // MARK: - Init
     
-    init(SeriesID: String) {
-        self.seriesID = SeriesID
-        
+    init(videoID: String?) {
+        // 시리즈 아이디를 받는다.
+        guard let videoID = videoID else { return }
+        self.videoID = videoID
+        // 시리즈 아이디를 이용하여 API를 호출하고 "videoIDArr"에 시리즈에 해당하는 VideoID를 할당한다.
+        networkingAPIBySeriesID(offSet: self.offSet)
     }
     
     
@@ -48,33 +63,28 @@ class LessonNoteViewModel {
         }
     }
     
+    // 최초에 SeriesID를 통해 VideoID를 호출하는 메소드(노트상세보기에서 사용)
     func networkingAPIBySeriesID(offSet: Int = 0) {
         guard let seriesID = self.seriesID else { return }
         
-        
-            VideoPlaylistDataManager()
-                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: ""),
-                                                   viewController: self)
-        
+        VideoPlaylistDataManager()
+            .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+                                               viewController: self)
     }
     
+    /// 네트워크 성공 시, 시리즈에 해당하는 VideID를 지역변수에 할당하는 메소드 (노트상세보기에서 사용)
     func didSuccessAPI(response: VideoPlaylistResponse) {
         
         guard let seriesID = self.seriesID else { return }
         var tempArrVideID = [String]()
         let data = response.data
-        
-        // 첫 번째 호출할 때만 호출된다.
-        if offSet == 0 {
-            VideoPlaylistDataManager()
-                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
-                                                   viewController: self)
-        }
-        
+
         // 시리즈에 해당하는 VideoID 모두 Array에 추가한다.
         for index in data.indices {
             tempArrVideID.append(data[index].id)
         }
+        
+        print("DEBUG: response.isMore \(response.isMore)")
         
         // isMore가 True 라면 API 메소드를 다시 호출한다. false가 될 때까지 호출한다.
         if response.isMore {
@@ -86,6 +96,7 @@ class LessonNoteViewModel {
         
         // isMore가 False가 되면 videoIDArr에 VideoID값을 모두 추가한다.
         videoIDArr.append(contentsOf: tempArrVideID)
+        
     }
 }
 
@@ -98,7 +109,7 @@ class LessonNoteController: UIViewController {
     // MARK: - Properties
     // MARK: Data
     
-    var viewModel = LessonNoteViewModel(SeriesID: "")
+    lazy var viewModel = LessonNoteViewModel(videoID: id)
     
     private let id: String?
     private let token: String?
@@ -236,7 +247,7 @@ class LessonNoteController: UIViewController {
         setupData()
         setupLayout()
         setupNoteTaking()
-        
+        print("DEBUG: viewModel.videoIDArr \(viewModel.videoIDArr)")
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
         
