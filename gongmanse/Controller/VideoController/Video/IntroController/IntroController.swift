@@ -37,6 +37,12 @@ class IntroController: UIViewController {
         setupIntroVideo()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        AppDelegate.AppUtility.lockOrientation(.all)
+    }
+    
     
     // MARK: - Actions
     
