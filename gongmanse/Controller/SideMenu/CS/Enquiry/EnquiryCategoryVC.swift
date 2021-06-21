@@ -186,6 +186,8 @@ extension EnquiryCategoryVC {
         switch enquiryState {
         case .create:
             registButton.setTitle("작성하기", for: .normal)
+            registButton.isEnabled = false
+            registButton.backgroundColor = .gray200Color
         case .update:
             registButton.setTitle("수정하기", for: .normal)
         default:
@@ -204,6 +206,28 @@ extension EnquiryCategoryVC {
         
         sender.backgroundColor = .mainOrange
         buttonType = sender.tag
+
+        
+        switch enquiryState {
+        case .create:
+            // 버튼의 tag가 0이 아니면 true
+            if buttonType != 0 {
+                enquiryViewModel?.selectButtons.value = true
+            }
+            
+            // confirm이 true를 리턴하면 value == true or value == false
+            if let value = enquiryViewModel?.allConfirm() {
+                registButton.isEnabled = value
+                if value {
+                    registButton.backgroundColor = .mainOrange
+                } else {
+                    registButton.backgroundColor = .gray200Color
+                }
+            }
+        default:
+            return
+        }
+        
     }
     
     func initTextView() {
@@ -242,8 +266,25 @@ extension EnquiryCategoryVC: UITextViewDelegate {
         if textView.text == "" {
             textView.text = "질문을 입력해 주세요"
             textView.textColor = .lightGray
+            enquiryViewModel?.selectText.value = false
         } else {
             enquiryText = textView.text
+            enquiryViewModel?.selectText.value = true
+        }
+        
+        switch enquiryState {
+        case .create:
+            if let value = enquiryViewModel?.allConfirm() {
+                registButton.isEnabled = value
+                if value {
+                    registButton.backgroundColor = .mainOrange
+                } else {
+                    registButton.backgroundColor = .gray200Color
+                }
+            }
+
+        default:
+            return
         }
     }
     

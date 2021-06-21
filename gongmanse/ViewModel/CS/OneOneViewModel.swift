@@ -24,6 +24,10 @@ class OneOneViewModel {
     weak var delegatePop: PopDelgate?
     weak var delegateState: EnquiryListState?
     
+    
+    var confirmIndexValue: Bool?
+    var confirmTextValue: Bool?
+    
     /// 1:1 목록
     func reqiestOneOneList(completionHandler: @escaping () -> Void) {
         
@@ -77,6 +81,21 @@ class OneOneViewModel {
             self.delegatePop?.popViewController()
             print("requestOneOneDelete == ")
         }
+    }
+    
+    
+    // 등록, 수정하기 로직
+    let selectButtons: Dynamic<Bool> = Dynamic(false)
+    let selectText: Dynamic<Bool> = Dynamic(false)
+    
+    func allConfirm() -> Bool {
+        
+        if selectText.value == true && selectButtons.value == true {
+            return true
+        } else {
+            return false
+        }
+        
     }
     
 }
