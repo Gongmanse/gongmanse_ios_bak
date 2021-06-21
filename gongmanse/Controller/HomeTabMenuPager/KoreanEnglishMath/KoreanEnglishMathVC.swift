@@ -468,8 +468,12 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 print("DEBUG: 2번")
             // 노트보기
             } else if self.selectedItem == 3 {
-                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+//                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+                let videoID = koreanEnglishMathVideoSecond?.data[indexPath.row].id
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
+                print("DEBUG: seriesID \(seriesID)")
+                
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)

@@ -8,15 +8,6 @@
 import UIKit
 import Alamofire
 
-/**
- [다음노트 정보 가져오는 로직] 06.21 작성
- -> 
- 
- 1. VideoID를 가져온다.
- 2. VideoID를 통해 "02008. 동영상 상세정보" API를 호출하여 SeriesID를 가져온다.
- 3. 가져온 SeriesID를 통해서 "02005. 시리즈 상세리스트" API를 호출한다.
- 4. 호출 시, response.data(Array타입) 데어터를 ViewModel Array에 할당한다.
- */
 
 class LessonNoteViewModel {
     
@@ -33,10 +24,9 @@ class LessonNoteViewModel {
     
     // MARK: - Init
     
-    init(videoID: String?) {
+    init(seriesID: String) {
         // 시리즈 아이디를 받는다.
-        guard let videoID = videoID else { return }
-        self.videoID = videoID
+        self.seriesID = seriesID
         // 시리즈 아이디를 이용하여 API를 호출하고 "videoIDArr"에 시리즈에 해당하는 VideoID를 할당한다.
         networkingAPIBySeriesID(offSet: self.offSet)
     }
@@ -109,12 +99,14 @@ class LessonNoteController: UIViewController {
     // MARK: - Properties
     // MARK: Data
     
-    lazy var viewModel = LessonNoteViewModel(videoID: id)
+    lazy var viewModel = LessonNoteViewModel(seriesID: seriesID)
     
+    public var seriesID: String = ""
     private let id: String?
     private let token: String?
     private var url: String?
     private var strokesString = ""
+    
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
