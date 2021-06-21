@@ -35,6 +35,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qtC-us-Oyz">
+                        <barButtonItem key="leftBarButtonItem" image="alarm" id="ifM-BF-tZe">
+                            <connections>
+                                <segue destination="K1i-Se-r2y" kind="push" id="yEQ-S7-dDH"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="list" id="26L-X3-Wen">
                             <connections>
                                 <segue destination="hMZ-Bh-xa8" kind="show" id="udz-fJ-IHO"/>
@@ -3693,15 +3698,29 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[공지사항]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4iC-LY-sDD">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[공지사항]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4iC-LY-sDD" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                             <rect key="frame" x="20" y="11" width="74" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="17" id="C1a-7i-Zo3"/>
-                                                <constraint firstAttribute="width" constant="74" id="PyQ-wp-hoe"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="74" id="PyQ-wp-hoe"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="알림 테스트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJz-F9-fAJ">
                                             <rect key="frame" x="20" y="35" width="297" height="17"/>
@@ -3723,29 +3742,44 @@
                                             <color key="textColor" red="0.64313725489999995" green="0.64313725489999995" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021.01.22" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xx7-1J-hwo">
-                                            <rect key="frame" x="323" y="13" width="71" height="15"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021.01.22 " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xx7-1J-hwo">
+                                            <rect key="frame" x="326" y="13" width="77" height="15"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="15" id="HxP-X3-c95"/>
-                                                <constraint firstAttribute="width" constant="71" id="kV5-BN-Z62"/>
+                                                <constraint firstAttribute="width" constant="77" id="1vL-Nc-oqE"/>
+                                                <constraint firstAttribute="height" constant="15" id="ytL-dB-uOd"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="auv-LE-8Ph" secondAttribute="trailing" constant="20" symbolic="YES" id="88E-pJ-TEe"/>
                                         <constraint firstItem="OJz-F9-fAJ" firstAttribute="top" secondItem="4iC-LY-sDD" secondAttribute="bottom" constant="7" id="9PF-pV-dYm"/>
-                                        <constraint firstItem="xx7-1J-hwo" firstAttribute="top" secondItem="6kE-ZA-RZ6" secondAttribute="top" constant="13" id="SOU-GX-QXG"/>
-                                        <constraint firstItem="auv-LE-8Ph" firstAttribute="top" secondItem="xx7-1J-hwo" secondAttribute="bottom" constant="8" symbolic="YES" id="YfJ-Jf-jpJ"/>
+                                        <constraint firstAttribute="trailing" secondItem="xx7-1J-hwo" secondAttribute="trailing" constant="11" id="D36-vZ-bey"/>
+                                        <constraint firstItem="xx7-1J-hwo" firstAttribute="top" secondItem="6kE-ZA-RZ6" secondAttribute="top" constant="13" id="e2u-8V-emO"/>
                                         <constraint firstItem="4iC-LY-sDD" firstAttribute="leading" secondItem="6kE-ZA-RZ6" secondAttribute="leading" constant="20" symbolic="YES" id="i19-eZ-kpn"/>
                                         <constraint firstItem="4iC-LY-sDD" firstAttribute="top" secondItem="6kE-ZA-RZ6" secondAttribute="top" constant="11" id="kGi-iK-yeR"/>
                                         <constraint firstItem="OJz-F9-fAJ" firstAttribute="leading" secondItem="6kE-ZA-RZ6" secondAttribute="leading" constant="20" symbolic="YES" id="lk8-o9-c9w"/>
-                                        <constraint firstAttribute="trailing" secondItem="xx7-1J-hwo" secondAttribute="trailing" constant="20" symbolic="YES" id="tBc-Wo-kMo"/>
+                                        <constraint firstItem="auv-LE-8Ph" firstAttribute="top" secondItem="xx7-1J-hwo" secondAttribute="bottom" constant="8" symbolic="YES" id="mYp-M0-hpA"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="noticeBigTitle" destination="4iC-LY-sDD" id="hoj-uc-qMl"/>
                                     <outlet property="noticeDate" destination="xx7-1J-hwo" id="AIF-WJ-oVW"/>
                                     <outlet property="noticeTime" destination="auv-LE-8Ph" id="32G-3M-1Le"/>
                                     <outlet property="noticeTitle" destination="OJz-F9-fAJ" id="AWZ-Ym-riu"/>
@@ -5246,10 +5280,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ltC-PN-uOf"/>
+        <segue reference="udz-fJ-IHO"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addPhoto" width="18" height="18"/>
+        <image name="alarm" width="22" height="25.5"/>
         <image name="arrowBelowGray" width="8" height="8"/>
         <image name="back" width="30" height="24"/>
         <image name="chatOff" width="27" height="27"/>

@@ -5,7 +5,8 @@ class NoticeTVCell: UITableViewCell {
     @IBOutlet weak var noticeTitle: UILabel!
     @IBOutlet weak var noticeDate: UILabel!
     @IBOutlet weak var noticeTime: UILabel!
-
+    @IBOutlet weak var noticeBigTitle: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

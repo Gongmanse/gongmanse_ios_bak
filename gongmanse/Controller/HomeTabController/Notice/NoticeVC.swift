@@ -2,11 +2,8 @@ import UIKit
 
 class NoticeVC: UITableViewController {
     
-    var titleLabels = ["알림 테스트", "공만세 회원 공지"]
-    var dateLabels = ["2021.01.22", "2020.11.09"]
-    var timeLabels = ["오후 14:55", "오후 12:34"]
+    var notice: NoticeModels?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,24 +18,53 @@ class NoticeVC: UITableViewController {
         
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
+        
+        getDataFromJson()
     }
-
+    
+    func getDataFromJson() {
+        if let url = URL(string: "https://api.gongmanse.com/v3/notice?token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(NoticeModels?.self, from: data) {
+                    print(json.data)
+                    self.notice = json
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            }.resume()
+        }
+    }
+    
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 2
+        guard let data = self.notice?.data else { return 0}
+        return data.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id = "NoticeTVCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: id) as! NoticeTVCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeTVCell", for: indexPath) as? NoticeTVCell else { return UITableViewCell() }
         
-        cell.noticeTitle.text = titleLabels[indexPath.row]
-        cell.noticeDate.text = dateLabels[indexPath.row]
-        cell.noticeTime.text = timeLabels[indexPath.row]
-
+        guard let json = self.notice else { return cell }
+        let indexData = json.data[indexPath.row]
+        guard let timeCutString = indexData.dtDateCreated else { return cell}
+        let timeString: String.Index = timeCutString.index(timeCutString.startIndex, offsetBy: 10)
+        let resultValue = String(timeCutString[timeString...])
+        let resultValueSecond = String(timeCutString[...timeString])
+        
+        cell.noticeTitle.text = indexData.sBody
+        cell.noticeDate.text = resultValueSecond
+        cell.noticeTime.text = resultValue
+        cell.noticeBigTitle.text = "[\(indexData.sTitle ?? "nil")]"
+        
         return cell
     }
     
