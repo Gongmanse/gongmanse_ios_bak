@@ -408,7 +408,6 @@ class LessonNoteController: UIViewController {
     /// 이전 노트를 호출하는 메소드
     @objc func previousButtonDidTap() {
         
-        
         if viewModel.previousVideoID == "BLOCK" {
             presentAlert(message: "첫 페이지 입니다.")
         }
