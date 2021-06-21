@@ -15,10 +15,10 @@ class AskListCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        askTextLabel.font = UIFont(name: "NanumSquareRoundEB", size: 14)
+        askTextLabel.font = .appBoldFontWith(size: 14)
         askTextLabel.sizeToFit()
         
-        askMarkLabel.font = UIFont(name: "NanumSquareRoundB", size: 14)
+        askMarkLabel.font = .appBoldFontWith(size: 14)
         askMarkLabel.sizeToFit()
     }
 
