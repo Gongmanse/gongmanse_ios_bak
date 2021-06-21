@@ -113,7 +113,23 @@ extension RecommendVC: UICollectionViewDataSource {
         cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
         cell.subjects.text = indexData.subject
         cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
-        cell.starRating.text = indexData.rating
+        
+        switch indexData.rating {
+        case "5":
+            cell.starRating.text = "5.0"
+        case "4":
+            cell.starRating.text = "4.0"
+        case "3":
+            cell.starRating.text = "3.0"
+        case "2":
+            cell.starRating.text = "2.0"
+        case "1":
+            cell.starRating.text = "1.0"
+        case "0":
+            cell.starRating.text = "0.0"
+        default:
+            cell.starRating.text = indexData.rating
+        }
         
         if indexData.unit != nil {
             cell.term.isHidden = false
