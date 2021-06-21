@@ -81,10 +81,11 @@ class VideoFullScreenController: UIViewController{
     }()
     
     /// 타임라인 timerSlider
-    var timeSlider: UISlider = {
-        let slider = UISlider()
+    var timeSlider: CustomSlider = {
+        let slider = CustomSlider()
         let image = UIImage(systemName: "circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         slider.minimumTrackTintColor = .mainOrange
+        slider.maximumTrackTintColor = .white
         slider.setThumbImage(image, for: .normal)
         slider.value = 1
         return slider
@@ -353,17 +354,17 @@ class VideoFullScreenController: UIViewController{
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             let vc = TestSearchController(clickedText: currentKeywords[0])
-            present(vc, animated: true)
+//            present(vc, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             print("DEBUG: \(currentKeywords[2])?")
             let vc = TestSearchController(clickedText: currentKeywords[2])
-            present(vc, animated: true)
+//            present(vc, animated: true)
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             print("DEBUG: \(currentKeywords[4])?")
             let vc = TestSearchController(clickedText: currentKeywords[4])
-            present(vc, animated: true)
+//            present(vc, animated: true)
             
         } else {
             print("DEBUG: 키워드가 없나요?")
@@ -459,7 +460,7 @@ class VideoFullScreenController: UIViewController{
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
-                                         paddingBottom: 60)
+                                         paddingBottom: 100)
         // backButton
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -474,7 +475,7 @@ class VideoFullScreenController: UIViewController{
         // 타임라인 timerSlider
         let convertedWidth = convertWidth(244, standardView: view)
         videoControlContainerView.addSubview(timeSlider)
-        timeSlider.setDimensions(height: 5, width: convertedWidth - 32)
+        timeSlider.setDimensions(height: 50, width: convertedWidth - 32)
         timeSlider.centerX(inView: videoControlContainerView)
         timeSlider.centerY(inView: videoControlContainerView)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
