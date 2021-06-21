@@ -32,6 +32,8 @@ class PIPDataManager {
     var previousTeacherName: String? = "김우성"
     var currentTeacherName: String? = "김우성2"
 
+    var noteViewController: LectureNoteController?
+    
     /// videoController가 처음으로 호출되었는지 판단하는 연산 프로퍼티
     /// - ture  : 처음으로 호출 된 경우
     /// - false : 처음아 아닌 경우
@@ -707,6 +709,8 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+//        self.noteViewController = LectureNoteController(id: self.id, token: Constant.token)
+        
         switch indexPath.row {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomNoteCell.reusableIdentifier,for: indexPath) as! BottomNoteCell
@@ -716,7 +720,12 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
 //            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
             let noteVC = LectureNoteController(id: id, token: Constant.token)  // 05.25이후 노트컨트롤러
             self.addChild(noteVC)
+//            self.addChild(self.noteViewController)
+            
             noteVC.didMove(toParent: self)
+            
+            
+            
             
             cell.view.addSubview(noteVC.view)
             noteVC.view.anchor(top: cell.view.topAnchor,

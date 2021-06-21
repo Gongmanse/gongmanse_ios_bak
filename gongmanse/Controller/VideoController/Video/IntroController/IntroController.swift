@@ -75,7 +75,9 @@ class IntroController: UIViewController {
         case 926:
             introVideoHeight = view.frame.width * 0.6
         case 844:
-            introVideoHeight = view.frame.width * 0.54
+            introVideoHeight = view.frame.width * 0.58
+        case 736:
+            introVideoHeight = view.frame.width * 0.57
         case 667:
             introVideoHeight = view.frame.width * 0.52
         default:
@@ -99,6 +101,14 @@ class IntroController: UIViewController {
         
         let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: "비율수정인트로영상",
                                                             ofType: "mov")!)
+        
+        // Random Intro 적용할 때, 사용할 코드
+        let introURL02 = URL(fileURLWithPath:Bundle.main.path(forResource: "비율수정인트로영상",
+                                                            ofType: "mov")!)
+        let introArr = [introURL, introURL02]
+        let resultIntro = introArr.randomElement()
+        
+    
         player = AVQueuePlayer()
         playerLayer = AVPlayerLayer(player: player)
         
@@ -110,6 +120,7 @@ class IntroController: UIViewController {
         IntroVideoContainerView.clipsToBounds = true
         
         let videoAsset = AVURLAsset(url: introURL)
+//        let videoAsset = AVURLAsset(url: resultIntro)
         
         videoAsset.loadValuesAsynchronously(forKeys: ["", ""]) {
             

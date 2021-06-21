@@ -342,7 +342,7 @@ class LectureNoteController: UIViewController {
         var image13 = noteImageArr[12]
         
         // 이미지의 크기를 줄인다. (이미지 전체의 크기는 줄어들고, 노트적힌 부분이 확대된다.)
-        let scale = CGFloat(0.40)
+        let scale = CGFloat(0.40) // 노트의 확대 정도를 나타내는 객체
         resize(image: image01, scale: scale) { image in
             image01 = image!
         }
@@ -581,11 +581,12 @@ extension LectureNoteController {
          현재) 데이터 받고 -> 그림 그리기
          변경) 데이터받고 -> 기다리고 -> 그림 그리고
          
-         혹은 터치를 강제로 하도록. ->
+         혹은 터치를 강제로 하도록. -> 이게 가장 가능할 듯 06.21
+         아니면, PencliKit <-
+         
+         Core Graphic 에서 draw 메소드를 강제로 활성화시켜줄 수 있으면 그려지긴 할 것 같음.
          */
         canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
-        
-        print("DEBUG: canvas.lines is \(canvas.lines)")
     }
     
     private func getImageFromURL(url: String, index: Int) {
