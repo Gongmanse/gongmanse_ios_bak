@@ -19,8 +19,8 @@ class VideoFullScreenBottomPopupController: BottomPopupViewController {
     
     weak var delegate: VideoFullScreenBottomPopupControllerDelegate?
     
-    var currentStateSubtitle = true
-    var currentStateIsVideoPlayRate = "기본"
+    public var currentStateSubtitle = true
+    public var currentStateIsVideoPlayRate = "기본"
     
     var tableView = UITableView()
     var topView = UIView()

@@ -15,7 +15,11 @@ class VideoFullScreenController: UIViewController{
     
     // 전달받을 데이터
     var id: String?
-    var currentVideoPlayRate = Float(1.0)
+    var currentVideoPlayRate = Float(1.0){
+        didSet {
+            player.playImmediately(atRate: currentVideoPlayRate)
+        }
+    }
     var currentPlayerTime: CMTime?
     var vttURL = ""
     var videoURL = NSURL(string: "")
@@ -304,6 +308,7 @@ class VideoFullScreenController: UIViewController{
     @objc func handleSettingButton() {
         let vc = VideoFullScreenBottomPopupController()
         vc.delegate = self
+        vc.currentStateSubtitle = isClickedSubtitleToggleButton
         present(vc, animated: true)
     }
     
@@ -982,6 +987,7 @@ extension VideoFullScreenController: VideoSettingPopupControllerDelegate {
 
 extension VideoFullScreenController: VideoFullScreenBottomPopupControllerDelegate {
     func bottomPopupSwitchingSubtitleInFullScreenVC(subtitleOn: Bool) {
+        isClickedSubtitleToggleButton = subtitleOn
         if subtitleOn {
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 1
@@ -997,7 +1003,14 @@ extension VideoFullScreenController: VideoFullScreenBottomPopupControllerDelegat
     func bottomPopupPresentPlayrateBottomPopUpInFullScreenVC() {
         
         let vc = SelectVideoPlayRateVC()
+        vc.fullScreenDelegate = self
         present(vc, animated: true)
+    }
+}
+
+extension VideoFullScreenController: SelectVideoPlayRateVCDelegateForFullScreen {
+    func changeVideoPlayRateByBottomPopup(rate: Float) {
+        self.currentVideoPlayRate = rate
     }
     
     
