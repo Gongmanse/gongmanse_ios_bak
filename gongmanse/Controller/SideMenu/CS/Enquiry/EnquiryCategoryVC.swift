@@ -11,6 +11,10 @@
  */
 import UIKit
 
+enum EnquiryState{
+    case create, update
+}
+
 class EnquiryCategoryVC: UIViewController {
 
     //label
@@ -37,6 +41,9 @@ class EnquiryCategoryVC: UIViewController {
     var enquiryText: String?
     
     var buttonType: Int = 0
+    
+    // 등록 수정창 상태관리
+    var enquiryState: EnquiryState?
         
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -52,15 +59,25 @@ class EnquiryCategoryVC: UIViewController {
         basicScreenUI()
         configuration()
         
-        useButton.isSelected = true
-        
     }
     
     @IBAction func registEnquiryAction(_ sender: UIButton) {
         
-        if let question = enquiryText {
-            enquiryViewModel?.requestOneOneRegist(question: question, type: 1)//buttonType)
+        switch enquiryState {
+        case .create:
+            
+            if let question = enquiryText {
+                enquiryViewModel?.requestOneOneRegist(question: question, type: buttonType, comepletionHandler: {
+                    self.navigationController?.popViewController(animated: true)
+                })
+            }
+            
+        case .update:
+            return
+        default:
+            return
         }
+        
         
     }
 }
@@ -130,30 +147,28 @@ extension EnquiryCategoryVC {
         registButton.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
         registButton.layer.cornerRadius = 10
         registButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
+        
+        switch enquiryState {
+        case .create:
+            registButton.setTitle("작성하기", for: .normal)
+        case .update:
+            registButton.setTitle("수정하기", for: .normal)
+        default:
+            return
+        }
     }
     
     @objc func sendTag(_ sender: UIButton) {
-//        switch sender {
-//        case useButton:
-//            useButton.isSelected = true
-//            serviceDisorderButton.isSelected = false
-//            paymentAuthButton.isSelected = false
-//        case serviceDisorderButton:
-//            useButton.isSelected = false
-//            serviceDisorderButton.isSelected = true
-//            paymentAuthButton.isSelected = false
-//        case paymentAuthButton:
-//            useButton.isSelected = false
-//            serviceDisorderButton.isSelected = false
-//            paymentAuthButton.isSelected = true
-//        default:
-//            return
-//        }
         
-        useButton.isSelected = false
-        serviceDisorderButton.isSelected = false
-        paymentAuthButton.isSelected = false
+        // 전체버튼을 회색으로 만든다.
+        useButton.backgroundColor = .lightGray
+        serviceDisorderButton.backgroundColor = .lightGray
+        paymentAuthButton.backgroundColor = .lightGray
+        lectureRequestButton.backgroundColor = .lightGray
+        otherInquiryButton.backgroundColor = .lightGray
         
+        sender.backgroundColor = .mainOrange
+        buttonType = sender.tag
     }
     
     func initTextView() {

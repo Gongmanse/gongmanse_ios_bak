@@ -34,7 +34,9 @@ class EnquiryUpdateDeleteVC: UIViewController {
     }
 
     @IBAction func updateAction(_ sender: UIButton) {
-        
+        let updateVC = EnquiryCategoryVC()
+        updateVC.enquiryState = .update
+        self.navigationController?.pushViewController(updateVC, animated: true)
     }
     
     @IBAction func deleteAction(_ sedner: UIButton) {
@@ -81,6 +83,7 @@ extension EnquiryUpdateDeleteVC {
         
         updateButton.setTitle("수정", for: .normal)
         updateButton.titleLabel?.font = .appBoldFontWith(size: 14)
+        updateButton.titleLabel?.textColor = .black
         deleteButton.setTitle("삭제", for: .normal)
         deleteButton.titleLabel?.font = .appBoldFontWith(size: 14)
         deleteButton.titleLabel?.textColor = .rgb(red: 255, green: 0, blue: 35)

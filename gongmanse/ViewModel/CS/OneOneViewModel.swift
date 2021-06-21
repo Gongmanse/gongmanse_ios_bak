@@ -30,8 +30,9 @@ class OneOneViewModel {
         OneOneAPIManager.fetchOneOneListApi { response in
             switch response {
             case .success(let data):
-                self.delegateState?.canEnquiryList = true
+                
                 self.oneOneList = data
+                self.delegateState?.canEnquiryList = data.data.count != 0 ? true : false
                 self.delegateTable?.reloadTable()
                 completionHandler()
             case .failure(let err):
@@ -43,13 +44,14 @@ class OneOneViewModel {
     }
     
     /// 1:1 등록
-    func requestOneOneRegist(question: String, type: Int) {
+    func requestOneOneRegist(question: String, type: Int, comepletionHandler: @escaping () -> Void) {
         
         
         let parameter = OneOneQnARegist(token: Constant.token, question: question, type: "\(type)")
         
         OneOneAPIManager.fetchOneOneRegistApi(parameter) {
             print("requestOneOneRegist == ")
+            comepletionHandler()
         }
     }
     
