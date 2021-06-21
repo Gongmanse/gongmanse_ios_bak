@@ -20,7 +20,7 @@ extension VideoController {
         setRemoveNotification()
         
         // 화면을 "LandscapeRight"로 고정한다.
-//        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
         
         // vc에 현재 재생되는 시간을 전달한다.
         let currentTime = player.currentTime()

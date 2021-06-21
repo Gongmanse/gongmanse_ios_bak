@@ -13,8 +13,8 @@
             <connections>
                 <outlet property="QuestionTextView" destination="NCO-1E-EIt" id="wWX-OL-r0p"/>
                 <outlet property="categoryLabel" destination="ONk-6b-E1k" id="CIK-Tn-Yed"/>
-                <outlet property="lectureRequestButton" destination="8Fy-7d-SGE" id="pR0-N6-hrn"/>
-                <outlet property="otherInquiryButton" destination="RHn-M9-u8C" id="u9a-YY-alU"/>
+                <outlet property="lectureRequestButton" destination="RHn-M9-u8C" id="HZX-2m-GCZ"/>
+                <outlet property="otherInquiryButton" destination="8Fy-7d-SGE" id="DBt-hk-w6S"/>
                 <outlet property="paymentAuthButton" destination="N6d-PW-fkp" id="vrR-Fs-F52"/>
                 <outlet property="questionLabel" destination="eTd-OT-vka" id="88R-zA-25k"/>
                 <outlet property="registButton" destination="rD8-Ng-Ifh" id="bRU-UC-nX2"/>
@@ -78,7 +78,7 @@
                                         <constraint firstAttribute="width" priority="750" constant="140" id="bMI-jY-LRy"/>
                                         <constraint firstAttribute="height" constant="28" id="vEA-pm-O1y"/>
                                     </constraints>
-                                    <state key="normal" title="강의 요청"/>
+                                    <state key="normal" title="기타 문의"/>
                                 </button>
                             </subviews>
                         </stackView>
@@ -89,7 +89,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="OZi-kJ-kU5"/>
                     </constraints>
-                    <state key="normal" title="기타 문의"/>
+                    <state key="normal" title="강의 요청"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="질문 &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTd-OT-vka">
                     <rect key="frame" x="20" y="261" width="44.5" height="20.5"/>

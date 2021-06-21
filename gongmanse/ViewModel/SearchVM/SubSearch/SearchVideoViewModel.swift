@@ -41,6 +41,9 @@ class SearchVideoViewModel: SearchInfinityScroll {
                 listCount += 20
                 offsetTrans = "\(listCount)"
             }
+        } else if offsetTrans == "0" {
+            infinityBool = true
+            listCount = 0
         }
         
         

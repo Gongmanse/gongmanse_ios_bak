@@ -182,7 +182,7 @@ extension FrequentlyAskViewContoler: UITableViewDataSource {
         
         cell.askTextLabel.text = datamodel[indexPath.section].Ask
         cell.askMarkLabel.text = datamodel[indexPath.section].AskMark
-        
+        cell.selectionStyle = .none
         return cell
     }
     

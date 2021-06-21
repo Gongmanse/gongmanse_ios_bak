@@ -39,7 +39,9 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1O-9S-ETW">
                             <rect key="frame" x="304" y="0.0" width="30" height="30"/>
-                            <state key="normal" title="수정"/>
+                            <state key="normal" title="수정">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
                             <connections>
                                 <action selector="updateAction:" destination="-1" eventType="touchUpInside" id="dxz-kl-xf8"/>
                             </connections>

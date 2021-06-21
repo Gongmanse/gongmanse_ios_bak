@@ -84,7 +84,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
             let getfilter = getFilteringAPI()
             getfilter.getFilteringData { [weak self] result in
                 self?.getGradeData = result
-                self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+                self?.gradeBtn.setTitle(self?.getGradeData?.sGrade ?? "모든 학년", for: .normal)
                 
                 self?.changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
                 self?.changeGradeNumber = self?.mainViewModel.transformGradeNumber(string: self?.getGradeData?.sGrade ?? "")

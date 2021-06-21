@@ -204,6 +204,7 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
                                           token: Constant.token)
             vc.modalPresentationStyle = .fullScreen
+            vc.seriesID = searchNoteVM.searchNotesDataModel?.data[indexPath.row].iSeriesId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
