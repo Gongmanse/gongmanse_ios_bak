@@ -133,6 +133,7 @@ class OneOnOneEnquiryVC: UIViewController, EnquiryListState {
         
         if Constant.isLogin {
             let enquiryCategoryVC = EnquiryCategoryVC()
+            enquiryCategoryVC.enquiryState = .create
             self.navigationController?.pushViewController(enquiryCategoryVC, animated: true)
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")

@@ -47,7 +47,36 @@ struct OneOneAPIManager {
             }
         }
     }
-    
+    /// 1:1 문의 업데이트 API
+    static func fetchOneOneUpdateApi(_ parameter: OneOneQnAUpdate, completion: @escaping () -> Void) {
+        let updateUrl = "\(apiBaseURL)/v/setting/personalqna"
+        
+        let param: Parameters = [
+            "token"     : Constant.token,
+            "id"        : parameter.id,
+            "question"  : parameter.question,
+            "type"      : parameter.type
+        ]
+        
+        AF.request(updateUrl,
+                   method: .patch,
+                   parameters: param,
+                   encoding: JSONEncoding.prettyPrinted,
+                   headers: nil,
+                   interceptor: nil,
+                   requestModifier: nil)
+            
+            .response { result in
+                switch result.result {
+                case .success(_):
+                    completion()
+                case .failure(_):
+                    completion()
+                }
+            }
+        
+        
+    }
     /// 1:1 문의 삭제하기 API
     static func fetchOneOneDeleteApi(_ parameter: OneOneQnADelete, completion: @escaping () -> Void) {
         

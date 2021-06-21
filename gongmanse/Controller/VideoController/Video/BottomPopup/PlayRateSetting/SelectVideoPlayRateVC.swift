@@ -10,7 +10,13 @@ import BottomPopup
 
 private let cellID = "SelectVideoPlayRateCell"
 
+// "VideoController" 의 영상속도 조절을 위한 Delegation
 protocol SelectVideoPlayRateVCDelegate: AnyObject {
+    func changeVideoPlayRateByBottomPopup(rate : Float)
+}
+
+// "VideoFullScreenController" 의 영상속도 조절을 위한 Delegation
+protocol SelectVideoPlayRateVCDelegateForFullScreen: AnyObject {
     func changeVideoPlayRateByBottomPopup(rate : Float)
 }
 
@@ -19,6 +25,8 @@ class SelectVideoPlayRateVC: BottomPopupViewController {
     // MARK: - Properties
     
     weak var delegate: SelectVideoPlayRateVCDelegate?
+    weak var fullScreenDelegate: SelectVideoPlayRateVCDelegateForFullScreen?
+    
     var currentVideoPlayRate = Float()
     
     var tableView = UITableView()
@@ -187,6 +195,7 @@ extension SelectVideoPlayRateVC: UITableViewDelegate, UITableViewDataSource {
         // VideoController에 선택한 재생속도 값을 넘긴다. (rate)
         self.dismiss(animated: true) {
             self.delegate?.changeVideoPlayRateByBottomPopup(rate: rate)
+            self.fullScreenDelegate?.changeVideoPlayRateByBottomPopup(rate: rate)
         }
     }
     

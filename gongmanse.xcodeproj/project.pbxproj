@@ -248,6 +248,7 @@
 		25D976232616FF80000C2F4F /* CustomMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D976222616FF80000C2F4F /* CustomMenuBar.swift */; };
 		25D976262616FFEA000C2F4F /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D976252616FFEA000C2F4F /* SearchController.swift */; };
 		25DACDA02637B8B0002D03BB /* TestSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DACD9F2637B8B0002D03BB /* TestSearchController.swift */; };
+		25E1B95B26807ABC0033EAC7 /* VideoFullScreenBottomPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E1B95A26807ABC0033EAC7 /* VideoFullScreenBottomPopup.swift */; };
 		25E2280A2679A68900EFE844 /* VideoPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E228092679A68900EFE844 /* VideoPlaylistCell.swift */; };
 		25E2280D2679A73700EFE844 /* VideoPlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E2280C2679A73700EFE844 /* VideoPlaylistVC.swift */; };
 		25E228102679BF7300EFE844 /* VideoPlaylistDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E2280F2679BF7300EFE844 /* VideoPlaylistDataManager.swift */; };
@@ -721,6 +722,7 @@
 		25D976222616FF80000C2F4F /* CustomMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuBar.swift; sourceTree = "<group>"; };
 		25D976252616FFEA000C2F4F /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		25DACD9F2637B8B0002D03BB /* TestSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSearchController.swift; sourceTree = "<group>"; };
+		25E1B95A26807ABC0033EAC7 /* VideoFullScreenBottomPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFullScreenBottomPopup.swift; sourceTree = "<group>"; };
 		25E228092679A68900EFE844 /* VideoPlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaylistCell.swift; sourceTree = "<group>"; };
 		25E2280C2679A73700EFE844 /* VideoPlaylistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaylistVC.swift; sourceTree = "<group>"; };
 		25E2280F2679BF7300EFE844 /* VideoPlaylistDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlaylistDataManager.swift; sourceTree = "<group>"; };
@@ -1362,6 +1364,7 @@
 		256D016C263A365600967449 /* BottomPopup */ = {
 			isa = PBXGroup;
 			children = (
+				25E1B95926807AA80033EAC7 /* VideoFullScreenBottomPopUp */,
 				256D01B4263A920A00967449 /* PlayRateSetting */,
 				2541BFCA263F98E5000853EF /* LessonInfo */,
 			);
@@ -2292,6 +2295,14 @@
 				25D976252616FFEA000C2F4F /* SearchController.swift */,
 			);
 			path = Search_Re;
+			sourceTree = "<group>";
+		};
+		25E1B95926807AA80033EAC7 /* VideoFullScreenBottomPopUp */ = {
+			isa = PBXGroup;
+			children = (
+				25E1B95A26807ABC0033EAC7 /* VideoFullScreenBottomPopup.swift */,
+			);
+			path = VideoFullScreenBottomPopUp;
 			sourceTree = "<group>";
 		};
 		25E228082679A65200EFE844 /* BottomPlaylist */ = {
@@ -3748,6 +3759,7 @@
 				25201DAF26042872001098AC /* FindIDByEmailVC.swift in Sources */,
 				251C326D2649015700C765CE /* DetailScreenQnACell.swift in Sources */,
 				C23920462667294400AC6912 /* CalendarRegistViewModel.swift in Sources */,
+				25E1B95B26807ABC0033EAC7 /* VideoFullScreenBottomPopup.swift in Sources */,
 				6C4C389F25FEE2BA00653A61 /* NoteListTVCell.swift in Sources */,
 				25BA75D62636953F00C1F8A0 /* DetailVideoViewModel.swift in Sources */,
 				A9850EF5261613CB00908BA4 /* OneOnOneEnquiryVC.swift in Sources */,

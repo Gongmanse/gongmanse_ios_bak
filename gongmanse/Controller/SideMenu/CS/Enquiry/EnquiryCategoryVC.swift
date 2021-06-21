@@ -11,6 +11,10 @@
  */
 import UIKit
 
+enum EnquiryState{
+    case create, update
+}
+
 class EnquiryCategoryVC: UIViewController {
 
     //label
@@ -37,6 +41,12 @@ class EnquiryCategoryVC: UIViewController {
     var enquiryText: String?
     
     var buttonType: Int = 0
+    
+    // 업데이트에서 데이터 넘어옴
+    var updateModel: OneOneQnADataList?
+    
+    // 등록 수정창 상태관리
+    var enquiryState: EnquiryState?
         
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -52,16 +62,58 @@ class EnquiryCategoryVC: UIViewController {
         basicScreenUI()
         configuration()
         
-        useButton.isSelected = true
+        switch enquiryState {
+        case .update:
+            
+            QuestionTextView.text = updateModel?.sQuestion
+            QuestionTextView.textColor = .black
+            guard let buttonTag = Int(updateModel?.iType ?? "0") else { return }
+            buttonType = buttonTag
+            print(buttonTag)
+            switch buttonTag {
+            case 1:
+                useButton.backgroundColor = .mainOrange
+            case 2:
+                serviceDisorderButton.backgroundColor = .mainOrange
+            case 3:
+                paymentAuthButton.backgroundColor = .mainOrange
+            case 4:
+                otherInquiryButton.backgroundColor = .mainOrange
+            case 5:
+                lectureRequestButton.backgroundColor = .mainOrange
+            default:
+                return
+            }
+            
+        default:
+            return
+        }
         
     }
     
     @IBAction func registEnquiryAction(_ sender: UIButton) {
         
-        if let question = enquiryText {
-            enquiryViewModel?.requestOneOneRegist(question: question, type: 1)//buttonType)
+        switch enquiryState {
+        case .create:
+            
+            if let question = enquiryText {
+                enquiryViewModel?.requestOneOneRegist(question: question, type: buttonType, comepletionHandler: {
+                    self.navigationController?.popViewController(animated: true)
+                })
+            }
+            
+        case .update:
+            guard let viewcontroller: [UIViewController] = self.navigationController?.viewControllers else { return }
+            
+            enquiryViewModel?.requestOneOneUpdate(id: updateModel?.id ?? "",
+                                                  quetion: enquiryText ?? "",
+                                                  type: "\(buttonType)", completionHandler: {
+                                                    self.navigationController?.popToViewController(viewcontroller[viewcontroller.count - 3], animated: true)
+                                                  })
+            
+        default:
+            return
         }
-        
     }
 }
 
@@ -101,28 +153,28 @@ extension EnquiryCategoryVC {
     func initButton() {
         useButton.layer.cornerRadius = 10
         useButton.tintColor = .white
-        useButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        useButton.backgroundColor = .gray200Color
         useButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         serviceDisorderButton.layer.cornerRadius = 10
         serviceDisorderButton.tintColor = .white
-        serviceDisorderButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        serviceDisorderButton.backgroundColor = .gray200Color
         serviceDisorderButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         paymentAuthButton.layer.cornerRadius = 10
         paymentAuthButton.tintColor = .white
-        paymentAuthButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        paymentAuthButton.backgroundColor = .gray200Color
         paymentAuthButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         lectureRequestButton.layer.cornerRadius = 10
         lectureRequestButton.tintColor = .white
-        lectureRequestButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        lectureRequestButton.backgroundColor = .gray200Color
         lectureRequestButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         
         otherInquiryButton.layer.cornerRadius = 10
         otherInquiryButton.tintColor = .white
-        otherInquiryButton.backgroundColor = UIColor.rgb(red: 200, green: 200, blue: 200)
+        otherInquiryButton.backgroundColor = .gray200Color
         otherInquiryButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
         
         
@@ -130,29 +182,51 @@ extension EnquiryCategoryVC {
         registButton.backgroundColor = UIColor.rgb(red: 237, green: 118, blue: 0)
         registButton.layer.cornerRadius = 10
         registButton.addTarget(self, action: #selector(sendTag(_:)), for: .touchUpInside)
+        
+        switch enquiryState {
+        case .create:
+            registButton.setTitle("작성하기", for: .normal)
+            registButton.isEnabled = false
+            registButton.backgroundColor = .gray200Color
+        case .update:
+            registButton.setTitle("수정하기", for: .normal)
+        default:
+            return
+        }
     }
     
     @objc func sendTag(_ sender: UIButton) {
-//        switch sender {
-//        case useButton:
-//            useButton.isSelected = true
-//            serviceDisorderButton.isSelected = false
-//            paymentAuthButton.isSelected = false
-//        case serviceDisorderButton:
-//            useButton.isSelected = false
-//            serviceDisorderButton.isSelected = true
-//            paymentAuthButton.isSelected = false
-//        case paymentAuthButton:
-//            useButton.isSelected = false
-//            serviceDisorderButton.isSelected = false
-//            paymentAuthButton.isSelected = true
-//        default:
-//            return
-//        }
         
-        useButton.isSelected = false
-        serviceDisorderButton.isSelected = false
-        paymentAuthButton.isSelected = false
+        // 전체버튼을 회색으로 만든다.
+        useButton.backgroundColor = .gray200Color
+        serviceDisorderButton.backgroundColor = .gray200Color
+        paymentAuthButton.backgroundColor = .gray200Color
+        lectureRequestButton.backgroundColor = .gray200Color
+        otherInquiryButton.backgroundColor = .gray200Color
+        
+        sender.backgroundColor = .mainOrange
+        buttonType = sender.tag
+
+        
+        switch enquiryState {
+        case .create:
+            // 버튼의 tag가 0이 아니면 true
+            if buttonType != 0 {
+                enquiryViewModel?.selectButtons.value = true
+            }
+            
+            // confirm이 true를 리턴하면 value == true or value == false
+            if let value = enquiryViewModel?.allConfirm() {
+                registButton.isEnabled = value
+                if value {
+                    registButton.backgroundColor = .mainOrange
+                } else {
+                    registButton.backgroundColor = .gray200Color
+                }
+            }
+        default:
+            return
+        }
         
     }
     
@@ -192,8 +266,25 @@ extension EnquiryCategoryVC: UITextViewDelegate {
         if textView.text == "" {
             textView.text = "질문을 입력해 주세요"
             textView.textColor = .lightGray
+            enquiryViewModel?.selectText.value = false
         } else {
             enquiryText = textView.text
+            enquiryViewModel?.selectText.value = true
+        }
+        
+        switch enquiryState {
+        case .create:
+            if let value = enquiryViewModel?.allConfirm() {
+                registButton.isEnabled = value
+                if value {
+                    registButton.backgroundColor = .mainOrange
+                } else {
+                    registButton.backgroundColor = .gray200Color
+                }
+            }
+
+        default:
+            return
         }
     }
     
