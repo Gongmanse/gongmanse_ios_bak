@@ -55,6 +55,19 @@ class OneOneViewModel {
         }
     }
     
+    /// 1:1 수정
+    func requestOneOneUpdate(id: String, quetion: String, type: String, completionHandler: @escaping () -> Void) {
+        
+        let parameter = OneOneQnAUpdate(id: id, question: quetion, type: type)
+        print(parameter)
+        
+        OneOneAPIManager.fetchOneOneUpdateApi(parameter) {
+            completionHandler()
+            print("requestUpdate Success == ")
+        }
+        
+    }
+    
     /// 1:1 삭제
     func requestOneOneDelete(id: String) {
         

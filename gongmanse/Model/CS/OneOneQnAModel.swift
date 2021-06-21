@@ -81,7 +81,11 @@ struct OneOneQnARegist: Codable {
 }
 
 // 1:1문의 수정 PATCH
-
+struct OneOneQnAUpdate: Codable {
+    let id: String
+    let question: String
+    let type: String
+}
 
 // 1:1문의 삭제 POST
 struct OneOneQnADelete: Codable {

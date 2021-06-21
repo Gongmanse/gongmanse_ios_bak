@@ -28,7 +28,7 @@ class EnquiryUpdateDeleteVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configuration()
         oneoneViewModel?.delegatePop = self
     }
@@ -36,6 +36,7 @@ class EnquiryUpdateDeleteVC: UIViewController {
     @IBAction func updateAction(_ sender: UIButton) {
         let updateVC = EnquiryCategoryVC()
         updateVC.enquiryState = .update
+        updateVC.updateModel = oneoneModel
         self.navigationController?.pushViewController(updateVC, animated: true)
     }
     

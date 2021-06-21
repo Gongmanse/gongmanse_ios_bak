@@ -13,8 +13,8 @@
             <connections>
                 <outlet property="QuestionTextView" destination="NCO-1E-EIt" id="wWX-OL-r0p"/>
                 <outlet property="categoryLabel" destination="ONk-6b-E1k" id="CIK-Tn-Yed"/>
-                <outlet property="lectureRequestButton" destination="8Fy-7d-SGE" id="pR0-N6-hrn"/>
-                <outlet property="otherInquiryButton" destination="RHn-M9-u8C" id="u9a-YY-alU"/>
+                <outlet property="lectureRequestButton" destination="RHn-M9-u8C" id="HZX-2m-GCZ"/>
+                <outlet property="otherInquiryButton" destination="8Fy-7d-SGE" id="DBt-hk-w6S"/>
                 <outlet property="paymentAuthButton" destination="N6d-PW-fkp" id="vrR-Fs-F52"/>
                 <outlet property="questionLabel" destination="eTd-OT-vka" id="88R-zA-25k"/>
                 <outlet property="registButton" destination="rD8-Ng-Ifh" id="bRU-UC-nX2"/>
