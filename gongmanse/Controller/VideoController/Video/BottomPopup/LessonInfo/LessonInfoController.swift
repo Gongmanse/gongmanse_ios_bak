@@ -220,10 +220,8 @@ class LessonInfoController: UIViewController {
         
         delegate?.videoVCPauseVideo()
         let presentVC = LecturePlaylistVC(videoID ?? "")
-        presentVC.lectureState = .videoList
+        presentVC.lectureState = .lectureList
         presentVC.seriesID = self.seriesID
-        // TODO: 버그해결중
-        presentVC.seriesID = seriesID
         let pipVideoData = PIPVideoData(isPlayPIP: true,
                                         videoURL: videoDataManager.previousVideoURL,
                                         currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),

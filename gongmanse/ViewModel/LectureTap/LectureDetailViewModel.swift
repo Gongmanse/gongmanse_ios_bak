@@ -25,20 +25,35 @@ class LectureDetailViewModel {
     func lectureDetailApi(_ seriesID: String, offset: Int) {
         
         var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=\(offset)"
+        print(detailUrl)
+        
         if isMoreList == false {
             return 
         }
         
         if offset == 0 {
-            getAlamofireGeneric(url: &detailUrl, isConvertUrl: false) { (response: Result<SeriesDetailModel, InfoError>) in
-                switch response {
-                case .success(let data):
-                    self.lectureDetail = data
-                    self.delegate?.reloadCollection()
-                case .failure(let err):
-                    print(err.localizedDescription)
+            
+            AF.request(detailUrl, method: .get)
+                .responseDecodable(of: SeriesDetailModel.self) { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        print(data)
+                        self.lectureDetail = data
+                        self.delegate?.reloadCollection()
+                    case .failure(let err):
+                        print(err.localizedDescription)
+                    }
                 }
-            }
+            
+//            getAlamofireGeneric(url: &detailUrl, isConvertUrl: false) { (response: Result<SeriesDetailModel, InfoError>) in
+//                switch response {
+//                case .success(let data):
+//                    self.lectureDetail = data
+//                    self.delegate?.reloadCollection()
+//                case .failure(let err):
+//                    print(err.localizedDescription)
+//                }
+//            }
         } else {
             getAlamofireGeneric(url: &detailUrl, isConvertUrl: false) { (response: Result<SeriesDetailModel, InfoError>) in
                 switch response {
@@ -66,22 +81,34 @@ class LectureDetailViewModel {
     func relationSeries(_ videoID: String, offset: Int) {
         
         var relationUrl = "\(apiBaseURL)/v/video/relatives?video_id=\(videoID)&offset=\(offset)"
-        
+        print(relationUrl)
         if isMoreList == false {
             return
         }
         
         if offset == 0 {
-            getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
-                switch response {
-                case .success(let data):
-                    
-                    self.relationSeriesList = data
-                    self.delegate?.reloadCollection()
-                case .failure(let err):
-                    print(err.localizedDescription)
+            
+            AF.request(relationUrl, method: .get)
+                .responseDecodable(of: RelationSeriesModel.self) { (response) in
+                    switch response.result {
+                    case .success(let data):
+                        self.relationSeriesList = data
+                        self.delegate?.reloadCollection()
+                    case .failure(let err):
+                        print(err.localizedDescription)
+                    }
                 }
-            }
+            
+//            getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
+//                switch response {
+//                case .success(let data):
+//
+//                    self.relationSeriesList = data
+//                    self.delegate?.reloadCollection()
+//                case .failure(let err):
+//                    print(err.localizedDescription)
+//                }
+//            }
         } else {
             getAlamofireGeneric(url: &relationUrl, isConvertUrl: false) { (response: Result<RelationSeriesModel, InfoError>) in
                 switch response {

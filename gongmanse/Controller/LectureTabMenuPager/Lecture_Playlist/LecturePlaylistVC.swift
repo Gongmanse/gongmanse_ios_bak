@@ -31,6 +31,7 @@ class LecturePlaylistVC: UIViewController {
     var getTeacherList: LectureSeriesDataModel?
     var seriesID: String? {
         didSet {
+            print(seriesID)
             detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         }
         
@@ -156,18 +157,18 @@ class LecturePlaylistVC: UIViewController {
         super.viewWillLayoutSubviews()
         
         // 동영상 - 관련시리즈
-        if videoNumber != "" {
+        if seriesID != "" {
             
-            let seriesInfo = detailVM?.relationSeriesList?.seriesInfo
+            let seriesInfo = detailVM?.lectureDetail?.seriesInfo
             
             switch seriesInfo {
             case .some(let data):
                 titleText.text = data.sTitle
-                teacherName.text = "\(data.sTeacher) 선생님"
+                teacherName.text = "\(String(describing: data.sTeacher)) 선생님"
                 subjectLabel.text = data.sSubject
                 gradeLabel.text = detailVM?.convertGrade(data.sGrade)
-                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
-                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
+//                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
+//                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
                 configurelabel(value: detailVM?.relationSeriesList?.totalNum ?? "")
                 emptyStackView.isHidden = true
                 
@@ -435,7 +436,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
             guard let detailSeriesData = detailVM?.lectureDetail?.data[indexPath.row] else {
                 return UICollectionViewCell() }
-            
+            print(detailSeriesData.sTeacher)
             cell.setSeriesCellData(detailSeriesData)
             
             return cell
