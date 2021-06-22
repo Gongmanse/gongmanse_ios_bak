@@ -53,6 +53,13 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(noteListFilterNoti(_:)), name: NSNotification.Name("noteListFilterText"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isDeleteMode = true
+        
+    }
+    
+    
     @objc func noteListFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "noteListFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
