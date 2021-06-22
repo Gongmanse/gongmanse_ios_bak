@@ -245,6 +245,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             || autoPlayDataManager.currentViewTitleView == "인기" {
             
             let dataCount = viewModel.videoData.data.count
+            self.videoCountTotalLabel.text = "/" + "\(dataCount)"
             return dataCount
         }
         
@@ -255,11 +256,14 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             // 자동재생 On
             if autoPlayDataManager.isAutoplayMainSubject {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
+
                 return autoPlayDataCount
                 
                 // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
                 return dataCount
             }
         }
@@ -272,11 +276,13 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             // 자동재생 On
             if autoPlayDataManager.isAutoplayScience {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
                 return autoPlayDataCount
                 
                 // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
                 return dataCount
             }
         }
@@ -288,11 +294,13 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             // 자동재생 On
             if autoPlayDataManager.isAutoplaySocialStudy {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
                 return autoPlayDataCount
                 
                 // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
                 return dataCount
             }
         }
@@ -304,18 +312,17 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             // 자동재생 On
             if autoPlayDataManager.isAutoplayOtherSubjects {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
                 return autoPlayDataCount
                 
                 // 자동재생 Off
             } else {
                 let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
                 return dataCount
             }
         }
-        
-        
         return 1
-        
     }
     
     func tableView(_ tableView: UITableView,
@@ -337,6 +344,9 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             let videoDataManager = VideoDataManager.shared
             if videoDataManager.currentVideoID == viewModel.videoData.data[indexPath.row].id {
                 cell.highlightView.backgroundColor = .progressBackgroundColor
+
+                self.videoCountLabel.text = "\(indexPath.row + 1)"
+                
             } else { cell.highlightView.backgroundColor = .clear }
             return cell
             
@@ -359,6 +369,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 
                 if videoDataManager.currentVideoID == currentVideoID {
                     cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
                 } else { cell.highlightView.backgroundColor = .clear }
                 
                 return cell
@@ -381,6 +392,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 
                 if videoDataManager.currentVideoID == currentVideoID {
                     cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
                 } else { cell.highlightView.backgroundColor = .clear }
                 
                 return cell
@@ -403,6 +415,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 
                 if videoDataManager.currentVideoID == currentVideoID {
                     cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
                 } else { cell.highlightView.backgroundColor = .clear }
                 return cell
             }
@@ -425,6 +438,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 
                 if videoDataManager.currentVideoID == currentVideoID {
                     cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
                 } else { cell.highlightView.backgroundColor = .clear }
                 return cell
             }
@@ -435,6 +449,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         cell.cellData = cellData
         let videoDataManager = VideoDataManager.shared
         if videoDataManager.currentVideoID == viewModel.videoData.data[indexPath.row].id {
+            self.videoCountLabel.text = "\(indexPath.row + 1)"
             cell.highlightView.backgroundColor = .progressBackgroundColor
         } else { cell.highlightView.backgroundColor = .clear }
         return cell
@@ -520,7 +535,7 @@ extension VideoPlaylistVC {
         DispatchQueue.main.async {
             self.tableView.reloadData()
 //            self.videoCountTotalLabel.text = "/" + totalPlaylistNum
-            self.videoCountTotalLabel.text = totalPlaylistNum
+//            self.videoCountTotalLabel.text = totalPlaylistNum
         }
     }
     
@@ -537,7 +552,7 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: self.isActiveScrollAnimation)
-                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+//                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
             }
@@ -552,7 +567,7 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: false)
-                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+//                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
             }
@@ -568,7 +583,7 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                                at: .top, animated: self.isActiveScrollAnimation)
-                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+//                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
             }
@@ -583,7 +598,7 @@ extension VideoPlaylistVC {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
                                           at: .top, animated: self.isActiveScrollAnimation)
-                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
+//                    self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
             }
@@ -692,18 +707,21 @@ extension VideoPlaylistVC {
                 DispatchQueue.main.async {
                     self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
                                                at: .top, animated: self.isActiveScrollAnimation)
+                    self.videoCountLabel.text = "\(index)"
+
                 }
             }
         }
+        
     }
     
     
     func defaultScrollTableView() {
         let displayedData = viewModel.videoData.data
+        
         var currentIndexPathRow = Int()
         
         for (index, data) in displayedData.enumerated() {
-            
             if videoDataManager.currentVideoID == data.id {
                 currentIndexPathRow = index
                 
@@ -711,7 +729,7 @@ extension VideoPlaylistVC {
         }
         self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
                                    at: .top, animated: self.isActiveScrollAnimation)
-        self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
+        self.videoCountLabel.text = "\(currentIndexPathRow)"
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
