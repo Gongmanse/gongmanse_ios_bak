@@ -21,7 +21,6 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
 
@@ -42,7 +41,8 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.layer.shadowRadius = 1.0
         self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
         self.navigationController?.navigationBar.layer.masksToBounds = false
-        
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+
         //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
         self.tabBarController?.tabBar.isHidden = false
     }

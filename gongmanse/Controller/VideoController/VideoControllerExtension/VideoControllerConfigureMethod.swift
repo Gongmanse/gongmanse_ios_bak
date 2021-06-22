@@ -48,12 +48,6 @@ extension VideoController {
         } else {
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
         }
-        
-        
-        
-        
-        
-
     }
     
     /// 전반적인 UI 구현 메소드
@@ -132,13 +126,19 @@ extension VideoController {
         toggleButton.addTarget(self, action: #selector(handleToggle), for: .touchUpInside)
     }
     
+    /// 영상관련 Notification 토큰 제거 메소드
     func setRemoveNotification() {
+        // 영상 관련 토큰을 제거한다.
         NotificationCenter.default.removeObserver(self, name: .removeVideoVCToken, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+        
+        // 영상 속도 및 자막 유무 Notificaion 06.22 기준 Delegation
         NotificationCenter.default.removeObserver(self, name: .switchSubtitleOnOff, object: nil)
         NotificationCenter.default.removeObserver(self, name: .changePlayVideoRate, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
+    
+    /// 영상관련 Notification 토큰 추가 메소드
     func setNotification() {
 
         // SearchAfterVC > 영상 테이블뷰 셀 클릭 시 호출하기 위해 생성한 NotificationCenter

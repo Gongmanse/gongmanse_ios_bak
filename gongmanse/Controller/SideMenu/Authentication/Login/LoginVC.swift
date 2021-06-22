@@ -296,12 +296,10 @@ extension LoginVC {
         Constant.remainPremiumDateInt = dateRemaining
         print("DEBUG: dateRemaining \(dateRemaining)")
     }
-    
-    
 }
+
 extension LoginVC {
-    
-    
+        
     // 만약 이용권이 있다면, String로 받아온 값을 Date로 변경한다.
     func dateStringToDate(_ dateString: String) -> Date {
         
