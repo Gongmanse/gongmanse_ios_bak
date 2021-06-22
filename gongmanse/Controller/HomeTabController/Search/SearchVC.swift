@@ -472,7 +472,7 @@ extension SearchVC {
         gradeButton.setTitleColor(.black, for: .normal)
         gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        gradeButton.layer.borderWidth = 3.2
+//        gradeButton.layer.borderWidth = 2
         gradeButton.layer.borderColor = borderColor.cgColor
         gradeButton.layer.cornerRadius = 13
                 
@@ -482,7 +482,7 @@ extension SearchVC {
         subjectButton.setTitleColor(.black, for: .normal)
         subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
         subjectButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        subjectButton.layer.borderWidth = 3.2
+//        subjectButton.layer.borderWidth = 3.2
         subjectButton.layer.borderColor = borderColor.cgColor
         subjectButton.layer.cornerRadius = 13
         

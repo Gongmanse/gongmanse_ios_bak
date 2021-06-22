@@ -238,7 +238,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         gradeBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        gradeBtn.layer.borderWidth = 3.5
+//        gradeBtn.layer.borderWidth = 3.5
         gradeBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
         
         
@@ -246,7 +246,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
         chapterBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        chapterBtn.layer.borderWidth = 3.5
+//        chapterBtn.layer.borderWidth = 3.5
         chapterBtn.setTitle("모든 단원", for: .normal)
         chapterBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
     }
