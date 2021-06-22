@@ -13,6 +13,8 @@ struct BookMarkInput: Encodable {
 
 class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
+    let autoPlayDataManager = AutoplayDataManager.shared
+    
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -57,11 +59,15 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         
         NotificationCenter.default.addObserver(self, selector: #selector(bookMarkFilterNoti(_:)), name: NSNotification.Name("bookMarkFilterText"), object: nil)
+        
+        playSwitch.addTarget(self, action: #selector(playSwitchDidTap(_:)), for: .valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.isDeleteMode = true
+        
+        playSwitch.isOn = autoPlayDataManager.isAutoplayBookMarkTab
         
     }
     
@@ -69,6 +75,13 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "bookMarkFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
+    
+    @objc func playSwitchDidTap(_ sender: UISwitch) {
+        
+        autoPlayDataManager.isAutoplayBookMarkTab = sender.isOn
+        
+    }
+    
     
     func getDataFromJson() {
         if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
@@ -239,6 +252,37 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        var inputArr = [VideoModels]()
+        
+        guard let receivedData = bookMark else { return }
+        
+        
+        for dataIndex in receivedData.data.indices {
+            
+            let data = receivedData.data[dataIndex]
+            
+            let inputData = VideoModels(seriesId: data.iSeriesId,
+                                        videoId: data.id,
+                                        title: data.sTitle,
+                                        tags: data.sTags,
+                                        teacherName: data.sTeacher,
+                                        thumbnail: data.sThumbnail,
+                                        subject: data.sSubject,
+                                        subjectColor: data.sSubjectColor,
+                                        unit: data.sUnit,
+                                        rating: data.iRating,
+                                        isRecommended: "",
+                                        registrationDate: "",
+                                        modifiedDate: "",
+                                        totalRows: "")
+            inputArr.append(inputData)
+        }
+        
+        let inputData = VideoInput(body: inputArr)
+        autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
+        autoPlayDataManager.currentViewTitleView = "즐겨찾기"
+        
         
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen

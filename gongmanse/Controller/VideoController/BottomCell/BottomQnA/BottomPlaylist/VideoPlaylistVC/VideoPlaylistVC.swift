@@ -226,7 +226,16 @@ class VideoPlaylistVC: UIViewController {
         
         
         // TODO: 나의활동 - 최근영상
+        let isAutoplayOnRecent = autoPlayDataManager.isAutoplayRecentTab
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInRecentVideoMyActTab,
+                                              isAutoPlay: isAutoplayOnRecent,
+                                              comeFromTab: "최근영상")
+        
         // TODO: 나의활동 - 즐겨찾기
+        let isAutoplayOnBookmark = autoPlayDataManager.isAutoplayBookMarkTab
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInBookMarkVideoMyActTab,
+                                              isAutoPlay: isAutoplayOnBookmark,
+                                              comeFromTab: "즐겨찾기")
         
         
         // 자동재생 Off - DEFAULT Setting
@@ -373,7 +382,42 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         // TODO: 나의활동 - 최근영상
+        /**
+         최근영상 자동재생 On/Off
+         */
+        if autoPlayDataManager.currentViewTitleView == "최근영상" {
+            // 자동재생 On
+            if autoPlayDataManager.isAutoplayRecentTab {
+                let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
+                return autoPlayDataCount
+                
+                // 자동재생 Off
+            } else {
+                let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
+                return dataCount
+            }
+        }
+        
         // TODO: 나의활동 - 즐겨찾기
+        /**
+         검색 자동재생 On/Off
+         */
+        if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
+            // 자동재생 On
+            if autoPlayDataManager.isAutoplayBookMarkTab {
+                let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
+                return autoPlayDataCount
+                
+                // 자동재생 Off
+            } else {
+                let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
+                return dataCount
+            }
+        }
         
         
         return 1
@@ -531,7 +575,55 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         
         
         // TODO: 나의활동 - 최근영상
+        if autoPlayDataManager.currentViewTitleView == "최근영상" {
+            /**
+             true : 검색 + 자동재생 On
+             false: 검색 + 자동재생 off
+             */
+            if autoPlayDataManager.isAutoplayRecentTab {
+                let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
+                cell.row = indexPath.row
+                cell.autoPlayData = autoPlayData
+                let videoDataManager = VideoDataManager.shared
+                
+                guard let currentVideoID
+                        = autoPlayDataManager.videoDataInRecentVideoMyActTab?.body[indexPath.row].videoId
+                else { return cell }
+                
+                if videoDataManager.currentVideoID == currentVideoID {
+                    cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
+                } else { cell.highlightView.backgroundColor = .clear }
+                return cell
+            }
+        }
+        
         // TODO: 나의활동 - 즐겨찾기
+        if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
+            /**
+             true : 검색 + 자동재생 On
+             false: 검색 + 자동재생 off
+             */
+            if autoPlayDataManager.isAutoplayBookMarkTab {
+                let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
+                cell.row = indexPath.row
+                cell.autoPlayData = autoPlayData
+                let videoDataManager = VideoDataManager.shared
+
+                guard let currentVideoID
+                        = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body[indexPath.row].videoId
+                else { return cell }
+                
+                print("DEBUG: 즐겨찾기버그 is \(videoDataManager.currentVideoID)")
+                print("DEBUG: 즐겨찾기버그 is \(currentVideoID)")
+                if videoDataManager.currentVideoID == currentVideoID {
+                    cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
+                } else { cell.highlightView.backgroundColor = .clear }
+                return cell
+            }
+        }
+        
         
         // DEFAULT - 시리즈보기
         // 시리즈를 보여주는 CellForRowAt 로직
@@ -544,10 +636,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             cell.highlightView.backgroundColor = .progressBackgroundColor
         } else { cell.highlightView.backgroundColor = .clear }
         return cell
-        
-        
-        
-        
+
     }
     
     func tableView(_ tableView: UITableView,
@@ -563,6 +652,8 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         tableViewCellDidTap(indexPath: indexPath, "사회")
         tableViewCellDidTap(indexPath: indexPath, "기타")
         tableViewCellDidTap(indexPath: indexPath, "검색")
+        tableViewCellDidTap(indexPath: indexPath, "최근영상")
+        tableViewCellDidTap(indexPath: indexPath, "즐겨찾기")
         
         // TODO: 나의활동 - 최근영상
         // TODO: 나의활동 - 즐겨찾기
@@ -628,8 +719,21 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             // TODO: 나의활동 - 최근영상
-            // TODO: 나의활동 - 즐겨찾기
+            if autoPlayDataManager.isAutoplayRecentTab {
+                guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
+                
+            }
             
+            // TODO: 나의활동 - 즐겨찾기
+            if autoPlayDataManager.isAutoplayBookMarkTab {
+                guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
+            }
             
             
             // DEFAULT

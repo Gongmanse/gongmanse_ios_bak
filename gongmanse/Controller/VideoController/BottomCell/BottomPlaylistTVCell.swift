@@ -104,12 +104,15 @@ class BottomPlaylistTVCell: UITableViewCell {
                 self.term.isHidden = unit.count < 2 ? true : false
             }
             
-            if autoPlayDataManager.isAutoplaySearchTab {
+            if autoPlayDataManager.isAutoplaySearchTab ||
+                autoPlayDataManager.isAutoplayRecentTab ||
+                autoPlayDataManager.isAutoplayBookMarkTab {
                 let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
                 let url = URL(string: "\(fileBaseURL)/" + urlString)
                 self.videoThumbnail.sd_setImage(with: url, completed: nil)
                 return
             }
+
             
             let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
             let url = URL(string: urlString)

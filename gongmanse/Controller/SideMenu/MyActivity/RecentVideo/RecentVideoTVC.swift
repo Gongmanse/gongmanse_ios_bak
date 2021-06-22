@@ -8,6 +8,8 @@ protocol RecentVideoVCDelegate: AnyObject {
 
 class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
+    let autoPlayDataManager = AutoplayDataManager.shared
+    
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -58,6 +60,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         super.viewWillAppear(animated)
         self.isDeleteMode = true
         
+        playSwitch.isOn = autoPlayDataManager.isAutoplayRecentTab
     }
     
     
@@ -185,6 +188,8 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     @IBAction func autoplaySwitch(_ sender: UISwitch) {
         
+        autoPlayDataManager.isAutoplayRecentTab = sender.isOn
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -200,6 +205,37 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        var inputArr = [VideoModels]()
+        
+        guard let receivedData = recentViedo else { return }
+        
+        
+        for dataIndex in receivedData.data.indices {
+            
+            let data = receivedData.data[dataIndex]
+            
+            let inputData = VideoModels(seriesId: data.iSeriesId,
+                                        videoId: data.video_id,
+                                        title: data.sTitle,
+                                        tags: data.sTags,
+                                        teacherName: data.sTeacher,
+                                        thumbnail: data.sThumbnail,
+                                        subject: data.sSubject,
+                                        subjectColor: data.sSubjectColor,
+                                        unit: data.sUnit,
+                                        rating: data.iRating,
+                                        isRecommended: "",
+                                        registrationDate: "",
+                                        modifiedDate: "",
+                                        totalRows: "")
+            inputArr.append(inputData)
+        }
+        
+        
+        let inputData = VideoInput(body: inputArr)
+        autoPlayDataManager.videoDataInRecentVideoMyActTab = inputData
+        autoPlayDataManager.currentViewTitleView = "최근영상"
         
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
