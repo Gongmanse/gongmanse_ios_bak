@@ -856,6 +856,7 @@ extension VideoController {
         videoDataManager.addVideoIDLog(videoID: response.data.id)
         
         self.seriesID = response.data.iSeriesId
+        lessonInfoController.seriesID = self.seriesID
         
         // videoURL을 저장한다.
         if let videoURL = response.data.source_url {

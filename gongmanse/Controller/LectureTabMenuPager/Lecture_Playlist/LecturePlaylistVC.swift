@@ -30,7 +30,11 @@ class LecturePlaylistVC: UIViewController {
     // 강사별 강의
     var getTeacherList: LectureSeriesDataModel?
     var seriesID: String? {
-        didSet { detailVM?.lectureDetailApi(seriesID ?? "", offset: 0) } }
+        didSet {
+            detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
+        }
+        
+    }
     var totalNum: String?
     var gradeText: String?
     var detailVM: LectureDetailViewModel? = LectureDetailViewModel()
@@ -72,6 +76,12 @@ class LecturePlaylistVC: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
+        collectionView.reloadData()
     }
     
     // 목록이 없습니다.
