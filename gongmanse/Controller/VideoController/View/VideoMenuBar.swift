@@ -117,6 +117,7 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         case 0:
             cell.label.text = "노트보기"
             cell.leftImageView.tintColor = .mainOrange
+            NotificationCenter.default.post(name: NSNotification.Name("keyboardHide"), object: nil, userInfo: nil)
 //            cell.leftImageView.image = noteOnLeftImage
         case 1:
             cell.label.text = "강의 QnA"
@@ -125,6 +126,7 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         case 2:
             cell.label.text = "재생목록"
             cell.leftImageView.tintColor = .mainOrange
+            NotificationCenter.default.post(name: NSNotification.Name("keyboardHide"), object: nil, userInfo: nil)
 //            cell.leftImageView.image = playlistOnLeftImage
         default:
             cell.label.text = "노트보기"

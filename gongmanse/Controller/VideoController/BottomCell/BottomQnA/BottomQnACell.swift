@@ -141,10 +141,12 @@ class BottomQnACell: UICollectionViewCell {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide(_:)), name: NSNotification.Name("keyboardHide"), object: nil)
     }
     
-    
+    @objc func keyboardHide(_ sender: Notification) {
+        sendText.resignFirstResponder()
+    }
     
     @objc func keyboardWillShow(_ sender: Notification) {
         if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
@@ -181,7 +183,6 @@ class BottomQnACell: UICollectionViewCell {
         }
     }
     
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
      
@@ -189,10 +190,6 @@ class BottomQnACell: UICollectionViewCell {
        // initialize what is needed
     }
  
-    override func awakeFromNib() {
-        super.awakeFromNib()
-       // initialize what is needed
-    }
     
     
     @objc func textPostButtonAction(_ sender: UIButton) {
@@ -248,6 +245,7 @@ extension BottomQnACell: UITableViewDataSource {
         return cell
     }
 
+    
 }
 
 extension BottomQnACell: UITextFieldDelegate {
