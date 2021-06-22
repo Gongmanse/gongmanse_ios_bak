@@ -6,10 +6,15 @@ class CustomerServiceVC: UIViewController {
     var pageViewContoller: UIPageViewController!
     var currentIndex: Int = 0
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationSetting()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationSetting()
         setupTabs()
         setupPageViewController()
         
