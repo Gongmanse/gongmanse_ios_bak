@@ -44,7 +44,8 @@ extension VideoController {
         
         // "상세화면 영상 API"를 호출한다.
         if Constant.isGuestKey {
-            GuestKeyDataManager().GuestKeyAPIGetData(videoID: id, viewController: self)            
+            GuestKeyDataManager().GuestKeyAPIGetData(videoID: id, viewController: self)
+            videoDataManager.addVideoIDLog(videoID: id)
         } else {
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
         }

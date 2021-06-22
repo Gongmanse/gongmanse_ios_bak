@@ -59,6 +59,12 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(bookMarkFilterNoti(_:)), name: NSNotification.Name("bookMarkFilterText"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isDeleteMode = true
+        
+    }
+    
     @objc func bookMarkFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "bookMarkFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)

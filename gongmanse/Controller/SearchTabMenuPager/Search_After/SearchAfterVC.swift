@@ -21,6 +21,8 @@ class SearchAfterVC: UIViewController {
 
     //MARK: - Properties
     
+    var comeFromSearchVC: Bool?
+    
     // PIP 모드를 위한 프로퍼티
     var isOnPIP: Bool = false
     var pipVC: PIPController?
@@ -136,6 +138,9 @@ class SearchAfterVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
         searchVideo.pipDelegate = self
 
+        if let comeFromSearchVC = self.comeFromSearchVC {
+            searchVideo.comeFromSearchVC = comeFromSearchVC
+        }
     }
     
     @objc func allKeyword(_ sender: Notification) {

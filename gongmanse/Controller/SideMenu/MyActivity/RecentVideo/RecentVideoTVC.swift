@@ -53,6 +53,13 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isDeleteMode = true
+        
+    }
+    
+    
     @objc func recentVideoFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "recentVideoFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)

@@ -51,6 +51,12 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isDeleteMode = true
+        
+    }
+    
     @objc func expertConsultFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "expertConsultFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)

@@ -19,7 +19,7 @@ class MyActivityVC: UIViewController {
     var bookMarkSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
-    var isSelected: Bool = true
+    var isSelected: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class MyActivityVC: UIViewController {
     
     @objc func trashImageAction(_ sender: UIButton) {
         
-        isSelected = !isSelected
+//        isSelected = !isSelected
         recentVideoTVC.isDeleteMode = isSelected
         noteListTVC.isDeleteMode = isSelected
         lectureQuestionsTVC.isDeleteMode = isSelected

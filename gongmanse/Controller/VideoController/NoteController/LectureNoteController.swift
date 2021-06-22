@@ -108,6 +108,9 @@ class LectureNoteController: UIViewController {
     var writingImplementFoldingWidth: NSLayoutConstraint?
     var writingImplementUnfoldingWidth: NSLayoutConstraint?
     
+    // PIP 있을 때와 없을 때 y 값 조절을 위해 생성
+    var writingImplementYPosition: NSLayoutConstraint?
+    
     // MARK: - Lifecycle
     
     init(id: String, token: String) {
@@ -170,7 +173,7 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func openWritingImplement() {
-        
+                
         var noteMode = scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
         let width = view.frame.width * 0.5
@@ -417,16 +420,21 @@ class LectureNoteController: UIViewController {
     
     private func setupWritingImplement() {
         
+        let videoDataManager = VideoDataManager.shared
+        let pipIsOn = !(videoDataManager.isFirstPlayVideo)
+
         let width = view.frame.width * 0.5
         let bottomPadding = view.frame.height * 0.07
         let height = view.frame.height * 0.09
 
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
-        writingImplement.anchor(bottom: view.bottomAnchor,
-                                paddingBottom: bottomPadding,
-                                height: height)
-
+        writingImplement.anchor(height: height)
+        
+        writingImplementYPosition
+            = writingImplement.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: pipIsOn ? -(bottomPadding + 40)  : -bottomPadding)
+        writingImplementYPosition?.isActive = true
+        
         writingImplementFoldingWidth
             = writingImplement.widthAnchor.constraint(equalToConstant: width)
 
@@ -439,9 +447,8 @@ class LectureNoteController: UIViewController {
         
         view.addSubview(savingNoteButton)
         savingNoteButton.setDimensions(height: height, width: width * 0.25)
-        savingNoteButton.anchor(bottom: view.bottomAnchor,
-                                right: view.rightAnchor,
-                                paddingBottom: bottomPadding)
+        savingNoteButton.anchor(right: view.rightAnchor)
+        savingNoteButton.centerY(inView: writingImplement)
         
         let colorStackView = UIStackView(arrangedSubviews: [
             redButton,

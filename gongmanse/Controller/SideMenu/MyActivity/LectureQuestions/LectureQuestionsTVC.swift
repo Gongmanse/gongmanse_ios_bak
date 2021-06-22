@@ -47,6 +47,12 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(lectureQuestionsFilterNoti(_:)), name: NSNotification.Name("lectureQuestionsFilterText"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isDeleteMode = true
+        
+    }
+    
     @objc func lectureQuestionsFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "lectureQuestionsFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)

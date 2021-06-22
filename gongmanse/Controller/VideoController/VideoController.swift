@@ -646,7 +646,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
         /* pipContainerView - Constraint */
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
-                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
                                 height: pipHeight)
         
