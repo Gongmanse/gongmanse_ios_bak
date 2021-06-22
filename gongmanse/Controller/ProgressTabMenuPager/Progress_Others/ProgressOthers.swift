@@ -139,6 +139,7 @@ class ProgressOthers: UIViewController, ProgressInfinityScroll {
         
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
+        chapterBtn.setTitle("모든 단원", for: .normal)
         
         requestProgressOthersList(subject: mainSubjectNumber,
                             grade: gradeTitle,

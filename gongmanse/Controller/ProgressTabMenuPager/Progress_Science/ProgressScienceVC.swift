@@ -147,6 +147,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
+        chapterBtn.setTitle("모든 단원", for: .normal)
         
         requestProgressScienceList(subject: scienceSubjectNumber,
                             grade: gradeTitle,

@@ -143,6 +143,7 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
         
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
+        chapterBtn.setTitle("모든 단원", for: .normal)
         
         requestProgressSocialList(subject: socialSubjectNumber,
                             grade: gradeTitle,
