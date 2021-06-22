@@ -49,6 +49,14 @@ class AutoplayDataManager {
     // 인기에서 접속했는지 판단하기 위한 Boolean -> 영상화면에서 재생목록 URL 선택시 사용됨.
     var isPopularTab: Bool = false
     
+    // 검색
+    var isAutoplaySearchTab: Bool = false
+    
+    // 나의활동 > 최근영상
+    var isAutoplayRecentTab: Bool = false
+    
+    // 나의활동 > 즐겨찾기
+    var isAutoplayBookMarkTab: Bool = false
     
     var isAllTabAutoplayOn: Bool {
         return isAutoplayMainSubject &&
@@ -83,6 +91,15 @@ class AutoplayDataManager {
     
     /// "기타"에 있는 데이터 20 개
     var videoDataInOtherSubjectsTab: VideoInput?
+    
+    /// "검색"에 있는 데이터 20 개
+    var videoDataInSearchTab: VideoInput?
+    
+    /// "나의 활동 - 최근영상"에 있는 데이터 20 개
+    var videoDataInRecentVideoMyActTab: VideoInput?
+    
+    /// "나의 활동 - 즐겨찾기"에 있는 데이터 20 개
+    var videoDataInBookMarkVideoMyActTab: VideoInput?
     
     var mainSubjectListCount = 0
     var scienceListCount = 0

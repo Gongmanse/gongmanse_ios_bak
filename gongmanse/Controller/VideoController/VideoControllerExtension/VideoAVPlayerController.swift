@@ -151,7 +151,23 @@ extension VideoController {
                 autoPlayVideo()
                 return
             }
+        } else if autoPlayDataManager.currentViewTitleView == "검색" {
+           if autoPlayDataManager.isAutoplaySearchTab {
+               autoPlayVideo()
+            return
+           }
+        } else if autoPlayDataManager.currentViewTitleView == "최근영상" {
+            if autoPlayDataManager.isAutoplayRecentTab {
+                autoPlayVideo()
+                return
+            }
+        } else if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
+            if autoPlayDataManager.isAutoplayBookMarkTab {
+                autoPlayVideo()
+                return
+            }
         }
+
         setRemoveNotification()
         removePeriodicTimeObserver()
     }
@@ -189,7 +205,22 @@ extension VideoController {
             endIndex = autoPlayDataManager.videoDataInOtherSubjectsTab?.body.endIndex ?? 3
             currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab)
             videoID = autoPlayDataManager.videoDataInOtherSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
-        }
+            
+        } else if autoPlayDataManager.currentViewTitleView == "검색" {
+            endIndex = autoPlayDataManager.videoDataInSearchTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInSearchTab)
+            videoID = autoPlayDataManager.videoDataInSearchTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "최근영상" {
+            endIndex = autoPlayDataManager.videoDataInRecentVideoMyActTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInRecentVideoMyActTab)
+            videoID = autoPlayDataManager.videoDataInRecentVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
+           endIndex = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body.endIndex ?? 3
+           currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInBookMarkVideoMyActTab)
+           videoID = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
+       }
         
         if currentIndex == endIndex {
             return

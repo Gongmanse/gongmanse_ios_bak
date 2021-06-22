@@ -25,6 +25,8 @@ class SearchVideoVC: UIViewController {
     weak var pipDelegate: SearchVideoVCDelegate?
     weak var videoRemoveTokenDelegate: VideoVCDelegateSearchVideoVC?
     
+    var isAutoPlay: Bool = false
+    
     var pageIndex: Int!
     let searchVideoVM = SearchVideoViewModel()
     
@@ -114,6 +116,8 @@ class SearchVideoVC: UIViewController {
         emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
+        
+        autoPlaySwitch.addTarget(self, action: #selector(switchDidTap(_:)), for: .valueChanged)
     }
     
     func getSearchVideoList() {
@@ -167,6 +171,14 @@ class SearchVideoVC: UIViewController {
         popupVC.view.frame = self.view.bounds
         self.present(popupVC, animated: true, completion: nil)
     }
+    
+    @objc func switchDidTap(_ sender: UISwitch) {
+        // 자동재생이 활성화여부를 Boolean에 할당한다.
+        self.isAutoPlay = sender.isOn
+        
+        let autoDataManager = AutoplayDataManager.shared
+        autoDataManager.isAutoplaySearchTab = sender.isOn
+    }
 }
 
 
@@ -204,8 +216,53 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return
         }
         if Constant.isLogin {
-            
+            // 검색에서 왔다는 것을 알려주는 Boolean값
             if let comeFromSearchVC = self.comeFromSearchVC {
+
+                // 자동재생인 경우 아래 코드블럭이 실행된다.
+                if self.isAutoPlay {
+                    let autoPlayDataManager = AutoplayDataManager.shared
+                    
+                    /// 최종 넣어야하는 데이터모델
+                    var inputArr = [VideoModels]()
+                    
+                    /// 태욱's 데이터 저장위치
+                    guard let vm = searchVideoVM.responseVideoModel else { return }
+                    
+                    // 태욱's Model -> 현수's Model
+                    for dataIndex in vm.data.indices {
+                        
+                        // 태욱씨가 구성한 Decodable 데이터
+                        let receivedData = searchVideoVM.responseVideoModel?.data[dataIndex]
+                        
+                        // 현수씨가 구성한 Decodable 데이터
+                        let videoModels = VideoModels(seriesId: receivedData?.iSeriesId,
+                                                      videoId: receivedData?.id,
+                                                      title: receivedData?.sTitle,
+                                                      tags: receivedData?.sTags,
+                                                      teacherName: receivedData?.sTeacher,
+                                                      thumbnail: receivedData?.sThumbnail,
+                                                      subject: receivedData?.sSubject,
+                                                      subjectColor: receivedData?.sSubjectColor,
+                                                      unit: "TEST",
+                                                      rating: receivedData?.iRating,
+                                                      isRecommended: "추천",
+                                                      registrationDate: "등록한 날짜",
+                                                      modifiedDate: "수정하 날짜",
+                                                      totalRows: "1000")
+                        inputArr.append(videoModels)
+                    }
+                    
+                    // 1) 바로 싱글톤 데이터에 추가한다.(데이터 == 현재 보여주고있는 cell의 데이터 20개)
+                    let inputData = VideoInput(body: inputArr)
+                    autoPlayDataManager.videoDataInSearchTab = inputData
+                    autoPlayDataManager.currentViewTitleView = "검색"
+                    
+                    // 2) Switch 값을 넘겨줘야 한다.
+                    // -> switchDidTap 에서 AutoPlayDataManager 싱글톤으로 보내고 있음
+                    
+                    // 3) AutoPlayerDataManager에 viewTitle값을 변경해준다.
+                }
                 
                 let vc = VideoController(isPlayPIP: false)
                 let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
