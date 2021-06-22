@@ -164,12 +164,12 @@ class LecturePlaylistVC: UIViewController {
             switch seriesInfo {
             case .some(let data):
                 titleText.text = data.sTitle
-                teacherName.text = "\(String(describing: data.sTeacher)) 선생님"
+                teacherName.text = "\(data.sTeacher ?? "") 선생님"
                 subjectLabel.text = data.sSubject
                 gradeLabel.text = detailVM?.convertGrade(data.sGrade)
 //                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
 //                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
-                configurelabel(value: detailVM?.relationSeriesList?.totalNum ?? "")
+                configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
                 emptyStackView.isHidden = true
                 
             case .none:

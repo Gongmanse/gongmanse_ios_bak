@@ -39,6 +39,7 @@ class LectureCell: UICollectionViewCell {
         lectureTitle.text = type.sTitle
         teachername.text = type.sTeacher
         tagLabel.text = type.sSubject
+        tagLabel.adjustsFontSizeToFitWidth = true
         tagLabel.backgroundColor = UIColor(hex: type.sSubjectColor ?? "000000")
     }
     
@@ -88,7 +89,7 @@ class LectureCell: UICollectionViewCell {
         tagLabel.layer.cornerRadius = 15
 //        tagLabel.setDimensions(height: 20, width: 40)
         tagLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        tagLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 100).isActive = true
+        tagLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 150).isActive = true
         tagLabel.anchor(top: lectureTitle.bottomAnchor,
                         left: mainImageView.leftAnchor,
                         bottom: contentView.bottomAnchor,
