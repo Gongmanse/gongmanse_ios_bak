@@ -463,6 +463,12 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 
 
 extension LessonInfoController: RatingControllerDelegate {
+    func dismissRatingView() {
+        rateLessonButton.titleLabel.text = "평점"
+        rateLessonButton.viewTintColor = .black
+        view.setNeedsDisplay()
+    }
+    
     
     func ratingAvaergePassVC(rating: String) {
 

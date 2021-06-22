@@ -79,13 +79,16 @@ class IntroController: UIViewController {
         
         var introVideoHeight = Constant.width == 375.0 ? view.frame.width * 0.52 : view.frame.width * 0.57
         
+        print("DEBUG: Constant.height \(Constant.height)")
         switch Constant.height {
         case 926:
             introVideoHeight = view.frame.width * 0.6
         case 896:
             introVideoHeight = view.frame.width * 0.58
+        case 812:
+            introVideoHeight = view.frame.width * 0.52
         case 844:
-            introVideoHeight = view.frame.width * 0.58
+            introVideoHeight = view.frame.width * 0.54
         case 736:
             introVideoHeight = view.frame.width * 0.57
         case 667:
