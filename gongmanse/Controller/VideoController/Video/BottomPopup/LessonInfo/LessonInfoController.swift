@@ -252,20 +252,11 @@ class LessonInfoController: UIViewController {
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
-//            let vc = VideoController()
-//            vc.modalPresentationStyle = .fullScreen
-//            vc.id = videoDetailVM?.commantaryID
-//            self.present(vc, animated: false)
             
         case false: // 개념정리
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.videoID ?? "")
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
             
-            delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.videoID ?? "15188")
-            
-//            let vc = VideoController()
-//            vc.modalPresentationStyle = .fullScreen
-//            vc.id = videoDetailVM?.videoID
-//            self.present(vc, animated: false)
+            delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
         }
     }
     
