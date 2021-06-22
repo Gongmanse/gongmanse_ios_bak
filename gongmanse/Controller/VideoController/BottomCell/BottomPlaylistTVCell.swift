@@ -10,6 +10,9 @@ import UIKit
 class BottomPlaylistTVCell: UITableViewCell {
 
     // MARK: - Property
+    
+    let autoPlayDataManager = AutoplayDataManager.shared
+    
     // Data
     var cellVideoID: String?
     var viewModel: VideoPlaylistVCViewModel? {
@@ -101,8 +104,17 @@ class BottomPlaylistTVCell: UITableViewCell {
                 self.term.isHidden = unit.count < 2 ? true : false
             }
             
+            
+            if autoPlayDataManager.isAutoplaySearchTab {
+                let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
+                let url = URL(string: "\(fileBaseURL)/" + urlString)
+                self.videoThumbnail.sd_setImage(with: url, completed: nil)
+                return
+            }
+            
             let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
             let url = URL(string: urlString)
+            
             self.videoThumbnail.sd_setImage(with: url, completed: nil)
             
         }
