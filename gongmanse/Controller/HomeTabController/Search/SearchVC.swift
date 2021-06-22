@@ -21,6 +21,8 @@ class SearchVC: UIViewController {
     
     weak var delegate: ReloadDataInRecentKeywordVCDelegate?
     
+    var comeFromSearchVC: Bool = true
+    
     // 페이징 기능 구현을 위한 프로퍼티
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
@@ -383,6 +385,8 @@ extension SearchVC: UISearchBarDelegate {
             "subject": globalSearchSubject,
             "text": globalSearchText
         ]
+        
+        controller.comeFromSearchVC = comeFromSearchVC
         
         
         // 화면 전환

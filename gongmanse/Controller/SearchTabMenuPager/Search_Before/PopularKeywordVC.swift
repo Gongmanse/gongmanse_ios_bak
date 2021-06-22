@@ -10,10 +10,10 @@ import UIKit
 private let cellId = "PopularKeywordCell"
 
 class PopularKeywordVC: UIViewController {
-    
-    
 
     //MARK: - Properties
+    
+    var comeFromSearchVC: Bool = true
     
     var pageIndex: Int!
     var dummy = searchs     // TODO: 추후에 검색어 순위 데이터 받아올 프로퍼티
@@ -88,12 +88,14 @@ extension PopularKeywordVC: UITableViewDelegate, UITableViewDataSource {
         
         // 선택시 검색창 text생성하기
         NotificationCenter.default.post(name: .searchBeforeSearchBarText, object: nil)
+        
         // 화면이동하는 Controller로 데이터 전달
         let controller = SearchAfterVC()
         
+        controller.comeFromSearchVC = self.comeFromSearchVC
+        
         // 화면 전환
         let vc = UINavigationController(rootViewController: controller)
-        
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true)

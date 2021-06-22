@@ -281,6 +281,13 @@ class LessonNoteController: UIViewController {
     }
     
     @objc func videoPlayAction(_ sender: UIButton) {
+        
+        let videoDM = VideoDataManager.shared
+        if videoDM.currentVideoID == id {
+            dismiss(animated: true)
+            return
+        }
+        
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
         let videoID = id
@@ -322,24 +329,26 @@ class LessonNoteController: UIViewController {
     }
     
     @objc fileprivate func openWritingImplement() {
-        
+
         let width = view.frame.width * 0.5
         let noteMode = self.scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
 
-        // !noteMode -> 노트필기 가능한상태
+        // !noteMode -> 노트필기 불가능한상태
         if !noteMode {
             self.writingImplementLeftConstraint?.constant = -(width * 0.8)
             self.writingImplementToggleButton.setImage(.none, for: .normal)
             self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
 
+            self.canvas.isUserInteractionEnabled = false
+            self.canvas.alpha = 0
             UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
                 self.savingNoteButton.alpha = 0
                 self.previousButton.alpha = 1
                 self.nextButton.alpha = 1
                 self.view.layoutIfNeeded()
             } completion: { _ in
-                //
+                
             }
 
         } else {
@@ -348,13 +357,16 @@ class LessonNoteController: UIViewController {
             self.writingImplementToggleButton.setTitle("", for: .normal)
             self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
 
+
+            self.canvas.isUserInteractionEnabled = true
+            self.canvas.alpha = 1
             UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
                 self.savingNoteButton.alpha = 1
                 self.previousButton.alpha = 0
                 self.nextButton.alpha = 0
                 self.view.layoutIfNeeded()
             } completion: { _ in
-                //
+                
             }
         }
     }
@@ -481,6 +493,8 @@ class LessonNoteController: UIViewController {
         
         // 필기기능을 적용할 View(canvas)를 쌓는다. -> 최상위에 쌓여있는 상태
         contentView.addSubview(canvas)
+        canvas.isUserInteractionEnabled = false
+        canvas.alpha = 0
         canvas.backgroundColor = .clear
         canvas.anchor(top: contentView.topAnchor,
                       left: contentView.leftAnchor,

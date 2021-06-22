@@ -36,6 +36,10 @@ struct VideoPlaylistVCViewModel {
 
 }
 
+private let emptyCellIdentifier = "EmptyTableViewCell"
+private let playlistCellIdentifier = "BottomPlaylistTVCell"
+
+
 class VideoPlaylistVC: UIViewController {
     
     // MARK: - Properties
@@ -125,8 +129,13 @@ class VideoPlaylistVC: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        let nibName = UINib(nibName: "BottomPlaylistTVCell", bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: "BottomPlaylistTVCell")
+        
+        let nibName = UINib(nibName: playlistCellIdentifier, bundle: nil)
+        tableView.register(nibName, forCellReuseIdentifier: playlistCellIdentifier)
+        
+        let emptyCellnibName = UINib(nibName: emptyCellIdentifier, bundle: nil)
+        tableView.register(emptyCellnibName, forCellReuseIdentifier: emptyCellIdentifier)
+        
         tableView.rowHeight = 81
         tableView.tableFooterView = UIView()
     }

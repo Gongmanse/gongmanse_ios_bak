@@ -18,6 +18,7 @@ protocol VideoVCDelegateSearchVideoVC: AnyObject {
 class SearchVideoVC: UIViewController {
     
     
+    var comeFromSearchVC: Bool?
     
     //MARK: - Properties
     
@@ -204,6 +205,18 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         if Constant.isLogin {
             
+            if let comeFromSearchVC = self.comeFromSearchVC {
+                
+                let vc = VideoController(isPlayPIP: false)
+                let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
+                vc.id = receviedVideoID
+                
+                vc.modalPresentationStyle = .fullScreen
+                present(vc, animated: true)
+                return
+            }
+            
+            
             // 06.18 기준 없애달라고 해서 없앴는데 소통의 오류였는지 모르겠으나 나중에 수정생길일을 대비해서 주석처리만함
             // 일단 pip는 계속 나와야 하는 걸로 진행 06.18
 //            pipDelegate?.serachAfterVCPIPViewDismiss()
@@ -261,7 +274,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 vc.modalPresentationStyle = .fullScreen
                 
                 let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
-                
+
                 /**
                  영상을 틀기 위해 "ID" 값을 서브스크립트로 전달한다.
                  동시에 URL도 전달해야 VideoDataManager에서 URL의 PIP영상의 순서가 꼬이지 않는다.
