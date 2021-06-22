@@ -33,25 +33,25 @@
                                 <rect key="frame" x="20" y="185" width="318" height="43"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개과천선, 권선징악" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3oj-hl-sLx">
-                                        <rect key="frame" x="0.0" y="0.0" width="127.5" height="18"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="132" height="18"/>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="s3e-XN-BCA">
-                                        <rect key="frame" x="208.5" y="26" width="109.5" height="17"/>
+                                        <rect key="frame" x="232.5" y="26" width="85.5" height="17"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="심민경 선생님" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUq-3E-nTV">
-                                                <rect key="frame" x="0.0" y="0.0" width="76.5" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="심 선생님" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUq-3E-nTV">
+                                                <rect key="frame" x="0.0" y="0.0" width="52.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="Dkw-kK-F29">
-                                                <rect key="frame" x="79.5" y="0.0" width="10.5" height="17"/>
+                                                <rect key="frame" x="55.5" y="0.0" width="10.5" height="17"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gur-ZL-WFI">
-                                                <rect key="frame" x="93" y="0.0" width="16.5" height="17"/>
+                                                <rect key="frame" x="69" y="0.0" width="16.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
