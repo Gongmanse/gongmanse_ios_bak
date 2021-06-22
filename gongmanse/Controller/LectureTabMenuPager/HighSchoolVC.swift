@@ -15,7 +15,7 @@ class HighSchoolVC: UIViewController {
     
     var pageIndex: Int!
     
-    var highVM: LectureTapViewModel?
+    var highVM: LectureTapViewModel? = LectureTapViewModel()
     
     var listCount: Int = 0
     //MARK: - IBOutlet

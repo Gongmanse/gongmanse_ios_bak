@@ -15,7 +15,7 @@ class ElementaryVC: UIViewController {
     
     var pageIndex: Int!
     
-    var elemantaryViewModel: LectureTapViewModel?
+    var elemantaryViewModel: LectureTapViewModel? = LectureTapViewModel()
     
     //MARK: - IBOutlet
     
@@ -24,12 +24,19 @@ class ElementaryVC: UIViewController {
     
     //MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        elemantaryViewModel?.lectureListGetApi(grade: "초등", offset: "0")
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configrueCollectionView()
         elemantaryViewModel?.reloadDelgate = self
-        elemantaryViewModel?.lectureListGetApi(grade: "초등", offset: "0")
+        
         
     }
 
