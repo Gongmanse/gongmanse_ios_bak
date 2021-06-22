@@ -493,8 +493,8 @@ class LessonNoteController: UIViewController {
         
         // 필기기능을 적용할 View(canvas)를 쌓는다. -> 최상위에 쌓여있는 상태
         contentView.addSubview(canvas)
-        canvas.isUserInteractionEnabled = false
-        canvas.alpha = 0
+        canvas.isUserInteractionEnabled = true
+        canvas.alpha = 1
         canvas.backgroundColor = .clear
         canvas.anchor(top: contentView.topAnchor,
                       left: contentView.leftAnchor,
