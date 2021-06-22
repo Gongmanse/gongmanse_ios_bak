@@ -220,3 +220,44 @@ extension OneOnOneEnquiryVC: TableReloadData {
         }
     }
 }
+
+extension UICollectionViewCell {
+    func presentAlert(message: String) {
+        
+        let alertSuperView = UIView()
+        alertSuperView.backgroundColor
+            = UIColor.black.withAlphaComponent(0.77)
+        alertSuperView.layer.cornerRadius = 17
+        alertSuperView.isHidden = true
+        
+        let alertLabel = UILabel()
+        alertLabel.font = UIFont.appBoldFontWith(size: 12)
+        alertLabel.textColor = .white
+        
+        self.contentView.addSubview(alertSuperView)
+        alertSuperView.centerX(inView: self.contentView)
+        alertSuperView.anchor(bottom: self.contentView.safeAreaLayoutGuide.bottomAnchor,
+                              paddingBottom: 50,
+                              width: self.contentView.frame.width * 0.89,
+                              height: 37)
+        
+        alertSuperView.addSubview(alertLabel)
+        alertLabel.centerY(inView: alertSuperView)
+        alertLabel.centerX(inView: alertSuperView)
+        alertLabel.setDimensions(height: 37,
+                                 width: self.contentView.frame.width * 0.83)
+        alertLabel.textAlignment = .center
+        alertLabel.numberOfLines = 0
+        
+        alertLabel.text = message
+        alertSuperView.alpha = 1.0
+        alertSuperView.isHidden = false
+        UIView.animate(withDuration: 2.0,
+                       delay: 1.0,
+                       options: .curveEaseIn,
+                       animations: { alertSuperView.alpha = 0 },
+                       completion: { _ in
+                        alertSuperView.removeFromSuperview()
+                       })
+    }
+}

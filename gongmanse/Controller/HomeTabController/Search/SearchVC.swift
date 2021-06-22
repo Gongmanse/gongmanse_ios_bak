@@ -87,13 +87,17 @@ class SearchVC: UIViewController {
         if Constant.token != "" {
             let convertGrade = searchMainVM.convertGrade()
             gradeButton.setTitle(convertGrade ?? "모든 학년", for: .normal)
+            searchData.searchGrade = nil
             
             let convertSubject = searchMainVM.convertSubject()
             subjectButton.setTitle(convertSubject ?? "모든 과목", for: .normal)
+            searchData.searchSubjectNumber = nil
             
         } else {
             gradeButton.setTitle("모든 학년", for: .normal)
             subjectButton.setTitle("모든 과목", for: .normal)
+            searchData.searchGrade = nil
+            searchData.searchSubjectNumber = nil
         }
     }
     
@@ -476,7 +480,7 @@ extension SearchVC {
         gradeButton.setTitleColor(.black, for: .normal)
         gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
         gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        gradeButton.layer.borderWidth = 3.2
+//        gradeButton.layer.borderWidth = 2
         gradeButton.layer.borderColor = borderColor.cgColor
         gradeButton.layer.cornerRadius = 13
                 
@@ -486,7 +490,7 @@ extension SearchVC {
         subjectButton.setTitleColor(.black, for: .normal)
         subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
         subjectButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        subjectButton.layer.borderWidth = 3.2
+//        subjectButton.layer.borderWidth = 3.2
         subjectButton.layer.borderColor = borderColor.cgColor
         subjectButton.layer.cornerRadius = 13
         

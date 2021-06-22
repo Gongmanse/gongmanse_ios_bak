@@ -162,7 +162,7 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.subjectFirst.text = progressIndexPath?.subject
         cell.subjectSecond.text = progressIndexPath?.unit
         cell.starRating.text = progressIndexPath?.rating
-        
+        cell.teathername.text = progressIndexPath?.teacherChangeName
         cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath?.subjectColor ?? "")
         cell.subjectSecond.backgroundColor = .mainOrange
         

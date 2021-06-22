@@ -17,7 +17,7 @@ class MiddleSchoolVC: UIViewController {
     
     var pageIndex: Int!
     
-    var middleVM: LectureTapViewModel?
+    var middleVM: LectureTapViewModel? = LectureTapViewModel()
     
     var count = 0
     //MARK: - IBOutlet

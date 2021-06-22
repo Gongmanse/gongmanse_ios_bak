@@ -36,7 +36,7 @@ class LessonNoteViewModel {
     
     /// 다음 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
     var nextVideoID: String {
-        guard seriesID == nil else { return "" }
+        guard seriesID != nil else { return "" }
         print("DEBUG: currentIndex is \(currentIndex)")
         print("DEBUG: videoIDArr.count is \(videoIDArr.count)")
         if (videoIDArr.count - 1) == currentIndex {

@@ -40,4 +40,8 @@ struct ProgressDetailBody: Codable {
     let rating: String?
     let createdDate: String?
     let lastModified: String?
+    
+    var teacherChangeName: String {
+        return "\(teacherName ?? "") 선생님"
+    }
 }

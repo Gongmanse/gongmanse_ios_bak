@@ -111,7 +111,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: NSNotification.Name("chapter"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: .getSubject, object: nil)
         
     }
     
@@ -147,6 +147,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         
         
         gradeBtn.setTitle(getGradeTitle, for: .normal)
+        chapterBtn.setTitle("모든 단원", for: .normal)
         
         requestProgressScienceList(subject: scienceSubjectNumber,
                             grade: gradeTitle,
@@ -187,7 +188,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
                 
                 self?.sendChapter.removeAll()
                 self?.sendChapter.append("모든 단원")
-                for i in 0..<(self?.scienceBodyDataList!.count)! {
+                for i in 0..<(self?.scienceBodyDataList?.count ?? 0) {
                     let tt = self?.scienceBodyDataList?[i].title ?? ""
                     self?.sendChapter.append(tt)
                 }
@@ -234,16 +235,17 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         gradeBtn.layer.borderColor = borderColor.cgColor
         gradeBtn.layer.cornerRadius = 13
         gradeBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        gradeBtn.layer.borderWidth = 3.5
+//        gradeBtn.layer.borderWidth = 3.5
         gradeBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
         
         chapterBtn.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
-        chapterBtn.layer.borderWidth = 3.5
+//        chapterBtn.layer.borderWidth = 3.5
         chapterBtn.layer.borderColor = borderColor.cgColor
         chapterBtn.titleLabel?.font = .appBoldFontWith(size: 13)
         chapterBtn.layer.cornerRadius = 13
         chapterBtn.setTitle("모든 단원", for: .normal)
         chapterBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
+        chapterBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 과목 버튼 글자 Inset
     }
     
     //MARK: - Actions

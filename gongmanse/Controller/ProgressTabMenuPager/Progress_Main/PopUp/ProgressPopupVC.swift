@@ -41,6 +41,7 @@ class ProgressPopupVC: BottomPopupViewController {
         configureTableview()
     }
     
+    // BottomPopup
     override var popupHeight: CGFloat {
         return height ?? CGFloat(300)
         
@@ -63,6 +64,7 @@ class ProgressPopupVC: BottomPopupViewController {
     override var popupShouldDismissInteractivelty: Bool {
         return shouldDismissInteractivelty ?? true
     }
+    //
     
     //MARK: - Helper functions
     
@@ -98,9 +100,10 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressPopupCell", for: indexPath) as! ProgressPopupCell
-//        cell.title.text = grades[indexPath.row]
         
         viewlabel.font = .appEBFontWith(size: 14)
+        
+        // selectedIndex 상태에 따라 다르게 표현
         if selectedBtnIndex! == .grade {
             cell.title.text = grades[indexPath.row]
             viewlabel.text = "학년"
@@ -112,6 +115,8 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // selectedIndex 상태에 따라 다르게 표현
         if selectedBtnIndex! == .grade {
             
             let hashable: [AnyHashable : Any] = [
@@ -125,7 +130,7 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
                 "chapterName": chapters[indexPath.row],
                 "chapterNumber": indexPath.row
             ]
-            NotificationCenter.default.post(name: NSNotification.Name("chapter"), object: nil, userInfo: hashable)
+            NotificationCenter.default.post(name: .getSubject, object: nil, userInfo: hashable)
         }
         
         self.dismiss(animated: true, completion: nil)
