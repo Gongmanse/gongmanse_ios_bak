@@ -2538,13 +2538,34 @@
                                         <constraint firstAttribute="height" constant="28" id="jXu-Op-C4z"/>
                                     </constraints>
                                 </stackView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동재생" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDK-vE-arS">
+                                    <rect key="frame" x="307" y="17" width="42" height="15"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="15" id="6yj-rq-IGi"/>
+                                        <constraint firstAttribute="width" constant="42" id="eMl-pa-zlT"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qpJ-eL-DVN">
+                                    <rect key="frame" x="347" y="7" width="51" height="31"/>
+                                    <color key="onTintColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <action selector="autoplaySwitch:" destination="Pkd-mw-fP6" eventType="valueChanged" id="b0Z-yN-9Wc"/>
+                                    </connections>
+                                </switch>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="6eg-ov-hYx" firstAttribute="top" secondItem="I4u-2k-gPx" secondAttribute="top" constant="17" id="0RB-3y-dgs"/>
                                 <constraint firstItem="6qI-Qn-kXi" firstAttribute="top" secondItem="I4u-2k-gPx" secondAttribute="top" constant="11" id="KwI-Sy-Jz9"/>
+                                <constraint firstItem="qpJ-eL-DVN" firstAttribute="leading" secondItem="jDK-vE-arS" secondAttribute="trailing" constant="-2" id="Qm9-L8-zq2"/>
+                                <constraint firstAttribute="trailing" secondItem="qpJ-eL-DVN" secondAttribute="trailing" constant="18" id="RQJ-2w-A9j"/>
                                 <constraint firstItem="6eg-ov-hYx" firstAttribute="leading" secondItem="I4u-2k-gPx" secondAttribute="leading" constant="18" id="T9L-Ua-fUa"/>
                                 <constraint firstItem="6qI-Qn-kXi" firstAttribute="leading" secondItem="6eg-ov-hYx" secondAttribute="trailing" constant="8" symbolic="YES" id="byG-xl-EuP"/>
+                                <constraint firstItem="qpJ-eL-DVN" firstAttribute="top" secondItem="I4u-2k-gPx" secondAttribute="top" constant="7" id="doE-AX-Itb"/>
+                                <constraint firstItem="jDK-vE-arS" firstAttribute="top" secondItem="I4u-2k-gPx" secondAttribute="top" constant="17" id="fYy-8q-r3P"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -2672,6 +2693,7 @@
                     <connections>
                         <outlet property="countAll" destination="6eg-ov-hYx" id="yC5-ap-QCq"/>
                         <outlet property="filteringBtn" destination="wK6-M1-qoV" id="vR4-3d-xqI"/>
+                        <outlet property="playSwitch" destination="qpJ-eL-DVN" id="Iyt-Xe-az2"/>
                         <outlet property="tableHeaderView" destination="I4u-2k-gPx" id="c16-SC-9i2"/>
                     </connections>
                 </tableViewController>

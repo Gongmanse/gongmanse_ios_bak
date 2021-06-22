@@ -11,6 +11,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
+    @IBOutlet weak var playSwitch: UISwitch!
     
     var isDeleteMode: Bool = true {
         didSet {
@@ -180,6 +181,10 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         getDataFromJson()
         tableView.reloadData()
+    }
+    
+    @IBAction func autoplaySwitch(_ sender: UISwitch) {
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
