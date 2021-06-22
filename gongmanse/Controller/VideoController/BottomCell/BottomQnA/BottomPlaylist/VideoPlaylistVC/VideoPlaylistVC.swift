@@ -43,6 +43,9 @@ class VideoPlaylistVC: UIViewController {
     // Delegate
     weak var playVideoDelegate: BottomPlaylistCellDelegate?
     
+    /// 이 프로퍼티를 통해 scroll animation을 결정한다.
+    var isActiveScrollAnimation: Bool = true
+    
     // Data
     let autoPlayDataManager = AutoplayDataManager.shared
     let videoDataManager = VideoDataManager.shared
@@ -533,7 +536,7 @@ extension VideoPlaylistVC {
                 DispatchQueue.main.async {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
-                                          at: .top, animated: false)
+                                          at: .top, animated: self.isActiveScrollAnimation)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
@@ -564,7 +567,7 @@ extension VideoPlaylistVC {
                 DispatchQueue.main.async {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
-                                          at: .top, animated: false)
+                                               at: .top, animated: self.isActiveScrollAnimation)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
@@ -579,7 +582,7 @@ extension VideoPlaylistVC {
                 DispatchQueue.main.async {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
-                                          at: .top, animated: false)
+                                          at: .top, animated: self.isActiveScrollAnimation)
                     self.videoCountTotalLabel.text = "/" + "\(self.viewModel.autoPlayVideoData.body.count)"
 //                    self.defaultScrollTableView()
                 }
@@ -618,7 +621,7 @@ extension VideoPlaylistVC {
                 DispatchQueue.main.async {
                     let startCellRow = self.viewModel.autoPlayVideoData.body.count - 20
                     self.tableView.scrollToRow(at: IndexPath(row: startCellRow, section: 0),
-                                          at: .top, animated: false)
+                                          at: .top, animated: self.isActiveScrollAnimation)
                 }
             }
         }
@@ -688,7 +691,7 @@ extension VideoPlaylistVC {
 
                 DispatchQueue.main.async {
                     self.tableView.scrollToRow(at: IndexPath(row: index, section: 0),
-                                               at: .top, animated: false)
+                                               at: .top, animated: self.isActiveScrollAnimation)
                 }
             }
         }
@@ -707,7 +710,7 @@ extension VideoPlaylistVC {
             }
         }
         self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
-                                   at: .top, animated: false)
+                                   at: .top, animated: self.isActiveScrollAnimation)
         self.videoCountLabel.text = "\(currentIndexPathRow)" + "/\(viewModel.videoData.totalNum)"
     }
     

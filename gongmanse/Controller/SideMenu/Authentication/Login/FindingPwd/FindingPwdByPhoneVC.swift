@@ -15,7 +15,6 @@ class FindingPwdByPhoneVC: UIViewController {
     private let phoneTextField = SloyTextField()
     private let certificationTextField = SloyTextField()
     
-    
     // "완료" 버튼
     private let completeButton: UIButton = {
         let button = UIButton(type: .system)

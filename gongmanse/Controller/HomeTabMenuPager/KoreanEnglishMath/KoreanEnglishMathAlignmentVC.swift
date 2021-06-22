@@ -22,7 +22,7 @@ class KoreanEnglishMathAlignmentVC: BottomPopupViewController {
     private var rateFilterText = ""
     var inputNum = 1
     
-    var titleNames = ["평점순", "최신순", "이름순", "과목순"]
+    var titleNames = ["최신순", "평점순", "이름순", "과목순"]
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -197,15 +197,13 @@ extension VideoController {
 
         let input = DetailVideoInput(video_id: videoID, token: Constant.token)
         
+        // 영상을 실행하는 API 메소드
         DetailVideoDataManager().DetailVideoDataManager(input,
                                                         viewController: self)
     }
     
-    
-    
-    
-    
-    
+
+    /// 현재 VideID 인덱스를 찾는 메소드
     func findCurrentIndexPath(videoData: VideoInput?) -> Int {
         let autoPlayDataManager = AutoplayDataManager.shared
         

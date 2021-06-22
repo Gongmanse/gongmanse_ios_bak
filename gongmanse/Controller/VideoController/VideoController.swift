@@ -602,7 +602,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
 //                                               height: height)
     }
     
-    /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
+    // Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
         // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
@@ -843,6 +843,10 @@ extension VideoController {
     
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
+        
+        // token 버그 발생 시, 주석 해제해볼 것 06.22
+//        setRemoveNotification()
+        
         let autoPlayDM = AutoplayDataManager.shared
         autoPlayDM.mainSubjectListCount = 0
         
@@ -1266,7 +1270,7 @@ extension VideoController: BottomPlaylistCellDelegate {
 // MARK: - SelectVideoPlayRateVCDelegate
 
 extension VideoController: SelectVideoPlayRateVCDelegate {
-    // 재생속도를 컨트롤하기 위한 Delegation
+    /// 재생속도를 컨트롤하기 위한 Delegation
     func changeVideoPlayRateByBottomPopup(rate: Float) {
         self.currentVideoPlayRate = rate
     }
@@ -1276,6 +1280,7 @@ extension VideoController: SelectVideoPlayRateVCDelegate {
 // MARK: - IntroControllerDelegate
 
 extension VideoController: IntroControllerDelegate {
+    /// 인트로 끝나면 호출되는 Delegation 메소드
     func playVideoEndedIntro() {
         setNotification()
         player.play()

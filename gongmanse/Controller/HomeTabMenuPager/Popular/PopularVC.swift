@@ -163,7 +163,23 @@ extension PopularVC: UICollectionViewDataSource {
         cell.teachersName.text = (indexData?.sTeacher ?? "nil") + " 선생님"
         cell.subjects.text = indexData?.sSubject
         cell.subjects.backgroundColor = UIColor(hex: indexData?.sSubjectColor ?? "nil")
-        cell.starRating.text = indexData?.iRating
+        
+        switch indexData?.iRating {
+        case "5":
+            cell.starRating.text = "5.0"
+        case "4":
+            cell.starRating.text = "4.0"
+        case "3":
+            cell.starRating.text = "3.0"
+        case "2":
+            cell.starRating.text = "2.0"
+        case "1":
+            cell.starRating.text = "1.0"
+        case "0":
+            cell.starRating.text = "0.0"
+        default:
+            cell.starRating.text = indexData?.iRating
+        }
 
         if indexData?.sUnit != "" {
             cell.term.isHidden = false
