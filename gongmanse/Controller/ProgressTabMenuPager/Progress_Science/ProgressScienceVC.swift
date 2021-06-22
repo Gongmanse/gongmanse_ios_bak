@@ -111,7 +111,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: NSNotification.Name("chapter"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: .getSubject, object: nil)
         
     }
     
@@ -188,7 +188,7 @@ class ProgressScienceVC: UIViewController, ProgressInfinityScroll {
                 
                 self?.sendChapter.removeAll()
                 self?.sendChapter.append("모든 단원")
-                for i in 0..<(self?.scienceBodyDataList!.count)! {
+                for i in 0..<(self?.scienceBodyDataList?.count ?? 0) {
                     let tt = self?.scienceBodyDataList?[i].title ?? ""
                     self?.sendChapter.append(tt)
                 }
