@@ -9,6 +9,7 @@ import UIKit
 
 protocol RatingControllerDelegate: AnyObject {
     func ratingAvaergePassVC(rating: String)
+    func dismissRatingView()
 }
 
 class RatingController: UIViewController {
@@ -77,17 +78,18 @@ class RatingController: UIViewController {
     @IBAction func tapXButton(_ sender: Any) {
         
         // Default 점수는 3 점
-        guard let videoID = self.videoID else { return }
-        let inputData = RatingInput(token: Constant.token,
-                                    video_id: videoID,
-                                    rating: clickedNumber)
-        
-        RatingDataManager().addRatingToVideo(inputData,
-                                             viewController: self)
-        
-        // 종료하더라도 기본값을 3 을 준다.
-        delegate?.ratingAvaergePassVC(rating: "\(clickedNumber)")
+//        guard let videoID = self.videoID else { return }
+//        let inputData = RatingInput(token: Constant.token,
+//                                    video_id: videoID,
+//                                    rating: clickedNumber)
+//
+//        RatingDataManager().addRatingToVideo(inputData,
+//                                             viewController: self)
+//
+//        // 종료하더라도 기본값을 3 을 준다.
+//        delegate?.ratingAvaergePassVC(rating: "\(clickedNumber)")
 
+        delegate?.dismissRatingView()
         UIView.animate(withDuration: 0.33) {
             self.view.alpha = 0
         } completion: { _ in

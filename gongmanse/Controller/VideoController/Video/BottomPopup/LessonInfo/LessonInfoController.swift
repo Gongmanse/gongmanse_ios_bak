@@ -221,6 +221,7 @@ class LessonInfoController: UIViewController {
         delegate?.videoVCPauseVideo()
         let presentVC = LecturePlaylistVC(videoID ?? "")
         presentVC.lectureState = .videoList
+        presentVC.seriesID = self.seriesID
         // TODO: 버그해결중
         presentVC.seriesID = seriesID
         let pipVideoData = PIPVideoData(isPlayPIP: true,
@@ -454,6 +455,12 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 
 
 extension LessonInfoController: RatingControllerDelegate {
+    func dismissRatingView() {
+        rateLessonButton.titleLabel.text = "평점"
+        rateLessonButton.viewTintColor = .black
+        view.setNeedsDisplay()
+    }
+    
     
     func ratingAvaergePassVC(rating: String) {
 

@@ -136,8 +136,18 @@ class VideoPlaylistVC: UIViewController {
         let emptyCellnibName = UINib(nibName: emptyCellIdentifier, bundle: nil)
         tableView.register(emptyCellnibName, forCellReuseIdentifier: emptyCellIdentifier)
         
-        tableView.rowHeight = 81
+        if self.viewModel.videoData.data.count == 1 {
+            self.videoCountContainerView.alpha = 0
+            tableView.rowHeight = view.frame.height * 0.5
+            tableView.separatorStyle = .none
+        } else {
+            tableView.rowHeight = 81
+            
+        }
+        
         tableView.tableFooterView = UIView()
+        
+        
     }
     
     func setupContraints() {
@@ -337,6 +347,13 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        if self.viewModel.videoData.data.count == 1 {
+            guard let emptyCell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath)
+                    as? EmptyTableViewCell else { return UITableViewCell() }
+            emptyCell.selectionStyle = .none
+            return emptyCell
+        }
+        
         guard let cell = tableView
                 .dequeueReusableCell(withIdentifier: BottomPlaylistTVCell.reusableIdentifier,
                                      for: indexPath)
@@ -348,6 +365,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         if autoPlayDataManager.currentViewTitleView == "추천" ||
             autoPlayDataManager.currentViewTitleView == "인기" {
             let cellData = self.viewModel.videoData.data[indexPath.row]
+            
             cell.row = indexPath.row
             cell.cellData = cellData
             let videoDataManager = VideoDataManager.shared
@@ -462,6 +480,10 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             cell.highlightView.backgroundColor = .progressBackgroundColor
         } else { cell.highlightView.backgroundColor = .clear }
         return cell
+        
+        
+        
+        
     }
     
     func tableView(_ tableView: UITableView,
