@@ -151,7 +151,16 @@ extension VideoController {
                 autoPlayVideo()
                 return
             }
-        }
+        } else if autoPlayDataManager.currentViewTitleView == "검색" {
+           if autoPlayDataManager.isAutoplaySearchTab {
+               autoPlayVideo()
+               return
+           }
+       } 
+        
+        // TODO: 나의활동 - 최근영상
+        // TODO: 나의활동 - 즐겨찾기
+        
         setRemoveNotification()
         removePeriodicTimeObserver()
     }
@@ -189,7 +198,15 @@ extension VideoController {
             endIndex = autoPlayDataManager.videoDataInOtherSubjectsTab?.body.endIndex ?? 3
             currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab)
             videoID = autoPlayDataManager.videoDataInOtherSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "검색" {
+            endIndex = autoPlayDataManager.videoDataInSearchTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInSearchTab)
+            videoID = autoPlayDataManager.videoDataInSearchTab?.body[currentIndex + 1].videoId ?? "15188"
         }
+        
+        // TODO: 나의활동 - 최근영상
+        // TODO: 나의활동 - 즐겨찾기
         
         if currentIndex == endIndex {
             return
