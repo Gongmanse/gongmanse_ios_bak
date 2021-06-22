@@ -197,12 +197,17 @@ class BottomQnACell: UICollectionViewCell {
     
     @objc func textPostButtonAction(_ sender: UIButton) {
         
-        if sendText.text != "" {
-            videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
-            videoVM.requestVideoQnA(videoID)
-            
-            sendText.text = ""
+        if Constant.isLogin {
+            if sendText.text != "" {
+                videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
+                videoVM.requestVideoQnA(videoID)
+                
+                sendText.text = ""
+            }
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
+
     }
     
     func scrollToBottom() {
