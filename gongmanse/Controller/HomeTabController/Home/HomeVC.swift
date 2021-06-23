@@ -239,15 +239,27 @@ extension HomeVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
             return vc.pageIndex
         case is KoreanEnglishMathVC:
             let vc = viewController as! KoreanEnglishMathVC
+            vc.delegate = self
+            vc.selectedItem = koreanEnglishMathSelectedIndex
+            vc.sortedId = koreanEnglishMathSortedIndex
             return vc.pageIndex
         case is ScienceVC:
             let vc = viewController as! ScienceVC
+            vc.delegate = self
+            vc.selectedItem = scienceSelectedIndex
+            vc.sortedId = scienceSortedIndex
             return vc.pageIndex
         case is SocialStudiesVC:
             let vc = viewController as! SocialStudiesVC
+            vc.delegate = self
+            vc.selectedItem = socialStudiesSelectedIndex
+            vc.sortedId = socialStudiesSortedIndex
             return vc.pageIndex
         case is OtherSubjectsVC:
             let vc = viewController as! OtherSubjectsVC
+            vc.delegate = self
+            vc.selectedItem = otherSubjectsSelectedIndex
+            vc.sortedId = otherSubjectsSortedIndex
             return vc.pageIndex
         default:
             let vc = viewController as! RecommendVC

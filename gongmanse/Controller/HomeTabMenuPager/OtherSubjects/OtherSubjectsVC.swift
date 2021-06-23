@@ -40,6 +40,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     
     
     var otherSubjectsVideoSecond: FilterVideoModels?
+    var noteShow: FilterVideoModels?
     
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
@@ -261,6 +262,26 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         self.videoTotalCount.attributedText = attributedString
     }
     
+    func getDataFromJsonNote() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=34&offset=0&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.noteShow = json
+                    
+                }
+                DispatchQueue.main.async {
+                    self.otherSubjectsCollection.reloadData()
+                }
+            }.resume()
+        }
+    }
+    
     @IBAction func selectMenuBtn(_ sender: Any) {
         let popupVC = self.storyboard?.instantiateViewController(withIdentifier: "KoreanEnglishMathBottomPopUpVC") as! KoreanEnglishMathBottomPopUpVC
         popupVC.height = height
@@ -453,10 +474,27 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
                 navigationController?.pushViewController(vc, animated: true)
                 print("DEBUG: 1번")
             } else if self.selectedItem == 2 {
-
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = otherSubjectsVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = otherSubjectsVideoSecond?.data[indexPath.row].iSeriesId
+                vc.socialStudiesSeriesId = seriesID
+                vc.socialStudiesSwitchValue = playSwitch
+                vc.socialStudiesReceiveData = otherSubjectsVideo
+                vc.socialStudiesSelectedBtn = selectBtn
+//                vc.koreanViewTitle = viewTitle.text
+                vc.socialStudiesViewTitle = "기타"
+//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                let autoDataManager = AutoplayDataManager.shared
+                autoDataManager.currentFiltering = "문제 풀이"
+                present(vc, animated: true)
                 print("DEBUG: 2번")
             } else if self.selectedItem == 3 {
                 print("DEBUG: 3번")
+                
             }
             
         } else {

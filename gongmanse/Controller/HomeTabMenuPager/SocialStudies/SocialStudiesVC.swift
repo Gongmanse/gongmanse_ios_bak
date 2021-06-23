@@ -48,6 +48,7 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     
     var inputFilterNum = 0
     var inputSortNum = 4
+    var noteShow: FilterVideoModels?
     
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
@@ -236,6 +237,26 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                     self.textSettings()
                 }
 
+            }.resume()
+        }
+    }
+    
+    func getDataFromJsonNote() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=35&offset=0&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.noteShow = json
+                    
+                }
+                DispatchQueue.main.async {
+                    self.socialStudiesCollection.reloadData()
+                }
             }.resume()
         }
     }
@@ -447,9 +468,38 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 navigationController?.pushViewController(vc, animated: true)
                 print("DEBUG: 1번")
             } else if self.selectedItem == 2 {
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = socialStudiesVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
+                vc.socialStudiesSeriesId = seriesID
+                vc.socialStudiesSwitchValue = playSwitch
+                vc.socialStudiesReceiveData = socialStudiesVideo
+                vc.socialStudiesSelectedBtn = selectBtn
+//                vc.koreanViewTitle = viewTitle.text
+                vc.socialStudiesViewTitle = "사회"
+//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                let autoDataManager = AutoplayDataManager.shared
+                autoDataManager.currentFiltering = "문제 풀이"
+                present(vc, animated: true)
+                print("DEBUG: 2번")
 
                 print("DEBUG: 2번")
             } else if self.selectedItem == 3 {
+                let videoID = socialStudiesVideo?.body[indexPath.row].videoId
+                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                
+                // 노트 전체보기 화면에 SeriesID가 필요
+                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+                    vc.seriesID = seriesID
+                }
+
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
                 print("DEBUG: 3번")
             }
             

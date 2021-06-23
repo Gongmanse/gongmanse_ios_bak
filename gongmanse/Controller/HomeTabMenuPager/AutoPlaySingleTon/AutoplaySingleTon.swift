@@ -58,6 +58,8 @@ class AutoplayDataManager {
     // 나의활동 > 즐겨찾기
     var isAutoplayBookMarkTab: Bool = false
     
+    var isAutoPlayMainProblemTab: Bool = false
+    
     var isAllTabAutoplayOn: Bool {
         return isAutoplayMainSubject &&
             isAutoplayScience &&
@@ -100,6 +102,9 @@ class AutoplayDataManager {
     
     /// "나의 활동 - 즐겨찾기"에 있는 데이터 20 개
     var videoDataInBookMarkVideoMyActTab: VideoInput?
+    
+    /// 홈 탭 문제풀이
+    var videoDataInProblemTab: VideoInput?
     
     var mainSubjectListCount = 0
     var scienceListCount = 0

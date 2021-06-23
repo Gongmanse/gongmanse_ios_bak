@@ -174,7 +174,7 @@ class LectureNoteController: UIViewController {
     
     @objc fileprivate func openWritingImplement() {
                 
-        var noteMode = scrollView.isScrollEnabled
+        let noteMode = scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
         let width = view.frame.width * 0.5
 

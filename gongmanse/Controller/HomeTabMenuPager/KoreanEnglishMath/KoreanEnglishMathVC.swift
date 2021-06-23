@@ -52,6 +52,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         }
     }
     var koreanEnglishMathVideoSecond: FilterVideoModels?
+    var noteShow: FilterVideoModels?
     
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
@@ -95,6 +96,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         textInput()
         cornerRadius()
         ChangeSwitchButton()
+        getDataFromJsonNote()
         
         autoPlayLabel.isHidden = true
         playSwitch.isHidden = true
@@ -243,6 +245,26 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
                     self.textSettings()
                 }
 
+            }.resume()
+        }
+    }
+    
+    func getDataFromJsonNote() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=34&offset=0&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.noteShow = json
+                    
+                }
+                DispatchQueue.main.async {
+                    self.koreanEnglishMathCollection.reloadData()
+                }
             }.resume()
         }
     }
@@ -464,16 +486,32 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             
             // 문제 풀이
             } else if self.selectedItem == 2 {
-
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
+                vc.koreanSeriesId = seriesID
+                vc.koreanSwitchValue = playSwitch
+                vc.koreanReceiveData = koreanEnglishMathVideo
+                vc.koreanSelectedBtn = selectBtn
+//                vc.koreanViewTitle = viewTitle.text
+                vc.koreanViewTitle = "국영수"
+//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                let autoDataManager = AutoplayDataManager.shared
+                autoDataManager.currentFiltering = "문제 풀이"
+                present(vc, animated: true)
                 print("DEBUG: 2번")
             // 노트보기
             } else if self.selectedItem == 3 {
 
-                let videoID = koreanEnglishMathVideoSecond?.data[indexPath.row].id
+                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
                 
                 // 노트 전체보기 화면에 SeriesID가 필요
-                if let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId {
+                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
                     vc.seriesID = seriesID
                 }
 

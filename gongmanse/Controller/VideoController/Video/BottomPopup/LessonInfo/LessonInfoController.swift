@@ -218,20 +218,24 @@ class LessonInfoController: UIViewController {
         
         let videoDataManager = VideoDataManager.shared
         
-        delegate?.videoVCPauseVideo()
-        let presentVC = LecturePlaylistVC(videoID ?? "")
-        presentVC.lectureState = .lectureList
-        presentVC.seriesID = self.seriesID
-        let pipVideoData = PIPVideoData(isPlayPIP: true,
-                                        videoURL: videoDataManager.previousVideoURL,
-                                        currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
-                                        videoTitle: self.lessonnameLabel.text ?? "",
-                                        teacherName: self.teachernameLabel.text ?? "")
-        presentVC.pipData = pipVideoData
-        let nav = UINavigationController(rootViewController: presentVC)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: true)
-        // TODO: 관련시리즈를 켠다.
+        if Constant.isLogin {
+            delegate?.videoVCPauseVideo()
+            let presentVC = LecturePlaylistVC(videoID ?? "")
+            presentVC.lectureState = .lectureList
+            presentVC.seriesID = self.seriesID
+            let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                            videoURL: videoDataManager.previousVideoURL,
+                                            currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
+                                            videoTitle: self.lessonnameLabel.text ?? "",
+                                            teacherName: self.teachernameLabel.text ?? "")
+            presentVC.pipData = pipVideoData
+            let nav = UINavigationController(rootViewController: presentVC)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+            // TODO: 관련시리즈를 켠다.
+        } else {
+            presentAlert(message: "로그인 후 이용해주세요.")
+        }
     }
     
     @objc func handleProblemSolvingAction() {

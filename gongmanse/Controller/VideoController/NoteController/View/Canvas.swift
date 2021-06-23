@@ -112,9 +112,8 @@ class Canvas: UIView {
         }
     }
     
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         lines.append(Line.init(strokeWidth: strokeWidth,
                                color: strokeColor,
                                points: []))

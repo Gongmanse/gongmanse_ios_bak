@@ -136,6 +136,11 @@ extension VideoController {
                 autoPlayVideo()
                 return
             }
+        } else if autoPlayDataManager.currentViewTitleView == "국영수" && autoPlayDataManager.currentFiltering == "문제 풀이" {
+            if autoPlayDataManager.isAutoplayMainSubject {
+                autoPlayVideo()
+                return
+            }
         } else if autoPlayDataManager.currentViewTitleView == "과학" {
             if autoPlayDataManager.isAutoplayScience {
                 autoPlayVideo()
@@ -190,6 +195,11 @@ extension VideoController {
             endIndex = autoPlayDataManager.videoDataInMainSubjectsTab?.body.endIndex ?? 3
             currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInMainSubjectsTab)
             videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
+            
+        } else if autoPlayDataManager.currentViewTitleView == "국영수" && autoPlayDataManager.currentFiltering == "문제 풀이" {
+            endIndex = autoPlayDataManager.videoDataInProblemTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInProblemTab)
+            videoID = autoPlayDataManager.videoDataInProblemTab?.body[currentIndex + 1].videoId ?? "15188"
             
         } else if autoPlayDataManager.currentViewTitleView == "과학" {
             endIndex = autoPlayDataManager.videoDataInScienceTab?.body.endIndex ?? 3

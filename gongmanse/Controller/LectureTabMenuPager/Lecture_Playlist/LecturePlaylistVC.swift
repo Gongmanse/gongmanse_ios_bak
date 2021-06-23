@@ -206,6 +206,7 @@ class LecturePlaylistVC: UIViewController {
         configureUI()               // 태그 UI 설정
         collectionView.delegate = self
         collectionView.dataSource = self
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
         
         // UISwitch UI 속성 설정

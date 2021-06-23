@@ -48,6 +48,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     
     var inputFilterNum = 0
     var inputSortNum = 4
+    var noteShow: FilterVideoModels?
     
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
@@ -232,6 +233,26 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
 
         self.videoTotalCount.attributedText = attributedString
+    }
+    
+    func getDataFromJsonNote() {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=34&offset=0&limit=20") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.noteShow = json
+                    
+                }
+                DispatchQueue.main.async {
+                    self.scienceCollection.reloadData()
+                }
+            }.resume()
+        }
     }
     
     
@@ -462,12 +483,34 @@ extension ScienceVC: UICollectionViewDelegate {
             
             // 문제 풀이
             } else if self.selectedItem == 2 {
-
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = scienceVideo?.body[indexPath.row].videoId
+                vc.id = videoID
+                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
+                vc.scienceSeriesId = seriesID
+                vc.scienceSwitchValue = playSwitch
+                vc.scienceReceiveData = scienceVideo
+                vc.scienceSelectedBtn = selectBtn
+//                vc.koreanViewTitle = viewTitle.text
+                vc.scienceViewTitle = "과학"
+//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                let autoDataManager = AutoplayDataManager.shared
+                autoDataManager.currentFiltering = "문제 풀이"
+                present(vc, animated: true)
                 print("DEBUG: 2번")
             // 노트보기
             } else if self.selectedItem == 3 {
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                
+                // 노트 전체보기 화면에 SeriesID가 필요
+                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+                    vc.seriesID = seriesID
+                }
+
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
@@ -477,7 +520,6 @@ extension ScienceVC: UICollectionViewDelegate {
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

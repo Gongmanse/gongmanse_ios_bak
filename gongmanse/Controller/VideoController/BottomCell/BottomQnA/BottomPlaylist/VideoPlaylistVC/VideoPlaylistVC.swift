@@ -200,6 +200,11 @@ class VideoPlaylistVC: UIViewController {
                                               isAutoPlay: isAutoplayOnMainSubject,
                                               comeFromTab: "국영수")
         
+        let isAutoplayOnMainProblem = autoPlayDataManager.isAutoPlayMainProblemTab
+        insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInProblemTab,
+                                              isAutoPlay: isAutoplayOnMainProblem,
+                                              comeFromTab: "국영수")
+        
         // 과학
         let isAutoplayOnScience = autoPlayDataManager.isAutoplayScience
         insertVideoDataToViewModelAutoPlaying(autoPlayDataManager.videoDataInScienceTab,
@@ -293,6 +298,22 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
          국영수 자동재생 On/Off
          */
         if autoPlayDataManager.currentViewTitleView == "국영수" {
+            // 자동재생 On
+            if autoPlayDataManager.isAutoplayMainSubject {
+                let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
+                self.videoCountTotalLabel.text = "/" + "\(autoPlayDataCount)"
+
+                return autoPlayDataCount
+                
+                // 자동재생 Off
+            } else {
+                let dataCount = viewModel.videoData.data.count
+                self.videoCountTotalLabel.text = "/" + "\(dataCount)"
+                return dataCount
+            }
+        }
+        
+        if autoPlayDataManager.currentViewTitleView == "국영수" && autoPlayDataManager.currentFiltering == "문제 풀이" {
             // 자동재생 On
             if autoPlayDataManager.isAutoplayMainSubject {
                 let autoPlayDataCount = viewModel.autoPlayVideoData.body.count
@@ -482,6 +503,30 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        if autoPlayDataManager.currentViewTitleView == "국영수" && autoPlayDataManager.currentFiltering == "문제 풀이" {
+            /**
+             true : 국영수 + 자동재생 On
+             false: 국영수 + 자동재생 off
+             */
+            if autoPlayDataManager.isAutoplayMainSubject {
+                
+                let autoPlayData = self.viewModel.autoPlayVideoData.body[indexPath.row]
+                cell.row = indexPath.row
+                cell.autoPlayData = autoPlayData
+                
+                guard let currentVideoID
+                        = autoPlayDataManager.videoDataInProblemTab?.body[indexPath.row].videoId
+                else { return cell }
+                
+                if videoDataManager.currentVideoID == currentVideoID {
+                    cell.highlightView.backgroundColor = .progressBackgroundColor
+                    self.videoCountLabel.text = "\(indexPath.row + 1)"
+                } else { cell.highlightView.backgroundColor = .clear }
+                
+                return cell
+            }
+        }
+        
         if autoPlayDataManager.currentViewTitleView == "과학" {
             /**
              true : 과학 + 자동재생 On
@@ -654,6 +699,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         tableViewCellDidTap(indexPath: indexPath, "검색")
         tableViewCellDidTap(indexPath: indexPath, "최근영상")
         tableViewCellDidTap(indexPath: indexPath, "즐겨찾기")
+        tableViewCellDidTap(indexPath: indexPath, "문제 풀이")
         
         // TODO: 나의활동 - 최근영상
         // TODO: 나의활동 - 즐겨찾기
@@ -680,6 +726,14 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 videoDataManager.addVideoIDLog(videoID: selectedID)
                 return
                 
+            }
+            
+            //국영수 문제풀이
+            if autoPlayDataManager.isAutoPlayMainProblemTab {
+                guard let selectedID = viewModel.autoPlayVideoData.body[indexPath.row].videoId else { return }
+                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                videoDataManager.addVideoIDLog(videoID: selectedID)
+                return
             }
             
             // 과학
