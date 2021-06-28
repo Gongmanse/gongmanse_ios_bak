@@ -146,8 +146,8 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     func deleteSelectedRowInAPI(_ selectedIndex: Int) {
         
         guard let json = self.deleteLectureQnA else { return }
-        let indexid = json.data[selectedIndex].sQid
-        let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid ?? "nil")
+        guard let indexid = json.data[selectedIndex].sQid else { return }
+        let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid)
         LectureQuestionsDeleteBottomPopUpVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
     }
     

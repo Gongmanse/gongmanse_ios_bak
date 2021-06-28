@@ -684,6 +684,15 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
 
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if self.viewModel.videoData.data.count == 1 {
+            return tableView.frame.height
+        } else {
+            return 80
+        }
+    }
+    
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
 

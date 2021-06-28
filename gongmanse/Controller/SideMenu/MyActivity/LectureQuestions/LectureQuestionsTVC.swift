@@ -27,6 +27,8 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
+    var inputSortNum = 4
+    
     var delegate: LectureQuestionsTVCDelegate?
     
     var height: CGFloat = 360
@@ -50,6 +52,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.isDeleteMode = true
+        tableView.reloadData()
         
     }
     
@@ -59,7 +62,21 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=\(sortedId ?? 4)") {
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 1
+        case 2:
+            inputSortNum = 2
+        case 3:
+            inputSortNum = 3
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -204,11 +221,17 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
-        let videoID = lectureQnA?.data[indexPath.row].id
-        vc.id = videoID
-        present(vc, animated: true)
+        guard let value = self.lectureQnA else { return }
+        
+        if value.totalNum == "0" {
+            presentAlert(message: "강의 QnA 목록이 없습니다.")
+        } else {
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            let videoID = lectureQnA?.data[indexPath.row].id
+            vc.id = videoID
+            present(vc, animated: true)
+        }
     }
 }
 

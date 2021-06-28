@@ -24,7 +24,7 @@ class LectureDetailViewModel {
     // 강사별 강의
     func lectureDetailApi(_ seriesID: String, offset: Int) {
         
-        var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=\(offset)"
+        var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=\(offset)&limit=300"
         print(detailUrl)
         
         if isMoreList == false {

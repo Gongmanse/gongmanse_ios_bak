@@ -26,6 +26,8 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
+    var inputSortNum = 4
+    
     var pageIndex: Int!
     var bookMark: FilterVideoModels?
     var tableViewInputData: [FilterVideoData]?
@@ -84,7 +86,21 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 1
+        case 2:
+            inputSortNum = 2
+        case 3:
+            inputSortNum = 3
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -283,12 +299,17 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
         autoPlayDataManager.currentViewTitleView = "즐겨찾기"
         
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
-        let videoID = bookMark?.data[indexPath.row].id
-        vc.id = videoID
-        present(vc, animated: true)
+        if receivedData.totalNum == "0" {
+            presentAlert(message: "즐겨찾기 목록이 없습니다.")
+        } else {
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            let videoID = bookMark?.data[indexPath.row].id
+            vc.id = videoID
+            present(vc, animated: true)
+        }
     }
 }
 

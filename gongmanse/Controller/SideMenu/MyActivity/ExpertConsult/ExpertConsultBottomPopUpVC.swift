@@ -20,7 +20,7 @@ class ExpertConsultBottomPopUpVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     private var expertConsultFilterText = ""
     
-    var titleNames = ["이름순", "과목순", "평점순", "최신순"]
+    var titleNames = ["최신순", "조회순", "답변 완료순"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

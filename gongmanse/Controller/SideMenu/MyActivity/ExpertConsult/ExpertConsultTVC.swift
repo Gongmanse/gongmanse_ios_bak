@@ -18,6 +18,8 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
+    var inputSortNum = 4
+    
     var pageIndex: Int!
     var expertConsult: ExpertModels?
     var tableViewInputData: [ExpertModelData]?
@@ -63,7 +65,19 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 5
+        case 2:
+            inputSortNum = 6
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -209,10 +223,18 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
-        vc.receiveData = expertConsult?.data[indexPath.row]
-        self.navigationController?.pushViewController(vc, animated: true)
+        guard let value = self.expertConsult else { return }
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if value.totalNum == "0" {
+            presentAlert(message: "전문가 상담 목록이 없습니다.")
+        } else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
+            vc.receiveData = expertConsult?.data[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 
@@ -223,10 +245,8 @@ extension ExpertConsultTVC: ExpertConsultBottomPopUpVCDelegate {
             self.sortedId = 0
         } else if expertConsultSortedIdRowIndex == 1 {   // 2 번째 Cell
             self.sortedId = 1
-        } else if expertConsultSortedIdRowIndex == 2 {   // 3 번째 Cell
+        } else {   // 3 번째 Cell
             self.sortedId = 2
-        } else {                            // 4 번째 Cell
-            self.sortedId = 3
         }
         
         self.delegate?.expertConsultPassSortedIdSettingValue(expertConsultSortedIdRowIndex)

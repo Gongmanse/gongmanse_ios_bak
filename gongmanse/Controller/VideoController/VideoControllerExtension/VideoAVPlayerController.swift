@@ -3,6 +3,7 @@ import AVKit
 // MARK: - Video Method
 
 extension VideoController {
+    
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
     @objc func handleSubtitleToggle() {
         if self.subtitleLabel.alpha == 0 {

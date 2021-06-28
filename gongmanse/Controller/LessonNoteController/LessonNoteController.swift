@@ -41,6 +41,8 @@ class LessonNoteViewModel {
         print("DEBUG: videoIDArr.count is \(videoIDArr.count)")
         if (videoIDArr.count - 1) == currentIndex {
             return "BLOCK"
+        } else if videoIDArr.count == 0 {
+            return "BLOCK"
         } else {
             currentIndex += 1
             return videoIDArr[currentIndex]
@@ -400,6 +402,10 @@ class LessonNoteController: UIViewController {
     
     /// 다음 노트를 호출하는 메소드
     @objc func nextButtonDidTap() {
+        
+        if viewModel.videoIDArr.count == 0 {
+            presentAlert(message: "마지막 페이지 입니다.")
+        }
         
         if viewModel.nextVideoID == "BLOCK" {
             presentAlert(message: "마지막 페이지 입니다.")

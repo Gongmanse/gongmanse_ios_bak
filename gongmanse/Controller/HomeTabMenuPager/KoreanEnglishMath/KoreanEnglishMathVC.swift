@@ -15,9 +15,9 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     
     // 자동재생기능 구현을 위한 싱글톤객체를 생성한다.
     let autoplayDataManager = AutoplayDataManager.shared
-
+    
     var delegate: KoreanEnglishMathVCDelegate?
-
+    
     var problemSolvingListData: FilterVideoModels? {
         didSet {
             if let input = problemSolvingListData {
@@ -89,14 +89,15 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     //
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         koreanEnglishMathCollection.refreshControl = koreanEnglishMathRC
         print(#function)
         getDataFromJson()
         getDataFromJsonSecond()
+        getDataFromJsonNote()
         textInput()
         cornerRadius()
         ChangeSwitchButton()
-        getDataFromJsonNote()
         
         autoPlayLabel.isHidden = true
         playSwitch.isHidden = true
@@ -204,8 +205,8 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
                     let decoder = JSONDecoder()
                     
                     if let json = try? decoder.decode(VideoInput.self, from: data) {
-                        guard let isMores = json.header?.isMore else { return}
-                        self.isMoreBool = Bool(isMores) ?? false
+//                        guard let isMores = json.header?.isMore else { return}
+//                        self.isMoreBool = Bool(isMores) ?? false
                         for i in 0..<json.body.count {
                             self.koreanEnglishMathVideo?.body.append(json.body[i])
                         }
@@ -223,29 +224,50 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     }
     
     func getDataFromJsonSecond() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=34&commentary=\(inputFilterNum)&sort_id=4&limit=20") {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=34&offset=\(listCount)&commentary=\(inputFilterNum)&sort_id=\(inputSortNum)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
-
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    //print(json.body)
-                    self.koreanEnglishMathVideoSecond = json
-                    
-                    // 문제풀이인 경우,
-                    if self.selectedItem == 2 {
-                        self.problemSolvingListData = json
+            
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                        //print(json.body)
+                        self.koreanEnglishMathVideoSecond = json
+                        
+                        // 문제풀이인 경우,
+//                        if self.selectedItem == 2 {
+//                            self.problemSolvingListData = json
+//                        }
+                        
+                    }
+                    DispatchQueue.main.async {
+                        self.koreanEnglishMathCollection.reloadData()
+                        self.textSettings()
                     }
                     
-                }
-                DispatchQueue.main.async {
-                    self.koreanEnglishMathCollection.reloadData()
-                    self.textSettings()
-                }
-
-            }.resume()
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    
+                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+//                        guard let isMores = json.isMore else { return}
+//                        self.isMoreBool = Bool(isMores)
+                        for i in 0..<json.data.count {
+                            self.koreanEnglishMathVideoSecond?.data.append(json.data[i])
+                        }
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.koreanEnglishMathCollection.reloadData()
+                    }
+                    
+                }.resume()
+            }
         }
     }
     
@@ -253,7 +275,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=34&offset=0&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
-
+            
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
@@ -276,10 +298,10 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: videoTotalCount.text!, attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .medium), .foregroundColor: UIColor.black])
-
+        
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14, weight: .medium), range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
-
+        
         self.videoTotalCount.attributedText = attributedString
     }
     
@@ -430,8 +452,8 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             guard let value = self.koreanEnglishMathVideo else { return }
             let data = value.body
             
-//            guard let selectedVideoIndex = self.selectedRow else { return }
-//            print("slectedRow is \(selectedVideoIndex)")
+            //            guard let selectedVideoIndex = self.selectedRow else { return }
+            //            print("slectedRow is \(selectedVideoIndex)")
             let vc = VideoController()
             vc.id = data[sender.tag].videoId
             vc.modalPresentationStyle = .fullScreen
@@ -467,15 +489,15 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 vc.koreanSwitchValue = playSwitch
                 vc.koreanReceiveData = koreanEnglishMathVideo
                 vc.koreanSelectedBtn = selectBtn
-//                vc.koreanViewTitle = viewTitle.text
+                //                vc.koreanViewTitle = viewTitle.text
                 vc.koreanViewTitle = "국영수 강의"
-//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 let autoDataManager = AutoplayDataManager.shared
                 autoDataManager.currentViewTitleView = "국영수"
                 present(vc, animated: true)
                 
                 
-            // 시리즈 보기
+                // 시리즈 보기
             } else if self.selectedItem == 1 {
                 let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
                 let seriesID = koreanEnglishMathVideo?.body[indexPath.row].seriesId
@@ -483,8 +505,8 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 vc.modalPresentationStyle = .fullScreen
                 navigationController?.pushViewController(vc, animated: true)
                 print("DEBUG: 1번")
-            
-            // 문제 풀이
+                
+                // 문제 풀이
             } else if self.selectedItem == 2 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
@@ -497,30 +519,30 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 vc.koreanSwitchValue = playSwitch
                 vc.koreanReceiveData = koreanEnglishMathVideo
                 vc.koreanSelectedBtn = selectBtn
-//                vc.koreanViewTitle = viewTitle.text
+                //                vc.koreanViewTitle = viewTitle.text
                 vc.koreanViewTitle = "국영수"
-//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 let autoDataManager = AutoplayDataManager.shared
                 autoDataManager.currentFiltering = "문제 풀이"
                 present(vc, animated: true)
                 print("DEBUG: 2번")
-            // 노트보기
+                // 노트보기
             } else if self.selectedItem == 3 {
-
+                
                 let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
                 
                 // 노트 전체보기 화면에 SeriesID가 필요
-                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
-                    vc.seriesID = seriesID
-                }
-
+//                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+//                    vc.seriesID = seriesID
+//                }
+                
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
                 print("DEBUG: 3번")
             }
-
+            
             
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
@@ -531,12 +553,18 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         guard let cellCount = koreanEnglishMathVideo?.body.count  else { return }
-
+        
+        guard let cellCountSecond = koreanEnglishMathVideoSecond?.data.count else { return }
+        
         if indexPath.row == cellCount - 1 {
             
             listCount += 20
             getDataFromJson()
-
+            
+        } else if indexPath.row == cellCountSecond - 1 {
+            
+            listCount += 20
+            getDataFromJsonSecond()
         }
     }
 }
@@ -595,10 +623,10 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
             self.selectedItem = 3 // 노트 보기
         }
         // 클릭한 indexRow에 맞는 index를 "KoreanEnglishMathVC"의 프로퍼티에 전달한다.
-//        self.selectedItem = selectedRowIndex
+        //        self.selectedItem = selectedRowIndex
         self.delegate?.koreanPassSelectedIndexSettingValue(selectedRowIndex)
         // 변경된 selectedItem으로 다시 API를 호출한다.
-//        getDataFromJson()
+        //        getDataFromJson()
         // collectionview를 업데이트한다.
         self.koreanEnglishMathCollection.reloadData()
     }

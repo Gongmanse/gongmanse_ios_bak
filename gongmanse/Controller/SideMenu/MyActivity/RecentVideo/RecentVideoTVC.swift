@@ -15,6 +15,8 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
     
+    var inputSortNum = 4
+    
     var isDeleteMode: Bool = true {
         didSet {
             self.tableView.reloadData()
@@ -54,6 +56,9 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(recentVideoFilterNoti(_:)), name: NSNotification.Name("recentVideoFilterText"), object: nil)
         
+        //스위치 버튼 크기 줄이기
+        playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +75,20 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=\(sortedId ?? 4)&offset&limit") {
+        switch sortedId {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 1
+        case 2:
+            inputSortNum = 2
+        case 3:
+            inputSortNum = 3
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset&limit") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -237,11 +255,15 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         autoPlayDataManager.videoDataInRecentVideoMyActTab = inputData
         autoPlayDataManager.currentViewTitleView = "최근영상"
         
-        let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
-        let videoID = recentViedo?.data[indexPath.row].video_id
-        vc.id = videoID
-        present(vc, animated: true)
+        if receivedData.totalNum == "0" {
+            presentAlert(message: "영상 목록이 없습니다.")
+        } else {
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            let videoID = recentViedo?.data[indexPath.row].video_id
+            vc.id = videoID
+            present(vc, animated: true)
+        }
     }
 }
 

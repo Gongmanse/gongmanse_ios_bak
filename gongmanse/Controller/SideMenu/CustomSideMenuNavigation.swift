@@ -70,7 +70,7 @@ class CustomSideMenuNavigation: SideMenuNavigationController, SideMenuNavigation
                                         width: footerView.frame.width * 0.5)
         
         let versionLabel = UILabel()
-        versionLabel.text = "버전 2.0.4"
+        versionLabel.text = "버전 2.0"
         versionLabel.font = UIFont.appBoldFontWith(size: 12)
         versionLabel.textColor = .gray
         versionLabel.backgroundColor = .white

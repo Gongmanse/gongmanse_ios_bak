@@ -292,7 +292,7 @@ class LessonInfoController: UIViewController {
                                                  width: view.frame.width * 0.9)
         sSubjectsUnitContainerView.anchor(top: view.topAnchor,
                                           left: view.leftAnchor,
-                                          paddingTop: paddingConstant, paddingLeft: 10)
+                                          paddingTop: paddingConstant, paddingLeft: 30)
         
         sSubjectLabel.layer.cornerRadius = 11.5
         sSubjectsUnitContainerView.addSubview(sSubjectLabel)

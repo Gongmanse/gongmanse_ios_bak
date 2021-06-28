@@ -20,7 +20,7 @@ class NoteListBottomPopUpVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     private var noteListFilterText = ""
     
-    var titleNames = ["이름순", "과목순", "평점순", "최신순"]
+    var titleNames = ["최신순", "이름순", "과목순", "평점순"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

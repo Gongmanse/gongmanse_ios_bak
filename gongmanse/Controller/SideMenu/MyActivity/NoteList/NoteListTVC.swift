@@ -18,6 +18,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
+    var inputSortNum = 4
+    
     var pageIndex: Int!
     var noteList: FilterVideoModels?
     var tableViewInputData: [FilterVideoData]?
@@ -66,7 +68,21 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId ?? 4)") {
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 1
+        case 2:
+            inputSortNum = 2
+        case 3:
+            inputSortNum = 3
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=0&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -221,12 +237,18 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        self.selectedRow = indexPath.row
-        let videoID = noteList?.data[indexPath.row].video_id
-        let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: true)
+        guard let value = self.noteList else { return }
+        
+        if value.totalNum == "0" {
+            presentAlert(message: "노트목록이 없습니다.")
+        } else {
+            self.selectedRow = indexPath.row
+            let videoID = noteList?.data[indexPath.row].video_id
+            let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        }
     }
 }
 

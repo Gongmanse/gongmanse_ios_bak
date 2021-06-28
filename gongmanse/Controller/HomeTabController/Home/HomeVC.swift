@@ -19,6 +19,8 @@ class HomeVC: UIViewController {
     
     var pageController: UIPageViewController!
     
+    var koreanVC: KoreanEnglishMathVC?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //네비게이션 바 색상 변경
@@ -32,6 +34,7 @@ class HomeVC: UIViewController {
         navigationItem.titleView = UIImageView(image: image)
         
         addBottomBorder()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -11,7 +11,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     
     var delegate: OtherSubjectsVCDelegate?
     let autoPlayDataManager = AutoplayDataManager.shared
-
+    
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
     var selectedItem: Int? {
@@ -62,7 +62,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     
     //collectionView 새로고침
     let otherSubjectsRC: UIRefreshControl = {
-       let refreshControl = UIRefreshControl()
+        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
@@ -78,7 +78,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         otherSubjectsCollection.reloadData()
         sender.endRefreshing()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         otherSubjectsCollection.refreshControl = otherSubjectsRC
@@ -211,40 +211,46 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                     
                 }.resume()
             }
-//            URLSession.shared.dataTask(with: request) { (data, response, error) in
-//                guard let data = data else { return }
-//                let decoder = JSONDecoder()
-//                if let json = try? decoder.decode(VideoInput.self, from: data) {
-//                    //print(json.body)
-//                    self.otherSubjectsVideo = json
-//                }
-//                DispatchQueue.main.async {
-//                    self.otherSubjectsCollection.reloadData()
-//                    self.textSettings()
-//                }
-//
-//            }.resume()
         }
     }
     
     func getDataFromJsonSecond() {
-//        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=37&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
+        //        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=37&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
         if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=37&commentary=\(selectedItem ?? 0)&sort_id=\(sortedId ?? 3)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
-
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    self.otherSubjectsVideoSecond = json
-                }
-                DispatchQueue.main.async {
-                    self.otherSubjectsCollection.reloadData()
-                    self.textSettings()
-                }
-
-            }.resume()
+            
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                        self.otherSubjectsVideoSecond = json
+                    }
+                    DispatchQueue.main.async {
+                        self.otherSubjectsCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                        
+                        for i in 0..<json.data.count {
+                            self.otherSubjectsVideoSecond?.data.append(json.data[i])
+                        }
+                        
+                    }
+                    DispatchQueue.main.async {
+                        self.otherSubjectsCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            }
         }
     }
     
@@ -255,18 +261,18 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: videoTotalCount.text!, attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .medium), .foregroundColor: UIColor.black])
-
+        
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14, weight: .medium), range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
-
+        
         self.videoTotalCount.attributedText = attributedString
     }
     
     func getDataFromJsonNote() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=34&offset=0&limit=20") {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=37&offset=0&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
-
+            
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
@@ -430,8 +436,8 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
             let data = value.body
             print("data is \(data)")
             print("senderTag is \(sender.tag)")
-//            guard let selectedVideoIndex = self.selectedRow else { return }
-//            print("slectedRow is \(selectedVideoIndex)")
+            //            guard let selectedVideoIndex = self.selectedRow else { return }
+            //            print("slectedRow is \(selectedVideoIndex)")
             let vc = VideoController()
             vc.id = data[sender.tag].videoId
             vc.modalPresentationStyle = .fullScreen
@@ -485,14 +491,25 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
                 vc.socialStudiesSwitchValue = playSwitch
                 vc.socialStudiesReceiveData = otherSubjectsVideo
                 vc.socialStudiesSelectedBtn = selectBtn
-//                vc.koreanViewTitle = viewTitle.text
+                //                vc.koreanViewTitle = viewTitle.text
                 vc.socialStudiesViewTitle = "기타"
-//                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 let autoDataManager = AutoplayDataManager.shared
                 autoDataManager.currentFiltering = "문제 풀이"
                 present(vc, animated: true)
                 print("DEBUG: 2번")
             } else if self.selectedItem == 3 {
+                let videoID = otherSubjectsVideo?.body[indexPath.row].videoId
+                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                
+                // 노트 전체보기 화면에 SeriesID가 필요
+                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+                    vc.seriesID = seriesID
+                }
+                
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
                 print("DEBUG: 3번")
                 
             }
@@ -506,9 +523,14 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
         
         guard let cellCount = otherSubjectsVideo?.body.count else { return }
         
+        guard let cellCountSecond = otherSubjectsVideoSecond?.data.count else { return }
+        
         if indexPath.row == cellCount - 1 {
             listCount += 20
             getDataFromJson()
+        } else if indexPath.row == cellCountSecond - 1 {
+            listCount += 20
+            getDataFromJsonSecond()
         }
     }
 }
@@ -560,10 +582,10 @@ extension OtherSubjectsVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
             self.selectedItem = 3 // 노트 보기
         }
         // 클릭한 indexRow에 맞는 index를 "KoreanEnglishMathVC"의 프로퍼티에 전달한다.
-//        self.selectedItem = selectedRowIndex
+        //        self.selectedItem = selectedRowIndex
         self.delegate?.otherSubjectsPassSelectedIndexSettingValue(selectedRowIndex)
         // 변경된 selectedItem으로 다시 API를 호출한다.
-//        getDataFromJson()
+        //        getDataFromJson()
         // collectionview를 업데이트한다.
         self.otherSubjectsCollection.reloadData()
     }

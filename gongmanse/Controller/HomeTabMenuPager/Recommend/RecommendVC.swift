@@ -16,7 +16,7 @@ class RecommendVC: UIViewController {
     var recommendVideoSecond: BeforeApiModels?
     
     let recommendRC: UIRefreshControl = {
-       let refreshControl = UIRefreshControl()
+        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
@@ -34,7 +34,7 @@ class RecommendVC: UIViewController {
     
     //API
     var default1 = 0
-
+    
     func getDataFromJson() {
         if let url = URL(string: makeStringKoreanEncoded(Recommend_Video_URL + "/모든?offset=\(default1)&limit=20")) {
             default1 += 20
@@ -46,7 +46,7 @@ class RecommendVC: UIViewController {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
-//                    self.recommendVideo = json
+                    //                    self.recommendVideo = json
                     self.recommendVideo.body.append(contentsOf: json.body)
                     /**
                      06.14
@@ -68,7 +68,7 @@ class RecommendVC: UIViewController {
             default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
-
+            
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
@@ -79,7 +79,7 @@ class RecommendVC: UIViewController {
                 DispatchQueue.main.async {
                     self.recommendCollection.reloadData()
                 }
-
+                
             }.resume()
         }
     }
@@ -93,14 +93,14 @@ class RecommendVC: UIViewController {
 
 extension RecommendVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let data = self.recommendVideo?.data else { return 0}
+        //        guard let data = self.recommendVideo?.data else { return 0}
         let recommendData = self.recommendVideo
         return recommendData.body.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendCVCell", for: indexPath) as! RecommendCVCell
-//        guard let json = self.recommendVideo else { return cell }
+        //        guard let json = self.recommendVideo else { return cell }
         
         let json = self.recommendVideo
         let indexData = json.body[indexPath.row]
@@ -222,12 +222,12 @@ extension RecommendVC: UICollectionViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
-//            /// TODO: 로딩인디케이터
-//            UIView.animate(withDuration: 3) {
-//                // 로딩이미지
-//            } completion: { (_) in
-//                // API 호출
-//            }
+            //            /// TODO: 로딩인디케이터
+            //            UIView.animate(withDuration: 3) {
+            //                // 로딩이미지
+            //            } completion: { (_) in
+            //                // API 호출
+            //            }
             getDataFromJson()
             recommendCollection.reloadData()
         }
@@ -236,14 +236,14 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
         // 토큰이 없는 경우
         // -> 추천 동영상 비디오 경로 API & 추천 동영상 비디오 노트 API를 호출한다.
         if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
             print("DEBUG: 게스트로입장")
             Constant.token = ""
             presentVideoController(indexPath.row)
-//            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            //            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         } else {
             // 이용권이 있는 계정으로 로그인
             presentVideoController(indexPath.row)

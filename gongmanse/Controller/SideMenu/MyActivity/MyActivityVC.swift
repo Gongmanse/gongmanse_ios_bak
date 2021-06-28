@@ -42,7 +42,7 @@ class MyActivityVC: UIViewController {
     
     @objc func trashImageAction(_ sender: UIButton) {
         
-//        isSelected = !isSelected
+        isSelected = !isSelected
         recentVideoTVC.isDeleteMode = isSelected
         noteListTVC.isDeleteMode = isSelected
         lectureQuestionsTVC.isDeleteMode = isSelected

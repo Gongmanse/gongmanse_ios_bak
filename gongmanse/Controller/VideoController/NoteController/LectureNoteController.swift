@@ -244,7 +244,7 @@ class LectureNoteController: UIViewController {
             // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
             let intID = Int(id)!
             
-            let sJson = "{\"aspectRatio\":0.45,\"strokes\":[" + "\(self.strokesString)" + "]}"
+            let sJson = "{\"aspectRatio\":\(String(0.45)),\"strokes\":[" + "\(self.strokesString)" + "]}"
             
             let willPassNoteData = NoteTakingInput(token: token,
                                                    video_id: intID,
@@ -260,7 +260,6 @@ class LectureNoteController: UIViewController {
     private func setupData() {
         
         guard let id = self.id else { return }
-        
         
         if Constant.isGuestKey {
             GuestKeyDataManager().GuestKeyAPIGetNoteData(videoID: id, viewController: self)
@@ -578,7 +577,7 @@ extension LectureNoteController {
                         xyPoints.append(xyPoint)
                     }
                     //                        print("DEBUG: xyPoint데이터 \n\(xyPoints)")
-                    let line = Line(strokeWidth: 0.5, color: penColor, points: xyPoints)
+                    let line = Line(strokeWidth: 0.005, color: penColor, points: xyPoints)
                     previousNoteTakingData.append(line)
                     //                        print("DEBUG: line데이터 \(line)")
                     

@@ -9,14 +9,14 @@ class PopularVC: UIViewController {
     var popularVideoSecond: BeforeApiModels?
     
     let popularRC: UIRefreshControl = {
-       let refreshControl = UIRefreshControl()
+        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
     
     @IBOutlet weak var viewTitle: UILabel!
     @IBOutlet weak var popularCollection: UICollectionView!
-
+    
     // 무한 스크롤 프로퍼티
     var gradeText: String = ""
     var listCount: Int = 0
@@ -35,11 +35,11 @@ class PopularVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         popularCollection.refreshControl = popularRC
         
-//        getDataFromJson()
+        //        getDataFromJson()
         viewTitleSettings()
-        
     }
     
     func viewTitleSettings() {
@@ -81,7 +81,7 @@ class PopularVC: UIViewController {
             
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
-
+            
             switch isDataListMore {
             
             case false:
@@ -100,7 +100,7 @@ class PopularVC: UIViewController {
                         DispatchQueue.main.async {
                             self.popularCollection.reloadData()
                         }
-
+                        
                     }.resume()
                 } else {
                     URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -124,7 +124,7 @@ class PopularVC: UIViewController {
                         DispatchQueue.main.async {
                             self.popularCollection.reloadData()
                         }
-
+                        
                     }.resume()
                 }
             }
@@ -141,18 +141,18 @@ class PopularVC: UIViewController {
 extension PopularVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //guard let data = self.popularVideo?.data else { return 0}
-//        let popularData = self.popularVideo
-//        return popularData.body.count
+        //        let popularData = self.popularVideo
+        //        return popularData.body.count
         return popularVideoSecond?.data.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PopularCVCell", for: indexPath) as! PopularCVCell
         //guard let json = self.popularVideo else { return cell }
-  
+        
         // 2.0 API
-//        let json = self.popularVideo
-//        let indexData = json.body[indexPath.row]
+        //        let json = self.popularVideo
+        //        let indexData = json.body[indexPath.row]
         
         // 1.0 API
         let indexData = popularVideoSecond?.data[indexPath.row]
@@ -180,7 +180,7 @@ extension PopularVC: UICollectionViewDataSource {
         default:
             cell.starRating.text = indexData?.iRating
         }
-
+        
         if indexData?.sUnit != "" {
             cell.term.isHidden = false
             cell.term.text = indexData?.sUnit
@@ -210,20 +210,20 @@ extension PopularVC: UICollectionViewDataSource {
         }
     }
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let position = scrollView.contentOffset.y
-//        if position == (popularCollection.contentSize.height - scrollView.frame.size.height) {
-            // TODO: 로딩인디케이터
-//            UIView.animate(withDuration: 3) {
-//                // 로딩이미지
-//            } completion: { (_) in
-//                // API 호춣
-//            }
-//            getDataFromJson()
-//            popularCollection.reloadData()
-//            print("hshs")
-//        }
-//    }
+    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //        let position = scrollView.contentOffset.y
+    //        if position == (popularCollection.contentSize.height - scrollView.frame.size.height) {
+    // TODO: 로딩인디케이터
+    //            UIView.animate(withDuration: 3) {
+    //                // 로딩이미지
+    //            } completion: { (_) in
+    //                // API 호춣
+    //            }
+    //            getDataFromJson()
+    //            popularCollection.reloadData()
+    //            print("hshs")
+    //        }
+    //    }
 }
 
 extension PopularVC: UICollectionViewDelegate {
@@ -241,8 +241,8 @@ extension PopularVC: UICollectionViewDelegate {
             vc.modalPresentationStyle = .fullScreen
             let videoID = popularVideoSecond?.data[indexPath.row].id
             vc.id = videoID
-//            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
-//            vc.popularSeriesId = seriesID
+            //            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
+            //            vc.popularSeriesId = seriesID
             vc.popularReceiveData = popularVideo
             vc.popularViewTitle = viewTitle.text
             
@@ -258,7 +258,7 @@ extension PopularVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         guard let cellCount = popularVideoSecond?.data.count  else { return }
-
+        
         if indexPath.row == cellCount - 1 {
             
             listCount += 20
