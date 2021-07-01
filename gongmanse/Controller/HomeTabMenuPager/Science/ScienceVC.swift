@@ -456,11 +456,6 @@ extension ScienceVC: UICollectionViewDataSource {
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-            return
-        }
-        
         // 06.16 이전코드
         //        if Constant.isLogin {
         //            let vc = VideoController()
@@ -547,6 +542,9 @@ extension ScienceVC: UICollectionViewDelegate {
                 print("DEBUG: 3번")
             }
             
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

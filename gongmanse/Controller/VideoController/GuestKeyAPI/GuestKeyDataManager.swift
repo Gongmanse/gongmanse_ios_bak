@@ -60,6 +60,31 @@ class GuestKeyDataManager {
                 }
             }
     }
+    
+    func GuestKeyAPIGetNoteData(videoID: String, viewController: LessonNoteController) {
+        
+        // viewModel -> paramters 를 통해 값을 전달한다.
+        let videoID = videoID
+        
+        // URL을 구성한다.
+        let url = "https://api.gongmanse.com/v/video/recommendnotes?video_id=\(videoID)"
+        
+        /// HTTP Method: GET
+        /// API 명: "02025. 추천 동영상 비디오 노트"
+        AF.request(url)
+            .responseDecodable(of: GuestKeyNoteResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    print("DEBUG: 게스트키 노트 API 통신 성공")
+                    viewController.getNoteImageFromGuestKeyNoteAPI(response: response)
+                    
+                case .failure(let error):
+                    print("DEBUG: 게스트키 노트 API 통신 실패")
+                    print("DEBUG: faild connection \(error.localizedDescription)")
+                }
+            }
+    }
 }
 
 

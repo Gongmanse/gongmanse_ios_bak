@@ -66,6 +66,7 @@ class LoginVC: UIViewController {
     /// 로그인 버튼 클릭 시, 호출되는 Callback method
     @IBAction func handleLogin(_ sender: Any) {
         LoginDataManager().sendingLoginInfo(LoginInput(usr: "\(viewModel.username)", pwd: "\(viewModel.password)"), viewController: self)
+        
     }
     
     /// 아이디찾기 버튼 클릭 시, 호출되는 Callback method

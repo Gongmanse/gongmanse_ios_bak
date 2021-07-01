@@ -75,7 +75,6 @@ class SearchAfterVC: UIViewController {
         return button
     }()
     
-    
     // delegate
     weak var reloadDelegate: ReloadDataRecentKeywordDelegate?
     weak var delegate: SearchAfterVCDelegate?
