@@ -187,7 +187,7 @@ class LectureNoteController: UIViewController {
         */
         if !noteMode {
             
-            self.writingImplementLeftConstraint?.constant = isLandscapeMode ? -(width) : -(width * 0.8)
+            self.writingImplementLeftConstraint?.constant = isLandscapeMode ? -(width * 0.74) : -(width * 0.8) //가로 모드 노트필기 닫혇을 때 : 열렸을 때
             self.writingImplementToggleButton.setImage(.none, for: .normal)
             self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             self.savingNoteButton.setTitle("노트\n보기", for: .normal)

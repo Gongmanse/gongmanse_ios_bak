@@ -15,6 +15,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     let autoPlayDataManager = AutoplayDataManager.shared
     
+    @IBOutlet weak var autoPlayLabel: UILabel!
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -81,7 +82,15 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     @objc func playSwitchDidTap(_ sender: UISwitch) {
         
         autoPlayDataManager.isAutoplayBookMarkTab = sender.isOn
+    }
+    
+    @IBAction func autoplaySwitch(_ sender: UISwitch) {
         
+        if playSwitch.isOn {
+            autoPlayLabel.textColor = UIColor.black
+        } else {
+            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        }
     }
     
     

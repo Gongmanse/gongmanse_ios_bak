@@ -309,6 +309,14 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
+    
+    @IBAction func playSwitchAction(_ sender: Any) {
+        if playSwitch.isOn {
+            autoPlayLabel.textColor = UIColor.black
+        } else {
+            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        }
+    }
 }
 
 extension OtherSubjectsVC: UICollectionViewDataSource {

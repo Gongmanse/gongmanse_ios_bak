@@ -19,7 +19,7 @@ class StoreVC: UIViewController {
     let sku: [String] = ["30일", "90일", "150일"]
     
     let purchaseOn: [String] = ["30DayTicketOn","90DayTicketOn","1YearTicketOn"]
-    let purchaseOff: [String] = ["30DayTicketOff","90DayTicketOff","150DayTicketOff"]
+    let purchaseOff: [String] = ["30DayTicketOff","90DayTicketOff","1YearTicketOff"]
     
     var buttonText = ""
     
@@ -209,7 +209,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         public static let store30 = IAPHelper(productIds: InAppProducts.productIdentifiers)
     }
     public struct InAppProducts90 {
-        public static let product90 = "90days"
+        public static let product90 = "90days_new"
         private static let productIdentifiers: Set<ProductIdentifier> = [InAppProducts90.product90]
         public static let store90 = IAPHelper(productIds: InAppProducts90.productIdentifiers)
     }

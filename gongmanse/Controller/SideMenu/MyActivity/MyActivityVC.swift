@@ -51,7 +51,7 @@ class MyActivityVC: UIViewController {
     }
     
     func addBottomBorder() {
-        let thickness: CGFloat = 0.5
+       let thickness: CGFloat = 0.5
        let bottomBorder = CALayer()
        bottomBorder.frame = CGRect(x:0, y: self.tabsView.frame.size.height - thickness, width: self.tabsView.frame.size.width, height:thickness)
        bottomBorder.backgroundColor = UIColor.systemGray4.cgColor

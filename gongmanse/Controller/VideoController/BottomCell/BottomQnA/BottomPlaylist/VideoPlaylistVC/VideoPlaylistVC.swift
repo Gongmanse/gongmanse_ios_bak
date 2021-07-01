@@ -451,7 +451,10 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
             guard let emptyCell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath)
                     as? EmptyTableViewCell else { return UITableViewCell() }
             emptyCell.selectionStyle = .none
+            tableView.isScrollEnabled = false
             return emptyCell
+        } else {
+            tableView.isScrollEnabled = true
         }
         
         guard let cell = tableView
@@ -1032,7 +1035,6 @@ extension VideoPlaylistVC {
         for (index, data) in displayedData.enumerated() {
             if videoDataManager.currentVideoID == data.id {
                 currentIndexPathRow = index
-                
             }
         }
         self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),

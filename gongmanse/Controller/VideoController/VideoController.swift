@@ -546,6 +546,13 @@ class VideoController: UIViewController, VideoMenuBarDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //무음시에도 소리가 나는 코드 추가
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+        }
 
         // 가로모드를 제한한다.
 //        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)

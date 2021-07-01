@@ -10,6 +10,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     let autoPlayDataManager = AutoplayDataManager.shared
     
+    @IBOutlet weak var autoPlayLabel: UILabel!
     @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -208,6 +209,11 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         autoPlayDataManager.isAutoplayRecentTab = sender.isOn
         
+        if playSwitch.isOn {
+            autoPlayLabel.textColor = UIColor.black
+        } else {
+            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -108,7 +108,6 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         
         //xib 셀 등록
         koreanEnglishMathCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
-        
     }
     
     @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -325,6 +324,14 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         popupVC.delegate = self
         popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
+    }
+    
+    @IBAction func playSwitchAction(_ sender: Any) {
+        if playSwitch.isOn {
+            autoPlayLabel.textColor = UIColor.black
+        } else {
+            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        }
     }
 }
 

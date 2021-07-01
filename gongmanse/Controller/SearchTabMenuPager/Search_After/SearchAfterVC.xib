@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" placeholder="검색어를 입력하세요" translatesAutoresizingMaskIntoConstraints="NO" id="zZU-1T-WaH">
+                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="zZU-1T-WaH">
                     <rect key="frame" x="13" y="64" width="364" height="56"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>

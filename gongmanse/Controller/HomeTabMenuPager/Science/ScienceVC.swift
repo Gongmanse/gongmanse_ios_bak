@@ -442,6 +442,14 @@ extension ScienceVC: UICollectionViewDataSource {
             }
         }
     }
+    
+    @IBAction func playSwitchAction(_ sender: Any) {
+        if playSwitch.isOn {
+            autoPlayLabel.textColor = UIColor.black
+        } else {
+            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        }
+    }
 }
 
 

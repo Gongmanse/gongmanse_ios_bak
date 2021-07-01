@@ -211,8 +211,7 @@ class BottomQnACell: UICollectionViewCell {
         let lastRow = tableView.numberOfRows(inSection: 0) - 1
         let indexPath = IndexPath(row: lastRow, section: 0)
         self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-    }
-    
+    }    
 }
 
 extension BottomQnACell: UITableViewDelegate {

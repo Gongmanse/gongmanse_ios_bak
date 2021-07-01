@@ -63,7 +63,7 @@ class DetailScreenController: UIViewController {
     /// Portrait과 Landscape로 전환 될때마다 호출되는 메소드
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
-        // 화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
+         //화면 회전 시, 강제로 "노트보기" Cell로 이동하도록 한다.
 //        pageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
 //                                        at: UICollectionView.ScrollPosition.left,
 //                                        animated: true)

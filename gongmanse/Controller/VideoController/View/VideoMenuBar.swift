@@ -115,6 +115,7 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
 
         switch indexPath.row {
         case 0:
+        
             cell.label.text = "노트보기"
             cell.leftImageView.tintColor = .mainOrange
             NotificationCenter.default.post(name: NSNotification.Name("keyboardHide"), object: nil, userInfo: nil)
@@ -133,7 +134,7 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.leftImageView.tintColor = .mainOrange
 //            cell.leftImageView.image = noteOnLeftImage
         }
-        
+
         delegate?.customMenuBar(scrollTo: indexPath.row)
     }
     

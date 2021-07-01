@@ -270,6 +270,9 @@ class LessonNoteController: UIViewController {
         
         //네비게이션 바 오른쪽 상단 플레이 버튼
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "play"), style: .plain, target: self, action: #selector(videoPlayAction(_:)))
+        
+        //가로모드 제한
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
     }
     
     override func viewWillAppear(_ animated: Bool) {
