@@ -579,7 +579,7 @@ extension LectureNoteController {
                         xyPoints.append(xyPoint)
                     }
                     //                        print("DEBUG: xyPoint데이터 \n\(xyPoints)")
-                    let line = Line(strokeWidth: 0.005, color: penColor, points: xyPoints)
+                    let line = Line(strokeWidth: 0.5, color: penColor, points: xyPoints)
                     previousNoteTakingData.append(line)
                     //                        print("DEBUG: line데이터 \(line)")
                     

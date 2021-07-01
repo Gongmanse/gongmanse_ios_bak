@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3kZ-fJ-0uu">
-                        <rect key="frame" x="10" y="10" width="265" height="69"/>
+                        <rect key="frame" x="10" y="10" width="125" height="69"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="idOff" translatesAutoresizingMaskIntoConstraints="NO" id="h2o-jL-Wag">
                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -30,7 +30,7 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="glh-Ub-mkP">
-                                <rect key="frame" x="40" y="0.0" width="225" height="69"/>
+                                <rect key="frame" x="40" y="0.0" width="85" height="69"/>
                                 <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                 <string key="text">00 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 00</string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -38,11 +38,14 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ioE-fc-W4r"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="3kZ-fJ-0uu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="BMS-bj-LxD"/>
-                    <constraint firstAttribute="trailing" secondItem="3kZ-fJ-0uu" secondAttribute="trailing" constant="10" id="F4F-FZ-CBT"/>
+                    <constraint firstAttribute="trailing" secondItem="3kZ-fJ-0uu" secondAttribute="trailing" constant="150" id="F4F-FZ-CBT"/>
                     <constraint firstItem="3kZ-fJ-0uu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="flw-HI-zM0"/>
                     <constraint firstAttribute="bottom" secondItem="3kZ-fJ-0uu" secondAttribute="bottom" constant="10" id="yXz-tk-Ba5"/>
                 </constraints>

@@ -19,17 +19,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2EI-e5-7jI">
-                        <rect key="frame" x="10" y="10" width="254" height="101"/>
+                        <rect key="frame" x="150" y="10" width="114" height="101"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" scrollEnabled="NO" text="00 00 00 00 00 00 00 00 00 00 00 00 00 00" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nb8-Gx-boL">
-                                <rect key="frame" x="0.0" y="0.0" width="214" height="49.5"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" text="00 00 00 00 00 00 00 00 00 00 00 00 00 00" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nb8-Gx-boL">
+                                <rect key="frame" x="0.0" y="0.0" width="74" height="100"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="idOff" translatesAutoresizingMaskIntoConstraints="NO" id="67k-8X-qeL">
-                                <rect key="frame" x="224" y="0.0" width="30" height="30"/>
+                                <rect key="frame" x="84" y="0.0" width="30" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="QIz-iV-qzv"/>
@@ -37,10 +37,13 @@
                                 </constraints>
                             </imageView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Cu6-8M-W8u"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="2EI-e5-7jI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="2ba-og-2bK"/>
+                    <constraint firstItem="2EI-e5-7jI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="150" id="2ba-og-2bK"/>
                     <constraint firstAttribute="trailing" secondItem="2EI-e5-7jI" secondAttribute="trailing" constant="10" id="Abo-Oy-2wT"/>
                     <constraint firstAttribute="bottom" secondItem="2EI-e5-7jI" secondAttribute="bottom" constant="10" id="hC7-0A-801"/>
                     <constraint firstItem="2EI-e5-7jI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="zUE-1v-BO7"/>

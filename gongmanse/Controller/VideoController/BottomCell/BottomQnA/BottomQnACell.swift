@@ -200,6 +200,8 @@ class BottomQnACell: UICollectionViewCell {
                 videoVM.requestVideoQnA(videoID)
                 
                 sendText.text = ""
+                
+                sendText.resignFirstResponder()
             }
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
@@ -228,20 +230,41 @@ extension BottomQnACell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let mynickName = sideHeaderVM.userID
-        let qnaNickName = videoVM.videoQnAInformation?.data[indexPath.row].sNickname
-        print(qnaNickName)
-        print(mynickName)
-        print(sideHeaderVM.userID)
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
-        
         let short = videoVM.videoQnAInformation?.data[indexPath.row]
         
+        print(sideHeaderVM.userID)
         
-        cell.selectionStyle = .none
-        cell.otherContent.text = "A. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
-        return cell
+        if let teacher = short?.sTeacher {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
+            
+            cell.selectionStyle = .none
+            cell.otherContent.text = "A. \(teacher)\n\(short?.sAnswer ?? "")".htmlEscaped
+            
+            if let sUrl = short?.sTeacherImg {
+                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
+                let data = try? Data(contentsOf: url!)
+                cell.otherProfile.image = UIImage(data: data!)
+                cell.otherProfile.backgroundColor = UIColor.clear
+            }
+            
+            return cell
+        }
+        else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: myChatIdentifier, for: indexPath) as? QnAMyChatCell else { return UITableViewCell() }
+
+            cell.selectionStyle = .none
+            cell.myContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
+            
+            if let sUrl = short?.sUserImg {
+                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
+                let data = try? Data(contentsOf: url!)
+                cell.myProfile.image = UIImage(data: data!)
+                cell.myProfile.backgroundColor = UIColor.clear
+            }
+            
+            return cell
+        }
+   
     }
 
     
@@ -271,10 +294,12 @@ extension BottomQnACell {
         tableView.delegate = self
         tableView.dataSource = self
         videoVM.reloadDelegate = self
-        tableView.register(QnAMyChatCell.self, forCellReuseIdentifier: myChatIdentifier)
         
-        let nib = UINib(nibName: otherChatIdentifier, bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: otherChatIdentifier)
+        let nib1 = UINib(nibName: myChatIdentifier, bundle: nil)
+        tableView.register(nib1, forCellReuseIdentifier: myChatIdentifier)
+        
+        let nib2 = UINib(nibName: otherChatIdentifier, bundle: nil)
+        tableView.register(nib2, forCellReuseIdentifier: otherChatIdentifier)
         
     }
     
