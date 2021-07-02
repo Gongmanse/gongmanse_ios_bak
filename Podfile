@@ -13,8 +13,8 @@ target 'gongmanse' do
   pod 'FSCalendar'
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'Kingfisher', '~> 6.0'
-  pod 'Firebase/Core'
-  pod 'Firebase/Messaging'
+  pod 'Firebase/Core', '~> 8.1.1'
+  pod 'Firebase/Messaging', '~> 8.1.1'
 
 
 

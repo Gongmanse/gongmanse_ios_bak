@@ -5,14 +5,15 @@
 //  Created by 김우성 on 2021/05/25.
 //
 
-import UIKit
 import Alamofire
+import UIKit
 
 /// 05.25 이후 노트 컨트롤러
 class LectureNoteController: UIViewController {
-    
     // MARK: - Properties
+
     // MARK: 데이터
+
     private let id: String?
     private let token: String?
     private var url: String?
@@ -25,6 +26,7 @@ class LectureNoteController: UIViewController {
     private var noteImageCount = 0
     
     // MARK: UI
+
     // 노트 객체
     var isNoteTaking: Bool = false
     private let scrollView = UIScrollView()
@@ -52,14 +54,14 @@ class LectureNoteController: UIViewController {
     }()
     
     private var isLandscapeMode: Bool = false
-    private var isFoldingWritingImplement: Bool = true  // 필기도구 View가 축소된 상태면 false
+    private var isFoldingWritingImplement: Bool = true // 필기도구 View가 축소된 상태면 false
     private var writingImplementLeftConstraint: NSLayoutConstraint?
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .mainOrange
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 5
-        button.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner]
+        button.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
     }()
@@ -105,6 +107,7 @@ class LectureNoteController: UIViewController {
     }()
     
     // MARK: NSLayoutConstraint 객체
+
     var writingImplementFoldingWidth: NSLayoutConstraint?
     var writingImplementUnfoldingWidth: NSLayoutConstraint?
     
@@ -114,24 +117,22 @@ class LectureNoteController: UIViewController {
     // MARK: - Lifecycle
     
     init(id: String, token: String) {
-        
         self.id = id
         self.token = token
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         setupData()
         setupLayout()
         setupNoteTaking()
     }
-    
     
     // MARK: - Actions
     
@@ -144,6 +145,11 @@ class LectureNoteController: UIViewController {
         } else {
             isLandscapeMode = false
         }
+        
+        let videoDataManager = VideoDataManager.shared
+        let pipIsOn = !videoDataManager.isFirstPlayVideo
+        let bottomPadding = UIScreen.main.bounds.size.width * 0.07
+        writingImplementYPosition?.constant = pipIsOn ? -(bottomPadding + 40) : -bottomPadding
     }
     
     @objc fileprivate func handleUndo() { canvas.undo() }
@@ -151,7 +157,6 @@ class LectureNoteController: UIViewController {
     @objc fileprivate func handleClear() { canvas.clear() }
     
     @objc fileprivate func handleColorChange(button: UIButton) {
-        
         var pencilColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
         
         switch button {
@@ -173,7 +178,6 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func openWritingImplement() {
-                
         let noteMode = scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
         let width = view.frame.width * 0.5
@@ -181,16 +185,15 @@ class LectureNoteController: UIViewController {
         isNoteTaking = !isNoteTaking
         
         /**
-         if   : !noteMode -> 노트필기 가능한상태
-         true : 필기도구가 닫혀있는 상태 -> 왼쪽 녹색 label.text 노트보기
-         false: 필기도구가 열려있는 상태 -> 왼쪽 녹색 label.text 노트저장
-        */
+          if   : !noteMode -> 노트필기 가능한상태
+          true : 필기도구가 닫혀있는 상태 -> 왼쪽 녹색 label.text 노트보기
+          false: 필기도구가 열려있는 상태 -> 왼쪽 녹색 label.text 노트저장
+         */
         if !noteMode {
-            
-            self.writingImplementLeftConstraint?.constant = isLandscapeMode ? -(width) : -(width * 0.8)
-            self.writingImplementToggleButton.setImage(.none, for: .normal)
-            self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
-            self.savingNoteButton.setTitle("노트\n보기", for: .normal)
+            writingImplementLeftConstraint?.constant = isLandscapeMode ? -width : -(width * 0.8)
+            writingImplementToggleButton.setImage(.none, for: .normal)
+            writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
+            savingNoteButton.setTitle("노트\n보기", for: .normal)
 
             UIView.animate(withDuration: 0.7,
                            delay: 0.0,
@@ -201,10 +204,10 @@ class LectureNoteController: UIViewController {
                            completion: nil)
             
         } else {
-            self.writingImplementLeftConstraint?.constant = 0
-            self.writingImplementToggleButton.setTitle("", for: .normal)
-            self.writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
-            self.savingNoteButton.setTitle("노트\n저장", for: .normal)
+            writingImplementLeftConstraint?.constant = 0
+            writingImplementToggleButton.setTitle("", for: .normal)
+            writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
+            savingNoteButton.setTitle("노트\n저장", for: .normal)
             
             UIView.animate(withDuration: 0.7,
                            delay: 0.0,
@@ -217,12 +220,11 @@ class LectureNoteController: UIViewController {
     }
     
     @objc fileprivate func handleSavingNote() {
-        
         /**
-         if   : !noteMode -> 노트필기 가능한상태
-         true : 상세노트VC present
-         false: 노트저장 API 호출
-        */
+          if   : !noteMode -> 노트필기 가능한상태
+          true : 상세노트VC present
+          false: 노트저장 API 호출
+         */
         if !isNoteTaking {
             if let id = self.id {
                 let vc = LessonNoteController(id: id, token: Constant.token)
@@ -230,7 +232,7 @@ class LectureNoteController: UIViewController {
                 vc.nextButton.alpha = 0
                 vc.previousButton.alpha = 0
                 nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true)
+                present(nav, animated: true)
             }
             
         } else {
@@ -244,7 +246,7 @@ class LectureNoteController: UIViewController {
             // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
             let intID = Int(id)!
             
-            let sJson = "{\"aspectRatio\":\(String(0.45)),\"strokes\":[" + "\(self.strokesString)" + "]}"
+            let sJson = "{\"aspectRatio\":\(String(0.45)),\"strokes\":[" + "\(strokesString)" + "]}"
             
             let willPassNoteData = NoteTakingInput(token: token,
                                                    video_id: intID,
@@ -254,11 +256,9 @@ class LectureNoteController: UIViewController {
         }
     }
     
-    
     // MARK: - Heleprs
     
     private func setupData() {
-        
         guard let id = self.id else { return }
         
         if Constant.isGuestKey {
@@ -275,19 +275,15 @@ class LectureNoteController: UIViewController {
             DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
                                                           viewController: self)
         }
-        
-        
     }
     
     private func setupLayout() {
-        
         canvas.delegate = self // canvas position 데이터 전달받기 위한 델리게이션
         setupScrollView()
         setupWritingImplement()
     }
     
     private func setupScrollView() {
-        
         view.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -328,7 +324,6 @@ class LectureNoteController: UIViewController {
     }
     
     private func setupViews() {
-        
         // 우선 구현 후, 추후 리펙토링할 예정. 0527
         // 이미지를 UIImage에 할당한다.
         var image01 = noteImageArr[0]
@@ -401,37 +396,38 @@ class LectureNoteController: UIViewController {
         
         // 여러 이미지를 하나의 UIImage로 변환한다.
         let convertedImage = mergeVerticallyImagesIntoImage(images:
-                                                                image01,
-                                                                image02,
-                                                                image03,
-                                                                image04,
-                                                                image05,
-                                                                image06,
-                                                                image07,
-                                                                image08,
-                                                                image09,
-                                                                image10,
-                                                                image11,
-                                                                image12,
-                                                                image13)
+            image01,
+            image02,
+            image03,
+            image04,
+            image05,
+            image06,
+            image07,
+            image08,
+            image09,
+            image10,
+            image11,
+            image12,
+            image13)
         imageView01.image = convertedImage
     }
     
     private func setupWritingImplement() {
-        
         let videoDataManager = VideoDataManager.shared
-        let pipIsOn = !(videoDataManager.isFirstPlayVideo)
+        let pipIsOn = !videoDataManager.isFirstPlayVideo
 
-        let width = view.frame.width * 0.5
-        let bottomPadding = view.frame.height * 0.07
-        let height = view.frame.height * 0.09
-
+        // viewdidload에서 orientation구하기 위함
+        let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
+        let width = isPortrait ? view.frame.width * 0.5 : view.frame.height * 0.5
+        let bottomPadding = UIScreen.main.bounds.size.height * 0.07
+        let height = isPortrait ? view.frame.height * 0.09 : view.frame.width * 0.09
+        
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
         writingImplement.anchor(height: height)
         
         writingImplementYPosition
-            = writingImplement.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: pipIsOn ? -(bottomPadding + 40)  : -bottomPadding)
+            = writingImplement.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: pipIsOn ? -(bottomPadding + 40) : -bottomPadding)
         writingImplementYPosition?.isActive = true
         
         writingImplementFoldingWidth
@@ -468,16 +464,11 @@ class LectureNoteController: UIViewController {
                               height: 59)
     }
     
-    func setupNoteTaking() {
-        
-    }
+    func setupNoteTaking() {}
 }
 
-
 extension UIViewController {
-    
     func mergeVerticallyImagesIntoImage(images: UIImage...) -> UIImage? {
-        
         // 고차함수 "map" 을 활용한 각 이미지들의 높이와 너비 값을 더한다.
         let maxWidth = images.reduce(0.0) { max($0, $1.size.width) }
         let totalHeight = images.reduce(0.0) { $0 + $1.size.height }
@@ -493,7 +484,7 @@ extension UIViewController {
         // 여기까지 진행되었다면, 이미지를 그린 상태이다.
         
         // 초기 값으로 "CGFloat(0.0)"을 파라미터로 전달한다.
-        let _ = images.reduce(CGFloat(0.0)) {
+        _ = images.reduce(CGFloat(0.0)) {
             // 그리고 클로져로 시작위치는 0.0과 첫 번째 값의 y위치로 설정하고 크기는 이미지의 크기를 모두 합친 사이즈로 결정한다.
             $1.draw(in: CGRect(origin: CGPoint(x: 0.0, y: $0), size: $1.size))
             
@@ -508,8 +499,7 @@ extension UIViewController {
     
     /// UIKit에서 이미지 리사이징
     /// 원본: UIImage, 결과: UIImages
-    func resize(image: UIImage, scale: CGFloat, completionHandler: ((UIImage?) -> Void)) {
-        
+    func resize(image: UIImage, scale: CGFloat, completionHandler: (UIImage?) -> Void) {
         let transform = CGAffineTransform(scaleX: scale, y: scale)
         let size = image.size.applying(transform)
         
@@ -522,23 +512,21 @@ extension UIViewController {
     }
 }
 
-
 // MARK: - API
 
 extension LectureNoteController {
-    
-    internal func didSucceedReceiveNoteData(responseData: NoteResponse) {
-        
+    func didSucceedReceiveNoteData(responseData: NoteResponse) {
         guard let data = responseData.data else { return }
         
         // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
-        self.noteImageCount = data.sNotes.count
-        for noteData in 0 ... (self.noteImageCount-1) {
+        noteImageCount = data.sNotes.count
+        for noteData in 0 ... (noteImageCount - 1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
         }
         
         // MARK: 노트필기를 불러오는 로직
+
         // 서버에 저장되어 있는 좌표값을 canvas에 그릴 수 있는 형태로 변환한다.
         var previousNoteTakingData = [Line]()
         
@@ -550,7 +538,7 @@ extension LectureNoteController {
                     var xyPoints = [CGPoint]()
                     var penColorArr = [UIColor]()
                     // TODO: line 구조체 변경하여 color를 String으로 변경하면서 "color"를 사용할 예정이다.
-                    let color = stroke.color  // 핵사코드로 전달해준다.
+                    let color = stroke.color // 핵사코드로 전달해준다.
                     var penColor = UIColor()
 
                     switch color {
@@ -572,7 +560,6 @@ extension LectureNoteController {
 //                    }
                     // x,y 좌표 값을 arr에 append 한다.
                     for (_, p) in stroke.points.enumerated() {
-                        
                         let xyPoint = CGPoint(x: CGFloat(p.x), y: CGFloat(p.y))
                         xyPoints.append(xyPoint)
                     }
@@ -580,7 +567,6 @@ extension LectureNoteController {
                     let line = Line(strokeWidth: 0.005, color: penColor, points: xyPoints)
                     previousNoteTakingData.append(line)
                     //                        print("DEBUG: line데이터 \(line)")
-                    
                 }
             }
         }
@@ -594,15 +580,14 @@ extension LectureNoteController {
          
          Core Graphic 에서 draw 메소드를 강제로 활성화시켜줄 수 있으면 그려지긴 할 것 같음.
          */
-        canvas.lines = previousNoteTakingData  // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
+        canvas.lines = previousNoteTakingData // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
     }
     
     private func getImageFromURL(url: String, index: Int) {
-        
         var resultImage = UIImage()
         
         if let url = URL(string: url) {
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            let task = URLSession.shared.dataTask(with: url) { data, _, error in
                 guard let data = data, error == nil else { return }
                 DispatchQueue.main.async {
                     resultImage = UIImage(data: data)!
@@ -614,23 +599,19 @@ extension LectureNoteController {
         }
     }
     
-    
     func getNoteImageFromGuestKeyNoteAPI(response: GuestKeyNoteResponse) {
         // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
-        self.noteImageCount = response.sNotes.count
-        for noteData in 0 ... (self.noteImageCount-1) {
+        noteImageCount = response.sNotes.count
+        for noteData in 0 ... (noteImageCount - 1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(response.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
         }
-        
     }
 }
-
 
 // MARK: - CanvasDelegate
 
 extension LectureNoteController: CanvasDelegate {
-    
     /// "02021. 동영상 노트 수정" (PATCH) 메소드 수행을 위한 메소드
     /// - 작성일시: 21.05.26
     /// - 기구현된 Web와 AOS 양식을 맞추기 위해 구현한 메소드
@@ -639,7 +620,8 @@ extension LectureNoteController: CanvasDelegate {
         // "노트저장"을 클릭하면 이 메소드를 호출한다.
         
         // MARK: 노트필기를 작성하는 로직
-        var tempArr = [String]()  // x, y 값이 있는 arr를 임시로 저장할 배열
+
+        var tempArr = [String]() // x, y 값이 있는 arr를 임시로 저장할 배열
         var uiColor2StringColorArr = [String]()
 
         // color 배열에 있는 UIColor 데이터를 string으로 변경한다. 이유는 API 양식에 맞추기 위함이다.
@@ -662,7 +644,6 @@ extension LectureNoteController: CanvasDelegate {
         // 1:n = color:(x,y) 관계이므로 하나의 색상에 많은 좌표가 포함된다.
         // 그러므로 하나의 String에 하나의 색상에 다수의 x,y좌표를 입력한다.
         for (i, p) in points.enumerated() {
-            
             // "strokes" String에 x,y 좌표값과 color를 String으로 입력한다.
             let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.5,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
             
@@ -680,6 +661,6 @@ extension LectureNoteController: CanvasDelegate {
         }
 
         // element의 끝에 "," 가 모두 추가되어 있기 때문에 마지막 ","는 제거한다.
-        self.strokesString = String(tempString.dropLast(1))
+        strokesString = String(tempString.dropLast(1))
     }
 }

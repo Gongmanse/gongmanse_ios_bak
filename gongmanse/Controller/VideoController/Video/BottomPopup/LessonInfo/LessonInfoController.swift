@@ -1,5 +1,5 @@
-import UIKit
 import AVFoundation
+import UIKit
 
 protocol LessonInfoControllerDelegate: AnyObject {
     func videoVCPauseVideo()
@@ -9,10 +9,9 @@ protocol LessonInfoControllerDelegate: AnyObject {
 }
 
 class LessonInfoController: UIViewController {
-    
     // MARK: - Properties
     
-    var pipVideoData: PIPVideoData?   // PIP 재생을 위해 필요한 구조체
+    var pipVideoData: PIPVideoData? // PIP 재생을 위해 필요한 구조체
     var seriesID: String?
     // "LessonInfoController"에서 "관련시리즈" 혹은 "sTags"를 클릭했을 때, 영상재생시간을 dataManager에 입력한다.
     var currentVideoPlayTime: Float? {
@@ -30,7 +29,7 @@ class LessonInfoController: UIViewController {
         }
     }
     
-    var currentVideoURL: NSURL?       // 현재 영싱의 VideoID
+    var currentVideoURL: NSURL? // 현재 영싱의 VideoID
     
     weak var delegate: LessonInfoControllerDelegate?
     
@@ -48,13 +47,13 @@ class LessonInfoController: UIViewController {
     public var sTagsCollectionView: UICollectionView?
     private lazy var bookmarkButton = TopImageBottomTitleView(frame: buttonSize,
                                                               title: "즐겨찾기",
-                                                              image: UIImage(named: "favoriteOff" )! )
+                                                              image: UIImage(named: "favoriteOff")!)
     private lazy var rateLessonButton = TopImageBottomTitleView(frame: buttonSize,
                                                                 title: "평점",
-                                                                image: UIImage(named: "gradeOff")! )
+                                                                image: UIImage(named: "gradeOff")!)
     private lazy var shareLessonButton = TopImageBottomTitleView(frame: buttonSize,
                                                                  title: "공유",
-                                                                 image: UIImage(named: "share")! )
+                                                                 image: UIImage(named: "share")!)
     private lazy var relatedSeriesButton = TopImageBottomTitleView(frame: buttonSize,
                                                                    title: "관련시리즈",
                                                                    image: UIImage(named: "series")!)
@@ -104,7 +103,6 @@ class LessonInfoController: UIViewController {
         }
     }
     
-    
     // MARK: - Lifecycle
     
     init() {
@@ -116,6 +114,7 @@ class LessonInfoController: UIViewController {
         self.videoID = videoID
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -124,21 +123,20 @@ class LessonInfoController: UIViewController {
         super.viewDidLoad()
         configureUI()
         
-        
         videoDetailVM?.requestVideoDetailApi(videoID ?? "")
 //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
     /**
-     1. PIP에서 재생된 시간을 받아서 class 내부 변수에 값을 할당합니다.
-     2. 값을 받는 변수에 didSet을 통해 delegate Method를 호출합니다.
-     3. delegate Method를 통해서 videoController의 재생 시작위치를 변경합니다.
-    */
+      1. PIP에서 재생된 시간을 받아서 class 내부 변수에 값을 할당합니다.
+      2. 값을 받는 변수에 didSet을 통해 delegate Method를 호출합니다.
+      3. delegate Method를 통해서 videoController의 재생 시작위치를 변경합니다.
+     */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         print("DEBUG: LessonInfoController Appear!!!")
         let pipDataManager = PIPDataManager.shared
-        self.currentPIPVideoPlayTime = pipDataManager.currentVideoCMTime
+        currentPIPVideoPlayTime = pipDataManager.currentVideoCMTime
     }
     
     // MARK: - Actions
@@ -151,7 +149,7 @@ class LessonInfoController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if UIDevice.current.orientation.isLandscape {
-            sTagsCollectionView?.setContentOffset(CGPoint(x: 20,y: 0), animated: false)
+            sTagsCollectionView?.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
         }
     }
     
@@ -159,7 +157,6 @@ class LessonInfoController: UIViewController {
         guard let videoID = self.videoID else { return }
         if bookmarkButton.viewTintColor == .mainOrange {
             // 즐겨찾기를 삭제한다.
-            
             
             bookmarkButton.viewTintColor = .black
             BookmarkDataManager().deleteBookmarkToVideo(DeleteBookmarkInput(token: Constant.token,
@@ -176,7 +173,6 @@ class LessonInfoController: UIViewController {
     
     /// 평점 버튼을 클릭하면 호출되는 콜백메소드
     @objc func handleRateLessonAction() {
-        
         // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
 //        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
@@ -194,44 +190,40 @@ class LessonInfoController: UIViewController {
         
         // 변동가능성 있는 부분
         rateLessonButton.viewTintColor = .mainOrange
-        rateLessonButton.titleLabel.text = self.userRating
+        rateLessonButton.titleLabel.text = userRating
         
-        if let myRatingPoint = self.myRating {
+        if let myRatingPoint = myRating {
             vc.clickedNumber = Int(myRatingPoint) ?? 3
-            vc.myRating = self.myRating
+            vc.myRating = myRating
         }
         
-        vc.userRating = self.userRating
+        vc.userRating = userRating
         
-        
-        
-        self.present(vc, animated: false)
+        present(vc, animated: false)
     }
-    
     
     @objc func handleShareLessonAction() {
         // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
         presentAlert(message: "서비스 준비중입니다.")
-
     }
+
     @objc func handleRelatedSeriesAction() {
-        
         let videoDataManager = VideoDataManager.shared
         
         if Constant.isLogin {
             delegate?.videoVCPauseVideo()
             let presentVC = LecturePlaylistVC(videoID ?? "")
             presentVC.lectureState = .lectureList
-            presentVC.seriesID = self.seriesID
+            presentVC.seriesID = seriesID
             let pipVideoData = PIPVideoData(isPlayPIP: true,
                                             videoURL: videoDataManager.previousVideoURL,
-                                            currentVideoTime: self.currentVideoPlayTime ?? Float(0.0),
-                                            videoTitle: self.lessonnameLabel.text ?? "",
-                                            teacherName: self.teachernameLabel.text ?? "")
+                                            currentVideoTime: currentVideoPlayTime ?? Float(0.0),
+                                            videoTitle: lessonnameLabel.text ?? "",
+                                            teacherName: teachernameLabel.text ?? "")
             presentVC.pipData = pipVideoData
             let nav = UINavigationController(rootViewController: presentVC)
             nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: true)
+            present(nav, animated: true)
             // TODO: 관련시리즈를 켠다.
         } else {
             presentAlert(message: "로그인 후 이용해주세요.")
@@ -239,7 +231,6 @@ class LessonInfoController: UIViewController {
     }
     
     @objc func handleProblemSolvingAction() {
-        
         // TODO: Delegation을 이용해서,영상의 URL의 네트워킹을 통해 변경해주면 될 것 같다.
         // ex) 재생목록 영상 바꾸듯이.
         
@@ -250,8 +241,7 @@ class LessonInfoController: UIViewController {
         videoDetailVM?.isCommentary = isChangedName
         
         switch isChangedName {
-        
-        case true:  // 문제풀이
+        case true: // 문제풀이
             videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
@@ -270,14 +260,12 @@ class LessonInfoController: UIViewController {
     // TODO: 관련시리즈 클릭 시, 어떤 기준으로 영상리스트를 부르는지는 모르겠으나 영상 리스트 Controller present
     // TODO: 문제풀이는 현재 Zeplin에 업데이트가 안된 상태 -> 안드로이드보고 내용 추가 05.03
     
-    
     // MARK: - Helpers
     
     func configureUI() {
         let sSubjectsUnitContainerView = UIView()
         let paddingConstant = view.frame.height * 0.025
 
-        
         // API에서 받아온 값을 레이블에 할당한다.
         sSubjectLabel.labelText = "과목명"
         sUnitLabel01.labelText = "단원명"
@@ -328,12 +316,11 @@ class LessonInfoController: UIViewController {
                                     left: view.leftAnchor,
                                     paddingTop: 10, paddingLeft: 10)
         configureCollectionView()
-        configureAdditionalFunctions() //05.21 주석처리; 1차 배포를 위해 (기능 미구현상태)
+        configureAdditionalFunctions() // 05.21 주석처리; 1차 배포를 위해 (기능 미구현상태)
         configureAddActions()
     }
     
     func configureCollectionView() {
-        
         sTagsCollectionView?.delegate = self
         sTagsCollectionView?.dataSource = self
         sTagsCollectionView?.register(sTagsCell.self, forCellWithReuseIdentifier: "sTagsCell")
@@ -343,7 +330,6 @@ class LessonInfoController: UIViewController {
     }
     
     func configureAddActions() {
-        
         let bookmarkButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleBookmarkAction))
         let rateLessonButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleRateLessonAction))
         let shareLessonButtonGesture = UITapGestureRecognizer(target: self, action: #selector(handleShareLessonAction))
@@ -359,7 +345,7 @@ class LessonInfoController: UIViewController {
     func configureAdditionalFunctions() {
         // TODO: [UI] 즐겨찾기, 평점, 공유, 관련시리즈, 문제풀이 -> 05.04 UI 완성
         let stack = UIStackView(arrangedSubviews:
-                                    [bookmarkButton,rateLessonButton,shareLessonButton,relatedSeriesButton,problemSolvingButton])
+            [bookmarkButton, rateLessonButton, shareLessonButton, relatedSeriesButton, problemSolvingButton])
         let buttonHeight = view.frame.width * 0.12
         let buttonWidth = view.frame.width * 0.1
         bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
@@ -378,11 +364,9 @@ class LessonInfoController: UIViewController {
     }
 }
 
-
 // MARK: - Common UI Attribute setting Method
 
 extension LessonInfoController {
-
     func configuresUnit(_ containerView: UIView, _ leftView: UIView, label: UILabel) {
         containerView.addSubview(label)
         label.anchor(top: containerView.topAnchor, left: leftView.rightAnchor,
@@ -390,20 +374,18 @@ extension LessonInfoController {
     }
 }
 
-
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        
+                        numberOfItemsInSection section: Int) -> Int
+    {
         return sTagsArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
         let item = sTagsArray[indexPath.row]
         let cell = sTagsCollectionView?.dequeueReusableCell(withReuseIdentifier: "sTagsCell", for: indexPath) as! sTagsCell
         cell.cellLabel.text = item
@@ -411,16 +393,16 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+                        layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
         let item = sTagsArray[indexPath.row]
-        let itemSize = item.size(withAttributes: [NSAttributedString.Key.font : UIFont.appBoldFontWith(size: 15)])
+        let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: 15)])
         return itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
-        
+                        didSelectItemAt indexPath: IndexPath)
+    {
         let videoDataManager = VideoDataManager.shared
         videoDataManager.isFirstPlayVideo = false
         
@@ -438,8 +420,9 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
         nav.modalPresentationStyle = .fullScreen
         vc.searchData.searchText = data
 
-        guard let videoURL = self.currentVideoURL else { return }
+        guard let videoURL = currentVideoURL else { return }
         
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         present(nav, animated: true) {
             let pipVideoData = PIPVideoData(isPlayPIP: true,
                                             videoURL: videoURL,
@@ -455,7 +438,6 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-
 extension LessonInfoController: RatingControllerDelegate {
     func dismissRatingView() {
         rateLessonButton.titleLabel.text = "평점"
@@ -463,14 +445,10 @@ extension LessonInfoController: RatingControllerDelegate {
         view.setNeedsDisplay()
     }
     
-    
     func ratingAvaergePassVC(rating: String) {
-
-        self.myRating = rating
+        myRating = rating
         rateLessonButton.titleLabel.text = rating
         rateLessonButton.viewTintColor = .mainOrange
         view.setNeedsDisplay()
     }
-    
-    
 }
