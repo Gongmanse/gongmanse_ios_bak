@@ -301,9 +301,7 @@ class SideMenuHeaderView: UIView {
                     + viewModel.dateRemaining + "일 남음"
                 buyingPassTicketButton.setTitle("사용 기간 연장",
                                                 for: .normal)
-                
             } else {
-                // 이용권을 구매해주세요. + 이용권 구매
                 buyingPassTicketLabel.text = "이용권을 구매해주세요."
                 buyingPassTicketButton.setTitle("이용권 구매",
                                                 for: .normal)

@@ -50,6 +50,8 @@ class VideoDataManager {
             return videoPlayURLLog.first ?? NSURL()
         } else if videoPlayURLLog.count == 2 {
             return videoPlayURLLog.first ?? NSURL()
+        } else if videoPlayIDLog.count == 0 {
+            return videoPlayURLLog.first ?? NSURL()
         } else {
             // 2개 이상인 경우,
             return videoPlayURLLog[videoPlayURLLog.endIndex - 1]

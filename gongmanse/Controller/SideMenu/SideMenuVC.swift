@@ -264,6 +264,9 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         autoPlayDataManager.videoDataInSocialStudyTab = nil
         autoPlayDataManager.videoDataInOtherSubjectsTab = nil
         autoPlayDataManager.videoDataInPopularTab = nil
+        
+        let loginData = LoginDataManager()
+        loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
         tableView.reloadData()
     }
     

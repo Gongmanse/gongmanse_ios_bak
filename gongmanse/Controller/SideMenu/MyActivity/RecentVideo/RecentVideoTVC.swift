@@ -16,6 +16,8 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
     
+    var ticket: SideMenuHeaderViewModel?
+    
     var inputSortNum = 4
     
     var isDeleteMode: Bool = true {
@@ -234,41 +236,44 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         guard let receivedData = recentViedo else { return }
         
-        
-        for dataIndex in receivedData.data.indices {
+        if Constant.isLogin && Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+        } else if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             
-            let data = receivedData.data[dataIndex]
+            for dataIndex in receivedData.data.indices {
+                
+                let data = receivedData.data[dataIndex]
+                
+                let inputData = VideoModels(seriesId: data.iSeriesId,
+                                            videoId: data.video_id,
+                                            title: data.sTitle,
+                                            tags: data.sTags,
+                                            teacherName: data.sTeacher,
+                                            thumbnail: data.sThumbnail,
+                                            subject: data.sSubject,
+                                            subjectColor: data.sSubjectColor,
+                                            unit: data.sUnit,
+                                            rating: data.iRating,
+                                            isRecommended: "",
+                                            registrationDate: "",
+                                            modifiedDate: "",
+                                            totalRows: "")
+                inputArr.append(inputData)
+            }
             
-            let inputData = VideoModels(seriesId: data.iSeriesId,
-                                        videoId: data.video_id,
-                                        title: data.sTitle,
-                                        tags: data.sTags,
-                                        teacherName: data.sTeacher,
-                                        thumbnail: data.sThumbnail,
-                                        subject: data.sSubject,
-                                        subjectColor: data.sSubjectColor,
-                                        unit: data.sUnit,
-                                        rating: data.iRating,
-                                        isRecommended: "",
-                                        registrationDate: "",
-                                        modifiedDate: "",
-                                        totalRows: "")
-            inputArr.append(inputData)
-        }
-        
-        
-        let inputData = VideoInput(body: inputArr)
-        autoPlayDataManager.videoDataInRecentVideoMyActTab = inputData
-        autoPlayDataManager.currentViewTitleView = "최근영상"
-        
-        if receivedData.totalNum == "0" {
-            presentAlert(message: "영상 목록이 없습니다.")
-        } else {
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            let videoID = recentViedo?.data[indexPath.row].video_id
-            vc.id = videoID
-            present(vc, animated: true)
+            if receivedData.totalNum == "0" {
+                presentAlert(message: "영상 목록이 없습니다.")
+            } else {
+                let vc = VideoController()
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = recentViedo?.data[indexPath.row].video_id
+                vc.id = videoID
+                present(vc, animated: true)
+            }
+            
+            let inputData = VideoInput(body: inputArr)
+            autoPlayDataManager.videoDataInRecentVideoMyActTab = inputData
+            autoPlayDataManager.currentViewTitleView = "최근영상"
         }
     }
 }

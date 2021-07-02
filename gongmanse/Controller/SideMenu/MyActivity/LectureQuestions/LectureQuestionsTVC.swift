@@ -223,14 +223,18 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         
         guard let value = self.lectureQnA else { return }
         
-        if value.totalNum == "0" {
-            presentAlert(message: "강의 QnA 목록이 없습니다.")
-        } else {
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            let videoID = lectureQnA?.data[indexPath.row].id
-            vc.id = videoID
-            present(vc, animated: true)
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            if value.totalNum == "0" {
+                presentAlert(message: "강의 QnA 목록이 없습니다.")
+            } else {
+                let vc = VideoController()
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = lectureQnA?.data[indexPath.row].id
+                vc.id = videoID
+                present(vc, animated: true)
+            }
+        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
         }
     }
 }

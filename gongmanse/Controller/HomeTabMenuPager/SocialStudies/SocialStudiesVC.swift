@@ -449,7 +449,7 @@ extension SocialStudiesVC: UICollectionViewDataSource {
 extension SocialStudiesVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             if self.selectedItem == 0 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
@@ -510,7 +510,7 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 print("DEBUG: 3번")
             }
             
-        } else if Constant.remainPremiumDateInt == nil {
+        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
             return
         } else {

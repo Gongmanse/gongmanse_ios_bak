@@ -200,14 +200,14 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     @objc func videoPlay(_ sender: UIButton) {
         
-        let token = Constant.token
+        //let token = Constant.token
         
         // 토큰이 없는 경우
-        if token.count < 3 {
+        if Constant.isLogin && Constant.remainPremiumDateInt == nil {
             
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             
-        } else {
+        } else if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             
             guard let value = self.noteList else { return }
             let data = value.data
@@ -239,15 +239,19 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         
         guard let value = self.noteList else { return }
         
-        if value.totalNum == "0" {
-            presentAlert(message: "노트목록이 없습니다.")
-        } else {
-            self.selectedRow = indexPath.row
-            let videoID = noteList?.data[indexPath.row].video_id
-            let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: true)
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            if value.totalNum == "0" {
+                presentAlert(message: "노트목록이 없습니다.")
+            } else {
+                self.selectedRow = indexPath.row
+                let videoID = noteList?.data[indexPath.row].video_id
+                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            }
+        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
         }
     }
 }

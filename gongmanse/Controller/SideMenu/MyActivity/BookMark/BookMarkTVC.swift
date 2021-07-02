@@ -282,42 +282,45 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         
         guard let receivedData = bookMark else { return }
         
-        
-        for dataIndex in receivedData.data.indices {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            for dataIndex in receivedData.data.indices {
+                
+                let data = receivedData.data[dataIndex]
+                
+                let inputData = VideoModels(seriesId: data.iSeriesId,
+                                            videoId: data.id,
+                                            title: data.sTitle,
+                                            tags: data.sTags,
+                                            teacherName: data.sTeacher,
+                                            thumbnail: data.sThumbnail,
+                                            subject: data.sSubject,
+                                            subjectColor: data.sSubjectColor,
+                                            unit: data.sUnit,
+                                            rating: data.iRating,
+                                            isRecommended: "",
+                                            registrationDate: "",
+                                            modifiedDate: "",
+                                            totalRows: "")
+                inputArr.append(inputData)
+            }
             
-            let data = receivedData.data[dataIndex]
+            let inputData = VideoInput(body: inputArr)
+            autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
+            autoPlayDataManager.currentViewTitleView = "즐겨찾기"
             
-            let inputData = VideoModels(seriesId: data.iSeriesId,
-                                        videoId: data.id,
-                                        title: data.sTitle,
-                                        tags: data.sTags,
-                                        teacherName: data.sTeacher,
-                                        thumbnail: data.sThumbnail,
-                                        subject: data.sSubject,
-                                        subjectColor: data.sSubjectColor,
-                                        unit: data.sUnit,
-                                        rating: data.iRating,
-                                        isRecommended: "",
-                                        registrationDate: "",
-                                        modifiedDate: "",
-                                        totalRows: "")
-            inputArr.append(inputData)
-        }
-        
-        let inputData = VideoInput(body: inputArr)
-        autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
-        autoPlayDataManager.currentViewTitleView = "즐겨찾기"
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        if receivedData.totalNum == "0" {
-            presentAlert(message: "즐겨찾기 목록이 없습니다.")
-        } else {
-            let vc = VideoController()
-            vc.modalPresentationStyle = .fullScreen
-            let videoID = bookMark?.data[indexPath.row].id
-            vc.id = videoID
-            present(vc, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+            
+            if receivedData.totalNum == "0" {
+                presentAlert(message: "즐겨찾기 목록이 없습니다.")
+            } else {
+                let vc = VideoController()
+                vc.modalPresentationStyle = .fullScreen
+                let videoID = bookMark?.data[indexPath.row].id
+                vc.id = videoID
+                present(vc, animated: true)
+            }
+        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil  {
+            presentAlert(message: "이용권을 구매해주세요")
         }
     }
 }
