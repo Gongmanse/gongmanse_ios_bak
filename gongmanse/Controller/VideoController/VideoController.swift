@@ -656,9 +656,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         
         /* pipContainerView - Constraint */
         view.addSubview(self.pipContainerView)
-        self.pipContainerView.anchor(left: view.leftAnchor,
+        self.pipContainerView.anchor(left: pageCollectionView.leftAnchor,
                                      bottom: view.bottomAnchor,
-                                     right: view.rightAnchor,
+                                     right: pageCollectionView.rightAnchor,
                                      height: pipHeight)
         
         let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.pipViewDidTap))
@@ -1211,6 +1211,12 @@ extension VideoController: VideoFullScreenControllerDelegate {
     // 리팩토링하기 위해 작성했던 코드
     func addNotificaionObserver() {
         setNotification()
+    }
+    
+    func setCurrentTime(playerCurrentTime: CMTime?) {
+        player.seek(to: playerCurrentTime ?? player.currentTime())
+        player.play()
+        player.isMuted = false
     }
 }
 

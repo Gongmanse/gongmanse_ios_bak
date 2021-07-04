@@ -180,8 +180,10 @@ class LectureNoteController: UIViewController {
     @objc fileprivate func openWritingImplement() {
         let noteMode = scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
-        let width = view.frame.width * 0.5
-
+        
+        let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
+        let width = isPortrait ? UIScreen.main.bounds.size.width * 0.5 : UIScreen.main.bounds.size.height * 0.5
+        
         isNoteTaking = !isNoteTaking
         
         /**
@@ -190,7 +192,7 @@ class LectureNoteController: UIViewController {
           false: 필기도구가 열려있는 상태 -> 왼쪽 녹색 label.text 노트저장
          */
         if !noteMode {
-            writingImplementLeftConstraint?.constant = isLandscapeMode ? -width : -(width * 0.8)
+            writingImplementLeftConstraint?.constant = -(width * 0.8)
             writingImplementToggleButton.setImage(.none, for: .normal)
             writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             savingNoteButton.setTitle("노트\n보기", for: .normal)
@@ -418,9 +420,9 @@ class LectureNoteController: UIViewController {
 
         // viewdidload에서 orientation구하기 위함
         let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
-        let width = isPortrait ? view.frame.width * 0.5 : view.frame.height * 0.5
+        let width = isPortrait ? UIScreen.main.bounds.size.width * 0.5 : UIScreen.main.bounds.size.height * 0.5
         let bottomPadding = UIScreen.main.bounds.size.height * 0.07
-        let height = isPortrait ? view.frame.height * 0.09 : view.frame.width * 0.09
+        let height = isPortrait ? UIScreen.main.bounds.size.height * 0.09 : UIScreen.main.bounds.size.width * 0.09
         
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
