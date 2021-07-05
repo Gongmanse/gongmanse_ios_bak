@@ -5,6 +5,7 @@ import UIKit
 
 protocol VideoFullScreenControllerDelegate: AnyObject {
     func addNotificaionObserver()
+    func setCurrentTime(playerCurrentTime: CMTime?)
 }
 
 class VideoFullScreenController: UIViewController{
@@ -222,6 +223,11 @@ class VideoFullScreenController: UIViewController{
     @objc func handleBackButtonAction() {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
+        
+        
+        // vc에 현재 재생되는 시간을 전달한다.
+        let currentTime = player.currentTime()
+        
         player.pause()
         NotificationCenter.default.removeObserver(self)
         removePeriodicTimeObserver()
@@ -232,6 +238,7 @@ class VideoFullScreenController: UIViewController{
             // delegate를 통해 "VideoController"의 Notificaion을 활성화 시킨다.
             // (영상 속도조절 및 자막 생성 및 소멸 액션을 수행을 위해)
             self.delegate?.addNotificaionObserver()
+            self.delegate?.setCurrentTime(playerCurrentTime: currentTime)
         }
     }
     

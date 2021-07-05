@@ -3,11 +3,10 @@ import AVKit
 // MARK: - Video Method
 
 extension VideoController {
-    
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
     @objc func handleSubtitleToggle() {
-        if self.subtitleLabel.alpha == 0 {
-            self.isClickedSubtitleToggleButton = true
+        if subtitleLabel.alpha == 0 {
+            isClickedSubtitleToggleButton = true
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 1
                 self.subtitleToggleButton.tintColor = .mainOrange
@@ -15,12 +14,11 @@ extension VideoController {
             }
             
         } else {
-            self.isClickedSubtitleToggleButton = false
+            isClickedSubtitleToggleButton = false
             UIView.animate(withDuration: 0.22) {
                 self.subtitleLabel.alpha = 0
                 self.subtitleToggleButton.setImage(UIImage(named: "자막토글버튼_제거"), for: .normal)
             }
-            
         }
     }
     
@@ -48,7 +46,6 @@ extension VideoController {
     @objc func switchIsOnSubtitle(_ sender: Notification) {
         if let data = sender.userInfo {
             if let condition = data["isOnSubtitle"] {
-                
                 UIView.animate(withDuration: 0.22) {
                     if condition as? Bool ?? true {
                         self.subtitleLabel.alpha = 1
@@ -57,7 +54,6 @@ extension VideoController {
                     } else {
                         self.subtitleLabel.alpha = 0
                         self.isClickedSubtitleToggleButton = false
-
                     }
                 }
             }
@@ -66,20 +62,22 @@ extension VideoController {
     
     /// 우측상단에 뒤로가기 버튼 로직
     @objc func handleBackButtonAction() {
-        self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.tabBar.isHidden = false
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
+        navigationController?.navigationBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
         player.pause()
         NotificationCenter.default.removeObserver(self)
         setRemoveNotification()
         removePeriodicTimeObserver()
         
         videoDataManager.isFirstPlayVideo = true
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
     @objc func timeSliderValueChanged(_ slider: UISlider) {
-        let seconds: Int64 = Int64(slider.value)
+        let seconds = Int64(slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
         player.seek(to: targetTime)
         
@@ -129,7 +127,6 @@ extension VideoController {
     @objc func playerItemDidReachEnd(notification: NSNotification) {
 //        player.seek(to: CMTime.zero)
 
-
         let autoPlayDataManager = AutoplayDataManager.shared
         
         if autoPlayDataManager.currentViewTitleView == "국영수" {
@@ -137,7 +134,7 @@ extension VideoController {
                 autoPlayVideo()
                 return
             }
-        } else if autoPlayDataManager.currentViewTitleView == "국영수" && autoPlayDataManager.currentFiltering == "문제 풀이" {
+        } else if autoPlayDataManager.currentViewTitleView == "국영수", autoPlayDataManager.currentFiltering == "문제 풀이" {
             if autoPlayDataManager.isAutoplayMainSubject {
                 autoPlayVideo()
                 return
@@ -158,10 +155,10 @@ extension VideoController {
                 return
             }
         } else if autoPlayDataManager.currentViewTitleView == "검색" {
-           if autoPlayDataManager.isAutoplaySearchTab {
-               autoPlayVideo()
-            return
-           }
+            if autoPlayDataManager.isAutoplaySearchTab {
+                autoPlayVideo()
+                return
+            }
         } else if autoPlayDataManager.currentViewTitleView == "최근영상" {
             if autoPlayDataManager.isAutoplayRecentTab {
                 autoPlayVideo()
@@ -179,7 +176,6 @@ extension VideoController {
     }
 
     func autoPlayVideo() {
-        
         // 플레이 리스트에서 현재 인덱스를 찾는다.
         // 그 인덱스에 +1을 한다.
         // +1 한 인덱스의 videoID를 추출한다.
@@ -197,7 +193,7 @@ extension VideoController {
             currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInMainSubjectsTab)
             videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
             
-        } else if autoPlayDataManager.currentViewTitleView == "국영수" && autoPlayDataManager.currentFiltering == "문제 풀이" {
+        } else if autoPlayDataManager.currentViewTitleView == "국영수", autoPlayDataManager.currentFiltering == "문제 풀이" {
             endIndex = autoPlayDataManager.videoDataInProblemTab?.body.endIndex ?? 3
             currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInProblemTab)
             videoID = autoPlayDataManager.videoDataInProblemTab?.body[currentIndex + 1].videoId ?? "15188"
@@ -228,10 +224,10 @@ extension VideoController {
             videoID = autoPlayDataManager.videoDataInRecentVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
             
         } else if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
-           endIndex = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body.endIndex ?? 3
-           currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInBookMarkVideoMyActTab)
-           videoID = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
-       }
+            endIndex = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body.endIndex ?? 3
+            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInBookMarkVideoMyActTab)
+            videoID = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
+        }
         
         if currentIndex == endIndex {
             return
@@ -244,7 +240,6 @@ extension VideoController {
                                                         viewController: self)
     }
     
-
     /// 현재 VideID 인덱스를 찾는 메소드
     func findCurrentIndexPath(videoData: VideoInput?) -> Int {
         let autoPlayDataManager = AutoplayDataManager.shared
@@ -252,7 +247,6 @@ extension VideoController {
         var currentVideoIndexPath = Int()
         
         for (index, data) in videoData!.body.enumerated() {
-
             let currentID = videoDataManager.currentVideoID
             let autoPlayID = data.videoId
             
@@ -263,61 +257,59 @@ extension VideoController {
         
         return currentVideoIndexPath
     }
-    
 }
 
-
 extension VideoController: AVPlayerViewControllerDelegate {
-    
     func open(fileFromLocal filePath: URL,
-              encoding: String.Encoding = String.Encoding.utf8) {
+              encoding: String.Encoding = String.Encoding.utf8)
+    {
         let contents = try! String(contentsOf: filePath, encoding: encoding)
         show(subtitles: contents)
     }
     
     func open(fileFromRemote filePath: URL,
-              encoding: String.Encoding = String.Encoding.utf8) {
+              encoding: String.Encoding = String.Encoding.utf8)
+    {
         subtitleLabel.text = "..."
         URLSession.shared.dataTask(with: filePath,
                                    completionHandler: { (data, response, error) -> Void in
                                     
-                                    if let httpResponse = response as? HTTPURLResponse {
-                                        let statusCode = httpResponse.statusCode
-                                        // 정상적으로 네트워킹이 되었는지 확인한다.
-                                        if statusCode != 200 {
-                                            NSLog("Subtitle Error: \(httpResponse.statusCode) - \(error?.localizedDescription ?? "")")
-                                            return
-                                        }
-                                    }
+                                       if let httpResponse = response as? HTTPURLResponse {
+                                           let statusCode = httpResponse.statusCode
+                                           // 정상적으로 네트워킹이 되었는지 확인한다.
+                                           if statusCode != 200 {
+                                               NSLog("Subtitle Error: \(httpResponse.statusCode) - \(error?.localizedDescription ?? "")")
+                                               return
+                                           }
+                                       }
                                     
-                                    // UI를 메인스레드에서 업데이트한다.
-                                    DispatchQueue.main.async(execute: {
-                                        self.subtitleLabel.text = ""
-                                        if let checkData = data as Data? {
-                                            if let contents = String(data: checkData, encoding: encoding) {
-                                                self.show(subtitles: contents)
-                                            }
-                                        }
-                                    })
+                                       // UI를 메인스레드에서 업데이트한다.
+                                       DispatchQueue.main.async {
+                                           self.subtitleLabel.text = ""
+                                           if let checkData = data as Data? {
+                                               if let contents = String(data: checkData, encoding: encoding) {
+                                                   self.show(subtitles: contents)
+                                               }
+                                           }
+                                       }
                                    }).resume()
     }
     
     func show(subtitles string: String) {
         // subtitle에 파싱한 값을 넣는다.
         subtitles.parsedPayload = Subtitles.parseSubRip(string)
-        addPeriodicNotification(parsedPayload: (subtitles.parsedPayload!))
+        addPeriodicNotification(parsedPayload: subtitles.parsedPayload!)
     }
     
     func showByDictionary(dictionaryContent: NSMutableDictionary) {
         // 파싱한 데이터가 Dictionary이고 해당 값을 넣는다.
         subtitles.parsedPayload = dictionaryContent
-        addPeriodicNotification(parsedPayload: (subtitles.parsedPayload!))
+        addPeriodicNotification(parsedPayload: subtitles.parsedPayload!)
     }
     
     /* keyword 텍스트에 적절한 변화를 주고, 클릭 시 action이 호출될 수 있도록 관리하는 메소드 */
     /// "Player"가 호출된 후, 일정시간마다 호출되는 메소드
     func addPeriodicNotification(parsedPayload: NSDictionary) {
-        
         // 영상 시간을 나타내는 UISlider에 최대 * 최소값을 주기 위해서 아래 프로퍼티를 할당한다.
         
         var duration = CMTime()
@@ -332,7 +324,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
         
-        
         // gesture 관련 속성을 설정한다.
         gesture.numberOfTapsRequired = 1
         subtitleLabel.isUserInteractionEnabled = true
@@ -343,13 +334,13 @@ extension VideoController: AVPlayerViewControllerDelegate {
         /// - 10개를 만든다면 10의 키워드 위치를 저장할 수 있다.
         /// - 키워드 위치를 저장할 프로퍼티에 공간을 확보한다
         // Default 값을 "100,100" 임의로 부여한다.
-        for _ in 0...11 {self.keywordRanges.append(NSRange(location: 100, length: 100))}
+        for _ in 0...11 { keywordRanges.append(NSRange(location: 100, length: 100)) }
         
         // Default 값을 "100...103" 임의로 부여한다.
-        for _  in 0...11 {self.sTagsRanges.append(Range<Int>(100...103))}
+        for _ in 0...11 { sTagsRanges.append(Range<Int>(100...103)) }
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
-        self.player.addPeriodicTimeObserver(
+        player.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
@@ -371,11 +362,12 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
-                                                                time.seconds) {
+                                                                time.seconds)
+                {
                     /// 슬라이싱한 최종결과를 저장할 프로퍼티
                     var subtitleFinal = String()
                     /// 태그의 개수를 파악하기 위해 정규표현식을 적용한 string 프로퍼티
-                    let tagCounter = (subtitleText.getOnlyText(regex: "<"))
+                    let tagCounter = subtitleText.getOnlyText(regex: "<")
                     /// 태그의 개수를 Int로 캐스팅한 Int 프로퍼티
                     let numberOfsTags = Int(Double(tagCounter.count) * 0.5)
                     /// ">"값을 기준으로 자막을 슬라이싱한 텍스트
@@ -396,7 +388,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     /// - 자막이 변경되지 않았다면, `false`로 판정되고 if절을 통과한다.
                     if subtitleFinal.count != label.text?.count {
                         // default 값 입력
-                        for rangeIndex in 0...strongSelf.sTagsRanges.count-1 {
+                        for rangeIndex in 0...strongSelf.sTagsRanges.count - 1 {
                             strongSelf.sTagsRanges[rangeIndex] = Range(100...103)
                             strongSelf.keywordRanges[rangeIndex] = NSRange(location: 100, length: 100)
                         }
@@ -409,7 +401,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     
                     /* API에서 sTag 값을 받아올 위치 */
                     strongSelf.sTagsArray.removeAll()
-                    for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
+                    for index in 0...strongSelf.tempsTagsArray.count - 1 {
                         strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
                     }
                     
@@ -419,7 +411,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                         // "#"을 기준으로 자막을 나눈다.
                         let subtitleArray = subtitleText.split(separator: "#")
                         // "#"의 개수를 확인한다.
-                        let hashtagCounter = (subtitleFinal.getOnlyText(regex: "#"))
+                        let hashtagCounter = subtitleFinal.getOnlyText(regex: "#")
                         /// #"의 개수 프로퍼티
                         let numberOfHasgtags = hashtagCounter.count
                         
@@ -436,7 +428,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     }
                 }
             })
-        
     }
     
     /// View 최상단 영상 시작 메소드
@@ -481,13 +472,12 @@ extension VideoController: AVPlayerViewControllerDelegate {
 //            }
 //        })
         
-        
 //        // AVPlayer에 외부 URL을 포함한 값을 입력한다.
         player = AVPlayer(url: videoURL! as URL)
         playerController.player = player
 //
         // AVPlayerController를 "ViewController" childController로 등록한다.
-        self.addChild(playerController)
+        addChild(playerController)
 
         /// 공만세 적용 한글 인코딩 결과 값
         let subtitleInKor = makeStringKoreanEncoded(vttURL)
@@ -519,7 +509,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
         player.isMuted = false
     }
     
-    
     func configureVideoControlView() {
         let playerHeight = view.frame.width * 0.57
         videoContainerView.addSubview(blackViewOncontrolMode)
@@ -536,9 +525,11 @@ extension VideoController: AVPlayerViewControllerDelegate {
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
                                          paddingBottom: 25)
         // backButton
+        
+        // safearea영역에 생겨 클릭이 불가능했던것을 수정
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left:view.leftAnchor,
+                          left: view.safeAreaLayoutGuide.leftAnchor,
                           paddingTop: 10,
                           paddingLeft: 10)
         backButton.addTarget(self, action: #selector(handleBackButtonAction),
@@ -551,7 +542,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         videoControlContainerView.addSubview(timeSlider)
         timeSlider.setDimensions(height: 25, width: convertedWidth - 32)
         timeSlider.centerX(inView: videoControlContainerView)
-        timeSlider.centerY(inView: videoControlContainerView,constant: 0)
+        timeSlider.centerY(inView: videoControlContainerView, constant: 0)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
         // 현재시간을 나타내는 레이블
@@ -583,8 +574,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
         subtitleToggleButton.centerY(inView: videoSettingButton)
         subtitleToggleButton.anchor(right: videoSettingButton.leftAnchor,
                                     paddingRight: 3)
-        let gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                    action: #selector(targetViewDidTapped))
+        let gesture = UITapGestureRecognizer(target: self,
+                                             action: #selector(targetViewDidTapped))
         gesture.numberOfTapsRequired = 1
         blackViewOncontrolMode.isUserInteractionEnabled = true
         blackViewOncontrolMode.addGestureRecognizer(gesture)
@@ -622,5 +613,4 @@ extension VideoController: AVPlayerViewControllerDelegate {
             self.timeObserverToken = nil
         }
     }
-    
 }

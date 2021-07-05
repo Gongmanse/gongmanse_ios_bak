@@ -19,8 +19,6 @@ enum QnAChat {
 }
 
 class BottomQnACell: UICollectionViewCell {
-    
-    
     let videoVM = VideoQnAVideModel()
     let sideHeaderVM = SideMenuHeaderViewModel()
     
@@ -60,7 +58,6 @@ class BottomQnACell: UICollectionViewCell {
         return button
     }()
     
-    
     private let bottomStackView: UIStackView = {
         let stack = UIStackView()
         stack.alignment = .fill
@@ -71,7 +68,6 @@ class BottomQnACell: UICollectionViewCell {
     }()
     
     var isKeyboardSelect = false
-    
     
     // QnA 목록이 없습니다.
     private let lectureQnALabel: UILabel = {
@@ -99,7 +95,7 @@ class BottomQnACell: UICollectionViewCell {
         return stack
     }()
     
-    //MARK: - Lifecycle
+    // MARK: - Lifecycle
     
     override func setNeedsLayout() {
         super.setNeedsLayout()
@@ -109,17 +105,15 @@ class BottomQnACell: UICollectionViewCell {
         emptyStackView.isHidden = true
         tableView.isHidden = false
         
-        if videoVM.videoQnAInformation?.data.count == nil || videoVM.videoQnAInformation?.data.count == 0{
-            
+        if videoVM.videoQnAInformation?.data.count == nil || videoVM.videoQnAInformation?.data.count == 0 {
             emptyStackView.isHidden = false
             tableView.isHidden = true
         }
     }
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-       // initialize what is needed
+        // initialize what is needed
 
         self.backgroundColor = .white
         
@@ -150,7 +144,6 @@ class BottomQnACell: UICollectionViewCell {
     
     @objc func keyboardWillShow(_ sender: Notification) {
         if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
-            
             let keyboardRectangle = keyboardFame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             print(keyboardHeight)
@@ -162,14 +155,12 @@ class BottomQnACell: UICollectionViewCell {
             }
             
             isKeyboardSelect = true
-            
         }
-        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
+//        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
     }
  
     @objc func keyboardWillHide(_ sender: Notification) {
         if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == true {
-            
             let keyboardRectangle = keyboardFame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             print(keyboardHeight)
@@ -187,13 +178,10 @@ class BottomQnACell: UICollectionViewCell {
         super.init(coder: coder)
      
         self.isUserInteractionEnabled = true
-       // initialize what is needed
+        // initialize what is needed
     }
  
-    
-    
     @objc func textPostButtonAction(_ sender: UIButton) {
-        
         if Constant.isLogin {
             if sendText.text != "" {
                 videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
@@ -206,7 +194,6 @@ class BottomQnACell: UICollectionViewCell {
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
-
     }
     
     func scrollToBottom() {
@@ -217,14 +204,12 @@ class BottomQnACell: UICollectionViewCell {
 }
 
 extension BottomQnACell: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
 
 extension BottomQnACell: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videoVM.videoQnAInformation?.data.count ?? 0
     }
@@ -266,27 +251,22 @@ extension BottomQnACell: UITableViewDataSource {
         }
    
     }
-
-    
 }
 
 extension BottomQnACell: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         sendText.resignFirstResponder()
         return true
     }
 }
+
 extension BottomQnACell {
-    
     func configuration() {
-        
         contentView.addSubview(tableView)
         contentView.addSubview(bottomStackView)
         contentView.addSubview(emptyStackView)
         emptyStackView.addArrangedSubview(emptyAlert)
         emptyStackView.addArrangedSubview(lectureQnALabel)
-        
         
         bottomStackView.addArrangedSubview(sendText)
         bottomStackView.addArrangedSubview(sendButton)
@@ -304,7 +284,6 @@ extension BottomQnACell {
     }
     
     func constraints() {
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
         tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -330,9 +309,7 @@ extension BottomQnACell {
 }
 
 extension BottomQnACell: TableReloadData {
-    
     func reloadTable() {
-        
         if videoVM.videoQnAInformation?.data.count != 0 {
             emptyStackView.isHidden = true
             tableView.isHidden = false
@@ -341,8 +318,5 @@ extension BottomQnACell: TableReloadData {
                 self.scrollToBottom()
             }
         }
-        
-        
-        
     }
 }

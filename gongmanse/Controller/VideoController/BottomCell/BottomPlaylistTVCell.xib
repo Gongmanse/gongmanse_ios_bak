@@ -82,10 +82,9 @@
                         </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일정 성분비 법칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Soz-Iq-Jb3">
-                        <rect key="frame" x="130" y="36" width="245" height="17"/>
+                        <rect key="frame" x="130" y="36" width="269" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="gR7-d6-0sr"/>
-                            <constraint firstAttribute="width" constant="245" id="tLs-1W-Pdm"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                         <nil key="textColor"/>
@@ -126,6 +125,7 @@
                     <constraint firstItem="n3T-eq-jam" firstAttribute="top" secondItem="Soz-Iq-Jb3" secondAttribute="bottom" constant="8" symbolic="YES" id="FYi-YF-KFh"/>
                     <constraint firstItem="Soz-Iq-Jb3" firstAttribute="leading" secondItem="RXg-ND-Q7p" secondAttribute="trailing" constant="15" id="HFZ-39-tGC"/>
                     <constraint firstItem="Soz-Iq-Jb3" firstAttribute="top" secondItem="XEd-1X-7Lf" secondAttribute="bottom" constant="8" symbolic="YES" id="Hg7-8T-3nE"/>
+                    <constraint firstAttribute="trailing" secondItem="Soz-Iq-Jb3" secondAttribute="trailing" constant="15" id="I4e-VQ-9zF"/>
                     <constraint firstItem="RXg-ND-Q7p" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="N76-qg-c1l"/>
                     <constraint firstItem="r7K-T5-JDx" firstAttribute="leading" secondItem="RXg-ND-Q7p" secondAttribute="trailing" constant="15" id="N8X-wn-nkn"/>
                     <constraint firstAttribute="trailing" secondItem="Ide-kq-OrL" secondAttribute="trailing" constant="5" id="SKm-as-3wn"/>
