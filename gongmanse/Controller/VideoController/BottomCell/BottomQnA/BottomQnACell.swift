@@ -182,7 +182,7 @@ class BottomQnACell: UICollectionViewCell {
     }
  
     @objc func textPostButtonAction(_ sender: UIButton) {
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             if sendText.text != "" {
                 videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
                 videoVM.requestVideoQnA(videoID)
@@ -191,6 +191,8 @@ class BottomQnACell: UICollectionViewCell {
                 
                 sendText.resignFirstResponder()
             }
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

@@ -106,14 +106,14 @@ class SideMenuVC: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            if Constant.isLogin {
+            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
                 let myActivityVC = self.storyboard?.instantiateViewController(withIdentifier: "MyActivityVC") as! MyActivityVC
                 self.navigationController?.pushViewController(myActivityVC, animated: true)
             } else {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
         } else if indexPath.row == 1 {
-            if Constant.isLogin {
+            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
                 let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
                 self.navigationController?.pushViewController(myCalendarVC, animated: true)
             } else {
@@ -129,7 +129,7 @@ class SideMenuVC: UITableViewController {
             let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
             self.navigationController?.pushViewController(customerServiceVC, animated: true)
         } else if indexPath.row == 5 {
-            if Constant.isLogin {
+            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
                 
                 let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
                 self.navigationController?.pushViewController(settingsVC, animated: true)
@@ -253,8 +253,10 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
     
     func clickedLogoutButton() {
         
+        UserDefaults.standard.removeObject(forKey: "refresh_token")
+        
         Constant.token = ""
-        viewModel.token = ""
+        viewModel.token = Constant.token
         Constant.remainPremiumDateInt = 0
         headerViewHeight = viewModel.isHeaderHeight
         
@@ -268,7 +270,7 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         autoPlayDataManager.videoDataInPopularTab = nil
         
         let loginData = LoginDataManager()
-        loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "", refresh_token: ""))
+        loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: "refresh_token"))
         tableView.reloadData()
     }
     

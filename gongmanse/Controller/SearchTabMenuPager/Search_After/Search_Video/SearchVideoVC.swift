@@ -216,7 +216,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return
         }
         
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             // 검색에서 왔다는 것을 알려주는 Boolean값
             if let comeFromSearchVC = self.comeFromSearchVC {
 

@@ -191,7 +191,7 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     @objc func connectVideo(_ sender: UIButton) {
         
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
@@ -205,13 +205,15 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             // 노트 연결
             let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
                                           token: Constant.token)
             vc.modalPresentationStyle = .fullScreen
             vc.seriesID = searchNoteVM.searchNotesDataModel?.data[indexPath.row].iSeriesId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

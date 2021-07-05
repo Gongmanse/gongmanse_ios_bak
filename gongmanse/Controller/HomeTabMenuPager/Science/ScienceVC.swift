@@ -475,7 +475,7 @@ extension ScienceVC: UICollectionViewDelegate {
         //
         
         // 06.16 이후코드
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             
             // 시리즈보기: self.selectedItem == 1
             // 문제풀이: self.selectedItem == 2

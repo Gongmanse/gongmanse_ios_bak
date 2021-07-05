@@ -459,7 +459,7 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
 extension OtherSubjectsVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             
             if self.selectedItem == 0 {
                 let vc = VideoController()

@@ -699,7 +699,7 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
 
-        if Constant.isGuestKey {
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권이 없습니다.")
             return
         }

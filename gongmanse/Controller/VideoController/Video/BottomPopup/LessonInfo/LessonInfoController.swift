@@ -210,7 +210,7 @@ class LessonInfoController: UIViewController {
     @objc func handleRelatedSeriesAction() {
         let videoDataManager = VideoDataManager.shared
         
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             delegate?.videoVCPauseVideo()
             let presentVC = LecturePlaylistVC(videoID ?? "")
             presentVC.lectureState = .lectureList
@@ -225,6 +225,8 @@ class LessonInfoController: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
             // TODO: 관련시리즈를 켠다.
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
         } else {
             presentAlert(message: "로그인 후 이용해주세요.")
         }

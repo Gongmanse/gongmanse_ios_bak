@@ -176,7 +176,7 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             // 비디오 연결
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared

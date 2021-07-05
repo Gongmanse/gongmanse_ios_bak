@@ -461,7 +461,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         
         switch lectureState {
         case .lectureList:
-            if Constant.isLogin {
+            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
                 // 비디오 연결
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
@@ -476,7 +476,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
             }
             
         case .videoList:
-            if Constant.isLogin {
+            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
                 
                 /**
                  검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
