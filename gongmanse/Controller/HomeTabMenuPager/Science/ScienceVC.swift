@@ -477,11 +477,6 @@ extension ScienceVC: UICollectionViewDelegate {
         // 06.16 이후코드
         if Constant.isLogin {
             
-            if Constant.remainPremiumDateInt == nil {
-                presentAlert(message: "이용권을 구매해주세요")
-                return
-            }
-            
             // 시리즈보기: self.selectedItem == 1
             // 문제풀이: self.selectedItem == 2
             // 전체보기
@@ -547,6 +542,9 @@ extension ScienceVC: UICollectionViewDelegate {
                 print("DEBUG: 3번")
             }
             
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
