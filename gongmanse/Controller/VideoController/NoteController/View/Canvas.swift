@@ -39,8 +39,8 @@ class Canvas: UIView {
     public var lines = [Line]()
     {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.setNeedsDisplay()     // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.setNeedsDisplay()     // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
             }
         }
     }
