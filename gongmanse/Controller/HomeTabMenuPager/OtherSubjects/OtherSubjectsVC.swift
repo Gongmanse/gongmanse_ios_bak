@@ -459,7 +459,12 @@ extension OtherSubjectsVC: UICollectionViewDataSource {
 extension OtherSubjectsVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        }
+        
+        if Constant.isLogin {
             
             if self.selectedItem == 0 {
                 let vc = VideoController()
@@ -517,9 +522,6 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
                 
             }
             
-        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-            return
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }

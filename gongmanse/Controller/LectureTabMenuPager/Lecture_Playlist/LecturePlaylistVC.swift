@@ -459,6 +459,11 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
+            presentAlert(message: "이용권을 구매해주세요.")
+            return
+        }
+        
         switch lectureState {
         case .lectureList:
             if Constant.isLogin {
@@ -542,9 +547,6 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                     
                 }
                 
-            } else if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
-                presentAlert(message: "이용권을 구매해주세요.")
-                return
             } else {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }

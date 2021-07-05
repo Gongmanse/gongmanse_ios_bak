@@ -185,13 +185,13 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     @objc func deleteAction(_ sender: UIButton) {
         guard let json = self.noteList else { return }
         guard let id = json.data[sender.tag].id else { return }
-
+        
         let inputData = NoteListInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
         self.tableViewInputData?.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         
-//        self.tableViewInputData?.remove(at: sender.tag)
+        //        self.tableViewInputData?.remove(at: sender.tag)
         NoteListTVCDataManager().postRemoveNoteList(param: inputData, viewController: self)
         
         getDataFromJson()
@@ -200,20 +200,18 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     @objc func videoPlay(_ sender: UIButton) {
         
-        //let token = Constant.token
+        let token = Constant.token
         
         // 토큰이 없는 경우
-        if Constant.isLogin && Constant.remainPremiumDateInt == nil {
-            
+        if token.count < 3 {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
-            
-        } else if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        } else {
             
             guard let value = self.noteList else { return }
             let data = value.data
             
-//            guard let selectedVideoIndex = self.selectedRow else { return }
-//            print("slectedRow is \(selectedVideoIndex)")
+            //            guard let selectedVideoIndex = self.selectedRow else { return }
+            //            print("slectedRow is \(selectedVideoIndex)")
             let vc = VideoController()
             vc.id = data[sender.tag].video_id
             vc.modalPresentationStyle = .fullScreen
@@ -239,19 +237,16 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         
         guard let value = self.noteList else { return }
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
-            if value.totalNum == "0" {
-                presentAlert(message: "노트목록이 없습니다.")
-            } else {
-                self.selectedRow = indexPath.row
-                let videoID = noteList?.data[indexPath.row].video_id
-                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
-                let nav = UINavigationController(rootViewController: vc)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true)
-            }
-        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
+        
+        if value.totalNum == "0" {
+            presentAlert(message: "노트목록이 없습니다.")
+        } else {
+            self.selectedRow = indexPath.row
+            let videoID = noteList?.data[indexPath.row].video_id
+            let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
         }
     }
 }
@@ -301,7 +296,7 @@ class NoteListTVCDataManager {
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "note_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
-
+            
         }, to: "https://api.gongmanse.com/v/member/mynotes").response { (response) in
             switch response.result {
             case .success:

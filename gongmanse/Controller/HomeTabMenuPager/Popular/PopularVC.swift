@@ -229,7 +229,7 @@ extension PopularVC: UICollectionViewDataSource {
 extension PopularVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.isLogin {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
@@ -245,7 +245,7 @@ extension PopularVC: UICollectionViewDelegate {
             autoDataManager.currentViewTitleView = "인기"
             
             present(vc, animated: true)
-        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
+        } else if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
             return
         } else {

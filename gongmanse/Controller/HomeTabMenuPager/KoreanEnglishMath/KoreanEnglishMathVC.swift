@@ -474,7 +474,12 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
 extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        }
+        
+        if Constant.isLogin {
             
             // 시리즈보기: self.selectedItem == 1
             // 문제풀이: self.selectedItem == 2
@@ -546,14 +551,9 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             }
             
             
-        } else if Constant.isLogin && Constant.remainPremiumDateInt == nil {
-            print(Constant.remainPremiumDateInt)
-            presentAlert(message: "이용권을 구매해주세요")
-            return
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

@@ -176,6 +176,11 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
+            presentAlert(message: "이용권을 구매해주세요.")
+            return
+        }
+        
         if Constant.isLogin {
             // 비디오 연결
             let vc = VideoController()
@@ -185,9 +190,6 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
             vc.id = receviedVideoID
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
-            return
-        } else if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
-            presentAlert(message: "이용권을 구매해주세요.")
             return
         } else {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
