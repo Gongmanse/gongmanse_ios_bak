@@ -33,6 +33,10 @@ class LessonInfoController: UIViewController {
     
     weak var delegate: LessonInfoControllerDelegate?
     
+    var detailVideo: DetailSecondVideoResponse?
+    var detailData: DetailVideoInput?
+    var detailVideoData: DetailSecondVideoData?
+    
     public var sSubjectLabel = sUnitLabel("DEFAULT", .brown)
     public var sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
     public var sUnitLabel02 = sUnitLabel("DEFAULT", .mainOrange)
@@ -122,6 +126,7 @@ class LessonInfoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        getDataFromJsonVideo()
         
         videoDetailVM?.requestVideoDetailApi(videoID ?? "")
 //        videoDetailVM?.requestVideoDetailApi("151")
@@ -137,6 +142,26 @@ class LessonInfoController: UIViewController {
         print("DEBUG: LessonInfoController Appear!!!")
         let pipDataManager = PIPDataManager.shared
         currentPIPVideoPlayTime = pipDataManager.currentVideoCMTime
+    }
+    
+    func getDataFromJsonVideo() {
+        
+        //guard let videoId = data?.video_id else { return }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
+                    //print(json.data)
+                    self.detailVideo = json
+                    self.detailVideoData = json.data
+                }
+            }.resume()
+        }
     }
     
     // MARK: - Actions
@@ -208,9 +233,16 @@ class LessonInfoController: UIViewController {
     }
 
     @objc func handleRelatedSeriesAction() {
+        
+        guard let indexVideoData = detailVideo?.data else { return }
+        
         let videoDataManager = VideoDataManager.shared
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+        if indexVideoData.source_url != nil {
             delegate?.videoVCPauseVideo()
             let presentVC = LecturePlaylistVC(videoID ?? "")
             presentVC.lectureState = .lectureList
@@ -225,7 +257,7 @@ class LessonInfoController: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
             // TODO: 관련시리즈를 켠다.
-        } else if Constant.remainPremiumDateInt == nil {
+        } else if indexVideoData.source_url == nil {
             presentAlert(message: "이용권을 구매해주세요")
         } else {
             presentAlert(message: "로그인 후 이용해주세요.")

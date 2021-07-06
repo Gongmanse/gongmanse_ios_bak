@@ -19,7 +19,6 @@ class SideMenuHeaderViewModel {
     var activateDate: String?
     var expireDate: String?
     var dateRemainingString: String?
-    
     var reloadDelegate: TableReloadData?
     
     init() {
@@ -92,6 +91,7 @@ class SideMenuHeaderViewModel {
         Constant.remainPremiumDateInt = dateRemaining
         
         self.dateRemainingString = "\(dateRemaining)"
+        
         return dateRemainingString!
     }
     

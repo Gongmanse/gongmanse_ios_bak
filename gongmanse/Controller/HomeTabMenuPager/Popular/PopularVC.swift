@@ -22,6 +22,9 @@ class PopularVC: UIViewController {
     var listCount: Int = 0
     var isDataListMore: Bool = true
     
+    var detailVideo: DetailSecondVideoResponse?
+    var detailData: DetailVideoInput?
+    var detailVideoData: DetailSecondVideoData?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,6 +43,7 @@ class PopularVC: UIViewController {
         
         //        getDataFromJson()
         viewTitleSettings()
+        getDataFromJsonVideo()
     }
     
     func viewTitleSettings() {
@@ -51,6 +55,30 @@ class PopularVC: UIViewController {
         attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (viewTitle.text! as NSString).range(of: "HOT!"))
         
         self.viewTitle.attributedText = attributedString
+    }
+    
+    func getDataFromJsonVideo() {
+        
+        //guard let videoId = data?.video_id else { return }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
+                    //print(json.data)
+                    self.detailVideo = json
+                    self.detailVideoData = json.data
+                }
+                DispatchQueue.main.async {
+                    self.popularCollection.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     func getDataFromJson() {
@@ -229,7 +257,15 @@ extension PopularVC: UICollectionViewDataSource {
 extension PopularVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+        guard let indexVideoData = detailVideo?.data else { return }
+        
+        if indexVideoData.source_url == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+        } else if indexVideoData.source_url != nil {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
@@ -245,9 +281,31 @@ extension PopularVC: UICollectionViewDelegate {
             autoDataManager.currentViewTitleView = "인기"
             
             present(vc, animated: true)
-        } else {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
+        
+//        if Constant.remainPremiumDateInt != nil {
+//            let vc = VideoController()
+//            let videoDataManager = VideoDataManager.shared
+//            videoDataManager.isFirstPlayVideo = true
+//            vc.modalPresentationStyle = .fullScreen
+//            let videoID = popularVideoSecond?.data[indexPath.row].id
+//            vc.id = videoID
+//            //            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
+//            //            vc.popularSeriesId = seriesID
+//            vc.popularReceiveData = popularVideo
+//            vc.popularViewTitle = viewTitle.text
+//
+//            let autoDataManager = AutoplayDataManager.shared
+//            autoDataManager.currentViewTitleView = "인기"
+//
+//            present(vc, animated: true)
+//        } else if Constant.remainPremiumDateInt == nil {
+//            presentAlert(message: "이용권을 구매해주세요")
+//        }
+//
+//        else {
+//            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

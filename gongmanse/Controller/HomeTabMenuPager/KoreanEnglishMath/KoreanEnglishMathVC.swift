@@ -70,6 +70,10 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     var inputFilterNum = 0
     var inputSortNum = 4
     
+    var detailVideo: DetailSecondVideoResponse?
+    var detailData: DetailVideoInput?
+    var detailVideoData: DetailSecondVideoData?
+    
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
     let koreanEnglishMathRC: UIRefreshControl = {
@@ -94,6 +98,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         print(#function)
         getDataFromJson()
         getDataFromJsonSecond()
+        getDataFromJsonVideo()
         getDataFromJsonNote()
         textInput()
         cornerRadius()
@@ -146,6 +151,30 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         playSwitch.onTintColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
+    }
+    
+    func getDataFromJsonVideo() {
+        
+        //guard let videoId = data?.video_id else { return }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
+                    //print(json.data)
+                    self.detailVideo = json
+                    self.detailVideoData = json.data
+                }
+                DispatchQueue.main.async {
+                    self.koreanEnglishMathCollection.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     func getDataFromJson() {
@@ -204,8 +233,8 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
                     let decoder = JSONDecoder()
                     
                     if let json = try? decoder.decode(VideoInput.self, from: data) {
-//                        guard let isMores = json.header?.isMore else { return}
-//                        self.isMoreBool = Bool(isMores) ?? false
+                        //                        guard let isMores = json.header?.isMore else { return}
+                        //                        self.isMoreBool = Bool(isMores) ?? false
                         for i in 0..<json.body.count {
                             self.koreanEnglishMathVideo?.body.append(json.body[i])
                         }
@@ -236,9 +265,9 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
                         self.koreanEnglishMathVideoSecond = json
                         
                         // 문제풀이인 경우,
-//                        if self.selectedItem == 2 {
-//                            self.problemSolvingListData = json
-//                        }
+                        //                        if self.selectedItem == 2 {
+                        //                            self.problemSolvingListData = json
+                        //                        }
                         
                     }
                     DispatchQueue.main.async {
@@ -253,8 +282,8 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
                     let decoder = JSONDecoder()
                     
                     if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-//                        guard let isMores = json.isMore else { return}
-//                        self.isMoreBool = Bool(isMores)
+                        //                        guard let isMores = json.isMore else { return}
+                        //                        self.isMoreBool = Bool(isMores)
                         for i in 0..<json.data.count {
                             self.koreanEnglishMathVideoSecond?.data.append(json.data[i])
                         }
@@ -474,7 +503,16 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
 extension KoreanEnglishMathVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+        guard let indexVideoData = detailVideo?.data else { return }
+        
+        if indexVideoData.source_url == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            
+        } else if indexVideoData.source_url != nil {
             
             // 시리즈보기: self.selectedItem == 1
             // 문제풀이: self.selectedItem == 2
@@ -535,23 +573,95 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
                 
                 // 노트 전체보기 화면에 SeriesID가 필요
-//                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
-//                    vc.seriesID = seriesID
-//                }
+                //                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+                //                    vc.seriesID = seriesID
+                //                }
                 
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
                 print("DEBUG: 3번")
             }
-            
-            
-        } else if Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-            return
-        } else {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
+        
+        //        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        //
+        //            // 시리즈보기: self.selectedItem == 1
+        //            // 문제풀이: self.selectedItem == 2
+        //            // 전체보기
+        //            if self.selectedItem == 0 {
+        //                let vc = VideoController()
+        //                let videoDataManager = VideoDataManager.shared
+        //                videoDataManager.isFirstPlayVideo = true
+        //                vc.modalPresentationStyle = .fullScreen
+        //                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+        //                vc.id = videoID
+        //                let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
+        //                vc.koreanSeriesId = seriesID
+        //                vc.koreanSwitchValue = playSwitch
+        //                vc.koreanReceiveData = koreanEnglishMathVideo
+        //                vc.koreanSelectedBtn = selectBtn
+        //                //                vc.koreanViewTitle = viewTitle.text
+        //                vc.koreanViewTitle = "국영수 강의"
+        //                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
+        //                let autoDataManager = AutoplayDataManager.shared
+        //                autoDataManager.currentViewTitleView = "국영수"
+        //                present(vc, animated: true)
+        //
+        //
+        //                // 시리즈 보기
+        //            } else if self.selectedItem == 1 {
+        //                let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
+        //                let seriesID = koreanEnglishMathVideo?.body[indexPath.row].seriesId
+        //                vc.receiveSeriesId = seriesID
+        //                vc.modalPresentationStyle = .fullScreen
+        //                navigationController?.pushViewController(vc, animated: true)
+        //                print("DEBUG: 1번")
+        //
+        //                // 문제 풀이
+        //            } else if self.selectedItem == 2 {
+        //                let vc = VideoController()
+        //                let videoDataManager = VideoDataManager.shared
+        //                videoDataManager.isFirstPlayVideo = true
+        //                vc.modalPresentationStyle = .fullScreen
+        //                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+        //                vc.id = videoID
+        //                let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
+        //                vc.koreanSeriesId = seriesID
+        //                vc.koreanSwitchValue = playSwitch
+        //                vc.koreanReceiveData = koreanEnglishMathVideo
+        //                vc.koreanSelectedBtn = selectBtn
+        //                //                vc.koreanViewTitle = viewTitle.text
+        //                vc.koreanViewTitle = "국영수"
+        //                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
+        //                let autoDataManager = AutoplayDataManager.shared
+        //                autoDataManager.currentFiltering = "문제 풀이"
+        //                present(vc, animated: true)
+        //                print("DEBUG: 2번")
+        //                // 노트보기
+        //            } else if self.selectedItem == 3 {
+        //
+        //                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
+        //                let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+        //
+        //                // 노트 전체보기 화면에 SeriesID가 필요
+        ////                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+        ////                    vc.seriesID = seriesID
+        ////                }
+        //
+        //                let nav = UINavigationController(rootViewController: vc)
+        //                nav.modalPresentationStyle = .fullScreen
+        //                self.present(nav, animated: true)
+        //                print("DEBUG: 3번")
+        //            }
+        //
+        //
+        //        } else if Constant.remainPremiumDateInt == nil {
+        //            presentAlert(message: "이용권을 구매해주세요")
+        //            return
+        //        } else {
+        //            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        //        }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

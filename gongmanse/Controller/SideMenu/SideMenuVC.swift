@@ -253,11 +253,10 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
     
     func clickedLogoutButton() {
         
-        UserDefaults.standard.removeObject(forKey: "refresh_token")
+        //UserDefaults.standard.removeObject(forKey: "refresh_token")
         
         Constant.token = ""
         viewModel.token = Constant.token
-        Constant.remainPremiumDateInt = 0
         headerViewHeight = viewModel.isHeaderHeight
         
         let autoPlayDataManager = AutoplayDataManager.shared
@@ -270,7 +269,7 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         autoPlayDataManager.videoDataInPopularTab = nil
         
         let loginData = LoginDataManager()
-        loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: "refresh_token"))
+        loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
         tableView.reloadData()
     }
     

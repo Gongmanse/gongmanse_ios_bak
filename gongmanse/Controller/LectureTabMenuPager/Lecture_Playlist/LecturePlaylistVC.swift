@@ -27,6 +27,10 @@ class LecturePlaylistVC: UIViewController {
     
     var lectureState: LectureState?
     
+    var detailVideo: DetailSecondVideoResponse?
+    var detailData: DetailVideoInput?
+    var detailVideoData: DetailSecondVideoData?
+    
     // 강사별 강의
     var getTeacherList: LectureSeriesDataModel?
     var seriesID: String? {
@@ -202,6 +206,7 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getDataFromJsonVideo()
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
         collectionView.delegate = self
@@ -225,7 +230,29 @@ class LecturePlaylistVC: UIViewController {
         }
     }
     
-    
+    func getDataFromJsonVideo() {
+        
+        //guard let videoId = data?.video_id else { return }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
+                    //print(json.data)
+                    self.detailVideo = json
+                    self.detailVideoData = json.data
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
+            }.resume()
+        }
+    }
     
     // MARK: - Actions
     
@@ -459,9 +486,16 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard let indexVideoData = detailVideo?.data else { return }
+        
         switch lectureState {
         case .lectureList:
-            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            
+            if Constant.isLogin == false {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
+            
+            if indexVideoData.source_url != nil {
                 // 비디오 연결
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
@@ -471,12 +505,17 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
                 return
-            } else {
-                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            } else if indexVideoData.source_url == nil {
+                presentAlert(message: "이용권을 구매해주세요")
             }
             
         case .videoList:
-            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            
+            if Constant.isLogin == false {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
+            
+            if indexVideoData.source_url != nil {
                 
                 /**
                  검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
@@ -542,7 +581,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                     
                 }
                 
-            } else if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
+            } else if Constant.isGuestKey || indexVideoData.source_url == nil  {
                 presentAlert(message: "이용권을 구매해주세요.")
                 return
             } else {

@@ -296,8 +296,6 @@ extension RecommendVC: RecommendCRVDelegate {
         autoPlayDataManager.currentViewTitleView = "추천"
         self.present(vc, animated: true)
     }
-    
-    
 }
 
 extension RecommendVC: VideoControllerDelegate {
@@ -308,6 +306,4 @@ extension RecommendVC: VideoControllerDelegate {
         vc.id = "15188"
         self.present(vc, animated: false)
     }
-    
-    
 }

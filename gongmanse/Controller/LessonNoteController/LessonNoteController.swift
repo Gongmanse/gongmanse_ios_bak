@@ -26,7 +26,7 @@ class LessonNoteViewModel {
         self.seriesID = seriesID
         self.videoID = currentVideoID
         // 시리즈 아이디를 이용하여 API를 호출하고 "videoIDArr"에 시리즈에 해당하는 VideoID를 할당한다.
-        networkingAPIBySeriesID(offSet: offSet)
+        networkingAPIBySeriesID(offSet: self.offSet)
     }
     
     /// 다음 버튼을 클릭했을 때, 다음 VideoID를 주는 연산프로퍼티
@@ -35,6 +35,8 @@ class LessonNoteViewModel {
         print("DEBUG: currentIndex is \(currentIndex)")
         print("DEBUG: videoIDArr.count is \(videoIDArr.count)")
         if (videoIDArr.count - 1) == currentIndex {
+            return "BLOCK"
+        } else if videoIDArr.count == 0 {
             return "BLOCK"
         } else {
             currentIndex += 1
@@ -82,7 +84,7 @@ class LessonNoteViewModel {
         
         // isMore가 False가 되면 videoIDArr에 VideoID값을 모두 추가한다.
         videoIDArr.append(contentsOf: tempArrVideID)
-        let currentIndex = findCurrentIDIndexNum(videoIDArr, currentID: videoID)
+        let currentIndex = findCurrentIDIndexNum(videoIDArr, currentID: self.videoID)
         self.currentIndex = currentIndex
     }
     
@@ -114,99 +116,6 @@ class LessonNoteController: UIViewController {
     private let token: String?
     private var url: String?
     private var strokesString = ""
-    
-    var comeFromNoteVC: Bool?
-    
-    // PIP 모드를 위한 프로퍼티
-    var isOnPIP: Bool = false
-    var pipVC: PIPController?
-    var pipVideoData: PIPVideoData? {
-        didSet {
-            setupPIPView()
-            pipVC?.pipVideoData = pipVideoData
-        }
-    }
-    
-    /// 유사 PIP 기능을 위한 ContainerView
-    let pipContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let lessonTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "DEFAULT"
-        label.numberOfLines = 2
-        label.lineBreakMode = .byTruncatingTail
-        label.font = UIFont.appBoldFontWith(size: 13)
-        label.textColor = .black
-        return label
-    }()
-    
-    private let teachernameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "DEFAULT"
-        label.font = UIFont.appBoldFontWith(size: 11)
-        label.textColor = .gray
-        return label
-    }()
-    
-    private var isPlayPIPVideo: Bool = true
-    private let playPauseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(playPauseButtonDidTap), for: .touchUpInside)
-        return button
-    }()
-    
-    private let xButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(xButtonDidTap), for: .touchUpInside)
-        return button
-    }()
-    
-    deinit {
-        dismissPIPView()
-        setRemoveNotification()
-        NotificationCenter.default.removeObserver(self)
-        print("DEBUG: NoteVC is deinit")
-    }
-    
-    func dismissPIPView() {
-        // PIP 모드가 실행중이였다면, 종료시킨다.
-        pipVC?.player?.pause()
-        pipVC?.player = nil
-        pipVC?.removePeriodicTimeObserver()
-        pipVC?.removeFromParent()
-        pipVC = nil
-    }
-    
-    @objc func playPauseButtonDidTap() {
-        isPlayPIPVideo = !isPlayPIPVideo
-        
-        if isPlayPIPVideo {
-            pipVC?.player?.pause()
-            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
-        } else {
-            pipVC?.player?.play()
-            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        }
-    }
-    
-    @objc func xButtonDidTap() {
-        
-        pipVC?.player?.pause()
-        pipVC?.player = nil
-        
-        UIView.animate(withDuration: 0.22, animations: {
-            self.pipContainerView.alpha = 0
-        }, completion: nil)
-    }
-    
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
@@ -484,6 +393,10 @@ class LessonNoteController: UIViewController {
     
     /// 다음 노트를 호출하는 메소드
     @objc func nextButtonDidTap() {
+        if viewModel.videoIDArr.count == 0 {
+            presentAlert(message: "마지막 페이지 입니다.")
+        }
+        
         if viewModel.nextVideoID == "BLOCK" {
             presentAlert(message: "마지막 페이지 입니다.")
             return
@@ -526,9 +439,10 @@ class LessonNoteController: UIViewController {
         guard let id = self.id else { return }
         guard let token = self.token else { return }
         
-        //let dataForSearchNote = NoteInput(video_id: id,
-                                          //token: token)
-        // 노트이미지 불러오는 API메소드
+//        let dataForSearchNote = NoteInput(video_id: id,
+//                                          token: token)
+//        // 노트이미지 불러오는 API메소드
+//        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote, viewController: self)
         
         if Constant.isGuestKey {
             GuestKeyDataManager().GuestKeyAPIGetNoteData(videoID: id, viewController: self)
@@ -544,115 +458,6 @@ class LessonNoteController: UIViewController {
             DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote,
                                                           viewController: self)
         }
-    }
-    
-    func setupPIPView() {
-        
-        var pipHeight = view.frame.height * 0.085
-//
-//        switch Constant.height {
-//        case 896.0:
-//            // pro max
-//        case 812.0
-//        //
-//        }
-//
-        
-        switch Constant.width {
-        case 375.0:
-            pipHeight = view.frame.height * 0.085
-            break
-        case 414.0:
-            pipHeight = view.frame.height * 0.070
-            break
-        default:
-            pipHeight = view.frame.height * 0.085
-            break
-        }
-        
-        
-        view.addSubview(pipContainerView)
-        pipContainerView.anchor(left: view.leftAnchor,
-                                bottom: view.bottomAnchor,
-                                right: view.rightAnchor,
-                                height: pipHeight)
-        
-        pipVC = PIPController()
-        guard let pipVC = self.pipVC else { return }
-        
-        let pipContainerViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipContainerViewDidTap))
-        pipContainerView.addGestureRecognizer(pipContainerViewTapGesture)
-        pipContainerView.isUserInteractionEnabled = true
-        pipContainerView.layer.borderColor = UIColor.gray.cgColor
-        pipContainerView.layer.borderWidth = CGFloat(0.5)
-        pipContainerView.addSubview(pipVC.view)
-        pipVC.view.anchor(top:pipContainerView.topAnchor)
-        pipVC.view.centerY(inView: pipContainerView)
-        pipVC.view.setDimensions(height: pipHeight,
-                                 width: pipHeight * 1.77)
-        
-        pipContainerView.addSubview(xButton)
-        xButton.setDimensions(height: 25, width: 25)
-        xButton.centerY(inView: pipContainerView)
-        xButton.anchor(right: pipContainerView.rightAnchor,
-                       paddingRight: 5)
-        
-        pipContainerView.addSubview(playPauseButton)
-        playPauseButton.setDimensions(height: 25,
-                                      width: 25)
-        playPauseButton.centerY(inView: pipContainerView)
-        playPauseButton.anchor(right: xButton.leftAnchor,
-                       paddingRight: 20)
-        
-        pipContainerView.addSubview(lessonTitleLabel)
-        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
-                                left: pipContainerView.leftAnchor,
-                                paddingTop: 13,
-                                paddingLeft: pipHeight * 1.77 + 5,
-                                height: 17)
-        lessonTitleLabel.text = pipVideoData?.videoTitle ?? ""
-        
-        pipContainerView.addSubview(teachernameLabel)
-        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
-                                left: lessonTitleLabel.leftAnchor,
-                                paddingTop: 5,
-                                height: 15)
-        teachernameLabel.text = pipVideoData?.teacherName ?? ""
-        
-        
-    }
-    
-    // 가장 최근에 재생하던 Video로 돌아갑니다.
-    // 그러므로 새로운 VC 인스턴스를 생성하지 않고 dismiss + videoLogic으로 처리합니다. 21.06.09 김우성
-    @objc func pipContainerViewDidTap(_ sender: UITapGestureRecognizer) {
-        
-        setRemoveNotification()
-        dismissSearchAfterVCOnPlayingPIP()
-        // PIP에 이전영상에 대한 기록이 있으므로 화면을 새로 생성하지 않고 이전영상으로 돌아간다.
-        // 재생된 시간은 전달해줘서 PIP AVPlayer가 진행된 부분부터 진행한다.
-        // Delegation을 사용하지 말고, VideoController
-        // 이전 영상의 Player를 조작해야하므로 Delegation을 사용한다.
-        // Delegation Method를 통해 "player.seek()" 를 호출한다.
-        // 이 때 seek 메소드의 파라미터로 "pipDataManager.currentPlayTime"을 입력한다.
-    }
-    
-    func setRemoveNotification() {
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
-    }
-    
-    /// PIP 영상이 실행되고 있는데, 이전 영상화면으로 돌아가고 싶은 경우 호출하는 메소드
-    func dismissSearchAfterVCOnPlayingPIP() {
-        // 1 PIP 영상을 제거한다.
-
-        // 2 PIP-Player에서 현재까지 재생된 시간을 SingleTon 에 입력한다.
-        let pipDataManager = PIPDataManager.shared
-        guard let pipVC = self.pipVC else { return }
-            
-        pipVC.player?.pause()
-        setRemoveNotification()
-        // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
-        pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
-        dismiss(animated: false)
     }
     
     private func setupLayout() {

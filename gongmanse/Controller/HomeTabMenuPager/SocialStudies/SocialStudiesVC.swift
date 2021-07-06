@@ -449,7 +449,7 @@ extension SocialStudiesVC: UICollectionViewDataSource {
 extension SocialStudiesVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.remainPremiumDateInt != nil {
             if self.selectedItem == 0 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
