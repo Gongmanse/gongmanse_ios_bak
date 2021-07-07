@@ -192,6 +192,13 @@ extension RecommendVC: UICollectionViewDataSource {
         }
     }
     
+    //0707 - edited by hp
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        let width = view.frame.width
+        return CGSize(width: width, height: (width / 16 * 9 + 70))
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         if self.isLoading {
@@ -278,7 +285,9 @@ extension RecommendVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width - 40
-        return CGSize(width: width, height: 265)
+        
+        //0707 - edited by hp
+        return CGSize(width: width, height: (width / 16 * 9 + 70))
     }
 }
 

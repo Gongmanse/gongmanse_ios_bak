@@ -47,8 +47,9 @@ class TeacherPlaylistCell: UICollectionViewCell {
         let cornerRadiusValue = CGFloat(10)
         
         // mainImageView
-        mainImageView.setDimensions(height: contentView.frame.height * 0.75,
-                                    width: contentView.frame.width)
+        //0707 - edited by hp
+        mainImageView.setDimensions(height: (UIScreen.main.bounds.width - 50) / 16 * 9,
+                                    width: UIScreen.main.bounds.width - 50)
         
         mainImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         mainImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true

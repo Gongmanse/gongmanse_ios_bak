@@ -40,10 +40,6 @@ class SearchVideoVC: UIViewController {
     @IBOutlet weak var sortButtonTitle: UIButton!
     @IBOutlet weak var autoVideoLabel: UILabel!
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     // 상담목록이 없습니다.
     private let consultLabel: UILabel = {
         let label = UILabel()
@@ -88,8 +84,6 @@ class SearchVideoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromJsonVideo()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         searchVideoVM.reloadDelegate = self
@@ -124,30 +118,6 @@ class SearchVideoVC: UIViewController {
         
         
         autoPlaySwitch.addTarget(self, action: #selector(switchDidTap(_:)), for: .valueChanged)
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     func getSearchVideoList() {
@@ -241,15 +211,12 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
+            presentAlert(message: "이용권을 구매해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-        } else if indexVideoData.source_url != nil {
+        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             // 검색에서 왔다는 것을 알려주는 Boolean값
             if let comeFromSearchVC = self.comeFromSearchVC {
 
@@ -416,7 +383,10 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             //            vc.modalPresentationStyle = .fullScreen
             //            present(vc, animated: true)
             
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

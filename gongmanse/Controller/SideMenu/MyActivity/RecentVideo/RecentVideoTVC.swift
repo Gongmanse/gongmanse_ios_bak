@@ -30,10 +30,6 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     var recentViedo: FilterVideoModels?
     var tableViewInputData: [FilterVideoData]?
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -53,9 +49,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
-        
         getDataFromJson()
-        getDataFromJsonVideo()
         
         //xib 셀 등록
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
@@ -81,30 +75,6 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     @objc func recentVideoFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "recentVideoFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     func getDataFromJson() {
@@ -262,56 +232,43 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        var inputArr = [VideoModels]()
+        
+        guard let receivedData = recentViedo else { return }
+        
+        for dataIndex in receivedData.data.indices {
+            
+            let data = receivedData.data[dataIndex]
+            
+            let inputData = VideoModels(seriesId: data.iSeriesId,
+                                        videoId: data.video_id,
+                                        title: data.sTitle,
+                                        tags: data.sTags,
+                                        teacherName: data.sTeacher,
+                                        thumbnail: data.sThumbnail,
+                                        subject: data.sSubject,
+                                        subjectColor: data.sSubjectColor,
+                                        unit: data.sUnit,
+                                        rating: data.iRating,
+                                        isRecommended: "",
+                                        registrationDate: "",
+                                        modifiedDate: "",
+                                        totalRows: "")
+            inputArr.append(inputData)
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
+        let inputData = VideoInput(body: inputArr)
+        autoPlayDataManager.videoDataInRecentVideoMyActTab = inputData
+        autoPlayDataManager.currentViewTitleView = "최근영상"
         
-        if indexVideoData.source_url == nil {
-            
-            presentAlert(message: "이용권을 구매해주세요")
-            
-        } else if indexVideoData.source_url != nil {
-            
-            var inputArr = [VideoModels]()
-            
-            guard let receivedData = recentViedo else { return }
-            
-            for dataIndex in receivedData.data.indices {
-                
-                let data = receivedData.data[dataIndex]
-                
-                let inputData = VideoModels(seriesId: data.iSeriesId,
-                                            videoId: data.video_id,
-                                            title: data.sTitle,
-                                            tags: data.sTags,
-                                            teacherName: data.sTeacher,
-                                            thumbnail: data.sThumbnail,
-                                            subject: data.sSubject,
-                                            subjectColor: data.sSubjectColor,
-                                            unit: data.sUnit,
-                                            rating: data.iRating,
-                                            isRecommended: "",
-                                            registrationDate: "",
-                                            modifiedDate: "",
-                                            totalRows: "")
-                inputArr.append(inputData)
-            }
-            
-            let inputData = VideoInput(body: inputArr)
-            autoPlayDataManager.videoDataInRecentVideoMyActTab = inputData
-            autoPlayDataManager.currentViewTitleView = "최근영상"
-            
-            if receivedData.totalNum == "0" {
-                presentAlert(message: "영상 목록이 없습니다.")
-            } else {
-                let vc = VideoController()
-                vc.modalPresentationStyle = .fullScreen
-                let videoID = recentViedo?.data[indexPath.row].video_id
-                vc.id = videoID
-                present(vc, animated: true)
-            }
+        if receivedData.totalNum == "0" {
+            presentAlert(message: "영상 목록이 없습니다.")
+        } else {
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            let videoID = recentViedo?.data[indexPath.row].video_id
+            vc.id = videoID
+            present(vc, animated: true)
         }
     }
 }

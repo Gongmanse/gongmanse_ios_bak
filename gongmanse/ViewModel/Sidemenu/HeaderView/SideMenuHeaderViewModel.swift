@@ -41,7 +41,13 @@ class SideMenuHeaderViewModel {
     
     var isHeaderHeight: CGFloat {
         guard let headerViewHeight = headerViewHeight else { return 0}
-        return isLogin ? headerViewHeight * 0.41 : headerViewHeight * 0.31
+        
+        //0707 - edited by hp
+        if UIScreen.main.traitCollection.userInterfaceIdiom == .phone {
+            return isLogin ? headerViewHeight * 0.41 : headerViewHeight * 0.31
+        } else {
+            return isLogin ? headerViewHeight * 0.51 : headerViewHeight * 0.41
+        }
     }
     
     // 이용권 소유 여부를 판단한다.

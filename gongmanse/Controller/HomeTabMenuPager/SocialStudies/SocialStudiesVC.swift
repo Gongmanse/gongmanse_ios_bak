@@ -33,10 +33,6 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     var socialStudiesVideo: VideoInput?
     var socialStudiesVideoSecond: FilterVideoModels?
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
@@ -83,7 +79,6 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         
         getDataFromJson()
         getDataFromJsonSecond()
-        getDataFromJsonVideo()
         textInput()
         cornerRadius()
         ChangeSwitchButton()
@@ -99,30 +94,6 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         //xib 셀 등록
         socialStudiesCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
         
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.socialStudiesCollection.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     // MARK: - Action
@@ -478,16 +449,7 @@ extension SocialStudiesVC: UICollectionViewDataSource {
 extension SocialStudiesVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
-        }
-        
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-            
-        } else if indexVideoData.source_url != nil {
+        if Constant.remainPremiumDateInt != nil {
             if self.selectedItem == 0 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
@@ -547,6 +509,12 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 self.present(nav, animated: true)
                 print("DEBUG: 3번")
             }
+            
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+            return
+        } else {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
     }
     
@@ -582,7 +550,9 @@ extension SocialStudiesVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width - 40
-        return CGSize(width: width, height: 265)
+        
+        //0707 - edited by hp
+        return CGSize(width: width, height: (width / 16 * 9 + 70))
     }
 }
 

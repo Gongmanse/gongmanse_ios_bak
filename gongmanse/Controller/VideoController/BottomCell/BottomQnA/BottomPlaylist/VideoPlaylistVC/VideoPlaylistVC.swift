@@ -54,9 +54,6 @@ class VideoPlaylistVC: UIViewController {
     let autoPlayDataManager = AutoplayDataManager.shared
     let videoDataManager = VideoDataManager.shared
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
     
     var viewModel = VideoPlaylistVCViewModel() {
         didSet {
@@ -107,7 +104,6 @@ class VideoPlaylistVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        getDataFromJsonVideo()
         let autoPlayDM = AutoplayDataManager.shared
         autoPlayDM.mainSubjectListCount = 0
     }
@@ -115,30 +111,6 @@ class VideoPlaylistVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     // MARK: - Actions
@@ -727,38 +699,32 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
 
-        if Constant.isGuestKey {
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권이 없습니다.")
             return
-        } else if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+
+        tableViewCellDidTap(indexPath: indexPath, "국영수")
+        tableViewCellDidTap(indexPath: indexPath, "과학")
+        tableViewCellDidTap(indexPath: indexPath, "사회")
+        tableViewCellDidTap(indexPath: indexPath, "기타")
+        tableViewCellDidTap(indexPath: indexPath, "검색")
+        tableViewCellDidTap(indexPath: indexPath, "최근영상")
+        tableViewCellDidTap(indexPath: indexPath, "즐겨찾기")
+        tableViewCellDidTap(indexPath: indexPath, "문제 풀이")
+        
+        // TODO: 나의활동 - 최근영상
+        // TODO: 나의활동 - 즐겨찾기
+        
+        if autoPlayDataManager.currentViewTitleView == "추천" ||
+            autoPlayDataManager.currentViewTitleView == "인기" {
+            // 추천 및 인기
+            let selectedID = viewModel.videoData.data[indexPath.row].id
+            playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+            videoDataManager.addVideoIDLog(videoID: selectedID)
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
         
-        if indexVideoData.source_url == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-        } else if indexVideoData.source_url != nil {
-            tableViewCellDidTap(indexPath: indexPath, "국영수")
-            tableViewCellDidTap(indexPath: indexPath, "과학")
-            tableViewCellDidTap(indexPath: indexPath, "사회")
-            tableViewCellDidTap(indexPath: indexPath, "기타")
-            tableViewCellDidTap(indexPath: indexPath, "검색")
-            tableViewCellDidTap(indexPath: indexPath, "최근영상")
-            tableViewCellDidTap(indexPath: indexPath, "즐겨찾기")
-            tableViewCellDidTap(indexPath: indexPath, "문제 풀이")
-            
-            // TODO: 나의활동 - 최근영상
-            // TODO: 나의활동 - 즐겨찾기
-            
-            if autoPlayDataManager.currentViewTitleView == "추천" ||
-                autoPlayDataManager.currentViewTitleView == "인기" {
-                // 추천 및 인기
-                let selectedID = viewModel.videoData.data[indexPath.row].id
-                playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
-                videoDataManager.addVideoIDLog(videoID: selectedID)
-            }
-        }
     }
     
     func tableViewCellDidTap(indexPath: IndexPath, _ tabname: String) {

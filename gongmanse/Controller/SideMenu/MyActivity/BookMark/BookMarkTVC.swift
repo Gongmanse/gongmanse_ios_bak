@@ -33,10 +33,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     var bookMark: FilterVideoModels?
     var tableViewInputData: [FilterVideoData]?
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -55,7 +51,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         super.viewDidLoad()
         
         getDataFromJson()
-        getDataFromJsonVideo()
         
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
@@ -98,29 +93,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            }.resume()
-        }
-    }
     
     func getDataFromJson() {
         
@@ -306,58 +278,45 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        var inputArr = [VideoModels]()
+        
+        guard let receivedData = bookMark else { return }
+        
+        for dataIndex in receivedData.data.indices {
+            
+            let data = receivedData.data[dataIndex]
+            
+            let inputData = VideoModels(seriesId: data.iSeriesId,
+                                        videoId: data.id,
+                                        title: data.sTitle,
+                                        tags: data.sTags,
+                                        teacherName: data.sTeacher,
+                                        thumbnail: data.sThumbnail,
+                                        subject: data.sSubject,
+                                        subjectColor: data.sSubjectColor,
+                                        unit: data.sUnit,
+                                        rating: data.iRating,
+                                        isRecommended: "",
+                                        registrationDate: "",
+                                        modifiedDate: "",
+                                        totalRows: "")
+            inputArr.append(inputData)
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
+        let inputData = VideoInput(body: inputArr)
+        autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
+        autoPlayDataManager.currentViewTitleView = "즐겨찾기"
         
-        if indexVideoData.source_url == nil {
-            
-            presentAlert(message: "이용권을 구매해주세요")
-            
-        } else if indexVideoData.source_url != nil {
-            
-            var inputArr = [VideoModels]()
-            
-            guard let receivedData = bookMark else { return }
-            
-            for dataIndex in receivedData.data.indices {
-                
-                let data = receivedData.data[dataIndex]
-                
-                let inputData = VideoModels(seriesId: data.iSeriesId,
-                                            videoId: data.id,
-                                            title: data.sTitle,
-                                            tags: data.sTags,
-                                            teacherName: data.sTeacher,
-                                            thumbnail: data.sThumbnail,
-                                            subject: data.sSubject,
-                                            subjectColor: data.sSubjectColor,
-                                            unit: data.sUnit,
-                                            rating: data.iRating,
-                                            isRecommended: "",
-                                            registrationDate: "",
-                                            modifiedDate: "",
-                                            totalRows: "")
-                inputArr.append(inputData)
-            }
-            
-            let inputData = VideoInput(body: inputArr)
-            autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
-            autoPlayDataManager.currentViewTitleView = "즐겨찾기"
-            
-            tableView.deselectRow(at: indexPath, animated: true)
-            
-            if receivedData.totalNum == "0" {
-                presentAlert(message: "즐겨찾기 목록이 없습니다.")
-            } else {
-                let vc = VideoController()
-                vc.modalPresentationStyle = .fullScreen
-                let videoID = bookMark?.data[indexPath.row].id
-                vc.id = videoID
-                present(vc, animated: true)
-            }
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if receivedData.totalNum == "0" {
+            presentAlert(message: "즐겨찾기 목록이 없습니다.")
+        } else {
+            let vc = VideoController()
+            vc.modalPresentationStyle = .fullScreen
+            let videoID = bookMark?.data[indexPath.row].id
+            vc.id = videoID
+            present(vc, animated: true)
         }
     }
 }

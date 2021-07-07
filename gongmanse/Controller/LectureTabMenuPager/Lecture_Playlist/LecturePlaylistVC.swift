@@ -160,27 +160,21 @@ class LecturePlaylistVC: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
         // 동영상 - 관련시리즈
         if seriesID != "" {
             
             let seriesInfo = detailVM?.lectureDetail?.seriesInfo
             
             switch seriesInfo {
-            
             case .some(let data):
-                
-                if indexVideoData.source_url != nil {
-                    titleText.text = data.sTitle
-                    teacherName.text = "\(data.sTeacher ?? "") 선생님"
-                    subjectLabel.text = data.sSubject
-                    gradeLabel.text = detailVM?.convertGrade(data.sGrade)
-    //                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
-    //                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
-                    configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
-                    emptyStackView.isHidden = true
-                }
+                titleText.text = data.sTitle
+                teacherName.text = "\(data.sTeacher ?? "") 선생님"
+                subjectLabel.text = data.sSubject
+                gradeLabel.text = detailVM?.convertGrade(data.sGrade)
+//                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
+//                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
+                configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
+                emptyStackView.isHidden = true
                 
             case .none:
                 view.addSubview(emptyStackView)
@@ -194,6 +188,7 @@ class LecturePlaylistVC: UIViewController {
                 emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
             }
         }
+        
         // 강사별 강의
         if let getTeacher = getTeacherList {
             
@@ -485,18 +480,20 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         default:
             return UICollectionViewCell()
         }
+        
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let indexVideoData = detailVideo?.data else { return }
         
-        if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
-        }
-        
         switch lectureState {
         case .lectureList:
+            
+            if Constant.isLogin == false {
+                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            }
             
             if indexVideoData.source_url != nil {
                 // 비디오 연결
@@ -628,8 +625,8 @@ extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
     
     // cell 간격을 설정하는 메소드(가로)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        let padding = self.view.frame.width * 0.035
-        return padding
+        //0707 - edited by hp
+        return 25
     }
     
     // cell 간격을 설정하는 메소드(세로)
@@ -639,9 +636,9 @@ extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
     
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding = self.view.frame.width * 0.035
-        let width = view.frame.width - (padding * 2)
-        return CGSize(width: width, height: width * 0.66)
+        //0707 - edited by hp
+        let width = UIScreen.main.bounds.width - 50
+        return CGSize(width: width, height: width / 16 * 9 + 60)
     }
     
 }

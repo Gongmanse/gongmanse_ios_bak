@@ -156,8 +156,9 @@ extension RecommendCRV: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //0707 - edited by hp
         let size = sliderCollectionView.frame.size
-        return CGSize(width: size.width, height: size.height)
+        return CGSize(width: size.width, height: size.width / 16 * 9)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,

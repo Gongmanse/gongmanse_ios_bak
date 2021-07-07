@@ -57,12 +57,12 @@ class LectureCell: UICollectionViewCell {
     // MARK: - Helper functions
     
     func configureUI() {
-        let frame = self.frame
         let cornerRadiusValue = CGFloat(10)
         
         // mainImageView
-        mainImageView.setDimensions(height: frame.height * 0.75,
-                                    width: frame.width)
+        //0707 - edited by hp
+        mainImageView.setDimensions(height: (UIScreen.main.bounds.width - 50) / 16 * 9,
+                                    width: (UIScreen.main.bounds.width - 50))
         mainImageView.anchor(top: self.topAnchor,
                              left: self.leftAnchor,
                              right: self.rightAnchor,
