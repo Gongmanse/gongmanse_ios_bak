@@ -106,14 +106,14 @@ class SideMenuVC: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            if Constant.isLogin {
                 let myActivityVC = self.storyboard?.instantiateViewController(withIdentifier: "MyActivityVC") as! MyActivityVC
                 self.navigationController?.pushViewController(myActivityVC, animated: true)
             } else {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
         } else if indexPath.row == 1 {
-            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            if Constant.isLogin {
                 let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
                 self.navigationController?.pushViewController(myCalendarVC, animated: true)
             } else {
@@ -129,7 +129,7 @@ class SideMenuVC: UITableViewController {
             let customerServiceVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomerServiceVC") as! CustomerServiceVC
             self.navigationController?.pushViewController(customerServiceVC, animated: true)
         } else if indexPath.row == 5 {
-            if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+            if Constant.isLogin {
                 
                 let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
                 self.navigationController?.pushViewController(settingsVC, animated: true)
