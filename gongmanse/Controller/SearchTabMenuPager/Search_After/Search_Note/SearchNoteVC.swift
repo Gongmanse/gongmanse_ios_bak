@@ -27,6 +27,9 @@ class SearchNoteVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noteSortButton: UIButton!
     
+    var detailVideo: DetailSecondVideoResponse?
+    var detailData: DetailVideoInput?
+    var detailVideoData: DetailSecondVideoData?
     
     // singleton
     lazy var searchData = SearchData.shared
@@ -76,6 +79,8 @@ class SearchNoteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getDataFromJsonVideo()
+        
         numberOfLesson.font = .appBoldFontWith(size: 16)
         noteSortButton.titleLabel?.font = .appBoldFontWith(size: 16)
 
@@ -109,6 +114,30 @@ class SearchNoteVC: UIViewController {
         emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         
+    }
+    
+    func getDataFromJsonVideo() {
+        
+        //guard let videoId = data?.video_id else { return }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
+                    //print(json.data)
+                    self.detailVideo = json
+                    self.detailVideoData = json.data
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     func getsearchNoteList() {
@@ -191,33 +220,44 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     @objc func connectVideo(_ sender: UIButton) {
         
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+        guard let indexVideoData = detailVideo?.data else { return }
+        
+        if indexVideoData.source_url == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+        } else if indexVideoData.source_url != nil {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
             vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
-        } else {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+        guard let indexVideoData = detailVideo?.data else { return }
+        
+        if indexVideoData.source_url == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+        } else if indexVideoData.source_url != nil {
             // 노트 연결
             let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
                                           token: Constant.token)
             vc.modalPresentationStyle = .fullScreen
             vc.seriesID = searchNoteVM.searchNotesDataModel?.data[indexPath.row].iSeriesId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
-        } else if Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-        } else {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         guard let cellCount = searchNoteVM.searchNotesDataModel?.data.count  else { return }
