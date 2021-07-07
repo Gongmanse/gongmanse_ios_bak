@@ -625,8 +625,8 @@ extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
     
     // cell 간격을 설정하는 메소드(가로)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        let padding = self.view.frame.width * 0.035
-        return padding
+        //0707 - edited by hp
+        return 25
     }
     
     // cell 간격을 설정하는 메소드(세로)
@@ -636,9 +636,9 @@ extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
     
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding = self.view.frame.width * 0.035
-        let width = view.frame.width - (padding * 2)
-        return CGSize(width: width, height: width * 0.66)
+        //0707 - edited by hp
+        let width = UIScreen.main.bounds.width - 50
+        return CGSize(width: width, height: width / 16 * 9 + 60)
     }
     
 }

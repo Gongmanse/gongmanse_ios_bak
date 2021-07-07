@@ -55,6 +55,8 @@ extension HighSchoolVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let indexData = highVM?.lectureList?.data[indexPath.row]
         let images = "\(fileBaseURL)/\(indexData?.sThumbnail ?? "")"
         
+        //0707 - edited by hp
+        cell.lectureImage.contentMode = .scaleAspectFill
         cell.lectureImage.setImageUrl(images)
         return cell
     }
@@ -109,7 +111,9 @@ extension HighSchoolVC: UICollectionViewDelegateFlowLayout {
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width - 40
-        return CGSize(width: width, height: 190)
+        
+        //0707 - edited by hp
+        return CGSize(width: width, height: (width / 16 * 9))
     }
 
 }
