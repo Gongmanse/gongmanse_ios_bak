@@ -160,21 +160,27 @@ class LecturePlaylistVC: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        guard let indexVideoData = detailVideo?.data else { return }
+        
         // 동영상 - 관련시리즈
         if seriesID != "" {
             
             let seriesInfo = detailVM?.lectureDetail?.seriesInfo
             
             switch seriesInfo {
+            
             case .some(let data):
-                titleText.text = data.sTitle
-                teacherName.text = "\(data.sTeacher ?? "") 선생님"
-                subjectLabel.text = data.sSubject
-                gradeLabel.text = detailVM?.convertGrade(data.sGrade)
-//                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
-//                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
-                configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
-                emptyStackView.isHidden = true
+                
+                if indexVideoData.source_url != nil {
+                    titleText.text = data.sTitle
+                    teacherName.text = "\(data.sTeacher ?? "") 선생님"
+                    subjectLabel.text = data.sSubject
+                    gradeLabel.text = detailVM?.convertGrade(data.sGrade)
+    //                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
+    //                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
+                    configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
+                    emptyStackView.isHidden = true
+                }
                 
             case .none:
                 view.addSubview(emptyStackView)
@@ -188,7 +194,6 @@ class LecturePlaylistVC: UIViewController {
                 emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
             }
         }
-        
         // 강사별 강의
         if let getTeacher = getTeacherList {
             
@@ -480,20 +485,18 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         default:
             return UICollectionViewCell()
         }
-        
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let indexVideoData = detailVideo?.data else { return }
         
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
         switch lectureState {
         case .lectureList:
-            
-            if Constant.isLogin == false {
-                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
-            }
             
             if indexVideoData.source_url != nil {
                 // 비디오 연결
