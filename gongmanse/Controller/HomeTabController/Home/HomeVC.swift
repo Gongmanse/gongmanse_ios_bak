@@ -34,7 +34,6 @@ class HomeVC: UIViewController {
         navigationItem.titleView = UIImageView(image: image)
         
         addBottomBorder()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

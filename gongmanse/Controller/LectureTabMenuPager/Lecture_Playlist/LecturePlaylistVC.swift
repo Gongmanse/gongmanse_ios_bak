@@ -162,38 +162,40 @@ class LecturePlaylistVC: UIViewController {
         
         guard let indexVideoData = detailVideo?.data else { return }
         
-        // 동영상 - 관련시리즈
-        if seriesID != "" {
-            
-            let seriesInfo = detailVM?.lectureDetail?.seriesInfo
-            
-            switch seriesInfo {
-            
-            case .some(let data):
+        if indexVideoData.source_url != nil {
+            // 동영상 - 관련시리즈
+            if seriesID != "" {
                 
-                if indexVideoData.source_url != nil {
-                    titleText.text = data.sTitle
-                    teacherName.text = "\(data.sTeacher ?? "") 선생님"
-                    subjectLabel.text = data.sSubject
-                    gradeLabel.text = detailVM?.convertGrade(data.sGrade)
-    //                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
-    //                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
-                    configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
-                    emptyStackView.isHidden = true
+                let seriesInfo = detailVM?.lectureDetail?.seriesInfo
+                
+                switch seriesInfo {
+                
+                case .some(let data):
+                        titleText.text = data.sTitle
+                        teacherName.text = "\(data.sTeacher ?? "") 선생님"
+                        subjectLabel.text = data.sSubject
+                        gradeLabel.text = detailVM?.convertGrade(data.sGrade)
+        //                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
+        //                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
+                        configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
+                        emptyStackView.isHidden = true
+                    
+                case .none:
+                    view.addSubview(emptyStackView)
+                    emptyStackView.addArrangedSubview(emptyAlert)
+                    emptyStackView.addArrangedSubview(lectureQnALabel)
+                    
+                    emptyStackView.translatesAutoresizingMaskIntoConstraints = false
+                    emptyStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+                    emptyStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+                    emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+                    emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
                 }
-                
-            case .none:
-                view.addSubview(emptyStackView)
-                emptyStackView.addArrangedSubview(emptyAlert)
-                emptyStackView.addArrangedSubview(lectureQnALabel)
-                
-                emptyStackView.translatesAutoresizingMaskIntoConstraints = false
-                emptyStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-                emptyStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-                emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-                emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            } else if indexVideoData.source_url == nil {
+                presentAlert(message: "이용권을 구매해주세요")
             }
         }
+        
         // 강사별 강의
         if let getTeacher = getTeacherList {
             

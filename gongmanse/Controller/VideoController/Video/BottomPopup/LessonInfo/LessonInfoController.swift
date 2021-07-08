@@ -129,13 +129,13 @@ class LessonInfoController: UIViewController {
         getDataFromJsonVideo()
         
         videoDetailVM?.requestVideoDetailApi(videoID ?? "")
-//        videoDetailVM?.requestVideoDetailApi("151")
+        //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
     /**
-      1. PIP에서 재생된 시간을 받아서 class 내부 변수에 값을 할당합니다.
-      2. 값을 받는 변수에 didSet을 통해 delegate Method를 호출합니다.
-      3. delegate Method를 통해서 videoController의 재생 시작위치를 변경합니다.
+     1. PIP에서 재생된 시간을 받아서 class 내부 변수에 값을 할당합니다.
+     2. 값을 받는 변수에 didSet을 통해 delegate Method를 호출합니다.
+     3. delegate Method를 통해서 videoController의 재생 시작위치를 변경합니다.
      */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
@@ -199,7 +199,7 @@ class LessonInfoController: UIViewController {
     /// 평점 버튼을 클릭하면 호출되는 콜백메소드
     @objc func handleRateLessonAction() {
         // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
-//        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
+        //        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
         if rateLessonButton.titleLabel.text != "평점" {
             rateLessonButton.viewTintColor = .mainOrange
@@ -208,7 +208,7 @@ class LessonInfoController: UIViewController {
         }
         
         guard let videoID = self.videoID else { return }
-       
+        
         let vc = RatingController(videoID: Int(videoID) ?? 1)
         vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
@@ -231,35 +231,30 @@ class LessonInfoController: UIViewController {
         // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
         presentAlert(message: "서비스 준비중입니다.")
     }
-
+    
     @objc func handleRelatedSeriesAction() {
         
         //guard let indexVideoData = detailVideo?.data else { return }
         
         let videoDataManager = VideoDataManager.shared
         
-        if Constant.isLogin == false {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
-        } else if Constant.isLogin == true {
-            delegate?.videoVCPauseVideo()
-            let presentVC = LecturePlaylistVC(videoID ?? "")
-            presentVC.lectureState = .lectureList
-            presentVC.seriesID = seriesID
-            let pipVideoData = PIPVideoData(isPlayPIP: true,
-                                            videoURL: videoDataManager.previousVideoURL,
-                                            currentVideoTime: currentVideoPlayTime ?? Float(0.0),
-                                            videoTitle: lessonnameLabel.text ?? "",
-                                            teacherName: teachernameLabel.text ?? "")
-            presentVC.pipData = pipVideoData
-            let nav = UINavigationController(rootViewController: presentVC)
-            nav.modalPresentationStyle = .fullScreen
-            present(nav, animated: true)
-            // TODO: 관련시리즈를 켠다.
-        } else if Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-        } else {
-            presentAlert(message: "로그인 후 이용해주세요.")
-        }
+        delegate?.videoVCPauseVideo()
+        
+        let presentVC = LecturePlaylistVC(videoID ?? "")
+        presentVC.lectureState = .lectureList
+        presentVC.seriesID = seriesID
+        let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                        videoURL: videoDataManager.previousVideoURL,
+                                        currentVideoTime: currentVideoPlayTime ?? Float(0.0),
+                                        videoTitle: lessonnameLabel.text ?? "",
+                                        teacherName: teachernameLabel.text ?? "")
+        
+        presentVC.pipData = pipVideoData
+        let nav = UINavigationController(rootViewController: presentVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
+        
+        // TODO: 관련시리즈를 켠다.
     }
     
     @objc func handleProblemSolvingAction() {
@@ -297,11 +292,11 @@ class LessonInfoController: UIViewController {
     func configureUI() {
         let sSubjectsUnitContainerView = UIView()
         let paddingConstant = view.frame.height * 0.025
-
+        
         // API에서 받아온 값을 레이블에 할당한다.
         sSubjectLabel.labelText = "과목명"
         sUnitLabel01.labelText = "단원명"
-//        sUnitLabel02.labelText = "챕터명"
+        //        sUnitLabel02.labelText = "챕터명"
         
         // TODO: 정상적으로 view가 보이는지 TEST -> 05.03 OK
         view.backgroundColor = #colorLiteral(red: 0.9293201566, green: 0.9294758439, blue: 0.9292996526, alpha: 1)
@@ -377,7 +372,7 @@ class LessonInfoController: UIViewController {
     func configureAdditionalFunctions() {
         // TODO: [UI] 즐겨찾기, 평점, 공유, 관련시리즈, 문제풀이 -> 05.04 UI 완성
         let stack = UIStackView(arrangedSubviews:
-            [bookmarkButton, rateLessonButton, shareLessonButton, relatedSeriesButton, problemSolvingButton])
+                                    [bookmarkButton, rateLessonButton, shareLessonButton, relatedSeriesButton, problemSolvingButton])
         let buttonHeight = view.frame.width * 0.12
         let buttonWidth = view.frame.width * 0.1
         bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
@@ -446,12 +441,12 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
         
         // 재생중이던 영상을 일시중지한다. 동시에, PIP를 재생한다. -> Delegation 필요 -> 완료
         delegate?.videoVCPauseVideo()
-
+        
         let vc = SearchAfterVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         vc.searchData.searchText = data
-
+        
         guard let videoURL = currentVideoURL else { return }
         
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)

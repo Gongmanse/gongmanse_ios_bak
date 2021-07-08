@@ -137,7 +137,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=20&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=1000&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             

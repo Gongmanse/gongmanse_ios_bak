@@ -97,7 +97,7 @@ struct SeriesModels: Codable {
 
 struct SeriesData: Codable {
     var id: String
-    var iSeriesId: String
+    var iSeriesId: String?
     var sTitle: String
     var dtDateCreated: String
     var dtLastModified: String

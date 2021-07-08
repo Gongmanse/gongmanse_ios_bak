@@ -11,6 +11,8 @@ class RecommendVC: UIViewController {
     var loadingView: FooterCRV?
     var isLoading = false
     
+    var listCount: Int = 0
+    
     var recommendVideo = VideoInput(header: HeaderData.init(resultMsg: "", totalRows: "", isMore: ""), body: [VideoModels]())
     
     var recommendVideoSecond: BeforeApiModels?
@@ -29,43 +31,57 @@ class RecommendVC: UIViewController {
         
         getDataFromJson()
         getDataFromJsonSecond()
-        
     }
     
     //API
-    var default1 = 0
-    
     func getDataFromJson() {
-        if let url = URL(string: makeStringKoreanEncoded(Recommend_Video_URL + "/모든?offset=\(default1)&limit=20")) {
-            default1 += 20
+        if let url = URL(string: makeStringKoreanEncoded(Recommend_Video_URL + "/모든?offset=\(listCount)&limit=20")) {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(VideoInput.self, from: data) {
-                    //print(json.body)
-                    //                    self.recommendVideo = json
-                    self.recommendVideo.body.append(contentsOf: json.body)
-                    /**
-                     06.14
-                     자동재생을 on 했을 때, 추천에 나타난 데이터를 활용하기 위해 싱글톤을 사용했습니다.
-                     */
-                    let autoPlayDataManager = AutoplayDataManager.shared
-                    autoPlayDataManager.videoDataInRecommandTab? = json
-                }
-                DispatchQueue.main.async {
-                    self.recommendCollection.reloadData()
-                }
-                
-            }.resume()
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(VideoInput.self, from: data) {
+                        //print(json.body)
+                        //                    self.recommendVideo = json
+                        self.recommendVideo = json
+                        /**
+                         06.14
+                         자동재생을 on 했을 때, 추천에 나타난 데이터를 활용하기 위해 싱글톤을 사용했습니다.
+                         */
+                        let autoPlayDataManager = AutoplayDataManager.shared
+                        autoPlayDataManager.videoDataInRecommandTab? = json
+                    }
+                    DispatchQueue.main.async {
+                        self.recommendCollection.reloadData()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(VideoInput.self, from: data) {
+                        
+                        for i in 0..<json.body.count {
+                            self.recommendVideo.body.append(json.body[i])
+                        }
+                        
+                    }
+                    DispatchQueue.main.async {
+                        self.recommendCollection.reloadData()
+                    }
+                    
+                }.resume()
+            }
         }
     }
     
     func getDataFromJsonSecond() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/recommendvid?offset=\(default1)&limit=20") {
-            default1 += 20
+        if let url = URL(string: "https://api.gongmanse.com/v/video/recommendvid?offset=\(listCount)&limit=20") {
+            //default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -194,7 +210,7 @@ extension RecommendVC: UICollectionViewDataSource {
     
     //0707 - edited by hp
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
+
         let width = view.frame.width
         return CGSize(width: width, height: (width / 16 * 9 + 70))
     }
@@ -221,24 +237,32 @@ extension RecommendVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == self.recommendVideo.body.count - 20 && !self.isLoading {
-            loadMoreData()
+//        if indexPath.row == self.recommendVideo.body.count - 20 && !self.isLoading {
+//            //getDataFromJson()
+//            loadMoreData()
+//            //recommendCollection.reloadData()
+//        }
+        let cellCount = recommendVideo.body.count
+        
+        if indexPath.row == cellCount - 1 {
+            listCount += 20
+            getDataFromJson()
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
-            //            /// TODO: 로딩인디케이터
-            //            UIView.animate(withDuration: 3) {
-            //                // 로딩이미지
-            //            } completion: { (_) in
-            //                // API 호출
-            //            }
-            getDataFromJson()
-            recommendCollection.reloadData()
-        }
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let position = scrollView.contentOffset.y
+//        if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
+//            //            /// TODO: 로딩인디케이터
+//            //            UIView.animate(withDuration: 3) {
+//            //                // 로딩이미지
+//            //            } completion: { (_) in
+//            //                // API 호출
+//            //            }
+//            getDataFromJson()
+//            recommendCollection.reloadData()
+//        }
+//    }
 }
 
 extension RecommendVC: UICollectionViewDelegate {

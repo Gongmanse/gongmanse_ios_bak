@@ -327,6 +327,8 @@
 		6CD7C3D125F086E60092D30E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CD7C3CF25F086E60092D30E /* LaunchScreen.storyboard */; };
 		6CD9316526578D0900C76660 /* TermsOfServiceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9316426578D0900C76660 /* TermsOfServiceVC.swift */; };
 		6CD9316826578D2600C76660 /* PrivacyPolicyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9316726578D2600C76660 /* PrivacyPolicyVC.swift */; };
+		6CE5864E2696CFD800FE0EA3 /* RelativesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE5864D2696CFD800FE0EA3 /* RelativesVC.swift */; };
+		6CE586512696D02900FE0EA3 /* RelativesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE586502696D02900FE0EA3 /* RelativesCollectionViewCell.swift */; };
 		6CE92DA9267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */; };
 		6CE92DAA267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */; };
 		6CE92DAE267AFB440018B43F /* SeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE92DAD267AFB440018B43F /* SeriesVC.swift */; };
@@ -804,6 +806,8 @@
 		6CD7C3D225F086E60092D30E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6CD9316426578D0900C76660 /* TermsOfServiceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceVC.swift; sourceTree = "<group>"; };
 		6CD9316726578D2600C76660 /* PrivacyPolicyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyVC.swift; sourceTree = "<group>"; };
+		6CE5864D2696CFD800FE0EA3 /* RelativesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativesVC.swift; sourceTree = "<group>"; };
+		6CE586502696D02900FE0EA3 /* RelativesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativesCollectionViewCell.swift; sourceTree = "<group>"; };
 		6CE92DA7267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathAllSeriesCell.swift; sourceTree = "<group>"; };
 		6CE92DA8267ACFAE0018B43F /* KoreanEnglishMathAllSeriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = KoreanEnglishMathAllSeriesCell.xib; sourceTree = "<group>"; };
 		6CE92DAD267AFB440018B43F /* SeriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesVC.swift; sourceTree = "<group>"; };
@@ -1201,6 +1205,8 @@
 				2518362F2640CFFD0035E887 /* PlainLabel.swift */,
 				251836382640E4FB0035E887 /* sTagsCell.swift */,
 				2518363B2640FA800035E887 /* TopImageBottomTitleView.swift */,
+				6CE5864D2696CFD800FE0EA3 /* RelativesVC.swift */,
+				6CE586502696D02900FE0EA3 /* RelativesCollectionViewCell.swift */,
 			);
 			path = LessonInfo;
 			sourceTree = "<group>";
@@ -3822,6 +3828,7 @@
 				6CC1F06B25F9EE9200A909B0 /* RecommendCVCell.swift in Sources */,
 				2580CF5D261A939D00D78E4E /* VideoController.swift in Sources */,
 				C239203E2667234E00AC6912 /* CalendarRegisterModel.swift in Sources */,
+				6CE586512696D02900FE0EA3 /* RelativesCollectionViewCell.swift in Sources */,
 				25608EED26661DE100E3246C /* ChangePasswordInput.swift in Sources */,
 				25BD761426159199002B266C /* LogInViewModel.swift in Sources */,
 				25BA75CC263686CE00C1F8A0 /* DetailVideoResponse.swift in Sources */,
@@ -3839,6 +3846,7 @@
 				2580CF57261A927900D78E4E /* VideoMenuBar.swift in Sources */,
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,
 				25608EF42666284B00E3246C /* EditingProfileResponse.swift in Sources */,
+				6CE5864E2696CFD800FE0EA3 /* RelativesVC.swift in Sources */,
 				2584E8C826084056000DFA20 /* RegistrationDataManager.swift in Sources */,
 				2584E8C026083CD8000DFA20 /* RegistrationInput.swift in Sources */,
 				C27401D12679DC7600A2B484 /* OneOneQnAModel.swift in Sources */,

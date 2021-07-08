@@ -19,6 +19,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
     
     var inputSortNum = 4
+    var listCount = 0
     
     var pageIndex: Int!
     var noteList: FilterVideoModels?
@@ -111,24 +112,41 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=0&limit=20&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=\(listCount)&limit=1000&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    //print(json.body)
-                    self.noteList = json
-                    self.tableViewInputData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.textSettings()
-                }
-                
-            }.resume()
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                        //print(json.body)
+                        self.noteList = json
+                        self.tableViewInputData = json.data
+                    }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                        
+                        for i in 0..<json.data.count {
+                            self.noteList?.data.append(json.data[i])
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.textSettings()
+                    }
+                }.resume()
+            }
         }
     }
     
@@ -313,6 +331,16 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
             }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        guard let cellCount = noteList?.data.count else { return }
+        
+        if indexPath.row == cellCount - 1 {
+            listCount += 20
+            getDataFromJson()
         }
     }
 }
