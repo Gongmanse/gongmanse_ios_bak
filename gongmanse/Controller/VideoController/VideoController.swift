@@ -855,7 +855,7 @@ extension VideoController {
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
         // token 버그 발생 시, 주석 해제해볼 것 06.22
-//        setRemoveNotification()
+        setRemoveNotification()
         
         let autoPlayDM = AutoplayDataManager.shared
         autoPlayDM.mainSubjectListCount = 0

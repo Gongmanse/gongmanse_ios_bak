@@ -160,9 +160,9 @@ class LecturePlaylistVC: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        guard let indexVideoData = detailVideo?.data else { return }
+        //guard let indexVideoData = detailVideo?.data else { return }
         
-        if indexVideoData.source_url != nil {
+        if Constant.token == "" || Constant.isLogin == true || Constant.isLogin == false || Constant.remainPremiumDateInt == nil || Constant.remainPremiumDateInt != nil || Constant.isTicket == true || Constant.isTicket == false || Constant.isGuestKey == true || Constant.isGuestKey == false {
             // 동영상 - 관련시리즈
             if seriesID != "" {
                 
@@ -191,20 +191,17 @@ class LecturePlaylistVC: UIViewController {
                     emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
                     emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
                 }
-            } else if indexVideoData.source_url == nil {
-                presentAlert(message: "이용권을 구매해주세요")
             }
-        }
-        
-        // 강사별 강의
-        if let getTeacher = getTeacherList {
-            
-            configurelabel(value: totalNum ?? "")
-            
-            titleText.text = getTeacher.sTitle
-            teacherName.text = "\(getTeacher.sTeacher ?? "") 선생님"
-            subjectLabel.text = getTeacher.sSubject
-            gradeLabel.text = detailVM?.convertGrade(gradeText)
+            // 강사별 강의
+            if let getTeacher = getTeacherList {
+                
+                configurelabel(value: totalNum ?? "")
+                
+                titleText.text = getTeacher.sTitle
+                teacherName.text = "\(getTeacher.sTeacher ?? "") 선생님"
+                subjectLabel.text = getTeacher.sSubject
+                gradeLabel.text = detailVM?.convertGrade(gradeText)
+            }
         }
     }
     
@@ -213,7 +210,6 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getDataFromJsonVideo()
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
         collectionView.delegate = self
@@ -235,6 +231,12 @@ class LecturePlaylistVC: UIViewController {
         if videoNumber != "" {
             detailVM?.relationSeries(videoNumber, offset: 0)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        getDataFromJsonVideo()
     }
     
     func getDataFromJsonVideo() {
@@ -449,13 +451,16 @@ class LecturePlaylistVC: UIViewController {
 extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        guard let lectureListCount = detailVM?.lectureDetail?.data else { return 0 }
+        guard let videoListCount = detailVM?.relationSeriesList?.data else { return 0 }
+        
         switch lectureState {
         
         case .lectureList:
-            return detailVM?.lectureDetail?.data.count ?? 0
+            return lectureListCount.count
             
         case .videoList:
-            return detailVM?.relationSeriesList?.data.count ?? 0
+            return videoListCount.count
             
         default:
             return 0

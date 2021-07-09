@@ -36,7 +36,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 32 개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0K3-nR-ad5">
-                            <rect key="frame" x="20" y="50.5" width="49" height="17"/>
+                            <rect key="frame" x="20" y="55.5" width="49" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -74,16 +74,16 @@
                         </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="0K3-nR-ad5" firstAttribute="leading" secondItem="OCk-6k-YPn" secondAttribute="leading" id="3Tt-oE-rgs"/>
                         <constraint firstItem="vWP-g0-KXP" firstAttribute="centerY" secondItem="OCk-6k-YPn" secondAttribute="centerY" id="6MH-IQ-lbS"/>
                         <constraint firstItem="OCk-6k-YPn" firstAttribute="top" secondItem="JPF-Ph-FKG" secondAttribute="top" constant="20" id="N7K-30-0bT"/>
                         <constraint firstItem="OCk-6k-YPn" firstAttribute="leading" secondItem="JPF-Ph-FKG" secondAttribute="leading" constant="20" id="Oyy-J4-EAh"/>
                         <constraint firstAttribute="trailing" secondItem="vWP-g0-KXP" secondAttribute="trailing" constant="20" id="bGs-d9-eoq"/>
-                        <constraint firstItem="0K3-nR-ad5" firstAttribute="top" secondItem="OCk-6k-YPn" secondAttribute="bottom" constant="10" id="xfV-R2-dT9"/>
+                        <constraint firstItem="0K3-nR-ad5" firstAttribute="top" secondItem="OCk-6k-YPn" secondAttribute="bottom" constant="15" id="cxC-jA-ae5"/>
+                        <constraint firstItem="0K3-nR-ad5" firstAttribute="leading" secondItem="JPF-Ph-FKG" secondAttribute="leading" constant="20" symbolic="YES" id="yKh-nz-WzH"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="MJ9-Ki-Zkb">
-                    <rect key="frame" x="0.0" y="133.5" width="414" height="762.5"/>
+                    <rect key="frame" x="0.0" y="138" width="414" height="758"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DgY-s7-aYq">
                         <size key="itemSize" width="128" height="128"/>
@@ -99,10 +99,10 @@
                 <constraint firstItem="JPF-Ph-FKG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="4qw-L1-osy"/>
                 <constraint firstAttribute="bottom" secondItem="MJ9-Ki-Zkb" secondAttribute="bottom" id="99k-ic-59H"/>
                 <constraint firstItem="MJ9-Ki-Zkb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FA0-fj-s3A"/>
-                <constraint firstItem="MJ9-Ki-Zkb" firstAttribute="top" secondItem="JPF-Ph-FKG" secondAttribute="bottom" id="ZY8-Aw-xWF"/>
                 <constraint firstItem="JPF-Ph-FKG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="iyP-kj-3Do"/>
                 <constraint firstItem="JPF-Ph-FKG" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="kmk-Dh-28A"/>
                 <constraint firstItem="MJ9-Ki-Zkb" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="t30-Y6-3xm"/>
+                <constraint firstItem="MJ9-Ki-Zkb" firstAttribute="top" secondItem="0K3-nR-ad5" secondAttribute="bottom" constant="21.5" id="tZM-cl-pGU"/>
                 <constraint firstItem="JPF-Ph-FKG" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.1" id="vpL-MP-ZWa" userLabel="View.height = 0.12 × height"/>
             </constraints>
             <point key="canvasLocation" x="-30.434782608695656" y="99.776785714285708"/>

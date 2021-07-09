@@ -1,5 +1,6 @@
 import UIKit
 import SideMenu
+import Alamofire
 
 
 class HomeVC: UIViewController {
@@ -23,6 +24,7 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //네비게이션 바 색상 변경
         navigationController?.navigationBar.barTintColor = UIColor.white
 
@@ -34,6 +36,8 @@ class HomeVC: UIViewController {
         navigationItem.titleView = UIImageView(image: image)
         
         addBottomBorder()
+        
+        print("토큰은: \(Constant.token) 입니다.")
     }
     
     override func viewWillAppear(_ animated: Bool) {
