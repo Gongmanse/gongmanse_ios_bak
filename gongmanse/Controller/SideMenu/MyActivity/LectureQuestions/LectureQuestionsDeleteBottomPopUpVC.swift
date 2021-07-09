@@ -37,6 +37,7 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
         
         getDataFromJson()
         lectureTitle.text = video_title
+        tableView.tableFooterView = UIView()
         
     }
     
@@ -107,6 +108,7 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
                 currentTrueIndex.append(index)
             }
         }
+        
         // 한 개 Row를 삭제하는 경우
         if currentTrueIndex.count == 1 {
             
@@ -118,7 +120,6 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
             for index in currentTrueIndex {
                 deleteSelectedRowInAPI(index)
             }
-            
         }
 
         self.tableView.reloadData()
@@ -149,6 +150,8 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
         guard let indexid = json.data[selectedIndex].sQid else { return }
         let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid)
         LectureQuestionsDeleteBottomPopUpVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
+        self.dismiss(animated: true, completion: nil)
+        
     }
     
     

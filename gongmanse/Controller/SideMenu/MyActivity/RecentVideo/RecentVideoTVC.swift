@@ -89,7 +89,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         //guard let videoId = data?.video_id else { return }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=1&token=\(Constant.token)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             

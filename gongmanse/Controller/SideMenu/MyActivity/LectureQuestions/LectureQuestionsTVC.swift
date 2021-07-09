@@ -18,7 +18,13 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
     
     var pageIndex: Int!
-    var lectureQnA: FilterVideoModels?
+    var lectureQnA: FilterVideoModels? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -70,7 +76,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         
         //guard let videoId = data?.video_id else { return }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=1&token=\(Constant.token)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
