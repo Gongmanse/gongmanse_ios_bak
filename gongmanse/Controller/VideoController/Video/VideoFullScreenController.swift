@@ -248,9 +248,9 @@ class VideoFullScreenController: UIViewController{
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
         player.seek(to: targetTime)
         
-        if player.rate == 0 {
-            player.play()
-        }
+//        if player.rate == 0 {
+//            player.play()
+//        }
     }
     
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
@@ -297,7 +297,8 @@ class VideoFullScreenController: UIViewController{
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
     @objc func handleOrientation() {
-        dismiss(animated: true)
+//        dismiss(animated: true)
+        handleBackButtonAction()
     }
     
     /// 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
@@ -404,8 +405,12 @@ class VideoFullScreenController: UIViewController{
         
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
-        DetailVideoDataManager().fullScreenVideoDataManager(inputData, viewController: self)
         
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
+            GuestKeyDataManager().GuestKeyAPIGetData(videoID: id, viewController: self)
+        } else {
+            DetailVideoDataManager().fullScreenVideoDataManager(inputData, viewController: self)
+        }
     }
     
     func configureConstraint() {
@@ -471,7 +476,7 @@ class VideoFullScreenController: UIViewController{
         // backButton
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left:view.leftAnchor,
+                          left:view.safeAreaLayoutGuide.leftAnchor,
                           paddingTop: 10,
                           paddingLeft: 10)
         backButton.addTarget(self, action: #selector(handleBackButtonAction),
@@ -729,6 +734,9 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         player.seek(to: self.currentPlayerTime ?? CMTime(value: 0, timescale: 0))
         player.play()
         player.isMuted = false
+        
+        let pauseImage = UIImage(systemName: "pause.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        playPauseButton.setBackgroundImage(pauseImage, for: .normal)
     }
     
     
@@ -964,6 +972,28 @@ extension VideoFullScreenController {
 // MARK: - API
 
 extension VideoFullScreenController {
+    
+    func networkingByGuestKey(response: GuestKeyResponse) {
+        // source_url -> VideoURL
+        self.videoURL = URL(string: response.data.source_url) as NSURL?
+        
+        // sSubtitles -> vttURL
+        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
+        
+        // sTags -> sTagsArray
+        let receivedsTagsData = response.data.sTags
+        let sTagsArray = receivedsTagsData.split(separator: ",")
+        
+        // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
+        self.sTagsArray.removeAll()
+        
+        // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.
+        for index in 0 ... sTagsArray.count - 1 {
+            let inputData = String(sTagsArray[index])
+            self.tempsTagsArray.append(inputData)
+        }
+        playVideo()
+    }
     
     func didSucceedNetworking(response: DetailVideoResponse) {
         // source_url -> VideoURL

@@ -11,6 +11,9 @@ class ProgressDetailVC: UIViewController {
     
     //MARK: - Properties
     
+    // 자동재생기능 구현을 위한 싱글톤객체를 생성한다.
+    let autoplayDataManager = AutoplayDataManager.shared
+    
     @IBOutlet weak var lessonTitle: UILabel!                // 어떤 강의인지 viewModel을 통해 전달받아야함.
     @IBOutlet weak var numberOfLesson: UILabel!             // 몇 개의 강의가 있는지 viewModel을 통해 전달받아야함. 
     @IBOutlet weak var collectionView: UICollectionView!    
@@ -44,6 +47,7 @@ class ProgressDetailVC: UIViewController {
         // UISwitch 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
+        autoPlaySwitch.addTarget(self, action: #selector(playSwitchValueChanged(_:)), for: .valueChanged)
         
         navigationItem.title = "진도 학습"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(handleBackBtn))
@@ -55,6 +59,11 @@ class ProgressDetailVC: UIViewController {
         collectionView.register(UINib(nibName: detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: detailCellIdentifier)
         
         progressDataManager(progressID: progressIdentifier, limit: 20, offset: 0)
+    }
+    
+    /// 자동재생 설정 여부를 확인하기 위한 콜백메소드
+    @objc func playSwitchValueChanged(_ sender: UISwitch) {
+        
     }
     
     func getDataFromJsonVideo() {

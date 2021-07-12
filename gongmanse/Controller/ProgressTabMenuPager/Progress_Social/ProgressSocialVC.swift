@@ -66,12 +66,18 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
     
     //MARK: - Lifecycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .white
+        configureButton()
+        configureTableView()
         
         // 토큰 있을 때 없을 때
         if Constant.token == "" {
             gradeBtn.setTitle("모든 학년", for: .normal)
+            chapterBtn.setTitle("모든 단원", for: .normal)
+            
             requestProgressSocialList(subject: socialSubjectNumber,
                                        grade: "모든",
                                        gradeNum: 0,
@@ -84,6 +90,7 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
             getfilter.getFilteringData { [weak self] result in
                 self?.getGradeData = result
                 self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+                self?.chapterBtn.setTitle("모든 단원", for: .normal)
                 
                 let changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
                 let changeGradeNumber = self?.mainViewModel.transformGradeNumber(string: self?.getGradeData?.sGrade ?? "")
@@ -96,19 +103,19 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
             }
 
         }
-        
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        configureButton()
-        configureTableView()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeGradeTitle(_:)), name: .getGrade, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(acceptChapter(_:)), name: .getSubject, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc func acceptChapter(_ sender: Notification) {

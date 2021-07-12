@@ -103,6 +103,7 @@ class BottomPlaylistTVCell: UITableViewCell {
             if let unit = autoPlayData.unit {
                 self.term.isHidden = unit.count < 2 ? true : false
             }
+            self.term.isHidden = true
             
             if autoPlayDataManager.isAutoplaySearchTab ||
                 autoPlayDataManager.isAutoplayRecentTab ||

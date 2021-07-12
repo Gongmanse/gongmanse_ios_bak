@@ -50,13 +50,13 @@ class AutoplayDataManager {
     var isPopularTab: Bool = false
     
     // 검색
-    var isAutoplaySearchTab: Bool = false
+    var isAutoplaySearchTab: Bool = true
     
     // 나의활동 > 최근영상
-    var isAutoplayRecentTab: Bool = false
+    var isAutoplayRecentTab: Bool = true
     
     // 나의활동 > 즐겨찾기
-    var isAutoplayBookMarkTab: Bool = false
+    var isAutoplayBookMarkTab: Bool = true
     
     var isAutoPlayMainProblemTab: Bool = false
     

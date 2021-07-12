@@ -265,9 +265,14 @@ class LecturePlaylistVC: UIViewController {
     @objc func dismissVC() {
         
         if let pipVC = self.pipVC {
-            pipVC.player?.pause()
+//            pipVC.player?.pause()
+            
+            //0711 - edit by hp
+            setRemoveNotification()
+            dismissLecturePlaylistVCOnPlayingPIP()
+        } else {
+            self.dismiss(animated: true, completion: nil)
         }
-        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -360,11 +365,11 @@ class LecturePlaylistVC: UIViewController {
         
         let videoDataManager = VideoDataManager.shared
         
-        let pipData = PIPVideoData(isPlayPIP: true,
-                                   videoURL: videoDataManager.previousVideoURL,
-                                   currentVideoTime: pipDataManager.currentVideoTime ?? Float(),
-                                   videoTitle: videoDataManager.previousVideoTitle ?? "",
-                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
+//        let pipData = PIPVideoData(isPlayPIP: true,
+//                                   videoURL: videoDataManager.previousVideoURL,
+//                                   currentVideoTime: pipDataManager.currentVideoTime ?? Float(),
+//                                   videoTitle: pipDataManager.currentVideoTitle ?? "",
+//                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
         
         let pipHeight = view.frame.height * 0.085
         self.pipVC = PIPController(isPlayPIP: true)
@@ -374,7 +379,7 @@ class LecturePlaylistVC: UIViewController {
         /* pipContainerView - Constraint */
         view.addSubview(pipContainerView)
         pipContainerView.anchor(left: view.leftAnchor,
-                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                bottom: view.bottomAnchor,
                                 right: view.rightAnchor,
                                 height: pipHeight)
         
@@ -412,7 +417,7 @@ class LecturePlaylistVC: UIViewController {
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 height: 17)
-        lessonTitleLabel.text = pipData.videoTitle
+        lessonTitleLabel.text = pipData?.videoTitle
         
         /* teachernameLabel - Constraint */
         pipContainerView.addSubview(teachernameLabel)
@@ -420,7 +425,7 @@ class LecturePlaylistVC: UIViewController {
                                 left: lessonTitleLabel.leftAnchor,
                                 paddingTop: 5,
                                 height: 15)
-        teachernameLabel.text = pipData.teacherName + " 선생님"
+        teachernameLabel.text = pipData?.teacherName ?? "" + " 선생님"
     }
     
     func setRemoveNotification() {
@@ -499,10 +504,18 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         case .lectureList:
             
             if indexVideoData.source_url != nil {
+                //0711 - added by hp - pip
+                if self.videoNumber != "" { //관련시리즈 일때만, 강사별강의는 X
+                    pipVC?.player?.pause()
+                    setRemoveNotification()
+                    PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
+                }
                 // 비디오 연결
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
-                videoDataManager.isFirstPlayVideo = true
+                if self.videoNumber != "" {
+                    videoDataManager.isFirstPlayVideo = false
+                }
                 let receviedVideoID = self.detailVM?.lectureDetail?.data[indexPath.row].id
                 vc.id = receviedVideoID
                 vc.modalPresentationStyle = .fullScreen

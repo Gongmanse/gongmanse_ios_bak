@@ -10,6 +10,32 @@ import Alamofire
 
 class GuestKeyDataManager {
     
+    func GuestKeyAPIGetData(videoID: String, viewController: VideoFullScreenController) {
+        
+        // viewModel -> paramters 를 통해 값을 전달한다.
+        let videoID = videoID
+        
+        // URL을 구성한다.
+        let url = "https://api.gongmanse.com/v/video/recommendurl?video_id=\(videoID)&token="
+        
+        /// HTTP Method: GET
+        /// API 명: "02023. 추천 동영상 비디오 경로"
+        AF.request(url)
+            .responseDecodable(of: GuestKeyResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    print("DEBUG: 게스트키 API 통신 성공")
+                    print("DEBUG: 통신한 데이텨 결과 \(response.data)")
+                    viewController.networkingByGuestKey(response: response)
+                    
+                case .failure(let error):
+                    print("DEBUG: 게스트키 API 통신 실패")
+                    print("DEBUG: faild connection \(error.localizedDescription)")
+                }
+            }
+    }
+    
     func GuestKeyAPIGetData(videoID: String, viewController: VideoController) {
         
         // viewModel -> paramters 를 통해 값을 전달한다.

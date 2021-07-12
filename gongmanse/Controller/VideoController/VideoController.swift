@@ -85,6 +85,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     
     var id: String?
     var seriesID: String?
+    //0709 - added by hp
+    var keyword: String? //해시태그 이동일 경우
         
     // 추천
     var recommendSeriesId: String?
@@ -486,6 +488,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
     var isStartVideo = false
     
+    //0709 - edited by hp
+    //국영수,과학,사회,기타-문제풀이로부터 온경우
+    var isChangedName = false
+    
     // MARK: - Lifecycle
     
     init() { super.init(nibName: nil, bundle: nil) }
@@ -578,6 +584,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     @objc func xButtonDidTap() {
         UIView.animate(withDuration: 0.33) {
             self.pipContainerView.alpha = 0
+            
+            //0711 - edited by hp 필기도구, 노트보기가 아래로 움직이지 않는 오류수정
+            self.videoDataManager.isFirstPlayVideo = true
+            self.pageCollectionView.reloadData()
         }
     }
     
@@ -592,6 +602,17 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             // 그런데 pipView를 누르기 직전의 URL은 현재 URL이 들어가있다.
             // 느낌상 새로 rootView를 바꿀때, 뭔가 문제가 있어보인다.
             // "상세화면 영상 API"를 호출한다.
+            
+            //0711 - edited by hp
+            //위에 누군가 써넣은 4줄 문장 관련해서 확실히 오류 있음
+            //해당 오류수정하기 위해서
+            videoDataManager.removeVideoLastLog()
+            //또한 같은 videocontroller내에서 비디오가 변경되는 경우 위 코드가 필요함
+            //재생목록에서 동영상선택하는 경우, 문제풀이 선택하는 경우가 해당됨(또 있을가?)
+            
+            //0711 - edited by hp 필기도구, 노트보기가 아래로 움직이지 않는 오류수정
+            videoDataManager.isFirstPlayVideo = true
+            
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
             self.pageCollectionView.reloadData()
         }
@@ -674,18 +695,20 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         self.pipContainerView.isUserInteractionEnabled = true
         
         /* pipVC.view - Constraint  */
-        let pipThumbnailImageView = UIImageView()
-        pipThumbnailImageView.image = self.videoDataManager.previousvideoThumbnailImage ?? UIImage()
-        self.pipContainerView.addSubview(pipThumbnailImageView)
-        pipThumbnailImageView.anchor(top: self.pipContainerView.topAnchor)
-        pipThumbnailImageView.centerY(inView: self.pipContainerView)
-        pipThumbnailImageView.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+//        let pipThumbnailImageView = UIImageView()
+//        pipThumbnailImageView.image = self.videoDataManager.previousvideoThumbnailImage ?? UIImage()
+//        self.pipContainerView.addSubview(pipThumbnailImageView)
+//        pipThumbnailImageView.anchor(top: self.pipContainerView.topAnchor)
+//        pipThumbnailImageView.centerY(inView: self.pipContainerView)
+//        pipThumbnailImageView.setDimensions(height: pipHeight, width: pipHeight * 1.77)
         
-//        pipVC.pipVideoData = pipData
-//        pipContainerView.addSubview(pipVC.view)
-//        pipVC.view.anchor(top:pipContainerView.topAnchor)
-//        pipVC.view.centerY(inView: pipContainerView)
-//        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
+        //0711 - edited by hp
+        //이전 강의 보던 부분에서 일시정지상태를 위해 다시 열어놓음
+        pipVC.pipVideoData = pipData
+        pipContainerView.addSubview(pipVC.view)
+        pipVC.view.anchor(top:pipContainerView.topAnchor)
+        pipVC.view.centerY(inView: pipContainerView)
+        pipVC.view.setDimensions(height: pipHeight, width: pipHeight * 1.77)
         
         /* xButton - Constraint */
         self.pipContainerView.addSubview(self.xButton)
@@ -735,7 +758,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
 //            let testVC = TestSearchController(clickedText: "2 개 생기는 이유좀 알려줘요")
 //            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
-            let noteVC = LectureNoteController(id: id, token: Constant.token) // 05.25이후 노트컨트롤러
+            let noteVC = LectureNoteController(id: id, token: Constant.token, parent: self) // 05.25이후 노트컨트롤러
             self.addChild(noteVC)
 //            self.addChild(self.noteViewController)
             
@@ -755,7 +778,7 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoPlaylistCell.reusableIdentifier, for: indexPath) as! VideoPlaylistCell
-            self.videoPlaylistVC = VideoPlaylistVC(seriesID: self.seriesID ?? "100")
+            self.videoPlaylistVC = VideoPlaylistVC(seriesID: self.seriesID ?? "100", hashTag: keyword ?? "")
             guard let videoPlaylistVC = self.videoPlaylistVC else { return UICollectionViewCell() }
             self.addChild(videoPlaylistVC)
             cell.addSubview(videoPlaylistVC.view)
@@ -863,6 +886,7 @@ extension VideoController {
         self.player.pause()
         
         // 현재 VideoID를 추가한다.
+        self.id = response.data.id
         self.videoDataManager.addVideoIDLog(videoID: response.data.id)
         
         self.seriesID = response.data.iSeriesId
@@ -964,9 +988,10 @@ extension VideoController {
         
         let pipData = PIPVideoData(isPlayPIP: false,
                                    videoURL: videoDataManager.previousVideoURL,
-                                   currentVideoTime: 0.0,
+                                   currentVideoTime: PIPDataManager.shared.currentVideoTime ?? 0.0,
                                    videoTitle: self.videoDataManager.previousVideoTitle ?? "",
                                    teacherName: self.videoDataManager.previousVideoTeachername ?? "")
+//        PIPDataManager.shared.currentVideoTime = 0.0 //reset
         
         self.pipData = pipData
         
@@ -1250,6 +1275,10 @@ extension VideoController: BottomPlaylistCellDelegate {
 //        let noteIndexPath = IndexPath(item: 0, section: 0)
 //        let qnaIndexPath = IndexPath(item: 1, section: 0)
 //        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
+        
+        //0709 - edited by hp
+        lessonInfoController.videoID = videoID
+        lessonInfoController.videoDetailVM?.requestVideoDetailApi(videoID, lessonInfoController.problemSolvingButton)
     }
     
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {

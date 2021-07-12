@@ -153,10 +153,13 @@ class SearchAfterVC: UIViewController {
     @objc func dismissVC() {
         
         // PIP 모드가 실행중이였다면, 종료시킨다.
-        dismissPIPView()
-        setRemoveNotification()
-        self.reloadDelegate?.reloadTableView()
-        self.dismiss(animated: true)
+        if self.pipVC != nil {
+            setRemoveNotification()
+            dismissSearchAfterVCOnPlayingPIP()
+        } else {
+            self.reloadDelegate?.reloadTableView()
+            self.dismiss(animated: true)
+        }
     }
     
     @objc func playPauseButtonDidTap() {
@@ -591,6 +594,9 @@ extension SearchAfterVC: RecentKeywordVCDelegate {
 
 extension SearchAfterVC: SearchVideoVCDelegate {
     func serachAfterVCPIPViewDismiss() {
+        //0711 - added by hp - pip
         pipVC?.player?.pause()
+        setRemoveNotification()
+        PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
     }
 }

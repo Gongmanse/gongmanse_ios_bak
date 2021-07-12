@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class VideoDetailViewModel {
     
@@ -18,7 +19,7 @@ class VideoDetailViewModel {
     
     let tokens = Constant.token
     
-    func requestVideoDetailApi(_ videoID: String) {
+    func requestVideoDetailApi(_ videoID: String, _ btn: UIView) {
         
         var detailUrl = "\(apiBaseURL)/v/video/details?video_id=\(videoID)&token=\(tokens)"
         
@@ -28,6 +29,7 @@ class VideoDetailViewModel {
                 self.commantaryID = data.data.iCommentaryId
                 self.videoID = data.data.id
                 self.detailModel = data
+                btn.isHidden = self.commantaryID == "0"
             case .failure(let err):
                 print(err.localizedDescription)
             }

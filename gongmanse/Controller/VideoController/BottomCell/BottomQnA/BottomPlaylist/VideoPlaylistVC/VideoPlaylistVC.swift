@@ -66,9 +66,18 @@ class VideoPlaylistVC: UIViewController {
     }
     
     var seriesID: String?
+    var hashTag: String?
     
     // UI
     private let videoCountContainerView = UIView()
+    private var videoHashTagLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = ""
+        lb.font = UIFont.appRegularFontWith(size: 11)
+        lb.textColor = .mainOrange
+        return lb
+    }()
+    
     private var videoCountTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "플레이리스트"
@@ -95,9 +104,10 @@ class VideoPlaylistVC: UIViewController {
     
     // MARK: - Lifecycle
     
-    init(seriesID: String) {
+    init(seriesID: String, hashTag: String) {
         super.init(nibName: nil, bundle: nil)
         self.seriesID = seriesID
+        self.hashTag = hashTag
     }
     
     required init?(coder: NSCoder) {
@@ -190,10 +200,24 @@ class VideoPlaylistVC: UIViewController {
         videoCountContainerView.layer.borderColor = UIColor.progressBackgroundColor.cgColor
         videoCountContainerView.layer.borderWidth = 0.5
         
-        videoCountContainerView.addSubview(videoCountTitleLabel)
-        videoCountTitleLabel.centerY(inView: videoCountContainerView)
-        videoCountTitleLabel.anchor(left: videoCountContainerView.leftAnchor,
-                                    paddingLeft: 20)
+        //해시태그 라벨
+        if let keyword = self.hashTag, !keyword.isEmpty {
+            videoCountContainerView.addSubview(videoHashTagLabel)
+            videoHashTagLabel.centerY(inView: videoCountContainerView)
+            videoHashTagLabel.anchor(left: videoCountContainerView.leftAnchor,
+                                        paddingLeft: 20)
+            videoHashTagLabel.text = "#\(keyword)"
+            
+            videoCountContainerView.addSubview(videoCountTitleLabel)
+            videoCountTitleLabel.centerY(inView: videoCountContainerView)
+            videoCountTitleLabel.anchor(left: videoHashTagLabel.rightAnchor,
+                                        paddingLeft: 20)
+        } else {
+            videoCountContainerView.addSubview(videoCountTitleLabel)
+            videoCountTitleLabel.centerY(inView: videoCountContainerView)
+            videoCountTitleLabel.anchor(left: videoCountContainerView.leftAnchor,
+                                        paddingLeft: 20)
+        }
         
         videoCountContainerView.addSubview(videoCountLabel)
         videoCountLabel.centerY(inView: videoCountContainerView)
@@ -469,7 +493,9 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         
-        return 1
+        let dataCount = viewModel.videoData.data.count
+        self.videoCountTotalLabel.text = "/" + "\(dataCount)"
+        return dataCount
     }
     
     func tableView(_ tableView: UITableView,
@@ -756,6 +782,11 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 // 추천 및 인기
                 let selectedID = viewModel.videoData.data[indexPath.row].id
                 playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
+                
+                //0711 - edited by hp
+                videoDataManager.removeVideoLastLog()
+                
+                
                 videoDataManager.addVideoIDLog(videoID: selectedID)
             }
         }
@@ -1002,6 +1033,7 @@ extension VideoPlaylistVC {
         
         if currentTabMenu == "추천" || currentTabMenu == "인기" {
             defaultScrollTableView()
+            return
         }
 
         if currentTabMenu == "국영수" { // 국영수 + 자동재생 On
@@ -1011,6 +1043,7 @@ extension VideoPlaylistVC {
             } else {
                 defaultScrollTableView()
             }
+            return
         }
         
         if currentTabMenu == "과학" { // 과학 + 자동재생 On
@@ -1029,6 +1062,7 @@ extension VideoPlaylistVC {
             } else {
                 defaultScrollTableView()
             }
+            return
         }
         
         if currentTabMenu == "기타" { // 기타 + 자동재생 On
@@ -1038,7 +1072,28 @@ extension VideoPlaylistVC {
             } else {
                 defaultScrollTableView()
             }
+            return
         }
+        
+        if currentTabMenu == "최근영상" {
+            if autoPlayDataManager.isAutoplayRecentTab {
+                autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInRecentVideoMyActTab!.body)
+            } else {
+                defaultScrollTableView()
+            }
+            return
+        }
+        
+        if currentTabMenu == "즐겨찾기" {
+            if autoPlayDataManager.isAutoplayBookMarkTab {
+                autoPlayScrollTableView(videoData: autoPlayDataManager.videoDataInBookMarkVideoMyActTab!.body)
+            } else {
+                defaultScrollTableView()
+            }
+            return
+        }
+        
+        defaultScrollTableView()
     }
     
     func autoPlayScrollTableView(videoData: [VideoModels]) {
@@ -1069,6 +1124,7 @@ extension VideoPlaylistVC {
         for (index, data) in displayedData.enumerated() {
             if videoDataManager.currentVideoID == data.id {
                 currentIndexPathRow = index
+                break
             }
         }
         self.tableView.scrollToRow(at: IndexPath(row: currentIndexPathRow, section: 0),
