@@ -22,6 +22,10 @@ class BottomQnACell: UICollectionViewCell {
     let videoVM = VideoQnAVideModel()
     let sideHeaderVM = SideMenuHeaderViewModel()
     
+    var detailVideo: DetailSecondVideoResponse?
+    var detailData: DetailVideoInput?
+    var detailVideoData: DetailSecondVideoData?
+    
     lazy var videoID: String = ""
 
     private let myChatIdentifier = "QnAMyChatCell"
@@ -113,6 +117,9 @@ class BottomQnACell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        getDataFromJsonVideo()
+        
         // initialize what is needed
 
         self.backgroundColor = .white
@@ -136,6 +143,30 @@ class BottomQnACell: UICollectionViewCell {
                                                object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide(_:)), name: NSNotification.Name("keyboardHide"), object: nil)
+    }
+    
+    func getDataFromJsonVideo() {
+        
+        //guard let videoId = data?.video_id else { return }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=1&token=\(Constant.token)") {
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
+                    print(json.data)
+                    self.detailVideo = json
+                    self.detailVideoData = json.data
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            }.resume()
+        }
     }
     
     @objc func keyboardHide(_ sender: Notification) {
@@ -182,7 +213,18 @@ class BottomQnACell: UICollectionViewCell {
     }
  
     @objc func textPostButtonAction(_ sender: UIButton) {
-        if Constant.isLogin && Constant.remainPremiumDateInt != nil {
+        
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        }
+        
+        guard let indexVideoData = detailVideo?.data else { return }
+        
+        if indexVideoData.source_url == nil {
+            
+            presentAlert(message: "이용권을 구매해주세요")
+            
+        } else if indexVideoData.source_url != nil {
             if sendText.text != "" {
                 videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
                 videoVM.requestVideoQnA(videoID)
@@ -191,10 +233,6 @@ class BottomQnACell: UICollectionViewCell {
                 
                 sendText.resignFirstResponder()
             }
-        } else if Constant.remainPremiumDateInt == nil {
-            presentAlert(message: "이용권을 구매해주세요")
-        } else {
-            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
         }
     }
     

@@ -69,7 +69,7 @@ class PopularVC: UIViewController {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    print(json.data)
+                    //print(json.data)
                     self.detailVideo = json
                     self.detailVideoData = json.data
                 }
