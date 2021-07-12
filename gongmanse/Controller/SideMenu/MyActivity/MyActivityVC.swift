@@ -43,11 +43,11 @@ class MyActivityVC: UIViewController {
     @objc func trashImageAction(_ sender: UIButton) {
         
         isSelected = !isSelected
-        recentVideoTVC.isDeleteMode = isSelected
-        noteListTVC.isDeleteMode = isSelected
-        lectureQuestionsTVC.isDeleteMode = isSelected
-        expertConsultTVC.isDeleteMode = isSelected
-        bookMarkTVC.isDeleteMode = isSelected
+        recentVideoTVC.isDeleteMode = !isSelected
+        noteListTVC.isDeleteMode = !isSelected
+        lectureQuestionsTVC.isDeleteMode = !isSelected
+        expertConsultTVC.isDeleteMode = !isSelected
+        bookMarkTVC.isDeleteMode = !isSelected
     }
     
     func addBottomBorder() {
