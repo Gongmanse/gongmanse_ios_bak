@@ -72,6 +72,11 @@ extension VideoController {
         removePeriodicTimeObserver()
         
         videoDataManager.isFirstPlayVideo = true
+        
+        //0711 - added by hp
+        //뒤로가기 할때 비디오 로그에서 마지막로그 삭제
+        videoDataManager.removeVideoLastLog()
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -81,9 +86,9 @@ extension VideoController {
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
         player.seek(to: targetTime)
         
-        if player.rate == 0 {
-            player.play()
-        }
+//        if player.rate == 0 {
+//            player.play()
+//        }
     }
     
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
@@ -501,6 +506,15 @@ extension VideoController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         
         DispatchQueue.main.async {
+            //0711 - added by hp
+            if let pipData = self.pipData {
+                if pipData.currentVideoTime != 0.0 && self.videoDataManager.previousVideoID == self.id {
+                    let seconds: Int64 = Int64(pipData.currentVideoTime)
+                    let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
+                    self.player.seek(to: targetTime)
+                    self.pipData?.currentVideoTime = 0.0 //reset
+                }
+            }
             self.player.play()
         }
         

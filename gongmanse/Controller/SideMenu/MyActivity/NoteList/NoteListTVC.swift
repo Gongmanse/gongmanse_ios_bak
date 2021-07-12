@@ -327,6 +327,14 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
                 self.selectedRow = indexPath.row
                 let videoID = noteList?.data[indexPath.row].video_id
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
+                
+                //현재 비디오목록의 ID뿐이므로 그 이상일때 처리가 필요할듯함(페이징처리)
+                var videoIDArr: [String] = []
+                for i in 0 ..< (noteList?.data.count)! {
+                    videoIDArr.append(noteList?.data[i].video_id ?? "")
+                }
+                vc.videoIDArr = videoIDArr
+                
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)

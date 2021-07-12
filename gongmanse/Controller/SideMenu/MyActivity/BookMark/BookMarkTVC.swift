@@ -31,7 +31,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var bookMark: FilterVideoModels?
-    var tableViewInputData: [FilterVideoData]?
+    var tableViewInputData: [FilterVideoData] = []
     
     var detailVideo: DetailSecondVideoResponse?
     var detailData: DetailVideoInput?
@@ -41,6 +41,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     var sortedId: Int? {
         didSet {
+            self.tableViewInputData.removeAll()
             getDataFromJson()
         }
     }
@@ -54,7 +55,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromJson()
+//        getDataFromJson()
         getDataFromJsonVideo()
         
         //테이블 뷰 빈칸 숨기기
@@ -69,13 +70,14 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(bookMarkFilterNoti(_:)), name: NSNotification.Name("bookMarkFilterText"), object: nil)
         
         playSwitch.addTarget(self, action: #selector(playSwitchDidTap(_:)), for: .valueChanged)
+        autoPlayDataManager.isAutoplayBookMarkTab = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.isDeleteMode = true
         
-        playSwitch.isOn = autoPlayDataManager.isAutoplayBookMarkTab
+//        playSwitch.isOn = autoPlayDataManager.isAutoplayBookMarkTab
         
     }
     
@@ -137,7 +139,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=0&limit=1000&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -147,7 +149,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.bookMark = json
-                    self.tableViewInputData = json.data
+                    self.tableViewInputData.append(contentsOf: json.data)
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -189,7 +191,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let tableViewInputData = tableViewInputData else { return 0 }
             return tableViewInputData.count
         }
     }
@@ -209,7 +210,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             
             guard let json = self.bookMark else { return cell }
             
-            let indexData = json.data[indexPath.row]
+            let indexData = tableViewInputData[indexPath.row]
             let defaultURL = fileBaseURL
             guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
             let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
@@ -247,7 +248,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     @objc func deleteAction(_ sender: UIButton) {
         guard let json = self.bookMark else { return }
-        guard let id = json.data[sender.tag].iBookmarkId else { return }
+        guard let id = tableViewInputData[sender.tag].iBookmarkId else { return }
         
         let baseURL = URL(string: "https://api.gongmanse.com/v/member/mybookmark")!
         let fullURL = baseURL.appendingPathComponent("/put")
@@ -285,11 +286,12 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         }.resume()
         
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        self.tableViewInputData?.remove(at: indexPath.row)
+        self.tableViewInputData.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         
-        getDataFromJson()
-        tableView.reloadData()
+//        self.tableViewInputData.removeAll()
+//        getDataFromJson()
+//        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -322,9 +324,9 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             
             guard let receivedData = bookMark else { return }
             
-            for dataIndex in receivedData.data.indices {
+            for dataIndex in tableViewInputData.indices {
                 
-                let data = receivedData.data[dataIndex]
+                let data = tableViewInputData[dataIndex]
                 
                 let inputData = VideoModels(seriesId: data.iSeriesId,
                                             videoId: data.id,
@@ -354,10 +356,18 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             } else {
                 let vc = VideoController()
                 vc.modalPresentationStyle = .fullScreen
-                let videoID = bookMark?.data[indexPath.row].id
+                let videoID = tableViewInputData[indexPath.row].id
                 vc.id = videoID
                 present(vc, animated: true)
             }
+        }
+    }
+    
+    //0711 - added by hp
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.tableViewInputData.count - 1 {
+            //더보기
+            getDataFromJson()
         }
     }
 }

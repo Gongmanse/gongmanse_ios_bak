@@ -124,6 +124,7 @@ class SearchVideoVC: UIViewController {
         
         
         autoPlaySwitch.addTarget(self, action: #selector(switchDidTap(_:)), for: .valueChanged)
+        AutoplayDataManager.shared.isAutoplaySearchTab = true
     }
     
     func getDataFromJsonVideo() {
@@ -298,6 +299,9 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                     // 3) AutoPlayerDataManager에 viewTitle값을 변경해준다.
                 }
                 
+                //0711 - added by hp - pip
+                pipDelegate?.serachAfterVCPIPViewDismiss()
+                
                 let vc = VideoController(isPlayPIP: false)
                 let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id
                 vc.id = receviedVideoID
@@ -373,7 +377,8 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                  */
                 
                 vc.id = receviedVideoID
-
+                vc.keyword = self.searchData.searchText
+                
                 let layout = UICollectionViewFlowLayout()
                 vc.collectionViewLayout = layout
                 vc.modalPresentationStyle = .fullScreen

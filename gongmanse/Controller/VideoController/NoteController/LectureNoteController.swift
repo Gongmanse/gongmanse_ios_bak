@@ -14,6 +14,7 @@ class LectureNoteController: UIViewController {
 
     // MARK: 데이터
 
+    private var _parent: VideoController! = nil
     private let id: String?
     private let token: String?
     private var url: String?
@@ -116,9 +117,10 @@ class LectureNoteController: UIViewController {
     
     // MARK: - Lifecycle
     
-    init(id: String, token: String) {
+    init(id: String, token: String, parent: VideoController) {
         self.id = id
         self.token = token
+        self._parent = parent
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -236,7 +238,18 @@ class LectureNoteController: UIViewController {
                     vc.nextButton.isHidden = true
                     vc.previousButton.isHidden = true
                     nav.modalPresentationStyle = .fullScreen
-                    self.present(nav, animated: true)
+                    self.present(nav, animated: true) {
+                        let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                                        videoURL: self._parent.videoURL,
+                                                        currentVideoTime: self._parent.timeSlider.value ,
+                                                        videoTitle: self._parent.lessonInfoController.lessonnameLabel.text ?? "",
+                                                        teacherName: self._parent.lessonInfoController.teachernameLabel.text ?? "")
+                        vc.pipVideoData = pipVideoData
+                        
+                        // isPlayPIP 값을 "SearchAfterVC" 에 전달한다. -> 완료
+                        // 그 값에 따라서 PIP 재생여부를 결정한다.
+                        vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+                    }
                 }
             }
             
@@ -520,6 +533,12 @@ extension UIViewController {
 // MARK: - API
 
 extension LectureNoteController {
+    internal func didSaveNote() {
+        let alert = UIAlertController(title: nil, message: "저장 완료", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     func didSucceedReceiveNoteData(responseData: NoteResponse) {
         guard let data = responseData.data else { return }
         

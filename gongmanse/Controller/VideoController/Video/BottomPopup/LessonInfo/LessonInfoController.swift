@@ -61,14 +61,18 @@ class LessonInfoController: UIViewController {
     private lazy var relatedSeriesButton = TopImageBottomTitleView(frame: buttonSize,
                                                                    title: "관련시리즈",
                                                                    image: UIImage(named: "series")!)
-    private lazy var problemSolvingButton = TopImageBottomTitleView(frame: buttonSize,
+    public lazy var problemSolvingButton = TopImageBottomTitleView(frame: buttonSize,
                                                                     title: "문제풀이",
                                                                     image: UIImage(named: "question")!)
     // videoID
     var videoID: String?
     
     // 문제풀이 누를 때 이름바꾸는 변수
-    var isChangedName: Bool = false
+    var isChangedName: Bool = false {
+        didSet {
+            problemSolvingButton.titleLabel.text = isChangedName ? "개념정리" : "문제풀이"
+        }
+    }
     
     // ViewModel
     var videoDetailVM: VideoDetailViewModel? = VideoDetailViewModel()
@@ -128,8 +132,8 @@ class LessonInfoController: UIViewController {
         configureUI()
         getDataFromJsonVideo()
         
-        videoDetailVM?.requestVideoDetailApi(videoID ?? "")
-        //        videoDetailVM?.requestVideoDetailApi("151")
+        videoDetailVM?.requestVideoDetailApi(videoID ?? "", problemSolvingButton)
+//        videoDetailVM?.requestVideoDetailApi("151")
     }
     
     /**
@@ -238,23 +242,29 @@ class LessonInfoController: UIViewController {
         
         let videoDataManager = VideoDataManager.shared
         
-        delegate?.videoVCPauseVideo()
-        
-        let presentVC = LecturePlaylistVC(videoID ?? "")
-        presentVC.lectureState = .lectureList
-        presentVC.seriesID = seriesID
-        let pipVideoData = PIPVideoData(isPlayPIP: true,
-                                        videoURL: videoDataManager.previousVideoURL,
-                                        currentVideoTime: currentVideoPlayTime ?? Float(0.0),
-                                        videoTitle: lessonnameLabel.text ?? "",
-                                        teacherName: teachernameLabel.text ?? "")
-        
-        presentVC.pipData = pipVideoData
-        let nav = UINavigationController(rootViewController: presentVC)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true)
-        
-        // TODO: 관련시리즈를 켠다.
+        if Constant.isLogin == false {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+        } else if Constant.isLogin == true {
+            delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
+            delegate?.videoVCPauseVideo()
+            let presentVC = LecturePlaylistVC(videoID ?? "")
+            presentVC.lectureState = .lectureList
+            presentVC.seriesID = seriesID
+            let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                            videoURL: currentVideoURL,
+                                            currentVideoTime: currentVideoPlayTime ?? Float(0.0),
+                                            videoTitle: lessonnameLabel.text ?? "",
+                                            teacherName: teachernameLabel.text ?? "")
+            presentVC.pipData = pipVideoData
+            let nav = UINavigationController(rootViewController: presentVC)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true)
+            // TODO: 관련시리즈를 켠다.
+        } else if Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "이용권을 구매해주세요")
+        } else {
+            presentAlert(message: "로그인 후 이용해주세요.")
+        }
     }
     
     @objc func handleProblemSolvingAction() {
@@ -266,15 +276,16 @@ class LessonInfoController: UIViewController {
         problemSolvingButton.titleLabel.text = isChangedName ? "개념정리" : "문제풀이"
         
         videoDetailVM?.isCommentary = isChangedName
+        VideoDataManager.shared.removeVideoLastLog()
         
         switch isChangedName {
         case true: // 문제풀이
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton)
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
             
         case false: // 개념정리
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "")
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton)
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
         }
@@ -445,8 +456,8 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
         let vc = SearchAfterVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
-        vc.searchData.searchText = data
-        
+        vc.searchData.searchText = data.replacingOccurrences(of: "#", with: "")
+
         guard let videoURL = currentVideoURL else { return }
         
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)

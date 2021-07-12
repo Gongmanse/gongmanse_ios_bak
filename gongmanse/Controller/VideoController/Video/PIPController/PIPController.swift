@@ -34,6 +34,11 @@ class PIPController: UIViewController {
         return player.currentTime()
     }
     
+    var currentVideoTimeAsFloat: Float {
+        let time = self.currentVideoTime
+        return Float(CMTimeGetSeconds(time))
+    }
+    
     /**
      [didSet 로직]
      true : 영상 > 검색 > 영상 : PIP 영상을 실행하지 않는다.
@@ -103,15 +108,15 @@ class PIPController: UIViewController {
         
         guard let pipVideoData = self.pipVideoData else { return }
         
-        let pipDataManager = PIPDataManager.shared
+//        let pipDataManager = PIPDataManager.shared
         
-        let videoDataManager = VideoDataManager.shared
+//        let videoDataManager = VideoDataManager.shared
         
         // 06.14 PIP 영상은 제대로 나오는데 처음에 나오는 이미지가 현재 이미지가 나와서 index 수정했었던 코드 -> 미해결
 //        let urlLog = videoDataManager.videoPlayURLLog
 //        let pipPreviousURL = urlLog[urlLog.endIndex - 1]
         
-        self.asset = AVAsset(url: (videoDataManager.previousVideoURL ?? NSURL()) as URL)
+        self.asset = AVAsset(url: (pipVideoData.videoURL ?? NSURL()) as URL)
         
         let keys: [String] = ["playable"]
         
@@ -135,7 +140,7 @@ class PIPController: UIViewController {
                         
                         if let pipVideoData = self.pipVideoData {
                             if pipVideoData.isPlayPIP {
-                                self.player?.pause()
+                                self.player?.play()
                             } else {
                                 self.player?.pause()
                             }

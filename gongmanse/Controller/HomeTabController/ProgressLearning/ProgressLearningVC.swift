@@ -10,6 +10,11 @@ class ProgressLearningVC: UIViewController {
     private var pageController: UIPageViewController!
     @IBOutlet weak var tabsView: TabsView!
     
+    let contentVC1 = ProgressMainVC()
+    let contentVC2 = ProgressScienceVC()
+    let contentVC3 = ProgressSocialVC()
+    let contentVC4 = ProgressOthers()
+    
     //MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,30 +129,25 @@ class ProgressLearningVC: UIViewController {
         currentIndex = index
         
         if index == 0 {
-            let contentVC = ProgressMainVC()
-            contentVC.delegate = self
-            contentVC.pageIndex = index
-            return contentVC
+            contentVC1.delegate = self
+            contentVC1.pageIndex = index
+            return contentVC1
         } else if index == 1 {
-            let contentVC = ProgressScienceVC()
-            contentVC.delegate = self
-            contentVC.pageIndex = index
-            return contentVC
+            contentVC2.delegate = self
+            contentVC2.pageIndex = index
+            return contentVC2
         } else if index == 2 {
-            let contentVC = ProgressSocialVC()
-            contentVC.delegate = self
-            contentVC.pageIndex = index
-            return contentVC
+            contentVC3.delegate = self
+            contentVC3.pageIndex = index
+            return contentVC3
         } else if index == 3 {
-            let contentVC = ProgressOthers()
-            contentVC.delegate = self
-            contentVC.pageIndex = index
-            return contentVC
+            contentVC4.delegate = self
+            contentVC4.pageIndex = index
+            return contentVC4
         } else {
-            let contentVC = ProgressMainVC()
-            contentVC.delegate = self
-            contentVC.pageIndex = index
-            return contentVC
+            contentVC1.delegate = self
+            contentVC1.pageIndex = index
+            return contentVC1
         }
     }
 }

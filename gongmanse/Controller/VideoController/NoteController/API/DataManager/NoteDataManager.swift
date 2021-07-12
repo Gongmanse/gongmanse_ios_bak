@@ -79,11 +79,12 @@ class DetailNoteDataManager {
                 case .success(let result):
                     print("DEBUG: 노트필기 API 성공")
                     print("DEBUG: 성공결과: \(result)")
-                    
+                    viewController.didSaveNote()
                 case .failure(let error):
                     print("DEBUG: 노트필기 API 실패")
                     print("DEBUG: 실패이유: \(error.localizedDescription)")
                     print("DEBUG: 실패이유: \(String(describing: error.errorDescription))")
+                    viewController.didSaveNote()
                 }
             }
     }
@@ -133,11 +134,12 @@ class DetailNoteDataManager {
                 case .success(let result):
                     print("DEBUG: 노트필기 API 성공")
                     print("DEBUG: 성공결과: \(result)")
-                    
+                    viewController.didSaveNote()
                 case .failure(let error):
                     print("DEBUG: 노트필기 API 실패")
                     print("DEBUG: 실패이유: \(error.localizedDescription)")
                     print("DEBUG: 실패이유: \(String(describing: error.errorDescription))")
+                    viewController.didSaveNote()
                 }
             }
     }
@@ -167,11 +169,12 @@ class DetailNoteDataManager {
                 case .success(let result):
                     print("DEBUG: 노트필기 API 성공")
                     print("DEBUG: 성공결과: \(result)")
-                    
+                    viewController.didSaveNote()
                 case .failure(let error):
                     print("DEBUG: 노트필기 API 실패")
                     print("DEBUG: 실패이유: \(error.localizedDescription)")
                     print("DEBUG: 실패이유: \(String(describing: error.errorDescription))")
+                    viewController.didSaveNote()
                 }
             }
     }

@@ -29,7 +29,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var recentViedo: FilterVideoModels?
-    var tableViewInputData: [FilterVideoData]?
+    var tableViewInputData: [FilterVideoData] = []
     
     var detailVideo: DetailSecondVideoResponse?
     var detailData: DetailVideoInput?
@@ -39,7 +39,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     var sortedId: Int? {
         didSet {
-            listCount = 0
+            self.tableViewInputData.removeAll()
             getDataFromJson()
         }
     }
@@ -56,7 +56,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
         
-        getDataFromJson()
+//        getDataFromJson()
         getDataFromJsonVideo()
         
         //xib 셀 등록
@@ -69,14 +69,14 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
-        
+        autoPlayDataManager.isAutoplayRecentTab = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.isDeleteMode = true
         
-        playSwitch.isOn = autoPlayDataManager.isAutoplayRecentTab
+//        playSwitch.isOn = autoPlayDataManager.isAutoplayRecentTab
     }
     
     
@@ -123,41 +123,24 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset=\(listCount)&limit=1000") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset=\(self.tableViewInputData.count)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            if listCount == 0 {
-                URLSession.shared.dataTask(with: request) { (data, response, error) in
-                    guard let data = data else { return }
-                    let decoder = JSONDecoder()
-                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                        //print(json.body)
-                        self.recentViedo = json
-                        self.tableViewInputData = json.data
-                    }
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.textSettings()
-                    }
-                    
-                }.resume()
-            } else {
-                URLSession.shared.dataTask(with: request) { (data, response, error) in
-                    guard let data = data else { return }
-                    let decoder = JSONDecoder()
-                    if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                        
-                        for i in 0..<json.data.count {
-                            self.recentViedo?.data.append(json.data[i])
-                        }
-                    }
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.textSettings()
-                    }
-                }.resume()
-            }
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    //print(json.body)
+                    self.recentViedo = json
+                    self.tableViewInputData.append(contentsOf: json.data)
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.textSettings()
+                }
+                
+            }.resume()
         }
     }
     
@@ -193,7 +176,6 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let tableViewInputData = tableViewInputData else { return 0 }
             return tableViewInputData.count
         }
     }
@@ -213,7 +195,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             
             guard let json = self.recentViedo else { return cell }
             
-            let indexData = json.data[indexPath.row]
+            let indexData = self.tableViewInputData[indexPath.row]
             let defaultURL = fileBaseURL
             guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
             let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
@@ -238,11 +220,11 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     @objc func deleteAction(_ sender: UIButton) {
         guard let json = self.recentViedo else { return }
-        guard let id = json.data[sender.tag].id else { return }
+        guard let id = self.tableViewInputData[sender.tag].id else { return }
         
         let inputData = RecentVideoInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        self.tableViewInputData?.remove(at: indexPath.row)
+        self.tableViewInputData.remove(at: indexPath.row)
         print(indexPath.row)
         print(sender.tag)
         tableView.deleteRows(at: [indexPath], with: .fade)
@@ -252,8 +234,9 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         //        self.tableViewInputData?.remove(at: sender.tag)
         RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
         
-        getDataFromJson()
-        tableView.reloadData()
+//        self.tableViewInputData.removeAll()
+//        getDataFromJson()
+//        tableView.reloadData()
     }
     
     @IBAction func autoplaySwitch(_ sender: UISwitch) {
@@ -297,9 +280,9 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             
             guard let receivedData = recentViedo else { return }
             
-            for dataIndex in receivedData.data.indices {
+            for dataIndex in tableViewInputData.indices {
                 
-                let data = receivedData.data[dataIndex]
+                let data = tableViewInputData[dataIndex]
                 
                 let inputData = VideoModels(seriesId: data.iSeriesId,
                                             videoId: data.video_id,
@@ -327,34 +310,18 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             } else {
                 let vc = VideoController()
                 vc.modalPresentationStyle = .fullScreen
-                let videoID = recentViedo?.data[indexPath.row].video_id
+                let videoID = tableViewInputData[indexPath.row].video_id
                 vc.id = videoID
                 present(vc, animated: true)
             }
         }
     }
     
+    //0711 - added by hp
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        guard let cellCount = recentViedo?.data.count else { return }
-        
-        if indexPath.row == cellCount - 1 {
-            listCount += 20
+        if indexPath.row == self.tableViewInputData.count - 1 {
+            //더보기
             getDataFromJson()
-        }
-    }
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        if position == (tableView.contentSize.height - scrollView.frame.size.height) {
-            //            /// TODO: 로딩인디케이터
-            //            UIView.animate(withDuration: 3) {
-            //                // 로딩이미지
-            //            } completion: { (_) in
-            //                // API 호출
-            //            }
-            getDataFromJson()
-            tableView.reloadData()
         }
     }
 }

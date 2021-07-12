@@ -234,6 +234,10 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             videoDataManager.isFirstPlayVideo = true
             vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
             vc.modalPresentationStyle = .fullScreen
+            //0711 - added by hp
+            //노트 검색에서 문제풀이 노트인가를 알수 가 없음
+            //마찬가지로 국영수,과학,사회,기타,나의활동의 노트에서 문제풀이 노트인가를 알수가 없음
+//            vc.isChangedName = false
             self.present(vc, animated: true)
         }
     }
@@ -253,7 +257,15 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
                                           token: Constant.token)
             vc.modalPresentationStyle = .fullScreen
-            vc.seriesID = searchNoteVM.searchNotesDataModel?.data[indexPath.row].iSeriesId ?? ""
+            //0711 - edited by hp
+            //노트 전체보기 화면에 SeriesID가 필요없음
+//            vc.seriesID = searchNoteVM.searchNotesDataModel?.data[indexPath.row].iSeriesId ?? ""
+            //현재 비디오목록의 ID뿐이므로 그 이상일때 처리가 필요할듯함(페이징처리)
+            var videoIDArr: [String] = []
+            for i in 0 ..< (searchNoteVM.searchNotesDataModel?.data.count)! {
+                videoIDArr.append(searchNoteVM.searchNotesDataModel?.data[i].videoID ?? "")
+            }
+            vc.videoIDArr = videoIDArr
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

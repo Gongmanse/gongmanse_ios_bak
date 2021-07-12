@@ -537,16 +537,24 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
                 //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 let autoDataManager = AutoplayDataManager.shared
                 autoDataManager.currentFiltering = "문제 풀이"
+                vc.isChangedName = true
                 present(vc, animated: true)
                 print("DEBUG: 2번")
             } else if self.selectedItem == 3 {
                 let videoID = otherSubjectsVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
                 
-                // 노트 전체보기 화면에 SeriesID가 필요
-                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
-                    vc.seriesID = seriesID
+                //0711 - edited by hp
+                // 노트 전체보기 화면에 SeriesID가 필요없음
+//                if let seriesID = noteShow?.data[indexPath.row].iSeriesId {
+//                    vc.seriesID = seriesID
+//                }
+                //현재 비디오목록의 ID뿐이므로 그 이상일때 처리가 필요할듯함(페이징처리)
+                var videoIDArr: [String] = []
+                for i in 0 ..< (otherSubjectsVideo?.body.count)! {
+                    videoIDArr.append(otherSubjectsVideo?.body[i].videoId ?? "")
                 }
+                vc.videoIDArr = videoIDArr
                 
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
