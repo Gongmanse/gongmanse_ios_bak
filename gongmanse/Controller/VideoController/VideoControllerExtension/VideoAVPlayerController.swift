@@ -76,6 +76,7 @@ extension VideoController {
         //0711 - added by hp
         //뒤로가기 할때 비디오 로그에서 마지막로그 삭제
         videoDataManager.removeVideoLastLog()
+        PIPDataManager.shared.currentVideoTime = 0
         
         dismiss(animated: true, completion: nil)
     }

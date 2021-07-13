@@ -217,6 +217,9 @@ class LessonNoteController: UIViewController {
     
     private var isFoldingWritingImplement = true // 필기도구 View가 축소된 상태면 false
     private var writingImplementLeftConstraint: NSLayoutConstraint?
+    var writingImplementYPosition: NSLayoutConstraint?
+    var savingNoteYPosition: NSLayoutConstraint?
+    
     private let writingImplement: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .mainOrange
@@ -676,25 +679,27 @@ class LessonNoteController: UIViewController {
     }
     
     private func setupWritingImplement() {
-        let width = view.frame.width * 0.5
-        let bottomPadding = view.frame.height * 0.07
-        let height = view.frame.height * 0.09
+        let width = UIScreen.main.bounds.size.width * 0.5
+        let bottomPadding = UIScreen.main.bounds.size.height * 0.07
+        let height = UIScreen.main.bounds.size.height * 0.09
         
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
         writingImplement.setDimensions(height: height,
                                        width: width)
-        writingImplement.anchor(bottom: view.bottomAnchor,
-                                paddingBottom: bottomPadding)
+        writingImplementYPosition
+            = writingImplement.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomPadding)
+        writingImplementYPosition?.isActive = true
         
         writingImplementLeftConstraint = writingImplement.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -(width * 0.8))
         writingImplementLeftConstraint?.isActive = true
         
         view.addSubview(savingNoteButton)
         savingNoteButton.setDimensions(height: height, width: width * 0.25)
-        savingNoteButton.anchor(bottom: view.bottomAnchor,
-                                right: view.rightAnchor,
-                                paddingBottom: bottomPadding)
+        savingNoteButton.anchor(right: view.rightAnchor)
+        savingNoteYPosition
+            = savingNoteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomPadding)
+        savingNoteYPosition?.isActive = true
         savingNoteButton.alpha = 0
         
         view.addSubview(previousButton)
@@ -764,6 +769,11 @@ class LessonNoteController: UIViewController {
         pipVC = PIPController()
         guard let pipVC = self.pipVC else { return }
         
+        //0713 - added by hp
+        //영상 재생/일시정지 버튼 이슈관련 해결
+        self.isPlayPIPVideo = pipVideoData?.isPlayPIP ?? false
+        playPauseButton.setImage(UIImage(systemName: isPlayPIPVideo ? "pause" : "play.fill"), for: .normal)
+        
         let pipContainerViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipContainerViewDidTap))
         pipContainerView.addGestureRecognizer(pipContainerViewTapGesture)
         pipContainerView.isUserInteractionEnabled = true
@@ -803,7 +813,11 @@ class LessonNoteController: UIViewController {
                                 height: 15)
         teachernameLabel.text = pipVideoData?.teacherName ?? ""
         
-        
+        //0713 - added by hp
+        //필기도구 버튼 위로 이동
+        let bottomPadding = UIScreen.main.bounds.size.height * 0.07 + 40
+        writingImplementYPosition?.constant = -bottomPadding
+        savingNoteYPosition?.constant = -bottomPadding
     }
     
     func dismissPIPView() {
@@ -851,11 +865,12 @@ class LessonNoteController: UIViewController {
     @objc func playPauseButtonDidTap() {
         isPlayPIPVideo = !isPlayPIPVideo
         
+        //0713 - edited by hp
         if isPlayPIPVideo {
-            pipVC?.player?.pause()
+            pipVC?.player?.play()
             playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         } else {
-            pipVC?.player?.play()
+            pipVC?.player?.pause()
             playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         }
     }
@@ -868,6 +883,12 @@ class LessonNoteController: UIViewController {
         UIView.animate(withDuration: 0.22, animations: {
             self.pipContainerView.alpha = 0
         }, completion: nil)
+        
+        //0713 - added by hp
+        //필기도구 버튼 아래로 이동
+        let bottomPadding = UIScreen.main.bounds.size.height * 0.07
+        writingImplementYPosition?.constant = -bottomPadding
+        savingNoteYPosition?.constant = -bottomPadding
     }
 }
 

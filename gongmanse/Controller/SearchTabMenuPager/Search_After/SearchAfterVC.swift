@@ -7,6 +7,7 @@
 // TODO: filterContentForSearchText() extension으로 빼서 중복 정의 코드 정리 할 것.
 
 import UIKit
+import AVKit
 
 protocol ReloadDataRecentKeywordDelegate: AnyObject {
     func reloadTableView()
@@ -165,11 +166,12 @@ class SearchAfterVC: UIViewController {
     @objc func playPauseButtonDidTap() {
         isPlayPIPVideo = !isPlayPIPVideo
         
+        //0713 - edited by hp
         if isPlayPIPVideo {
-            pipVC?.player?.pause()
+            pipVC?.player?.play()
             playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         } else {
-            pipVC?.player?.play()
+            pipVC?.player?.pause()
             playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         }
     }
@@ -370,6 +372,11 @@ class SearchAfterVC: UIViewController {
         
         pipVC = PIPController()
         guard let pipVC = self.pipVC else { return }
+        
+        //0713 - added by hp
+        //영상 재생/일시정지 버튼 이슈관련 해결
+        self.isPlayPIPVideo = pipVideoData?.isPlayPIP ?? false
+        playPauseButton.setImage(UIImage(systemName: isPlayPIPVideo ? "pause" : "play.fill"), for: .normal)
         
         let pipContainerViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipContainerViewDidTap))
         pipContainerView.addGestureRecognizer(pipContainerViewTapGesture)
@@ -597,6 +604,7 @@ extension SearchAfterVC: SearchVideoVCDelegate {
         //0711 - added by hp - pip
         pipVC?.player?.pause()
         setRemoveNotification()
+        PIPDataManager.shared.currentVideoCMTime = CMTime()
         PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
     }
 }

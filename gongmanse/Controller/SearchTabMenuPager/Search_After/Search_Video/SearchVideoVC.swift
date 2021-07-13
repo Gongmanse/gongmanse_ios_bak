@@ -312,9 +312,8 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             
             
-            // 06.18 기준 없애달라고 해서 없앴는데 소통의 오류였는지 모르겠으나 나중에 수정생길일을 대비해서 주석처리만함
-            // 일단 pip는 계속 나와야 하는 걸로 진행 06.18
-//            pipDelegate?.serachAfterVCPIPViewDismiss()
+            //0713 - added by hp
+            pipDelegate?.serachAfterVCPIPViewDismiss()
 
             /**
              검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유

@@ -880,6 +880,18 @@ extension VideoController {
         // token 버그 발생 시, 주석 해제해볼 것 06.22
 //        setRemoveNotification()
         
+        //0713 - edited by hp
+        //아래에 있던 pipData를 위로 올림
+        //이유는 addVideoIDLog하기전에 이전 previousVideoURL를 가져와야하기때문이다
+        if !self.videoDataManager.isFirstPlayVideo {
+            let pipData = PIPVideoData(isPlayPIP: false,
+                                       videoURL: videoDataManager.previousVideoURL,
+                                       currentVideoTime: PIPDataManager.shared.currentVideoTime ?? 0.0,
+                                       videoTitle: self.videoDataManager.previousVideoTitle ?? "",
+                                       teacherName: self.videoDataManager.previousVideoTeachername ?? "")
+            self.pipData = pipData
+        }
+        
         let autoPlayDM = AutoplayDataManager.shared
         autoPlayDM.mainSubjectListCount = 0
         
@@ -986,14 +998,7 @@ extension VideoController {
             self.playVideo()
         }
         
-        let pipData = PIPVideoData(isPlayPIP: false,
-                                   videoURL: videoDataManager.previousVideoURL,
-                                   currentVideoTime: PIPDataManager.shared.currentVideoTime ?? 0.0,
-                                   videoTitle: self.videoDataManager.previousVideoTitle ?? "",
-                                   teacherName: self.videoDataManager.previousVideoTeachername ?? "")
 //        PIPDataManager.shared.currentVideoTime = 0.0 //reset
-        
-        self.pipData = pipData
         
         if !self.videoDataManager.isFirstPlayVideo {
             self.configurePIPView(pipData: pipData)
@@ -1331,7 +1336,10 @@ extension VideoController: LessonInfoControllerDelegate {
             self.player.seek(to: currentTime)
             self.player.play()
             UIView.animate(withDuration: 0.33) {
-                self.pipContainerView.alpha = 0
+                //0713 - added by hp
+                if !self.videoDataManager.isFirstPlayVideo {
+                    self.pipContainerView.alpha = 0
+                }
             }
         }
     }

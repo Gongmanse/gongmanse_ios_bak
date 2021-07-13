@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 enum LectureState {
     case lectureList
@@ -296,11 +297,12 @@ class LecturePlaylistVC: UIViewController {
     @objc func playPauseButtonDidTap() {
         isPlayPIPVideo = !isPlayPIPVideo
         
+        //0713 - edited by hp
         if isPlayPIPVideo {
-            pipVC?.player?.pause()
+            pipVC?.player?.play()
             pipPlayPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         } else {
-            pipVC?.player?.play()
+            pipVC?.player?.pause()
             pipPlayPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         }
     }
@@ -375,6 +377,11 @@ class LecturePlaylistVC: UIViewController {
         self.pipVC = PIPController(isPlayPIP: true)
         guard let pipVC = self.pipVC else { return }
         pipVC.pipVideoData = pipData
+        
+        //0713 - added by hp
+        //영상 재생/일시정지 버튼 이슈관련 해결
+        self.isPlayPIPVideo = true
+        pipPlayPauseButton.setImage(UIImage(systemName: isPlayPIPVideo ? "pause" : "play.fill"), for: .normal)
         
         /* pipContainerView - Constraint */
         view.addSubview(pipContainerView)
@@ -508,6 +515,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 if self.videoNumber != "" { //관련시리즈 일때만, 강사별강의는 X
                     pipVC?.player?.pause()
                     setRemoveNotification()
+                    PIPDataManager.shared.currentVideoCMTime = CMTime()
                     PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
                 }
                 // 비디오 연결
