@@ -46,14 +46,15 @@ class VideoDataManager {
     /// 바로 이전에 재생된 비디오 URL
     var previousVideoURL: NSURL? {
         // TODO: 만약 로그가 하나인 경우, 어떻게 처리할지 고민해야한다.
-        if videoPlayURLLog.count == 1 {
+        /*if videoPlayURLLog.count == 1 {
             return videoPlayURLLog.first ?? NSURL()
         } else if videoPlayURLLog.count == 2 {
             return videoPlayURLLog.first ?? NSURL()
         } else {
             // 2개 이상인 경우,
             return videoPlayURLLog[videoPlayURLLog.endIndex - 1]
-        }
+        }*/
+        return videoPlayURLLog[videoPlayURLLog.endIndex - 1]
     }
     
     /// 바로 이전에 재생된 비디오 타이틀

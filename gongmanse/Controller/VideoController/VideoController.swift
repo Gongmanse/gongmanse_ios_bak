@@ -890,6 +890,7 @@ extension VideoController {
                                        videoTitle: self.videoDataManager.previousVideoTitle ?? "",
                                        teacherName: self.videoDataManager.previousVideoTeachername ?? "")
             self.pipData = pipData
+            self.pipContainerView.alpha = 1
         }
         
         let autoPlayDM = AutoplayDataManager.shared
@@ -965,6 +966,7 @@ extension VideoController {
 
         // lessionInfo로 VideoID를 전달한다.
         self.lessonInfoController.videoID = self.id
+        lessonInfoController.videoDetailVM?.requestVideoDetailApi(lessonInfoController.videoID ?? "", lessonInfoController.problemSolvingButton)
         self.lessonInfoController.seriesID = self.seriesID
         
         // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
@@ -1103,6 +1105,7 @@ extension VideoController {
 
         // lessionInfo로 VideoID 넘기기
         self.lessonInfoController.videoID = self.id
+        lessonInfoController.videoDetailVM?.requestVideoDetailApi(lessonInfoController.videoID ?? "", lessonInfoController.problemSolvingButton)
         self.lessonInfoController.seriesID = self.seriesID
         self.recommendSeriesId = response.data.iSeriesId
         
@@ -1194,6 +1197,7 @@ extension VideoController {
 
         // lessionInfo로 VideoID를 전달한다.
         self.lessonInfoController.videoID = self.id
+        lessonInfoController.videoDetailVM?.requestVideoDetailApi(lessonInfoController.videoID ?? "", lessonInfoController.problemSolvingButton)
         
         // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
         self.recommendSeriesId = response.data.iSeriesId
@@ -1337,7 +1341,7 @@ extension VideoController: LessonInfoControllerDelegate {
             self.player.play()
             UIView.animate(withDuration: 0.33) {
                 //0713 - added by hp
-                if !self.videoDataManager.isFirstPlayVideo {
+                if !self.videoDataManager.isFirstPlayVideo && self.videoDataManager.currentVideoID == self.videoDataManager.previousVideoID {
                     self.pipContainerView.alpha = 0
                 }
             }

@@ -88,6 +88,13 @@ class LecturePlaylistVC: UIViewController {
         super.viewDidAppear(animated)
         detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         collectionView.reloadData()
+        
+        if let pipVC = self.pipVC {
+            if !isPlayPIPVideo {
+                isPlayPIPVideo = true
+                pipVC.player?.play()
+            }
+        }
     }
     
     // 목록이 없습니다.
@@ -286,6 +293,7 @@ class LecturePlaylistVC: UIViewController {
     @objc func xButtonDidTap() {
         
         if let pipVC = self.pipVC {
+            isPlayPIPVideo = !isPlayPIPVideo
             pipVC.player?.pause()
         }
         
@@ -447,6 +455,7 @@ class LecturePlaylistVC: UIViewController {
         let pipDataManager = PIPDataManager.shared
         guard let pipVC = self.pipVC else { return }
         
+        isPlayPIPVideo = !isPlayPIPVideo
         pipVC.player?.pause()
         setRemoveNotification()
         // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
@@ -512,19 +521,27 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
             
             if indexVideoData.source_url != nil {
                 //0711 - added by hp - pip
+                let receviedVideoID = self.detailVM?.lectureDetail?.data[indexPath.row].id
+                
                 if self.videoNumber != "" { //관련시리즈 일때만, 강사별강의는 X
+                    VideoDataManager.shared.isFirstPlayVideo = false
+                    
+                    isPlayPIPVideo = !isPlayPIPVideo
                     pipVC?.player?.pause()
                     setRemoveNotification()
                     PIPDataManager.shared.currentVideoCMTime = CMTime()
                     PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
+                    
+                    //video->lectureplaylist->video 와 같은 현상을 방지하기 위한
+                    let vc = self.presentingViewController as! VideoController
+                    self.dismiss(animated: false) {
+                        vc.id = receviedVideoID
+                        vc.configureDataAndNoti()
+                    }
+                    return
                 }
                 // 비디오 연결
                 let vc = VideoController()
-                let videoDataManager = VideoDataManager.shared
-                if self.videoNumber != "" {
-                    videoDataManager.isFirstPlayVideo = false
-                }
-                let receviedVideoID = self.detailVM?.lectureDetail?.data[indexPath.row].id
                 vc.id = receviedVideoID
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
@@ -575,6 +592,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 
                 // PIP를 dismiss한다.
                 //            pipDelegate?.serachAfterVCPIPViewDismiss()
+                isPlayPIPVideo = !isPlayPIPVideo
                 pipVC?.player?.pause()
                 pipVC?.removePeriodicTimeObserver()
                 pipVC?.player = nil
