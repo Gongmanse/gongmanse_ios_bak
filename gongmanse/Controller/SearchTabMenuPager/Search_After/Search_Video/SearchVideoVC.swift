@@ -255,6 +255,11 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             if let comeFromSearchVC = self.comeFromSearchVC {
 
                 // 자동재생인 경우 아래 코드블럭이 실행된다.
+                AutoplayDataManager.shared.isAutoplayMainSubject = false
+                AutoplayDataManager.shared.isAutoplayScience = false
+                AutoplayDataManager.shared.isAutoplaySocialStudy = false
+                AutoplayDataManager.shared.isAutoplayOtherSubjects = false
+                
                 if self.isAutoPlay {
                     let autoPlayDataManager = AutoplayDataManager.shared
                     
