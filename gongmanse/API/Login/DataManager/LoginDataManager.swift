@@ -69,6 +69,27 @@ class LoginDataManager {
                 print("DEBUG: 리프레쉬토큰을 이용한 토큰은 \(response.token) 입니다.")
                 Constant.token = response.token
                 
+                //0719 - 자동로그인 에러 수정
+                //자동로그인시 token만 셋팅이되고 remainPremiumDateInt는 셋팅이 되지 않아 비디오에서 관련시리즈나 해시티그 이동시 에러 발생
+                if grantType == "refresh_token" {
+                    let inputData = EditingProfileInput(token: Constant.token)
+                    EditingProfileDataManager().getProfileInfoFromAPIAtSideMenu(inputData) { response in
+                        let activateDate: String? = response.dtPremiumActivate
+                        let expireDate: String? = response.dtPremiumExpire
+                        var dateRemainingString: String?
+                        
+                        
+                        guard let startDateString = activateDate else { return }
+                        guard let expireDateString = expireDate else { return }
+                        
+                        let startDate = self.dateStringToDate(startDateString)
+                        let endDate = self.dateStringToDate(expireDateString)
+                        
+                        let dateRemaining = self.dateRemainingCalculate(startDate: startDate, expireDate: endDate)
+                        Constant.remainPremiumDateInt = dateRemaining
+                        print("DEBUG: dateRemaining \(dateRemaining)")
+                    }
+                }
             case .failure(let error):
                 // 연결 실패
                 print("DEBUG: failed connection \(error.localizedDescription)")
@@ -77,6 +98,32 @@ class LoginDataManager {
         }
     }
 
+    //0719 - added by hp
+    // 만약 이용권이 있다면, String로 받아온 값을 Date로 변경한다.
+    func dateStringToDate(_ dateString: String) -> Date {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+        
+        let date: Date = dateFormatter.date(from: dateString)!
+        return date
+    }
+    
+    func dateRemainingCalculateByTody(startDate: Date, expireDate: Date) -> Int {
+        
+        let dateRemaining = expireDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+        let result = Int(dateRemaining / 86400)
+        return result
+    }
+    
+    
+    func dateRemainingCalculate(startDate: Date, expireDate: Date) -> Int {
+        
+        let dateRemaining = expireDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
+        let result = Int(dateRemaining / 86400)
+        return result
+    }
 }
 
 struct RefreshTokenInput: Encodable {
