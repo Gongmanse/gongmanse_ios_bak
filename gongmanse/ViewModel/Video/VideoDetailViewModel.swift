@@ -19,7 +19,7 @@ class VideoDetailViewModel {
     
     let tokens = Constant.token
     
-    func requestVideoDetailApi(_ videoID: String, _ btn: UIView) {
+    func requestVideoDetailApi(_ videoID: String, _ btn: UIView, completion: @escaping () -> Void) {
         
         var detailUrl = "\(apiBaseURL)/v/video/details?video_id=\(videoID)&token=\(tokens)"
         
@@ -30,6 +30,8 @@ class VideoDetailViewModel {
                 self.videoID = data.data.id
                 self.detailModel = data
                 btn.isHidden = self.commantaryID == "0"
+                
+                completion()
             case .failure(let err):
                 print(err.localizedDescription)
             }

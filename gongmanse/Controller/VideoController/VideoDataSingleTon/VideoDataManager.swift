@@ -123,11 +123,23 @@ class VideoDataManager {
     //0711 - added by hp
     //뒤로가기 할때 비디오 로그에서 마지막로그 삭제 - previousVideoURL에서 오류 있음
     func removeVideoLastLog() {
-        self.videoPlayIDLog.removeLast()
-        self.videoPlayURLLog.removeLast()
-        self.videoPlaySubtitleURLLog.removeLast()
-        self.videoTeachernameLog.removeLast()
-        self.videoTitleLog.removeLast()
-        self.videoThumbnailImageLog.removeLast()
+        if self.videoPlayIDLog.count > 0 {
+            self.videoPlayIDLog.removeLast()
+        }
+        if self.videoPlayURLLog.count > 0 {
+            self.videoPlayURLLog.removeLast()
+        }
+        if self.videoPlaySubtitleURLLog.count > 0 {
+            self.videoPlaySubtitleURLLog.removeLast()
+        }
+        if self.videoTeachernameLog.count > 0 {
+            self.videoTeachernameLog.removeLast()
+        }
+        if self.videoTitleLog.count > 0 {
+            self.videoTitleLog.removeLast()
+        }
+        if self.videoThumbnailImageLog.count > 0 {
+            self.videoThumbnailImageLog.removeLast()
+        }
     }
 }

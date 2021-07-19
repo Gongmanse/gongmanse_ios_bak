@@ -132,7 +132,9 @@ class LessonInfoController: UIViewController {
         configureUI()
         getDataFromJsonVideo()
         
-        videoDetailVM?.requestVideoDetailApi(videoID ?? "", problemSolvingButton)
+        videoDetailVM?.requestVideoDetailApi(videoID ?? "", problemSolvingButton, completion: {
+            self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+        })
 //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
@@ -280,12 +282,16 @@ class LessonInfoController: UIViewController {
         
         switch isChangedName {
         case true: // 문제풀이
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton)
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton, completion: {
+                self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+            })
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
             
         case false: // 개념정리
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton)
+            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton, completion: {
+                self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+            })
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
         }

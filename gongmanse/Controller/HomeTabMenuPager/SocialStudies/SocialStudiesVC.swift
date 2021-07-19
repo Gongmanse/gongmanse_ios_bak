@@ -529,7 +529,6 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 let autoDataManager = AutoplayDataManager.shared
                 autoDataManager.currentFiltering = "문제 풀이"
-                vc.isChangedName = true
                 present(vc, animated: true)
                 print("DEBUG: 2번")
                 

@@ -54,7 +54,6 @@ extension VideoController {
     /// 전반적인 UI 구현 메소드
     func configureUI() {
         // 강의정보 키워드 클릭 시, 영상을 일시중지하기 위한 Delegation
-        lessonInfoController.isChangedName = self.isChangedName
         lessonInfoController.delegate = self
         
         self.navigationController?.navigationBar.isHidden = true
