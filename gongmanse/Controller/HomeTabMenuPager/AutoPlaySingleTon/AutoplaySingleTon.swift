@@ -28,8 +28,20 @@ class AutoplayDataManager {
     var currentViewTitleView: String = ""
     
     // 탭에서 선택한 필터링을 저장하는 프로퍼티
-    var currentFiltering: String = ""
+    var currentFiltering: String = "" //전체보기, 문제풀이
+    var currentSort: Int = 0 // 0최신순, 1평점순, 2이름순, 3과목순
     
+    var currentSubjectNumber: Int = 0 //검색에서만 이용
+    var currentGrade: String = "" //검색에서만 이용
+    var currentKeyword: String = "" //검색에서만 이용
+    
+    var isAutoPlay: Bool = false
+    var videoDataList: [VideoModels] = [] //최근목록,즐겨찾기,국영수,과학,사회,기타,진도,검색 중 자동재생일떄, 아니면 아래로
+    var videoSeriesDataList: [PlayListData] = [] //추천,인기,강사별강의와
+    var currentIndex: Int = 0 //목록에서 눌린 동영상index, 추천과 인기는 -1 이때는 시리즈에서 해당 동영상을 찾아야 한다.
+    var currentJindoId: String = "" //진도학습에서 이용
+    
+    /*
     // TODO: 자동재생 여부를 판단하는 Boolean
     // 1: 국영수
     var isAutoplayMainSubject: Bool = false
@@ -50,13 +62,13 @@ class AutoplayDataManager {
     var isPopularTab: Bool = false
     
     // 검색
-    var isAutoplaySearchTab: Bool = true
+    var isAutoplaySearchTab: Bool = false
     
     // 나의활동 > 최근영상
-    var isAutoplayRecentTab: Bool = true
+    var isAutoplayRecentTab: Bool = false
     
     // 나의활동 > 즐겨찾기
-    var isAutoplayBookMarkTab: Bool = true
+    var isAutoplayBookMarkTab: Bool = false
     
     var isAutoPlayMainProblemTab: Bool = false
     
@@ -109,5 +121,5 @@ class AutoplayDataManager {
     var mainSubjectListCount = 0
     var scienceListCount = 0
     var socialListCount = 0
-    var othersubjectListCount = 0
+    var othersubjectListCount = 0*/
 }

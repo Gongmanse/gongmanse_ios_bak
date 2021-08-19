@@ -9,9 +9,15 @@ import UIKit
 
 private let cellId = "SearchNoteCell"
 
+protocol SearchNoteVCDelegate: AnyObject {
+    func serachAfterVCPIPViewDismiss1()
+}
+
 class SearchNoteVC: UIViewController {
 
     //MARK: - Properties
+    weak var pipDelegate: SearchNoteVCDelegate?
+    var comeFromSearchVC: Bool?
     
     var pageIndex: Int!
     var isChooseGrade: Bool = true
@@ -27,13 +33,10 @@ class SearchNoteVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noteSortButton: UIButton!
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     // singleton
     lazy var searchData = SearchData.shared
     
+    var _selectedID: String? = "4"
     
     // 상담목록이 없습니다.
     private let consultLabel: UILabel = {
@@ -79,8 +82,6 @@ class SearchNoteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromJsonVideo()
-        
         numberOfLesson.font = .appBoldFontWith(size: 16)
         noteSortButton.titleLabel?.font = .appBoldFontWith(size: 16)
 
@@ -116,30 +117,6 @@ class SearchNoteVC: UIViewController {
         
     }
     
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                
-            }.resume()
-        }
-    }
-    
     func getsearchNoteList() {
         
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
@@ -153,7 +130,7 @@ class SearchNoteVC: UIViewController {
         
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         noteSortButton.setTitle("최신순 ▼", for: .normal)
-        
+        _selectedID = "4"
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
                                      grade: searchData.searchGrade,
                                      keyword: searchData.searchText,
@@ -164,6 +141,7 @@ class SearchNoteVC: UIViewController {
     @objc func receiveNotesFilter(_ sender: Notification) {
         
         guard let userInfo = sender.userInfo else { return }
+        _selectedID = userInfo["sortID"] as? String ?? nil
         noteSortButton.setTitle(userInfo["sort"] as? String ?? "", for: .normal)
         
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
@@ -179,7 +157,7 @@ class SearchNoteVC: UIViewController {
         if isChooseGrade { 
             let popupVC = SearchAfterBottomPopup()
             popupVC.selectFilterState = .videoNotes
-            
+            popupVC._selectedID = _selectedID
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)
@@ -203,7 +181,7 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let indexData = searchNoteVM.searchNotesDataModel?.data[indexPath.row]
         
         
-        cell.teacher.text = indexData?.sTeacher
+        cell.teacher.text = "\(indexData?.sTeacher ?? "") 선생님"
         cell.titleLabel.text = indexData?.sTitle
         cell.chemistry.backgroundColor = UIColor(hex: "#\(indexData?.sSubjectColor ?? "000000")")
         cell.chemistry.text = indexData?.sSubject
@@ -222,23 +200,39 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
-        } else if indexVideoData.source_url != nil {
-            let vc = VideoController()
-            let videoDataManager = VideoDataManager.shared
-            videoDataManager.isFirstPlayVideo = true
-            vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
-            vc.modalPresentationStyle = .fullScreen
-            //0711 - added by hp
-            //노트 검색에서 문제풀이 노트인가를 알수 가 없음
-            //마찬가지로 국영수,과학,사회,기타,나의활동의 노트에서 문제풀이 노트인가를 알수가 없음
-//            vc.isChangedName = false
-            self.present(vc, animated: true)
+        } else {
+            //0713 - added by hp
+            pipDelegate?.serachAfterVCPIPViewDismiss1()
+            
+            AutoplayDataManager.shared.isAutoPlay = false
+            AutoplayDataManager.shared.videoDataList.removeAll()
+            AutoplayDataManager.shared.videoSeriesDataList.removeAll()
+            AutoplayDataManager.shared.currentIndex = -1
+            
+            if let comeFromSearchVC = self.comeFromSearchVC {
+                let vc = VideoController()
+                let videoDataManager = VideoDataManager.shared
+                videoDataManager.isFirstPlayVideo = true
+                vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
+                vc.modalPresentationStyle = .fullScreen
+                //0711 - added by hp
+                //노트 검색에서 문제풀이 노트인가를 알수 가 없음
+                //마찬가지로 국영수,과학,사회,기타,나의활동의 노트에서 문제풀이 노트인가를 알수가 없음
+    //            vc.isChangedName = false
+                self.present(vc, animated: true)
+            } else {
+                //video->lectureplaylist->video 와 같은 현상을 방지하기 위한
+                let vc = self.presentingViewController as! VideoController
+                self.dismiss(animated: false) {
+                    vc.id = self.searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
+                    vc.configureDataAndNoti(true)
+                }
+            }
         }
     }
     
@@ -246,13 +240,15 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
-        } else if indexVideoData.source_url != nil {
+        } else {
+            //0713 - added by hp
+            pipDelegate?.serachAfterVCPIPViewDismiss1()
+            
             // 노트 연결
             let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
                                           token: Constant.token)
@@ -278,11 +274,11 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
             if searchNoteVM.allIntiniteScroll {
                 searchNoteVM.infinityBool = true
-                searchNoteVM.reqeustNotesApi(subject: searchData.searchSubject,
+                searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
                                              grade: searchData.searchGrade,
                                              keyword: searchData.searchText,
                                              offset: "0",
-                                             sortID: "4")
+                                             sortID: _selectedID)
                 
                 
             }
@@ -318,9 +314,10 @@ extension SearchNoteVC: CollectionReloadData {
         DispatchQueue.main.async {
             
             let subString = self.searchNoteVM.searchNotesDataModel?.totalNum ?? "0"
-            let allString = "총 \(subString)개"
+            let strCount = subString.withCommas()
+            let allString = "총 \(strCount)개"
             
-            self.numberOfLesson.attributedText = allString.convertStringColor(allString, subString, .mainOrange)
+            self.numberOfLesson.attributedText = allString.convertStringColor(allString, strCount, .mainOrange)
             self.collectionView.reloadData()
         }
     }

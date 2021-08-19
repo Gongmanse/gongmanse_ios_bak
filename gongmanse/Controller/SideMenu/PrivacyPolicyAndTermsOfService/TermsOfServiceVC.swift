@@ -58,11 +58,11 @@ class TermsOfServiceVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         webView.load(request)
         
         
-        view.addSubview(backButton)
-        backButton.setDimensions(height: 30,
-                                 width: 30)
-        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left: view.leftAnchor,
-                          paddingLeft: 20)
+//        view.addSubview(backButton)
+//        backButton.setDimensions(height: 30,
+//                                 width: 30)
+//        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+//                          left: view.leftAnchor,
+//                          paddingLeft: 20)
     }
 }

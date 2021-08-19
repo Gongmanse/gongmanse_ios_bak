@@ -2,7 +2,7 @@ import UIKit
 import BottomPopup
 
 protocol KoreanEnglishMathBottomPopUpVCDelegate: class {
-    func passSelectedRow(_ selectedRowIndex: Int)
+    func passSelectedRow(_ selectedRowIndex: Int, _ videoFilterText: String)
 }
 
 class KoreanEnglishMathBottomPopUpVC: BottomPopupViewController {
@@ -89,9 +89,9 @@ extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSo
         
         videoFilterText = titleNames[indexPath.row]
         
-        UserDefaults.standard.setValue(videoFilterText, forKey: "videoFilterText")
+//        UserDefaults.standard.setValue(videoFilterText, forKey: "videoFilterText")
+//        NotificationCenter.default.post(name: NSNotification.Name("videoFilterText"), object: nil)
         
-        NotificationCenter.default.post(name: NSNotification.Name("videoFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -115,6 +115,6 @@ extension KoreanEnglishMathBottomPopUpVC: UITableViewDelegate, UITableViewDataSo
         }
         
         selectItem = indexPath.row
-        delegate?.passSelectedRow(indexPath.row)
+        delegate?.passSelectedRow(indexPath.row, videoFilterText)
     }
 }

@@ -35,7 +35,7 @@ class TeacherPlaylistCell: UICollectionViewCell {
         mainImageView.setImageUrl("\(fileBaseURL)/\(data.sThumbnail ?? "")")
         lectureTitle.text = data.sTitle
         numberOfLecture.text = data.iCount
-        teachername.text = data.sTeacher
+        teachername.text = "\(data.sTeacher!) 선생님"
         tagLabel.text = data.sSubject
         tagLabel.backgroundColor = UIColor(hex: "\(data.sSubjectColor ?? "000000")") 
     }
@@ -56,7 +56,7 @@ class TeacherPlaylistCell: UICollectionViewCell {
         mainImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
         
-        mainImageView.addShadow()
+//        mainImageView.addShadow()
         
         // cornerRadius
         mainImageView.contentMode = .scaleAspectFill
@@ -97,30 +97,43 @@ class TeacherPlaylistCell: UICollectionViewCell {
         // lectureTitle
         lectureTitle.font = UIFont.appBoldFontWith(size: 16)
         lectureTitle.setDimensions(height: 17,
-                                   width: bottomView.frame.width * 0.7)
+                                   width: bottomView.frame.width - 6)
         lectureTitle.anchor(top: bottomView.topAnchor,
                             left: bottomView.leftAnchor,
+                            right: bottomView.rightAnchor,
                             paddingTop: 10,
-                            paddingLeft: 3)
+                            paddingLeft: 0,
+                            paddingRight: 0)
         
         // teachername
         teachername.font = UIFont.appRegularFontWith(size: 12)
-        teachername.setDimensions(height: lectureTitle.frame.height - 2,
-                                  width: 100)
-        teachername.anchor(top: lectureTitle.bottomAnchor,
-                           left: lectureTitle.leftAnchor,
-                           paddingTop: 5,
-                           paddingLeft: 3)
+//        teachername.setDimensions(height: lectureTitle.frame.height - 2,
+//                                  width: 100)
+//        teachername.anchor(top: lectureTitle.bottomAnchor,
+//                           left: lectureTitle.leftAnchor,
+//                           paddingTop: 5,
+//                           paddingLeft: 3)
+        teachername.centerY(inView: tagLabel)
+        teachername.anchor(right: lectureTitle.rightAnchor,
+                           paddingRight: 0)
         
         // tag Label
         tagLabel.clipsToBounds = true
         tagLabel.layer.cornerRadius = 10
         tagLabel.font = UIFont.appBoldFontWith(size: 12)
         
-        tagLabel.centerY(inView: lectureTitle)
-        tagLabel.anchor(right: bottomView.rightAnchor,
-                        paddingRight: 5)
-        tagLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 80).isActive = true
+//        tagLabel.centerY(inView: lectureTitle)
+//        tagLabel.anchor(right: bottomView.rightAnchor,
+//                        paddingRight: 5)
+//        tagLabel.setDimensions(height: 20,
+//                                  width: 56)
+        tagLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        tagLabel.anchor(top: lectureTitle.bottomAnchor,
+                           left: lectureTitle.leftAnchor,
+                           paddingTop: 5,
+                           paddingLeft: 0)
+//        tagLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 90).isActive = true
+//        tagLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
         
     }
 

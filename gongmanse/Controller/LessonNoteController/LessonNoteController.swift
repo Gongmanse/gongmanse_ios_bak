@@ -69,7 +69,7 @@ class LessonNoteViewModel {
         guard let seriesID = self.seriesID else { return }
         
         VideoPlaylistDataManager()
-            .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+            .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)", limit: "20"),
                                                viewController: self)
     }
     
@@ -88,7 +88,7 @@ class LessonNoteViewModel {
         if response.isMore {
             offSet += 20
             VideoPlaylistDataManager()
-                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)"),
+                .getVideoPlaylistDataFromAPIInNote(VideoPlaylistInput(seriesID: seriesID, offset: "\(offSet)", limit: "20"),
                                                    viewController: self)
         }
         
@@ -183,8 +183,7 @@ class LessonNoteController: UIViewController {
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
-    private var noteImageArr = [UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(), UIImage(),
-                                UIImage(), UIImage(), UIImage(), UIImage(), UIImage()]
+    private var noteImageArr: [UIImage] = []
     private var noteImageCount = 0
 //    private var receivedNoteImage: UIImage?
     
@@ -197,6 +196,8 @@ class LessonNoteController: UIViewController {
         let imageView = UIImageView()
         return imageView
     }()
+    private var ct_iv_height : NSLayoutConstraint?
+    var isLoading = false
     
     // 노트필기 객체
     public let canvas = Canvas()
@@ -231,29 +232,34 @@ class LessonNoteController: UIViewController {
     }()
     
     private let redButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "redPencilOff"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "redPencilOn"), for: .selected)
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
+        button.isSelected = true
         return button
     }()
     
     private let greenButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "greenPencilOff"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "greenPencilOn"), for: .selected)
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
     private let blueButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "bluePencilOff"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "bluePencilOn"), for: .selected)
         button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
     private let clearButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "eraserOff"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "eraserOn"), for: .selected)
         button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
         return button
     }()
@@ -331,6 +337,7 @@ class LessonNoteController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         //네비게이션 바 bottom border 제거 후 shadow 효과 적용
+        self.navigationItem.title = "노트 보기"
         self.navigationController?.navigationBar.topItem?.title = "노트 보기"
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
@@ -350,13 +357,15 @@ class LessonNoteController: UIViewController {
             return
         }
         
+        AutoplayDataManager.shared.isAutoPlay = false
+        AutoplayDataManager.shared.videoDataList.removeAll()
+        AutoplayDataManager.shared.videoSeriesDataList.removeAll()
+        VideoDataManager.shared.isFirstPlayVideo = true
+        
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
         let videoID = id
         vc.id = videoID
-        //0711 - added by hp
-        //문제풀이 노트인가를 알수 가 없음
-//            vc.isChangedName = false
         present(vc, animated: true)
     }
     
@@ -385,6 +394,12 @@ class LessonNoteController: UIViewController {
         }
         
         canvas.setStrokeColor(color: pencilColor)
+        
+        redButton.isSelected = false
+        greenButton.isSelected = false
+        blueButton.isSelected = false
+        clearButton.isSelected = false
+        button.isSelected = true
     }
     
     @objc fileprivate func toggleSketchMode() {
@@ -403,7 +418,7 @@ class LessonNoteController: UIViewController {
             writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
 
             canvas.isUserInteractionEnabled = false
-            canvas.alpha = 0
+//            canvas.alpha = 0
             UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
                 self.savingNoteButton.alpha = 0
                 self.previousButton.alpha = 1
@@ -418,7 +433,7 @@ class LessonNoteController: UIViewController {
             writingImplementToggleButton.setImage(#imageLiteral(resourceName: "doubleArrow"), for: .normal)
 
             canvas.isUserInteractionEnabled = true
-            canvas.alpha = 1
+//            canvas.alpha = 1
             UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: []) {
                 self.savingNoteButton.alpha = 1
                 self.previousButton.alpha = 0
@@ -430,6 +445,10 @@ class LessonNoteController: UIViewController {
     }
     
     @objc fileprivate func handleSavingNote() {
+        if !Constant.isLogin || Constant.remainPremiumDateInt == nil {
+            self.presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
+        }
         // canvas 객체로 부터 x,y 위치 정보를 받는다.
         canvas.saveNoteTakingData()
         
@@ -452,11 +471,14 @@ class LessonNoteController: UIViewController {
     
     func getNoteImageFromGuestKeyNoteAPI(response: GuestKeyNoteResponse) {
         // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
-        self.noteImageCount = response.sNotes.count
-        for noteData in 0 ... (self.noteImageCount-1) {
+        noteImageCount = response.sNotes.count
+        if noteImageCount > 0 {
+            getImageFromURL(noteString: response.sNotes, index: 0)
+        }
+        /*for noteData in 0 ... (self.noteImageCount-1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(response.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
-        }
+        }*/
         
     }
     
@@ -474,6 +496,9 @@ class LessonNoteController: UIViewController {
     
     /// 다음 노트를 호출하는 메소드
     @objc func nextButtonDidTap() {
+        if isLoading {
+            return
+        }
         if viewModel.videoIDArr.count == 0 {
             presentAlert(message: "마지막 페이지 입니다.")
         }
@@ -486,6 +511,10 @@ class LessonNoteController: UIViewController {
         
         guard let token = self.token else { return }
         
+        self.noteImageArr.removeAll()
+        self.noteImageCount = 0
+        self.isLoading = true
+        
         id = nextID
         let dataForSearchNote = NoteInput(video_id: nextID,
                                           token: token)
@@ -497,6 +526,9 @@ class LessonNoteController: UIViewController {
     
     /// 이전 노트를 호출하는 메소드
     @objc func previousButtonDidTap() {
+        if isLoading {
+            return
+        }
         let previousID = viewModel.previousVideoID
         if previousID == "BLOCK" {
             presentAlert(message: "첫 페이지 입니다.")
@@ -504,6 +536,10 @@ class LessonNoteController: UIViewController {
         }
         
         guard let token = self.token else { return }
+        
+        self.noteImageArr.removeAll()
+        self.noteImageCount = 0
+        self.isLoading = true
         
         id = previousID
         let dataForSearchNote = NoteInput(video_id: previousID,
@@ -526,6 +562,10 @@ class LessonNoteController: UIViewController {
 //        DetailNoteDataManager().DetailNoteDataManager(dataForSearchNote, viewController: self)
         
         if Constant.isGuestKey {
+            self.noteImageArr.removeAll()
+            self.noteImageCount = 0
+            self.isLoading = true
+            
             GuestKeyDataManager().GuestKeyAPIGetNoteData(videoID: id, viewController: self)
         } else {
             // 노트이미지 불러오는 API메소드
@@ -533,6 +573,9 @@ class LessonNoteController: UIViewController {
             
 //            let videoDataManager = VideoDataManager.shared
 //            guard let currentVideoID = videoDataManager.currentVideoID else { return }
+            self.noteImageArr.removeAll()
+            self.noteImageCount = 0
+            self.isLoading = true
             
             let dataForSearchNote = NoteInput(video_id: id,
                                               token: token)
@@ -570,16 +613,18 @@ class LessonNoteController: UIViewController {
         contentView.backgroundColor = .white
         
         // 배경이 될 imageView를 쌓는다.
-        imageView01.contentMode = .topLeft
+        imageView01.contentMode = .scaleAspectFit
         contentView.addSubview(imageView01)
         imageView01.anchor(top: contentView.topAnchor,
                            left: contentView.leftAnchor,
                            bottom: contentView.bottomAnchor,
                            right: contentView.rightAnchor)
+        ct_iv_height = imageView01.heightAnchor.constraint(equalToConstant: CGFloat(1))
+        ct_iv_height?.isActive = true
         
         // 필기기능을 적용할 View(canvas)를 쌓는다. -> 최상위에 쌓여있는 상태
         contentView.addSubview(canvas)
-        canvas.isUserInteractionEnabled = true
+        canvas.isUserInteractionEnabled = false
         canvas.alpha = 1
         canvas.backgroundColor = .clear
         canvas.anchor(top: contentView.topAnchor,
@@ -590,97 +635,27 @@ class LessonNoteController: UIViewController {
     }
     
     private func setupViews() {
-        // 우선 구현 후, 추후 리펙토링할 예정. 0527
-        // 이미지를 UIImage에 할당한다.
-        var image01 = noteImageArr[0]
-        var image02 = noteImageArr[1]
-        var image03 = noteImageArr[2]
-        var image04 = noteImageArr[3]
-        var image05 = noteImageArr[4]
-        var image06 = noteImageArr[5]
-        var image07 = noteImageArr[6]
-        var image08 = noteImageArr[7]
-        var image09 = noteImageArr[8]
-        var image10 = noteImageArr[9]
-        var image11 = noteImageArr[10]
-        var image12 = noteImageArr[11]
-        var image13 = noteImageArr[12]
+        let canvasWidth = CGFloat(1024) //isLandscapeMode ? _parent.view.frame.height : _parent.view.frame.width
         
-        // 이미지의 크기를 줄인다.
-        let scale = CGFloat(0.45)
-        resize(image: image01, scale: scale) { image in
-            image01 = image!
+        for i in 0 ..< noteImageArr.count {
+            resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
+                self.noteImageArr[i] = image!
+            }
         }
+        if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
         
-        resize(image: image02, scale: scale) { image in
-            image02 = image!
+            //calc content height
+            let height = convertedImage.size.height * contentView.frame.size.width / convertedImage.size.width
+            ct_iv_height?.constant = height
+            imageView01.image = convertedImage
+            
+            self.isLoading = false
         }
-        
-        resize(image: image03, scale: scale) { image in
-            image03 = image!
-        }
-        
-        resize(image: image04, scale: scale) { image in
-            image04 = image!
-        }
-        
-        resize(image: image05, scale: scale) { image in
-            image05 = image!
-        }
-        
-        resize(image: image06, scale: scale) { image in
-            image06 = image!
-        }
-        
-        resize(image: image07, scale: scale) { image in
-            image07 = image!
-        }
-        
-        resize(image: image08, scale: scale) { image in
-            image08 = image!
-        }
-        
-        resize(image: image09, scale: scale) { image in
-            image09 = image!
-        }
-        
-        resize(image: image10, scale: scale) { image in
-            image10 = image!
-        }
-        
-        resize(image: image11, scale: scale) { image in
-            image11 = image!
-        }
-        
-        resize(image: image12, scale: scale) { image in
-            image12 = image!
-        }
-        
-        resize(image: image13, scale: scale) { image in
-            image13 = image!
-        }
-        
-        // 여러 이미지를 하나의 UIImage로 변환한다.
-        let convertedImage = mergeVerticallyImagesIntoImage(images:
-            image01,
-            image02,
-            image03,
-            image04,
-            image05,
-            image06,
-            image07,
-            image08,
-            image09,
-            image10,
-            image11,
-            image12,
-            image13)
-        imageView01.image = convertedImage
     }
     
     private func setupWritingImplement() {
         let width = UIScreen.main.bounds.size.width * 0.5
-        let bottomPadding = UIScreen.main.bounds.size.height * 0.07
+        let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.height * 0.07
         let height = UIScreen.main.bounds.size.height * 0.09
         
         writingImplement.alpha = 1
@@ -815,7 +790,7 @@ class LessonNoteController: UIViewController {
         
         //0713 - added by hp
         //필기도구 버튼 위로 이동
-        let bottomPadding = UIScreen.main.bounds.size.height * 0.07 + 40
+        let bottomPadding = CGFloat(pipHeight + 10)//UIScreen.main.bounds.size.height * 0.07 + 40
         writingImplementYPosition?.constant = -bottomPadding
         savingNoteYPosition?.constant = -bottomPadding
     }
@@ -859,6 +834,8 @@ class LessonNoteController: UIViewController {
         setRemoveNotification()
         // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
         pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
+        
+        dismissPIPView()
         dismiss(animated: false)
     }
     
@@ -878,7 +855,7 @@ class LessonNoteController: UIViewController {
     @objc func xButtonDidTap() {
         
         pipVC?.player?.pause()
-        pipVC?.player = nil
+//        pipVC?.player = nil //감추기만 하고 없애지는 말자
         
         UIView.animate(withDuration: 0.22, animations: {
             self.pipContainerView.alpha = 0
@@ -886,7 +863,7 @@ class LessonNoteController: UIViewController {
         
         //0713 - added by hp
         //필기도구 버튼 아래로 이동
-        let bottomPadding = UIScreen.main.bounds.size.height * 0.07
+        let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.height * 0.07
         writingImplementYPosition?.constant = -bottomPadding
         savingNoteYPosition?.constant = -bottomPadding
     }
@@ -904,10 +881,13 @@ extension LessonNoteController {
         
         // 노트 이미지를 가져오기 위한 로직으로 한글 URL 변경작업을 한다.
         noteImageCount = data.sNotes.count
-        for noteData in 0 ... (noteImageCount - 1) {
+        if noteImageCount > 0 {
+            getImageFromURL(noteData: data, index: 0)
+        }
+        /*for noteData in 0 ... (noteImageCount - 1) {
             let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
             getImageFromURL(url: convertedURL, index: noteData)
-        }
+        }*/
         
         // MARK: 노트필기를 불러오는 로직
 
@@ -948,18 +928,84 @@ extension LessonNoteController {
                         xyPoints.append(xyPoint)
                     }
                     //                        print("DEBUG: xyPoint데이터 \n\(xyPoints)")
-                    let line = Line(strokeWidth: 0.5, color: penColor, points: xyPoints)
+                    let line = Line(strokeWidth: 2, color: penColor, points: xyPoints)
                     previousNoteTakingData.append(line)
                     //                        print("DEBUG: line데이터 \(line)")
                 }
             }
         }
         
-        canvas.lines = previousNoteTakingData // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
-//        print("DEBUG: previousNoteTakingData \n\(previousNoteTakingData)")
+//        canvas.lines = previousNoteTakingData // 이전에 필기한 노트정보를 canvas 인스턴스에 전달한다.
+        canvas.setLines(previousNoteTakingData)
     }
     
-    private func getImageFromURL(url: String, index: Int) {
+    private func getImageFromURL(noteData: NoteData, index: Int) {
+        let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(noteData.sNotes[index])")
+        if let url = URL(string: convertedURL) {
+            let task = URLSession.shared.dataTask(with: url) { data, _, error in
+                guard let data = data, error == nil else {
+                    if noteData.sNotes.count > index + 1 {
+                        self.getImageFromURL(noteData: noteData, index: index + 1)
+                    } else {
+                        self.setupViews()
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    let resultImage = UIImage(data: data)!
+                    self.noteImageArr.append(resultImage)
+                    
+                    if noteData.sNotes.count > index + 1 {
+                        self.getImageFromURL(noteData: noteData, index: index + 1)
+                    } else {
+                        self.setupViews()
+                    }
+                }
+            }
+            task.resume()
+        } else {
+            if noteData.sNotes.count > index + 1 {
+                self.getImageFromURL(noteData: noteData, index: index + 1)
+            } else {
+                self.setupViews()
+            }
+        }
+    }
+    
+    private func getImageFromURL(noteString: [String], index: Int) {
+        let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(noteString[index])")
+        if let url = URL(string: convertedURL) {
+            let task = URLSession.shared.dataTask(with: url) { data, _, error in
+                guard let data = data, error == nil else {
+                    if noteString.count > index + 1 {
+                        self.getImageFromURL(noteString: noteString, index: index + 1)
+                    } else {
+                        self.setupViews()
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    let resultImage = UIImage(data: data)!
+                    self.noteImageArr.append(resultImage)
+                    
+                    if noteString.count > index + 1 {
+                        self.getImageFromURL(noteString: noteString, index: index + 1)
+                    } else {
+                        self.setupViews()
+                    }
+                }
+            }
+            task.resume()
+        } else {
+            if noteString.count > index + 1 {
+                self.getImageFromURL(noteString: noteString, index: index + 1)
+            } else {
+                self.setupViews()
+            }
+        }
+    }
+    
+    /*private func getImageFromURL(url: String, index: Int) {
         var resultImage = UIImage()
         
         if let url = URL(string: url) {
@@ -973,7 +1019,7 @@ extension LessonNoteController {
             }
             task.resume()
         }
-    }
+    }*/
 }
 
 // MARK: - CanvasDelegate

@@ -34,14 +34,14 @@ class SelectVideoPlayRateVC: BottomPopupViewController {
     
     private let popupImageView: UIImageView = {
         let imageView = UIImageView()
-        let image = UIImage(systemName: "slider.horizontal.3")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let image = UIImage(named: "popup_play_speed")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         imageView.image = image
         return imageView
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "설정"
+        label.text = "재생 속도"
         label.font = UIFont.appBoldFontWith(size: 14)
         return label
     }()
@@ -158,16 +158,28 @@ extension SelectVideoPlayRateVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.cellLabel.text = "1.5배"
+            cell.cellLabel.textColor = currentVideoPlayRate == 1.5 ? .mainOrange : .black
+            cell.leftImageView.isHidden = currentVideoPlayRate != 1.5
         case 1:
             cell.cellLabel.text = "1.25배"
+            cell.cellLabel.textColor = currentVideoPlayRate == 1.25 ? .mainOrange : .black
+            cell.leftImageView.isHidden = currentVideoPlayRate != 1.25
         case 2:
             cell.cellLabel.text = "기본"
+            cell.cellLabel.textColor = currentVideoPlayRate == 1.0 ? .mainOrange : .black
+            cell.leftImageView.isHidden = currentVideoPlayRate != 1.0
         case 3:
             cell.cellLabel.text = "0.75배"
+            cell.cellLabel.textColor = currentVideoPlayRate == 0.75 ? .mainOrange : .black
+            cell.leftImageView.isHidden = currentVideoPlayRate != 0.75
         case 4:
             cell.cellLabel.text = "0.5배"
+            cell.cellLabel.textColor = currentVideoPlayRate == 0.5 ? .mainOrange : .black
+            cell.leftImageView.isHidden = currentVideoPlayRate != 0.5
         default:
             cell.cellLabel.text = "기본"
+            cell.cellLabel.textColor = currentVideoPlayRate == 1.0 ? .mainOrange : .black
+            cell.leftImageView.isHidden = currentVideoPlayRate != 1.0
         }
         
         return cell

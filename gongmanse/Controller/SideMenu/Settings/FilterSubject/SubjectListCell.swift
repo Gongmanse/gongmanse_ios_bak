@@ -10,6 +10,7 @@ import UIKit
 class SubjectListCell: UITableViewCell {
 
     @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var ivChk: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

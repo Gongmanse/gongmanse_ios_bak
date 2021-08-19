@@ -66,7 +66,8 @@ extension EnquiryUpdateDeleteVC {
         }
         
         typeTextLabel.text = qnaModel.typeConvert
-        questionLabel.text = qnaModel.sQuestion
+//        questionLabel.text = qnaModel.sQuestion
+        questionLabel.attributedText = qnaModel.sQuestion.htmlToAttributedString
         stateLabel.text = qnaModel.answerStates
         stateLabel.textColor = .white
         stateLabel.backgroundColor = qnaModel.answerBackgroundColor
@@ -75,7 +76,12 @@ extension EnquiryUpdateDeleteVC {
         dateLabel.text = qnaModel.dateConvert
         dateLabel.textColor = .rgb(red: 128, green: 128, blue: 128)
         
-        answerLabel.text = qnaModel.sAnswer ?? "답변을 기다리는 중입니다."
+//        answerLabel.text = qnaModel.sAnswer ?? "답변을 기다리는 중입니다."
+        if let answer = qnaModel.sAnswer {
+            answerLabel.attributedText = answer.htmlToAttributedString
+        } else {
+            answerLabel.text = "답변을 기다리는 중입니다."
+        }
         
         // 질문 >, 수정, 삭제
         enquriyText.text = "질문 >"

@@ -15,11 +15,11 @@ class BottomPlaylistTVCell: UITableViewCell {
     
     // Data
     var cellVideoID: String?
-    var viewModel: VideoPlaylistVCViewModel? {
-        didSet {
-//            updateUI()
-        }
-    }
+//    var viewModel: VideoPlaylistVCViewModel? {
+//        didSet {
+////            updateUI()
+//        }
+//    }
     
     var cellData: PlayListData? {
         didSet {
@@ -84,7 +84,7 @@ class BottomPlaylistTVCell: UITableViewCell {
 
         if let cellData = self.cellData {
             self.videoTitle.text = cellData.sTitle
-            self.teachersName.text = cellData.sTeacher
+            self.teachersName.text = "\(cellData.sTeacher) 선생님"
             self.subjects.text = cellData.sSubject
             self.term.text = cellData.sUnit
             self.term.isHidden = cellData.sUnit.count < 2 ? true : false
@@ -96,7 +96,7 @@ class BottomPlaylistTVCell: UITableViewCell {
         if let autoPlayData = self.autoPlayData {
             
             self.videoTitle.text = autoPlayData.title ?? ""
-            self.teachersName.text = autoPlayData.teacherName
+            self.teachersName.text = "\(autoPlayData.teacherName!) 선생님"
             self.subjects.text = autoPlayData.subject
             self.term.text = autoPlayData.unit
             
@@ -105,18 +105,11 @@ class BottomPlaylistTVCell: UITableViewCell {
             }
             self.term.isHidden = true
             
-            if autoPlayDataManager.isAutoplaySearchTab ||
-                autoPlayDataManager.isAutoplayRecentTab ||
-                autoPlayDataManager.isAutoplayBookMarkTab {
-                let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
-                let url = URL(string: "\(fileBaseURL)/" + urlString)
-                self.videoThumbnail.sd_setImage(with: url, completed: nil)
-                return
-            }
-
-            
             let urlString = makeStringKoreanEncoded((autoPlayData.thumbnail ?? ""))
-            let url = URL(string: urlString)
+            var url = URL(string: urlString)
+            if !urlString.hasPrefix(fileBaseURL) {
+                url = URL(string: "\(fileBaseURL)/" + urlString)
+            }
             
             self.videoThumbnail.sd_setImage(with: url, completed: nil)
         }

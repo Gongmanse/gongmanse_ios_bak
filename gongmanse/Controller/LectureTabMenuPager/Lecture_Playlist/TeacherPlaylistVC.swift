@@ -95,7 +95,7 @@ class TeacherPlaylistVC: UIViewController {
         navigationItem.title = "강사별 강의"
         
         // teachername
-        teachername.setDimensions(height: upperView.frame.height * 0.286,
+        /*teachername.setDimensions(height: upperView.frame.height * 0.286,
                                   width: upperView.frame.width * 0.272)
         teachername.anchor(top: upperView.topAnchor,
                            left: upperView.leftAnchor,
@@ -107,25 +107,25 @@ class TeacherPlaylistVC: UIViewController {
                                        width: teachername.frame.width * 0.5)
         numberOfPlaylist.anchor(top: teachername.bottomAnchor,
                                 left: teachername.leftAnchor,
-                                paddingTop: 5)
+                                paddingTop: 5)*/
 
         
         
         // subjectLabel
-        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.font = .appBoldFontWith(size: 8)
         subjectLabel.textColor = .white
 
         // gradeLabel
         gradeLabel.backgroundColor = .white
-        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.font = .appBoldFontWith(size: 8)
         gradeLabel.clipsToBounds = true
-        gradeLabel.layer.cornerRadius = 8.5
+        gradeLabel.layer.cornerRadius = 9
         gradeLabel.textColor = UIColor(hex: lecturelist?.sSubjectColor ?? "000000")
         
         // subjectColor
         colorView.backgroundColor = .mainOrange
         colorView.layer.cornerRadius = colorView.frame.size.height / 2
-        colorView.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        colorView.layoutMargins = UIEdgeInsets(top: 3, left: 10, bottom: 3, right: 10)
         colorView.isLayoutMarginsRelativeArrangement = true
         
 

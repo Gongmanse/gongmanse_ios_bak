@@ -15,19 +15,8 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     
     // TODO: 추후에 "나의 설정" 완성 시, 설정값을 이 프로퍼티로 할당할 것.
     /// 설정창에서 등록한 Default 학년 / 과목으로 변경 시, API를 그에 맞게 호출하는 연산프로퍼티
-    var selectedItem: Int? {
-        didSet {
-            listCount = 0
-            getDataFromJson()
-        }
-    }
-    
-    var sortedId: Int? {
-        didSet {
-            listCount = 0
-            getDataFromJson()
-        }
-    }
+    var selectedItem: Int?
+    var sortedId: Int? 
     
     var pageIndex: Int!
     var scienceVideo: VideoInput?
@@ -49,10 +38,6 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     var inputFilterNum = 0
     var inputSortNum = 4
     var noteShow: FilterVideoModels?
-    
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
     
     private let cellIdentifier = "KoreanEnglishMathAllSeriesCell"
     
@@ -82,7 +67,6 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         
         getDataFromJson()
         getDataFromJsonSecond()
-        getDataFromJsonVideo()
         textInput()
         cornerRadius()
         ChangeSwitchButton()
@@ -90,8 +74,8 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         autoPlayLabel.isHidden = true
         playSwitch.isHidden = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(videoFilterNoti(_:)), name: NSNotification.Name("videoFilterText"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(rateFilterNoti(_:)), name: NSNotification.Name("rateFilterText"), object: nil)
         
         playSwitch.addTarget(self, action: #selector(playSwitchValueChanged(_:)), for: .valueChanged)
         
@@ -99,15 +83,15 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         scienceCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
     }
     
-    @objc func videoFilterNoti(_ sender: NotificationCenter) {
-        let filterButtonTitle = UserDefaults.standard.object(forKey: "videoFilterText")
-        selectBtn.setTitle(filterButtonTitle as? String, for: .normal)
-    }
+//    @objc func videoFilterNoti(_ sender: NotificationCenter) {
+//        let filterButtonTitle = UserDefaults.standard.object(forKey: "videoFilterText")
+//        selectBtn.setTitle(filterButtonTitle as? String, for: .normal)
+//    }
     
-    @objc func rateFilterNoti(_ sender: NotificationCenter) {
-        let rateFilterButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
-        filteringBtn.setTitle(rateFilterButtonTitle as? String, for: .normal)
-    }
+//    @objc func rateFilterNoti(_ sender: NotificationCenter) {
+//        let rateFilterButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
+//        filteringBtn.setTitle(rateFilterButtonTitle as? String, for: .normal)
+//    }
     
     func textInput() {
         //label에 지정된 text 넣기
@@ -131,30 +115,6 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.scienceCollection.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     //API 호출
@@ -187,7 +147,56 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
             inputSortNum = 4
         }
         
-        if let url = URL(string: Science_Video_URL + "offset=\(listCount)&limit=20&sortId=\(inputSortNum)&type=\(inputFilterNum)") {
+        if inputFilterNum == 2 {
+            if let url = URL(string: apiBaseURL + "/v/video/byseries?category_id=36&offset=\(listCount)&limit=20") {
+                var request = URLRequest.init(url: url)
+                request.httpMethod = "GET"
+                
+                if listCount == 0 {
+                    URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        guard let data = data else { return }
+                        let decoder = JSONDecoder()
+                        
+                        if let json = try? decoder.decode(HomeSeriesModel.self, from: data) {
+                            var videoInput = VideoInput(header: nil, body: [])
+                            videoInput.header = HeaderData(resultMsg: "성공", totalRows: String(json.totalNum), isMore: "true")
+                            
+                            for i in 0 ..< json.data.count {
+                                let item = json.data[i]
+                                videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: "", title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: item.iCount))
+                            }
+                            self.scienceVideo = videoInput
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.scienceCollection.reloadData()
+                            self.textSettings()
+                        }
+                        
+                    }.resume()
+                } else {
+                    URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        guard let data = data else { return }
+                        let decoder = JSONDecoder()
+                        
+                        if let json = try? decoder.decode(HomeSeriesModel.self, from: data) {
+                            //                        guard let isMores = json.header?.isMore else { return}
+                            //                        self.isMoreBool = Bool(isMores) ?? false
+                            for i in 0..<json.data.count {
+                                let item = json.data[i]
+                                self.scienceVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: "", title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: item.iCount))
+                            }
+                            
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.scienceCollection.reloadData()
+                        }
+                        
+                    }.resume()
+                }
+            }
+        } else if let url = URL(string: Science_Video_URL + "offset=\(listCount)&limit=20&sortId=\(inputFilterNum == 1 ? 2 : inputSortNum)&type=\(inputFilterNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -198,7 +207,6 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
                     if let json = try? decoder.decode(VideoInput.self, from: data) {
                         
                         self.scienceVideo = json
-                        self.autoPlayDataManager.videoDataInScienceTab = json
                     }
                     DispatchQueue.main.async {
                         self.scienceCollection.reloadData()
@@ -232,7 +240,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     
     func getDataFromJsonSecond() {
         
-        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=36&offset=\(listCount)&commentary=\(inputFilterNum)&sort_id=\(inputSortNum)&limit=20") {
+        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=36&offset=\(listCount)&commentary=\(inputFilterNum)&sort_id=\(inputFilterNum == 1 ? 2 : inputSortNum)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -275,13 +283,14 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     func textSettings() {
         guard let value = self.scienceVideo?.header else { return }
         
-        self.videoTotalCount.text = "총 \(value.totalRows ?? "nil")개"
+        let strCount = value.totalRows?.withCommas() ?? "0"
+        self.videoTotalCount.text = "총 \(strCount)개"
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: videoTotalCount.text!, attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .medium), .foregroundColor: UIColor.black])
         
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14, weight: .medium), range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: value.totalRows!))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (videoTotalCount.text! as NSString).range(of: strCount))
         
         self.videoTotalCount.attributedText = attributedString
     }
@@ -311,7 +320,6 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     
     @objc func playSwitchValueChanged(_ sender: UISwitch) {
         // 싱글톤 객체에 현재 "과학" 과목의 자동재생여부를 위한 Boolean값을 입력한다.
-        autoPlayDataManager.isAutoplayScience = sender.isOn
     }
     
     @IBAction func selectMenuBtn(_ sender: Any) {
@@ -358,7 +366,7 @@ extension ScienceVC: UICollectionViewDataSource {
             cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
             cell.subjects.text = indexData.subject
             cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
-            cell.starRating.text = indexData.rating
+            cell.starRating.text = indexData.rating?.withDouble() ?? "0.0"
             cell.videoPlayButton.addTarget(self, action: #selector(videoPlay(_:)), for: .touchUpInside)
             cell.videoPlayButton.isHidden = true
             cell.videoPlayButton.tag = indexPath.row
@@ -463,6 +471,11 @@ extension ScienceVC: UICollectionViewDataSource {
             
             //            guard let selectedVideoIndex = self.selectedRow else { return }
             //            print("slectedRow is \(selectedVideoIndex)")
+            AutoplayDataManager.shared.isAutoPlay = false
+            AutoplayDataManager.shared.currentIndex = -1
+            AutoplayDataManager.shared.videoDataList.removeAll()
+            AutoplayDataManager.shared.videoSeriesDataList.removeAll()
+            
             let vc = VideoController()
             vc.id = data[sender.tag].videoId
             vc.modalPresentationStyle = .fullScreen
@@ -487,14 +500,13 @@ extension ScienceVC: UICollectionViewDelegate {
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
             
-        } else if indexVideoData.source_url != nil {
+        } else {
             
             // 시리즈보기: self.selectedItem == 1
             // 문제풀이: self.selectedItem == 2
@@ -507,12 +519,21 @@ extension ScienceVC: UICollectionViewDelegate {
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 vc.id = videoID
                 let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
-                vc.scienceSeriesId = seriesID
-                vc.scienceSwitchValue = playSwitch
-                vc.scienceReceiveData = scienceVideo
-                vc.scienceSelectedBtn = selectBtn
-                vc.scienceViewTitle = "과학 강의"
+//                vc.scienceSeriesId = seriesID
+//                vc.scienceSwitchValue = playSwitch
+//                vc.scienceReceiveData = scienceVideo
+//                vc.scienceSelectedBtn = selectBtn
+//                vc.scienceViewTitle = "과학 강의"
+                
                 autoPlayDataManager.currentViewTitleView = "과학"
+                autoPlayDataManager.currentFiltering = "전체보기"
+                autoPlayDataManager.currentSort = self.sortedId ?? 0
+                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                autoPlayDataManager.videoDataList.removeAll()
+                autoPlayDataManager.videoDataList.append(contentsOf: scienceVideo!.body)
+                autoPlayDataManager.videoSeriesDataList.removeAll()
+                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                
                 present(vc, animated: true)
                 
                 
@@ -534,15 +555,23 @@ extension ScienceVC: UICollectionViewDelegate {
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 vc.id = videoID
                 let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
-                vc.scienceSeriesId = seriesID
-                vc.scienceSwitchValue = playSwitch
-                vc.scienceReceiveData = scienceVideo
-                vc.scienceSelectedBtn = selectBtn
-                //                vc.koreanViewTitle = viewTitle.text
-                vc.scienceViewTitle = "과학"
+//                vc.scienceSeriesId = seriesID
+//                vc.scienceSwitchValue = playSwitch
+//                vc.scienceReceiveData = scienceVideo
+//                vc.scienceSelectedBtn = selectBtn
+//                //                vc.koreanViewTitle = viewTitle.text
+//                vc.scienceViewTitle = "과학"
                 //                autoplayDataManager.currentViewTitleView = "국영수 강의"
-                let autoDataManager = AutoplayDataManager.shared
-                autoDataManager.currentFiltering = "문제 풀이"
+                
+                autoPlayDataManager.currentViewTitleView = "과학"
+                autoPlayDataManager.currentFiltering = "문제풀이"
+                autoPlayDataManager.currentSort = 2
+                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                autoPlayDataManager.videoDataList.removeAll()
+                autoPlayDataManager.videoDataList.append(contentsOf: scienceVideo!.body)
+                autoPlayDataManager.videoSeriesDataList.removeAll()
+                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                
                 present(vc, animated: true)
                 print("DEBUG: 2번")
                 // 노트보기
@@ -689,10 +718,10 @@ extension ScienceVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width - 40
+        let width = view.frame.width - 20
         
         //0707 - edited by hp
-        return CGSize(width: width, height: (width / 16 * 9 + 70))
+        return CGSize(width: width, height: ((width - 20) / 16 * 9 + 70))
     }
 }
 
@@ -700,7 +729,8 @@ extension ScienceVC: UICollectionViewDelegateFlowLayout {
 /// 필터 메뉴를 클릭하면, 호출되는 메소드 구현을 위한 `extension`
 extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAlignmentVCDelegate {
     
-    func passSortedIdRow(_ sortedIdRowIndex: Int) {
+    func passSortedIdRow(_ sortedIdRowIndex: Int, _ rateFilterText: String) {
+        filteringBtn.setTitle(rateFilterText, for: .normal)
         
         if sortedIdRowIndex == 2 {          // 1 번째 Cell
             self.sortedId = 2 // 평점순
@@ -713,11 +743,16 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         }
         
         self.delegate?.sciencePassSortedIdSettingValue(sortedIdRowIndex)
+        
+        self.scienceVideo?.body.removeAll()
         self.scienceCollection.reloadData()
+        listCount = 0
+        getDataFromJson()
         
     }
     
-    func passSelectedRow(_ selectedRowIndex: Int) {
+    func passSelectedRow(_ selectedRowIndex: Int, _ videoFilterText: String) {
+        selectBtn.setTitle(videoFilterText, for: .normal)
         
         if selectedRowIndex == 0 {
             self.selectedItem = 0 // 전체 보기
@@ -734,6 +769,9 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         // 변경된 selectedItem으로 다시 API를 호출한다.
         //        getDataFromJson()
         // collectionview를 업데이트한다.
+        self.scienceVideo?.body.removeAll()
         self.scienceCollection.reloadData()
+        listCount = 0
+        getDataFromJson()
     }
 }

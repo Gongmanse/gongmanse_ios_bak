@@ -78,6 +78,8 @@ extension VideoController {
         videoDataManager.removeVideoLastLog()
         PIPDataManager.shared.currentVideoTime = 0
         
+        controllerTimer?.invalidate()
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -92,6 +94,19 @@ extension VideoController {
 //        }
     }
     
+    //재실행
+    @objc func replayPlayer() {
+        self.replayButton.alpha = 0
+        
+        self.setRemoveNotification()
+        self.setNotification()
+        
+        self.isStartVideo = false
+        self.isEndVideo = false
+        self.playInOutroVideo(1)
+        self.backButton.alpha = 1
+    }
+    
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
     @objc func playPausePlayer() {
         let playImage = UIImage(named: "영상재생버튼")
@@ -104,7 +119,7 @@ extension VideoController {
             
         } else {
             playPauseButton.setBackgroundImage(pauseImage, for: .normal)
-            player.play()
+            player.playImmediately(atRate: currentVideoPlayRate)
         }
     }
     
@@ -132,53 +147,37 @@ extension VideoController {
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func playerItemDidReachEnd(notification: NSNotification) {
 //        player.seek(to: CMTime.zero)
-
-        let autoPlayDataManager = AutoplayDataManager.shared
-        
-        if autoPlayDataManager.currentViewTitleView == "국영수" {
-            if autoPlayDataManager.isAutoplayMainSubject {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "국영수", autoPlayDataManager.currentFiltering == "문제 풀이" {
-            if autoPlayDataManager.isAutoplayMainSubject {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "과학" {
-            if autoPlayDataManager.isAutoplayScience {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "사회" {
-            if autoPlayDataManager.isAutoplaySocialStudy {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "기타" {
-            if autoPlayDataManager.isAutoplayOtherSubjects {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "검색" {
-            if autoPlayDataManager.isAutoplaySearchTab {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "최근영상" {
-            if autoPlayDataManager.isAutoplayRecentTab {
-                autoPlayVideo()
-                return
-            }
-        } else if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
-            if autoPlayDataManager.isAutoplayBookMarkTab {
-                autoPlayVideo()
-                return
-            }
+        if isStartVideo == false { //인트로 동영상 종료
+            self.backButton.alpha = 0
+            isStartVideo = true
+            AppDelegate.AppUtility.lockOrientation(.all)
+            
+            self.playVideo()
+        } else if isEndVideo == false { //기본 영상 종료
+            isEndVideo = true
+            removePeriodicTimeObserver()
+            self.playInOutroVideo(2)
+            self.replayButton.alpha = 1
+            self.backButton.alpha = 1
+        } else { //아웃트로 동영상 종료
+            self.replayButton.alpha = 0
+            self.backButton.alpha = 0
+            setRemoveNotification()
+            
+            autoPlayVideo()
         }
-
-        setRemoveNotification()
-        removePeriodicTimeObserver()
+        
+        
+//        setRemoveNotification()
+//        removePeriodicTimeObserver()
+//
+//        //아웃트로 추가
+//        let vc = IntroController()
+//        vc._type = 2 // 1. intro, 2. outro
+//        vc.delegate = self
+//        vc.modalPresentationStyle = .overFullScreen
+//        vc.modalTransitionStyle = .crossDissolve
+//        present(vc, animated: true, completion: nil)
     }
 
     func autoPlayVideo() {
@@ -188,80 +187,49 @@ extension VideoController {
         // videoID를 "DetailVideoDataManager"에 할당한다.
         // 영상이 실행된다.
         
-        let autoPlayDataManager = AutoplayDataManager.shared
-        
-        var endIndex = 10
-        var currentIndex = 1
-        var videoID = "15188"
-        
-        if autoPlayDataManager.currentViewTitleView == "국영수" {
-            endIndex = autoPlayDataManager.videoDataInMainSubjectsTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInMainSubjectsTab)
-            videoID = autoPlayDataManager.videoDataInMainSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "국영수", autoPlayDataManager.currentFiltering == "문제 풀이" {
-            endIndex = autoPlayDataManager.videoDataInProblemTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInProblemTab)
-            videoID = autoPlayDataManager.videoDataInProblemTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "과학" {
-            endIndex = autoPlayDataManager.videoDataInScienceTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInScienceTab)
-            videoID = autoPlayDataManager.videoDataInScienceTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "사회" {
-            endIndex = autoPlayDataManager.videoDataInSocialStudyTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInSocialStudyTab)
-            videoID = autoPlayDataManager.videoDataInSocialStudyTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "기타" {
-            endIndex = autoPlayDataManager.videoDataInOtherSubjectsTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInOtherSubjectsTab)
-            videoID = autoPlayDataManager.videoDataInOtherSubjectsTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "검색" {
-            endIndex = autoPlayDataManager.videoDataInSearchTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInSearchTab)
-            videoID = autoPlayDataManager.videoDataInSearchTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "최근영상" {
-            endIndex = autoPlayDataManager.videoDataInRecentVideoMyActTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInRecentVideoMyActTab)
-            videoID = autoPlayDataManager.videoDataInRecentVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
-            
-        } else if autoPlayDataManager.currentViewTitleView == "즐겨찾기" {
-            endIndex = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body.endIndex ?? 3
-            currentIndex = findCurrentIndexPath(videoData: autoPlayDataManager.videoDataInBookMarkVideoMyActTab)
-            videoID = autoPlayDataManager.videoDataInBookMarkVideoMyActTab?.body[currentIndex + 1].videoId ?? "15188"
-        }
-        
-        if currentIndex == endIndex {
+        //로그인 체크한다
+        if !Constant.isLogin {
+            let pvc = self.presentingViewController!
+            dismiss(animated: true) {
+                pvc.presentAlert(message: "로그인 후 사용해 주세요.")
+            }
             return
         }
-
-        let input = DetailVideoInput(video_id: videoID, token: Constant.token)
         
-        // 영상을 실행하는 API 메소드
-        DetailVideoDataManager().DetailVideoDataManager(input,
-                                                        viewController: self)
-    }
-    
-    /// 현재 VideID 인덱스를 찾는 메소드
-    func findCurrentIndexPath(videoData: VideoInput?) -> Int {
+        var nextVideoID = "" //다음 동영상ID
         let autoPlayDataManager = AutoplayDataManager.shared
         
-        var currentVideoIndexPath = Int()
-        
-        for (index, data) in videoData!.body.enumerated() {
-            let currentID = videoDataManager.currentVideoID
-            let autoPlayID = data.videoId
-            
-            if currentID == autoPlayID {
-                currentVideoIndexPath = index
+        if autoPlayDataManager.isAutoPlay {
+            for i in 0 ..< autoPlayDataManager.videoDataList.count {
+                if autoPlayDataManager.videoDataList[i].videoId == videoDataManager.currentVideoID && i != autoPlayDataManager.videoDataList.count - 1 {
+                    nextVideoID = autoPlayDataManager.videoDataList[i + 1].videoId ?? ""
+                }
+            }
+        } else {
+            for i in 0 ..< autoPlayDataManager.videoSeriesDataList.count {
+                if autoPlayDataManager.videoSeriesDataList[i].id == videoDataManager.currentVideoID && i != autoPlayDataManager.videoSeriesDataList.count - 1 {
+                    nextVideoID = autoPlayDataManager.videoSeriesDataList[i + 1].id ?? ""
+                }
             }
         }
+        if nextVideoID.isEmpty {
+//            dismiss(animated: true, completion: nil)
+            self.replayButton.alpha = 1
+            self.backButton.alpha = 1
+            return
+        }
         
-        return currentVideoIndexPath
+        
+        let inputData = DetailVideoInput(video_id: nextVideoID,
+                                         token: Constant.token)
+        
+        self.id = nextVideoID
+        // "상세화면 영상 API"를 호출한다.
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self, showIntro: true, refreshList: false)
+        
+        //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
+        loadBottomNote(true)
+        loadBottomQnA()
     }
 }
 
@@ -346,7 +314,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         for _ in 0...11 { sTagsRanges.append(Range<Int>(100...103)) }
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
-        player.addPeriodicTimeObserver(
+        self.timeObserverToken = player.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
@@ -436,8 +404,54 @@ extension VideoController: AVPlayerViewControllerDelegate {
             })
     }
     
+    func playInOutroVideo(_ _type: Int) {
+        //컨트롤러를 숨기자
+        if blackViewOncontrolMode.backgroundColor == .black {
+            self.targetViewDidTapped()
+        }
+        
+        subtitleLabel.isHidden = true
+        playerController.delegate = self
+        
+        let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: _type == 1 ? "비율수정인트로영상" : "gong_outro1",
+                                                            ofType: "mov")!)
+        
+        // Random Intro 적용할 때, 사용할 코드
+        let introURL02 = URL(fileURLWithPath:Bundle.main.path(forResource: _type == 1 ? "인트로영상01" : "gong_outro2",
+                                                            ofType: "mov")!)
+        let introArr = [introURL, introURL02]
+        let resultIntro = introArr.randomElement() ?? introURL
+        
+        player = AVPlayer(url: resultIntro)
+        playerController.player = player
+//
+        // AVPlayerController를 "ViewController" childController로 등록한다.
+        addChild(playerController)
+
+        let convertedHeight = convertHeight(231, standardView: view)
+        let convertedConstant = convertHeight(65.45, standardView: view)
+
+        playerController.view.setDimensions(height: view.frame.width * 0.57,
+                                            width: view.frame.width)
+        playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
+                                             height: convertedHeight - convertedConstant)
+        playerController.view.contentMode = .scaleToFill
+//
+        playerController.didMove(toParent: self)
+        
+        DispatchQueue.main.async {
+            self.player.play()
+        }
+        player.isMuted = false
+    }
+    
     /// View 최상단 영상 시작 메소드
     func playVideo() {
+        if self.videoURL!.absoluteString!.isEmpty {
+            ///인트로가 끝나더라도 동영상 데이터를 아직 불러오지 못한 경우
+            return
+        }
+        subtitleLabel.isHidden = false
         playerController.delegate = self
         
 //        self.asset = AVAsset(url: videoURL! as URL)
@@ -509,18 +523,19 @@ extension VideoController: AVPlayerViewControllerDelegate {
         DispatchQueue.main.async {
             //0711 - added by hp
             if let pipData = self.pipData {
-                if pipData.currentVideoTime != 0.0 && self.videoDataManager.previousVideoID == self.id {
+                if !pipData.currentVideoTime.isNaN && pipData.currentVideoTime != 0.0 && self.videoDataManager.previousVideoID == self.id {
                     let seconds: Int64 = Int64(pipData.currentVideoTime)
                     let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
                     self.player.seek(to: targetTime)
                     self.pipData?.currentVideoTime = 0.0 //reset
+                    PIPDataManager.shared.currentVideoTime = 0
                 }
             }
             self.player.play()
         }
         
-        pageCollectionView.reloadData()
-        pageCollectionView.setNeedsDisplay()
+//        pageCollectionView.reloadData()
+//        pageCollectionView.setNeedsDisplay()
         player.isMuted = false
     }
     
@@ -538,7 +553,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
-                                         paddingBottom: 25)
+                                         paddingBottom: 30)
         // backButton
         
         // safearea영역에 생겨 클릭이 불가능했던것을 수정
@@ -549,7 +564,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                           paddingLeft: 10)
         backButton.addTarget(self, action: #selector(handleBackButtonAction),
                              for: .touchUpInside)
-        backButton.alpha = 1
+        backButton.alpha = 0
         backButton.setDimensions(height: 30, width: 30)
         
         // 타임라인 timerSlider
@@ -564,17 +579,16 @@ extension VideoController: AVPlayerViewControllerDelegate {
         videoControlContainerView.addSubview(currentTimeLabel)
         currentTimeLabel.centerY(inView: timeSlider)
         currentTimeLabel.anchor(right: timeSlider.leftAnchor,
-                                paddingRight: 5,
+                                paddingRight: 15,
                                 height: 13)
         // 종료시간을 나타내는 레이블
         videoControlContainerView.addSubview(endTimeTimeLabel)
         endTimeTimeLabel.centerY(inView: timeSlider)
         endTimeTimeLabel.anchor(left: timeSlider.rightAnchor,
-                                paddingLeft: 5,
+                                paddingLeft: 15,
                                 height: 13)
         // Orientation 변경하는 버튼
         videoControlContainerView.addSubview(changeOrientationButton)
-        changeOrientationButton.setDimensions(height: 50, width: 50)
         changeOrientationButton.centerY(inView: timeSlider)
         changeOrientationButton.anchor(left: endTimeTimeLabel.rightAnchor,
                                        paddingLeft: 2)
@@ -599,6 +613,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
     @objc func targetViewDidTapped() {
         if blackViewOncontrolMode.backgroundColor == .black {
+            controllerTimer?.invalidate()
+            
             UIView.animate(withDuration: 0.22, animations: {
                 self.blackViewOncontrolMode.backgroundColor = .clear
                 self.videoControlContainerView.alpha = 0
@@ -607,9 +623,13 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.videoBackwardTimeButton.alpha = 0
                 self.videoSettingButton.alpha = 0
                 self.subtitleToggleButton.alpha = 0
+                self.backButton.alpha = 0
             }, completion: nil)
             
         } else {
+            if !self.isStartVideo || self.isEndVideo { //인아웃트로 중에는 막자
+                return
+            }
             UIView.animate(withDuration: 0.22, delay: 0, options: .curveEaseInOut, animations: {
                 self.blackViewOncontrolMode.backgroundColor = .black
                 self.videoControlContainerView.alpha = 1
@@ -618,8 +638,24 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 self.videoBackwardTimeButton.alpha = 1
                 self.videoSettingButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
+                self.backButton.alpha = 1
             }, completion: nil)
+            
+            controllerTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.startTimer), userInfo: nil, repeats: false)
         }
+    }
+    
+    @objc func startTimer() {
+        UIView.animate(withDuration: 0.22, animations: {
+            self.blackViewOncontrolMode.backgroundColor = .clear
+            self.videoControlContainerView.alpha = 0
+            self.playPauseButton.alpha = 0
+            self.videoForwardTimeButton.alpha = 0
+            self.videoBackwardTimeButton.alpha = 0
+            self.videoSettingButton.alpha = 0
+            self.subtitleToggleButton.alpha = 0
+            self.backButton.alpha = 0
+        }, completion: nil)
     }
     
     func removePeriodicTimeObserver() {

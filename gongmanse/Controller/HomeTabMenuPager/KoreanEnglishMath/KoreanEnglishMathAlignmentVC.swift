@@ -2,7 +2,7 @@ import UIKit
 import BottomPopup
 
 protocol KoreanEnglishMathAlignmentVCDelegate: class {
-    func passSortedIdRow(_ sortedIdRowIndex: Int)
+    func passSortedIdRow(_ sortedIdRowIndex: Int, _ rateFilterText: String)
 }
 
 class KoreanEnglishMathAlignmentVC: BottomPopupViewController {
@@ -86,9 +86,9 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
         
         rateFilterText = titleNames[indexPath.row]
         
-        UserDefaults.standard.setValue(rateFilterText, forKey: "rateFilterText")
+//        UserDefaults.standard.setValue(rateFilterText, forKey: "rateFilterText")        
+//        NotificationCenter.default.post(name: NSNotification.Name("rateFilterText"), object: nil)
         
-        NotificationCenter.default.post(name: NSNotification.Name("rateFilterText"), object: nil)
         self.dismiss(animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -112,6 +112,6 @@ extension KoreanEnglishMathAlignmentVC: UITableViewDelegate, UITableViewDataSour
         }
         
         sortedItem = indexPath.row
-        delegate?.passSortedIdRow(indexPath.row)
+        delegate?.passSortedIdRow(indexPath.row, rateFilterText)
     }
 }

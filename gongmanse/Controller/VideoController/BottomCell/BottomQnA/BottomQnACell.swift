@@ -22,7 +22,11 @@ class BottomQnACell: UICollectionViewCell {
     let videoVM = VideoQnAVideModel()
     let sideHeaderVM = SideMenuHeaderViewModel()
     
-    lazy var videoID: String = ""
+    lazy var videoID: String = "" {
+        didSet {
+            videoVM.requestVideoQnA(videoID)
+        }
+    }
 
     private let myChatIdentifier = "QnAMyChatCell"
     private let otherChatIdentifier = "QnAOthersChatCell"
@@ -95,20 +99,31 @@ class BottomQnACell: UICollectionViewCell {
         return stack
     }()
     
+    
+    var bottomStackYPosition: NSLayoutConstraint?
+    
     // MARK: - Lifecycle
     
     override func setNeedsLayout() {
         super.setNeedsLayout()
         
-        videoVM.requestVideoQnA(videoID)
+//        videoVM.requestVideoQnA(videoID)
+//
+//        emptyStackView.isHidden = true
+//        tableView.isHidden = false
+//
+//        if videoVM.videoQnAInformation?.data.count == nil || videoVM.videoQnAInformation?.data.count == 0 {
+//            emptyStackView.isHidden = false
+//            tableView.isHidden = true
+//        }
         
-        emptyStackView.isHidden = true
-        tableView.isHidden = false
-        
-        if videoVM.videoQnAInformation?.data.count == nil || videoVM.videoQnAInformation?.data.count == 0 {
-            emptyStackView.isHidden = false
-            tableView.isHidden = true
-        }
+//        let videoDataManager = VideoDataManager.shared
+//        let pipIsOn = !videoDataManager.isFirstPlayVideo
+//        if pipIsOn {
+//            bottomStackYPosition?.constant = -60
+//        } else {
+//            bottomStackYPosition?.constant = -10
+//        }
     }
     
     override init(frame: CGRect) {
@@ -126,23 +141,29 @@ class BottomQnACell: UICollectionViewCell {
         
         sendButton.addTarget(self, action: #selector(textPostButtonAction(_:)), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self,
+        /*NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide(_:)),
                                                name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+                                               object: nil)*/
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide(_:)), name: NSNotification.Name("keyboardHide"), object: nil)
+        
+        
+        emptyStackView.isHidden = true
+        tableView.isHidden = false
     }
     
     @objc func keyboardHide(_ sender: Notification) {
         sendText.resignFirstResponder()
     }
     
-    @objc func keyboardWillShow(_ sender: Notification) {
+    /*@objc func keyboardWillShow(_ sender: Notification) {
+        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
+        
         if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
             let keyboardRectangle = keyboardFame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
@@ -152,11 +173,16 @@ class BottomQnACell: UICollectionViewCell {
                 print("bottom == ", self.bottomStackView.frame.origin.y)
                 self.emptyStackView.frame.origin.y -= keyboardHeight
                 self.bottomStackView.frame.origin.y -= keyboardHeight
+                
+                if !VideoDataManager.shared.isFirstPlayVideo {
+                    let pipHeight = UIDevice.current.orientation.isLandscape ? (UIScreen.main.bounds.width * 0.085) : (UIScreen.main.bounds.height * 0.085)
+                    self.emptyStackView.frame.origin.y -= -pipHeight
+                    self.bottomStackView.frame.origin.y -= -pipHeight
+                }
             }
             
             isKeyboardSelect = true
         }
-//        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
     }
  
     @objc func keyboardWillHide(_ sender: Notification) {
@@ -168,11 +194,17 @@ class BottomQnACell: UICollectionViewCell {
                 print(self.bottomStackView.frame.origin.y)
                 self.emptyStackView.frame.origin.y += keyboardHeight
                 self.bottomStackView.frame.origin.y += keyboardHeight
+                
+                if !VideoDataManager.shared.isFirstPlayVideo {
+                    let pipHeight = UIDevice.current.orientation.isLandscape ? (UIScreen.main.bounds.width * 0.085) : (UIScreen.main.bounds.height * 0.085)
+                    self.emptyStackView.frame.origin.y += -pipHeight
+                    self.bottomStackView.frame.origin.y += -pipHeight
+                }
             }
             
             isKeyboardSelect = false
         }
-    }
+    }*/
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -185,11 +217,12 @@ class BottomQnACell: UICollectionViewCell {
         if Constant.isLogin && Constant.remainPremiumDateInt != nil {
             if sendText.text != "" {
                 videoVM.requestVideoQnAInsert(videoID, content: sendText.text!)
-                videoVM.requestVideoQnA(videoID)
                 
                 sendText.text = ""
                 
                 sendText.resignFirstResponder()
+            } else {
+                presentAlert(message: "질문을 입력해주세요")
             }
         } else if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
@@ -296,7 +329,15 @@ extension BottomQnACell {
         bottomStackView.translatesAutoresizingMaskIntoConstraints = false
         bottomStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         bottomStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        bottomStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+        
+//        let videoDataManager = VideoDataManager.shared
+//        let pipIsOn = !videoDataManager.isFirstPlayVideo
+//        if pipIsOn {
+//            bottomStackYPosition = bottomStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -60)
+//        } else {
+            bottomStackYPosition = bottomStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+//        }
+        bottomStackYPosition?.isActive = true
         
         // 전송 버튼 width == 60
         sendButton.translatesAutoresizingMaskIntoConstraints = false
@@ -304,7 +345,7 @@ extension BottomQnACell {
         
         emptyStackView.translatesAutoresizingMaskIntoConstraints = false
         emptyStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -25).isActive = true
         emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
@@ -312,6 +353,13 @@ extension BottomQnACell {
 
 extension BottomQnACell: TableReloadData {
     func reloadTable() {
+        
+        if videoVM.videoQnAInformation?.data.count == nil || videoVM.videoQnAInformation?.data.count == 0 {
+            emptyStackView.isHidden = false
+            tableView.isHidden = true
+            return
+        }
+        
         if videoVM.videoQnAInformation?.data.count != 0 {
             emptyStackView.isHidden = true
             tableView.isHidden = false

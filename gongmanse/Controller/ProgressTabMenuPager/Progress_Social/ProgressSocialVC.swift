@@ -64,6 +64,9 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
                             limit: socialLimitNumber)
     }
     
+    var _selectedGrade: String = "모든 학년"
+    var _selectedUnit: String = "모든 단원"
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -89,7 +92,7 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
             let getfilter = getFilteringAPI()
             getfilter.getFilteringData { [weak self] result in
                 self?.getGradeData = result
-                self?.gradeBtn.setTitle(self?.getGradeData?.sGrade, for: .normal)
+                self?.gradeBtn.setTitle((self?.getGradeData?.sGrade ?? "").isEmpty ? "모든 학년" : self!.getGradeData!.sGrade!, for: .normal)
                 self?.chapterBtn.setTitle("모든 단원", for: .normal)
                 
                 let changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
@@ -126,6 +129,8 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
         guard let index: Int = userinfo["chapterNumber"] as? Int else { return }
         guard let body = bodycopyDataList else { return }
         
+        _selectedUnit = chapterName
+        
         chapterBtn.setTitle(chapterName, for: .normal)
         
         if index == 0 {
@@ -144,6 +149,9 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
     @objc func changeGradeTitle(_ sender: Notification) {
         // ex) 모든학년 받아옴
         guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
+        
+        _selectedGrade = getGradeTitle
+        _selectedUnit = "모든 단원"
         // 모든에 해당하는 강의 나타냄
         let gradeTitle = mainViewModel.transformGrade(string: getGradeTitle)
         let gradeNumber = mainViewModel.transformGradeNumber(string: getGradeTitle)
@@ -199,7 +207,11 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
                 DispatchQueue.global().async {
                     sleep(1)
                     
-                    self?.socialBodyDataList?.append(contentsOf: result.body!)
+                    if self?._selectedUnit == "모든 단원" {
+                        self?.socialBodyDataList?.append(contentsOf: result.body!)
+                    } else {
+                        self?.socialBodyDataList?.append(contentsOf: result.body!.filter{$0.title == self?._selectedUnit})
+                    }
                     
                     DispatchQueue.main.async {
                         self?.tableview.reloadData()
@@ -252,6 +264,7 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
     @IBAction func selectedGrade(_ sender: Any) {
         let popupVC = ProgressPopupVC()
         popupVC.selectedBtnIndex = .grade
+        popupVC._selectedItem = _selectedGrade
         isChooseGrade = true
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
@@ -268,6 +281,7 @@ class ProgressSocialVC: UIViewController, ProgressInfinityScroll {
             let popupVC = ProgressPopupVC()
             popupVC.selectedBtnIndex = .chapter
             popupVC.chapters = sendChapter
+            popupVC._selectedItem = _selectedUnit
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)

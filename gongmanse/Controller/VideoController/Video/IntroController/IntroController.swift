@@ -10,19 +10,21 @@ import AVFoundation
 
 protocol IntroControllerDelegate: AnyObject {
     func playVideoEndedIntro()
+    func playVideoEndedOutro()
 }
 
 class IntroController: UIViewController {
 
     // MARK: - Properties
     
+    var _type: Int! = 1
     weak var delegate: IntroControllerDelegate?
     
     // IBOutlet
     @IBOutlet weak var IntroVideoContainerView: UIView!
     
     // Programmatic
-    private var player: AVQueuePlayer?
+    private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     
  
@@ -34,6 +36,7 @@ class IntroController: UIViewController {
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
         super.viewDidLoad()
+        
         setupIntroVideo()
     }
     
@@ -48,13 +51,18 @@ class IntroController: UIViewController {
     
     /// 영상 종료 시, 호출될 콜백메소드
     @objc func introPlayerItemDidReachEnd(notification: NSNotification) {
-        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+//        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.removeObserver(self)
         player?.pause()
         player = nil
         
         playerLayer?.removeFromSuperlayer()
         dismiss(animated: false) {
-            self.delegate?.playVideoEndedIntro()
+            if self._type == 1 {
+                self.delegate?.playVideoEndedIntro()
+            } else {
+                self.delegate?.playVideoEndedOutro()
+            }
         }
     }
     
@@ -112,17 +120,17 @@ class IntroController: UIViewController {
         
         IntroVideoContainerView.contentMode = .scaleAspectFill
         
-        let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: "비율수정인트로영상",
+        let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: self._type == 1 ? "비율수정인트로영상" : "gong_outro1",
                                                             ofType: "mov")!)
         
         // Random Intro 적용할 때, 사용할 코드
-        let introURL02 = URL(fileURLWithPath:Bundle.main.path(forResource: "비율수정인트로영상",
+        let introURL02 = URL(fileURLWithPath:Bundle.main.path(forResource: self._type == 1 ? "인트로영상01" : "gong_outro2",
                                                             ofType: "mov")!)
         let introArr = [introURL, introURL02]
-        let resultIntro = introArr.randomElement()
+        let resultIntro = introArr.randomElement() ?? introURL
         
     
-        player = AVQueuePlayer()
+        player = AVPlayer(url: resultIntro)
         playerLayer = AVPlayerLayer(player: player)
         
         guard let playerLayer = playerLayer else {
@@ -132,30 +140,30 @@ class IntroController: UIViewController {
         IntroVideoContainerView.layer.addSublayer(playerLayer)
         IntroVideoContainerView.clipsToBounds = true
         
-        let videoAsset = AVURLAsset(url: introURL)
-//        let videoAsset = AVURLAsset(url: resultIntro)
-        
-        videoAsset.loadValuesAsynchronously(forKeys: ["", ""]) {
-            
-            DispatchQueue.main.async {
-                let loopItem = AVPlayerItem(asset: videoAsset)
-                self.player?.insert(loopItem, after: nil)
-                self.player?.play()
+        if _type == 1 {
+            if resultIntro == introURL02 {
+                IntroVideoContainerView.backgroundColor = .white
             }
+        } else {
+            IntroVideoContainerView.backgroundColor = .black
         }
-        
         
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(introPlayerItemDidReachEnd),
                          name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                         object: nil)
+                         object: player?.currentItem)
         
         // 인트로 도중 클릭 시, alert을 호출한다.
         // 이를 위해 UITapGesutre를 추가한다.
-        let viewTapGesutre = UITapGestureRecognizer(target: self, action: #selector(userTapView))
-        view.addGestureRecognizer(viewTapGesutre)
+//        let viewTapGesutre = UITapGestureRecognizer(target: self, action: #selector(userTapView))
+//        view.addGestureRecognizer(viewTapGesutre)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        player?.play()
     }
 }
 

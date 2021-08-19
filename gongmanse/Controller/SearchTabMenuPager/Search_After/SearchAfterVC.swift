@@ -103,6 +103,7 @@ class SearchAfterVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabsView: TabsView!
 
+    var bottomPipYPosition: NSLayoutConstraint?
     
     //MARK: - Lifecycle
 
@@ -128,6 +129,7 @@ class SearchAfterVC: UIViewController {
         configureNavi()
         setupTabs()
         setupPageViewController()
+        addBottomBorder()
         
         // SearchBar
         configureSearchBar()
@@ -137,10 +139,20 @@ class SearchAfterVC: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(allKeyword(_:)), name: .searchAllNoti, object: nil)
         searchVideo.pipDelegate = self
+        searchNote.pipDelegate = self
 
         if let comeFromSearchVC = self.comeFromSearchVC {
             searchVideo.comeFromSearchVC = comeFromSearchVC
+            searchNote.comeFromSearchVC = comeFromSearchVC
         }
+    }
+    
+    func addBottomBorder() {
+       let thickness: CGFloat = 0.5
+       let bottomBorder = CALayer()
+       bottomBorder.frame = CGRect(x:0, y: self.tabsView.frame.size.height - thickness, width: self.tabsView.frame.size.width, height:thickness)
+       bottomBorder.backgroundColor = UIColor.systemGray4.cgColor
+       tabsView.layer.addSublayer(bottomBorder)
     }
     
     @objc func allKeyword(_ sender: Notification) {
@@ -179,10 +191,11 @@ class SearchAfterVC: UIViewController {
     @objc func xButtonDidTap() {
         
         pipVC?.player?.pause()
-        pipVC?.player = nil
+//        pipVC?.player = nil
         
         UIView.animate(withDuration: 0.22, animations: {
             self.pipContainerView.alpha = 0
+            self.bottomPipYPosition?.constant = 0
         }, completion: nil)
     }
     
@@ -295,11 +308,12 @@ class SearchAfterVC: UIViewController {
         //pageViewController 제약조건 추가
         self.pageController.view.translatesAutoresizingMaskIntoConstraints = false
         
+        self.bottomPipYPosition = self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
         NSLayoutConstraint.activate([
             self.pageController.view.topAnchor.constraint(equalTo: self.tabsView.bottomAnchor),
             self.pageController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.pageController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            self.bottomPipYPosition!
         ])
         self.pageController.didMove(toParent: self)
     }
@@ -418,6 +432,7 @@ class SearchAfterVC: UIViewController {
         teachernameLabel.text = pipVideoData?.teacherName ?? ""
         
         
+        self.bottomPipYPosition?.constant = -pipHeight
     }
     
     func dismissPIPView() {
@@ -606,5 +621,11 @@ extension SearchAfterVC: SearchVideoVCDelegate {
         setRemoveNotification()
         PIPDataManager.shared.currentVideoCMTime = CMTime()
         PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
+    }
+}
+
+extension SearchAfterVC: SearchNoteVCDelegate {
+    func serachAfterVCPIPViewDismiss1() {
+        serachAfterVCPIPViewDismiss()
     }
 }

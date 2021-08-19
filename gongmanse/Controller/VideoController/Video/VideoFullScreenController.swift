@@ -5,10 +5,12 @@ import UIKit
 
 protocol VideoFullScreenControllerDelegate: AnyObject {
     func addNotificaionObserver()
-    func setCurrentTime(playerCurrentTime: CMTime?)
+    func setCurrentTime(playerCurrentTime: CMTime?, rate: Float, toggle: Bool)
 }
 
 class VideoFullScreenController: UIViewController{
+    
+    var controllerTimer: Timer? //동영상 위 컨트롤 자동 사라지기
     
     // MARK: - Properties
     
@@ -40,6 +42,14 @@ class VideoFullScreenController: UIViewController{
     let videoContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
+        return view
+    }()
+    
+    let blackViewOncontrolMode: UIView = {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        view.backgroundColor = .black
+        view.alpha = 0.45
         return view
     }()
     
@@ -112,8 +122,8 @@ class VideoFullScreenController: UIViewController{
     
     /// 가로화면(전체화면)으로 전환되는 버튼
     let changeOrientationButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(named: "전체화면버튼")
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "icon_fullscreen_exit")
         button.addTarget(self, action: #selector(handleOrientation), for: .touchUpInside)
         button.setImage(image, for: .normal)
         return button
@@ -125,6 +135,19 @@ class VideoFullScreenController: UIViewController{
             let offImage = UIImage(named: "자막토글버튼_제거") ?? UIImage()
             let image = self.isClickedSubtitleToggleButton ? onImage : offImage
             subtitleToggleButton.setImage(image, for: .normal)
+            
+            if self.isClickedSubtitleToggleButton {
+                UIView.animate(withDuration: 0.22) {
+                    self.subtitleLabel.alpha = 1
+                    self.subtitleToggleButton.setImage(onImage, for: .normal)
+                }
+                
+            } else {
+                UIView.animate(withDuration: 0.22) {
+                    self.subtitleLabel.alpha = 0
+                    self.subtitleToggleButton.setImage(offImage, for: .normal)
+                }
+            }
         }
     }
     
@@ -224,6 +247,7 @@ class VideoFullScreenController: UIViewController{
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
         
+        controllerTimer?.invalidate()
         
         // vc에 현재 재생되는 시간을 전달한다.
         let currentTime = player.currentTime()
@@ -238,7 +262,7 @@ class VideoFullScreenController: UIViewController{
             // delegate를 통해 "VideoController"의 Notificaion을 활성화 시킨다.
             // (영상 속도조절 및 자막 생성 및 소멸 액션을 수행을 위해)
             self.delegate?.addNotificaionObserver()
-            self.delegate?.setCurrentTime(playerCurrentTime: currentTime)
+            self.delegate?.setCurrentTime(playerCurrentTime: currentTime, rate: self.currentVideoPlayRate, toggle: self.isClickedSubtitleToggleButton)
         }
     }
     
@@ -265,7 +289,7 @@ class VideoFullScreenController: UIViewController{
             
         } else {
             playPauseButton.setBackgroundImage(pauseImage, for: .normal)
-            player.play()
+            player.playImmediately(atRate: currentVideoPlayRate)
         }
     }
     
@@ -428,7 +452,7 @@ class VideoFullScreenController: UIViewController{
                                      left: videoContainerView.leftAnchor,
                                      bottom: videoContainerView.bottomAnchor,
                                      right: videoContainerView.rightAnchor,
-                                     paddingBottom: 30)
+                                     paddingBottom: 0)
         
         /* videoContainerView <- videoControlContainerView */
         configureVideoControlView()
@@ -437,7 +461,7 @@ class VideoFullScreenController: UIViewController{
         videoContainerView.addSubview(subtitleLabel)
         subtitleLabel.centerX(inView: view)
         subtitleLabel.anchor(bottom: view.bottomAnchor,
-                             paddingBottom: 30,
+                             paddingBottom: 0,
                              width: view.frame.width)
         
         player.isMuted = false
@@ -465,6 +489,11 @@ class VideoFullScreenController: UIViewController{
     }
     
     func configureVideoControlView() {
+        videoContainerView.addSubview(blackViewOncontrolMode)
+        blackViewOncontrolMode.setDimensions(height: view.frame.height, width: view.frame.width)
+        blackViewOncontrolMode.centerX(inView: videoContainerView)
+        blackViewOncontrolMode.centerY(inView: videoContainerView)
+        
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
         let height = convertHeight(15, standardView: view)
@@ -472,7 +501,7 @@ class VideoFullScreenController: UIViewController{
         videoControlContainerView.setDimensions(height: height, width: view.frame.width)
         videoControlContainerView.centerX(inView: videoContainerView)
         videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
-                                         paddingBottom: 100)
+                                         paddingBottom: 55)
         // backButton
         videoContainerView.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -481,7 +510,7 @@ class VideoFullScreenController: UIViewController{
                           paddingLeft: 10)
         backButton.addTarget(self, action: #selector(handleBackButtonAction),
                              for: .touchUpInside)
-        backButton.alpha = 0.77
+        backButton.alpha = 1
         backButton.setDimensions(height: 20, width: 20)
         
         // 타임라인 timerSlider
@@ -606,7 +635,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         for _  in 0...11 {self.sTagsRanges.append(Range<Int>(100...103))}
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
-        self.player.addPeriodicTimeObserver(
+        self.timeObserverToken = self.player.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
@@ -732,35 +761,58 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         playerController.didMove(toParent: self)
         
         player.seek(to: self.currentPlayerTime ?? CMTime(value: 0, timescale: 0))
-        player.play()
+        player.playImmediately(atRate: self.currentVideoPlayRate)
         player.isMuted = false
         
         let pauseImage = UIImage(systemName: "pause.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         playPauseButton.setBackgroundImage(pauseImage, for: .normal)
+        
+        controllerTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.startTimer), userInfo: nil, repeats: false)
     }
     
     
     /// 동영상 클릭 시, 동영상 조절버튼을 사라지도록 하는 메소드
     @objc func targetViewDidTapped() {
         if videoControlContainerView.alpha == 1 {
+            controllerTimer?.invalidate()
+            
             UIView.animate(withDuration: 0.3) {
+                self.blackViewOncontrolMode.backgroundColor = .clear
                 self.videoControlContainerView.alpha = 0
                 self.playPauseButton.alpha = 0
                 self.videoForwardTimeButton.alpha = 0
                 self.videoBackwardTimeButton.alpha = 0
-//                self.videoSettingButton.alpha = 0
+                self.videoSettingButton.alpha = 0
+                self.backButton.alpha = 0
                 self.subtitleToggleButton.alpha = 0
             }
             
         } else {
             UIView.animate(withDuration: 0.3) {
+                self.blackViewOncontrolMode.backgroundColor = .black
                 self.videoControlContainerView.alpha = 1
                 self.playPauseButton.alpha = 1
                 self.videoForwardTimeButton.alpha = 1
                 self.videoBackwardTimeButton.alpha = 1
-//                self.videoSettingButton.alpha = 1
+                self.videoSettingButton.alpha = 1
+                self.backButton.alpha = 1
                 self.subtitleToggleButton.alpha = 1
             }
+            
+            controllerTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.startTimer), userInfo: nil, repeats: false)
+        }
+    }
+    
+    @objc func startTimer() {
+        UIView.animate(withDuration: 0.3) {
+            self.blackViewOncontrolMode.backgroundColor = .clear
+            self.videoControlContainerView.alpha = 0
+            self.playPauseButton.alpha = 0
+            self.videoForwardTimeButton.alpha = 0
+            self.videoBackwardTimeButton.alpha = 0
+            self.videoSettingButton.alpha = 0
+            self.backButton.alpha = 0
+            self.subtitleToggleButton.alpha = 0
         }
     }
     

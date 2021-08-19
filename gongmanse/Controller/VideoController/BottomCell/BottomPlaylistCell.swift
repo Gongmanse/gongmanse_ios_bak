@@ -5,12 +5,12 @@
 import Foundation
 import UIKit
 
-protocol BottomPlaylistCellDelegate: AnyObject {
+protocol BottomPlaylistCellDelegate: AnyObject { //videoplaylist에서 사용
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String)
     func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String)
 }
 
-class BottomPlaylistCell: UICollectionViewCell {
+class BottomPlaylistCell: UICollectionViewCell { //사용안함
     
     // MARK: - Property
     
@@ -337,7 +337,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
         let currentTabMenu = autoplayDataManager.currentViewTitleView
         let currentTabFiltering = autoplayDataManager.currentFiltering
         
-        if currentTabMenu == "국영수 강의" {
+        return 0 //사용안함
+        /*if currentTabMenu == "국영수 강의" {
             
             // 06.15 이후 코드
             if autoplayDataManager.isAutoplayMainSubject {
@@ -416,7 +417,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
             //guard let data = self.playlist.data else { return 0 }
             let data = self.playlist.data
             return data.count
-        }
+        }*/
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -424,7 +425,8 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
         let currentTabMenu = autoplayDataManager.currentViewTitleView
         let currentTabFiltering = autoplayDataManager.currentFiltering
 
-        if currentTabMenu == "국영수 강의" {
+        return UITableViewCell() //사용안함
+        /*if currentTabMenu == "국영수 강의" {
             if autoplayDataManager.isAutoplayMainSubject { // 06.15 이후
 //            if koreanSwitchOnOffValue.isOn {             // 06.15 이전
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "BottomPlaylistTVCell", for: indexPath) as? BottomPlaylistTVCell else { return UITableViewCell() }
@@ -802,7 +804,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
             }
             
             return cell
-        }
+        }*/
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -810,7 +812,9 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
         let currentTabMenu = autoplayDataManager.currentViewTitleView
         let currentTabFiltering = autoplayDataManager.currentFiltering
         
-        if currentTabMenu == "국영수 강의" {
+        return 80 //사용안함
+        
+        /*if currentTabMenu == "국영수 강의" {
             if autoplayDataManager.isAutoplayMainSubject {
 //            if koreanSwitchOnOffValue.isOn {
                 
@@ -862,7 +866,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
             return 80
         } else {
             return 80
-        }
+        }*/
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -877,7 +881,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
         let autoPlayDataManager = AutoplayDataManager.shared
         
         // 06.14 이후 코드
-        if currentTabMenu == "국영수 강의" {
+        /*if currentTabMenu == "국영수 강의" {
             
             // 변경해야한다면, 싱글톤으로 만든 Switch on/off : autoplayDataManager.isAutoplayMainSubject
 //            if koreanSwitchOnOffValue.isOn {
@@ -949,7 +953,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
             
         } else {
             
-        }
+        }*/
     }
     
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -986,7 +990,7 @@ extension BottomPlaylistCell {
     /// 재생목록의 cell들 중에서 현재 재생되고 있는 cell로 이동시켜주는 메소드
     func scrollUITableViewCellToCurrentVideo() {
         
-        let currentTabMenu = autoplayDataManager.currentViewTitleView
+        /*let currentTabMenu = autoplayDataManager.currentViewTitleView
         let currentTabFiltering = autoplayDataManager.currentFiltering
         let videoDataManager = VideoDataManager.shared
         
@@ -1051,7 +1055,7 @@ extension BottomPlaylistCell {
                     }
                 }
             }
-        }
+        }*/
         
     }
     

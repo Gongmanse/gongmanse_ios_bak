@@ -40,7 +40,7 @@ class PopularKeywordVC: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: cellId, bundle: nil), forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         self.tableView.separatorStyle = .none
         
         popularVM.delegate = self

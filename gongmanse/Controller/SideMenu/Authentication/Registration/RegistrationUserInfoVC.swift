@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class RegistrationUserInfoVC: UIViewController {
 
@@ -94,6 +95,10 @@ class RegistrationUserInfoVC: UIViewController {
         return label
     }()
     
+    var ct_top1 : NSLayoutConstraint?
+    var ct_top2 : NSLayoutConstraint?
+    var ct_top3 : NSLayoutConstraint?
+    var isKeyboardSelect = false
     
     // MARK: - Lifecycle
     
@@ -103,6 +108,25 @@ class RegistrationUserInfoVC: UIViewController {
         configureBottomLabel()              // textField 하단에 생성되는 Label UI
         cofigureNavi()                      // navigation 관련 UI
         configureNotificationObservers()    // textField observing 로직
+        
+        /*NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)*/
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        IQKeyboardManager.shared.enable = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        IQKeyboardManager.shared.enable = false
     }
     
     // MARK: - Actions
@@ -119,6 +143,34 @@ class RegistrationUserInfoVC: UIViewController {
         }
     }
     
+    /*@objc func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
+            let keyboardRectangle = keyboardFame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            print(keyboardHeight)
+            UIView.animate(withDuration: 1) {
+                self.ct_top1?.constant -= 30
+                self.ct_top2?.constant -= 30
+                self.ct_top3?.constant -= 30
+            }
+            isKeyboardSelect = true
+        }
+//        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
+    }
+ 
+    @objc func keyboardWillHide(_ sender: Notification) {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == true {
+            let keyboardRectangle = keyboardFame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            print(keyboardHeight)
+            UIView.animate(withDuration: 1) {
+                self.ct_top1?.constant = 11
+                self.ct_top2?.constant = 11
+                self.ct_top3?.constant = self.view.frame.height * 0.05
+            }
+            isKeyboardSelect = false
+        }
+    }*/
     
     // MARK: - Helper functions
 
@@ -145,20 +197,28 @@ class RegistrationUserInfoVC: UIViewController {
         // 현재 페이지 명칭을 나타내는 UILabel("정보기입" 라고 작성된 레이블)(화면 좌상단)
         pageID.setDimensions(height: view.frame.height * 0.02,
                              width: view.frame.width * 0.15)
-        pageID.anchor(top: totalProgressView.bottomAnchor,
-                      left: totalProgressView.leftAnchor,
-                      paddingTop: 11,
-                      paddingLeft: 20)
+//        pageID.anchor(top: totalProgressView.bottomAnchor,
+//                      left: totalProgressView.leftAnchor,
+//                      paddingTop: 11,
+//                      paddingLeft: 20)
+        ct_top1 = pageID.topAnchor.constraint(equalTo: totalProgressView.bottomAnchor, constant: 11)
+        ct_top1?.isActive = true
+        pageID.leftAnchor.constraint(equalTo: totalProgressView.leftAnchor, constant: 20).isActive = true
+        
         pageID.font = UIFont.appBoldFontWith(size: 14)
         pageID.textAlignment = .left
         
         // 현재 페이지 명칭을 나타내는 UILabel("2/4" 라고 작성된 레이블)(화면 우상단)
         pageNumber.setDimensions(height: view.frame.height * 0.02,
                                  width: view.frame.width * 0.15)
-        pageNumber.anchor(top: totalProgressView.bottomAnchor,
-                          right: view.rightAnchor,
-                          paddingTop: 11,
-                          paddingRight: 20)
+//        pageNumber.anchor(top: totalProgressView.bottomAnchor,
+//                          right: view.rightAnchor,
+//                          paddingTop: 11,
+//                          paddingRight: 20)
+        ct_top2 = pageNumber.topAnchor.constraint(equalTo: totalProgressView.bottomAnchor, constant: 11)
+        ct_top2?.isActive = true
+        pageNumber.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        
         pageNumber.font = UIFont.appBoldFontWith(size: 14)
         pageNumber.textAlignment = .right
             
@@ -170,8 +230,10 @@ class RegistrationUserInfoVC: UIViewController {
         setupTextField(idTextField, placehoder: "아이디", leftView: idTfLeftView)
         idTextField.setDimensions(height: 50, width: tfWidth)                       // 높이 크기 조절 커스텀메소드 활용
         idTextField.centerX(inView: view)                                           // 오토레이아웃 적용
-        idTextField.anchor(top: totalProgressView.bottomAnchor,                     // 오토레이아웃 적용
-                           paddingTop: view.frame.height * 0.05)                    // 이하 textField 코드 주석 생략
+//        idTextField.anchor(top: totalProgressView.bottomAnchor,                     // 오토레이아웃 적용
+//                           paddingTop: view.frame.height * 0.05)                    // 이하 textField 코드 주석 생략
+        ct_top3 = idTextField.topAnchor.constraint(equalTo: totalProgressView.bottomAnchor, constant: view.frame.height * 0.05)
+        ct_top3?.isActive = true
         
         // 비밀번호 TextField
         let pwdTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "passwordOn"))

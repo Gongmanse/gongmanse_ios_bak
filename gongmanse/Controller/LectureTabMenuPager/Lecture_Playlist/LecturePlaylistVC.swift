@@ -10,7 +10,7 @@ import AVKit
 
 enum LectureState {
     case lectureList
-    case videoList
+    case videoList //사용안함
 }
 
 private let cellId = "LectureCell"
@@ -28,16 +28,14 @@ class LecturePlaylistVC: UIViewController {
     
     var lectureState: LectureState?
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     // 강사별 강의
     var getTeacherList: LectureSeriesDataModel?
     var seriesID: String? {
         didSet {
-            print(seriesID)
-            detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
+//            print(seriesID)
+//
+//            isLoading = true
+//            detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         }
         
     }
@@ -48,7 +46,7 @@ class LecturePlaylistVC: UIViewController {
     
     // Infinity Scroll
     var listCount: Int = 0
-    
+    var isLoading = false
     
     // 관련시리즈
     lazy var videoNumber: String = ""
@@ -57,12 +55,14 @@ class LecturePlaylistVC: UIViewController {
     
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
+    @IBOutlet weak var lbAutoPlay: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var teacherName: UILabel!
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var gradeLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var colorView: UIStackView!
+    @IBOutlet weak var ct_bottom_margin: NSLayoutConstraint!
     
     // MARK: - Lifecylce
     
@@ -86,6 +86,7 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        isLoading = true
         detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         collectionView.reloadData()
         
@@ -167,9 +168,7 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        guard let indexVideoData = detailVideo?.data else { return }
-        
+                
         // 동영상 - 관련시리즈
         if seriesID != "" {
             
@@ -179,17 +178,16 @@ class LecturePlaylistVC: UIViewController {
             
             case .some(let data):
                 
-                if indexVideoData.source_url != nil {
+//                if Constant.remainPremiumDateInt != nil {
                     titleText.text = data.sTitle
                     teacherName.text = "\(data.sTeacher ?? "") 선생님"
                     subjectLabel.text = data.sSubject
                     gradeLabel.text = detailVM?.convertGrade(data.sGrade)
-    //                gradeLabel.textColor = UIColor(hex: data.sSubjectColor)
-    //                colorView.backgroundColor = UIColor(hex: data.sSubjectColor)
+                    gradeLabel.textColor = UIColor(hex: data.sSubjectColor ?? "000000")
+                    colorView.backgroundColor = UIColor(hex: data.sSubjectColor ?? "000000")
                     configurelabel(value: detailVM?.lectureDetail?.totalNum ?? "")
-                    emptyStackView.isHidden = true
-                }
-                
+//                }
+                emptyStackView.isHidden = true
             case .none:
                 view.addSubview(emptyStackView)
                 emptyStackView.addArrangedSubview(emptyAlert)
@@ -219,7 +217,6 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getDataFromJsonVideo()
         configureNavi()             // navigation 관련 설정
         configureUI()               // 태그 UI 설정
         collectionView.delegate = self
@@ -234,36 +231,14 @@ class LecturePlaylistVC: UIViewController {
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
-        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
+//        isLoading = true
+//        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         detailVM?.delegate = self
         
         
         if videoNumber != "" {
+            isLoading = true
             detailVM?.relationSeries(videoNumber, offset: 0)
-        }
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                
-            }.resume()
         }
     }
     
@@ -299,6 +274,7 @@ class LecturePlaylistVC: UIViewController {
         
         UIView.animate(withDuration: 0.33) {
             self.pipContainerView.alpha = 0
+            self.ct_bottom_margin.constant = 0
         }
     }
     
@@ -321,21 +297,21 @@ class LecturePlaylistVC: UIViewController {
     func configureUI() {
         
         // subjectLabel
-        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.font = .appBoldFontWith(size: 8)
         subjectLabel.textColor = .white
         
         // gradeLabel
         gradeLabel.backgroundColor = .white
-        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.font = .appBoldFontWith(size: 8)
         gradeLabel.adjustsFontSizeToFitWidth = true
         gradeLabel.clipsToBounds = true
-        gradeLabel.layer.cornerRadius = 8.5
+        gradeLabel.layer.cornerRadius = 9
         gradeLabel.textColor = UIColor(hex: getTeacherList?.sSubjectColor ?? "000000")
         
         // subjectColor
         colorView.backgroundColor = UIColor(hex: getTeacherList?.sSubjectColor ?? "000000")
         colorView.layer.cornerRadius = colorView.frame.size.height / 2
-        colorView.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        colorView.layoutMargins = UIEdgeInsets(top: 3, left: 10, bottom: 3, right: 10)
         colorView.isLayoutMarginsRelativeArrangement = true
         
         titleText.font = .appEBFontWith(size: 17)
@@ -345,6 +321,10 @@ class LecturePlaylistVC: UIViewController {
     func configureNavi() {
         let title = UILabel()
         title.text = videoNumber != "" ? "관련 시리즈" : "강사별 강의"
+        
+        autoPlaySwitch.isHidden = videoNumber.isEmpty
+        lbAutoPlay.isHidden = videoNumber.isEmpty
+        
         title.font = UIFont.appBoldFontWith(size: 17)
         navigationItem.titleView = title
         
@@ -441,6 +421,8 @@ class LecturePlaylistVC: UIViewController {
                                 paddingTop: 5,
                                 height: 15)
         teachernameLabel.text = pipData?.teacherName ?? "" + " 선생님"
+        
+        ct_bottom_margin.constant = view.frame.height * 0.085
     }
     
     func setRemoveNotification() {
@@ -510,18 +492,25 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
         switch lectureState {
         case .lectureList:
             
-            if indexVideoData.source_url != nil {
+            if Constant.remainPremiumDateInt != nil {
                 //0711 - added by hp - pip
                 let receviedVideoID = self.detailVM?.lectureDetail?.data[indexPath.row].id
+                
+                //관련시리즈는 자동재생 on/off 상관없이
+                let autoPlayDataManager = AutoplayDataManager.shared
+                autoPlayDataManager.currentViewTitleView = "강사별강의"
+                autoPlayDataManager.isAutoPlay = false
+                autoPlayDataManager.videoDataList.removeAll()
+                autoPlayDataManager.videoSeriesDataList.removeAll()
+                autoPlayDataManager.currentIndex = indexPath.row
                 
                 if self.videoNumber != "" { //관련시리즈 일때만, 강사별강의는 X
                     VideoDataManager.shared.isFirstPlayVideo = false
@@ -536,27 +525,29 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                     let vc = self.presentingViewController as! VideoController
                     self.dismiss(animated: false) {
                         vc.id = receviedVideoID
-                        vc.configureDataAndNoti()
+                        vc.configureDataAndNoti(true)
                     }
                     return
                 }
+                
                 // 비디오 연결
                 let vc = VideoController()
                 vc.id = receviedVideoID
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
                 return
-            } else if indexVideoData.source_url == nil {
+            } else {
                 presentAlert(message: "이용권을 구매해주세요")
             }
             
-        case .videoList:
+        case .videoList: //사용안함
             
             if Constant.isLogin == false {
                 presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+                return
             }
             
-            if indexVideoData.source_url != nil {
+            if Constant.remainPremiumDateInt != nil {
                 
                 /**
                  검색결과 화면에서 영상을 클릭할 때, rootView를 초기화하는 이유
@@ -614,8 +605,8 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     //                let receviedVideoID = videoDataManager.currentVideoID
                     vc.id = receviedVideoID
                     
-                    let layout = UICollectionViewFlowLayout()
-                    vc.collectionViewLayout = layout
+//                    let layout = UICollectionViewFlowLayout()
+//                    vc.collectionViewLayout = layout
                     vc.modalPresentationStyle = .fullScreen
                     mainTabVC.present(mainTabVC2, animated: false) {
                         mainTabVC2.present(vc, animated: true)
@@ -623,7 +614,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                     
                 }
                 
-            } else if Constant.isGuestKey || indexVideoData.source_url == nil  {
+            } else if Constant.isGuestKey || Constant.remainPremiumDateInt == nil  {
                 presentAlert(message: "이용권을 구매해주세요.")
                 return
             } else {
@@ -642,13 +633,17 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
         
         switch lectureState {
         case .lectureList:
-            if indexPath.row == lectureCount - 1 {
+            if indexPath.row == lectureCount - 1 && !isLoading && (detailVM?.isMoreList ?? false) {
                 listCount += 20
+                
+                isLoading = true
                 detailVM?.lectureDetailApi(seriesID ?? "", offset: listCount)
             }
         case .videoList:
-            if indexPath.row == videoCount - 1 {
+            if indexPath.row == videoCount - 1 && !isLoading {
                 listCount += 20
+                
+                isLoading = true
                 detailVM?.relationSeries(videoNumber, offset: listCount)
             }
         default:
@@ -689,6 +684,7 @@ extension LecturePlaylistVC: CollectionReloadData {
     
     func reloadCollection() {
         DispatchQueue.main.async {
+            self.isLoading = false
             self.collectionView.reloadData()
         }
     }

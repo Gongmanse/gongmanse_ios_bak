@@ -18,18 +18,27 @@ import Alamofire
 class RecentKeywordViewModel {
     
     weak var reloadDelegate: TableReloadData?
-    var recentKeywordList: RecentKeywordModel?
-    
+//    var recentKeywordList: RecentKeywordModel?
+    var recentList: [RecentKeywordDataModel] = []
     
     let requestRecentApi = RecentKeywordAPIManager()
     
+    var isLoading = false
+    
     // 최근 검색어 목록 불러오기
-    func requestGetListApi() {
-        
-        requestRecentApi.fetchRecentKeywordListApi { response in
+    func requestGetListApi(_ offset: Int = 0) {
+        if isLoading {
+            return
+        }
+        isLoading = true
+        requestRecentApi.fetchRecentKeywordListApi(offset: offset) { response in
+            self.isLoading = false
             switch response {
             case .success(let data):
-                self.recentKeywordList = data
+                if offset == 0 {
+                    self.recentList.removeAll()
+                }
+                self.recentList.append(contentsOf: data.data)
                 self.reloadDelegate?.reloadTable()
             case .failure(let error):
                 print(error.localizedDescription)

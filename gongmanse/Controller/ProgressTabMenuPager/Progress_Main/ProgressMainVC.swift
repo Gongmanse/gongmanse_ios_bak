@@ -69,6 +69,9 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     var changeGrade: String?
     var changeGradeNumber: Int?
     
+    var _selectedGrade: String = "모든 학년"
+    var _selectedUnit: String = "모든 단원"
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -91,7 +94,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
             let getfilter = getFilteringAPI()
             getfilter.getFilteringData { [weak self] result in
                 self?.getGradeData = result
-                self?.gradeBtn.setTitle(self?.getGradeData?.sGrade ?? "모든 학년", for: .normal)
+                self?.gradeBtn.setTitle((self?.getGradeData?.sGrade ?? "").isEmpty ? "모든 학년" : self!.getGradeData!.sGrade!, for: .normal)
                 self?.chapterBtn.setTitle("모든 단원", for: .normal)
                 
                 self?.changeGrade = self?.mainViewModel.transformGrade(string: self?.getGradeData?.sGrade ?? "")
@@ -128,6 +131,8 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
         guard let index: Int = userinfo["chapterNumber"] as? Int else { return }
         guard let body = bodycopyDataList else { return }
         
+        _selectedUnit = chapterName
+        
         chapterBtn.setTitle(chapterName, for: .normal)
         
         if index == 0 {
@@ -146,6 +151,9 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     @objc func changeGradeTitle(_ sender: Notification) {
         // ex) 모든학년 받아옴
         guard let getGradeTitle: String = sender.userInfo?["grade"] as? String else { return }
+        
+        _selectedGrade = getGradeTitle
+        _selectedUnit = "모든 단원"
         // 모든에 해당하는 강의 나타냄
         let gradeTitle = mainViewModel.transformGrade(string: getGradeTitle)
         let gradeNumber = mainViewModel.transformGradeNumber(string: getGradeTitle)
@@ -205,7 +213,11 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
                 DispatchQueue.global().async {
                     sleep(1)
                     
-                    self?.progressBodyDataList?.append(contentsOf: result.body!)
+                    if self?._selectedUnit == "모든 단원" {
+                        self?.progressBodyDataList?.append(contentsOf: result.body!)
+                    } else {
+                        self?.progressBodyDataList?.append(contentsOf: result.body!.filter{$0.title == self?._selectedUnit})
+                    }
                     
                     DispatchQueue.main.async {
                         self?.tableview.reloadData()
@@ -258,7 +270,8 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
 //        chapterBtn.layer.borderWidth = 3.5
         chapterBtn.setTitle("모든 단원", for: .normal)
         chapterBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0) // 버튼 내 위치 조정
-        chapterBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 과목 버튼 글자 Inset
+        chapterBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 30) // 과목 버튼 글자 Inset
+        chapterBtn.titleLabel?.lineBreakMode = .byTruncatingTail
     }
     
     
@@ -268,7 +281,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
     @IBAction func selectedGrade(_ sender: UIButton) {
         let popupVC = ProgressPopupVC()
         popupVC.selectedBtnIndex = .grade
-        
+        popupVC._selectedItem = _selectedGrade
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
         popupVC.view.frame = self.view.bounds
         self.present(popupVC, animated: true, completion: nil)
@@ -284,6 +297,7 @@ class ProgressMainVC: UIViewController, ProgressInfinityScroll {
             let popupVC = ProgressPopupVC()
             popupVC.selectedBtnIndex = .chapter
             popupVC.chapters = sendChapter
+            popupVC._selectedItem = _selectedUnit
             // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
             popupVC.view.frame = self.view.bounds
             self.present(popupVC, animated: true, completion: nil)

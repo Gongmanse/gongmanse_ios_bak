@@ -281,6 +281,7 @@ extension LoginVC {
         
         print("DEBUG: 시작일: \(response.dtPremiumActivate)")
         print("DEBUG: 종료일: \(response.dtPremiumActivate)")
+        Constant.remainPremiumDateInt = nil
         
         let activateDate: String? = response.dtPremiumActivate
         let expireDate: String? = response.dtPremiumExpire

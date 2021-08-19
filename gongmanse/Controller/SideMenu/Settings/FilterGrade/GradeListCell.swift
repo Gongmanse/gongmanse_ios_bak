@@ -10,6 +10,7 @@ import UIKit
 class GradeListCell: UITableViewCell {
 
     @IBOutlet weak var gradeLabel: UILabel!
+    @IBOutlet weak var ivChk: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

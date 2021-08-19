@@ -16,7 +16,7 @@ protocol RecentKeywordVCDelegate: class {
 class RecentKeywordVC: UIViewController {
     
     //MARK: - Properties
-
+    var comeFromSearchVC: Bool = true
     
     weak var delegate: RecentKeywordVCDelegate?
     
@@ -48,7 +48,7 @@ class RecentKeywordVC: UIViewController {
         tableView.register(UINib(nibName: "EmptyStateViewCell", bundle: nil), forCellReuseIdentifier: "EmptyStateViewCell")
         
         tableView.tableFooterView = UIView()
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         self.tableView.separatorStyle = .none
         
         
@@ -63,7 +63,7 @@ class RecentKeywordVC: UIViewController {
 extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return searchData.isToken ? recentVM.recentKeywordList?.data.count ?? 0 : 1
+        return searchData.isToken ? recentVM.recentList.count : 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,15 +72,15 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
         if searchData.isToken {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordCell", for: indexPath) as? RecentKeywordCell else { return UITableViewCell() }
             
-            let recentList = recentVM.recentKeywordList?.data[indexPath.row]
+            let recentList = recentVM.recentList[indexPath.row]
 
             // ID와 word를 묶기 위한 Tuple사용
-            let tuples: (id:String, word:String, tag:Int) = (recentList?.id ?? "", recentList?.sWords ?? "", indexPath.row)
+            let tuples: (id:String, word:String, tag:Int) = (recentList.id ?? "", recentList.sWords ?? "", indexPath.row)
             
             cell.selectionStyle = .none
             
             cell.keyword.text = tuples.word
-            cell.date.text = recentList?.convertDate
+            cell.date.text = recentList.convertDate
             cell.deleteButton.addTarget(self, action: #selector(deleteWord(_:)), for: .touchUpInside)
             cell.deleteButton.tag = tuples.tag
             
@@ -102,8 +102,10 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     
     @objc func deleteWord(_ sender: UIButton) {
         
-        guard let removeText = recentVM.recentKeywordList?.data[sender.tag].id else { return }
+        guard let removeText = recentVM.recentList[sender.tag].id else { return }
         recentVM.requestDeleteKeywordApi(removeText)
+        
+        recentVM.recentList.remove(at: sender.tag)
         
     }
     
@@ -116,23 +118,32 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        searchData.searchText = recentVM.recentKeywordList?.data[indexPath.row].sWords
-        
-        // 선택시 검색창 text생성하기
-        NotificationCenter.default.post(name: .searchBeforeSearchBarText, object: nil)
-        
-        // 화면이동하는 Controller로 데이터 전달
-        let controller = SearchAfterVC()
-        
-        // 화면 전환
-        let vc = UINavigationController(rootViewController: controller)
-        
-        vc.modalPresentationStyle = .fullScreen
-        
-        self.present(vc, animated: true)
+        if searchData.isToken {
+            searchData.searchText = recentVM.recentList[indexPath.row].sWords
+            
+            // 선택시 검색창 text생성하기
+            NotificationCenter.default.post(name: .searchBeforeSearchBarText, object: nil)
+            
+            // 화면이동하는 Controller로 데이터 전달
+            let controller = SearchAfterVC()
+            
+            controller.comeFromSearchVC = self.comeFromSearchVC
+            
+            // 화면 전환
+            let vc = UINavigationController(rootViewController: controller)
+            
+            vc.modalPresentationStyle = .fullScreen
+            
+            self.present(vc, animated: true)
+        }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == recentVM.recentList.count - 1 {
+            //더보기
+            recentVM.requestGetListApi(recentVM.recentList.count)
+        }
+    }
 }
 
 extension RecentKeywordVC: TableReloadData {

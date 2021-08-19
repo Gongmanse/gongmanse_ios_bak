@@ -7,6 +7,20 @@
 
 import UIKit
 
+extension String {
+    var htmlToAttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return nil
+        }
+    }
+    var htmlToString: String {
+        return htmlToAttributedString?.string ?? ""
+    }
+}
+
 // NSAttributeString 중간에 글자 색 바꾸기 
 
 extension String {
@@ -105,7 +119,16 @@ extension String {
     }
  
         
-
+    func withCommas() -> String {
+        let largeNumber = Int(self) ?? 0
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value:largeNumber)) ?? "0"
+        return formattedNumber
+    }
     
-    
+    func withDouble() -> String {
+        let value = Double(self) ?? 0.0
+        return String(format: "%.1f", value)
+    }
 }

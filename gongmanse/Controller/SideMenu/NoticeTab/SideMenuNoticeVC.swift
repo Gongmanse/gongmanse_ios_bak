@@ -8,12 +8,22 @@ class SideMenuNoticeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
-        navigationSetting()
         setupTabs()
         setupPageViewController()
-        
+        addBottomBorder()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationSetting()
+    }
+    
+    func addBottomBorder() {
+       let thickness: CGFloat = 0.5
+       let bottomBorder = CALayer()
+       bottomBorder.frame = CGRect(x:0, y: self.tabsView.frame.size.height - thickness, width: self.tabsView.frame.size.width, height:thickness)
+       bottomBorder.backgroundColor = UIColor.systemGray4.cgColor
+       tabsView.layer.addSublayer(bottomBorder)
     }
     
     func showViewController(_ index: Int) -> UIViewController? {

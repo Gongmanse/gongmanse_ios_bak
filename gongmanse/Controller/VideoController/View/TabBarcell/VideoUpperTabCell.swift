@@ -51,6 +51,7 @@ class VideoUpperCell: UICollectionViewCell {
         didSet{
             print("Changed")
             self.label.textColor = isSelected ? .mainOrange : .rgb(red: 28, green: 28, blue: 28)
+            self.leftImageView.tintColor = isSelected ? .mainOrange : .black
         }
     }
 }

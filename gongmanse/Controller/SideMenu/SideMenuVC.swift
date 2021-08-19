@@ -110,14 +110,14 @@ class SideMenuVC: UITableViewController {
                 let myActivityVC = self.storyboard?.instantiateViewController(withIdentifier: "MyActivityVC") as! MyActivityVC
                 self.navigationController?.pushViewController(myActivityVC, animated: true)
             } else {
-                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+                self.navigationController?.presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
         } else if indexPath.row == 1 {
             if Constant.isLogin {
                 let myCalendarVC = self.storyboard?.instantiateViewController(withIdentifier: "MyCalendarVC") as! MyCalendarVC
                 self.navigationController?.pushViewController(myCalendarVC, animated: true)
             } else {
-                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+                self.navigationController?.presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
         } else if indexPath.row == 2 {
             let whatIsGongManseVC = self.storyboard?.instantiateViewController(withIdentifier: "WhatIsGongManseVC") as! WhatIsGongManseVC
@@ -134,7 +134,7 @@ class SideMenuVC: UITableViewController {
                 let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
                 self.navigationController?.pushViewController(settingsVC, animated: true)
             } else {
-                presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+                self.navigationController?.presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             }
 
             
@@ -254,23 +254,28 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
     func clickedLogoutButton() {
         
         //UserDefaults.standard.removeObject(forKey: "refresh_token")
-        
-        Constant.token = ""
-        viewModel.token = Constant.token
-        headerViewHeight = viewModel.isHeaderHeight
-        
-        let autoPlayDataManager = AutoplayDataManager.shared
-        autoPlayDataManager.videoDataInPopularTab = nil
-        autoPlayDataManager.videoDataInRecommandTab = nil
-        autoPlayDataManager.videoDataInMainSubjectsTab = nil
-        autoPlayDataManager.videoDataInScienceTab = nil
-        autoPlayDataManager.videoDataInSocialStudyTab = nil
-        autoPlayDataManager.videoDataInOtherSubjectsTab = nil
-        autoPlayDataManager.videoDataInPopularTab = nil
-        
-        let loginData = LoginDataManager()
-        loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
-        tableView.reloadData()
+        let alert = UIAlertController(title: nil, message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
+            Constant.token = ""
+            Constant.remainPremiumDateInt = nil
+            
+            self.viewModel.token = Constant.token
+            self.headerViewHeight = self.viewModel.isHeaderHeight
+            
+            let autoPlayDataManager = AutoplayDataManager.shared
+            autoPlayDataManager.isAutoPlay = false
+            autoPlayDataManager.currentFiltering = ""
+            autoPlayDataManager.currentSort = 0
+            autoPlayDataManager.currentViewTitleView = ""
+            autoPlayDataManager.videoDataList.removeAll()
+            autoPlayDataManager.videoSeriesDataList.removeAll()
+            
+            let loginData = LoginDataManager()
+            loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
+            self.tableView.reloadData()
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     func clickedRegistrationButton(isLogin: Bool) {

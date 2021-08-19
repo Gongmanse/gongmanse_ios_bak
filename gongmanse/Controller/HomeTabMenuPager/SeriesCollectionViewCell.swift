@@ -20,7 +20,7 @@ class SeriesCollectionViewCell: UICollectionViewCell {
         videoThumbnail.layer.cornerRadius = 13
         
         //과목 label background 라운딩 처리
-        subjects.layer.cornerRadius = 7
+        subjects.layer.cornerRadius = 8
         subjects.clipsToBounds = true
         subjects.textColor = .white
         

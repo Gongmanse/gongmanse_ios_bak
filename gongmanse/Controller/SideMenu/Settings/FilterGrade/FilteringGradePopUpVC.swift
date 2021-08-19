@@ -146,7 +146,10 @@ extension FilteringGradePopUpVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GradeListCellIdentifier, for: indexPath) as? GradeListCell else { return UITableViewCell() }
         
+        let grade = UserDefaults.standard.object(forKey: "gradeFilterText") as? String ?? "모든 학년"
         cell.gradeLabel.text = AllgradeList[indexPath.row]
+        cell.gradeLabel.textColor = grade == AllgradeList[indexPath.row] ? .mainOrange : .black
+        cell.ivChk.isHidden = grade != AllgradeList[indexPath.row]
         
         return cell
     }

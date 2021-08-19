@@ -106,9 +106,6 @@
 		258237412664830B00CAE14B /* RatingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237402664830B00CAE14B /* RatingDataManager.swift */; };
 		258237432664831200CAE14B /* RatingInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237422664831200CAE14B /* RatingInput.swift */; };
 		258237452664831800CAE14B /* RatingReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237442664831800CAE14B /* RatingReponse.swift */; };
-		258237472664832000CAE14B /* SharingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237462664832000CAE14B /* SharingDataManager.swift */; };
-		2582374A2664832C00CAE14B /* SharingInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258237492664832C00CAE14B /* SharingInput.swift */; };
-		2582374C2664833500CAE14B /* SharingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582374B2664833500CAE14B /* SharingResponse.swift */; };
 		2582375026648A9200CAE14B /* RatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582374E26648A9200CAE14B /* RatingController.swift */; };
 		2582375126648A9200CAE14B /* RatingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2582374F26648A9200CAE14B /* RatingController.xib */; };
 		25832D5C261D77FF00CB63B8 /* Subtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25832D5B261D77FF00CB63B8 /* Subtitles.swift */; };
@@ -354,6 +351,12 @@
 		6CFA77CE262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFA77CD262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift */; };
 		6CFAAEC8263A427200C18531 /* ExpertConsultModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFAAEC7263A427200C18531 /* ExpertConsultModels.swift */; };
 		6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFAAED8263BF1EA00C18531 /* ExpertConsultationDetailVC.swift */; };
+		800984A026B82DB00089C201 /* ShareDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8009849E26B82DB00089C201 /* ShareDialog.swift */; };
+		800984A126B82DB00089C201 /* ShareDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8009849F26B82DB00089C201 /* ShareDialog.xib */; };
+		800984A526B834D10089C201 /* ShareDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800984A426B834D10089C201 /* ShareDataManager.swift */; };
+		80309A6226B4E55D00A6B770 /* gong_outro1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 80309A6026B4E55D00A6B770 /* gong_outro1.mov */; };
+		80309A6326B4E55D00A6B770 /* gong_outro2.mov in Resources */ = {isa = PBXBuildFile; fileRef = 80309A6126B4E55D00A6B770 /* gong_outro2.mov */; };
+		80E9BC0226B81F4B0049BDE8 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9BC0126B81F4B0049BDE8 /* Reachability.swift */; };
 		A9129ECE26169F4B00041CC5 /* NoticeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129ECA26169F4A00041CC5 /* NoticeListVC.swift */; };
 		A9129ECF26169F4B00041CC5 /* EventListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9129ECB26169F4A00041CC5 /* EventListVC.swift */; };
 		A9129ED026169F4B00041CC5 /* EventListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9129ECC26169F4B00041CC5 /* EventListVC.xib */; };
@@ -580,9 +583,6 @@
 		258237402664830B00CAE14B /* RatingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDataManager.swift; sourceTree = "<group>"; };
 		258237422664831200CAE14B /* RatingInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingInput.swift; sourceTree = "<group>"; };
 		258237442664831800CAE14B /* RatingReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingReponse.swift; sourceTree = "<group>"; };
-		258237462664832000CAE14B /* SharingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingDataManager.swift; sourceTree = "<group>"; };
-		258237492664832C00CAE14B /* SharingInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingInput.swift; sourceTree = "<group>"; };
-		2582374B2664833500CAE14B /* SharingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingResponse.swift; sourceTree = "<group>"; };
 		2582374E26648A9200CAE14B /* RatingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingController.swift; sourceTree = "<group>"; };
 		2582374F26648A9200CAE14B /* RatingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RatingController.xib; sourceTree = "<group>"; };
 		25832D5B261D77FF00CB63B8 /* Subtitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subtitles.swift; sourceTree = "<group>"; };
@@ -832,6 +832,12 @@
 		6CFA77CD262443DE00040CBD /* KoreanEnglishMathAlignmentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanEnglishMathAlignmentTVCell.swift; sourceTree = "<group>"; };
 		6CFAAEC7263A427200C18531 /* ExpertConsultModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultModels.swift; sourceTree = "<group>"; };
 		6CFAAED8263BF1EA00C18531 /* ExpertConsultationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpertConsultationDetailVC.swift; sourceTree = "<group>"; };
+		8009849E26B82DB00089C201 /* ShareDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDialog.swift; sourceTree = "<group>"; };
+		8009849F26B82DB00089C201 /* ShareDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareDialog.xib; sourceTree = "<group>"; };
+		800984A426B834D10089C201 /* ShareDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDataManager.swift; sourceTree = "<group>"; };
+		80309A6026B4E55D00A6B770 /* gong_outro1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = gong_outro1.mov; sourceTree = "<group>"; };
+		80309A6126B4E55D00A6B770 /* gong_outro2.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = gong_outro2.mov; sourceTree = "<group>"; };
+		80E9BC0126B81F4B0049BDE8 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9925BCA8E66A53077BDDC5D1 /* Pods-gongmanse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.release.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.release.xcconfig"; sourceTree = "<group>"; };
 		A9129ECA26169F4A00041CC5 /* NoticeListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeListVC.swift; sourceTree = "<group>"; };
 		A9129ECB26169F4A00041CC5 /* EventListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListVC.swift; sourceTree = "<group>"; };
@@ -1499,6 +1505,7 @@
 				257FCBEA264524EB00EC0F42 /* Video */,
 				257FCBDD2645219500EC0F42 /* View */,
 				2580CF54261A924200D78E4E /* BottomCell */,
+				80E9BC0126B81F4B0049BDE8 /* Reachability.swift */,
 			);
 			path = VideoController;
 			sourceTree = "<group>";
@@ -1545,15 +1552,6 @@
 			path = Rating;
 			sourceTree = "<group>";
 		};
-		25823733266482BA00CAE14B /* Sharing */ = {
-			isa = PBXGroup;
-			children = (
-				2582373F2664830100CAE14B /* Entity */,
-				2582373E266482FC00CAE14B /* DataManager */,
-			);
-			path = Sharing;
-			sourceTree = "<group>";
-		};
 		25823736266482D000CAE14B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1588,23 +1586,6 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
-		2582373E266482FC00CAE14B /* DataManager */ = {
-			isa = PBXGroup;
-			children = (
-				258237462664832000CAE14B /* SharingDataManager.swift */,
-			);
-			path = DataManager;
-			sourceTree = "<group>";
-		};
-		2582373F2664830100CAE14B /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				258237492664832C00CAE14B /* SharingInput.swift */,
-				2582374B2664833500CAE14B /* SharingResponse.swift */,
-			);
-			path = Entity;
-			sourceTree = "<group>";
-		};
 		2582374D26648A7C00CAE14B /* Rating */ = {
 			isa = PBXGroup;
 			children = (
@@ -1617,9 +1598,9 @@
 		258237522664B0E000CAE14B /* LessonInfo */ = {
 			isa = PBXGroup;
 			children = (
+				800984A226B834AB0089C201 /* Share */,
 				25823731266482AA00CAE14B /* Bookmark */,
 				25823732266482B200CAE14B /* Rating */,
-				25823733266482BA00CAE14B /* Sharing */,
 			);
 			path = LessonInfo;
 			sourceTree = "<group>";
@@ -2579,6 +2560,8 @@
 				6CD7C3C625F086E00092D30E /* SceneDelegate.swift */,
 				25608EDB2665E53600E3246C /* 인트로영상01.mov */,
 				25AB851D26733F6E003A182C /* 비율수정인트로영상.mov */,
+				80309A6026B4E55D00A6B770 /* gong_outro1.mov */,
+				80309A6126B4E55D00A6B770 /* gong_outro2.mov */,
 				6CD7C3CA25F086E00092D30E /* Main.storyboard */,
 				6CD7C3CD25F086E60092D30E /* Assets.xcassets */,
 				6CD7C3CF25F086E60092D30E /* LaunchScreen.storyboard */,
@@ -2618,6 +2601,7 @@
 		6CF2E68025F0D956000FE084 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8009849D26B82CC60089C201 /* Share */,
 				257C4FFE2668DC7800C65355 /* Video_Refectoring */,
 				2580AB62266748E600B42475 /* LessonNoteController */,
 				252600882648E28400FEABE2 /* Video_Re */,
@@ -2766,6 +2750,31 @@
 				6CF2E66B25F0AB9B000FE084 /* HomeVC.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		8009849D26B82CC60089C201 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				8009849E26B82DB00089C201 /* ShareDialog.swift */,
+				8009849F26B82DB00089C201 /* ShareDialog.xib */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		800984A226B834AB0089C201 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				800984A326B834B80089C201 /* DataManager */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		800984A326B834B80089C201 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				800984A426B834D10089C201 /* ShareDataManager.swift */,
+			);
+			path = DataManager;
 			sourceTree = "<group>";
 		};
 		A9129EC826169F3200041CC5 /* NoticeTab */ = {
@@ -3418,6 +3427,7 @@
 				259B8B5926030048009A7146 /* NanumSquareRoundR.ttf in Resources */,
 				6CD7C3CC25F086E00092D30E /* Main.storyboard in Resources */,
 				259B8B9026030153009A7146 /* ProgressDetailCell.xib in Resources */,
+				80309A6226B4E55D00A6B770 /* gong_outro1.mov in Resources */,
 				259B8C29260307A5009A7146 /* LectureCell.xib in Resources */,
 				259B8BC426030517009A7146 /* ProgressDetailVC.xib in Resources */,
 				259B8BA2260301CF009A7146 /* SearchNoteCell.xib in Resources */,
@@ -3446,6 +3456,7 @@
 				2584E8AA26082078000DFA20 /* CheckUserIdentificationVC.xib in Resources */,
 				259B8B5626030048009A7146 /* NanumSquareRoundL.ttf in Resources */,
 				259B8BFD260305EB009A7146 /* SearchNoteVC.xib in Resources */,
+				80309A6326B4E55D00A6B770 /* gong_outro2.mov in Resources */,
 				A9129ED026169F4B00041CC5 /* EventListVC.xib in Resources */,
 				259B8B8726030148009A7146 /* ProgressPopupCell.xib in Resources */,
 				259B8C3526031C99009A7146 /* StoreVC.xib in Resources */,
@@ -3454,6 +3465,7 @@
 				A952484C261A92DF000F2473 /* NoticeCell.xib in Resources */,
 				2584E8A526082050000DFA20 /* RegistrationUserInfoVC.xib in Resources */,
 				259B8BE4260305B3009A7146 /* RecentKeywordVC.xib in Resources */,
+				800984A126B82DB00089C201 /* ShareDialog.xib in Resources */,
 				A9129EE22616A26400041CC5 /* IntroduceInstructorVC.xib in Resources */,
 				2588F858260987690070C2FC /* FindingPwdVC.xib in Resources */,
 				259B8BF9260305E6009A7146 /* SearchConsultVC.xib in Resources */,
@@ -3615,7 +3627,6 @@
 				6CC1F06E25FA0A3600A909B0 /* RecommendBannerCell.swift in Sources */,
 				258237452664831800CAE14B /* RatingReponse.swift in Sources */,
 				6CFA77C52620423A00040CBD /* KoreanEnglishMathBottomPopUpVC.swift in Sources */,
-				2582374C2664833500CAE14B /* SharingResponse.swift in Sources */,
 				258237412664830B00CAE14B /* RatingDataManager.swift in Sources */,
 				25BD760326157258002B266C /* NewPasswordViewModel.swift in Sources */,
 				259B8BCF2603054D009A7146 /* ProgressScienceVC.swift in Sources */,
@@ -3651,6 +3662,7 @@
 				C207F5CD26266CAF0020A965 /* RequestLectureListAPI.swift in Sources */,
 				A9629CE22613081100BBFB55 /* FrequentlyAskViewContoler.swift in Sources */,
 				C2172467262FEE9A003959AB /* NotificationName.swift in Sources */,
+				800984A026B82DB00089C201 /* ShareDialog.swift in Sources */,
 				C2A0808C26256D890014C3C0 /* UseLectureCell.swift in Sources */,
 				C2CBA539266A1101000ADD5D /* MyCalendarViewModel.swift in Sources */,
 				2541BFCC263F990B000853EF /* LessonInfoController.swift in Sources */,
@@ -3680,7 +3692,6 @@
 				C2448C6826296581008CE4A1 /* ProgressDetailListAPI.swift in Sources */,
 				6C052CFF26661B0E00083F59 /* RecentVideoBottomPopUpCell.swift in Sources */,
 				6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */,
-				2582374A2664832C00CAE14B /* SharingInput.swift in Sources */,
 				25BD761126157BDC002B266C /* NewPasswordDataManager.swift in Sources */,
 				6C052D072667224400083F59 /* NoteListBottomPopUpCell.swift in Sources */,
 				259B8BBE2603050A009A7146 /* ProgressMainVC.swift in Sources */,
@@ -3767,7 +3778,6 @@
 				25BD75FB26156ADA002B266C /* FindingPwdByPhoneResponse.swift in Sources */,
 				C23920422667256D00AC6912 /* CalendarAPIManager.swift in Sources */,
 				C28BD57E264379CB006D1318 /* SearchConsultationModel.swift in Sources */,
-				258237472664832000CAE14B /* SharingDataManager.swift in Sources */,
 				256D01B6263A92D800967449 /* VideoSettingPopupController.swift in Sources */,
 				6C4713B725F8534900D68A2B /* MyCalendarVC.swift in Sources */,
 				25201DA3260426D6001098AC /* RegistrationVC.swift in Sources */,
@@ -3836,6 +3846,7 @@
 				25608EE626660CAE00E3246C /* EditingProfileInput.swift in Sources */,
 				6CF2E66225F0AA53000FE084 /* ScienceVC.swift in Sources */,
 				C27401D82679E17000A2B484 /* OneOneViewModel.swift in Sources */,
+				80E9BC0226B81F4B0049BDE8 /* Reachability.swift in Sources */,
 				2580CF57261A927900D78E4E /* VideoMenuBar.swift in Sources */,
 				259B8B9126030153009A7146 /* ProgressDetailCell.swift in Sources */,
 				25608EF42666284B00E3246C /* EditingProfileResponse.swift in Sources */,
@@ -3875,6 +3886,7 @@
 				258237432664831200CAE14B /* RatingInput.swift in Sources */,
 				C282206C2627D02A0066EC9B /* UserQuestionWrite.swift in Sources */,
 				6C052D1A26677EB500083F59 /* BookMarkBottomPopUpCell.swift in Sources */,
+				800984A526B834D10089C201 /* ShareDataManager.swift in Sources */,
 				259B8BC926030531009A7146 /* ProgressPopupVC.swift in Sources */,
 				C2A92FA0263BB4CA00098F92 /* SearchAfterVideoAPIManager.swift in Sources */,
 				A9129ECE26169F4B00041CC5 /* NoticeListVC.swift in Sources */,
@@ -4034,7 +4046,7 @@
 				CODE_SIGN_ENTITLEMENTS = gongmanse/gongmanse.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4042,7 +4054,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.3;
+				MARKETING_VERSION = 2.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4060,7 +4072,7 @@
 				CODE_SIGN_ENTITLEMENTS = gongmanse/gongmanse.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4068,7 +4080,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.3;
+				MARKETING_VERSION = 2.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

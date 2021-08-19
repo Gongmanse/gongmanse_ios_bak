@@ -31,10 +31,6 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     var delegate: LectureQuestionsTVCDelegate?
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     var height: CGFloat = 360
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
@@ -43,7 +39,6 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         super.viewDidLoad()
         
         getDataFromJson()
-        getDataFromJsonVideo()
         
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
@@ -64,30 +59,6 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     @objc func lectureQuestionsFilterNoti(_ sender: NotificationCenter) {
         let filterButtonTitle = UserDefaults.standard.object(forKey: "lectureQuestionsFilterText")
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     func getDataFromJson() {
@@ -118,23 +89,22 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    self.textSettings()
+                    self.textSettings(Int(self.lectureQnA?.totalNum ?? "0") ?? 0)
                 }
                 
             }.resume()
         }
     }
     
-    func textSettings() {
-        guard let value = self.lectureQnA else { return }
-        
-        self.countAll.text = "총 \(value.totalNum ?? "nil")개"
+    func textSettings(_ totalNum: Int) {
+        let strCount = String(totalNum).withCommas()
+        self.countAll.text = "총 \(strCount)개"
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.black])
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: String(totalNum)))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: strCount))
         
         self.countAll.attributedText = attributedString
     }
@@ -169,6 +139,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
             cell.emptyLabel.text = "질문 목록이 없습니다."
+            cell.selectionStyle = .none
             return cell
             
         } else {
@@ -221,6 +192,10 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
+    func removeItem(_ video_id: String) {
+        getDataFromJson()
+    }
+    
     @objc func deleteAction(_ sender: UIButton) {
         
         guard let json = self.lectureQnA else { return }
@@ -233,6 +208,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         deleteBottomPopUpVC.dismissDuration = dismissDuration
         deleteBottomPopUpVC.video_id = id
         deleteBottomPopUpVC.video_title = title
+        deleteBottomPopUpVC.parentVC = self
         present(deleteBottomPopUpVC, animated: true)
     }
     
@@ -240,7 +216,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         guard let value = self.lectureQnA else { return 0 }
         
         if value.totalNum == "0" {
-            return tableView.frame.height
+            return tableView.frame.height - 70
         } else {
             return 80
         }
@@ -248,25 +224,36 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let value = self.lectureQnA else { return }
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if value.totalNum == "0" {
+            presentAlert(message: "질문 목록이 없습니다.")
+            return
+        }
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             
             presentAlert(message: "이용권을 구매해주세요")
             
-        } else if indexVideoData.source_url != nil {
+        } else {
             
             guard let value = self.lectureQnA else { return }
             
             if value.totalNum == "0" {
                 presentAlert(message: "강의 QnA 목록이 없습니다.")
             } else {
+                AutoplayDataManager.shared.isAutoPlay = false
+                AutoplayDataManager.shared.currentIndex = -1
+                AutoplayDataManager.shared.videoDataList.removeAll()
+                AutoplayDataManager.shared.videoSeriesDataList.removeAll()
+                
                 let vc = VideoController()
                 vc.modalPresentationStyle = .fullScreen
                 let videoID = lectureQnA?.data[indexPath.row].id

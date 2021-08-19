@@ -12,13 +12,14 @@ class ProgressDetailVC: UIViewController {
     //MARK: - Properties
     
     // 자동재생기능 구현을 위한 싱글톤객체를 생성한다.
-    let autoplayDataManager = AutoplayDataManager.shared
+    let autoPlayDataManager = AutoplayDataManager.shared
     
     @IBOutlet weak var lessonTitle: UILabel!                // 어떤 강의인지 viewModel을 통해 전달받아야함.
     @IBOutlet weak var numberOfLesson: UILabel!             // 몇 개의 강의가 있는지 viewModel을 통해 전달받아야함. 
     @IBOutlet weak var collectionView: UICollectionView!    
     @IBOutlet weak var autoPlaySwitch: UISwitch!
-  
+    @IBOutlet weak var autoPlayLabel: UILabel!
+    
     @IBOutlet weak var subjectColor: UIStackView!
     @IBOutlet weak var gradeLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
@@ -26,10 +27,6 @@ class ProgressDetailVC: UIViewController {
     private var progressBodyData: [ProgressDetailBody]?
     private var progressHeaderData: ProgressDetailHeader?
     private let detailCellIdentifier = "ProgressDetailCell"
-    
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
     
     // 무한 스크롤
     var cellCount: Int = 0
@@ -42,12 +39,12 @@ class ProgressDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromJsonVideo()
         
         // UISwitch 속성 설정
         autoPlaySwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         autoPlaySwitch.onTintColor = .mainOrange
         autoPlaySwitch.addTarget(self, action: #selector(playSwitchValueChanged(_:)), for: .valueChanged)
+        autoPlayLabel.textColor = .black
         
         navigationItem.title = "진도 학습"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(handleBackBtn))
@@ -63,31 +60,7 @@ class ProgressDetailVC: UIViewController {
     
     /// 자동재생 설정 여부를 확인하기 위한 콜백메소드
     @objc func playSwitchValueChanged(_ sender: UISwitch) {
-        
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                
-            }.resume()
-        }
+        autoPlayLabel.textColor = sender.isOn ? .black : .lightGray
     }
     
     func progressDataManager(progressID: String, limit: Int, offset: Int) {
@@ -152,7 +125,7 @@ class ProgressDetailVC: UIViewController {
         // subjectColor
         subjectColor.backgroundColor = UIColor(hex: headerData?.subjectColor ?? "")
         subjectColor.layer.cornerRadius = subjectColor.frame.size.height / 2
-        subjectColor.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 3, right: 10)
+        subjectColor.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
         subjectColor.isLayoutMarginsRelativeArrangement = true
         
         configurelabel(rows: progressHeaderData?.totalRows ?? "", title: headerData?.title ?? "")
@@ -200,7 +173,7 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.lessonTitle.text = progressIndexPath?.title
         cell.subjectFirst.text = progressIndexPath?.subject
         cell.subjectSecond.text = progressIndexPath?.unit
-        cell.starRating.text = progressIndexPath?.rating
+        cell.starRating.text = progressIndexPath?.rating?.withDouble() ?? "0.0"
         cell.teathername.text = progressIndexPath?.teacherChangeName
         cell.subjectFirst.backgroundColor = UIColor(hex: progressIndexPath?.subjectColor ?? "")
         cell.subjectSecond.backgroundColor = .mainOrange
@@ -217,19 +190,28 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
-        } else if indexVideoData.source_url != nil {
+        } else {
             // 비디오 연결
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
             let receviedVideoID = self.progressBodyData?[indexPath.row].videoId
             vc.id = receviedVideoID
+            
+            autoPlayDataManager.currentViewTitleView = "진도학습"
+            autoPlayDataManager.isAutoPlay = self.autoPlaySwitch.isOn
+            autoPlayDataManager.currentJindoId = (self.progressBodyData?[indexPath.row].progressId)!
+            autoPlayDataManager.videoDataList.removeAll()
+//            progressBodyData -> VideoModels
+//            autoPlayDataManager.videoDataList.append(contentsOf: progressBodyData)
+            autoPlayDataManager.videoSeriesDataList.removeAll()
+            autoPlayDataManager.currentIndex = self.autoPlaySwitch.isOn ? indexPath.row : -1
+                        
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
             return
@@ -253,8 +235,8 @@ extension ProgressDetailVC: UICollectionViewDelegateFlowLayout {
     
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width
-        return CGSize(width: width, height: 240)
+        let width = view.frame.width - 40
+        return CGSize(width: width, height: (width / 16 * 9 + 80))
     }
     
 }

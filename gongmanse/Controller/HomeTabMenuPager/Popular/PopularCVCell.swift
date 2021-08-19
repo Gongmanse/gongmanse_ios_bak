@@ -13,7 +13,7 @@ class PopularCVCell: UICollectionViewCell {
         
         //비디오 썸네일 이미지 라운딩 처리
         videoThumbnail.layer.cornerRadius = 13
-        videoThumbnail.layer.contentsRect = CGRect(x: 0, y: -0.1, width: 1.0, height: 1.0)
+//        videoThumbnail.layer.contentsRect = CGRect(x: 0, y: -0.1, width: 1.0, height: 1.0)
         //과목 label background 라운딩 처리
         subjects.layer.cornerRadius = 7
         subjects.clipsToBounds = true

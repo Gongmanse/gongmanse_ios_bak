@@ -148,11 +148,13 @@ extension FrequentlyAskViewContoler: UITableViewDelegate {
         let sectionNumber = sender.tag
         datamodel[sectionNumber].expanState = !datamodel[sectionNumber].expanState
         
-        if datamodel[sectionNumber].expanState {
-            
-            tableView.reloadSections(IndexSet(sectionNumber...sectionNumber), with: .automatic)
+//        if datamodel[sectionNumber].expanState {
+//
+//            tableView.reloadSections(IndexSet(sectionNumber...sectionNumber), with: .bottom)
+//        }
+        UIView.performWithoutAnimation {
+            self.tableView.reloadSections(IndexSet(sectionNumber...sectionNumber), with: .none)
         }
-        tableView.reloadSections(IndexSet(sectionNumber...sectionNumber), with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -180,7 +182,13 @@ extension FrequentlyAskViewContoler: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: questionIdentifier, for: indexPath) as? AskListCell else { return UITableViewCell() }
         
-        cell.askTextLabel.text = datamodel[indexPath.section].Ask
+//        cell.askTextLabel.text = datamodel[indexPath.section].Ask
+        let attributedString = NSMutableAttributedString(string: datamodel[indexPath.section].Ask)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        cell.askTextLabel.attributedText = attributedString
+        
         cell.askMarkLabel.text = datamodel[indexPath.section].AskMark
         cell.selectionStyle = .none
         return cell

@@ -31,8 +31,6 @@ class PIPDataManager {
     var previousTeacherName: String? = "김우성"
     var currentTeacherName: String? = "김우성2"
 
-    var noteViewController: LectureNoteController?
-    
     /// videoController가 처음으로 호출되었는지 판단하는 연산 프로퍼티
     /// - ture  : 처음으로 호출 된 경우
     /// - false : 처음아 아닌 경우
@@ -55,6 +53,7 @@ protocol VideoControllerDelegate: AnyObject {
 
 class VideoController: UIViewController, VideoMenuBarDelegate {
     // MARK: - Properties
+    var controllerTimer: Timer? //동영상 위 컨트롤 자동 사라지기
     
     // video 영상 데이터 및 PIP 재생에 관련된 데이터를 관리하는 싱글톤 객체를 생성한다.
     let videoDataManager = VideoDataManager.shared
@@ -81,49 +80,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         }
     }
     
+    // collectionview 가 reload 되면서 노트,QA,재싱목록탭이 refresh되는것을 막기위해
+    var noteViewController: LectureNoteController?
+    var qnaCell: BottomQnACell?
     var videoPlaylistVC: VideoPlaylistVC?
+    var isKeyboardSelect = false
     
     var id: String?
     var seriesID: String?
     //0709 - added by hp
     var keyword: String? //해시태그 이동일 경우
-        
-    // 추천
-    var recommendSeriesId: String?
-    var recommendReceiveData: VideoInput?
-    
-    // 인기
-    var popularSeriesId: String?
-    var popularReceiveData: VideoInput?
-    var popularViewTitle: String?
-    
-    // 국영수
-    var koreanSeriesId: String?
-    var koreanSwitchValue: UISwitch?
-    var koreanReceiveData: VideoInput?
-    var koreanSelectedBtn: UIButton?
-    var koreanViewTitle: String?
-    
-    // 과학
-    var scienceSeriesId: String?
-    var scienceSwitchValue: UISwitch?
-    var scienceReceiveData: VideoInput?
-    var scienceSelectedBtn: UIButton?
-    var scienceViewTitle: String?
-    
-    // 사회
-    var socialStudiesSeriesId: String?
-    var socialStudiesSwitchValue: UISwitch?
-    var socialStudiesReceiveData: VideoInput?
-    var socialStudiesSelectedBtn: UIButton?
-    var socialStudiesViewTitle: String?
-    
-    // 기타
-    var otherSubjectsSeriesId: String?
-    var otherSubjectsSwitchValue: UISwitch?
-    var otherSubjectsReceiveData: VideoInput?
-    var otherSubjectsSelectedBtn: UIButton?
-    var otherSubjectsViewTitle: String?
     
     var videoAndVttURL = VideoURL(videoURL: NSURL(string: ""), vttURL: "")
     lazy var lessonInfoController = LessonInfoController(videoID: id)
@@ -193,12 +159,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     // Constraint 객체 - 세로모드
     var pageCollectionViewPorTraitRightConstraint: NSLayoutConstraint?
     var pageCollectionViewPorTraitBottomConstraint: NSLayoutConstraint?
+    var pageCollectionViewPorTraitBottomConstraint1: NSLayoutConstraint? //pip
     var pageCollectionViewPorTraitTopConstraint: NSLayoutConstraint?
     var pageCollectionViewPorTraitLeftConstraint: NSLayoutConstraint?
     
     // Constraint 객체 - 가로모드
     var pageCollectionViewLandscapeRightConstraint: NSLayoutConstraint?
     var pageCollectionViewLandscapeBottomConstraint: NSLayoutConstraint?
+    var pageCollectionViewLandscapeBottomConstraint1: NSLayoutConstraint? //pip
     var pageCollectionViewLandscapeTopConstraint: NSLayoutConstraint?
     var pageCollectionViewLandscapeLeftConstraint: NSLayoutConstraint?
     
@@ -281,6 +249,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     
     // MARK: Video Player Control Button
 
+    let replayButton: UIButton = {
+        let button = UIButton(type: .system)
+        let pauseImage = UIImage(named: "ic_replay")
+        button.setBackgroundImage(pauseImage, for: .normal)
+        button.contentMode = .scaleToFill
+        button.addTarget(self, action: #selector(replayPlayer), for: .touchUpInside)
+        button.alpha = 0
+        return button
+    }()
+    
     /// 재생 및 일시정지 버튼
     let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
@@ -342,8 +320,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     
     /// 가로화면(전체화면)으로 전환되는 버튼
     let changeOrientationButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(named: "전체화면버튼")
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "icon_fullscreen_enter")
         button.addTarget(self, action: #selector(presentFullScreenMode), for: .touchUpInside)
         button.setImage(image, for: .normal)
         return button
@@ -355,6 +333,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         button.setImage(image, for: .normal)
         button.tintColor = .mainOrange
         button.addTarget(self, action: #selector(handleSubtitleToggle), for: .touchUpInside)
+        button.setImage(UIImage(named: UserDefaults.standard.bool(forKey: "subtitle") ? "smallCaptionOn" : "자막토글버튼_제거"), for: .normal)
         return button
     }()
     
@@ -362,8 +341,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         didSet {
             if self.isClickedSubtitleToggleButton {
                 self.subtitleLabel.alpha = 1
+                self.subtitleToggleButton.setImage(UIImage(named: "smallCaptionOn"), for: .normal)
             } else {
                 self.subtitleLabel.alpha = 0
+                self.subtitleToggleButton.setImage(UIImage(named: "자막토글버튼_제거"), for: .normal)
             }
         }
     }
@@ -409,11 +390,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
-        label.font = UIFont.appBoldFontWith(size: 15)
+        label.font = UIFont.appBoldFontWith(size: 13)
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
         label.text = "default setting..."
+        label.alpha = UserDefaults.standard.bool(forKey: "subtitle") ? 1 : 0
         return label
     }()
     
@@ -423,7 +405,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     /// 자막을 클릭 했을 때, 제스쳐로 인지할 제스쳐 인스턴스
     lazy var gesture = UITapGestureRecognizer(target: self, action: #selector(didTappedSubtitle))
     
-    var collectionViewLayout = UICollectionViewFlowLayout()
+    /*var collectionViewLayout = UICollectionViewFlowLayout()
     
     /// 가로방향으로 스크롤할 수 있도록 구현한 CollectionView
     lazy var pageCollectionView: UICollectionView = {
@@ -434,6 +416,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
                                               collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()*/
+    var pageCurrentIndex: Int = 0 //노트,강의,재생
+    lazy var pageController: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0,
+                                        width: 500,
+                                        height: 500))
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.clipsToBounds = true
+        return view
     }()
     
     /// 상단 탭바 객체 생성
@@ -487,6 +479,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     /// 현재 자막에 있는 keyword Array
     var currentKeywords = ["", "", "", "", "", "", "", "", "", "", "", ""]
     var isStartVideo = false
+    var isEndVideo = false
         
     // MARK: - Lifecycle
     
@@ -520,28 +513,52 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
 //            self.player.currentItem?.removeObserver(self, forKeyPath: "duration", context: nil)
             NotificationCenter.default.removeObserver(self)
             self.player.pause()
-            self.removePeriodicTimeObserver()
+            //여기서 remove해주면 관련시리즈,해시태그,노트보기, 전체보기 화면에 갔다가 뒤돌아오면 타임라인이 동작하지 않는다.
+            //따라서 동영상이 바뀌는곳에서 remove하는것으로 변경
+//            self.removePeriodicTimeObserver() //
             self.setRemoveNotification()
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        // 인트로 종료될 때, delegat로 해주고 있어서 잠시 주석처리했음. 06.17
-//        setNotification()
+        super.viewWillAppear(animated)
         
-        // 인트로를 실행한다.
-        if self.isStartVideo == false {
-            let vc = IntroController()
-            vc.delegate = self
-            vc.modalPresentationStyle = .overFullScreen
-            present(vc, animated: false) {
-                // 이 player의 Notification이 남아있어서 인트로종료 시, 아래 player의 Notification이 종료된다.
-                self.setRemoveNotification()
-                self.player.pause()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.closeInfoView), name: NSNotification.Name("1234"), object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        
+        //celluar, wifi 체크 우선
+        if Reachability.isConnectedToNetwork(){
+            let wifi = Reachability.isConnectedToWIFI()
+            
+            if !wifi && !UserDefaults.standard.bool(forKey: "mobileData") { //celluar 만 연결인데 설정에서 막았다?
+                let alert = UIAlertController(title: nil, message: "WIFI 를 연결하거나, 설정에서 모바일 데이터 사용을 허용해주세요", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    self.dismiss(animated: true, completion: nil)
+                }))
+                present(alert, animated: true, completion: nil)
             }
-            self.isStartVideo = true
+        } else { //우선 둘다 연결이 안되어있다면 종료
+            let alert = UIAlertController(title: nil, message: "인터넷 상태를 확인해 주세요", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            present(alert, animated: true, completion: nil)
         }
-        else {
+        
+        //노트 다시그리기
+        if let vc = self.noteViewController {
+            vc.setupData()
+        }
+        
+        if isStartVideo {
             AppDelegate.AppUtility.lockOrientation(.all)
         }
     }
@@ -558,20 +575,81 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         }
 
         // 가로모드를 제한한다.
-//        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
-        configureDataAndNoti()
+        configureDataAndNoti(false)
         configureUI() // 전반적인 UI 구현 메소드
         configureToggleButton() // 선생님 정보 토글버튼 메소드
         configureVideoControlView() // 비디오 상태바 관련 메소드
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.closeInfoView), name: NSNotification.Name("1234"), object: nil)
+        //intro
+        if Reachability.isConnectedToNetwork(){
+            playInOutroVideo(1)
+            
+            backButton.alpha = 1
+        }
     }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
         
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
+            let keyboardRectangle = keyboardFame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            print(keyboardHeight)
+            UIView.animate(withDuration: 1) {
+                if !VideoDataManager.shared.isFirstPlayVideo {
+                    let pipHeight = UIDevice.current.orientation.isLandscape ? (UIScreen.main.bounds.width * 0.085) : (UIScreen.main.bounds.height * 0.085)
+                    if UIWindow.isLandscape {
+                        self.pageCollectionViewLandscapeBottomConstraint1?.constant = -keyboardHeight + pipHeight
+                    } else {
+                        self.pageCollectionViewPorTraitBottomConstraint1?.constant = -keyboardHeight + pipHeight
+                    }
+                } else {
+                    if UIWindow.isLandscape {
+                        self.pageCollectionViewLandscapeBottomConstraint?.constant = -keyboardHeight
+                    } else {
+                        self.pageCollectionViewPorTraitBottomConstraint?.constant = -keyboardHeight
+                    }
+                }
+            }
+            
+            isKeyboardSelect = true
+        }
+    }
+ 
+    @objc func keyboardWillHide(_ sender: Notification) {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == true {
+            let keyboardRectangle = keyboardFame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            print(keyboardHeight)
+            UIView.animate(withDuration: 1) {
+                if !VideoDataManager.shared.isFirstPlayVideo {
+                    if UIWindow.isLandscape {
+                        self.pageCollectionViewLandscapeBottomConstraint1?.constant = 0
+                    } else {
+                        self.pageCollectionViewPorTraitBottomConstraint1?.constant = 0
+                    }
+                } else {
+                    if UIWindow.isLandscape {
+                        self.pageCollectionViewLandscapeBottomConstraint?.constant = 0
+                    } else {
+                        self.pageCollectionViewPorTraitBottomConstraint?.constant = 0
+                    }
+                }
+            }
+            
+            isKeyboardSelect = false
+        }
+    }
+    
     @objc func closeInfoView() {
-        if self.teacherInfoFoldConstraint!.isActive == false {
-            self.teacherInfoFoldConstraint!.isActive = true
-            self.teacherInfoUnfoldConstraint!.isActive = false
+        if !UIWindow.isLandscape {
+            if !teacherInfoFoldConstraint!.isActive {
+                teacherInfoFoldConstraint!.isActive = true
+                teacherInfoUnfoldConstraint!.isActive = false
+    //            pageCollectionView.reloadData()
+            }
         }
     }
     
@@ -583,14 +661,32 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             
             //0711 - edited by hp 필기도구, 노트보기가 아래로 움직이지 않는 오류수정
             self.videoDataManager.isFirstPlayVideo = true
-            self.pageCollectionView.reloadData()
+            
+            if UIWindow.isLandscape {
+                self.pageCollectionViewLandscapeBottomConstraint1?.isActive = false
+                self.pageCollectionViewLandscapeBottomConstraint?.isActive = true
+            } else {
+                self.pageCollectionViewPorTraitBottomConstraint1?.isActive = false
+                self.pageCollectionViewPorTraitBottomConstraint?.isActive = true
+            }
+//            self.pageCollectionView.reloadData()
         }
     }
     
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
         let pipDataManager = PIPDataManager.shared
         self.pipContainerView.alpha = 0
+        
+        if UIWindow.isLandscape {
+            self.pageCollectionViewLandscapeBottomConstraint1?.isActive = false
+            self.pageCollectionViewLandscapeBottomConstraint?.isActive = true
+        } else {
+            self.pageCollectionViewPorTraitBottomConstraint1?.isActive = false
+            self.pageCollectionViewPorTraitBottomConstraint?.isActive = true
+        }
+        
         if let previousVideoID = videoDataManager.previousVideoID {
+            removePeriodicTimeObserver()
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
                                              token: Constant.token)
@@ -609,8 +705,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             //0711 - edited by hp 필기도구, 노트보기가 아래로 움직이지 않는 오류수정
             videoDataManager.isFirstPlayVideo = true
             
+            self.id = previousVideoID
             DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
-            self.pageCollectionView.reloadData()
+//            self.pageCollectionView.reloadData()
+            //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
+            loadBottomNote(false)
+            loadBottomQnA()
         }
     }
     
@@ -636,7 +736,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
 //                                        animated: true)
         
         // 회전하기 전 현재 collectionview의 index를 가져온다
-        let currentIndex = self.pageCollectionView.contentOffset.x / self.pageCollectionView.frame.size.width
+        let currentIndex = pageCurrentIndex//self.pageCollectionView.contentOffset.x / self.pageCollectionView.frame.size.width
         // 키보드 내리기
         self.view.endEditing(true)
         
@@ -650,10 +750,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         }
         
         // 가로모드 대응을 위해 flowLayout을 재정의한다.
-        guard let flowLayout = pageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
-            return
-        }
-        flowLayout.invalidateLayout()
+//        guard let flowLayout = pageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+//            return
+//        }
+//        flowLayout.invalidateLayout()
         
         // 회전하면서 collectionview의 paging width가 달라지고
         // 선택된 탭이 해제되는것을 수정
@@ -663,40 +763,30 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         }
     }
     
-    func introVideoStart() {
-        let testView = UIView()
-        testView.backgroundColor = .mainOrange
-        view.addSubview(testView)
-        testView.setDimensions(height: view.frame.width * 0.57,
-                               width: view.frame.width)
-        testView.anchor(top: view.topAnchor,
-                        left: view.leftAnchor)
-    }
-    
     func configurePIPView(pipData: PIPVideoData?) {
 //        guard let pipData = self.pipData else { return }
 //        let pipDataManager = PIPDataManager.shared
-        let pipHeight = view.frame.height * 0.085
+        let pipHeight = UIWindow.isLandscape ? view.frame.width * 0.085 : view.frame.height * 0.085
         let pipVC = PIPController(isPlayPIP: false)
         
         /* pipContainerView - Constraint */
         view.addSubview(self.pipContainerView)
-        self.pipContainerView.anchor(left: pageCollectionView.leftAnchor,
+        self.pipContainerView.anchor(left: pageController.leftAnchor,
                                      bottom: view.bottomAnchor,
-                                     right: pageCollectionView.rightAnchor,
+                                     right: pageController.rightAnchor,
                                      height: pipHeight)
+        
+        if !UIWindow.isLandscape {
+            self.pageCollectionViewPorTraitBottomConstraint?.isActive = false
+            self.pageCollectionViewPorTraitBottomConstraint1?.isActive = true
+        } else {
+            self.pageCollectionViewLandscapeBottomConstraint?.isActive = false
+            self.pageCollectionViewLandscapeBottomConstraint1?.isActive = true
+        }
         
         let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.pipViewDidTap))
         self.pipContainerView.addGestureRecognizer(pipTapGesture)
         self.pipContainerView.isUserInteractionEnabled = true
-        
-        /* pipVC.view - Constraint  */
-//        let pipThumbnailImageView = UIImageView()
-//        pipThumbnailImageView.image = self.videoDataManager.previousvideoThumbnailImage ?? UIImage()
-//        self.pipContainerView.addSubview(pipThumbnailImageView)
-//        pipThumbnailImageView.anchor(top: self.pipContainerView.topAnchor)
-//        pipThumbnailImageView.centerY(inView: self.pipContainerView)
-//        pipThumbnailImageView.setDimensions(height: pipHeight, width: pipHeight * 1.77)
         
         //0711 - edited by hp
         //이전 강의 보던 부분에서 일시정지상태를 위해 다시 열어놓음
@@ -732,16 +822,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             self.teachernameLabel.text = previousTeacherName + " 선생님"
         }
     }
-    
-    func setupIntroOuttroVideoContainerView() {
-        // TODO: 인트로 및 아웃트로 를 위한 컨테이너뷰를 넣어야 한다.
-//        introOuttroContainerView
-    }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource {
+/*extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
@@ -754,14 +839,16 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
 //            let testVC = TestSearchController(clickedText: "2 개 생기는 이유좀 알려줘요")
 //            let noteVC = DetailNoteController(id: id, token: Constant.token) // 05.25이전 노트컨트롤러
-            let noteVC = LectureNoteController(id: id, token: Constant.token, parent: self) // 05.25이후 노트컨트롤러
-            self.addChild(noteVC)
+            if self.noteViewController == nil {
+                self.noteViewController = LectureNoteController(id: id, token: Constant.token, parent: self) // 05.25이후 노트컨트롤러
+            }
+            self.addChild(self.noteViewController!)
 //            self.addChild(self.noteViewController)
             
-            noteVC.didMove(toParent: self)
+            self.noteViewController!.didMove(toParent: self)
             
-            cell.view.addSubview(noteVC.view)
-            noteVC.view.anchor(top: cell.view.topAnchor,
+            cell.view.addSubview(self.noteViewController!.view)
+            self.noteViewController!.view.anchor(top: cell.view.topAnchor,
                                left: cell.view.leftAnchor,
                                bottom: cell.view.bottomAnchor,
                                right: cell.view.rightAnchor)
@@ -774,7 +861,9 @@ extension VideoController: UICollectionViewDelegate, UICollectionViewDataSource 
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoPlaylistCell.reusableIdentifier, for: indexPath) as! VideoPlaylistCell
-            self.videoPlaylistVC = VideoPlaylistVC(seriesID: self.seriesID ?? "100", hashTag: keyword ?? "")
+            if self.videoPlaylistVC == nil {
+                self.videoPlaylistVC = VideoPlaylistVC(seriesID: self.seriesID ?? "100", hashTag: keyword ?? "")
+            }
             guard let videoPlaylistVC = self.videoPlaylistVC else { return UICollectionViewCell() }
             self.addChild(videoPlaylistVC)
             cell.addSubview(videoPlaylistVC.view)
@@ -866,11 +955,24 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
     {
         return 0
     }
-}
+}*/
 
 // MARK: - API
 
 extension VideoController {
+    func didSuccessUpdateRating(response: DetailVideoResponse) {
+        /// 내가준 점수
+        if let lessonRating = response.data.iUserRating {
+            self.lessonInfoController.myRating = lessonRating
+        } else {
+            self.lessonInfoController.myRating = nil
+        }
+        
+        /// 유저들의 평균점수
+        let avgRating = response.data.iRating
+        self.lessonInfoController.userRating = avgRating
+    }
+    
     /// 06.11 이후에 작성한 API메소드
     func didSuccessReceiveVideoData(response: DetailVideoResponse) {
         // token 버그 발생 시, 주석 해제해볼 것 06.22
@@ -889,10 +991,7 @@ extension VideoController {
             self.pipContainerView.alpha = 1
         }
         
-        let autoPlayDM = AutoplayDataManager.shared
-        autoPlayDM.mainSubjectListCount = 0
-        
-        self.player.pause()
+//        self.player.pause()
         
         // 현재 VideoID를 추가한다.
         self.id = response.data.id
@@ -900,6 +999,9 @@ extension VideoController {
         
         self.seriesID = response.data.iSeriesId
         self.lessonInfoController.seriesID = self.seriesID
+        
+        //재생목록 로드
+        self.loadBottomPlayList(true)
         
         // videoURL을 저장한다.
         if let videoURL = response.data.source_url {
@@ -958,6 +1060,11 @@ extension VideoController {
             self.lessonInfoController.sUnitLabel01.labelText = "DEFAULT"
         } else {
             self.lessonInfoController.sUnitLabel01.labelText = unitname01
+            if unitname01 == "용어" {
+                self.lessonInfoController.sUnitLabel01.labelBackgroundColor = UIColor(hex: "fb6225")
+            } else {
+                self.lessonInfoController.sUnitLabel01.labelBackgroundColor = UIColor(hex: "008dc1")
+            }
         }
 
         // lessionInfo로 VideoID를 전달한다.
@@ -968,11 +1075,12 @@ extension VideoController {
         self.lessonInfoController.seriesID = self.seriesID
         
         // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
-        self.recommendSeriesId = response.data.iSeriesId
+//        self.recommendSeriesId = response.data.iSeriesId
         
         // 썸네일 이미지를 저장한다.
         let imageStringURL = response.data.sThumbnail
         let convertThumbnailImageURL = "https://file.gongmanse.com/" + makeStringKoreanEncoded(imageStringURL)
+        self.lessonInfoController.thumbnail = convertThumbnailImageURL
         let imageURL = URL(string: convertThumbnailImageURL)
         
         do {
@@ -982,12 +1090,14 @@ extension VideoController {
             print("DEBUG: 이미지를 제대로 못 받아왔습니다.")
         }
         
-        let isBookmark = response.data.sBookmarks
+        let isBookmark = response.data.boolsBookmarks
         self.lessonInfoController.isBookmark = isBookmark
         
         /// 내가준 점수
         if let lessonRating = response.data.iUserRating {
             self.lessonInfoController.myRating = lessonRating
+        } else {
+            self.lessonInfoController.myRating = nil
         }
         
         /// 유저들의 평균점수
@@ -995,7 +1105,9 @@ extension VideoController {
         self.lessonInfoController.userRating = avgRating
         
         DispatchQueue.main.async {
-            self.playVideo()
+            if self.isStartVideo {
+                self.playVideo()
+            }
         }
         
 //        PIPDataManager.shared.currentVideoTime = 0.0 //reset
@@ -1006,7 +1118,7 @@ extension VideoController {
     }
     
     /// 06.11 이전에 작성한 API메소드
-    func didSucceedNetworking(response: DetailVideoResponse) {
+    func didSucceedNetworking(response: DetailVideoResponse) { //현재 사용안함
         setRemoveNotification()
 
         // source_url -> VideoURL
@@ -1107,7 +1219,7 @@ extension VideoController {
             self.lessonInfoController.isChangedName = self.lessonInfoController.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
         })
         self.lessonInfoController.seriesID = self.seriesID
-        self.recommendSeriesId = response.data.iSeriesId
+//        self.recommendSeriesId = response.data.iSeriesId
         
 //        pipPlayer.play()
         
@@ -1120,7 +1232,9 @@ extension VideoController {
         
         self.pipData = pipData
         DispatchQueue.main.async {
-            self.playVideo()
+            if self.isStartVideo {
+                self.playVideo()
+            }
         }
     }
     
@@ -1129,12 +1243,13 @@ extension VideoController {
     }
     
     func networkingByGuestKey(response: GuestKeyResponse) {
-        let autoPlayDM = AutoplayDataManager.shared
-        autoPlayDM.mainSubjectListCount = 0
         
-        self.player.pause()
+//        self.player.pause()
 
         self.seriesID = response.data.iSeriesId
+        self.lessonInfoController.seriesID = self.seriesID
+        
+        self.loadBottomPlayList(true)
         
         // videoURL을 저장한다.
         let videoURL = response.data.source_url
@@ -1202,11 +1317,12 @@ extension VideoController {
         })
         
         // 재생목록에 데이터를 조회하기 위한 "SeriesID" 를 전달한다.
-        self.recommendSeriesId = response.data.iSeriesId
+//        self.recommendSeriesId = response.data.iSeriesId
         
         // 썸네일 이미지를 저장한다.
         let imageStringURL = response.data.sThumbnail
         let convertThumbnailImageURL = "https://file.gongmanse.com/" + makeStringKoreanEncoded(imageStringURL)
+        self.lessonInfoController.thumbnail = convertThumbnailImageURL
         let imageURL = URL(string: convertThumbnailImageURL)
         
         do {
@@ -1216,8 +1332,14 @@ extension VideoController {
             print("DEBUG: 이미지를 제대로 못 받아왔습니다.")
         }
         
+        /// 유저들의 평균점수
+        let avgRating = response.data.iRating
+        self.lessonInfoController.userRating = avgRating
+        
         DispatchQueue.main.async {
-            self.playVideo()
+            if self.isStartVideo {
+                self.playVideo()
+            }
         }
         
         let pipData = PIPVideoData(isPlayPIP: false,
@@ -1257,10 +1379,11 @@ extension VideoController: VideoFullScreenControllerDelegate {
         setNotification()
     }
     
-    func setCurrentTime(playerCurrentTime: CMTime?) {
+    func setCurrentTime(playerCurrentTime: CMTime?, rate: Float, toggle: Bool) {
         player.seek(to: playerCurrentTime ?? player.currentTime())
-        player.play()
         player.isMuted = false
+        self.currentVideoPlayRate = rate
+        self.isClickedSubtitleToggleButton = toggle
     }
 }
 
@@ -1268,33 +1391,41 @@ extension VideoController: VideoFullScreenControllerDelegate {
 
 extension VideoController: BottomPlaylistCellDelegate {
     func videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: String) {
+        if self.id == videoID {
+            return
+        }
         self.player.pause()
+        removePeriodicTimeObserver()
         setRemoveNotification()
 
         let inputData = DetailVideoInput(video_id: videoID,
                                          token: Constant.token)
         
-        let pipDataManager = PIPDataManager.shared
-        pipDataManager.currentVideoID = videoID
         self.id = videoID
         // "상세화면 영상 API"를 호출한다.
-        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self, showIntro: true, refreshList: false)
+        
+        //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
+        loadBottomNote(true)
+        loadBottomQnA()
         
         // 노트 데이터를 불러온다.
 //        pipContainerView.alpha = 0
-        self.pageCollectionView.reloadData()
+//        self.pageCollectionView.reloadData()
 //        let noteIndexPath = IndexPath(item: 0, section: 0)
 //        let qnaIndexPath = IndexPath(item: 1, section: 0)
 //        pageCollectionView.reloadItems(at: [noteIndexPath, qnaIndexPath])
         
         //0709 - edited by hp
-        lessonInfoController.videoID = videoID
-        lessonInfoController.videoDetailVM?.requestVideoDetailApi(videoID, lessonInfoController.problemSolvingButton, completion: {
-            self.lessonInfoController.isChangedName = self.lessonInfoController.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
-        })
+//        lessonInfoController.videoID = videoID
+//        lessonInfoController.videoDetailVM?.requestVideoDetailApi(videoID, lessonInfoController.problemSolvingButton, completion: {
+//            self.lessonInfoController.isChangedName = self.lessonInfoController.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+//        })
     }
     
     func videoControllerPresentVideoControllerInBottomPlaylistCell(videoID: String) {
+        //사용안함
+        
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
         vc.id = videoID
@@ -1317,9 +1448,18 @@ extension VideoController: SelectVideoPlayRateVCDelegate {
 
 extension VideoController: IntroControllerDelegate {
     /// 인트로 끝나면 호출되는 Delegation 메소드
+    // 사용안함
     func playVideoEndedIntro() {
         setNotification()
         self.player.play()
+    }
+    
+    // 아웃트로 끝나면 호출되는 Delegation 메소드
+    func playVideoEndedOutro() {
+        
+
+//        setRemoveNotification()
+//        removePeriodicTimeObserver()
     }
 }
 
@@ -1331,22 +1471,55 @@ extension VideoController: IntroControllerDelegate {
  */
 
 extension VideoController: LessonInfoControllerDelegate {
+    func needUpdateRating() {
+        let inputData = DetailVideoInput(video_id: self.id!,
+                                         token: Constant.token)
+        DetailVideoDataManager().updateNeedRating(inputData, viewController: self)
+    }
+    
     func problemSolvingLectureVideoPlay(videoID: String) {
+        let autoPlayDataManager = AutoplayDataManager.shared
+        autoPlayDataManager.isAutoPlay = false
+        autoPlayDataManager.videoDataList.removeAll()
+        autoPlayDataManager.videoSeriesDataList.removeAll()
+        autoPlayDataManager.currentIndex = -1
+        
         let inputData = DetailVideoInput(video_id: videoID,
                                          token: Constant.token)
+        self.id = videoID
         DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        
+        //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
+        loadBottomNote(false)
+        loadBottomQnA()
     }
     
     /// PIP에서 재생시간을 받아와서 현재 영상에 재생하는 Delegate 메소드
     func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime) {
         if currentTime != CMTime(value: CMTimeValue(0), timescale: CMTimeScale(0)) {
             print("DEBUG: 받은 시간은 : \(currentTime) 입니다.")
+            setNotification()
+            //인트로 도중에 다른 페이지로 이동했다가 타임을 가지고 되돌아오는 경우가 있다
+            if isStartVideo == false { //인트로 동영상 종료
+                isStartVideo = true
+                AppDelegate.AppUtility.lockOrientation(.all)
+                
+                self.playVideo()
+            }
             self.player.seek(to: currentTime)
             self.player.play()
             UIView.animate(withDuration: 0.33) {
                 //0713 - added by hp
                 if !self.videoDataManager.isFirstPlayVideo && self.videoDataManager.currentVideoID == self.videoDataManager.previousVideoID {
                     self.pipContainerView.alpha = 0
+                    
+                    if UIWindow.isLandscape {
+                        self.pageCollectionViewLandscapeBottomConstraint1?.isActive = false
+                        self.pageCollectionViewLandscapeBottomConstraint?.isActive = true
+                    } else {
+                        self.pageCollectionViewPorTraitBottomConstraint1?.isActive = false
+                        self.pageCollectionViewPorTraitBottomConstraint?.isActive = true
+                    }
                 }
             }
         }
@@ -1383,3 +1556,17 @@ extension VideoController {
 
 // 영상 토큰이 남아있는 것을 방지하기 위해 "상세검색" 화면에서 토큰을 제거하기 위해 Notification을 이용한다.
 extension Notification.Name {}
+
+extension UIWindow {
+    static var isLandscape: Bool {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.windows
+                .first?
+                .windowScene?
+                .interfaceOrientation
+                .isLandscape ?? false
+        } else {
+            return UIApplication.shared.statusBarOrientation.isLandscape
+        }
+    }
+}

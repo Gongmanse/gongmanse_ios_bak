@@ -60,7 +60,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F9a-co-6h8">
                             <rect key="frame" x="85" y="8" width="67" height="31"/>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                            <state key="normal" title="최신순 ▼">
+                            <state key="normal" title="관련순 ▼">
                                 <color key="titleColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>

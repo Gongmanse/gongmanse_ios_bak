@@ -7,11 +7,14 @@ extension VideoController {
         if teacherInfoFoldConstraint!.isActive == true {
             teacherInfoFoldConstraint!.isActive = false
             teacherInfoUnfoldConstraint!.isActive = true
+            
+            self.view.endEditing(true)
+            self.videoPlaylistVC?.reload()
         } else {
             teacherInfoFoldConstraint!.isActive = true
             teacherInfoUnfoldConstraint!.isActive = false
         }
-        pageCollectionView.reloadData()
+//        pageCollectionView.reloadData()
     }
 
     
@@ -26,28 +29,84 @@ extension VideoController {
         let currentTime = player.currentTime()
         let vc = VideoFullScreenController(playerCurrentTime: currentTime, urlData: self.videoAndVttURL)
         vc.id = self.id
+        vc.isClickedSubtitleToggleButton = isClickedSubtitleToggleButton
+        vc.currentVideoPlayRate = currentVideoPlayRate
         vc.delegate = self
         
         NotificationCenter.default.removeObserver(self)
-        removePeriodicTimeObserver()
         player.pause()
         present(vc, animated: true)
     }
 
     /// 데이터 구성을 위한 메소드
-    func configureDataAndNoti() {
+    func configureDataAndNoti(_ showIntro: Bool) {
         // 관찰자를 추가한다.
+        setRemoveNotification()
+        removePeriodicTimeObserver()
         setNotification()
         
         guard let id = id else { return }
         let inputData = DetailVideoInput(video_id: id, token: Constant.token)
         
         // "상세화면 영상 API"를 호출한다.
-        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
-            GuestKeyDataManager().GuestKeyAPIGetData(videoID: id, viewController: self)
-            videoDataManager.addVideoIDLog(videoID: id)
-        } else {
-            DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+        if Reachability.isConnectedToNetwork(){
+            if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
+                GuestKeyDataManager().GuestKeyAPIGetData(videoID: id, viewController: self)
+                videoDataManager.addVideoIDLog(videoID: id)
+            } else {
+                DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self, showIntro: showIntro)
+            }
+        }
+        
+        //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
+        loadBottomNote(false)
+        loadBottomQnA()
+    }
+    
+    func loadBottomNote(_ isHidden: Bool) {
+        if self.noteViewController == nil {
+            self.noteViewController = LectureNoteController(id: id!, token: Constant.token, parent: self) // 05.25이후 노트컨트롤러
+        }
+        self.addChild(self.noteViewController!)
+        self.noteViewController!.didMove(toParent: self)
+        self.pageController.addSubview(self.noteViewController!.view)
+        self.noteViewController!.view.anchor(top: pageController.topAnchor,
+                           left: pageController.leftAnchor,
+                           bottom: pageController.bottomAnchor,
+                           right: pageController.rightAnchor)
+        self.noteViewController?.view.isHidden = isHidden
+        
+        self.noteViewController?.setupData()
+    }
+    
+    func loadBottomQnA() {
+        if self.qnaCell == nil {
+            self.qnaCell = BottomQnACell()
+        }
+        qnaCell?.videoID = id!
+        self.pageController.addSubview(self.qnaCell!)
+        self.qnaCell!.anchor(top: pageController.topAnchor,
+                           left: pageController.leftAnchor,
+                           bottom: pageController.bottomAnchor,
+                           right: pageController.rightAnchor)
+        self.qnaCell!.isHidden = true
+    }
+    
+    func loadBottomPlayList(_ isHidden: Bool) {
+        if self.videoPlaylistVC == nil {
+            self.videoPlaylistVC = VideoPlaylistVC(seriesID: self.seriesID ?? "100", hashTag: keyword ?? "")
+            self.addChild(self.videoPlaylistVC!)
+            self.videoPlaylistVC!.didMove(toParent: self)
+            self.pageController.addSubview(self.videoPlaylistVC!.view)
+            self.videoPlaylistVC!.view.anchor(top: pageController.topAnchor,
+                                        left: pageController.leftAnchor,
+                                        bottom: pageController.bottomAnchor,
+                                        right: pageController.rightAnchor)
+            self.videoPlaylistVC!.playVideoDelegate = self
+            self.videoPlaylistVC!.view.isHidden = isHidden
+        } else { // 재생목록 유지
+            self.videoPlaylistVC!.view.isHidden = false
+            self.videoPlaylistVC!.reload()
         }
     }
     
@@ -82,6 +141,7 @@ extension VideoController {
         self.videoBackwardTimeButton.alpha = 0
         self.videoSettingButton.alpha = 0
         self.subtitleToggleButton.alpha = 0
+        self.backButton.alpha = 0
         
         timeSlider.transform = CGAffineTransform (scaleX: 1.05, y: 1.05)
         timeSlider.setThumbImage(#imageLiteral(resourceName: "checkFalse"), for: .normal)
@@ -89,16 +149,21 @@ extension VideoController {
     
     /// customMenuBar의 sroll관련 로직을 처리하는 메소드
     func customMenuBar(scrollTo index: Int) {
-        let indexPath = IndexPath(row: index, section: 0)
-        self.pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+//        let indexPath = IndexPath(row: index, section: 0)
+//        self.pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
-        // 현재 재생중인 cell 포커싱 + 하이라이트를 위한 로직 06.16
-        self.pageCollectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+//         현재 재생중인 cell 포커싱 + 하이라이트를 위한 로직 06.16
+//        self.pageCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+        self.pageCurrentIndex = index
+        
+        self.noteViewController?.view.isHidden = index != 0
+        self.qnaCell?.isHidden = index != 1
+        self.videoPlaylistVC?.view.isHidden = index != 2
     }
     
     /// "노트보기" ... 등 CollectionView 설정을 위한 메소드
     func setupPageCollectionView() {
-        pageCollectionView.isScrollEnabled = false
+        /*pageCollectionView.isScrollEnabled = false
         pageCollectionView.delegate = self
         pageCollectionView.dataSource = self
         pageCollectionView.backgroundColor = .white
@@ -111,8 +176,8 @@ extension VideoController {
         pageCollectionView.register(BottomPlaylistCell.self,
                                     forCellWithReuseIdentifier: BottomPlaylistCell.reusableIdentifier)
         pageCollectionView.register(VideoPlaylistCell.self,
-                                    forCellWithReuseIdentifier: VideoPlaylistCell.reusableIdentifier)
-        view.addSubview(pageCollectionView)
+                                    forCellWithReuseIdentifier: VideoPlaylistCell.reusableIdentifier)*/
+        view.addSubview(pageController)
     }
     
     /// 동영상 바로 하단에 위치한 강의정보 및 선생님 정보가 적힌 View 설정을 위한 메소드

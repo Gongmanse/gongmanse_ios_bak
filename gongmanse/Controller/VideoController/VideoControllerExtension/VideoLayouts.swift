@@ -36,6 +36,11 @@ extension VideoController {
         playPauseButton.centerY(inView: videoContainerView)
         playPauseButton.setDimensions(height: 50, width: 50)
         
+        view.addSubview(replayButton)
+        replayButton.centerX(inView: videoContainerView)
+        replayButton.centerY(inView: videoContainerView)
+        replayButton.setDimensions(height: 50, width: 50)
+        
         /* videoForwardTimeButton(동영상 앞으로 가기 버튼) */
         view.addSubview(videoForwardTimeButton)
         videoForwardTimeButton.setDimensions(height: 28, width: 24)
@@ -54,7 +59,8 @@ extension VideoController {
         view.addSubview(subtitleLabel)
         subtitleLabel.anchor(left: videoContainerView.leftAnchor,
                              bottom: videoContainerView.bottomAnchor,
-                             width: view.frame.width)
+                             width: view.frame.width,
+                             height: 30)
         
         /* CustomTabBar */
         view.addSubview(customMenuBar)
@@ -136,7 +142,7 @@ extension VideoController {
         
         // LandScape 제약조건 정의
         topBorderLineLandScapeCenterXConstraint =
-            topBorderLine.centerXAnchor.constraint(equalTo: pageCollectionView.centerXAnchor)
+            topBorderLine.centerXAnchor.constraint(equalTo: pageController.centerXAnchor)
         topBorderLineLandScapeHeightConstraint =
             topBorderLine.heightAnchor.constraint(equalToConstant: 0)
         topBorderLineLandScapeTopConstraint =
@@ -147,23 +153,27 @@ extension VideoController {
         /* pageCollectionView */
         // Portrait 제약조건 정의
         pageCollectionViewPorTraitLeftConstraint
-            = pageCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            = pageController.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         pageCollectionViewPorTraitRightConstraint
-            = pageCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            = pageController.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         pageCollectionViewPorTraitBottomConstraint
-            = pageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            = pageController.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        pageCollectionViewPorTraitBottomConstraint1
+            = pageController.bottomAnchor.constraint(equalTo: pipContainerView.topAnchor)
         pageCollectionViewPorTraitTopConstraint
-            = pageCollectionView.topAnchor.constraint(equalTo: lessonInfoView.bottomAnchor)
+            = pageController.topAnchor.constraint(equalTo: lessonInfoView.bottomAnchor)
         
         // Landscape 제약조건 정의
         pageCollectionViewLandscapeLeftConstraint
-            = pageCollectionView.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+            = pageController.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         pageCollectionViewLandscapeRightConstraint
-            = pageCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
+            = pageController.rightAnchor.constraint(equalTo: view.rightAnchor)
         pageCollectionViewLandscapeBottomConstraint
-            = pageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            = pageController.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        pageCollectionViewLandscapeBottomConstraint1
+            = pageController.bottomAnchor.constraint(equalTo: pipContainerView.topAnchor)
         pageCollectionViewLandscapeTopConstraint
-            = pageCollectionView.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
+            = pageController.topAnchor.constraint(equalTo: customMenuBar.bottomAnchor)
         
         /* playerController View */
         self.videoContainerView.addSubview(playerController.view)
@@ -228,8 +238,17 @@ extension VideoController {
         // "pageCollectionView" 제약조건
         pageCollectionViewPorTraitLeftConstraint?.isActive = isActive
         pageCollectionViewPorTraitRightConstraint?.isActive = isActive
-        pageCollectionViewPorTraitBottomConstraint?.isActive = isActive
         pageCollectionViewPorTraitTopConstraint?.isActive = isActive
+        
+        let videoDataManager = VideoDataManager.shared
+        let pipIsOn = !videoDataManager.isFirstPlayVideo
+        if pipIsOn {
+            pageCollectionViewPorTraitBottomConstraint?.isActive = false
+            pageCollectionViewPorTraitBottomConstraint1?.isActive = isActive
+        } else {
+            pageCollectionViewPorTraitBottomConstraint?.isActive = isActive
+            pageCollectionViewPorTraitBottomConstraint1?.isActive = false
+        }
     }
     
     /// Landscape 제약조건 활성화 메소드
@@ -266,6 +285,15 @@ extension VideoController {
         pageCollectionViewLandscapeBottomConstraint?.isActive = isActive
         pageCollectionViewLandscapeTopConstraint?.isActive = isActive
 
+        let videoDataManager = VideoDataManager.shared
+        let pipIsOn = !videoDataManager.isFirstPlayVideo
+        if pipIsOn {
+            pageCollectionViewLandscapeBottomConstraint?.isActive = false
+            pageCollectionViewLandscapeBottomConstraint1?.isActive = isActive
+        } else {
+            pageCollectionViewLandscapeBottomConstraint?.isActive = isActive
+            pageCollectionViewLandscapeBottomConstraint1?.isActive = false
+        }
         // TODO: "TeachInfoView" 제약조건
         // TODO: "CollectionView" 제약조건
     }

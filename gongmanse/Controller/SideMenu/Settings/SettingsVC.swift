@@ -5,8 +5,9 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
     
     private var tableView = UITableView()
     private let PushAlertCellIdentifier = "PushAlertCell"
-    //private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림"]
-    private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택"]
+    private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택", "자막 적용", "모바일 데이터 허용", "푸시 알림", "전문가 상담 답변", "1:1 문의 답변", "나의 스케줄 일정", "공만세 소식"]
+//    private let configurationList: [String] = ["기본 학년 선택", "기본 과목 선택"]
+    var arrSwitch: [Bool] = []
     
     var dataApi: SubjectGetDataModel?
     
@@ -51,6 +52,7 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
             DispatchQueue.main.async {
                 let allGrade = "모든 학년"
                 self?.gradeButton.setTitle(self?.dataApi?.sGrade == "" ? allGrade : self?.dataApi?.sGrade, for: .normal)
+                
 
                 let allSubject = "모든 과목"
                 self?.subjectButton.setTitle(self?.dataApi?.sName == nil ? allSubject : self?.dataApi?.sName, for: .normal)
@@ -72,6 +74,22 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(gradeNoti(_:)), name: NSNotification.Name("gradeFilterText"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(subjectNoti(_:)), name: NSNotification.Name("subjectFilterText"), object: nil)
+        
+        loadSwitchValue()
+    }
+    
+    func loadSwitchValue() {
+        arrSwitch.removeAll()
+        //7개 switch 값
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "subtitle"))
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "mobileData"))
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "push"))
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "specialist"))
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "inquiry"))
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "schedule"))
+        arrSwitch.append(UserDefaults.standard.bool(forKey: "notice"))
+        
+        tableView.reloadData()
     }
     
     @objc func gradeNoti(_ sender: NotificationCenter) {
@@ -149,6 +167,50 @@ extension SettingsVC {
         self.present(popupvc, animated: true)
     }
     
+    @objc func onSwitch(_ sender: UISwitch) {
+        print(sender.tag)
+        if sender.tag == 2 { //자막
+            UserDefaults.standard.setValue(sender.isOn, forKey: "subtitle")
+            loadSwitchValue()
+        } else if sender.tag == 3 { //모바일 데이터 허용
+            UserDefaults.standard.setValue(sender.isOn, forKey: "mobileData")
+        } else if sender.tag == 4 { //푸시 전체
+            UserDefaults.standard.setValue(sender.isOn, forKey: "push")
+            UserDefaults.standard.setValue(sender.isOn, forKey: "specialist")
+            UserDefaults.standard.setValue(sender.isOn, forKey: "inquiry")
+            UserDefaults.standard.setValue(sender.isOn, forKey: "schedule")
+            UserDefaults.standard.setValue(sender.isOn, forKey: "notice")
+            loadSwitchValue()
+        } else if sender.tag == 5 { // 전문가 상담
+            if !arrSwitch[2] {
+                UserDefaults.standard.setValue(false, forKey: "specialist")
+            } else {
+                UserDefaults.standard.setValue(sender.isOn, forKey: "specialist")
+            }
+            loadSwitchValue()
+        } else if sender.tag == 6 { // 문의
+            if !arrSwitch[2] {
+                UserDefaults.standard.setValue(false, forKey: "inquiry")
+            } else {
+                UserDefaults.standard.setValue(sender.isOn, forKey: "inquiry")
+            }
+            loadSwitchValue()
+        } else if sender.tag == 7 { // 스케쥴
+            if !arrSwitch[2] {
+                UserDefaults.standard.setValue(false, forKey: "schedule")
+            } else {
+                UserDefaults.standard.setValue(sender.isOn, forKey: "schedule")
+            }
+            loadSwitchValue()
+        } else if sender.tag == 8 { // 소식
+            if !arrSwitch[2] {
+                UserDefaults.standard.setValue(false, forKey: "notice")
+            } else {
+                UserDefaults.standard.setValue(sender.isOn, forKey: "notice")
+            }
+            loadSwitchValue()
+        }
+    }
 }
 
 extension SettingsVC: UITableViewDelegate {
@@ -171,16 +233,12 @@ extension SettingsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
         
-        let configurationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-        configurationLabel.font = UIFont(name: "NanumSquareRoundB", size: 16)
-        configurationLabel.text = configurationList[section]
-        
-        
-        
-        if 2...4 ~= section {
+        if 2...8 ~= section {
             
             let switchControl = UISwitch(frame: CGRect(x: 0, y: 0, width: 35, height: 16))
-            switchControl.isOn = true
+            switchControl.tag = section
+            switchControl.addTarget(self, action: #selector(onSwitch(_:)), for: .valueChanged)
+            switchControl.isOn = self.arrSwitch[section - 2]
             switchControl.isEnabled = true
             switchControl.onTintColor = UIColor.rgb(red: 237, green: 118, blue: 0)
             headerView.addSubview(switchControl)
@@ -189,6 +247,17 @@ extension SettingsVC: UITableViewDataSource {
             switchControl.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
             switchControl.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
             
+            if section == 2 {
+                let statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+                statusLabel.text = self.arrSwitch[section - 2] ? "적용" : "미적용"
+                statusLabel.textAlignment = .right
+                
+                headerView.addSubview(statusLabel)
+                
+                statusLabel.translatesAutoresizingMaskIntoConstraints = false
+                statusLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+                statusLabel.trailingAnchor.constraint(equalTo: switchControl.leadingAnchor, constant: -10).isActive = true
+            }
         }
         
         if section == 0 {
@@ -212,14 +281,25 @@ extension SettingsVC: UITableViewDataSource {
             subjectButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
         }
         
+        let configurationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+        configurationLabel.text = configurationList[section]
+        
         headerView.addSubview(configurationLabel)
         tableView.addSubview(headerView)
         
         configurationLabel.translatesAutoresizingMaskIntoConstraints = false
         configurationLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        configurationLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
         configurationLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
 
+        if 0...4 ~= section {
+            configurationLabel.font = UIFont(name: "NanumSquareRoundB", size: 16)
+            configurationLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
+            configurationLabel.textColor = .black
+        } else {
+            configurationLabel.font = UIFont(name: "NanumSquareRoundB", size: 14)
+            configurationLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 40).isActive = true
+            configurationLabel.textColor = self.arrSwitch[section - 2] ? .black: .gray
+        }
         
         return headerView
     }

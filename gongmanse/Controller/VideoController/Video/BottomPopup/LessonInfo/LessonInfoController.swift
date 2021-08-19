@@ -1,11 +1,18 @@
 import AVFoundation
 import UIKit
+import FBSDKShareKit
+import FBSDKCoreKit
+import KakaoSDKCommon
+import KakaoSDKLink
+import KakaoSDKTemplate
 
 protocol LessonInfoControllerDelegate: AnyObject {
     func videoVCPauseVideo()
     func videoVCPassCurrentVideoTimeToLessonInfo()
     func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime)
     func problemSolvingLectureVideoPlay(videoID: String)
+    
+    func needUpdateRating()
 }
 
 class LessonInfoController: UIViewController {
@@ -13,6 +20,7 @@ class LessonInfoController: UIViewController {
     
     var pipVideoData: PIPVideoData? // PIP 재생을 위해 필요한 구조체
     var seriesID: String?
+    var thumbnail: String?
     // "LessonInfoController"에서 "관련시리즈" 혹은 "sTags"를 클릭했을 때, 영상재생시간을 dataManager에 입력한다.
     var currentVideoPlayTime: Float? {
         didSet {
@@ -33,10 +41,6 @@ class LessonInfoController: UIViewController {
     
     weak var delegate: LessonInfoControllerDelegate?
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     public var sSubjectLabel = sUnitLabel("DEFAULT", .brown)
     public var sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
     public var sUnitLabel02 = sUnitLabel("DEFAULT", .mainOrange)
@@ -47,7 +51,7 @@ class LessonInfoController: UIViewController {
     
     let buttonSize = CGRect(x: 0, y: 0, width: 40, height: 40)
     public var teachernameLabel = PlainLabel("김우성 선생님", fontSize: 11.5)
-    public var lessonnameLabel = PlainLabel("분석명제와 종합명제", fontSize: 17)
+    public var lessonnameLabel = UILabel() //PlainLabel("분석명제와 종합명제", fontSize: 17)
     public var sTagsCollectionView: UICollectionView?
     private lazy var bookmarkButton = TopImageBottomTitleView(frame: buttonSize,
                                                               title: "즐겨찾기",
@@ -96,18 +100,11 @@ class LessonInfoController: UIViewController {
         didSet {
             // 내가 준 점수가 있다면, 유저들의 평균점수를 보여준다.
             if myRating != nil {
-                if let userRating = userRating {
-                    if userRating == "" {
-                        rateLessonButton.titleLabel.text = "3.0"
-                    }
-                    rateLessonButton.titleLabel.text = userRating
-                    rateLessonButton.viewTintColor = .mainOrange
-                }
+                rateLessonButton.viewTintColor = .mainOrange
             } else {
-                rateLessonButton.titleLabel.text = "평점"
-                rateLessonButton.tintColor = .black
                 rateLessonButton.viewTintColor = .black
             }
+            rateLessonButton.titleLabel.text = userRating
         }
     }
     
@@ -130,11 +127,10 @@ class LessonInfoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        getDataFromJsonVideo()
         
-        videoDetailVM?.requestVideoDetailApi(videoID ?? "", problemSolvingButton, completion: {
-            self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
-        })
+//        videoDetailVM?.requestVideoDetailApi(videoID ?? "", problemSolvingButton, completion: {
+//            self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+//        })
 //        videoDetailVM?.requestVideoDetailApi("151")
     }
     
@@ -148,26 +144,8 @@ class LessonInfoController: UIViewController {
         print("DEBUG: LessonInfoController Appear!!!")
         let pipDataManager = PIPDataManager.shared
         currentPIPVideoPlayTime = pipDataManager.currentVideoCMTime
-    }
-    
-    func getDataFromJsonVideo() {
         
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-            }.resume()
-        }
+        pipDataManager.currentVideoCMTime = CMTime() //초기화
     }
     
     // MARK: - Actions
@@ -185,6 +163,10 @@ class LessonInfoController: UIViewController {
     }
     
     @objc func handleBookmarkAction(sender: UIView) {
+        if !Constant.isLogin {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
+        }
         guard let videoID = self.videoID else { return }
         if bookmarkButton.viewTintColor == .mainOrange {
             // 즐겨찾기를 삭제한다.
@@ -204,14 +186,18 @@ class LessonInfoController: UIViewController {
     
     /// 평점 버튼을 클릭하면 호출되는 콜백메소드
     @objc func handleRateLessonAction() {
+        if !Constant.isLogin {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
+        }
         // "관련시리즈" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
 //        delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
         
-        if rateLessonButton.titleLabel.text != "평점" {
-            rateLessonButton.viewTintColor = .mainOrange
-        } else {
-            rateLessonButton.viewTintColor = .black
-        }
+//        if rateLessonButton.titleLabel.text != "평점" {
+//            rateLessonButton.viewTintColor = .mainOrange
+//        } else {
+//            rateLessonButton.viewTintColor = .black
+//        }
         
         guard let videoID = self.videoID else { return }
        
@@ -220,11 +206,11 @@ class LessonInfoController: UIViewController {
         vc.modalPresentationStyle = .overCurrentContext
         
         // 변동가능성 있는 부분
-        rateLessonButton.viewTintColor = .mainOrange
+//        rateLessonButton.viewTintColor = .mainOrange
         rateLessonButton.titleLabel.text = userRating
         
         if let myRatingPoint = myRating {
-            vc.clickedNumber = Int(myRatingPoint) ?? 3
+            vc.initPoint = Int(myRatingPoint) ?? 3
             vc.myRating = myRating
         }
         
@@ -235,13 +221,28 @@ class LessonInfoController: UIViewController {
     
     @objc func handleShareLessonAction() {
         // 클릭 시, 클릭에 대한 상태를 나타낼필요가 없으므로 검정색으로 유지시켰다.
-        presentAlert(message: "서비스 준비중입니다.")
+        if !Constant.isLogin {
+            presentAlert(message: "로그인후 이용해주세요.")
+            return
+        }
+        ShareDialog.show(self) { _type in
+            ShareDataManager().getShareCount(Constant.token) { countFiltered in
+                if countFiltered < 5 {
+                    self.getShareURL(_type: _type)
+                } else {
+                    self.presentAlert(message: "하루에 5회만 공유가 가능합니다. 내일 다시 시도해주세요.")
+                }
+            }
+        }
     }
 
     @objc func handleRelatedSeriesAction() {
         
         //guard let indexVideoData = detailVideo?.data else { return }
-        
+        if seriesID == "0" {
+            presentAlert(message: "관련 시리즈가 없습니다.")
+            return
+        }
         let videoDataManager = VideoDataManager.shared
         
         if Constant.isLogin == false {
@@ -273,6 +274,12 @@ class LessonInfoController: UIViewController {
         // TODO: Delegation을 이용해서,영상의 URL의 네트워킹을 통해 변경해주면 될 것 같다.
         // ex) 재생목록 영상 바꾸듯이.
         
+        //비로그인
+        if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
+            presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
+        }
+        
         isChangedName = !isChangedName
         
         problemSolvingButton.titleLabel.text = isChangedName ? "개념정리" : "문제풀이"
@@ -282,16 +289,16 @@ class LessonInfoController: UIViewController {
         
         switch isChangedName {
         case true: // 문제풀이
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton, completion: {
-                self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
-            })
+//            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton, completion: {
+//                self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+//            })
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
             
         case false: // 개념정리
-            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton, completion: {
-                self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
-            })
+//            videoDetailVM?.requestVideoDetailApi(videoDetailVM?.commantaryID ?? "", problemSolvingButton, completion: {
+//                self.isChangedName = self.videoDetailVM?.detailModel?.data.iHasCommentary ?? "" == "0"
+//            })
             
             delegate?.problemSolvingLectureVideoPlay(videoID: videoDetailVM?.commantaryID ?? "15188")
         }
@@ -321,16 +328,17 @@ class LessonInfoController: UIViewController {
         // TODO: [UI] 강의 태그 -> 05.04 OK
         view.addSubview(sSubjectsUnitContainerView)
         sSubjectsUnitContainerView.setDimensions(height: 25,
-                                                 width: view.frame.width * 0.9)
+                                                 width: view.frame.width - 60)
         sSubjectsUnitContainerView.anchor(top: view.topAnchor,
                                           left: view.leftAnchor,
-                                          paddingTop: paddingConstant, paddingLeft: 30)
+                                          right: view.rightAnchor,
+                                          paddingTop: 20, paddingLeft: 30, paddingRight: 30)
         
         sSubjectLabel.layer.cornerRadius = 11.5
         sSubjectsUnitContainerView.addSubview(sSubjectLabel)
         sSubjectLabel.anchor(top: sSubjectsUnitContainerView.topAnchor,
                              left: sSubjectsUnitContainerView.leftAnchor,
-                             paddingLeft: 2.5,
+                             paddingLeft: 0,
                              height: 25)
         configuresUnit(sSubjectsUnitContainerView, sSubjectLabel, label: sUnitLabel01)
         configuresUnit(sSubjectsUnitContainerView, sUnitLabel01, label: sUnitLabel02)
@@ -344,21 +352,24 @@ class LessonInfoController: UIViewController {
         // TODO: [UI] 강의 명 -> 05.04 OK
         sSubjectsUnitContainerView.addSubview(lessonnameLabel)
         lessonnameLabel.numberOfLines = 2
+        lessonnameLabel.lineBreakMode = .byWordWrapping
+        lessonnameLabel.font = UIFont.appBoldFontWith(size: 17)
         lessonnameLabel.anchor(top: sSubjectLabel.bottomAnchor,
                                left: sSubjectLabel.leftAnchor,
-                               paddingTop: 10, paddingLeft: 5, height: 20)
+                               right: sSubjectsUnitContainerView.rightAnchor,
+                               paddingTop: 10, paddingLeft: 0, paddingRight: 0)
         
         // TODO: [UI] 해쉬 태그 -> 05.04 UI 완성
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 2.5)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
         layout.itemSize.height = 20
         sTagsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(sTagsCollectionView ?? UICollectionView())
-        sTagsCollectionView?.setDimensions(height: 20, width: view.frame.width * 0.9)
+        sTagsCollectionView?.setDimensions(height: 20, width: view.frame.width - 60)
         sTagsCollectionView?.anchor(top: lessonnameLabel.bottomAnchor,
-                                    left: view.leftAnchor,
-                                    paddingTop: 10, paddingLeft: 10)
+                                    left: lessonnameLabel.leftAnchor,
+                                    paddingTop: 10, paddingLeft: 0)
         configureCollectionView()
         configureAdditionalFunctions() // 05.21 주석처리; 1차 배포를 위해 (기능 미구현상태)
         configureAddActions()
@@ -401,10 +412,95 @@ class LessonInfoController: UIViewController {
         stack.isUserInteractionEnabled = true
         stack.distribution = .equalSpacing
         stack.axis = .horizontal
-        stack.spacing = buttonWidth - 5
+        stack.spacing = 0
         stack.alignment = .leading
         stack.centerX(inView: view)
+        stack.setDimensions(height: buttonHeight, width: view.frame.width - 60)
         stack.anchor(top: sTagsCollectionView?.bottomAnchor, paddingTop: 10)
+    }
+    
+    func getShareURL(_type: Int) {
+        ShareDataManager().getShareURL(videoID!) { shareUrl in
+            if _type == 1 {
+                self.shareFacebook(shareUrl)
+            } else {
+                self.shareKakaoTalk(shareUrl)
+            }
+        }
+    }
+    
+    func shareFacebook(_ shareUrl: String) {
+        let content = ShareLinkContent()
+        content.contentURL = URL(string: shareUrl)!
+        content.quote = "[강추!] 혼자 보기 아까운 공만세 강의를 추천합니다. 우리 함께 보아요~"
+        
+        let dialog = FBSDKShareKit.ShareDialog(fromViewController: self, content: content, delegate: self)
+        dialog.mode = .automatic
+        if dialog.canShow {
+            dialog.show()
+        }
+    }
+    
+    func shareKakaoTalk(_ shareUrl: String) {
+        let link = Link(webUrl: URL(string:shareUrl),
+                        mobileWebUrl: URL(string:shareUrl))
+        let button = Button(title: "웹으로 보기", link: link)
+
+        let social = Social(likeCount: 286,
+                            commentCount: 45,
+                            sharedCount: 845)
+        let content = Content(title: self.lessonnameLabel.text!,
+                              imageUrl: URL(string:self.thumbnail!)!,
+                              description: "[강추!] 혼자 보기 아까운 공만세 강의를 추천합니다. 우리 함께 보아요~",
+                              link: link)
+        let feedTemplate = FeedTemplate(content: content, social: social, buttons: [button])
+
+        //메시지 템플릿 encode
+        if let feedTemplateJsonData = (try? SdkJSONEncoder.custom.encode(feedTemplate)) {
+
+            //생성한 메시지 템플릿 객체를 jsonObject로 변환
+            if let templateJsonObject = SdkUtils.toJsonObject(feedTemplateJsonData) {
+                LinkApi.shared.defaultLink(templateObject:templateJsonObject) {(linkResult, error) in
+                    if error != nil {
+                        self.presentAlert(message: "카카오톡 공유가 실패되었습니다.")
+                    }
+                    else {
+                        print("defaultLink(templateObject:templateJsonObject) success.")
+
+                        //do something
+                        guard let linkResult = linkResult else { return }
+                        UIApplication.shared.open(linkResult.url, options: [:]) { result in
+                            if result {
+                                self.updateShareCount("kakao")
+                            } else {
+                                self.presentAlert(message: "카카오톡 공유가 실패되었습니다.")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateShareCount(_ _type: String) {
+        ShareDataManager().updateShareCount(Constant.token, videoID!, _type) {
+            
+        }
+    }
+}
+
+extension LessonInfoController: SharingDelegate {
+    func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
+        print("FaceBook 공유 성공")
+        self.updateShareCount("facebook")
+    }
+    
+    func sharer(_ sharer: Sharing, didFailWithError error: Error) {
+        self.presentAlert(message: "페이스북 공유가 실패되었습니다.")
+    }
+    
+    func sharerDidCancel(_ sharer: Sharing) {
+        self.presentAlert(message: "페이스북 공유가 취소되었습니다.")
     }
 }
 
@@ -447,8 +543,10 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath)
     {
-        let videoDataManager = VideoDataManager.shared
-        videoDataManager.isFirstPlayVideo = false
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
+//        let videoDataManager = VideoDataManager.shared
+//        videoDataManager.isFirstPlayVideo = false
         
         // "sTags" 를 클릭했을 때, 영상 재생시간을 "VideoController"로 부터 가져온다.
         delegate?.videoVCPassCurrentVideoTimeToLessonInfo()
@@ -466,7 +564,6 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 
         guard let videoURL = currentVideoURL else { return }
         
-        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         present(nav, animated: true) {
             let pipVideoData = PIPVideoData(isPlayPIP: true,
                                             videoURL: videoURL,
@@ -484,15 +581,19 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
 
 extension LessonInfoController: RatingControllerDelegate {
     func dismissRatingView() {
-        rateLessonButton.titleLabel.text = "평점"
-        rateLessonButton.viewTintColor = .black
+//        rateLessonButton.titleLabel.text = "평점"
+//        rateLessonButton.viewTintColor = .black
         view.setNeedsDisplay()
     }
     
     func ratingAvaergePassVC(rating: String) {
         myRating = rating
-        rateLessonButton.titleLabel.text = rating
-        rateLessonButton.viewTintColor = .mainOrange
-        view.setNeedsDisplay()
+//        rateLessonButton.titleLabel.text = rating
+//        rateLessonButton.viewTintColor = .mainOrange
+//        view.setNeedsDisplay()
+        
+        //내 점수가 아닌 유저들의 평균점수 userRating을 보여줘야 한다
+        //userRating을 다시 가져오자
+        delegate?.needUpdateRating()
     }
 }

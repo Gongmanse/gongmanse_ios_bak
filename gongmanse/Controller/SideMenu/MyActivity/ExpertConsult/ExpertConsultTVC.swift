@@ -12,23 +12,24 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
-    var isDeleteMode: Bool = true {
+    var isDeleteMode: Bool = false {
         didSet {
             self.tableView.reloadData()
         }
     }
     
-    var inputSortNum = 4
-    
     var pageIndex: Int!
     var expertConsult: ExpertModels?
-    var tableViewInputData: [ExpertModelData]?
+    var tableViewInputData: [ExpertModelData] = []
     
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
         didSet {
-            getDataFromJson()
+            self.tableViewInputData.removeAll()
+            self.tableView.reloadData()
+            
+            self.getDataFromJson()
         }
     }
     
@@ -41,7 +42,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromJson()
+//        getDataFromJson()
         
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
@@ -65,19 +66,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        
-        switch sortedId {
-        case 0:
-            inputSortNum = 4
-        case 1:
-            inputSortNum = 5
-        case 2:
-            inputSortNum = 6
-        default:
-            inputSortNum = 4
-        }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId! + 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -87,7 +76,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
                     //print(json.body)
                     self.expertConsult = json
-                    self.tableViewInputData = json.data
+                    self.tableViewInputData.append(contentsOf: json.data)
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -101,13 +90,14 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     func textSettings() {
         guard let value = self.expertConsult else { return }
         
-        self.countAll.text = "총 \(value.totalNum)개"
+        let strCount = value.totalNum.withCommas() 
+        self.countAll.text = "총 \(strCount)개"
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.black])
         
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: value.totalNum))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value.totalNum))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: strCount))
         
         self.countAll.attributedText = attributedString
     }
@@ -125,11 +115,9 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.expertConsult else { return 0 }
-        
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let tableViewInputData = tableViewInputData else { return 0 }
             return tableViewInputData.count
         }
     }
@@ -140,6 +128,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
             cell.emptyLabel.text = "상담 목록이 없습니다."
+            cell.selectionStyle = .none
             return cell
             
         } else {
@@ -148,15 +137,13 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
             
             guard let json = self.expertConsult else { return cell }
             
-            let indexData = json.data[indexPath.row]
-            let defaultURL = fileBaseURL
-            guard let thumbnailURL = indexData.sFilepaths else { return UITableViewCell() }
-            let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
+            let indexData = tableViewInputData[indexPath.row]
+            let defaultLink = fileBaseURL
+            let thumbnailImageURL = indexData.sFilepaths ?? ""
+            let thumbnailURL = URL(string: defaultLink + "/" + thumbnailImageURL)
             let profileImageURL = indexData.sProfile ?? ""
             let profileURL = URL(string: fileBaseURL + "/" + profileImageURL)
             
-            cell.consultThumbnail.contentMode = .scaleAspectFill
-            cell.consultThumbnail.sd_setImage(with: url)
             cell.consultTitle.text = indexData.sQuestion
             cell.nickName.text = indexData.sNickname
             cell.profileImage.contentMode = .scaleAspectFill
@@ -182,7 +169,12 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
                     cell.consultThumbnail.image = UIImage(named: "app_icon")
                 } else {
                     cell.consultThumbnail.contentMode = .scaleAspectFill
-                    cell.consultThumbnail.sd_setImage(with: url)
+                    cell.consultThumbnail.sd_setImage(with: thumbnailURL) { img, err, type, URL in
+                        if img == nil {
+                            cell.consultThumbnail.contentMode = .scaleAspectFit
+                            cell.consultThumbnail.image = UIImage(named: "app_icon")
+                        }
+                    }
                 }
             }
             
@@ -201,22 +193,14 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         guard let id = json.data[sender.tag].cu_id else { return }
 
         let inputData = ExpertConsultInput(id: id)
-        let indexPath = IndexPath(row: sender.tag, section: 0)
-        self.tableViewInputData?.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        
-//        self.tableViewInputData?.remove(at: sender.tag)
         ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
-        
-        getDataFromJson()
-        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.expertConsult else { return 0 }
         
         if value.totalNum == "0" {
-            return tableView.frame.height
+            return tableView.frame.height - 70
         } else {
             return 80
         }
@@ -249,8 +233,7 @@ extension ExpertConsultTVC: ExpertConsultBottomPopUpVCDelegate {
             self.sortedId = 2
         }
         
-        self.delegate?.expertConsultPassSortedIdSettingValue(expertConsultSortedIdRowIndex)
-        self.tableView.reloadData()
+        delegate?.expertConsultPassSortedIdSettingValue(self.sortedId!)
     }
 }
 
@@ -259,8 +242,12 @@ extension ExpertConsultTVC: ExpertConsultBottomPopUpVCDelegate {
 extension ExpertConsultTVC {
     func didSuccessPostAPI() {
         
+        tableViewInputData.removeAll()
+        tableView.reloadData()
+        
+        getDataFromJson()
         //self.tableView.reloadData()
-        self.view.layoutIfNeeded()
+//        self.view.layoutIfNeeded()
     }
 }
 

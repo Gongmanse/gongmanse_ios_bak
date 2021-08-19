@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumSquareRoundB.ttf">
+            <string>NanumSquareRoundB</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShareDialog" customModule="gongmanse" customModuleProvider="target">
+            <connections>
+                <outlet property="btnFacebook" destination="0oP-5g-ufr" id="NLY-ge-xo6"/>
+                <outlet property="btnKakao" destination="cym-Kd-sxH" id="ehF-sc-2Q8"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="UIControl">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MHz-iw-Wcg">
+                    <rect key="frame" x="30" y="353" width="354" height="200"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1f4-SJ-V5V">
+                            <rect key="frame" x="304" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="7tR-XM-Do2"/>
+                                <constraint firstAttribute="height" constant="50" id="jHM-Or-I97"/>
+                            </constraints>
+                            <state key="normal" image="close24Px"/>
+                            <connections>
+                                <action selector="onClose:" destination="-1" eventType="touchUpInside" id="agN-kd-lCn"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="공유" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtN-6L-QqE">
+                            <rect key="frame" x="161.5" y="15.5" width="31" height="19"/>
+                            <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="On2-co-him">
+                            <rect key="frame" x="0.0" y="50" width="354" height="2"/>
+                            <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="2" id="sfE-fi-3bg"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="16"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cf-pN-Jiw">
+                            <rect key="frame" x="0.0" y="52" width="354" height="148"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="h9u-hm-bgL">
+                                    <rect key="frame" x="48" y="46.5" width="258" height="55"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oP-5g-ufr">
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="55"/>
+                                            <state key="normal" title="페이스북" image="ic_facebook">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onFacebook:" destination="-1" eventType="touchUpInside" id="tF9-WL-Sy8"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cym-Kd-sxH">
+                                            <rect key="frame" x="148" y="0.0" width="110" height="55"/>
+                                            <state key="normal" title="카카오톡" image="ic_kakaotalk">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onKakaoTalk:" destination="-1" eventType="touchUpInside" id="k13-z7-apW"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="h9u-hm-bgL" firstAttribute="centerY" secondItem="3cf-pN-Jiw" secondAttribute="centerY" id="G3O-op-xj0"/>
+                                <constraint firstItem="h9u-hm-bgL" firstAttribute="centerX" secondItem="3cf-pN-Jiw" secondAttribute="centerX" id="ycp-r7-dv8"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="On2-co-him" firstAttribute="top" secondItem="1f4-SJ-V5V" secondAttribute="bottom" id="76b-F9-Q1l"/>
+                        <constraint firstAttribute="bottom" secondItem="3cf-pN-Jiw" secondAttribute="bottom" id="9Ac-jv-A1t"/>
+                        <constraint firstAttribute="height" constant="200" id="BbT-Dj-aAm"/>
+                        <constraint firstAttribute="trailing" secondItem="3cf-pN-Jiw" secondAttribute="trailing" id="S3a-un-HRO"/>
+                        <constraint firstItem="vtN-6L-QqE" firstAttribute="centerY" secondItem="1f4-SJ-V5V" secondAttribute="centerY" id="Scb-pM-sEk"/>
+                        <constraint firstItem="On2-co-him" firstAttribute="leading" secondItem="MHz-iw-Wcg" secondAttribute="leading" id="UmB-6b-aP8"/>
+                        <constraint firstAttribute="trailing" secondItem="1f4-SJ-V5V" secondAttribute="trailing" id="UoT-eV-Y0L"/>
+                        <constraint firstItem="vtN-6L-QqE" firstAttribute="centerX" secondItem="MHz-iw-Wcg" secondAttribute="centerX" id="aep-ln-UhM"/>
+                        <constraint firstItem="3cf-pN-Jiw" firstAttribute="leading" secondItem="MHz-iw-Wcg" secondAttribute="leading" id="c7n-zR-lqI"/>
+                        <constraint firstItem="1f4-SJ-V5V" firstAttribute="top" secondItem="MHz-iw-Wcg" secondAttribute="top" id="qBJ-C0-dgB"/>
+                        <constraint firstAttribute="trailing" secondItem="On2-co-him" secondAttribute="trailing" id="s3X-A7-iEN"/>
+                        <constraint firstItem="3cf-pN-Jiw" firstAttribute="top" secondItem="On2-co-him" secondAttribute="bottom" id="vK5-4e-JnQ"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="MHz-iw-Wcg" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="EL7-Ty-PaE"/>
+                <constraint firstItem="MHz-iw-Wcg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="bwd-Am-4i5"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MHz-iw-Wcg" secondAttribute="trailing" constant="30" id="m3K-0z-9wW"/>
+            </constraints>
+            <connections>
+                <action selector="onBackground:" destination="-1" eventType="touchUpInside" id="cxd-Jb-fxO"/>
+            </connections>
+            <point key="canvasLocation" x="132" y="52"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="close24Px" width="24" height="24"/>
+        <image name="ic_facebook" width="55" height="55"/>
+        <image name="ic_kakaotalk" width="47" height="47"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

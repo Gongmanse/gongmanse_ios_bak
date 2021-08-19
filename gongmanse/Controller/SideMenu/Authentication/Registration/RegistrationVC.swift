@@ -98,6 +98,7 @@ class RegistrationVC: UIViewController {
             if !viewModel.agreeIsValid {
                 allAgreeButton.isSelected = false
             }
+            allAgree(false)
         } else {                                // 동의
             termsOfServiceButton.isSelected = true
             viewModel.firstAgree = true
@@ -115,6 +116,7 @@ class RegistrationVC: UIViewController {
             if !viewModel.agreeIsValid {
                 allAgreeButton.isSelected = false
             }
+            allAgree(false)
         } else {
             termsOfInfoButton.isSelected = true
             viewModel.secondAgree = true
@@ -143,6 +145,8 @@ class RegistrationVC: UIViewController {
         allAgreeButton.isSelected = index
         termsOfInfoButton.isSelected = index
         termsOfServiceButton.isSelected = index
+        
+        nextButton.backgroundColor = index ? .mainOrange : UIColor.progressBackgroundColor
     }
     
 

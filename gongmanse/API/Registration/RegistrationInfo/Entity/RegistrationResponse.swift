@@ -12,10 +12,10 @@ struct RegistrationResponse: Decodable {
     // response
     var code: Int
     var message: String
-    var errors: Error?
+    var errors: GError?
 }
 
-struct Error: Decodable {
+struct GError: Decodable {
     var username: String?
     var confirmPassword: String?
     var nickname: String?

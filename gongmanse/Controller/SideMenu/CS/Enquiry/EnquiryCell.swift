@@ -37,7 +37,8 @@ class EnquiryCell: UITableViewCell {
     
     func setList(type: OneOneQnADataList) {
         typeLabel.text = type.typeConvert
-        questionDescriptionLabel.text = type.sQuestion
+//        questionDescriptionLabel.text = type.sQuestion
+        questionDescriptionLabel.attributedText = type.sQuestion.htmlToAttributedString
         answerStateLabel.backgroundColor = type.answerBackgroundColor
         answerStateLabel.text = type.answerStates
         questionDateLabel.text = type.dateConvert

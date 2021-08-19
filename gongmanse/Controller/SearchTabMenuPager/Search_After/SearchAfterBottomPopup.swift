@@ -23,7 +23,7 @@ class SearchAfterBottomPopup: BottomPopupViewController {
     private let videoDicFilter = ["이름순": 1, "과목순": 2, "평점순": 3, "최신순": 4, "관련순": 7]
     private let searchConsultation = ["최신순": 4, "조회순": 5, "답변 완료순": 6]
     private let VideoNotes = ["이름순": 1, "과목순": 2, "평점순": 3, "최신순": 4]
-    
+    var _selectedID: String?
     
     var selectFilterState: filterState?
     
@@ -79,15 +79,18 @@ extension SearchAfterBottomPopup: UITableViewDelegate, UITableViewDataSource {
         case .videoDicionary:
             let sortVideoDic = videoDicFilter.keys.sorted(by: >)
             cell.labelText.text = sortVideoDic[indexPath.row]
-            
+            cell.labelText.textColor = String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0) == _selectedID ? .mainOrange : .black
+            cell.ivChk.isHidden = String(videoDicFilter[sortVideoDic[indexPath.row]] ?? 0) != _selectedID
         case .consultation:
             let consultation = searchConsultation.keys.sorted(by: >)
             cell.labelText.text = consultation[indexPath.row]
-            
+            cell.labelText.textColor = String(searchConsultation[consultation[indexPath.row]] ?? 0) == _selectedID ? .mainOrange : .black
+            cell.ivChk.isHidden = String(searchConsultation[consultation[indexPath.row]] ?? 0) != _selectedID
         case .videoNotes:
             let sortVideoNotes = VideoNotes.keys.sorted(by: >)
             cell.labelText.text = sortVideoNotes[indexPath.row]
-            
+            cell.labelText.textColor = String(VideoNotes[sortVideoNotes[indexPath.row]] ?? 0) == _selectedID ? .mainOrange : .black
+            cell.ivChk.isHidden = String(VideoNotes[sortVideoNotes[indexPath.row]] ?? 0) != _selectedID
         default:
             return cell
         }

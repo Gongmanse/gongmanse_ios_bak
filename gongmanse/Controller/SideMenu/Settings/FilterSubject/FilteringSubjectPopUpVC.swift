@@ -99,7 +99,7 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
         let headerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
         
         let gradeImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        gradeImage.image = UIImage(named: "popupClass")
+        gradeImage.image = UIImage(named: "popupSubject")
         gradeImage.sizeToFit()
         gradeImage.contentMode = .scaleAspectFit
         gradeImage.setContentHuggingPriority(.required, for: .horizontal)
@@ -159,7 +159,10 @@ extension FilteringSubjectPopUpVC: UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SubjectListCellIdentifier, for: indexPath) as? SubjectListCell else  { return UITableViewCell() }
         
+        let subject = UserDefaults.standard.object(forKey: "subjectFilterText") as? String ?? "모든 과목"
         cell.subjectLabel.text = subjectList[indexPath.row].sName
+        cell.subjectLabel.textColor = subject == subjectList[indexPath.row].sName ? .mainOrange : .black
+        cell.ivChk.isHidden = subject != subjectList[indexPath.row].sName
         
         return cell
     }

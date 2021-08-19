@@ -9,7 +9,7 @@ import Foundation
 
 // 최근 검색어 목록 받아오는 모델
 struct RecentKeywordModel: Codable {
-    let data: [RecentKeywordDataModel]
+    var data: [RecentKeywordDataModel]
 }
 
 struct RecentKeywordDataModel: Codable {

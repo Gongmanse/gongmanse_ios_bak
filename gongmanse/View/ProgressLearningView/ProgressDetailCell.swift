@@ -39,9 +39,9 @@ class ProgressDetailCell: UICollectionViewCell {
         super.awakeFromNib()
         
         lessonImage.layer.cornerRadius = 15
-        lessonImage.layer.contentsRect = CGRect(x: 0, y: -0.15, width: 1, height: 1)
+//        lessonImage.layer.contentsRect = CGRect(x: 0, y: -0.15, width: 1, height: 1)
         
-        lessonTitle.font = .appBoldFontWith(size: 15)
+        lessonTitle.font = .appBoldFontWith(size: 19)
         starRating.font = .appBoldFontWith(size: 13)
         teathername.font = .appBoldFontWith(size: 13)
         

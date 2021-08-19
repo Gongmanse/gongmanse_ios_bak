@@ -33,10 +33,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     var bookMark: FilterVideoModels?
     var tableViewInputData: [FilterVideoData] = []
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
@@ -55,9 +51,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        getDataFromJson()
-        getDataFromJsonVideo()
-        
         //테이블 뷰 빈칸 숨기기
         tableView.tableFooterView = UIView()
         
@@ -70,7 +63,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(bookMarkFilterNoti(_:)), name: NSNotification.Name("bookMarkFilterText"), object: nil)
         
         playSwitch.addTarget(self, action: #selector(playSwitchDidTap(_:)), for: .valueChanged)
-        autoPlayDataManager.isAutoplayBookMarkTab = true
+        autoPlayLabel.textColor = UIColor.black
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,8 +80,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     }
     
     @objc func playSwitchDidTap(_ sender: UISwitch) {
-        
-        autoPlayDataManager.isAutoplayBookMarkTab = sender.isOn
     }
     
     @IBAction func autoplaySwitch(_ sender: UISwitch) {
@@ -97,30 +88,6 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             autoPlayLabel.textColor = UIColor.black
         } else {
             autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-        }
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            }.resume()
         }
     }
     
@@ -153,23 +120,22 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    self.textSettings()
+                    self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
                 }
                 
             }.resume()
         }
     }
     
-    func textSettings() {
-        guard let value = self.bookMark else { return }
-        
-        self.countAll.text = "총 \(value.totalNum ?? "nil")개"
+    func textSettings(_ totalNum: Int) {
+        let strCount = String(totalNum).withCommas()
+        self.countAll.text = "총 \(strCount)개"
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.black])
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value.totalNum ?? "nil"))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: String(totalNum)))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: strCount))
         
         self.countAll.attributedText = attributedString
     }
@@ -202,6 +168,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell") as! EmptyTableViewCell
             cell.emptyLabel.text = "즐겨찾기 목록이 없습니다."
+            cell.selectionStyle = .none
             return cell
             
         } else {
@@ -219,7 +186,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             cell.videoThumbnail.sd_setImage(with: url)
             cell.videoTitle.text = indexData.sTitle
             cell.teachersName.text = (indexData.sTeacher ?? "nil") + " 선생님"
-            cell.starRating.text = indexData.iRating
+            cell.starRating.text = indexData.iRating?.withDouble() ?? "0.0"
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
             
@@ -287,18 +254,17 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         
         let indexPath = IndexPath(row: sender.tag, section: 0)
         self.tableViewInputData.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
         
-//        self.tableViewInputData.removeAll()
-//        getDataFromJson()
-//        tableView.reloadData()
+        textSettings((Int(self.bookMark?.totalNum ?? "0") ?? 0) - 1)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.bookMark else { return 0 }
         
         if value.totalNum == "0" {
-            return tableView.frame.height
+            return tableView.frame.height - 70
         } else {
             return 80
         }
@@ -306,19 +272,25 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let value = self.bookMark else { return }
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if value.totalNum == "0" {
+            presentAlert(message: "즐겨찾기 목록이 없습니다.")
+            return
+        }
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             
             presentAlert(message: "이용권을 구매해주세요")
             
-        } else if indexVideoData.source_url != nil {
+        } else {
             
             var inputArr = [VideoModels]()
             
@@ -346,8 +318,13 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             }
             
             let inputData = VideoInput(body: inputArr)
-            autoPlayDataManager.videoDataInBookMarkVideoMyActTab = inputData
             autoPlayDataManager.currentViewTitleView = "즐겨찾기"
+            autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+            autoPlayDataManager.videoDataList.removeAll()
+            autoPlayDataManager.videoDataList.append(contentsOf: inputArr)
+            autoPlayDataManager.videoSeriesDataList.removeAll()
+            autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+            autoPlayDataManager.currentSort = self.sortedId ?? 0
             
             tableView.deselectRow(at: indexPath, animated: true)
             

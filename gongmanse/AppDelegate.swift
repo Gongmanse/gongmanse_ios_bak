@@ -9,6 +9,8 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import FBSDKCoreKit
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //설정 디폴트 값
+        UserDefaults.standard.register(defaults: ["subtitle" : true,
+                                                  "mobileData" : true,
+                                                  "push" : true,
+                                                  "specialist" : true,
+                                                  "inquiry" : true,
+                                                  "schedule" : true,
+                                                  "notice" : true])
+        
         Thread.sleep(forTimeInterval: 2.0)
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
@@ -24,9 +35,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in })
         application.registerForRemoteNotifications()
+        
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        KakaoSDKCommon.initSDK(appKey: "66773aa669c7d7d858ebebf335f1dc80")
+        
         return true
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return ApplicationDelegate.shared.application(
+                app,
+                open: url,
+                sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+            )
+
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

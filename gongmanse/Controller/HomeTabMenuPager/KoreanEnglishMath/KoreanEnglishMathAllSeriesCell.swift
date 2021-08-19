@@ -17,6 +17,11 @@ class KoreanEnglishMathAllSeriesCell: UICollectionViewCell {
         videoThumbnail.layer.cornerRadius = 13
         videoThumbnail.clipsToBounds = true
         
+//        videoCountBackgroundView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 13.0)
+        videoCountBackgroundView.layer.masksToBounds = true
+        videoCountBackgroundView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        videoCountBackgroundView.layer.cornerRadius = 13
+        
         //과목 label background 라운딩 처리
         subjects.layer.cornerRadius = 7
         subjects.clipsToBounds = true

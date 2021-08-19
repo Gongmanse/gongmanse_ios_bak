@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,19 +23,28 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popup_check" translatesAutoresizingMaskIntoConstraints="NO" id="Ypc-aF-YBf">
+                        <rect key="frame" x="14" y="10" width="24" height="24"/>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="mTl-HB-cxT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="DL9-VJ-C1r"/>
                     <constraint firstAttribute="bottom" secondItem="mTl-HB-cxT" secondAttribute="bottom" constant="10" id="c3w-5n-fyZ"/>
                     <constraint firstItem="mTl-HB-cxT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="nqv-Km-Ye0"/>
+                    <constraint firstItem="Ypc-aF-YBf" firstAttribute="centerY" secondItem="mTl-HB-cxT" secondAttribute="centerY" id="uJX-by-svO"/>
+                    <constraint firstItem="mTl-HB-cxT" firstAttribute="leading" secondItem="Ypc-aF-YBf" secondAttribute="trailing" constant="12" id="udj-bI-aOD"/>
                     <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="mTl-HB-cxT" secondAttribute="trailing" constant="228" id="wYS-K7-b4k"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="ivChk" destination="Ypc-aF-YBf" id="kCt-gr-VYb"/>
                 <outlet property="subjectLabel" destination="mTl-HB-cxT" id="01n-sd-hYx"/>
             </connections>
             <point key="canvasLocation" x="132" y="54"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="popup_check" width="24" height="24"/>
+    </resources>
 </document>

@@ -10,6 +10,7 @@ import UIKit
 class SearchMainCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var ivChk: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

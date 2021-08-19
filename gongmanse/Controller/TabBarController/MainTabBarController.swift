@@ -1,4 +1,5 @@
 import UIKit
+import SideMenu
 
 public class Storage {
     static func isFirstTime() -> Bool {
@@ -18,6 +19,7 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         setupStyle()
+//        setupSideMenu()
         
         //탭 바 색상 변경
         tabBarController?.tabBar.barTintColor = UIColor.white
@@ -29,6 +31,15 @@ class MainTabBarController: UITabBarController {
         self.tabBar.unselectedItemTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
 
+    func setupSideMenu() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "CustomSideMenuNavigation") as! CustomSideMenuNavigation
+        SideMenuManager.default.rightMenuNavigationController = vc
+
+        // Setup gestures: the left and/or right menus must be set up (above) for these to work.
+        // Note that these continue to work on the Navigation Controller independent of the view controller it displays!
+        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .right)
+    }
 }
 
 extension CALayer {

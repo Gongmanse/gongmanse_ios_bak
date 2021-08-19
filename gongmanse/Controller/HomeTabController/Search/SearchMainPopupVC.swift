@@ -16,6 +16,8 @@ enum SearchMainButtonState {
 class SearchMainPopupVC: BottomPopupViewController {
     
 
+    @IBOutlet weak var lbTitle: UILabel!
+    @IBOutlet weak var ivType: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     private let searchCellIdentifier = "SearchMainCell"
     
@@ -31,6 +33,8 @@ class SearchMainPopupVC: BottomPopupViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        lbTitle.text = mainList == .grade ? "학년" : "과목"
+        ivType.image = mainList == .grade ? UIImage(named: "popupClass") : UIImage(named: "popupSubject")
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -70,9 +74,21 @@ extension SearchMainPopupVC: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         
         if mainList! == .grade {
+            var grade = searchData.searchGrade
+            if grade == nil {
+                grade = "모든 학년"
+            }
             cell.titleLabel.text = gradeList[indexPath.row]
+            cell.titleLabel.textColor = grade == gradeList[indexPath.row] ? .mainOrange : .black
+            cell.ivChk.isHidden = grade != gradeList[indexPath.row]
         } else {
+            var subjectNum = searchData.searchSubjectNumber
+            if subjectNum == nil {
+                subjectNum = "0"
+            }
             cell.titleLabel.text = subjectModel[indexPath.row].sName
+            cell.titleLabel.textColor = subjectNum == subjectModel[indexPath.row].id ? .mainOrange : .black
+            cell.ivChk.isHidden = subjectNum != subjectModel[indexPath.row].id
         }
         return cell
     }

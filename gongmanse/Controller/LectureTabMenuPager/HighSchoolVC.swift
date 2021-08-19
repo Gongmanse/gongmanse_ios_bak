@@ -56,7 +56,6 @@ extension HighSchoolVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let images = "\(fileBaseURL)/\(indexData?.sThumbnail ?? "")"
         
         //0707 - edited by hp
-        cell.lectureImage.contentMode = .scaleAspectFill
         cell.lectureImage.setImageUrl(images)
         return cell
     }

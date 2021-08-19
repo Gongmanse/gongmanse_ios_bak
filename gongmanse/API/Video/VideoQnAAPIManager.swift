@@ -17,7 +17,7 @@ struct VideoQnAAPIManager {
         print(videoId)
         print(token)
         
-        let videoUrl = "\(apiBaseURL)/v/video/detail_qna?video_id=\(videoId)&token=\(token)"
+        let videoUrl = "\(apiBaseURL)/v/video/detail_qna?video_id=\(videoId)&token=\(token)&offset=0&limit=2147483647"
         
         AF.request(videoUrl, method: .get)
             .responseDecodable(of: VideoQnAModel.self) { response in

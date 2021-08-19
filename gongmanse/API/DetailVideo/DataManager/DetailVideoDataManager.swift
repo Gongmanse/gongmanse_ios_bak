@@ -97,13 +97,76 @@ class DetailVideoDataManager {
 //    }
     
     
-    
+    func updateNeedRating(_ parameters: DetailVideoInput, viewController: VideoController) {
+        // viewModel -> paramters 를 통해 값을 전달한다.
+        let data = parameters
+        
+        // URL을 구성한다.
+//        let url = Constant.BASE_URL + "/v/video/details?video_id=\(data.video_id)&token=\(data.token)"
+        
+        let url = Constant.BASE_URL + "/v/video/details?video_id=\(data.video_id)&token=\(data.token)"
+        
+        /// HTTP Method: GET
+        /// API 명: "02008. 동영상 상세 정보"
+        AF.request(url)
+            .responseDecodable(of: DetailVideoResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    print("DEBUG: 영상 API 통신 성공")
+                    print("DEBUG: 통신한 데이텨 결과 \(response.data)")
+//                    viewController.didSucceedNetworking(response: response)
+                    viewController.didSuccessUpdateRating(response: response)
+                case .failure(let error):
+                    print("DEBUG: 영상 API 통신 실패")
+                    print("DEBUG: faild connection \(error.localizedDescription)")
+                    viewController.failToConnectVideoByTicket()
+                }
+            }
+    }
     
     /// 상세화면에서 호출할 DataManager
     /// - 동영상 링크: 동영상 재생을 위한 URL을 받아온다.
     /// - 자막 링크: .vtt 확장자로 URL을 받아온다.
     /// - 태그 String: sTags 라는 항목으로 받아온다.
-    func DetailVideoDataManager(_ parameters: DetailVideoInput, viewController: VideoController) {
+    func DetailVideoDataManager(_ parameters: DetailVideoInput, viewController: VideoController, showIntro: Bool = true, refreshList: Bool = true) {
+        
+        if showIntro {
+            //초기 값 설정
+            viewController.noteViewController?.view.removeFromSuperview()
+            viewController.noteViewController?.removeFromParent()
+            viewController.noteViewController = nil
+            viewController.qnaCell?.removeFromSuperview()
+            viewController.qnaCell = nil
+            
+            if refreshList {
+                viewController.videoPlaylistVC?.view.removeFromSuperview()
+                viewController.videoPlaylistVC?.removeFromParent()
+                viewController.videoPlaylistVC = nil
+                
+                //노트보기 탭으로
+                viewController.pageCurrentIndex = 0
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    viewController.customMenuBar.videoMenuBarTabBarCollectionView.selectItem(at: IndexPath(row: Int(viewController.pageCurrentIndex), section: 0), animated: true, scrollPosition: .centeredVertically)
+                    viewController.customMenuBar.collectionView(viewController.customMenuBar.videoMenuBarTabBarCollectionView, didSelectItemAt: IndexPath(item: Int(viewController.pageCurrentIndex), section: 0))
+                }
+                //강의정보창 닫기
+                if viewController.teacherInfoFoldConstraint!.isActive == false && !UIWindow.isLandscape {
+                    viewController.teacherInfoFoldConstraint!.isActive = true
+                    viewController.teacherInfoUnfoldConstraint!.isActive = false
+                }
+            }
+            
+            viewController.videoURL = NSURL(string: "")
+            viewController.isStartVideo = false
+            viewController.isEndVideo = false
+            
+            viewController.removePeriodicTimeObserver()
+            viewController.setRemoveNotification()
+            viewController.setNotification()
+            viewController.playInOutroVideo(1)
+            viewController.backButton.alpha = 1
+        }
         
         // viewModel -> paramters 를 통해 값을 전달한다.
         let data = parameters

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Cosmos
 
 protocol RatingControllerDelegate: AnyObject {
     func ratingAvaergePassVC(rating: String)
@@ -18,10 +19,7 @@ class RatingController: UIViewController {
     
     weak var delegate: RatingControllerDelegate?
     
-    // 최초 접속할 때, 3점을 주도록 구현
-    var clickedNumber = 3 {
-        didSet { setupButtonTintColor(point: clickedNumber, color: .mainOrange)}
-    }
+    var initPoint: Int = 3
     
     var userRating: String?
     
@@ -34,15 +32,11 @@ class RatingController: UIViewController {
     @IBOutlet weak var bottomLineView: UIView!
     @IBOutlet weak var ratingContainerView: UIView!
     @IBOutlet weak var applyButton: UIButton!
-    @IBOutlet weak var firstButton: UIButton!
-    @IBOutlet weak var secondButton: UIButton!
-    @IBOutlet weak var thirdButton: UIButton!
-    @IBOutlet weak var forthButton: UIButton!
-    @IBOutlet weak var fifthButton: UIButton!
     @IBOutlet weak var ratingLeftLabel: UILabel!
     @IBOutlet weak var numberOfParticipantsLabel: UILabel!
     @IBOutlet weak var dividerLineView: UIView!
     @IBOutlet weak var ratingPointLabel: UILabel!
+    @IBOutlet weak var ratingBar: CosmosView!
     
     // MARK: - Lifecycle
     
@@ -103,13 +97,13 @@ class RatingController: UIViewController {
         guard let videoID = self.videoID else { return }
         let inputData = RatingInput(token: Constant.token,
                                     video_id: videoID,
-                                    rating: clickedNumber)
+                                    rating: Int(ratingBar.rating))
         
         RatingDataManager().addRatingToVideo(inputData,
                                              viewController: self)
         
         // 바로 LessonInfoVC에 적용하기 위한 delegation
-        delegate?.ratingAvaergePassVC(rating: "\(clickedNumber)")
+        delegate?.ratingAvaergePassVC(rating: "\(Int(ratingBar.rating))")
         
         dismiss(animated: false)
         // 유저가 평점을 줬다면,
@@ -117,14 +111,6 @@ class RatingController: UIViewController {
         // 2. 버튼이 .mainOrange로 변경되어야한다.
         
     }
-    
-    @IBAction func tapStarShapPointButton(_ sender: UIButton) {
-        setupButtonTintColor(point: self.clickedNumber,
-                             color: .black)
-        clickedNumber = sender.tag
-        ratingPointLabel.text = "\(sender.tag).0"
-    }
-    
     
     // MARK: - Heleprs
     
@@ -144,6 +130,11 @@ class RatingController: UIViewController {
         applyButton.layer.cornerRadius = 7
         numberOfParticipantsLabel.textColor = .mainOrange
         dividerLineView.backgroundColor = .mainOrange
+        
+        ratingBar.rating = Double(initPoint)
+        ratingBar.didFinishTouchingCosmos = { rating in
+            self.ratingPointLabel.text = String(rating)
+        }
     }
     
     func networkingAPI() {

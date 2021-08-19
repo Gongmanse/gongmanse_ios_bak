@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,15 +14,11 @@
                 <outlet property="applyButton" destination="iyr-TI-bGQ" id="UP4-sg-fet"/>
                 <outlet property="bottomLineView" destination="cA3-dL-DGi" id="AOV-pw-GbP"/>
                 <outlet property="dividerLineView" destination="cA3-dL-DGi" id="tDx-jm-vZb"/>
-                <outlet property="fifthButton" destination="J7N-bC-EOV" id="DG9-K6-7aM"/>
-                <outlet property="firstButton" destination="4GY-9Z-tR6" id="96p-54-lbp"/>
-                <outlet property="forthButton" destination="czd-lv-EFg" id="9HV-Ay-UWo"/>
                 <outlet property="numberOfParticipantsLabel" destination="QiS-xa-doT" id="sbd-uP-CF6"/>
+                <outlet property="ratingBar" destination="3qM-hB-46x" id="WpJ-cc-HqR"/>
                 <outlet property="ratingContainerView" destination="gRZ-i7-wl0" id="chz-js-yud"/>
                 <outlet property="ratingLeftLabel" destination="tEP-Vu-JR7" id="Fb2-nL-nC4"/>
                 <outlet property="ratingPointLabel" destination="aEe-j1-lUl" id="5kj-02-An1"/>
-                <outlet property="secondButton" destination="fqA-tT-Zjk" id="SLg-2p-Zbo"/>
-                <outlet property="thirdButton" destination="ZXW-na-AQj" id="Qan-RA-daH"/>
                 <outlet property="titleLabel" destination="9EL-9i-z4a" id="z43-VW-q6U"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -62,56 +57,39 @@
                                 <action selector="tapXButton:" destination="-1" eventType="touchUpInside" id="HaF-aa-sDL"/>
                             </connections>
                         </button>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ihz-3u-6fU" userLabel="점수StackView">
-                            <rect key="frame" x="40" y="86.5" width="271" height="51.5"/>
-                            <subviews>
-                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4GY-9Z-tR6" userLabel="1점">
-                                    <rect key="frame" x="0.0" y="-0.5" width="50.5" height="51.5"/>
-                                    <state key="normal">
-                                        <imageReference key="backgroundImage" image="star" catalog="system" renderingMode="template"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="tapStarShapPointButton:" destination="-1" eventType="touchUpInside" id="cyy-ol-uLX"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqA-tT-Zjk" userLabel="2점">
-                                    <rect key="frame" x="55.5" y="-0.5" width="50" height="51.5"/>
-                                    <state key="normal">
-                                        <imageReference key="backgroundImage" image="star" catalog="system" renderingMode="template"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="tapStarShapPointButton:" destination="-1" eventType="touchUpInside" id="NmI-gE-hgk"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXW-na-AQj" userLabel="3점">
-                                    <rect key="frame" x="110.5" y="-0.5" width="50" height="51.5"/>
-                                    <state key="normal">
-                                        <imageReference key="backgroundImage" image="star" catalog="system" renderingMode="template"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="tapStarShapPointButton:" destination="-1" eventType="touchUpInside" id="sDq-Am-BHO"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czd-lv-EFg" userLabel="4점">
-                                    <rect key="frame" x="165.5" y="-0.5" width="50" height="51.5"/>
-                                    <state key="normal">
-                                        <imageReference key="backgroundImage" image="star" catalog="system" renderingMode="template"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="tapStarShapPointButton:" destination="-1" eventType="touchUpInside" id="kf5-XZ-0g1"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7N-bC-EOV" userLabel="5점">
-                                    <rect key="frame" x="220.5" y="-0.5" width="50.5" height="51.5"/>
-                                    <state key="normal">
-                                        <imageReference key="backgroundImage" image="star" catalog="system" renderingMode="template"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="tapStarShapPointButton:" destination="-1" eventType="touchUpInside" id="kA8-5g-9vh"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </stackView>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-hB-46x" customClass="CosmosView" customModule="Cosmos">
+                            <rect key="frame" x="55" y="64" width="240" height="128"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                    <real key="value" value="3"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                    <real key="value" value="45"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                    <color key="value" systemColor="systemOrangeColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="emptyColor">
+                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="minTouchRating">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
+                                    <integer key="value" value="0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
+                                    <real key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
+                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="faX-Yr-npj">
                             <rect key="frame" x="40" y="146" width="271" height="37"/>
                             <subviews>
@@ -173,17 +151,15 @@
                     <constraints>
                         <constraint firstItem="9EL-9i-z4a" firstAttribute="height" secondItem="gRZ-i7-wl0" secondAttribute="height" multiplier="0.132296" id="0Z8-Ju-M4g"/>
                         <constraint firstItem="cA3-dL-DGi" firstAttribute="top" secondItem="9EL-9i-z4a" secondAttribute="bottom" constant="8" symbolic="YES" id="0o6-e3-QZe"/>
-                        <constraint firstItem="ihz-3u-6fU" firstAttribute="height" secondItem="gRZ-i7-wl0" secondAttribute="height" multiplier="0.2" id="4hG-pm-Uat"/>
-                        <constraint firstItem="ihz-3u-6fU" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="94z-vJ-38B"/>
-                        <constraint firstItem="faX-Yr-npj" firstAttribute="top" secondItem="ihz-3u-6fU" secondAttribute="bottom" constant="8" symbolic="YES" id="K1t-Zz-5DH"/>
+                        <constraint firstItem="3qM-hB-46x" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="Hz6-g5-22X"/>
+                        <constraint firstItem="faX-Yr-npj" firstAttribute="top" secondItem="cA3-dL-DGi" secondAttribute="bottom" constant="92" id="JNF-Iq-mve"/>
+                        <constraint firstItem="3qM-hB-46x" firstAttribute="top" secondItem="cA3-dL-DGi" secondAttribute="bottom" constant="10" id="QC5-Mm-t74"/>
                         <constraint firstItem="iyr-TI-bGQ" firstAttribute="height" secondItem="gRZ-i7-wl0" secondAttribute="height" multiplier="0.120623" id="Qvb-HX-B8O"/>
                         <constraint firstAttribute="trailing" secondItem="cA3-dL-DGi" secondAttribute="trailing" id="R1v-Eu-e4Q"/>
                         <constraint firstAttribute="trailing" secondItem="rRM-WJ-MFi" secondAttribute="trailing" constant="16" id="Uud-qD-vbp"/>
                         <constraint firstItem="faX-Yr-npj" firstAttribute="height" secondItem="gRZ-i7-wl0" secondAttribute="height" multiplier="0.143969" id="XDh-9S-OJF"/>
-                        <constraint firstItem="ihz-3u-6fU" firstAttribute="width" secondItem="gRZ-i7-wl0" secondAttribute="width" multiplier="0.77" id="Xho-CO-UZp"/>
                         <constraint firstItem="rRM-WJ-MFi" firstAttribute="centerY" secondItem="9EL-9i-z4a" secondAttribute="centerY" id="YZI-Mp-OMl"/>
                         <constraint firstItem="iyr-TI-bGQ" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="ifI-Ct-2Ce"/>
-                        <constraint firstItem="ihz-3u-6fU" firstAttribute="top" secondItem="cA3-dL-DGi" secondAttribute="bottom" multiplier="1.6" id="k1g-JL-bTR"/>
                         <constraint firstItem="iyr-TI-bGQ" firstAttribute="width" secondItem="gRZ-i7-wl0" secondAttribute="width" multiplier="0.296791" id="m00-xS-zTc"/>
                         <constraint firstItem="cA3-dL-DGi" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="o8D-Mh-fNw"/>
                         <constraint firstAttribute="bottom" secondItem="iyr-TI-bGQ" secondAttribute="bottom" constant="8" id="qM9-Ol-Mqw"/>
@@ -206,7 +182,6 @@
         </view>
     </objects>
     <resources>
-        <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

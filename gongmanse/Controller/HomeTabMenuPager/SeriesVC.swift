@@ -4,10 +4,13 @@ class SeriesVC: UIViewController {
 
     @IBOutlet weak var mainHeaderView: UIView!
     @IBOutlet weak var mainTitle: UILabel!
-    @IBOutlet weak var mainSubjectTitle: UILabel!
     @IBOutlet weak var mainTeacherName: UILabel!
     @IBOutlet weak var seriesCollectionView: UICollectionView!
     @IBOutlet weak var videoCount: UILabel!
+    
+    @IBOutlet weak var subjectColor: UIStackView!
+    @IBOutlet weak var gradeLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
     
     var seriesShow: SeriesModels?
     var receiveSeriesId: String? = ""
@@ -21,12 +24,6 @@ class SeriesVC: UIViewController {
     }
     
     func mainFontAndRadiusSettings() {
-        mainSubjectTitle.layer.cornerRadius = 13
-        mainSubjectTitle.clipsToBounds = true
-        mainSubjectTitle.textColor = .white
-        
-        mainTitle.font = UIFont.appBoldFontWith(size: 19)
-        mainSubjectTitle.font = UIFont.appBoldFontWith(size: 17)
         mainTeacherName.font = UIFont.appEBFontWith(size: 13)
     
     }
@@ -74,12 +71,39 @@ class SeriesVC: UIViewController {
     func mainSettings() {
         
         guard let teacherNames = seriesShow?.seriesInfo.sTeacher else { return }
-        guard let subjectColor = seriesShow?.seriesInfo.sSubjectColor else { return }
+
         
         mainTitle.text = seriesShow?.seriesInfo.sTitle
-        mainSubjectTitle.text = seriesShow?.seriesInfo.sSubject
         mainTeacherName.text = teacherNames + " 선생님"
-        mainSubjectTitle.backgroundColor = UIColor(hex: subjectColor)
+        
+        let headerData = seriesShow?.seriesInfo
+        
+        if headerData?.sGrade == "초등" {
+            gradeLabel.text = "초"
+        }else if headerData?.sGrade == "중등" {
+            gradeLabel.text = "중"
+        }else if headerData?.sGrade == "고등" {
+            gradeLabel.text = "고"
+        }
+        
+        // subjectLabel
+        subjectLabel.font = .appBoldFontWith(size: 12)
+        subjectLabel.textColor = .white
+        subjectLabel.text = headerData?.sSubject
+        
+        // gradeLabel
+        gradeLabel.textColor = UIColor(hex: headerData?.sSubjectColor ?? "")
+        gradeLabel.backgroundColor = .white
+        gradeLabel.font = .appBoldFontWith(size: 12)
+        gradeLabel.clipsToBounds = true
+        gradeLabel.layer.cornerRadius = 8
+        
+        
+        // subjectColor
+        subjectColor.backgroundColor = UIColor(hex: headerData?.sSubjectColor ?? "")
+        subjectColor.layer.cornerRadius = subjectColor.frame.size.height / 2
+        subjectColor.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        subjectColor.isLayoutMarginsRelativeArrangement = true
     }
 }
 
@@ -121,6 +145,11 @@ extension SeriesVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        AutoplayDataManager.shared.isAutoPlay = false
+        AutoplayDataManager.shared.currentIndex = -1
+        AutoplayDataManager.shared.videoDataList.removeAll()
+        AutoplayDataManager.shared.videoSeriesDataList.removeAll()
         
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen

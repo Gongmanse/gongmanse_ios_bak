@@ -75,7 +75,7 @@ class NoticeListVC: UIViewController {
         flowlayout.minimumInteritemSpacing = 10
         
         let collectionWidth = UIScreen.main.bounds.width
-        flowlayout.itemSize = CGSize(width: collectionWidth, height: 234)
+        flowlayout.itemSize = CGSize(width: collectionWidth, height: UIScreen.main.bounds.width - 40 + 70)
         
         self.collectionView.collectionViewLayout = flowlayout
         

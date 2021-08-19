@@ -15,12 +15,15 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     // Data
     var clickedRow: Int?
     var currentSelectedRowState = [Bool]()
-
+    var isLoading = false
+    
     var height: CGFloat?
     var topCornerRadius: CGFloat?
     var presentDuration: Double?
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
+    
+    var parentVC: LectureQuestionsTVC!
     
     var deleteLectureQnA: LectureQnAModels?
     var video_id: String = ""
@@ -47,16 +50,37 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/detailqna?token=\(Constant.token)&offset=0&limit=20&video_id=\(video_id)") {
+        if let url = URL(string: "https://api.gongmanse.com/v/member/detailqna?token=\(Constant.token)&offset=0&limit=2147483647&video_id=\(video_id)") {
+            
+            isLoading = true
+            
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
+                
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(LectureQnAModels.self, from: data) {
                     //print(json.body)
+                    self.isSelect = false
+                    self.selectImageChange.value = false
+                    self.currentSelectedRowState.removeAll()
                     self.deleteLectureQnA = json
+                    
+                    let data = json.data
+                    for _ in (data.indices) {
+                        self.currentSelectedRowState.append(false)
+                    }
+                    
+                    if self.currentSelectedRowState.count == 0 { //모두 삭제된 경우
+                        DispatchQueue.main.async {
+                            self.dismiss(animated: true) {
+                                self.parentVC.removeItem(self.video_id)
+                            }
+                        }
+                    }
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -107,38 +131,13 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
                 currentTrueIndex.append(index)
             }
         }
-        // 한 개 Row를 삭제하는 경우
-        if currentTrueIndex.count == 1 {
-            
-            guard let firstIndex = currentTrueIndex.first else { return }
-            deleteSelectedRowInAPI(firstIndex)
-            
-        } else {
-            // 여러 Row를 삭제하는 경우
-            for index in currentTrueIndex {
-                deleteSelectedRowInAPI(index)
-            }
-            
+        if currentTrueIndex.count == 0 {
+            presentAlert(message: "삭제할 질문을 선택해주세요.")
+            return
         }
-
-        self.tableView.reloadData()
-        DispatchQueue.main.async {
-            self.view.layoutIfNeeded()
+        for index in currentTrueIndex {
+            deleteSelectedRowInAPI(index)
         }
-        
-//        guard let json = self.deleteLectureQnA else { return }
-//        let indexPath = IndexPath(row: sender.tag, section: 0)
-//        let indexid = json.data[indexPath.row].sQid
-//        let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid ?? "nil")
-//
-//        /**
-//         1. 삭제 API 호출힌디
-//         2. API 메소드를 호출한다.
-//         3. API메소드 내에서 현재 남은 QnA를 가져온다.
-//         4. layoutIfneeded를 호출하여 레이아웃을 업데이트한다.
-//         */
-//        LectureQuestionsDeleteBottomPopUpVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
-//        getDataFromJson()
         
     }
     
@@ -180,10 +179,6 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
 extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let data = self.deleteLectureQnA?.data else { return 0}
-        
-        for _ in (data.indices) {
-            currentSelectedRowState.append(false)
-        }
         return data.count
     }
     
@@ -194,8 +189,10 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         let indexData = json.data[indexPath.row]
         
         selectImageChange.bindAndFire(listener: { bool in
-            cell.checkImage.image = bool ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
-            cell.checkImage.tintColor = bool ? UIColor.mainOrange : UIColor.systemGray4
+            DispatchQueue.main.async {
+                cell.checkImage.image = bool ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
+                cell.checkImage.tintColor = bool ? UIColor.mainOrange : UIColor.systemGray4
+            }
         })
         
         cell.deleteContext.text = indexData.sQuestion

@@ -276,6 +276,7 @@ class SideMenuHeaderView: UIView {
         if viewModel.isLogin {
             
             nickName.text = viewModel.userID
+            membershipLevel.text = "\(viewModel.userID)님은 일반 회원입니다."
             let profileImageConstant = Constant.width * 0.115
 
             if let imageURL = viewModel.profileImageURL {

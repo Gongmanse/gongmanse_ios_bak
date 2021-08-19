@@ -19,7 +19,12 @@ class HomeVC: UIViewController {
     
     var pageController: UIPageViewController!
     
-    var koreanVC: KoreanEnglishMathVC?
+    var contentVC1: RecommendVC! = nil
+    var contentVC2: PopularVC! = nil
+    var contentVC3: KoreanEnglishMathVC! = nil
+    var contentVC4: ScienceVC! = nil
+    var contentVC5: SocialStudiesVC! = nil
+    var contentVC6: OtherSubjectsVC! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,49 +128,61 @@ class HomeVC: UIViewController {
         
         currentIndex = index
         if index == 0 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecommendVC") as! RecommendVC
-            contentVC.pageIndex = index
-            return contentVC
+            if contentVC1 == nil {
+                contentVC1 = storyboard?.instantiateViewController(withIdentifier: "RecommendVC") as? RecommendVC
+            }
+            contentVC1.pageIndex = index
+            return contentVC1
         } else if index == 1 {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "PopularVC") as! PopularVC
-            contentVC.pageIndex = index
-            return contentVC
+            if contentVC2 == nil {
+                contentVC2 = storyboard?.instantiateViewController(withIdentifier: "PopularVC") as? PopularVC
+            }
+            contentVC2.pageIndex = index
+            return contentVC2
         } else if index == 2 {
             // 국영수
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "KoreanEnglishMathVC") as! KoreanEnglishMathVC
-            contentVC.delegate = self
-            contentVC.selectedItem = koreanEnglishMathSelectedIndex
-            contentVC.sortedId = koreanEnglishMathSortedIndex
-            contentVC.pageIndex = index
-            return contentVC
+            if contentVC3 == nil {
+                contentVC3 = storyboard?.instantiateViewController(withIdentifier: "KoreanEnglishMathVC") as? KoreanEnglishMathVC
+            }
+            contentVC3.delegate = self
+            contentVC3.selectedItem = koreanEnglishMathSelectedIndex
+            contentVC3.sortedId = koreanEnglishMathSortedIndex
+            contentVC3.pageIndex = index
+            return contentVC3
         } else if index == 3 {
             // 과학
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "ScienceVC") as! ScienceVC
-            contentVC.delegate = self
-            contentVC.selectedItem = scienceSelectedIndex
-            contentVC.sortedId = scienceSortedIndex
-            contentVC.pageIndex = index
-            return contentVC
+            if contentVC4 == nil {
+                contentVC4 = storyboard?.instantiateViewController(withIdentifier: "ScienceVC") as? ScienceVC
+            }
+            contentVC4.delegate = self
+            contentVC4.selectedItem = scienceSelectedIndex
+            contentVC4.sortedId = scienceSortedIndex
+            contentVC4.pageIndex = index
+            return contentVC4
         } else if index == 4 {
             // 사회
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "SocialStudiesVC") as! SocialStudiesVC
-            contentVC.delegate = self
-            contentVC.selectedItem = socialStudiesSelectedIndex
-            contentVC.sortedId = socialStudiesSortedIndex
-            contentVC.pageIndex = index
-            return contentVC
-        } else if index == 5 {
-            // 기타 과목
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "OtherSubjectsVC") as! OtherSubjectsVC
-            contentVC.delegate = self
-            contentVC.selectedItem = otherSubjectsSelectedIndex
-            contentVC.sortedId = otherSubjectsSortedIndex
-            contentVC.pageIndex = index
-            return contentVC
+            if contentVC5 == nil {
+                contentVC5 = storyboard?.instantiateViewController(withIdentifier: "SocialStudiesVC") as? SocialStudiesVC
+            }
+            contentVC5.delegate = self
+            contentVC5.selectedItem = socialStudiesSelectedIndex
+            contentVC5.sortedId = socialStudiesSortedIndex
+            contentVC5.pageIndex = index
+            return contentVC5
         } else {
-            let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecommendVC") as! RecommendVC
-            contentVC.pageIndex = index
-            return contentVC
+            // 기타 과목
+            if contentVC6 == nil {
+                contentVC6 = storyboard?.instantiateViewController(withIdentifier: "OtherSubjectsVC") as? OtherSubjectsVC
+            }
+            contentVC6.delegate = self
+            contentVC6.selectedItem = otherSubjectsSelectedIndex
+            contentVC6.sortedId = otherSubjectsSortedIndex
+            contentVC6.pageIndex = index
+            return contentVC6
+//        } else {
+//            let contentVC = storyboard?.instantiateViewController(withIdentifier: "RecommendVC") as! RecommendVC
+//            contentVC.pageIndex = index
+//            return contentVC
         }
     }
 }

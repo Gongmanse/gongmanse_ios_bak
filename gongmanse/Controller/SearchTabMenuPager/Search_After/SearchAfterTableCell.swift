@@ -10,6 +10,7 @@ import UIKit
 class SearchAfterTableCell: UITableViewCell {
 
     @IBOutlet weak var labelText: UILabel!
+    @IBOutlet weak var ivChk: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

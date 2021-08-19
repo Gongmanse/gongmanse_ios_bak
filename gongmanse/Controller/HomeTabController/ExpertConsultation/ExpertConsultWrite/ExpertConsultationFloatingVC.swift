@@ -15,6 +15,8 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     @IBOutlet weak var writeBtn: UIButton!
     @IBOutlet weak var uploadImageCollectionView: UICollectionView!
     @IBOutlet weak var pageView: UIPageControl!
+    @IBOutlet weak var photoCnt: UILabel!
+    @IBOutlet weak var ivEmpty: UIImageView!
     
     //alertView 변수들
     @IBOutlet weak var alertViewBackground: UIView!
@@ -26,6 +28,7 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     
     let imagePicker = UIImagePickerController()
     var images = [UIImage]()
+    var imagesURL = [String]()
     var videoURL: NSURL?
     
     var isEmptyImage: Bool = false
@@ -50,7 +53,6 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
         pageView.isHidden = true
         
         writeBtn.backgroundColor = #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1)
-        writeBtn.isEnabled = false
         
         alertViewBackground.isHidden = true
         
@@ -78,10 +80,8 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.isEmpty {
             writeBtn.backgroundColor = #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1)
-            writeBtn.isEnabled = false
         } else {
             writeBtn.backgroundColor = .mainOrange
-            writeBtn.isEnabled = true
         }
     }
     
@@ -127,24 +127,48 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func writeBtnAction(_ sender: Any) {
+        if answerTextView.textColor == #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1) {
+            self.presentAlert(message: "내용을 작성해 주세요.")
+            return
+        }
         
-        //let encodedImages = images.compactMap({ $0.jpegData(compressionQuality: 0.7)?.base64EncodedString()})
+        let alert = UIAlertController(title: nil, message: "전송 하시겠습니까?", preferredStyle: .alert)
         
-        AF.upload(multipartFormData: { MultipartFormData in
-            MultipartFormData.append("\(self.answerTextView.text!)".data(using: .utf8)!, withName: "question")
-            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
-            MultipartFormData.append("\(self.images)".data(using: .utf8)!, withName: "media[]")
-
-        }, to: "https://api.gongmanse.com/v1/my/expert/consultations_urgent").response { (response) in
-            switch response.result {
-            case .success:
-                print("POST 성공")
-                self.didSuccessPostAPI()
-                print(response)
-            case.failure:
-                print("error")
+        let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+            //let encodedImages = images.compactMap({ $0.jpegData(compressionQuality: 0.7)?.base64EncodedString()})
+            
+            AF.upload(multipartFormData: { MultipartFormData in
+                MultipartFormData.append("\(self.answerTextView.text!)".data(using: .utf8)!, withName: "question")
+                MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+                
+                if self.imagesURL.count > 0 {
+                    MultipartFormData.append("\(self.imagesURL[0])".data(using: .utf8)!, withName: "media[]")
+                }
+                if self.imagesURL.count > 1 {
+                    MultipartFormData.append("\(self.imagesURL[1])".data(using: .utf8)!, withName: "media[]")
+                }
+                if self.imagesURL.count > 2 {
+                    MultipartFormData.append("\(self.imagesURL[2])".data(using: .utf8)!, withName: "media[]")
+                }
+                
+            }, to: "https://api.gongmanse.com/v1/my/expert/consultations_urgent").response { (response) in
+                switch response.result {
+                case .success:
+                    print("POST 성공")
+                    self.didSuccessPostAPI()
+                    print(response)
+                case.failure:
+                    print("error")
+                }
             }
         }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func didSuccessPostAPI() {
@@ -308,8 +332,28 @@ extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavig
             dismiss(animated: true, completion: nil)
             alertViewBackground.isHidden = true
             
-            images.insert(image, at: 0)
-            uploadImageCollectionView.reloadData()
+        let data = image.jpegData(compressionQuality: 0.7)!
+
+        AF.upload(multipartFormData: { MultipartFormData in
+            MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
+            MultipartFormData.append(data, withName: "file", fileName: "file.jpg", mimeType: "image/jpg")
+
+        }, to: "https://file.gongmanse.com/transfer/consultations/upload").response { (response) in
+            switch response.result {
+            case .success:
+                print("POST 성공")
+                print(response)
+                let serverPath = String(decoding: response.data!, as: UTF8.self)
+                self.imagesURL.append(serverPath)
+                
+                self.images.append(image)
+                self.uploadImageCollectionView.reloadData()
+                self.photoCnt.text = "\(self.images.count)/3"
+                self.ivEmpty.isHidden = true
+            case.failure:
+                print("error")
+            }
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -320,6 +364,11 @@ extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavig
 extension ExpertConsultationFloatingVC: ImageDeleteProtocol {
     func deleteImage(index: Int) {
         images.remove(at: index)
+        imagesURL.remove(at: index)
         uploadImageCollectionView.reloadData()
+        self.photoCnt.text = "\(self.images.count)/3"
+        
+        pageView.isHidden = images.count == 0
+        ivEmpty.isHidden = images.count != 0
     }
 }

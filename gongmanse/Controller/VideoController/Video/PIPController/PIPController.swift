@@ -134,9 +134,11 @@ class PIPController: UIViewController {
                         playerLayer.videoGravity = AVLayerVideoGravity.resizeAspect
                         playerLayer.frame = self.containerView.bounds
                         self.containerView.layer.addSublayer(playerLayer)
-                        let seconds: Int64 = Int64(pipVideoData.currentVideoTime)
-                        let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
-                        self.player?.seek(to: targetTime)
+                        let seconds: Int64 = Int64(pipVideoData.currentVideoTime.isNaN ? 0 : pipVideoData.currentVideoTime)
+                        if seconds > 0 {
+                            let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
+                            self.player?.seek(to: targetTime)
+                        }
                         
                         if let pipVideoData = self.pipVideoData {
                             if pipVideoData.isPlayPIP {

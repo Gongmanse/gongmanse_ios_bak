@@ -65,6 +65,8 @@ class SearchVC: UIViewController {
     let subjectButton: UIButton = {
         let button = UIButton(type: .system)
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 30) // 과목 버튼 글자 Inset
+        button.titleLabel?.lineBreakMode = .byTruncatingTail
         return button
     }()
     
@@ -87,16 +89,29 @@ class SearchVC: UIViewController {
         if Constant.token != "" {
             let convertGrade = searchMainVM.convertGrade()
             gradeButton.setTitle(convertGrade ?? "모든 학년", for: .normal)
-            searchData.searchGrade = nil
+            searchData.searchGrade = convertGrade
             
             let convertSubject = searchMainVM.convertSubject()
             subjectButton.setTitle(convertSubject ?? "모든 과목", for: .normal)
-            searchData.searchSubjectNumber = nil
+            searchData.searchSubject = convertSubject
             
+            if searchData.searchSubject == nil {
+                searchData.searchSubjectNumber = nil
+            } else {
+                let subjectApi = getSubjectAPI()
+                subjectApi.performSubjectAPI { [weak self] result in
+                    for i in 0 ..< result.count {
+                        if self?.searchData.searchSubject == result[i].sName {
+                            self?.searchData.searchSubjectNumber = result[i].id
+                        }
+                    }
+                }
+            }
         } else {
             gradeButton.setTitle("모든 학년", for: .normal)
             subjectButton.setTitle("모든 과목", for: .normal)
             searchData.searchGrade = nil
+            searchData.searchSubject = nil
             searchData.searchSubjectNumber = nil
         }
     }
@@ -179,7 +194,7 @@ class SearchVC: UIViewController {
     @objc func handleSubjectPopup() {
         let popupVC = SearchMainPopupVC()
         popupVC.mainList = .subject
-        isChooseGrade = true
+        isChooseGrade = false
         
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
         popupVC.view.frame = self.view.bounds

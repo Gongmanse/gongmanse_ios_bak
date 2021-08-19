@@ -10,8 +10,8 @@ import Alamofire
 
 struct RecentKeywordAPIManager {
     
-    func fetchRecentKeywordListApi(completion: @escaping resultModel<RecentKeywordModel>) {
-        let listUrl = "\(apiBaseURL)/v/member/mysearches?token=\(Constant.token)"
+    func fetchRecentKeywordListApi(offset: Int, completion: @escaping resultModel<RecentKeywordModel>) {
+        let listUrl = "\(apiBaseURL)/v/member/mysearches?token=\(Constant.token)&offset=\(offset)&limit=20"
         
         AF.request(listUrl, method: .get)
             .responseDecodable(of: RecentKeywordModel.self) { response in

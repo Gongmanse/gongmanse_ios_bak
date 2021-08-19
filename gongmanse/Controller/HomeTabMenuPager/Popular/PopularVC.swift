@@ -22,10 +22,6 @@ class PopularVC: UIViewController {
     var listCount: Int = 0
     var isDataListMore: Bool = true
     
-    var detailVideo: DetailSecondVideoResponse?
-    var detailData: DetailVideoInput?
-    var detailVideoData: DetailSecondVideoData?
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -43,7 +39,6 @@ class PopularVC: UIViewController {
         
         //        getDataFromJson()
         viewTitleSettings()
-        getDataFromJsonVideo()
     }
     
     func viewTitleSettings() {
@@ -51,34 +46,10 @@ class PopularVC: UIViewController {
         
         let attributedString = NSMutableAttributedString(string: viewTitle.text!, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold), .foregroundColor: UIColor.black])
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .medium), range: (viewTitle.text! as NSString).range(of: "HOT!"))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 20, weight: .medium), range: (viewTitle.text! as NSString).range(of: "HOT!"))
         attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (viewTitle.text! as NSString).range(of: "HOT!"))
         
         self.viewTitle.attributedText = attributedString
-    }
-    
-    func getDataFromJsonVideo() {
-        
-        //guard let videoId = data?.video_id else { return }
-        
-        if let url = URL(string: "https://api.gongmanse.com/v/video/details?video_id=9316&token=\(Constant.token)") {
-            var request = URLRequest.init(url: url)
-            request.httpMethod = "GET"
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(DetailSecondVideoResponse.self, from: data) {
-                    //print(json.data)
-                    self.detailVideo = json
-                    self.detailVideoData = json.data
-                }
-                DispatchQueue.main.async {
-                    self.popularCollection.reloadData()
-                }
-                
-            }.resume()
-        }
     }
     
     func getDataFromJson() {
@@ -259,13 +230,12 @@ extension PopularVC: UICollectionViewDelegate {
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
+            return
         }
         
-        guard let indexVideoData = detailVideo?.data else { return }
-        
-        if indexVideoData.source_url == nil {
+        if Constant.remainPremiumDateInt == nil {
             presentAlert(message: "이용권을 구매해주세요")
-        } else if indexVideoData.source_url != nil {
+        } else {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
@@ -274,11 +244,15 @@ extension PopularVC: UICollectionViewDelegate {
             vc.id = videoID
             //            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId
             //            vc.popularSeriesId = seriesID
-            vc.popularReceiveData = popularVideo
-            vc.popularViewTitle = viewTitle.text
+//            vc.popularReceiveData = popularVideo
+//            vc.popularViewTitle = viewTitle.text
             
             let autoDataManager = AutoplayDataManager.shared
             autoDataManager.currentViewTitleView = "인기"
+            autoDataManager.isAutoPlay = false
+            autoDataManager.videoDataList.removeAll()
+            autoDataManager.videoSeriesDataList.removeAll()
+            autoDataManager.currentIndex = -1
             
             present(vc, animated: true)
         }

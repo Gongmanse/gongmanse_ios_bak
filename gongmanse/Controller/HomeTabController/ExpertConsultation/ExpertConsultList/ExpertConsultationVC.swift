@@ -1,25 +1,10 @@
 import UIKit
 import BottomPopup
 
-protocol ExpertConsultationVCDelegate: class {
-    func expertConsultationPassSortedIdSettingValue(_ sortedIndex: Int)
-}
-
-class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsultationVCDelegate {
-    func expertConsultationPassSortedIdSettingValue(_ sortedIndex: Int) {
-        self.expertConsultSortedIndex = sortedIndex
-    }
+class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     
-    var expertConsultSortedIndex: Int = 0
     var consultModels: ExpertModels?
-    var consultModelData: [ExpertModelData]? {
-        didSet {
-            DispatchQueue.main.async {
-                self.expertConsultationTV.reloadData()
-            }
-        }
-    }
-    var delegate: ExpertConsultationVCDelegate?
+    var consultModelData: [ExpertModelData] = []
     
     var height: CGFloat = 200
     var presentDuration: Double = 0.2
@@ -30,11 +15,9 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
-    var sortedId: Int? {
-        didSet {
-            getDataFromJson()
-        }
-    }
+    var sortedId: Int = 4
+    
+    var bLoading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +29,15 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         expertConsultationTV.tableFooterView = UIView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(sortFilterNoti(_:)), name: NSNotification.Name("consultFilterText"), object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         
-        delegate = self
-        self.sortedId = expertConsultSortedIndex
+        self.consultModelData.removeAll()
+        self.expertConsultationTV.reloadData()
+        
+        getDataFromJson()
     }
     
     @objc func sortFilterNoti(_ sender: NotificationCenter) {
@@ -57,19 +46,24 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     }
     
     func getDataFromJson() {
-        if let url = URL(string: ExpertConsultation_URL + "limit=64&offset=0&sort_id=\(sortedId ?? 4)") {
+        if let url = URL(string: ExpertConsultation_URL + "limit=20&offset=\(consultModelData.count)&sort_id=\(sortedId)") {
+            bLoading = true
+            
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.bLoading = false
+                
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
                     //print(json.body)
                     self.consultModels = json
-                    self.consultModelData = json.data
+                    self.consultModelData.append(contentsOf: json.data)
                 }
                 DispatchQueue.main.async {
+                    self.expertConsultationTV.reloadData()
                     self.textSettings()
                 }
             }.resume()
@@ -79,14 +73,15 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     func textSettings() {
         guard let value = self.consultModels?.totalNum else { return }
         
-        self.countAll.text = "총 \(value)개"
+        let strCount = value.withCommas()
+        self.countAll.text = "총 \(strCount)개"
         self.countAll.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15, weight: .medium), .foregroundColor: UIColor.black])
 
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .medium), range: (countAll.text! as NSString).range(of: value))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: value))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .medium), range: (countAll.text! as NSString).range(of: strCount))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: strCount))
 
         self.countAll.attributedText = attributedString
     }
@@ -98,7 +93,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         popupVC.dismissDuration = dismissDuration
         popupVC.popupDelegate = self
         popupVC.delegate = self
-        popupVC.sortedItem = self.sortedId
+        popupVC.sortedItem = self.sortedId - 4
         present(popupVC, animated: true)
     }
     
@@ -119,7 +114,6 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
         
         //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
         self.tabBarController?.tabBar.isHidden = false
-        getDataFromJson()
     }
     
     //플로팅 버튼 생성 및 크기 지정 후 뷰 이동
@@ -153,6 +147,20 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
     }
     
     @objc func buttonTapped() {
+        if !Constant.isLogin {
+            let alert = UIAlertController(title: "로그인", message: "로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?", preferredStyle: .alert)
+            
+            let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+                let vc = LoginVC(nibName: "LoginVC", bundle: nil)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         let floatingVC = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationFloatingVC") as! ExpertConsultationFloatingVC
         floatingVC.floatingDelegate = self
         self.navigationController?.pushViewController(floatingVC, animated: true)
@@ -161,8 +169,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate, ExpertConsult
 
 extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let data = self.consultModelData else { return 0 }
-        return data.count
+        return self.consultModelData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -171,7 +178,7 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         
         guard let json = self.consultModels else { return cell }
         
-        let indexData = json.data[indexPath.row]
+        let indexData = consultModelData[indexPath.row]
         let defaultLink = fileBaseURL
         let thumbnailImageURL = indexData.sFilepaths ?? ""
         let thumbnailURL = URL(string: defaultLink + "/" + thumbnailImageURL)
@@ -182,7 +189,7 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         cell.nickName.text = indexData.sNickname
         cell.answerStatus.text = indexData.iAnswer
         cell.profileImage.contentMode = .scaleAspectFill
-        cell.upLoadDate.text = indexData.dtRegister
+        cell.upLoadDate.text = indexData.simpleDt
         
         if indexData.iAnswer == "1" {
             cell.answerStatus.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
@@ -204,7 +211,12 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
                 cell.consultThumbnail.image = UIImage(named: "app_icon")
             } else {
                 cell.consultThumbnail.contentMode = .scaleAspectFill
-                cell.consultThumbnail.sd_setImage(with: thumbnailURL)
+                cell.consultThumbnail.sd_setImage(with: thumbnailURL) { img, err, type, URL in
+                    if img == nil {
+                        cell.consultThumbnail.contentMode = .scaleAspectFit
+                        cell.consultThumbnail.image = UIImage(named: "app_icon")
+                    }
+                }
             }
         }
         return cell
@@ -212,16 +224,26 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
-        vc.receiveData = consultModels?.data[indexPath.row]
+        vc.receiveData = consultModelData[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.consultModelData.count - 1 && !bLoading {
+            //더보기
+            getDataFromJson()
+        }
     }
 }
 
 /// 필터 메뉴를 클릭하면, 호출되는 메소드 구현을 위한 `extension`
 extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate, ExpertConsultationFloatingVCDelegate {
     func sendButtonSelected(completion: @escaping () -> Void) {
+        self.consultModelData.removeAll()
+        self.expertConsultationTV.reloadData()
         getDataFromJson()
+        
         completion()
     }
 
@@ -229,16 +251,18 @@ extension ExpertConsultationVC: ExpertConsultationBottomPopUpVCDelegate, ExpertC
     func passSortedIdRow(_ sortedIdRowIndex: Int) {
         
         if sortedIdRowIndex == 0 {          // 1 번째 Cell
-            self.sortedId = 4 // 평점순
+            self.sortedId = 4 // 최신순
         } else if sortedIdRowIndex == 1 {   // 2 번째 Cell
-            self.sortedId = 5 // 최신순
+            self.sortedId = 5 // 조회순
         } else if sortedIdRowIndex == 2 {   // 3 번째 Cell
-            self.sortedId = 6 // 이름순
+            self.sortedId = 6 // 답변완료순
         } else {                            // Default 값
             self.sortedId = 4 // 최신순
         }
         
-        self.delegate?.expertConsultationPassSortedIdSettingValue(sortedIdRowIndex)
+        self.consultModelData.removeAll()
         self.expertConsultationTV.reloadData()
+        
+        getDataFromJson()
     }
 }

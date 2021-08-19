@@ -14,6 +14,10 @@ class CurriculumCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        lectureImage.layer.cornerRadius = 13
+        lectureImage.layer.masksToBounds = true
+        lectureImage.contentMode = .scaleToFill
+        lectureImage.clipsToBounds = true
     }
 
 }

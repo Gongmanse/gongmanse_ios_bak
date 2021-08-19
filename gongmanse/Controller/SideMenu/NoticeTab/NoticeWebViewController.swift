@@ -21,6 +21,8 @@ class NoticeWebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationSetting()
+        
         view.addSubview(webView)
         view.addSubview(activityIndicator)
         activityIndicator.center = view.center
@@ -49,6 +51,17 @@ class NoticeWebViewController: UIViewController {
         
     }
     
+    func navigationSetting() {
+        
+        //네비게이션 바 타이틀 정하기
+        self.navigationItem.title = "공지사항"
+        
+        //네비게이션 바 뒤로가기 버튼 색상 바꾸기
+        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
+        
+        //네비게이션 바 뒤로가기 버튼 타이틀 없애기
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
 }
 // MARK: - WebView 설정관련
 
@@ -85,8 +98,7 @@ extension NoticeWebViewController: WKUIDelegate, WKNavigationDelegate {
         activityIndicator.stopAnimating()
     }
     
-    private func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         activityIndicator.stopAnimating()
     }
 }

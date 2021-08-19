@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,17 +23,26 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popup_check" translatesAutoresizingMaskIntoConstraints="NO" id="Z2t-yn-c2c">
+                        <rect key="frame" x="14" y="10" width="24" height="24"/>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="aIc-GK-qwf" firstAttribute="leading" secondItem="Z2t-yn-c2c" secondAttribute="trailing" constant="12" id="3rW-cP-SCV"/>
+                    <constraint firstItem="Z2t-yn-c2c" firstAttribute="centerY" secondItem="aIc-GK-qwf" secondAttribute="centerY" id="Jh5-tL-6dc"/>
                     <constraint firstItem="aIc-GK-qwf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="N1C-Ar-29z"/>
                     <constraint firstItem="aIc-GK-qwf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ltT-Pt-hHZ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="ivChk" destination="Z2t-yn-c2c" id="im9-Hj-5SG"/>
                 <outlet property="labelText" destination="aIc-GK-qwf" id="Mqn-eE-MHw"/>
             </connections>
             <point key="canvasLocation" x="132" y="60"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="popup_check" width="24" height="24"/>
+    </resources>
 </document>

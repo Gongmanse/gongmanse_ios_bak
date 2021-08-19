@@ -28,7 +28,7 @@ class RecommendVC: UIViewController {
         recommendCollection.refreshControl = recommendRC
         
         getDataFromJson()
-        getDataFromJsonSecond()
+//        getDataFromJsonSecond()
         
     }
     
@@ -37,23 +37,28 @@ class RecommendVC: UIViewController {
     
     func getDataFromJson() {
         if let url = URL(string: makeStringKoreanEncoded(Recommend_Video_URL + "/모든?offset=\(default1)&limit=20")) {
+            self.isLoading = true
+            
             default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
+                
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(VideoInput.self, from: data) {
                     //print(json.body)
                     //                    self.recommendVideo = json
+                    if self.default1 == 20 {
+                        self.recommendVideo.body.removeAll()
+                    }
                     self.recommendVideo.body.append(contentsOf: json.body)
                     /**
                      06.14
                      자동재생을 on 했을 때, 추천에 나타난 데이터를 활용하기 위해 싱글톤을 사용했습니다.
                      */
-                    let autoPlayDataManager = AutoplayDataManager.shared
-                    autoPlayDataManager.videoDataInRecommandTab? = json
                 }
                 DispatchQueue.main.async {
                     self.recommendCollection.reloadData()
@@ -85,9 +90,9 @@ class RecommendVC: UIViewController {
     }
     
     @objc private func refresh(sender: UIRefreshControl) {
+        default1 = 0
         getDataFromJson()
         sender.endRefreshing()
-        recommendCollection.reloadData()
     }
 }
 
@@ -113,23 +118,7 @@ extension RecommendVC: UICollectionViewDataSource {
         cell.teachersName.text = (indexData.teacherName ?? "nil") + " 선생님"
         cell.subjects.text = indexData.subject
         cell.subjects.backgroundColor = UIColor(hex: indexData.subjectColor ?? "nil")
-        
-        switch indexData.rating {
-        case "5":
-            cell.starRating.text = "5.0"
-        case "4":
-            cell.starRating.text = "4.0"
-        case "3":
-            cell.starRating.text = "3.0"
-        case "2":
-            cell.starRating.text = "2.0"
-        case "1":
-            cell.starRating.text = "1.0"
-        case "0":
-            cell.starRating.text = "0.0"
-        default:
-            cell.starRating.text = indexData.rating
-        }
+        cell.starRating.text = indexData.rating?.withDouble() ?? "0.0"
         
         if indexData.unit != nil {
             cell.term.isHidden = false
@@ -148,15 +137,15 @@ extension RecommendVC: UICollectionViewDataSource {
     
     func loadMoreData() {
         if !self.isLoading {
-            self.isLoading = true
-            DispatchQueue.global().async {
-                sleep(2)
+//            DispatchQueue.global().async {
+//                sleep(2)
                 
-                DispatchQueue.main.async {
-                    self.recommendCollection.reloadData()
-                    self.isLoading = false
-                }
-            }
+//                DispatchQueue.main.async {
+//                    self.recommendCollection.reloadData()
+//                    self.isLoading = false
+//                }
+//            }
+            getDataFromJson()
         }
     }
     
@@ -221,12 +210,12 @@ extension RecommendVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == self.recommendVideo.body.count - 20 && !self.isLoading {
+        if indexPath.row == self.recommendVideo.body.count - 1 && !self.isLoading {
             loadMoreData()
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    /*func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
             //            /// TODO: 로딩인디케이터
@@ -238,7 +227,7 @@ extension RecommendVC: UICollectionViewDataSource {
             getDataFromJson()
             recommendCollection.reloadData()
         }
-    }
+    }*/
 }
 
 extension RecommendVC: UICollectionViewDelegate {
@@ -266,8 +255,14 @@ extension RecommendVC: UICollectionViewDelegate {
         vc.delegate = self
         vc.id = recommendVideo.body[selectedRow].videoId
         vc.modalPresentationStyle = .fullScreen
-        vc.recommendReceiveData = recommendVideo
+//        vc.recommendReceiveData = recommendVideo
+        
         autoPlayDataManager.currentViewTitleView = "추천"
+        autoPlayDataManager.isAutoPlay = false
+        autoPlayDataManager.videoDataList.removeAll()
+        autoPlayDataManager.videoSeriesDataList.removeAll()
+        autoPlayDataManager.currentIndex = -1
+        
         self.present(vc, animated: true)
     }
 }
@@ -301,8 +296,14 @@ extension RecommendVC: RecommendCRVDelegate {
         vc.delegate = self
         vc.id = videoID
         vc.modalPresentationStyle = .fullScreen
-        vc.recommendReceiveData = recommendVideo
+//        vc.recommendReceiveData = recommendVideo
+        
         autoPlayDataManager.currentViewTitleView = "추천"
+        autoPlayDataManager.isAutoPlay = false
+        autoPlayDataManager.videoDataList.removeAll()
+        autoPlayDataManager.videoSeriesDataList.removeAll()
+        autoPlayDataManager.currentIndex = -1
+        
         self.present(vc, animated: true)
     }
 }

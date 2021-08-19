@@ -25,7 +25,7 @@ class ProgressPopupVC: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     
     var chapters: [String] = []
-    
+    var _selectedItem: String = ""
     
     let grades = ["모든 학년", "초등학교 1학년", "초등학교 2학년", "초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년", "중학교 1학년","중학교 2학년","중학교 3학년","고등학교 1학년","고등학교 2학년","고등학교 3학년"]
     
@@ -33,12 +33,21 @@ class ProgressPopupVC: BottomPopupViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var viewlabel: UILabel!
+    @IBOutlet weak var ivType: UIImageView!
     
     
     //MARK: - Lifecyce
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableview()
+        
+        if selectedBtnIndex! == .grade {
+            viewlabel.text = "학년"
+            ivType.image = UIImage(named: "popupClass")
+        } else {
+            viewlabel.text = "단원"
+            ivType.image = UIImage(named: "popupUnit")
+        }
     }
     
     // BottomPopup
@@ -106,10 +115,12 @@ extension ProgressPopupVC: UITableViewDelegate, UITableViewDataSource {
         // selectedIndex 상태에 따라 다르게 표현
         if selectedBtnIndex! == .grade {
             cell.title.text = grades[indexPath.row]
-            viewlabel.text = "학년"
+            cell.title.textColor = _selectedItem == grades[indexPath.row] ? .mainOrange : .black
+            cell.ivChk.isHidden = _selectedItem != grades[indexPath.row]
         } else {
             cell.title.text = chapters[indexPath.row]
-            viewlabel.text = "과목"
+            cell.title.textColor = _selectedItem == chapters[indexPath.row] ? .mainOrange : .black
+            cell.ivChk.isHidden = _selectedItem != chapters[indexPath.row]
         }
         return cell
     }

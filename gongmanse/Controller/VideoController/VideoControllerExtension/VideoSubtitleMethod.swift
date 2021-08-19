@@ -6,6 +6,8 @@ extension VideoController {
     /// "subtitleLabel"을 클릭 시, 호출될 콜백메소드
     @objc func didTappedSubtitle(sender: UITapGestureRecognizer) {
         
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
         // "subtitleLabel"을 클릭할 때만 호출되도록 한다.
         sender.numberOfTapsRequired = 1
         
@@ -63,7 +65,7 @@ extension VideoController {
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             self.player.pause()
-            videoDataManager.isFirstPlayVideo = false
+//            videoDataManager.isFirstPlayVideo = false
             let vc = SearchAfterVC()
             vc.searchData.searchText = currentKeywords[0]
             let nav = UINavigationController(rootViewController: vc)
@@ -75,7 +77,7 @@ extension VideoController {
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             self.player.pause()
-            videoDataManager.isFirstPlayVideo = false
+//            videoDataManager.isFirstPlayVideo = false
             let vc = SearchAfterVC()
             print("DEBUG: \(currentKeywords[2])?")
             vc.searchData.searchText = currentKeywords[2]
@@ -88,7 +90,7 @@ extension VideoController {
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             self.player.pause()
-            videoDataManager.isFirstPlayVideo = false
+//            videoDataManager.isFirstPlayVideo = false
             let vc = SearchAfterVC()
             print("DEBUG: \(currentKeywords[4])?")
             vc.searchData.searchText = currentKeywords[4]
@@ -135,7 +137,7 @@ extension VideoController {
         // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
         attributedString
             .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.appBoldFontWith(size: 15),
+                          value: UIFont.appBoldFontWith(size: 13),
                           range: (text as NSString).range(of: ("\(array[aIndex])")))
         attributedString
             .addAttribute(NSAttributedString.Key.foregroundColor,

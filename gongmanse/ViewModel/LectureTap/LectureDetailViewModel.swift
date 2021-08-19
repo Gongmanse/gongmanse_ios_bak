@@ -24,8 +24,8 @@ class LectureDetailViewModel {
     // 강사별 강의
     func lectureDetailApi(_ seriesID: String, offset: Int) {
         
-        var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=\(offset)&limit=300"
-        print(detailUrl)
+        var detailUrl = "\(apiBaseURL)/v/video/serieslist?series_id=\(seriesID)&offset=\(offset)&limit=20"
+        print("관련시리즈\(detailUrl)")
         
         if isMoreList == false {
             return 
@@ -39,6 +39,7 @@ class LectureDetailViewModel {
                     case .success(let data):
                         print(data)
                         self.lectureDetail = data
+                        print("관련시리즈\(data.data.count)")
                         self.delegate?.reloadCollection()
                     case .failure(let err):
                         print(err.localizedDescription)
@@ -63,7 +64,7 @@ class LectureDetailViewModel {
                         self.isMoreList = false
                     }
                     
-                    
+                    print("관련시리즈\(data.data.count)")
                     for i in 0..<data.data.count {
                         self.lectureDetail?.data.append(data.data[i])
                     }

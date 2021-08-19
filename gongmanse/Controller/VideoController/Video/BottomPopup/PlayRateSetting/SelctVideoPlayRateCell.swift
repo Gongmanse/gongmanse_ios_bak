@@ -19,11 +19,8 @@ class SelectVideoPlayRateCell: UITableViewCell {
     
     let leftImageView: UIImageView = {
         let imageView = UIImageView()
-        var image = UIImage(systemName: "forward")
-        imageView.tintAdjustmentMode = .dimmed
-        imageView.tintColor = .black
+        var image = UIImage(named: "popup_check")
         imageView.image = image
-        imageView.alpha = 0
         return imageView
     }()
     

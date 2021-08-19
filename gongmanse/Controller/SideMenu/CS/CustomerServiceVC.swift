@@ -17,7 +17,7 @@ class CustomerServiceVC: UIViewController {
         
         setupTabs()
         setupPageViewController()
-        
+        addBottomBorder()
     }
 
     override func viewDidLayoutSubviews() {
@@ -26,7 +26,13 @@ class CustomerServiceVC: UIViewController {
         tabsView.collectionView.collectionViewLayout.invalidateLayout()
     }
     
-    
+    func addBottomBorder() {
+       let thickness: CGFloat = 0.5
+       let bottomBorder = CALayer()
+       bottomBorder.frame = CGRect(x:0, y: self.tabsView.frame.size.height - thickness, width: self.tabsView.frame.size.width, height:thickness)
+       bottomBorder.backgroundColor = UIColor.systemGray4.cgColor
+       tabsView.layer.addSublayer(bottomBorder)
+    }
     
     func showViewController(_ index: Int) -> UIViewController? {
         if (self.tabsView.tabs.count == 0) || (index >= self.tabsView.tabs.count) {
@@ -74,7 +80,7 @@ extension CustomerServiceVC {
     func setupTabs() {
         //탭 추가
         tabsView.tabs = [
-            Tab(title: "자주묻는질문"),
+            Tab(title: "자주 묻는 질문"),
             Tab(title: "1:1 문의")
         ]
         
@@ -201,3 +207,4 @@ extension CustomerServiceVC: UIPageViewControllerDataSource, UIPageViewControlle
         }
     }
 }
+

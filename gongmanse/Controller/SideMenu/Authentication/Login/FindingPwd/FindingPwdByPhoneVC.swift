@@ -60,7 +60,7 @@ class FindingPwdByPhoneVC: UIViewController {
         if viewModel.formIsValid { // 인증번호가 사용자가 타이핑한 숫자와 일치하는 경우
             // Transition Controller
             let vc = NewPasswordVC()
-             vc.viewModel.username = self.viewModel.name
+             vc.viewModel.username = self.viewModel.typingID!
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else {

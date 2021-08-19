@@ -28,6 +28,8 @@ class SearchConsultVC: UIViewController {
     // singleton
     lazy var searchData = SearchData.shared
     
+    var _selectedID: String? = "4"
+    
     // 상담목록이 없습니다.
     private let consultLabel: UILabel = {
         let label = UILabel()
@@ -66,8 +68,6 @@ class SearchConsultVC: UIViewController {
             emptyStackView.isHidden = false
             collectionView.isHidden = true
         }
-        
-        searchConsultationVM
     }
     
     override func viewDidLoad() {
@@ -105,22 +105,29 @@ class SearchConsultVC: UIViewController {
     func getSearchConsultation() {
         
         searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
-                                                    sortId: "4")
+                                                    sortId: "4", offset: "\(self.searchConsultationVM.responseDataModel?.data.count ?? 0)")
     }
     
     @objc func afterSearch(_ sender: Notification) {
         
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         sortButton.setTitle("최신순 ▼", for: .normal)
+        
+        searchConsultationVM.responseDataModel?.data.removeAll()
         searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
-                                                    sortId: "4")
+                                                    sortId: "4", offset: "\(self.searchConsultationVM.responseDataModel?.data.count ?? 0)")
     }
     
     @objc func receiveConsultFilter(_ sender: Notification) {
+        let acceptInfo = sender.userInfo
+        _selectedID = acceptInfo?["sortID"] as? String ?? nil
+        
         sortButton.setTitle(sender.userInfo?["sort"] as? String ?? "", for: .normal)
         
+        searchConsultationVM.responseDataModel?.data.removeAll()
         searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
-                                                    sortId: sender.userInfo?["sortID"] as? String ?? "")
+                                                    sortId: sender.userInfo?["sortID"] as? String ?? "",
+                                                    offset: "\(self.searchConsultationVM.responseDataModel?.data.count ?? 0)")
         
     }
     
@@ -132,7 +139,7 @@ class SearchConsultVC: UIViewController {
     @IBAction func handleFilter(_ sender: Any) {
         let popupVC = SearchAfterBottomPopup()
         popupVC.selectFilterState = .consultation
-        
+        popupVC._selectedID = _selectedID
         // 팝업 창이 한쪽으로 쏠려서 view 경계 지정
         popupVC.view.frame = self.view.bounds
         self.present(popupVC, animated: true, completion: nil)   
@@ -157,7 +164,9 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
         
         cell.questionTitle.text = indexData?.sQuestion
         cell.writer.text = indexData?.sNickname
-        cell.writtenDate.text = indexData?.dtRegister ?? ""
+        
+        cell.writtenDate.text = indexData?.simpleDt ?? ""
+        
         // label state
         let isAnswer = searchConsultationVM.answerState(state: indexData?.iAnswer ?? "0")
         cell.labelState(isAnswer)
@@ -201,12 +210,17 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
                                     dtRegister: data?.dtRegister,
                                     sFilepaths: data?.sFilepaths)
         vc.receiveData = input
-        
-        vc.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == (self.searchConsultationVM.responseDataModel?.data.count ?? 0) - 1 && !searchConsultationVM.isLoading {
+            searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
+                                                        sortId: _selectedID,
+                                                        offset: "\(self.searchConsultationVM.responseDataModel?.data.count ?? 0)")
+        }
+    }
 }
 
 
@@ -237,9 +251,10 @@ extension SearchConsultVC: CollectionReloadData {
         DispatchQueue.main.async {
             
             let subString = self.searchConsultationVM.responseDataModel?.totalNum ?? "0"
-            let allString = "총 \(subString)개"
+            let strCount = subString.withCommas()
+            let allString = "총 \(strCount)개"
             
-            self.numberOfLesson.attributedText = allString.convertStringColor(allString, subString, .mainOrange)
+            self.numberOfLesson.attributedText = allString.convertStringColor(allString, strCount, .mainOrange)
             self.collectionView.reloadData()
         }
     }

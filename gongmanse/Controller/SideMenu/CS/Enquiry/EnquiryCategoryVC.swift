@@ -65,7 +65,9 @@ class EnquiryCategoryVC: UIViewController {
         switch enquiryState {
         case .update:
             
-            QuestionTextView.text = updateModel?.sQuestion
+            if let question = updateModel?.sQuestion {
+                QuestionTextView.text = question.replacingOccurrences(of: "\n\n", with: "\n").replacingOccurrences(of: "<p>", with: "").replacingOccurrences(of: "</p>", with: "")
+            }
             QuestionTextView.textColor = .black
             guard let buttonTag = Int(updateModel?.iType ?? "0") else { return }
             buttonType = buttonTag
@@ -92,21 +94,28 @@ class EnquiryCategoryVC: UIViewController {
     }
     
     @IBAction func registEnquiryAction(_ sender: UIButton) {
+        if let question = enquiryText, question.isEmpty {
+            return
+        }
+        
+        var arr = enquiryText!.components(separatedBy: "\n")
+        for i in 0 ..< arr.count {
+            arr[i] = "<p>\(arr[i])</p>\n\n"
+        }
+        let str = arr.joined()
         
         switch enquiryState {
         case .create:
             
-            if let question = enquiryText {
-                enquiryViewModel?.requestOneOneRegist(question: question, type: buttonType, comepletionHandler: {
-                    self.navigationController?.popViewController(animated: true)
-                })
-            }
+            enquiryViewModel?.requestOneOneRegist(question: str, type: buttonType, comepletionHandler: {
+                self.navigationController?.popViewController(animated: true)
+            })
             
         case .update:
             guard let viewcontroller: [UIViewController] = self.navigationController?.viewControllers else { return }
             
             enquiryViewModel?.requestOneOneUpdate(id: updateModel?.id ?? "",
-                                                  quetion: enquiryText ?? "",
+                                                  quetion: str,
                                                   type: "\(buttonType)", completionHandler: {
                                                     self.navigationController?.popToViewController(viewcontroller[viewcontroller.count - 3], animated: true)
                                                   })

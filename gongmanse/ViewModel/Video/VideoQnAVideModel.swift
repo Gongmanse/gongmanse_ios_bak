@@ -15,15 +15,36 @@ class VideoQnAVideModel {
     
     let videoQnAManager = VideoQnAAPIManager()
     
+    var isLoading = false
+    
     /// 영상QnA 정보 불러오기
     func requestVideoQnA(_ videoId: String) {
+        isLoading = true
         
         videoQnAManager.fetchVideoQnAGetApi(videoId, Constant.token) { response in
+            self.isLoading = false
             
             switch response {
             case .success(let data):
                 print("Success Request")
                 self.videoQnAInformation = data
+                self.videoQnAInformation?.data.removeAll()
+                for i in 0 ..< data.data.count {
+                    let item = data.data[i]
+                    if item.sTeacher != nil {
+                        do {
+                            var item1 = try data.data[i].copy()
+                            item1.sTeacher = nil
+                            self.videoQnAInformation?.data.append(item1)
+                        } catch {
+                            
+                        }
+                        self.videoQnAInformation?.data.append(item)
+                    } else {
+                        self.videoQnAInformation?.data.append(data.data[i])
+                    }
+                }
+                
                 self.reloadDelegate?.reloadTable()
             case .failure(let err):
                 print(err.localizedDescription)
@@ -38,6 +59,7 @@ class VideoQnAVideModel {
         
         videoQnAManager.fetchVideoQnAInsertApi(parameters) {
             print("Success QnA Insert")
+            self.requestVideoQnA(videoId)
         }
     }
 }

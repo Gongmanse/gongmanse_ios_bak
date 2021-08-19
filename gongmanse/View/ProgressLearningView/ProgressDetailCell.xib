@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,29 +17,32 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProgressDetailCell" id="gTV-IL-0wX" customClass="ProgressDetailCell" customModule="gongmanse" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="358" height="240"/>
+            <rect key="frame" x="0.0" y="0.0" width="358" height="289"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="358" height="240"/>
+                <rect key="frame" x="0.0" y="0.0" width="358" height="289"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpt-eJ-WPC">
-                        <rect key="frame" x="0.0" y="0.0" width="358" height="240"/>
+                        <rect key="frame" x="0.0" y="0.0" width="358" height="289"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="임시이미지" translatesAutoresizingMaskIntoConstraints="NO" id="Xlo-yH-z4X">
-                                <rect key="frame" x="20" y="12" width="318" height="160"/>
+                                <rect key="frame" x="0.0" y="0.0" width="358" height="201.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Xlo-yH-z4X" secondAttribute="height" multiplier="16:9" id="Dy8-hY-z0S"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bM1-QB-Fit">
-                                <rect key="frame" x="20" y="185" width="318" height="43"/>
+                                <rect key="frame" x="0.0" y="214.5" width="358" height="62.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개과천선, 권선징악" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3oj-hl-sLx">
-                                        <rect key="frame" x="0.0" y="0.0" width="132" height="18"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="358" height="19"/>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="s3e-XN-BCA">
-                                        <rect key="frame" x="232.5" y="26" width="85.5" height="17"/>
+                                        <rect key="frame" x="272.5" y="45.5" width="85.5" height="17"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="심 선생님" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUq-3E-nTV">
                                                 <rect key="frame" x="0.0" y="0.0" width="52.5" height="17"/>
@@ -59,7 +62,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="C96-gX-KED">
-                                        <rect key="frame" x="0.0" y="26" width="30" height="17"/>
+                                        <rect key="frame" x="0.0" y="45.5" width="30" height="17"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="국어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-zX-vIT" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="17"/>
@@ -116,20 +119,19 @@
                                     <constraint firstItem="s3e-XN-BCA" firstAttribute="bottom" secondItem="C96-gX-KED" secondAttribute="bottom" id="Lv4-Yq-8df"/>
                                     <constraint firstItem="C96-gX-KED" firstAttribute="leading" secondItem="3oj-hl-sLx" secondAttribute="leading" id="Z4q-eg-oaQ"/>
                                     <constraint firstAttribute="trailing" secondItem="s3e-XN-BCA" secondAttribute="trailing" id="elq-ae-ZRb"/>
+                                    <constraint firstAttribute="trailing" secondItem="3oj-hl-sLx" secondAttribute="trailing" id="sVF-EG-VbB"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="3oj-hl-sLx" firstAttribute="height" secondItem="xpt-eJ-WPC" secondAttribute="height" multiplier="0.075" id="627-iN-puY"/>
                             <constraint firstAttribute="bottom" secondItem="bM1-QB-Fit" secondAttribute="bottom" constant="12" id="BY6-EY-yuv"/>
-                            <constraint firstItem="Xlo-yH-z4X" firstAttribute="top" secondItem="xpt-eJ-WPC" secondAttribute="top" constant="12" id="J4V-fP-sj4"/>
-                            <constraint firstAttribute="trailing" secondItem="Xlo-yH-z4X" secondAttribute="trailing" constant="20" id="LEW-j0-9dj"/>
+                            <constraint firstItem="Xlo-yH-z4X" firstAttribute="top" secondItem="xpt-eJ-WPC" secondAttribute="top" id="J4V-fP-sj4"/>
+                            <constraint firstAttribute="trailing" secondItem="Xlo-yH-z4X" secondAttribute="trailing" id="LEW-j0-9dj"/>
                             <constraint firstItem="bM1-QB-Fit" firstAttribute="top" secondItem="Xlo-yH-z4X" secondAttribute="bottom" constant="13" id="Rxb-Tb-9pq"/>
-                            <constraint firstItem="Xlo-yH-z4X" firstAttribute="height" secondItem="xpt-eJ-WPC" secondAttribute="height" multiplier="0.666667" id="ZPx-bC-zBW"/>
-                            <constraint firstAttribute="trailing" secondItem="bM1-QB-Fit" secondAttribute="trailing" constant="20" id="nY8-Db-xy4"/>
-                            <constraint firstItem="bM1-QB-Fit" firstAttribute="leading" secondItem="xpt-eJ-WPC" secondAttribute="leading" constant="20" id="uh1-zP-X6D"/>
-                            <constraint firstItem="Xlo-yH-z4X" firstAttribute="leading" secondItem="xpt-eJ-WPC" secondAttribute="leading" constant="20" id="wMF-ce-Egd"/>
+                            <constraint firstAttribute="trailing" secondItem="bM1-QB-Fit" secondAttribute="trailing" id="nY8-Db-xy4"/>
+                            <constraint firstItem="bM1-QB-Fit" firstAttribute="leading" secondItem="xpt-eJ-WPC" secondAttribute="leading" id="uh1-zP-X6D"/>
+                            <constraint firstItem="Xlo-yH-z4X" firstAttribute="leading" secondItem="xpt-eJ-WPC" secondAttribute="leading" id="wMF-ce-Egd"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -141,7 +143,7 @@
                 <constraint firstItem="xpt-eJ-WPC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="i06-PC-gzV"/>
                 <constraint firstAttribute="trailing" secondItem="xpt-eJ-WPC" secondAttribute="trailing" id="p9i-td-UrP"/>
             </constraints>
-            <size key="customSize" width="358" height="361"/>
+            <size key="customSize" width="358" height="410"/>
             <connections>
                 <outlet property="lessonImage" destination="Xlo-yH-z4X" id="2iU-gq-qwN"/>
                 <outlet property="lessonRating" destination="Gur-ZL-WFI" id="iDJ-OG-Rvv"/>
@@ -151,7 +153,7 @@
                 <outlet property="subjectSecond" destination="7eD-iN-aqy" id="CDa-dO-UMA"/>
                 <outlet property="teathername" destination="nUq-3E-nTV" id="lUr-IV-Fzo"/>
             </connections>
-            <point key="canvasLocation" x="352.17391304347831" y="83.705357142857139"/>
+            <point key="canvasLocation" x="352.17391304347831" y="100.11160714285714"/>
         </collectionViewCell>
     </objects>
     <resources>

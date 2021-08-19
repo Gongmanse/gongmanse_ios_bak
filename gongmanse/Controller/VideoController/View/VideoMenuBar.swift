@@ -83,16 +83,19 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.leftImageView.tintColor = .black
         switch indexPath.row {
         case 0:
-            cell.label.text = "노트보기"
+            cell.label.text = "노트 보기"
             cell.leftImageView.image = noteOffLeftImage
+            
+            collectionView.selectItem(at: indexPath, animated: false , scrollPosition: .init())
+            cell.isSelected = true
         case 1:
             cell.label.text = "강의 QnA"
-            cell.leftImageView.image = qnaOffLeftImage
+            cell.leftImageView.image = qnaOffLeftImage?.withAlignmentRectInsets(UIEdgeInsets(top: -3, left: -3, bottom: -3, right: -3))
         case 2:
-            cell.label.text = "재생목록"
+            cell.label.text = "재생 목록"
             cell.leftImageView.image = playlistOffLeftImage
         default:
-            cell.label.text = "노트보기"
+            cell.label.text = "노트 보기"
             cell.leftImageView.image = noteOffLeftImage
         }
         
@@ -116,22 +119,18 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
         
-            cell.label.text = "노트보기"
-            cell.leftImageView.tintColor = .mainOrange
+            cell.label.text = "노트 보기"
             NotificationCenter.default.post(name: NSNotification.Name("keyboardHide"), object: nil, userInfo: nil)
 //            cell.leftImageView.image = noteOnLeftImage
         case 1:
             cell.label.text = "강의 QnA"
-            cell.leftImageView.tintColor = .mainOrange
 //            cell.leftImageView.image = qnaOnLeftImage
         case 2:
-            cell.label.text = "재생목록"
-            cell.leftImageView.tintColor = .mainOrange
+            cell.label.text = "재생 목록"
             NotificationCenter.default.post(name: NSNotification.Name("keyboardHide"), object: nil, userInfo: nil)
 //            cell.leftImageView.image = playlistOnLeftImage
         default:
-            cell.label.text = "노트보기"
-            cell.leftImageView.tintColor = .mainOrange
+            cell.label.text = "노트 보기"
 //            cell.leftImageView.image = noteOnLeftImage
         }
 
@@ -140,7 +139,7 @@ extension VideoMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell2 = collectionView.cellForItem(at: indexPath) as? VideoUpperCell else {return}
-        cell2.leftImageView.tintColor = .black
+        cell2.isSelected = false
         
 //        guard let cell = collectionView.cellForItem(at: indexPath) as? UpperCell else {return}
 //        cell.label.textColor = .mainOrange

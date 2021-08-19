@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProgressDetailVC" customModule="gongmanse" customModuleProvider="target">
             <connections>
+                <outlet property="autoPlayLabel" destination="Dep-dW-bQC" id="xZb-CD-YFp"/>
                 <outlet property="autoPlaySwitch" destination="eJm-SO-T11" id="sZC-b6-3RM"/>
                 <outlet property="collectionView" destination="MEQ-LU-Otl" id="2n0-2m-RIv"/>
                 <outlet property="gradeLabel" destination="wQd-ei-vPh" id="Evl-ra-qcv"/>
@@ -30,19 +31,19 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4Rk-9o-fXu">
-                            <rect key="frame" x="27" y="15" width="360" height="19"/>
+                            <rect key="frame" x="27" y="11" width="360" height="28"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="[초등 - 전학년] 국어용어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPJ-wy-3kB">
-                                    <rect key="frame" x="0.0" y="0.0" width="165.5" height="19"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="165.5" height="28"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gpW-lx-cKP">
-                                    <rect key="frame" x="320.5" y="0.0" width="39.5" height="19"/>
+                                    <rect key="frame" x="320.5" y="0.0" width="39.5" height="28"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="초" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQd-ei-vPh" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="10" height="19"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="10" height="28"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -62,7 +63,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="국어" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCe-tL-Y4B">
-                                            <rect key="frame" x="20" y="0.0" width="19.5" height="19"/>
+                                            <rect key="frame" x="20" y="0.0" width="19.5" height="28"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -71,15 +72,14 @@
                                 </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="19" id="u7J-Ni-SFl"/>
+                                <constraint firstAttribute="height" constant="28" id="u7J-Ni-SFl"/>
                             </constraints>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="deviceRGB"/>
                     <constraints>
+                        <constraint firstItem="4Rk-9o-fXu" firstAttribute="centerY" secondItem="iQD-j3-hhh" secondAttribute="centerY" id="HWx-n8-bag"/>
                         <constraint firstAttribute="trailing" secondItem="4Rk-9o-fXu" secondAttribute="trailing" constant="27" id="Mse-KH-xSK"/>
-                        <constraint firstItem="4Rk-9o-fXu" firstAttribute="top" secondItem="iQD-j3-hhh" secondAttribute="top" constant="15" id="P48-oO-yKR"/>
-                        <constraint firstAttribute="bottom" secondItem="4Rk-9o-fXu" secondAttribute="bottom" constant="16" id="rce-vQ-AFP"/>
                         <constraint firstAttribute="height" constant="50" id="wY5-Yx-iXC"/>
                         <constraint firstItem="4Rk-9o-fXu" firstAttribute="leading" secondItem="iQD-j3-hhh" secondAttribute="leading" constant="27" id="xuv-rv-S3V"/>
                     </constraints>

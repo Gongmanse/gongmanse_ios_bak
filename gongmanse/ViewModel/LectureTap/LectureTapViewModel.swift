@@ -82,9 +82,9 @@ class LectureTapViewModel {
         case "초등":
             return OneGrade.element.oneWord
         case "중등":
-            return OneGrade.element.oneWord
+            return OneGrade.middle.oneWord
         case "고등":
-            return OneGrade.element.oneWord
+            return OneGrade.high.oneWord
         default:
             return ""
         }

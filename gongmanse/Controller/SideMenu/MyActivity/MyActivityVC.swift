@@ -19,7 +19,15 @@ class MyActivityVC: UIViewController {
     var bookMarkSortedIndex: Int = 0
     
     var pageController: UIPageViewController!
-    var isSelected: Bool = false
+    var isSelected: Bool = true {
+        didSet {
+            self.recentVideoTVC.isDeleteMode = isSelected
+            self.noteListTVC.isDeleteMode = isSelected
+            self.lectureQuestionsTVC.isDeleteMode = isSelected
+            self.expertConsultTVC.isDeleteMode = isSelected
+            self.bookMarkTVC.isDeleteMode = isSelected
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +51,6 @@ class MyActivityVC: UIViewController {
     @objc func trashImageAction(_ sender: UIButton) {
         
         isSelected = !isSelected
-        recentVideoTVC.isDeleteMode = isSelected
-        noteListTVC.isDeleteMode = isSelected
-        lectureQuestionsTVC.isDeleteMode = isSelected
-        expertConsultTVC.isDeleteMode = isSelected
-        bookMarkTVC.isDeleteMode = isSelected
     }
     
     func addBottomBorder() {
@@ -164,6 +167,7 @@ class MyActivityVC: UIViewController {
 
 extension MyActivityVC: TabsDelegate {
     func tabsViewDidSelectItemAt(position: Int) {
+        isSelected = true
         //선택한 탭 셀 위치가 pageController의 현재 위치와 동일한 지 확인하고 그렇지 않은 경우 앞으로 또는 뒤로 이동
         if position != currentIndex {
             if position > currentIndex {
@@ -179,6 +183,8 @@ extension MyActivityVC: TabsDelegate {
 extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     //앞으로 갈 때 viewController 반환
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        isSelected = true
+        
         let vc = pageViewController.viewControllers?.first
         var index: Int
         index = getVCPageIndex(vc)
@@ -194,6 +200,8 @@ extension MyActivityVC: UIPageViewControllerDataSource, UIPageViewControllerDele
     
     //뒤로 갈 때 viewController 반환
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        isSelected = true
+        
         let vc = pageViewController.viewControllers?.first
         var index: Int
         index = getVCPageIndex(vc)

@@ -17,6 +17,7 @@ class ProgressPopupCell: UITableViewCell {
     
     
     @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var ivChk: UIImageView!
   
     
     override func awakeFromNib() {

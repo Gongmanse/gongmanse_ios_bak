@@ -39,14 +39,14 @@ class Canvas: UIView {
     public var lines = [Line]()
     {
         didSet {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.setNeedsDisplay()     // line에 새로운 값이 추가되었으면 새롭게 그려야하므로 해당 메소드를 호출한다.
             }
         }
     }
     
     fileprivate var strokeColor = UIColor.redPenColor
-    fileprivate var strokeWidth: Float = 1
+    fileprivate var strokeWidth: Float = 2
     
     
     // MARK: - Lifecycle
@@ -74,11 +74,17 @@ class Canvas: UIView {
     
     func undo() {
         _ = lines.popLast()
+        _ = pointString.popLast()
+        _ = colorArr.popLast()
+        
         setNeedsDisplay()
     }
     
     func clear() {
         lines.removeAll()
+        pointString.removeAll()
+        colorArr.removeAll()
+        
         setNeedsDisplay()
     }
     
@@ -165,4 +171,24 @@ class Canvas: UIView {
         // (x,y의 좌표값들, color값)
     }
     
+    func setLines(_ previousNoteTakingData: [Line]) {
+        clear()
+        
+        lines = previousNoteTakingData
+        
+        //예전에 그렸던 데이터 추가(안그러면 새로 그린것만 패치가 되서 보관됨, 그래서 이전에 그렸던 라인이 안보이고 사라짐)
+        lines.forEach { line in
+            var passData = [Point]()
+            for (_, p) in line.points.enumerated() {
+                passData.append(Point(x: p.x,
+                                      y: p.y))
+            }
+            var convertedString = ""
+            for (_, p) in passData.enumerated() {
+                convertedString += "{\"x\":\(p.x), \"y\":\(p.y)},"
+            }
+            self.pointString.append(convertedString)
+            self.colorArr.append(line.color)
+        }
+    }
 }

@@ -17,14 +17,16 @@ class CustomSideMenuNavigation: SideMenuNavigationController, SideMenuNavigation
     
     @objc func showTermsOfService() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsOfServiceVC") as! TermsOfServiceVC
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+//        vc.modalPresentationStyle = .fullScreen
+//        present(vc, animated: true)
+        pushViewController(vc, animated: true)
     }
     
     @objc func showPrivacyPolicy() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyPolicyVC") as! PrivacyPolicyVC
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+//        vc.modalPresentationStyle = .fullScreen
+//        present(vc, animated: true)
+        pushViewController(vc, animated: true)
     }
     
     // MARK: - Heleprs
