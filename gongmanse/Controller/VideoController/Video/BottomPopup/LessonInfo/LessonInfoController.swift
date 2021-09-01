@@ -104,7 +104,7 @@ class LessonInfoController: UIViewController {
             } else {
                 rateLessonButton.viewTintColor = .black
             }
-            rateLessonButton.titleLabel.text = userRating
+            rateLessonButton.titleLabel.text = userRating?.withDouble()
         }
     }
     
@@ -207,7 +207,7 @@ class LessonInfoController: UIViewController {
         
         // 변동가능성 있는 부분
 //        rateLessonButton.viewTintColor = .mainOrange
-        rateLessonButton.titleLabel.text = userRating
+        rateLessonButton.titleLabel.text = userRating?.withDouble()
         
         if let myRatingPoint = myRating {
             vc.initPoint = Int(myRatingPoint) ?? 3
@@ -332,7 +332,7 @@ class LessonInfoController: UIViewController {
         sSubjectsUnitContainerView.anchor(top: view.topAnchor,
                                           left: view.leftAnchor,
                                           right: view.rightAnchor,
-                                          paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+                                          paddingTop: 10, paddingLeft: 30, paddingRight: 30)
         
         sSubjectLabel.layer.cornerRadius = 11.5
         sSubjectsUnitContainerView.addSubview(sSubjectLabel)
@@ -445,15 +445,14 @@ class LessonInfoController: UIViewController {
         let link = Link(webUrl: URL(string:shareUrl),
                         mobileWebUrl: URL(string:shareUrl))
         let button = Button(title: "웹으로 보기", link: link)
-
-        let social = Social(likeCount: 286,
-                            commentCount: 45,
-                            sharedCount: 845)
+        
         let content = Content(title: self.lessonnameLabel.text!,
                               imageUrl: URL(string:self.thumbnail!)!,
+                              imageWidth: 640,
+                              imageHeight: 360,
                               description: "[강추!] 혼자 보기 아까운 공만세 강의를 추천합니다. 우리 함께 보아요~",
                               link: link)
-        let feedTemplate = FeedTemplate(content: content, social: social, buttons: [button])
+        let feedTemplate = FeedTemplate(content: content, social: nil, buttons: [button])
 
         //메시지 템플릿 encode
         if let feedTemplateJsonData = (try? SdkJSONEncoder.custom.encode(feedTemplate)) {

@@ -253,6 +253,12 @@ extension LoginVC {
         Constant.token = token
         Constant.userID = userID
         
+        //FirebaseToken Update
+        let fcm_token = (UserDefaults.standard.object(forKey: "fcm_token") as? String) ?? ""
+        if !fcm_token.isEmpty {
+            EditingProfileDataManager().getUserId(token, fcm_token)
+        }
+        
         EditingProfileDataManager().getPremiumDateFromAPI(EditingProfileInput(token: Constant.token),
                                                           viewController: self)
         

@@ -147,7 +147,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
             inputSortNum = 4
         }
         
-        if inputFilterNum == 2 {
+        if inputFilterNum == 2 { //시리즈보기
             if let url = URL(string: apiBaseURL + "/v/video/byseries?category_id=36&offset=\(listCount)&limit=20") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
@@ -196,6 +196,8 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
                     }.resume()
                 }
             }
+        } else if inputFilterNum == 3 { //노트보기
+            getDataFromJsonNote()
         } else if let url = URL(string: Science_Video_URL + "offset=\(listCount)&limit=20&sortId=\(inputFilterNum == 1 ? 2 : inputSortNum)&type=\(inputFilterNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
@@ -296,23 +298,55 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     }
     
     func getDataFromJsonNote() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=36&offset=0&limit=20") {
+        
+        if let url = URL(string: apiBaseURL + "/v/video/notelist?category_id=36&offset=\(listCount)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    //print(json.body)
-                    self.noteShow = json
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
                     
-                }
-                DispatchQueue.main.async {
-                    self.scienceCollection.reloadData()
-                }
-            }.resume()
-        } 
+                    if let json = try? decoder.decode(HomeNoteModel.self, from: data) {
+                        var videoInput = VideoInput(header: nil, body: [])
+                        videoInput.header = HeaderData(resultMsg: "성공", totalRows: String(json.totalNum), isMore: "true")
+                        
+                        for i in 0 ..< json.data.count {
+                            let item = json.data[i]
+                            videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
+                        }
+                        self.scienceVideo = videoInput
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.scienceCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    
+                    if let json = try? decoder.decode(HomeNoteModel.self, from: data) {
+                        //                        guard let isMores = json.header?.isMore else { return}
+                        //                        self.isMoreBool = Bool(isMores) ?? false
+                        for i in 0..<json.data.count {
+                            let item = json.data[i]
+                            self.scienceVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
+                        }
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.scienceCollection.reloadData()
+                    }
+                    
+                }.resume()
+            }
+        }
     }
     
     
@@ -374,17 +408,16 @@ extension ScienceVC: UICollectionViewDataSource {
         
         /// cell keyword 업데이트를 위한 메소드
         func addKeywordToCell() {
-            if indexData.unit == nil {
-                cell.term.isHidden = true
-            } else if indexData.unit == "1" {
+            cell.term.isHidden = true
+            if let unit = indexData.unit, !unit.isEmpty {
                 cell.term.isHidden = false
-                cell.term.text = "i"
-            } else if indexData.unit == "2" {
-                cell.term.isHidden = false
-                cell.term.text = "ii"
-            } else {
-                cell.term.isHidden = false
-                cell.term.text = indexData.unit
+                if unit == "1" {
+                    cell.term.text = "i"
+                } else if unit == "2" {
+                    cell.term.text = "ii"
+                } else {
+                    cell.term.text = unit
+                }
             }
         }
         
@@ -518,7 +551,7 @@ extension ScienceVC: UICollectionViewDelegate {
                 vc.modalPresentationStyle = .fullScreen
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 vc.id = videoID
-                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
+//                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
 //                vc.scienceSeriesId = seriesID
 //                vc.scienceSwitchValue = playSwitch
 //                vc.scienceReceiveData = scienceVideo
@@ -554,7 +587,7 @@ extension ScienceVC: UICollectionViewDelegate {
                 vc.modalPresentationStyle = .fullScreen
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 vc.id = videoID
-                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
+//                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
 //                vc.scienceSeriesId = seriesID
 //                vc.scienceSwitchValue = playSwitch
 //                vc.scienceReceiveData = scienceVideo
@@ -590,6 +623,8 @@ extension ScienceVC: UICollectionViewDelegate {
                     videoIDArr.append(scienceVideo?.body[i].videoId ?? "")
                 }
                 vc.videoIDArr = videoIDArr
+                vc._type = "과학"
+                vc._sort = sortedId ?? 4
                 
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
@@ -701,10 +736,10 @@ extension ScienceVC: UICollectionViewDelegate {
         if indexPath.row == cellCount - 1 {
             listCount += 20
             getDataFromJson()
-        } else if indexPath.row == cellCountSecond - 1 {
+        }/* else if indexPath.row == cellCountSecond - 1 {
             listCount += 20
             getDataFromJsonSecond()
-        }
+        }*/
     }
 }
 

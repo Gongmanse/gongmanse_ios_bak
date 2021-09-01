@@ -4,6 +4,7 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 enum QnAChat {
     case me, others
@@ -20,7 +21,7 @@ enum QnAChat {
 
 class BottomQnACell: UICollectionViewCell {
     let videoVM = VideoQnAVideModel()
-    let sideHeaderVM = SideMenuHeaderViewModel()
+//    let sideHeaderVM = SideMenuHeaderViewModel()
     
     lazy var videoID: String = "" {
         didSet {
@@ -252,7 +253,7 @@ extension BottomQnACell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let short = videoVM.videoQnAInformation?.data[indexPath.row]
         
-        print(sideHeaderVM.userID)
+//        print(sideHeaderVM.userID)
         
         if let teacher = short?.sTeacher {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
@@ -261,9 +262,10 @@ extension BottomQnACell: UITableViewDataSource {
             cell.otherContent.text = "A. \(teacher)\n\(short?.sAnswer ?? "")".htmlEscaped
             
             if let sUrl = short?.sTeacherImg {
-                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
-                let data = try? Data(contentsOf: url!)
-                cell.otherProfile.image = UIImage(data: data!)
+//                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
+//                let data = try? Data(contentsOf: url!)
+//                cell.otherProfile.image = UIImage(data: data!)
+                cell.otherProfile.kf.setImage(with: URL(string: "\(fileBaseURL)/\(sUrl)"))
                 cell.otherProfile.backgroundColor = UIColor.clear
             }
             
@@ -276,9 +278,10 @@ extension BottomQnACell: UITableViewDataSource {
             cell.myContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
             
             if let sUrl = short?.sUserImg {
-                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
-                let data = try? Data(contentsOf: url!)
-                cell.myProfile.image = UIImage(data: data!)
+//                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
+//                let data = try? Data(contentsOf: url!)
+//                cell.myProfile.image = UIImage(data: data!)
+                cell.myProfile.kf.setImage(with: URL(string: "\(fileBaseURL)/\(sUrl)"))
                 cell.myProfile.backgroundColor = UIColor.clear
             }
             

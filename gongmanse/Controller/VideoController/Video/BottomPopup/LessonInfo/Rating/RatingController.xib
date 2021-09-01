@@ -44,21 +44,21 @@
                             <color key="textColor" red="0.098340850519999995" green="0.098340850519999995" blue="0.098340850519999995" alpha="0.97959183670000005" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRM-WJ-MFi" userLabel="X버튼">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRM-WJ-MFi" userLabel="X버튼">
                             <rect key="frame" x="305" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="DsT-a1-UAu"/>
                                 <constraint firstAttribute="width" constant="30" id="NPZ-lx-7NS"/>
                             </constraints>
-                            <state key="normal" title="X">
+                            <state key="normal" image="close24Px">
                                 <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
                                 <action selector="tapXButton:" destination="-1" eventType="touchUpInside" id="HaF-aa-sDL"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-hB-46x" customClass="CosmosView" customModule="Cosmos">
-                            <rect key="frame" x="55" y="64" width="240" height="128"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3qM-hB-46x" customClass="CosmosView" customModule="Cosmos">
+                            <rect key="frame" x="53" y="79" width="245" height="45"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
@@ -137,7 +137,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyr-TI-bGQ">
-                            <rect key="frame" x="123.5" y="218" width="104" height="31"/>
+                            <rect key="frame" x="123.5" y="201" width="104" height="31"/>
                             <color key="backgroundColor" systemColor="systemOrangeColor"/>
                             <state key="normal" title="적용">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -153,7 +153,7 @@
                         <constraint firstItem="cA3-dL-DGi" firstAttribute="top" secondItem="9EL-9i-z4a" secondAttribute="bottom" constant="8" symbolic="YES" id="0o6-e3-QZe"/>
                         <constraint firstItem="3qM-hB-46x" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="Hz6-g5-22X"/>
                         <constraint firstItem="faX-Yr-npj" firstAttribute="top" secondItem="cA3-dL-DGi" secondAttribute="bottom" constant="92" id="JNF-Iq-mve"/>
-                        <constraint firstItem="3qM-hB-46x" firstAttribute="top" secondItem="cA3-dL-DGi" secondAttribute="bottom" constant="10" id="QC5-Mm-t74"/>
+                        <constraint firstItem="3qM-hB-46x" firstAttribute="top" secondItem="cA3-dL-DGi" secondAttribute="bottom" constant="25" id="QC5-Mm-t74"/>
                         <constraint firstItem="iyr-TI-bGQ" firstAttribute="height" secondItem="gRZ-i7-wl0" secondAttribute="height" multiplier="0.120623" id="Qvb-HX-B8O"/>
                         <constraint firstAttribute="trailing" secondItem="cA3-dL-DGi" secondAttribute="trailing" id="R1v-Eu-e4Q"/>
                         <constraint firstAttribute="trailing" secondItem="rRM-WJ-MFi" secondAttribute="trailing" constant="16" id="Uud-qD-vbp"/>
@@ -162,7 +162,7 @@
                         <constraint firstItem="iyr-TI-bGQ" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="ifI-Ct-2Ce"/>
                         <constraint firstItem="iyr-TI-bGQ" firstAttribute="width" secondItem="gRZ-i7-wl0" secondAttribute="width" multiplier="0.296791" id="m00-xS-zTc"/>
                         <constraint firstItem="cA3-dL-DGi" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="o8D-Mh-fNw"/>
-                        <constraint firstAttribute="bottom" secondItem="iyr-TI-bGQ" secondAttribute="bottom" constant="8" id="qM9-Ol-Mqw"/>
+                        <constraint firstAttribute="bottom" secondItem="iyr-TI-bGQ" secondAttribute="bottom" constant="25" id="qM9-Ol-Mqw"/>
                         <constraint firstItem="9EL-9i-z4a" firstAttribute="centerX" secondItem="gRZ-i7-wl0" secondAttribute="centerX" id="qn6-HO-PHL"/>
                         <constraint firstItem="9EL-9i-z4a" firstAttribute="width" secondItem="gRZ-i7-wl0" secondAttribute="width" multiplier="0.213904" id="rhe-en-XUL"/>
                         <constraint firstItem="faX-Yr-npj" firstAttribute="width" secondItem="gRZ-i7-wl0" secondAttribute="width" multiplier="0.770053" id="tgl-R6-XgV"/>
@@ -181,7 +181,13 @@
             <point key="canvasLocation" x="131.8840579710145" y="79.6875"/>
         </view>
     </objects>
+    <designables>
+        <designable name="3qM-hB-46x">
+            <size key="intrinsicContentSize" width="245" height="45"/>
+        </designable>
+    </designables>
     <resources>
+        <image name="close24Px" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

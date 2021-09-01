@@ -150,7 +150,10 @@ extension VideoController {
         if isStartVideo == false { //인트로 동영상 종료
             self.backButton.alpha = 0
             isStartVideo = true
-            AppDelegate.AppUtility.lockOrientation(.all)
+            
+            if !isFullScreenMode {
+                AppDelegate.AppUtility.lockOrientation(.all)
+            }
             
             self.playVideo()
         } else if isEndVideo == false { //기본 영상 종료
@@ -166,18 +169,6 @@ extension VideoController {
             
             autoPlayVideo()
         }
-        
-        
-//        setRemoveNotification()
-//        removePeriodicTimeObserver()
-//
-//        //아웃트로 추가
-//        let vc = IntroController()
-//        vc._type = 2 // 1. intro, 2. outro
-//        vc.delegate = self
-//        vc.modalPresentationStyle = .overFullScreen
-//        vc.modalTransitionStyle = .crossDissolve
-//        present(vc, animated: true, completion: nil)
     }
 
     func autoPlayVideo() {
@@ -192,6 +183,13 @@ extension VideoController {
             let pvc = self.presentingViewController!
             dismiss(animated: true) {
                 pvc.presentAlert(message: "로그인 후 사용해 주세요.")
+            }
+            return
+        }
+        if Constant.remainPremiumDateInt == nil {
+            let pvc = self.presentingViewController!
+            dismiss(animated: true) {
+                pvc.presentAlert(message: "이용권을 구매해 주세요.")
             }
             return
         }
@@ -224,12 +222,16 @@ extension VideoController {
                                          token: Constant.token)
         
         self.id = nextVideoID
+        
+        let isHidden1 = self.noteViewController?.view.isHidden ?? true
+        let isHidden2 = self.qnaCell?.isHidden ?? true
         // "상세화면 영상 API"를 호출한다.
         DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self, showIntro: true, refreshList: false)
         
+        videoDataManager.removeVideoLastLog()
         //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
-        loadBottomNote(true)
-        loadBottomQnA()
+        loadBottomNote(isHidden1)
+        loadBottomQnA(isHidden2)
     }
 }
 
@@ -244,7 +246,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
     func open(fileFromRemote filePath: URL,
               encoding: String.Encoding = String.Encoding.utf8)
     {
-        subtitleLabel.text = "..."
+        subtitleLabel.text = ""
+        subtitleLabel.isHidden = true
         URLSession.shared.dataTask(with: filePath,
                                    completionHandler: { (data, response, error) -> Void in
                                     
@@ -260,6 +263,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                                        // UI를 메인스레드에서 업데이트한다.
                                        DispatchQueue.main.async {
                                            self.subtitleLabel.text = ""
+//                                           self.subtitleLabel.isHidden = false
                                            if let checkData = data as Data? {
                                                if let contents = String(data: checkData, encoding: encoding) {
                                                    self.show(subtitles: contents)
@@ -319,6 +323,14 @@ extension VideoController: AVPlayerViewControllerDelegate {
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
                 guard let strongSelf = self else { return }
+                
+                if strongSelf.player.currentItem?.status == AVPlayerItem.Status.readyToPlay {
+
+                    strongSelf.playerController1.view.isHidden = true
+                    strongSelf.playerController.view.isHidden = false
+                    strongSelf.subtitleLabel.isHidden = false
+                }
+                
                 let label = strongSelf.subtitleLabel
                 
                 // 영상의 시간이 흐름에 따라 UISlider가 이동하도록한다.
@@ -330,8 +342,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     = strongSelf.convertTimeToFitText(time: currentTimeInt)
                 
                 if time.seconds >= endSeconds {
-                    NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                                    object: nil)
+//                    NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+//                                                    object: nil)
                 }
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
@@ -405,13 +417,17 @@ extension VideoController: AVPlayerViewControllerDelegate {
     }
     
     func playInOutroVideo(_ _type: Int) {
+        if _type == 1 {
+            self.replayButton.alpha = 0
+        }
+        
         //컨트롤러를 숨기자
         if blackViewOncontrolMode.backgroundColor == .black {
             self.targetViewDidTapped()
         }
         
         subtitleLabel.isHidden = true
-        playerController.delegate = self
+        playerController1.delegate = self
         
         let introURL = URL(fileURLWithPath:Bundle.main.path(forResource: _type == 1 ? "비율수정인트로영상" : "gong_outro1",
                                                             ofType: "mov")!)
@@ -423,21 +439,23 @@ extension VideoController: AVPlayerViewControllerDelegate {
         let resultIntro = introArr.randomElement() ?? introURL
         
         player = AVPlayer(url: resultIntro)
-        playerController.player = player
+        playerController1.player = player
 //
         // AVPlayerController를 "ViewController" childController로 등록한다.
-        addChild(playerController)
+        addChild(playerController1)
 
-        let convertedHeight = convertHeight(231, standardView: view)
-        let convertedConstant = convertHeight(65.45, standardView: view)
-
-        playerController.view.setDimensions(height: view.frame.width * 0.57,
-                                            width: view.frame.width)
-        playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
-                                             height: convertedHeight - convertedConstant)
-        playerController.view.contentMode = .scaleToFill
+//        let convertedHeight = convertHeight(231, standardView: view)
+//        let convertedConstant = convertHeight(65.45, standardView: view)
 //
-        playerController.didMove(toParent: self)
+//        playerController1.view.setDimensions(height: !isFullScreenMode ? view.frame.width * 0.57 : view.frame.height, width: view.frame.width)
+//        playerController1.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
+//                                             height: convertedHeight - convertedConstant)
+//        playerController1.view.contentMode = .scaleToFill
+//
+        playerController1.didMove(toParent: self)
+        
+        playerController1.view.isHidden = false
+        playerController.view.isHidden = true
         
         DispatchQueue.main.async {
             self.player.play()
@@ -453,45 +471,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         }
         subtitleLabel.isHidden = false
         playerController.delegate = self
-        
-//        self.asset = AVAsset(url: videoURL! as URL)
-//        let keys: [String] = ["playable"]
-//
-//        asset?.loadValuesAsynchronously(forKeys: keys, completionHandler: {
-//
-//            var error: NSError? = nil
-//            guard let asset = self.asset else { return }
-//            let status = asset.statusOfValue(forKey: "playable", error: &error)
-//            switch status {
-//            case .loaded:
-//                DispatchQueue.main.async {
-//                    let item = AVPlayerItem(asset: asset)
-//                    self.player = AVPlayer(playerItem: item)
-//                    let playerLayer = AVPlayerLayer(player: self.player)
-//                    playerLayer.videoGravity = AVLayerVideoGravity.resizeAspect
-//                    playerLayer.frame = self.videoContainerView.bounds
-//                    self.videoContainerView.layer.addSublayer(playerLayer)
-//                    let seconds: Int64 = Int64(0.0)
-//                    let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
-//                    self.player.seek(to: targetTime)
-//                }
-//                break
-//            case .failed:
-//                DispatchQueue.main.async {
-//                    print("DEBUG: 실패했습니다.")
-//                }
-//                break
-//            case .cancelled:
-//                DispatchQueue.main.async {
-//                    print("DEBUG: 취소했습니다.")
-//                }
-//            default:
-//                break
-//
-//
-//            }
-//        })
-        
+                
 //        // AVPlayer에 외부 URL을 포함한 값을 입력한다.
         player = AVPlayer(url: videoURL! as URL)
         playerController.player = player
@@ -509,16 +489,18 @@ extension VideoController: AVPlayerViewControllerDelegate {
         // Text 색상 변경값 입력한다.
         subtitleLabel.textColor = UIColor.white
         subtitleLabel.textColor = .white
-        let convertedHeight = convertHeight(231, standardView: view)
-        let convertedConstant = convertHeight(65.45, standardView: view)
-
-        playerController.view.setDimensions(height: view.frame.width * 0.57,
-                                            width: view.frame.width)
-        playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
-                                             height: convertedHeight - convertedConstant)
+//        let convertedHeight = convertHeight(231, standardView: view)
+//        let convertedConstant = convertHeight(65.45, standardView: view)
+//
+//        playerController.view.setDimensions(height: !isFullScreenMode ? view.frame.width * 0.57 : view.frame.height, width: view.frame.width)
+//        playerController.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.width,
+//                                             height: convertedHeight - convertedConstant)
         playerController.view.contentMode = .scaleToFill
 //
         playerController.didMove(toParent: self)
+        
+//        playerController1.view.isHidden = true
+//        playerController.view.isHidden = false
         
         DispatchQueue.main.async {
             //0711 - added by hp
@@ -540,20 +522,32 @@ extension VideoController: AVPlayerViewControllerDelegate {
     }
     
     func configureVideoControlView() {
-        let playerHeight = view.frame.width * 0.57
+//        let playerHeight = !isFullScreenMode ? view.frame.width * 0.57 : view.frame.height
         videoContainerView.addSubview(blackViewOncontrolMode)
-        blackViewOncontrolMode.setDimensions(height: playerHeight, width: view.frame.width)
-        blackViewOncontrolMode.centerX(inView: videoContainerView)
-        blackViewOncontrolMode.centerY(inView: videoContainerView)
+//        blackViewOncontrolMode.setDimensions(height: playerHeight, width: view.frame.width)
+//        blackViewOncontrolMode.centerX(inView: videoContainerView)
+//        blackViewOncontrolMode.centerY(inView: videoContainerView)
+        blackViewOncontrolMode.anchor(top: videoContainerView.topAnchor,
+                                     left: videoContainerView.leftAnchor,
+                                     bottom: videoContainerView.bottomAnchor,
+                                     right: videoContainerView.rightAnchor)
         
         // 동영상 컨트롤 컨테이너뷰 - AutoLayout
         videoContainerView.addSubview(videoControlContainerView)
         let height = convertHeight(15, standardView: view)
         
-        videoControlContainerView.setDimensions(height: height, width: view.frame.width)
-        videoControlContainerView.centerX(inView: videoContainerView)
-        videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
-                                         paddingBottom: 30)
+//        videoControlContainerView.setDimensions(height: height, width: view.frame.width)
+//        videoControlContainerView.centerX(inView: videoContainerView)
+//        videoControlContainerView.anchor(bottom: videoContainerView.bottomAnchor,
+//                                         paddingBottom: 30)
+        
+        videoControlContainerView.anchor(left: videoContainerView.leftAnchor,
+                                     right: videoContainerView.rightAnchor,
+                                     height: height)
+        videoControlContainerViewBottomConstraint
+            = videoControlContainerView.bottomAnchor.constraint(equalTo: videoContainerView.bottomAnchor, constant: -30)
+        videoControlContainerViewBottomConstraint?.isActive = true
+        
         // backButton
         
         // safearea영역에 생겨 클릭이 불가능했던것을 수정
@@ -568,10 +562,15 @@ extension VideoController: AVPlayerViewControllerDelegate {
         backButton.setDimensions(height: 30, width: 30)
         
         // 타임라인 timerSlider
-        let convertedWidth = convertWidth(244, standardView: view)
+//        let convertedWidth = convertWidth(244, standardView: view)
         videoControlContainerView.addSubview(timeSlider)
-        timeSlider.setDimensions(height: 25, width: convertedWidth - 32)
-        timeSlider.centerX(inView: videoControlContainerView)
+//        timeSlider.setDimensions(height: 25, width: convertedWidth - 32)
+        timeSlider.anchor(left: videoControlContainerView.leftAnchor,
+                          right: videoControlContainerView.rightAnchor,
+                          paddingLeft: 83,
+                          paddingRight: 83,
+                          height: 25)
+//        timeSlider.centerX(inView: videoControlContainerView)
         timeSlider.centerY(inView: videoControlContainerView, constant: 0)
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)

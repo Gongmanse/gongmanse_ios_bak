@@ -22,8 +22,8 @@ class PopularKeywordVC: UIViewController {
     var popularKeywoard: PopularKeywordModel? = nil
     
     // didselect시 같이 보낼 프로퍼티
-    var popularGrade: String?
-    var popularSubject: String?
+//    var popularGrade: String?
+//    var popularSubject: String?
     
     let searchData = SearchData.shared
     //MARK: - IBOutlet

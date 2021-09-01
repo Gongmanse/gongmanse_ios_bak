@@ -34,6 +34,16 @@
 				<string>kakao66773aa669c7d7d858ebebf335f1dc80</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.gongmanse.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>gongmanse</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>

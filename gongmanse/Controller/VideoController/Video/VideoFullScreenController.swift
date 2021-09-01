@@ -18,6 +18,8 @@ class VideoFullScreenController: UIViewController{
     
     // 전달받을 데이터
     var id: String?
+    var videoTitle: String?
+    var teacherName: String?
     var currentVideoPlayRate = Float(1.0){
         didSet {
             player.playImmediately(atRate: currentVideoPlayRate)
@@ -236,8 +238,6 @@ class VideoFullScreenController: UIViewController{
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        AppDelegate.AppUtility.lockOrientation(.all)
     }
     
     // MARK: - Actions
@@ -255,7 +255,7 @@ class VideoFullScreenController: UIViewController{
         player.pause()
         NotificationCenter.default.removeObserver(self)
         removePeriodicTimeObserver()
-        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
         self.dismiss(animated: true) {
             // 화면회전에 대한 제한을 변경한다. (세로모드)
             
@@ -368,6 +368,8 @@ class VideoFullScreenController: UIViewController{
     /// "subtitleLabel"을 클릭 시, 호출될 콜백메소드
     @objc func didTappedSubtitle(sender: UITapGestureRecognizer) {
         
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
         // "subtitleLabel"을 클릭할 때만 호출되도록 한다.
         sender.numberOfTapsRequired = 1
         
@@ -381,22 +383,80 @@ class VideoFullScreenController: UIViewController{
         print("DEBUG: 6Rangs is \(keywordRanges[6])")
         print("DEBUG: 7Rangs is \(keywordRanges[7])")
         
+        // TODO: 검색결과를 나타낼 "SearchAfterVC"를 생성한다.
+ 
+        
+        // PIP를 재생할 수 있게 데이터를 넣어준다.
+        let pipDataManager = PIPDataManager.shared
+        
+        var currentPlaytime = self.playerItem.currentTime()
+
+        // 클릭한 키워드를 입력한다. -> if 절
+        
+        // 재생중이던 영상을 일시중지한다. 동시에, PIP를 재생한다. -> Delegation 필요 -> 완료
+//        player.pause()
+        
+        //0708 - edited by hp
+        guard let videoURL = self.videoURL else { return }
+        let pipVideoData = PIPVideoData(isPlayPIP: true,
+                                        videoURL: videoURL,
+                                        currentVideoTime: self.timeSlider.value ,
+                                        videoTitle: self.videoTitle ?? "",
+                                        teacherName: self.teacherName ?? "")
+        
+        // isPlayPIP 값을 "SearchAfterVC" 에 전달한다. -> 완료
+        // 그 값에 따라서 PIP 재생여부를 결정한다.
+        
+        
+        
+        // TODO: 검석어를 검색한다. -> if절에서 하고 있다.
+        
+        // TODO: PIP에 값을 할당한다. -> PIPDataManager에서 하고 있다.
+        
+        // TODO: 이전 영상을 일시중지시킨다.
+        
+        // TODO: "SearchAfterVC"로 화면을 전환한다. -> if절에서 하고 있다.
+        
         /// 클릭한 위치와 subtitle의 keyword의 Range를 비교
         /// - keyword Range 내 subtitle 클릭 위치가 있다면, true
         /// - keyword Range 내 subtitle 클릭 위치가 없다면, false
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
-            let vc = TestSearchController(clickedText: currentKeywords[0])
-//            present(vc, animated: true)
+            self.player.pause()
+//            videoDataManager.isFirstPlayVideo = false
+            let vc = SearchAfterVC()
+            vc.searchData.searchText = currentKeywords[0]
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true) {
+                vc.pipVideoData = pipVideoData
+                vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+            }
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
+            self.player.pause()
+//            videoDataManager.isFirstPlayVideo = false
+            let vc = SearchAfterVC()
             print("DEBUG: \(currentKeywords[2])?")
-            let vc = TestSearchController(clickedText: currentKeywords[2])
-//            present(vc, animated: true)
+            vc.searchData.searchText = currentKeywords[2]
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true) {
+                vc.pipVideoData = pipVideoData
+                vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+            }
             
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
+            self.player.pause()
+//            videoDataManager.isFirstPlayVideo = false
+            let vc = SearchAfterVC()
             print("DEBUG: \(currentKeywords[4])?")
-            let vc = TestSearchController(clickedText: currentKeywords[4])
-//            present(vc, animated: true)
+            vc.searchData.searchText = currentKeywords[4]
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true) {
+                vc.pipVideoData = pipVideoData
+                vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+            }
             
         } else {
             print("DEBUG: 키워드가 없나요?")

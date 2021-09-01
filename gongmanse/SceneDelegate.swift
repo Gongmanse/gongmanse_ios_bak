@@ -30,9 +30,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        NotificationCenter.default.post(name: Notification.Name("become_active"), object: nil, userInfo: nil)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
+        NotificationCenter.default.post(name: Notification.Name("resign_active"), object: nil, userInfo: nil)
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -56,13 +56,13 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전자 배치 규칙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZhL-u9-Jem">
-                                <rect key="frame" x="149" y="30" width="245" height="20.5"/>
+                                <rect key="frame" x="149" y="30" width="245" height="19"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="루돌프 클라우지우스" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bf4-lx-xcR">
-                                <rect key="frame" x="149" y="65.5" width="93" height="14.5"/>
+                                <rect key="frame" x="149" y="59" width="93" height="14.5"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -80,6 +80,7 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="9E7-0y-Irl" secondAttribute="bottom" id="0Mu-XY-eiK"/>
                             <constraint firstItem="Bf4-lx-xcR" firstAttribute="leading" secondItem="ZhL-u9-Jem" secondAttribute="leading" id="2hl-Iw-rdq"/>
+                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="top" secondItem="ms5-BX-vIJ" secondAttribute="bottom" constant="10" id="8w7-mJ-Z57"/>
                             <constraint firstItem="Bf4-lx-xcR" firstAttribute="height" secondItem="syt-jH-Pjk" secondAttribute="height" multiplier="0.18125" id="D8i-DN-OiB"/>
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="width" secondItem="syt-jH-Pjk" secondAttribute="width" multiplier="0.275362" id="KPu-XW-tqv"/>
                             <constraint firstItem="ZhL-u9-Jem" firstAttribute="trailing" secondItem="V6S-ET-TSx" secondAttribute="trailing" id="QjD-TG-w9c"/>
@@ -89,12 +90,10 @@
                             <constraint firstItem="ZhL-u9-Jem" firstAttribute="leading" secondItem="9E7-0y-Irl" secondAttribute="trailing" constant="15" id="XDY-V2-8kR"/>
                             <constraint firstItem="V6S-ET-TSx" firstAttribute="centerY" secondItem="ms5-BX-vIJ" secondAttribute="centerY" id="Xwx-CF-O8Z"/>
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="top" secondItem="syt-jH-Pjk" secondAttribute="top" id="ZiG-th-W9f"/>
-                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="height" secondItem="syt-jH-Pjk" secondAttribute="height" multiplier="0.25625" id="clu-zM-WCB"/>
+                            <constraint firstItem="Bf4-lx-xcR" firstAttribute="top" secondItem="ZhL-u9-Jem" secondAttribute="bottom" constant="10" id="cRb-9x-fFU"/>
                             <constraint firstItem="ms5-BX-vIJ" firstAttribute="top" secondItem="syt-jH-Pjk" secondAttribute="top" id="i8d-bA-khb"/>
                             <constraint firstItem="9E7-0y-Irl" firstAttribute="leading" secondItem="syt-jH-Pjk" secondAttribute="leading" constant="20" id="mic-b7-r2g"/>
-                            <constraint firstItem="ZhL-u9-Jem" firstAttribute="centerY" secondItem="syt-jH-Pjk" secondAttribute="centerY" id="s9W-xn-T7C"/>
                             <constraint firstAttribute="trailing" secondItem="V6S-ET-TSx" secondAttribute="trailing" constant="20" id="uJo-4t-sJq"/>
-                            <constraint firstAttribute="bottom" secondItem="Bf4-lx-xcR" secondAttribute="bottom" id="vqS-Mp-0B9"/>
                         </constraints>
                     </view>
                 </subviews>

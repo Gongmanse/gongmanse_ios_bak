@@ -41,7 +41,8 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             getDataFromJson()
         }
     }
-    
+    var isLoading = false
+    var isMore = true
     var delegate: BookMarkTVCDelegate?
     
     var height: CGFloat = 240
@@ -106,17 +107,22 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
+        isLoading = true
+        
         if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
+            print(url.absoluteString)
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
                     self.bookMark = json
                     self.tableViewInputData.append(contentsOf: json.data)
+                    self.isMore = json.data.count > 0
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -342,7 +348,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     //0711 - added by hp
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.tableViewInputData.count - 1 {
+        if indexPath.row == self.tableViewInputData.count - 1 && !isLoading && isMore {
             //더보기
             getDataFromJson()
         }

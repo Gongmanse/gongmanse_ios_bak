@@ -153,18 +153,22 @@ class LectureNoteController: UIViewController {
             isLandscapeMode = false
         }
         
+//        if _parent.isFullScreenMode && isLandscapeMode {
+//            return
+//        }
         //width가 좁아지면서 상하로 여백이 생긴다 (혹시 커질수도 있는지.. 무튼 아래 코드로 해결)
         let preWidth = self.imageView01.frame.size.width
         DispatchQueue.main.async {
             let afrWidth = self.imageView01.frame.size.width
             self.ct_iv_height?.constant *= (afrWidth / preWidth)
+            
+            self.canvas.mWidth = Int(afrWidth)
+            self.canvas.mHeight = Int(self.ct_iv_height?.constant ?? 1)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.canvas.setNeedsDisplay()
+            }
         }
-        
-//        let videoDataManager = VideoDataManager.shared
-//        let pipIsOn = !videoDataManager.isFirstPlayVideo
-//        let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.width * 0.07
-//        let pipHeight = isLandscapeMode ? _parent.view.frame.height * 0.085 : _parent.view.frame.width * 0.085
-//        writingImplementYPosition?.constant = pipIsOn ? -(bottomPadding + pipHeight) : -bottomPadding
     }
     
     @objc fileprivate func handleUndo() { canvas.undo() }
@@ -214,7 +218,7 @@ class LectureNoteController: UIViewController {
          */
         if !noteMode {
             
-            self.writingImplementLeftConstraint?.constant = -(width * 0.8) //가로 모드 노트필기 닫혇을 때 : 열렸을 때
+            self.writingImplementLeftConstraint?.constant = -(width * 0.75) //가로 모드 노트필기 닫혇을 때 : 열렸을 때
             self.writingImplementToggleButton.setImage(.none, for: .normal)
             self.writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
             self.savingNoteButton.setTitle("노트\n보기", for: .normal)
@@ -264,7 +268,7 @@ class LectureNoteController: UIViewController {
                     self.present(nav, animated: true) {
                         let pipVideoData = PIPVideoData(isPlayPIP: true,
                                                         videoURL: self._parent.videoURL,
-                                                        currentVideoTime: self._parent.timeSlider.value ,
+                                                        currentVideoTime: !self._parent.isStartVideo ? 0 : self._parent.timeSlider.value , //인트로중에 이동이면
                                                         videoTitle: self._parent.lessonInfoController.lessonnameLabel.text ?? "",
                                                         teacherName: self._parent.lessonInfoController.teachernameLabel.text ?? "")
                         vc.pipVideoData = pipVideoData
@@ -290,7 +294,7 @@ class LectureNoteController: UIViewController {
             // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
             let intID = Int(id)!
             
-            let sJson = "{\"aspectRatio\":\(String(0.45)),\"strokes\":[" + "\(strokesString)" + "]}"
+            let sJson = "{\"aspectRatio\":\"0.5095108695652174\",\"strokes\":[" + "\(strokesString)" + "]}"
             
             let willPassNoteData = NoteTakingInput(token: token,
                                                    video_id: intID,
@@ -395,19 +399,20 @@ class LectureNoteController: UIViewController {
             let height = convertedImage.size.height * contentView.frame.size.width / convertedImage.size.width
             ct_iv_height?.constant = height
             imageView01.image = convertedImage
+            
+            self.canvas.mWidth = Int(imageView01.frame.size.width)
+            self.canvas.mHeight = Int(height)
         }
     }
     
     private func setupWritingImplement() {
-//        let videoDataManager = VideoDataManager.shared
-//        let pipIsOn = !videoDataManager.isFirstPlayVideo
-//        let pipHeight = _parent.view.frame.height * 0.085
-        
         // viewdidload에서 orientation구하기 위함
         let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
         let width = isPortrait ? UIScreen.main.bounds.size.width * 0.5 : UIScreen.main.bounds.size.height * 0.5
         let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.height * 0.07
         let height = isPortrait ? UIScreen.main.bounds.size.height * 0.09 : UIScreen.main.bounds.size.width * 0.09
+        
+        writingImplementToggleButton.setDimensions(height: height, width: width * 0.25)
         
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
@@ -422,7 +427,7 @@ class LectureNoteController: UIViewController {
 
         writingImplementLeftConstraint
             = writingImplement.leftAnchor.constraint(equalTo: view.leftAnchor,
-                                                     constant: -(width * 0.8))
+                                                     constant: -(width * 0.75))
         
         writingImplementFoldingWidth?.isActive = true
         writingImplementLeftConstraint?.isActive = true
@@ -440,8 +445,8 @@ class LectureNoteController: UIViewController {
             writingImplementToggleButton
         ])
         
-        colorStackView.spacing = 4
-        colorStackView.distribution = .fillEqually
+//        colorStackView.spacing = 4
+        colorStackView.distribution = .equalSpacing
         writingImplement.addSubview(colorStackView)
         colorStackView.centerY(inView: writingImplement)
         colorStackView.anchor(left: writingImplement.leftAnchor,
@@ -546,11 +551,11 @@ extension LectureNoteController {
                     var penColor = UIColor()
 
                     switch color {
-                    case "red":
+                    case "#d82579":
                         penColor = .redPenColor
-                    case "green":
+                    case "#a7c645":
                         penColor = .greenPenColor
-                    case "blue":
+                    case "#29b3df":
                         penColor = .bluePenColor
                     default:
                         penColor = .redPenColor
@@ -710,13 +715,13 @@ extension LectureNoteController: CanvasDelegate {
             // 색상을 고른다.
             switch p {
             case .redPenColor:
-                tempColorString = "red"
+                tempColorString = "#d82579"
             case .greenPenColor:
-                tempColorString = "green"
+                tempColorString = "#a7c645"
             case .bluePenColor:
-                tempColorString = "blue"
+                tempColorString = "#29b3df"
             default:
-                tempColorString = "red"
+                tempColorString = "#d82579"
             }
             uiColor2StringColorArr.append(tempColorString)
         }
@@ -725,7 +730,7 @@ extension LectureNoteController: CanvasDelegate {
         // 그러므로 하나의 String에 하나의 색상에 다수의 x,y좌표를 입력한다.
         for (i, p) in points.enumerated() {
             // "strokes" String에 x,y 좌표값과 color를 String으로 입력한다.
-            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.5,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.004514673,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
             
             // tempArr에 {points: 다수의 x,y좌표값들, color: 한개의 색상 ...} 의 구조 구성요소를 가지며
             // 이러한 구성요소를 배열의 형태로 저장하고 있다.

@@ -288,6 +288,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
             //video->lectureplaylist->video 와 같은 현상을 방지하기 위한
             let vc = self.presentingViewController as! VideoController
+            vc.isFullScreenMode = false
             self.dismiss(animated: false) {
                 vc.id = receviedVideoID
                 vc.keyword = self.searchData.searchText

@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import AVKit
 
 private let cellId = "SearchNoteCell"
 
 protocol SearchNoteVCDelegate: AnyObject {
-    func serachAfterVCPIPViewDismiss1()
+    func serachAfterVCPIPViewDismiss1() -> CMTime
 }
 
 class SearchNoteVC: UIViewController {
@@ -83,7 +84,7 @@ class SearchNoteVC: UIViewController {
         super.viewDidLoad()
         
         numberOfLesson.font = .appBoldFontWith(size: 16)
-        noteSortButton.titleLabel?.font = .appBoldFontWith(size: 16)
+        noteSortButton.titleLabel?.font = .appBoldFontWith(size: 13)
 
         
         collectionView.delegate = self
@@ -131,6 +132,8 @@ class SearchNoteVC: UIViewController {
         // 정렬 버튼을 다시 기본인 최신순으로 돌린 후 keyword다시 적용 후 api통신
         noteSortButton.setTitle("최신순 ▼", for: .normal)
         _selectedID = "4"
+        
+        searchNoteVM.infinityBool = false
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
                                      grade: searchData.searchGrade,
                                      keyword: searchData.searchText,
@@ -144,6 +147,7 @@ class SearchNoteVC: UIViewController {
         _selectedID = userInfo["sortID"] as? String ?? nil
         noteSortButton.setTitle(userInfo["sort"] as? String ?? "", for: .normal)
         
+        searchNoteVM.infinityBool = false
         searchNoteVM.reqeustNotesApi(subject: searchData.searchSubjectNumber,
                                      grade: searchData.searchGrade,
                                      keyword: searchData.searchText,
@@ -228,6 +232,7 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             } else {
                 //video->lectureplaylist->video 와 같은 현상을 방지하기 위한
                 let vc = self.presentingViewController as! VideoController
+                vc.isFullScreenMode = false
                 self.dismiss(animated: false) {
                     vc.id = self.searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
                     vc.configureDataAndNoti(true)
@@ -247,7 +252,7 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             presentAlert(message: "이용권을 구매해주세요")
         } else {
             //0713 - added by hp
-            pipDelegate?.serachAfterVCPIPViewDismiss1()
+            let currentVideoTime = pipDelegate?.serachAfterVCPIPViewDismiss1()
             
             // 노트 연결
             let vc = LessonNoteController(id: searchNoteVM.searchNotesDataModel?.data[indexPath.row].videoID ?? "",
@@ -262,7 +267,17 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 videoIDArr.append(searchNoteVM.searchNotesDataModel?.data[i].videoID ?? "")
             }
             vc.videoIDArr = videoIDArr
+            vc._type = "검색"
+            vc._sort = Int(_selectedID ?? "7") ?? 7
+            vc._subjectNumber = searchData.searchSubjectNumber ?? ""
+            vc._grade = searchData.searchGrade ?? ""
+            vc._keyword = searchData.searchText ?? ""
+            vc.currentVideoTime = currentVideoTime
+            
             self.navigationController?.pushViewController(vc, animated: true)
+//            let nav = UINavigationController(rootViewController: vc)
+//            nav.modalPresentationStyle = .fullScreen
+//            self.present(nav, animated: true)
         }
     }
     
@@ -297,7 +312,7 @@ extension SearchNoteVC: UICollectionViewDelegateFlowLayout {
     
     // cell 간격을 설정하는 메소드(세로)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 15
     }
     
     // Cell의 사이즈를 설정하는 메소드

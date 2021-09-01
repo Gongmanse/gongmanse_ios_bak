@@ -43,6 +43,7 @@ class PIPDataManager {
     
     /// "AVPlayer.seek" 파라미터가 CMTIME이므로 바로 접근하기 위해 변수를 2개로 만들었습니다.
     var currentVideoCMTime: CMTime? = CMTime() // 이전화면으로 돌아올 때 사용
+    var isForcePlay: Bool = false //위 타임이 0이라도 강제로 플레이시켜준다
     
     private init() {} // 싱글톤 인스턴스 2 개 생성 방지하기 위해 "private"으로 작성했습니다.
 }
@@ -53,6 +54,12 @@ protocol VideoControllerDelegate: AnyObject {
 
 class VideoController: UIViewController, VideoMenuBarDelegate {
     // MARK: - Properties
+    var isFullScreenMode = false {
+        didSet {
+            self.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
+    }
+    
     var controllerTimer: Timer? //동영상 위 컨트롤 자동 사라지기
     
     // video 영상 데이터 및 PIP 재생에 관련된 데이터를 관리하는 싱글톤 객체를 생성한다.
@@ -76,6 +83,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
 
     var currentVideoPlayRate = Float(1.0) {
         didSet {
+            self.player.currentItem?.audioTimePitchAlgorithm = .timeDomain
             self.player.playImmediately(atRate: self.currentVideoPlayRate)
         }
     }
@@ -106,6 +114,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     var videoContainerViewLandscapeHeightConstraint: NSLayoutConstraint?
     var videoContainerViewLandscapeTopConstraint: NSLayoutConstraint?
     var videoContainerViewLandscapeLeftConstraint: NSLayoutConstraint?
+    
+    //전체모드
+    var videoContainerViewFullScreenWidthConstraint: NSLayoutConstraint?
+    var videoContainerViewFullScreenHeightConstraint: NSLayoutConstraint?
+    var videoContainerViewFullScreenTopConstraint: NSLayoutConstraint?
+    var videoContainerViewFullScreenLeftConstraint: NSLayoutConstraint?
     
     /* CustomTabBar */
     // Constraint 객체 - 세로모드
@@ -178,6 +192,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     var teacherInfoFoldConstraint: NSLayoutConstraint?
     /// 클릭 시, 선생님정보 및 강의 정보에 적용될 제약조건
     var teacherInfoUnfoldConstraint: NSLayoutConstraint?
+    
+    /// 컨트롤러 하단 제약조건
+    var videoControlContainerViewBottomConstraint: NSLayoutConstraint?
     
     // MARK: Video Properties
     
@@ -370,6 +387,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     
     // AVPlayer 관련 프로퍼티
     var playerController = AVPlayerViewController()
+    var playerController1 = AVPlayerViewController()
     var timeObserverToken: Any?
 //    lazy var playerItem = AVPlayerItem(url: videoURL! as URL)
     var playerItem: AVPlayerItem?
@@ -463,12 +481,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         return button
     }()
     
-    private let introOuttroContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        return view
-    }()
-    
     var isPlaying: Bool { self.player.rate != 0 && self.player.error == nil }
     
     // sTag 텍스트 내용을 클릭했을 때, 이곳에 해당 텍스트의 NSRange가 저장된다.
@@ -503,6 +515,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         print("DEBUG: deinit is Activate")
     }
     
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return isFullScreenMode
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -524,6 +540,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.closeInfoView), name: NSNotification.Name("1234"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resignActive), name: NSNotification.Name("resign_active"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.becomeActive), name: NSNotification.Name("become_active"), object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
@@ -558,8 +576,37 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             vc.setupData()
         }
         
-        if isStartVideo {
+        if isStartVideo && !isFullScreenMode {
             AppDelegate.AppUtility.lockOrientation(.all)
+        } else if isFullScreenMode {
+            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+            
+            self.view.bringSubviewToFront(videoContainerView)
+            self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(playPauseButton)
+            self.view.bringSubviewToFront(replayButton)
+            self.view.bringSubviewToFront(videoForwardTimeButton)
+            self.view.bringSubviewToFront(videoBackwardTimeButton)
+            
+            teacherInfoFoldConstraint!.isActive = false
+            teacherInfoUnfoldConstraint!.isActive = true
+            self.view.endEditing(true)
+            subtitleLabel.font = UIFont.appBoldFontWith(size: 22)
+            videoControlContainerViewBottomConstraint?.constant = -55
+            changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_exit"), for: .normal)
+            
+            portraitConstraint(false)
+            landscapeConstraint(true)
+            videoContainerViewPorTraitWidthConstraint?.isActive = false
+            videoContainerViewPorTraitHeightConstraint?.isActive = false
+            videoContainerViewPorTraitTopConstraint?.isActive = false
+            videoContainerViewPorTraitLeftConstraint?.isActive = false
+            videoContainerViewLandscapeWidthConstraint?.isActive = false
+            videoContainerViewLandscapeHeightConstraint?.isActive = false
+            videoContainerViewLandscapeTopConstraint?.isActive = false
+            videoContainerViewLandscapeLeftConstraint?.isActive = false
+            
+            changeFullScreenConstraint(true)
         }
     }
     
@@ -643,6 +690,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         }
     }
     
+    @objc func resignActive() {
+        self.player.pause()
+    }
+    
+    @objc func becomeActive() {
+        self.player.play()
+    }
+    
     @objc func closeInfoView() {
         if !UIWindow.isLandscape {
             if !teacherInfoFoldConstraint!.isActive {
@@ -676,6 +731,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     @objc func pipViewDidTap(_ sender: UITapGestureRecognizer) {
         let pipDataManager = PIPDataManager.shared
         self.pipContainerView.alpha = 0
+        self.replayButton.alpha = 0
+        self.backButton.alpha = 0
         
         if UIWindow.isLandscape {
             self.pageCollectionViewLandscapeBottomConstraint1?.isActive = false
@@ -686,6 +743,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         }
         
         if let previousVideoID = videoDataManager.previousVideoID {
+            self.player.pause()
             removePeriodicTimeObserver()
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
@@ -705,8 +763,14 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             //0711 - edited by hp 필기도구, 노트보기가 아래로 움직이지 않는 오류수정
             videoDataManager.isFirstPlayVideo = true
             
+            let autoPlayDataManager = AutoplayDataManager.shared
+            autoPlayDataManager.isAutoPlay = false
+            autoPlayDataManager.videoDataList.removeAll()
+            autoPlayDataManager.videoSeriesDataList.removeAll()
+            autoPlayDataManager.currentIndex = -1
+            
             self.id = previousVideoID
-            DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self)
+            DetailVideoDataManager().DetailVideoDataManager(inputData, viewController: self, fromPIP: true)
 //            self.pageCollectionView.reloadData()
             //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
             loadBottomNote(false)
@@ -743,10 +807,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         super.viewWillTransition(to: size, with: coordinator)
         
         /// true == 가로모드, false == 세로모드
-        if UIDevice.current.orientation.isLandscape {
-            changeConstraintToVideoContainer(isPortraitMode: true)
-        } else {
-            changeConstraintToVideoContainer(isPortraitMode: false) // 05.21 주석처리; 1차 배포를 위해
+        if !isFullScreenMode {
+            if UIDevice.current.orientation.isLandscape {
+                changeConstraintToVideoContainer(isPortraitMode: true)
+            } else {
+                changeConstraintToVideoContainer(isPortraitMode: false) // 05.21 주석처리; 1차 배포를 위해
+            }
         }
         
         // 가로모드 대응을 위해 flowLayout을 재정의한다.
@@ -807,8 +873,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         self.pipContainerView.addSubview(self.lessonTitleLabel)
         self.lessonTitleLabel.anchor(top: self.pipContainerView.topAnchor,
                                      left: self.pipContainerView.leftAnchor,
+                                     right: self.pipContainerView.rightAnchor,
                                      paddingTop: 13,
                                      paddingLeft: pipHeight * 1.77 + 5,
+                                     paddingRight: 35,
                                      height: 17)
         self.lessonTitleLabel.text = self.videoDataManager.previousVideoTitle
         
@@ -1384,6 +1452,12 @@ extension VideoController: VideoFullScreenControllerDelegate {
         player.isMuted = false
         self.currentVideoPlayRate = rate
         self.isClickedSubtitleToggleButton = toggle
+        
+        if isFullScreenMode {
+            isFullScreenMode = false
+            
+            AppDelegate.AppUtility.lockOrientation(.all, andRotateTo: .landscapeRight)
+        }
     }
 }
 
@@ -1408,6 +1482,9 @@ extension VideoController: BottomPlaylistCellDelegate {
         //하단 노트보기, QnA 불러온다, 재생목록은 시리즈ID를 받은다음에
         loadBottomNote(true)
         loadBottomQnA()
+        
+        //0711 - edited by hp
+        videoDataManager.removeVideoLastLog()
         
         // 노트 데이터를 불러온다.
 //        pipContainerView.alpha = 0
@@ -1478,6 +1555,10 @@ extension VideoController: LessonInfoControllerDelegate {
     }
     
     func problemSolvingLectureVideoPlay(videoID: String) {
+        self.player.pause()
+        removePeriodicTimeObserver()
+        setRemoveNotification()
+        
         let autoPlayDataManager = AutoplayDataManager.shared
         autoPlayDataManager.isAutoPlay = false
         autoPlayDataManager.videoDataList.removeAll()
@@ -1496,8 +1577,10 @@ extension VideoController: LessonInfoControllerDelegate {
     
     /// PIP에서 재생시간을 받아와서 현재 영상에 재생하는 Delegate 메소드
     func LessonInfoPassCurrentVideoTimeInPIP(_ currentTime: CMTime) {
-        if currentTime != CMTime(value: CMTimeValue(0), timescale: CMTimeScale(0)) {
+        if currentTime != CMTime(value: CMTimeValue(0), timescale: CMTimeScale(0)) || PIPDataManager.shared.isForcePlay {
             print("DEBUG: 받은 시간은 : \(currentTime) 입니다.")
+            PIPDataManager.shared.isForcePlay = false
+            
             setNotification()
             //인트로 도중에 다른 페이지로 이동했다가 타임을 가지고 되돌아오는 경우가 있다
             if isStartVideo == false { //인트로 동영상 종료
@@ -1506,7 +1589,9 @@ extension VideoController: LessonInfoControllerDelegate {
                 
                 self.playVideo()
             }
-            self.player.seek(to: currentTime)
+            if currentTime != CMTime(value: CMTimeValue(0), timescale: CMTimeScale(0)) {
+                self.player.seek(to: currentTime)
+            }
             self.player.play()
             UIView.animate(withDuration: 0.33) {
                 //0713 - added by hp
@@ -1527,7 +1612,7 @@ extension VideoController: LessonInfoControllerDelegate {
     
     /// VideoVC에서 재생시간을 slider에서 받아서 LessonInfoVC에 전달해주는 메소드
     func videoVCPassCurrentVideoTimeToLessonInfo() {
-        self.lessonInfoController.currentVideoPlayTime = self.timeSlider.value
+        self.lessonInfoController.currentVideoPlayTime = !self.isStartVideo ? 0 : self.timeSlider.value
         self.lessonInfoController.currentVideoURL = self.videoURL
     }
     

@@ -7,6 +7,7 @@
 
 import Alamofire
 import UIKit
+import AVKit
 
 class LessonNoteViewModel {
     // MARK: - Property
@@ -117,6 +118,8 @@ class LessonNoteViewModel {
 class LessonNoteController: UIViewController {
     // MARK: - Properties
 
+    var currentVideoTime: CMTime? = CMTime() // 이전 화면으로 돌아올 때 사용
+    
     // MARK: Data
     // PIP 모드를 위한 프로퍼티
     var isOnPIP: Bool = false
@@ -180,6 +183,12 @@ class LessonNoteController: UIViewController {
     
     //0711 - added by hp
     public var videoIDArr: [String] = []
+    //
+    public var _type: String = ""
+    public var _sort = 7
+    public var _subjectNumber = ""
+    public var _grade = ""
+    public var _keyword = ""
     
     // 노트 이미지 인스턴스
     // Dummydata - 인덱스로 접근하기 위해 미리 배열 요소 생성
@@ -360,7 +369,10 @@ class LessonNoteController: UIViewController {
         AutoplayDataManager.shared.isAutoPlay = false
         AutoplayDataManager.shared.videoDataList.removeAll()
         AutoplayDataManager.shared.videoSeriesDataList.removeAll()
+        AutoplayDataManager.shared.currentIndex = -1
         VideoDataManager.shared.isFirstPlayVideo = true
+        
+        PIPDataManager.shared.currentVideoCMTime = CMTime() //초기화
         
         let vc = VideoController()
         vc.modalPresentationStyle = .fullScreen
@@ -459,7 +471,7 @@ class LessonNoteController: UIViewController {
         // 21.05.26 영상 상세정보 API에서 String으로 넘겨주는데, request 시, Int로 요청하도록 API가 구성되어 있음
         let intID = Int(id)!
         
-        let sJson = "{\"aspectRatio\":0.45,\"strokes\":[" + "\(strokesString)" + "]}"
+        let sJson = "{\"aspectRatio\":\"0.5095108695652174\",\"strokes\":[" + "\(strokesString)" + "]}"
         
         let willPassNoteData = NoteTakingInput(token: token,
                                                video_id: intID,
@@ -487,6 +499,8 @@ class LessonNoteController: UIViewController {
         
         //0711 - edit by hp
         if self.pipVC == nil {
+            PIPDataManager.shared.currentVideoCMTime = self.currentVideoTime
+            
             dismiss(animated: true)
         } else {
             setRemoveNotification()
@@ -503,9 +517,24 @@ class LessonNoteController: UIViewController {
             presentAlert(message: "마지막 페이지 입니다.")
         }
         
+        
         let nextID = viewModel.nextVideoID
         if nextID == "BLOCK" {
-            presentAlert(message: "마지막 페이지 입니다.")
+            //수정 다음 videoID를 api를 통해서 가져온다.
+            if _type == "검색" {
+                getSearchNoteList()
+            } else if _type == "나의 활동" {
+                getMyNoteList()
+            } else if _type == "국영수" {
+                getHomeNoteList(KoreanEnglishMath_Video_URL)
+            } else if _type == "과학" {
+                getHomeNoteList(Science_Video_URL)
+            } else if _type == "사회" {
+                getHomeNoteList(SocialStudies_Video_URL)
+            } else if _type == "기타" {
+                getHomeNoteList(OtherSubjects_Video_URL)
+            }
+//            presentAlert(message: "마지막 페이지 입니다.")
             return
         }
         
@@ -551,6 +580,128 @@ class LessonNoteController: UIViewController {
     }
     
     // MARK: - Heleprs
+    func getSearchNoteList() {
+        
+        AF.upload(multipartFormData: { formData in
+            
+            formData.append("\(self._subjectNumber)".data(using: .utf8) ?? Data(), withName: "subject")
+            formData.append("\(self._grade)".data(using: .utf8) ?? Data(), withName: "grade")
+            formData.append("\(self._keyword)".data(using: .utf8) ?? Data(), withName: "keyword")
+            formData.append("\(self.viewModel.videoIDArr.count)".data(using: .utf8) ?? Data(), withName: "offset")
+            formData.append("\(self._sort)".data(using: .utf8) ?? Data(), withName: "sort_id")
+            
+            
+        }, to: "\(apiBaseURL)/v/search/searchnotes")
+        .responseDecodable(of: SearchNotesModel.self) { response in
+            switch response.result {
+            case .success(let data):
+                for i in 0..<data.data.count {
+                    self.videoIDArr.append(data.data[i].videoID ?? "")
+                    self.viewModel.videoIDArr.append(data.data[i].videoID ?? "")
+                }
+                DispatchQueue.main.async {
+                    if data.data.count == 0 {
+                        self.presentAlert(message: "마지막 페이지 입니다.")
+                    } else {
+                        self.nextButtonDidTap()
+                    }
+                }
+            case .failure(_):
+                self.presentAlert(message: "마지막 페이지입니다.")
+            }
+        }
+    }
+    
+    func getHomeNoteList(_ urlStr: String) {
+        //type=3노트보기
+        
+        var inputSortNum = 4
+        switch _sort {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 3
+        case 2:
+            inputSortNum = 1
+        case 3:
+            inputSortNum = 2
+        default:
+            inputSortNum = 4
+        }
+        if let url = URL(string: urlStr + "offset=\(self.viewModel.videoIDArr.count)&limit=20&sortId=\(inputSortNum)&type=3") {
+            
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                
+                if let json = try? decoder.decode(VideoInput.self, from: data) {
+                    //                        guard let isMores = json.header?.isMore else { return}
+                    //                        self.isMoreBool = Bool(isMores) ?? false
+                    for i in 0..<json.body.count {
+                        self.videoIDArr.append(json.body[i].videoId ?? "")
+                        self.viewModel.videoIDArr.append(json.body[i].videoId ?? "")
+                    }
+                    DispatchQueue.main.async {
+                        if json.body.count == 0 {
+                            self.presentAlert(message: "마지막 페이지 입니다.")
+                        } else {
+                            self.nextButtonDidTap()
+                        }
+                    }
+                }
+            }.resume()
+            
+        }
+    }
+    
+    func getMyNoteList() {
+        isLoading = true
+        var inputSortNum = 4
+        
+        switch _sort {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 1
+        case 2:
+            inputSortNum = 2
+        case 3:
+            inputSortNum = 3
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=\(self.viewModel.videoIDArr.count)&limit=20&sort_id=\(inputSortNum)") {
+            print("노트목록\(url.absoluteString)")
+            
+            var request = URLRequest.init(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
+                
+                guard let data = data else { return }
+                let decoder = JSONDecoder()
+                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
+                    for i in 0 ..< json.data.count {
+                        self.videoIDArr.append(json.data[i].video_id ?? "")
+                        self.viewModel.videoIDArr.append(json.data[i].video_id ?? "")
+                    }
+                    DispatchQueue.main.async {
+                        if json.data.count == 0 {
+                            self.presentAlert(message: "마지막 페이지 입니다.")
+                        } else {
+                            self.nextButtonDidTap()
+                        }
+                    }
+                }
+                
+            }.resume()
+        }
+    }
     
     private func setupData() {
         guard let id = self.id else { return }
@@ -648,6 +799,9 @@ class LessonNoteController: UIViewController {
             let height = convertedImage.size.height * contentView.frame.size.width / convertedImage.size.width
             ct_iv_height?.constant = height
             imageView01.image = convertedImage
+            
+            self.canvas.mWidth = Int(imageView01.frame.size.width)
+            self.canvas.mHeight = Int(height)
             
             self.isLoading = false
         }
@@ -776,8 +930,10 @@ class LessonNoteController: UIViewController {
         pipContainerView.addSubview(lessonTitleLabel)
         lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
                                 left: pipContainerView.leftAnchor,
+                                right: pipContainerView.rightAnchor,
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
+                                paddingRight: 80,
                                 height: 17)
         lessonTitleLabel.text = pipVideoData?.videoTitle ?? ""
         
@@ -834,6 +990,7 @@ class LessonNoteController: UIViewController {
         setRemoveNotification()
         // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
         pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
+        PIPDataManager.shared.isForcePlay = true
         
         dismissPIPView()
         dismiss(animated: false)
@@ -884,11 +1041,9 @@ extension LessonNoteController {
         if noteImageCount > 0 {
             getImageFromURL(noteData: data, index: 0)
         }
-        /*for noteData in 0 ... (noteImageCount - 1) {
-            let convertedURL = makeStringKoreanEncoded("\(fileBaseURL)/" + "\(data.sNotes[noteData])")
-            getImageFromURL(url: convertedURL, index: noteData)
-        }*/
-        
+    }
+    
+    func loadLines(_ data: NoteData) {
         // MARK: 노트필기를 불러오는 로직
 
         // 서버에 저장되어 있는 좌표값을 canvas에 그릴 수 있는 형태로 변환한다.
@@ -906,11 +1061,11 @@ extension LessonNoteController {
                     var penColor = UIColor()
 
                     switch color {
-                    case "red":
+                    case "#d82579":
                         penColor = .redPenColor
-                    case "green":
+                    case "#a7c645":
                         penColor = .greenPenColor
-                    case "blue":
+                    case "#29b3df":
                         penColor = .bluePenColor
                     default:
                         penColor = .redPenColor
@@ -948,6 +1103,7 @@ extension LessonNoteController {
                         self.getImageFromURL(noteData: noteData, index: index + 1)
                     } else {
                         self.setupViews()
+                        self.loadLines(noteData)
                     }
                     return
                 }
@@ -959,6 +1115,7 @@ extension LessonNoteController {
                         self.getImageFromURL(noteData: noteData, index: index + 1)
                     } else {
                         self.setupViews()
+                        self.loadLines(noteData)
                     }
                 }
             }
@@ -968,6 +1125,7 @@ extension LessonNoteController {
                 self.getImageFromURL(noteData: noteData, index: index + 1)
             } else {
                 self.setupViews()
+                self.loadLines(noteData)
             }
         }
     }
@@ -1043,13 +1201,13 @@ extension LessonNoteController: CanvasDelegate {
             // 색상을 고른다.
             switch p {
             case .redPenColor:
-                tempColorString = "red"
+                tempColorString = "#d82579"
             case .greenPenColor:
-                tempColorString = "green"
+                tempColorString = "#a7c645"
             case .bluePenColor:
-                tempColorString = "blue"
+                tempColorString = "#29b3df"
             default:
-                tempColorString = "red"
+                tempColorString = "#d82579"
             }
             uiColor2StringColorArr.append(tempColorString)
         }
@@ -1058,7 +1216,7 @@ extension LessonNoteController: CanvasDelegate {
         // 그러므로 하나의 String에 하나의 색상에 다수의 x,y좌표를 입력한다.
         for (i, p) in points.enumerated() {
             // "strokes" String에 x,y 좌표값과 color를 String으로 입력한다.
-            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.5,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.004514673,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
             
             // tempArr에 {points: 다수의 x,y좌표값들, color: 한개의 색상 ...} 의 구조 구성요소를 가지며
             // 이러한 구성요소를 배열의 형태로 저장하고 있다.

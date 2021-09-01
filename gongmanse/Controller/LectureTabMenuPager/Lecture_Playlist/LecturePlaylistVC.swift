@@ -53,6 +53,7 @@ class LecturePlaylistVC: UIViewController {
     
     // MARK: - IBOutlet
     
+    @IBOutlet weak var ct_margin_bottom: NSLayoutConstraint! //7, 35
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var autoPlaySwitch: UISwitch!
     @IBOutlet weak var lbAutoPlay: UILabel!
@@ -321,6 +322,7 @@ class LecturePlaylistVC: UIViewController {
     func configureNavi() {
         let title = UILabel()
         title.text = videoNumber != "" ? "관련 시리즈" : "강사별 강의"
+        ct_margin_bottom.constant = videoNumber != "" ? 35 : 7
         
         autoPlaySwitch.isHidden = videoNumber.isEmpty
         lbAutoPlay.isHidden = videoNumber.isEmpty
@@ -409,8 +411,10 @@ class LecturePlaylistVC: UIViewController {
         pipContainerView.addSubview(lessonTitleLabel)
         lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
                                 left: pipContainerView.leftAnchor,
+                                right: pipContainerView.rightAnchor,
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
+                                paddingRight: 70,
                                 height: 17)
         lessonTitleLabel.text = pipData?.videoTitle
         
@@ -438,10 +442,12 @@ class LecturePlaylistVC: UIViewController {
         guard let pipVC = self.pipVC else { return }
         
         isPlayPIPVideo = !isPlayPIPVideo
+        pipVC.pipVideoData?.isPlayPIP = false
         pipVC.player?.pause()
         setRemoveNotification()
         // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
         pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
+        pipDataManager.isForcePlay = true
         dismiss(animated: false)
     }
 }
@@ -628,11 +634,9 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        guard let lectureCount = detailVM?.lectureDetail?.data.count else { return }
-        guard let videoCount = detailVM?.relationSeriesList?.data.count else { return }
-        
         switch lectureState {
         case .lectureList:
+            guard let lectureCount = detailVM?.lectureDetail?.data.count else { return }
             if indexPath.row == lectureCount - 1 && !isLoading && (detailVM?.isMoreList ?? false) {
                 listCount += 20
                 
@@ -640,6 +644,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 detailVM?.lectureDetailApi(seriesID ?? "", offset: listCount)
             }
         case .videoList:
+            guard let videoCount = detailVM?.relationSeriesList?.data.count else { return }
             if indexPath.row == videoCount - 1 && !isLoading {
                 listCount += 20
                 
@@ -674,7 +679,7 @@ extension LecturePlaylistVC: UICollectionViewDelegateFlowLayout {
     // Cell의 사이즈를 설정하는 메소드
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //0707 - edited by hp
-        let width = UIScreen.main.bounds.width - 50
+        let width = UIScreen.main.bounds.width - 40
         return CGSize(width: width, height: width / 16 * 9 + 60)
     }
     

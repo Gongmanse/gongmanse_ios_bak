@@ -3,10 +3,30 @@ import AVFoundation
 
 extension VideoController {
     
+    func tapHashTag() {
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+        
+        self.view.bringSubviewToFront(videoContainerView)
+        self.view.bringSubviewToFront(subtitleLabel)
+        self.view.bringSubviewToFront(playPauseButton)
+        self.view.bringSubviewToFront(replayButton)
+        self.view.bringSubviewToFront(videoForwardTimeButton)
+        self.view.bringSubviewToFront(videoBackwardTimeButton)
+        
+        
+        teacherInfoFoldConstraint!.isActive = true
+        teacherInfoUnfoldConstraint!.isActive = false
+        subtitleLabel.font = UIFont.appBoldFontWith(size: 13)
+        videoControlContainerViewBottomConstraint?.constant = -30
+        changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
+        
+        portraitConstraint(true)
+        landscapeConstraint(false)
+        changeFullScreenConstraint(false)
+    }
+    
     /// "subtitleLabel"을 클릭 시, 호출될 콜백메소드
     @objc func didTappedSubtitle(sender: UITapGestureRecognizer) {
-        
-        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
         
         // "subtitleLabel"을 클릭할 때만 호출되도록 한다.
         sender.numberOfTapsRequired = 1
@@ -66,6 +86,8 @@ extension VideoController {
         if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[0] ) {
             self.player.pause()
 //            videoDataManager.isFirstPlayVideo = false
+            tapHashTag()
+            
             let vc = SearchAfterVC()
             vc.searchData.searchText = currentKeywords[0]
             let nav = UINavigationController(rootViewController: vc)
@@ -78,6 +100,8 @@ extension VideoController {
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[2]) {
             self.player.pause()
 //            videoDataManager.isFirstPlayVideo = false
+            tapHashTag()
+            
             let vc = SearchAfterVC()
             print("DEBUG: \(currentKeywords[2])?")
             vc.searchData.searchText = currentKeywords[2]
@@ -91,9 +115,26 @@ extension VideoController {
         } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[4]) {
             self.player.pause()
 //            videoDataManager.isFirstPlayVideo = false
+            tapHashTag()
+            
             let vc = SearchAfterVC()
             print("DEBUG: \(currentKeywords[4])?")
             vc.searchData.searchText = currentKeywords[4]
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true) {
+                vc.pipVideoData = pipVideoData
+                vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+            }
+            
+        } else if gesture.didTapAttributedTextInLabel(label: subtitleLabel, inRange: keywordRanges[6]) {
+            self.player.pause()
+//            videoDataManager.isFirstPlayVideo = false
+            tapHashTag()
+            
+            let vc = SearchAfterVC()
+            print("DEBUG: \(currentKeywords[6])?")
+            vc.searchData.searchText = currentKeywords[6]
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true) {
@@ -137,7 +178,7 @@ extension VideoController {
         // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
         attributedString
             .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.appBoldFontWith(size: 13),
+                          value: UIFont.appBoldFontWith(size: !isFullScreenMode ? 13 : 22),
                           range: (text as NSString).range(of: ("\(array[aIndex])")))
         attributedString
             .addAttribute(NSAttributedString.Key.foregroundColor,
@@ -283,10 +324,14 @@ extension UITapGestureRecognizer {
     func didTapAttributedTextInLabel(label: UILabel,
                                      inRange targetRange: NSRange) -> Bool {
         
+        guard let attributedString = label.attributedText else {return false}
+        let mutableAttribString = NSMutableAttributedString(attributedString: attributedString)
+        mutableAttribString.addAttributes([NSAttributedString.Key.font: label.font!], range: NSRange(location: 0, length: attributedString.length))
+        
         // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
         let layoutManager = NSLayoutManager()
         let textContainer = NSTextContainer(size: CGSize.zero)
-        let textStorage = NSTextStorage(attributedString: label.attributedText!)
+        let textStorage = NSTextStorage(attributedString: mutableAttribString)
         
         // Configure layoutManager and textStorage
         layoutManager.addTextContainer(textContainer)

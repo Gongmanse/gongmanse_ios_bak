@@ -353,8 +353,6 @@ extension VideoPlaylistVC: UITableViewDelegate, UITableViewDataSource {
                 let selectedID = autoPlayDataManager.videoSeriesDataList[indexPath.row].id
                 playVideoDelegate?.videoControllerCollectionViewReloadCellInBottommPlaylistCell(videoID: selectedID)
             }
-            //0711 - edited by hp
-            videoDataManager.removeVideoLastLog()
         }
     }
 }

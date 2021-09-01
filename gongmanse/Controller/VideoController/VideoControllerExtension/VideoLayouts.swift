@@ -29,6 +29,16 @@ extension VideoController {
         videoContainerViewLandscapeLeftConstraint
             = videoContainerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: -5)
         
+        // 전체모드 제약조건 정의
+        videoContainerViewFullScreenWidthConstraint
+            = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.height)
+        videoContainerViewFullScreenHeightConstraint
+            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width)
+        videoContainerViewFullScreenTopConstraint
+            = videoContainerView.topAnchor.constraint(equalTo: view.topAnchor)
+        videoContainerViewFullScreenLeftConstraint
+            = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        
         
         /* playPauseButton(동영상 클릭 시, 재생 및 일시정지 버튼 */
         view.addSubview(playPauseButton)
@@ -59,8 +69,8 @@ extension VideoController {
         view.addSubview(subtitleLabel)
         subtitleLabel.anchor(left: videoContainerView.leftAnchor,
                              bottom: videoContainerView.bottomAnchor,
-                             width: view.frame.width,
-                             height: 30)
+                             right: videoContainerView.rightAnchor)
+        subtitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30).isActive = true
         
         /* CustomTabBar */
         view.addSubview(customMenuBar)
@@ -99,7 +109,7 @@ extension VideoController {
         teacherInfoFoldConstraint
             = lessonInfoView.heightAnchor.constraint(equalToConstant: 0)
         teacherInfoUnfoldConstraint
-            = lessonInfoView.heightAnchor.constraint(equalToConstant: 190)
+            = lessonInfoView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.43)
         
         // Portrait 제약조건 정의
         lessonInfoViewPorTraitTopConstraint
@@ -165,7 +175,7 @@ extension VideoController {
         
         // Landscape 제약조건 정의
         pageCollectionViewLandscapeLeftConstraint
-            = pageController.leadingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
+            = pageController.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width - 5)
         pageCollectionViewLandscapeRightConstraint
             = pageController.rightAnchor.constraint(equalTo: view.rightAnchor)
         pageCollectionViewLandscapeBottomConstraint
@@ -178,7 +188,14 @@ extension VideoController {
         /* playerController View */
         self.videoContainerView.addSubview(playerController.view)
         playerController.view.anchor(top: videoContainerView.topAnchor,
-                                     left: videoContainerView.leftAnchor)
+                                     left: videoContainerView.leftAnchor,
+                                     bottom: videoContainerView.bottomAnchor,
+                                     right: videoContainerView.rightAnchor)
+        self.videoContainerView.addSubview(playerController1.view)
+        playerController1.view.anchor(top: videoContainerView.topAnchor,
+                                     left: videoContainerView.leftAnchor,
+                                     bottom: videoContainerView.bottomAnchor,
+                                     right: videoContainerView.rightAnchor)
     }
     
     ///  화면전환에 따른 Constraint 적용
@@ -190,13 +207,22 @@ extension VideoController {
             landscapeConstraint(false)
             topBorderLine.alpha = 1
             bottomBorderLine.alpha = 1
+            toggleButton.alpha = 1
         } else {            // 가로모드인 경우
             print("DEBUG: 가로모드")
             portraitConstraint(false)
             landscapeConstraint(true)
             topBorderLine.alpha = 0
             bottomBorderLine.alpha = 0
+            toggleButton.alpha = 0
         }
+    }
+    
+    func changeFullScreenConstraint(_ isActive: Bool) {
+        videoContainerViewFullScreenWidthConstraint?.isActive = isActive
+        videoContainerViewFullScreenHeightConstraint?.isActive = isActive
+        videoContainerViewFullScreenTopConstraint?.isActive = isActive
+        videoContainerViewFullScreenLeftConstraint?.isActive = isActive
     }
     
     /// Portait 제약조건 활성화 메소드

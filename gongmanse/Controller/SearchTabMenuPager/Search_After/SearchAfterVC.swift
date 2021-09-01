@@ -21,7 +21,6 @@ protocol SearchAfterVCDelegate: AnyObject {
 class SearchAfterVC: UIViewController {
 
     //MARK: - Properties
-    
     var comeFromSearchVC: Bool?
     
     // PIP 모드를 위한 프로퍼티
@@ -419,8 +418,10 @@ class SearchAfterVC: UIViewController {
         pipContainerView.addSubview(lessonTitleLabel)
         lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
                                 left: pipContainerView.leftAnchor,
+                                right: pipContainerView.rightAnchor,
                                 paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
+                                paddingRight: 80,
                                 height: 17)
         lessonTitleLabel.text = pipVideoData?.videoTitle ?? ""
         
@@ -452,10 +453,13 @@ class SearchAfterVC: UIViewController {
         let pipDataManager = PIPDataManager.shared
         guard let pipVC = self.pipVC else { return }
             
+        isPlayPIPVideo = !isPlayPIPVideo
+        pipVC.pipVideoData?.isPlayPIP = false
         pipVC.player?.pause()
         setRemoveNotification()
         // 3 싱글톤 객체 프로퍼티에 현재 재생된 시간을 CMTime으로 입력한다.
         pipDataManager.currentVideoCMTime = pipVC.currentVideoTime
+        pipDataManager.isForcePlay = true
         dismiss(animated: false)
     }
         
@@ -625,7 +629,16 @@ extension SearchAfterVC: SearchVideoVCDelegate {
 }
 
 extension SearchAfterVC: SearchNoteVCDelegate {
-    func serachAfterVCPIPViewDismiss1() {
-        serachAfterVCPIPViewDismiss()
+    func serachAfterVCPIPViewDismiss1() -> CMTime {
+//        serachAfterVCPIPViewDismiss()
+        if self.pipVC != nil {
+            setRemoveNotification()
+            pipVC?.player?.pause()
+            PIPDataManager.shared.currentVideoCMTime = pipVC?.currentVideoTime
+            
+            return pipVC?.currentVideoTime ?? CMTime()
+        } else {
+            return CMTime()
+        }
     }
 }

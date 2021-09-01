@@ -40,7 +40,7 @@ struct NoteData: Codable {
 
 struct sJson: Codable {
     
-    var aspectRatio: Double
+//    var aspectRatio: String?
 
     var strokes: [strokes]?
 }

@@ -32,6 +32,7 @@ class BookmarkDataManager {
             // API에서 성공했을 시, 아무 응답이 없고 실패했을 시 DB Error Log를 호출한다.
             // 그러므로 Response에 대한 Decoding 전략은 작성하지 않았다. (정확히 말하면 필요가 없음)
             .responseString { response in
+                viewController.presentAlert(message: "즐겨찾기가 등록되었습니다.")
                 print("DEBUG: 즐겨찾기 추가 API Response \(response)")
             }
     }
@@ -57,6 +58,7 @@ class BookmarkDataManager {
             // API에서 성공했을 시, 아무 응답이 없고 실패했을 시 DB Error Log를 호출한다.
             // 그러므로 Response에 대한 Decoding 전략은 작성하지 않았다. (정확히 말하면 필요가 없음)
             .responseString { response in
+                viewController.presentAlert(message: "즐겨찾기가 취소되었습니다.")
                 print("DEBUG: 즐겨찾기 삭제 API Response \(response)")
             }
     }

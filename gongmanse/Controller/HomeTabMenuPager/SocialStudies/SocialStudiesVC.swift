@@ -203,6 +203,8 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
                     }.resume()
                 }
             }
+        } else if inputFilterNum == 3 { //노트보기
+            getDataFromJsonNote()
         } else if let url = URL(string: SocialStudies_Video_URL + "offset=\(listCount)&limit=20&sortId=\(inputFilterNum == 1 ? 2 : inputSortNum)&type=\(inputFilterNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
@@ -283,22 +285,53 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
     }
     
     func getDataFromJsonNote() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/notelist?category_id=35&offset=0&limit=20") {
+        if let url = URL(string: apiBaseURL + "/v/video/notelist?category_id=35&offset=\(listCount)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    //print(json.body)
-                    self.noteShow = json
+            if listCount == 0 {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
                     
-                }
-                DispatchQueue.main.async {
-                    self.socialStudiesCollection.reloadData()
-                }
-            }.resume()
+                    if let json = try? decoder.decode(HomeNoteModel.self, from: data) {
+                        var videoInput = VideoInput(header: nil, body: [])
+                        videoInput.header = HeaderData(resultMsg: "성공", totalRows: String(json.totalNum), isMore: "true")
+                        
+                        for i in 0 ..< json.data.count {
+                            let item = json.data[i]
+                            videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
+                        }
+                        self.socialStudiesVideo = videoInput
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.socialStudiesCollection.reloadData()
+                        self.textSettings()
+                    }
+                    
+                }.resume()
+            } else {
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    guard let data = data else { return }
+                    let decoder = JSONDecoder()
+                    
+                    if let json = try? decoder.decode(HomeNoteModel.self, from: data) {
+                        //                        guard let isMores = json.header?.isMore else { return}
+                        //                        self.isMoreBool = Bool(isMores) ?? false
+                        for i in 0..<json.data.count {
+                            let item = json.data[i]
+                            self.socialStudiesVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
+                        }
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.socialStudiesCollection.reloadData()
+                    }
+                    
+                }.resume()
+            }
         }
     }
     
@@ -377,17 +410,16 @@ extension SocialStudiesVC: UICollectionViewDataSource {
         
         /// cell keyword 업데이트를 위한 메소드
         func addKeywordToCell() {
-            if indexData.unit != nil {
+            cell.term.isHidden = true
+            if let unit = indexData.unit, !unit.isEmpty {
                 cell.term.isHidden = false
-                cell.term.text = indexData.unit
-            } else if indexData.unit == "1" {
-                cell.term.isHidden = false
-                cell.term.text = "i"
-            } else if indexData.unit == "2" {
-                cell.term.isHidden = false
-                cell.term.text = "ii"
-            } else {
-                cell.term.isHidden = true
+                if unit == "1" {
+                    cell.term.text = "i"
+                } else if unit == "2" {
+                    cell.term.text = "ii"
+                } else {
+                    cell.term.text = unit
+                }
             }
         }
         
@@ -508,7 +540,7 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 vc.modalPresentationStyle = .fullScreen
                 let videoID = socialStudiesVideo?.body[indexPath.row].videoId
                 vc.id = videoID
-                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
+//                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
 //                vc.socialStudiesSeriesId = seriesID
 //                vc.socialStudiesSwitchValue = playSwitch
 //                vc.socialStudiesReceiveData = socialStudiesVideo
@@ -539,7 +571,7 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 vc.modalPresentationStyle = .fullScreen
                 let videoID = socialStudiesVideo?.body[indexPath.row].videoId
                 vc.id = videoID
-                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
+//                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
 //                vc.socialStudiesSeriesId = seriesID
 //                vc.socialStudiesSwitchValue = playSwitch
 //                vc.socialStudiesReceiveData = socialStudiesVideo
@@ -575,6 +607,8 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                     videoIDArr.append(socialStudiesVideo?.body[i].videoId ?? "")
                 }
                 vc.videoIDArr = videoIDArr
+                vc._type = "사회"
+                vc._sort = sortedId ?? 4
                 
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
@@ -598,10 +632,10 @@ extension SocialStudiesVC: UICollectionViewDelegate {
             //            self.socialStudiesCollection.scrollToItem(at: IndexPath(item: moveIndex, section: 0),
             //                                                      at: .top, animated: false)
             
-        } else if indexPath.row == cellCountSecond - 1 {
+        }/* else if indexPath.row == cellCountSecond - 1 {
             listCount += 20
             getDataFromJsonSecond()
-        }
+        }*/
     }
 }
 

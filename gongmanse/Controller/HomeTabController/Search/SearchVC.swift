@@ -39,9 +39,9 @@ class SearchVC: UIViewController {
     lazy var searchData = SearchData.shared
     
     // API에 담아 보낼 학년 과목 변수들
-    var globalSearchGrade: String?
-    var globalSearchSubject: String?
-    var globalSearchText: String?
+//    var globalSearchGrade: String?
+//    var globalSearchSubject: String?
+//    var globalSearchText: String?
     
     // 학년을 선택하지 않고 단원을 클릭 시, 경고창을 띄우기 위한 Index
     private var isChooseGrade: Bool = false
@@ -95,7 +95,8 @@ class SearchVC: UIViewController {
             subjectButton.setTitle(convertSubject ?? "모든 과목", for: .normal)
             searchData.searchSubject = convertSubject
             
-            if searchData.searchSubject == nil {
+            if searchData.searchSubject == nil || searchData.searchSubject == "모든 과목" {
+                searchData.searchSubject = nil
                 searchData.searchSubjectNumber = nil
             } else {
                 let subjectApi = getSubjectAPI()
@@ -211,8 +212,8 @@ class SearchVC: UIViewController {
         currentIndex = index
         if index == 0 {
             let contentVC = PopularKeywordVC()
-            contentVC.popularGrade = globalSearchGrade
-            contentVC.popularSubject = globalSearchSubject
+//            contentVC.popularGrade = globalSearchGrade
+//            contentVC.popularSubject = globalSearchSubject
             contentVC.pageIndex = index
             return contentVC
         } else if index == 1 {
@@ -226,8 +227,8 @@ class SearchVC: UIViewController {
             return contentVC
         } else {
             let contentVC = PopularKeywordVC()
-            contentVC.popularGrade = globalSearchGrade
-            contentVC.popularSubject = globalSearchSubject
+//            contentVC.popularGrade = globalSearchGrade
+//            contentVC.popularSubject = globalSearchSubject
             contentVC.pageIndex = index
             return contentVC
         }
@@ -322,8 +323,8 @@ extension SearchVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate
         switch viewController {
         case is PopularKeywordVC:
             let vc = viewController as! PopularKeywordVC
-            vc.popularGrade = globalSearchGrade
-            vc.popularSubject = globalSearchSubject
+//            vc.popularGrade = globalSearchGrade
+//            vc.popularSubject = globalSearchSubject
             return vc.pageIndex
         case is RecentKeywordVC:
             let vc = viewController as! RecentKeywordVC
@@ -373,7 +374,7 @@ extension SearchVC: UISearchBarDelegate {
         }
         
         // 전역변수에 할당
-        globalSearchText = searchBar.text
+//        globalSearchText = searchBar.text
         
         // 데이터 필터링
         filterContentForSearchText(searchBar.text!)
@@ -400,9 +401,9 @@ extension SearchVC: UISearchBarDelegate {
         
         // notification으로 보냄
         let infoHashable: [String:Any?] = [
-            "grade": globalSearchGrade,
-            "subject": globalSearchSubject,
-            "text": globalSearchText
+            "grade": searchData.searchGrade,
+            "subject": searchData.searchSubjectNumber,
+            "text": searchBar.text
         ]
         
         controller.comeFromSearchVC = comeFromSearchVC

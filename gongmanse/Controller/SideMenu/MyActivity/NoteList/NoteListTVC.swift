@@ -302,6 +302,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
                     videoIDArr.append(tableViewInputData[i].video_id ?? "")
                 }
                 vc.videoIDArr = videoIDArr
+                vc._type = "나의 활동"
+                vc._sort = sortedId ?? 4
                 
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
@@ -312,7 +314,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     //0711 - added by hp
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading {
+        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading && self.tableViewInputData.count < (Int(self.noteList?.totalNum ?? "0") ?? 0) {
             //더보기
             getDataFromJson()
         }
@@ -334,6 +336,10 @@ extension NoteListTVC: NoteListBottomPopUpVCDelegate {
         
         self.delegate?.noteListPassSortedIdSettingValue(noteListSortedIdRowIndex)
         self.tableView.reloadData()
+        
+        noteList = nil
+        tableViewInputData.removeAll()
+        getDataFromJson()
     }
 }
 

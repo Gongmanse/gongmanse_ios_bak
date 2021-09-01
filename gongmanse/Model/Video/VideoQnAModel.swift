@@ -75,3 +75,33 @@ struct HomeSeriesDataModel: Codable {
         case sThumbnail
     }
 }
+
+
+struct HomeNoteModel: Codable {
+    let totalNum: String
+    let data: [HomeNoteDataModel]
+}
+
+struct HomeNoteDataModel: Codable {
+    let sTitle: String?
+    let sTeacher: String?
+    let iSeriesId: String?
+    let videoID: String?
+    let iRating: String?
+    let sSubjectColor: String?
+    let sSubject: String?
+    let sUnit: String?
+    let sThumbnail: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case sTitle
+        case sTeacher
+        case iSeriesId
+        case videoID = "video_id"
+        case iRating
+        case sSubjectColor
+        case sSubject
+        case sUnit
+        case sThumbnail
+    }
+}

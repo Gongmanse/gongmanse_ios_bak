@@ -35,6 +35,9 @@ class Canvas: UIView {
     public var pointString = [String]() // API request 양식이 독특하여 String으로 변환해야하여 생성했다.
     public var colorArr = [UIColor]() // API request 양식이 독특하여 String으로 변환해야하여 생성했다.
     
+    public var mWidth: Int?
+    public var mHeight: Int?
+    
     // 이전 노트 데이터를 받아오기 위해 제한자를 "public" 으로 설정했다.
     public var lines = [Line]()
     {
@@ -109,11 +112,12 @@ class Canvas: UIView {
             context.setLineCap(.round)
             
             for (i, p) in line.points.enumerated() {
+                let p1 = CGPoint(x: p.x * CGFloat(mWidth ?? 1), y: p.y * CGFloat(mHeight ?? 1))
                 
                 if i == 0 {
-                    context.move(to: p)
+                    context.move(to: p1)
                 } else {
-                    context.addLine(to: p)
+                    context.addLine(to: p1)
                 }
             }
             context.strokePath()
@@ -132,7 +136,11 @@ class Canvas: UIView {
         
         guard let point = touches.first?.location(in: self) else { return }
         guard var lastLine = lines.popLast() else { return }
-        lastLine.points.append(point)
+        
+//        lastLine.points.append(point)
+        let point1 = CGPoint(x: point.x / CGFloat(mWidth ?? 1), y: point.y / CGFloat(mHeight ?? 1))
+        lastLine.points.append(point1)
+
         lines.append(lastLine)
         setNeedsDisplay()
     }

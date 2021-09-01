@@ -38,6 +38,7 @@ class LectureDetailViewModel {
                     switch response.result {
                     case .success(let data):
                         print(data)
+                        self.isMoreList = data.isMore ?? false
                         self.lectureDetail = data
                         print("관련시리즈\(data.data.count)")
                         self.delegate?.reloadCollection()

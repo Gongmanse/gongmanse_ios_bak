@@ -19,3 +19,7 @@ struct EditingProfileResponse: Decodable {
     let dtPremiumActivate: String?
     let dtPremiumExpire: String?
 }
+
+struct UserData: Decodable {
+    let user_id: String
+}

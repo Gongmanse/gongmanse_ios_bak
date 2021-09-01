@@ -4,13 +4,13 @@ import AVKit
 extension VideoController {
     /// 강의 및 선생님 정보 View 하단에 있는 버튼 toggle 기능담당 메소드
     @objc func handleToggle() {
-        if teacherInfoFoldConstraint!.isActive == true {
+        if teacherInfoFoldConstraint!.isActive == true { //보이기
             teacherInfoFoldConstraint!.isActive = false
             teacherInfoUnfoldConstraint!.isActive = true
             
             self.view.endEditing(true)
             self.videoPlaylistVC?.reload()
-        } else {
+        } else { //감추기
             teacherInfoFoldConstraint!.isActive = true
             teacherInfoUnfoldConstraint!.isActive = false
         }
@@ -20,14 +20,17 @@ extension VideoController {
     
     /// 화면 Orientation 변경 버튼 호출시, 호출되는 콜백메소드
     @objc func presentFullScreenMode() {
-        setRemoveNotification()
+        /*setRemoveNotification()
         
+        isFullScreenMode = true
         // 화면을 "LandscapeRight"로 고정한다.
         AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
         
         // vc에 현재 재생되는 시간을 전달한다.
         let currentTime = player.currentTime()
         let vc = VideoFullScreenController(playerCurrentTime: currentTime, urlData: self.videoAndVttURL)
+        vc.videoTitle = self.lessonInfoController.lessonnameLabel.text ?? ""
+        vc.teacherName = self.lessonInfoController.teachernameLabel.text ?? ""
         vc.id = self.id
         vc.isClickedSubtitleToggleButton = isClickedSubtitleToggleButton
         vc.currentVideoPlayRate = currentVideoPlayRate
@@ -35,12 +38,104 @@ extension VideoController {
         
         NotificationCenter.default.removeObserver(self)
         player.pause()
-        present(vc, animated: true)
+        present(vc, animated: true)*/
+        
+        if !isFullScreenMode {
+            if !UIWindow.isLandscape {
+                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+            }
+            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+            
+//            customMenuBar.isHidden = true
+//            topBorderLine.isHidden = true
+//            bottomBorderLine.isHidden = true
+//            lessonInfoView.isHidden = true
+//            toggleButton.isHidden = true
+//            pageController.isHidden = true
+            self.view.bringSubviewToFront(videoContainerView)
+            self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(playPauseButton)
+            self.view.bringSubviewToFront(replayButton)
+            self.view.bringSubviewToFront(videoForwardTimeButton)
+            self.view.bringSubviewToFront(videoBackwardTimeButton)
+            
+            teacherInfoFoldConstraint!.isActive = false
+            teacherInfoUnfoldConstraint!.isActive = true
+            self.view.endEditing(true)
+            subtitleLabel.font = UIFont.appBoldFontWith(size: 22)
+            videoControlContainerViewBottomConstraint?.constant = -55
+            changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_exit"), for: .normal)
+            
+            portraitConstraint(false)
+            landscapeConstraint(true)
+            topBorderLine.alpha = 0
+            bottomBorderLine.alpha = 0
+            toggleButton.alpha = 0
+            videoContainerViewPorTraitWidthConstraint?.isActive = false
+            videoContainerViewPorTraitHeightConstraint?.isActive = false
+            videoContainerViewPorTraitTopConstraint?.isActive = false
+            videoContainerViewPorTraitLeftConstraint?.isActive = false
+            videoContainerViewLandscapeWidthConstraint?.isActive = false
+            videoContainerViewLandscapeHeightConstraint?.isActive = false
+            videoContainerViewLandscapeTopConstraint?.isActive = false
+            videoContainerViewLandscapeLeftConstraint?.isActive = false
+            
+            changeFullScreenConstraint(true)
+            
+            isFullScreenMode = true
+        } else {
+            
+            let orientation = UIDevice.current.value(forKey: "orientation") as! Int
+            if orientation == UIInterfaceOrientation.landscapeRight.rawValue {
+                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.landscapeRight)
+            } else {
+                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
+            }
+            
+//            customMenuBar.isHidden = false
+//            topBorderLine.isHidden = false
+//            bottomBorderLine.isHidden = false
+//            lessonInfoView.isHidden = false
+//            toggleButton.isHidden = false
+//            pageController.isHidden = false
+            self.view.bringSubviewToFront(videoContainerView)
+            self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(playPauseButton)
+            self.view.bringSubviewToFront(replayButton)
+            self.view.bringSubviewToFront(videoForwardTimeButton)
+            self.view.bringSubviewToFront(videoBackwardTimeButton)
+            
+            
+            teacherInfoFoldConstraint!.isActive = false
+            teacherInfoUnfoldConstraint!.isActive = true
+            subtitleLabel.font = UIFont.appBoldFontWith(size: 13)
+            videoControlContainerViewBottomConstraint?.constant = -30
+            changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
+            
+            if orientation == UIInterfaceOrientation.landscapeRight.rawValue {
+                portraitConstraint(false)
+                landscapeConstraint(true)
+                topBorderLine.alpha = 0
+                bottomBorderLine.alpha = 0
+                toggleButton.alpha = 0
+            } else {
+                portraitConstraint(true)
+                landscapeConstraint(false)
+                topBorderLine.alpha = 1
+                bottomBorderLine.alpha = 1
+                toggleButton.alpha = 1
+            }
+            changeFullScreenConstraint(false)
+            
+            isFullScreenMode = false
+        }
     }
 
     /// 데이터 구성을 위한 메소드
     func configureDataAndNoti(_ showIntro: Bool) {
         // 관찰자를 추가한다.
+        self.player.pause()
         setRemoveNotification()
         removePeriodicTimeObserver()
         setNotification()
@@ -79,7 +174,7 @@ extension VideoController {
         self.noteViewController?.setupData()
     }
     
-    func loadBottomQnA() {
+    func loadBottomQnA(_ isHidden: Bool = true) {
         if self.qnaCell == nil {
             self.qnaCell = BottomQnACell()
         }
@@ -89,7 +184,7 @@ extension VideoController {
                            left: pageController.leftAnchor,
                            bottom: pageController.bottomAnchor,
                            right: pageController.rightAnchor)
-        self.qnaCell!.isHidden = true
+        self.qnaCell!.isHidden = isHidden
     }
     
     func loadBottomPlayList(_ isHidden: Bool) {
@@ -105,7 +200,7 @@ extension VideoController {
             self.videoPlaylistVC!.playVideoDelegate = self
             self.videoPlaylistVC!.view.isHidden = isHidden
         } else { // 재생목록 유지
-            self.videoPlaylistVC!.view.isHidden = false
+//            self.videoPlaylistVC!.view.isHidden = false
             self.videoPlaylistVC!.reload()
         }
     }
@@ -132,6 +227,7 @@ extension VideoController {
         
         // 영상 플레이어컨트롤러 하단 상태표시슬라이드 display 여부
         playerController.showsPlaybackControls = false
+        playerController1.showsPlaybackControls = false
         
         // 시작 시, 영상 컨트롤 버튼을 숨긴다.
         self.blackViewOncontrolMode.backgroundColor = .clear
@@ -143,7 +239,7 @@ extension VideoController {
         self.subtitleToggleButton.alpha = 0
         self.backButton.alpha = 0
         
-        timeSlider.transform = CGAffineTransform (scaleX: 1.05, y: 1.05)
+//        timeSlider.transform = CGAffineTransform (scaleX: 1.05, y: 1.05)
         timeSlider.setThumbImage(#imageLiteral(resourceName: "checkFalse"), for: .normal)
     }
     

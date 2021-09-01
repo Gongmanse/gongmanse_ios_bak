@@ -129,7 +129,8 @@ class DetailVideoDataManager {
     /// - 동영상 링크: 동영상 재생을 위한 URL을 받아온다.
     /// - 자막 링크: .vtt 확장자로 URL을 받아온다.
     /// - 태그 String: sTags 라는 항목으로 받아온다.
-    func DetailVideoDataManager(_ parameters: DetailVideoInput, viewController: VideoController, showIntro: Bool = true, refreshList: Bool = true) {
+    func DetailVideoDataManager(_ parameters: DetailVideoInput, viewController: VideoController, showIntro: Bool = true, refreshList: Bool = true,
+                                fromPIP: Bool = false) {
         
         if showIntro {
             //초기 값 설정
@@ -158,14 +159,19 @@ class DetailVideoDataManager {
             }
             
             viewController.videoURL = NSURL(string: "")
-            viewController.isStartVideo = false
-            viewController.isEndVideo = false
-            
             viewController.removePeriodicTimeObserver()
             viewController.setRemoveNotification()
             viewController.setNotification()
-            viewController.playInOutroVideo(1)
-            viewController.backButton.alpha = 1
+            
+            if fromPIP { //인트로 스킵한다
+                viewController.isStartVideo = true
+                viewController.isEndVideo = false
+            } else {
+                viewController.isStartVideo = false
+                viewController.isEndVideo = false
+                viewController.playInOutroVideo(1)
+                viewController.backButton.alpha = 1
+            }
         }
         
         // viewModel -> paramters 를 통해 값을 전달한다.

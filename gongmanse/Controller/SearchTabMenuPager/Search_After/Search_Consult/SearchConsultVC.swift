@@ -75,7 +75,7 @@ class SearchConsultVC: UIViewController {
         
         
         numberOfLesson.font = .appBoldFontWith(size: 16)
-        sortButton.titleLabel?.font = .appBoldFontWith(size: 16)
+        sortButton.titleLabel?.font = .appBoldFontWith(size: 13)
         
         collectionView.delegate = self
         collectionView.dataSource = self
