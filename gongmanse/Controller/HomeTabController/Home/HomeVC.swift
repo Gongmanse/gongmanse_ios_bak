@@ -36,7 +36,11 @@ class HomeVC: UIViewController {
         
         //네비게이션 바 타이틀에 공만세 이미지 적용
         let image = UIImage(named: "top_logo")
-        navigationItem.titleView = UIImageView(image: image)
+        let iv = UIImageView(image: image)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            iv.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }
+        navigationItem.titleView = iv
         
         addBottomBorder()
         
