@@ -149,7 +149,7 @@ class SearchAfterVC: UIViewController {
     func addBottomBorder() {
        let thickness: CGFloat = 0.5
        let bottomBorder = CALayer()
-       bottomBorder.frame = CGRect(x:0, y: self.tabsView.frame.size.height - thickness, width: self.tabsView.frame.size.width, height:thickness)
+       bottomBorder.frame = CGRect(x:0, y: self.tabsView.frame.size.height - thickness, width: UIScreen.main.bounds.width, height:thickness)
        bottomBorder.backgroundColor = UIColor.systemGray4.cgColor
        tabsView.layer.addSublayer(bottomBorder)
     }
@@ -354,7 +354,7 @@ class SearchAfterVC: UIViewController {
     
     func setupPIPView() {
         
-        var pipHeight = view.frame.height * 0.085
+        let pipHeight = Constant.height * 0.085
 //        
 //        switch Constant.height {
 //        case 896.0:
@@ -364,7 +364,7 @@ class SearchAfterVC: UIViewController {
 //        }
 //        
         
-        switch Constant.width {
+        /*switch Constant.width {
         case 375.0:
             pipHeight = view.frame.height * 0.085
             break
@@ -374,7 +374,7 @@ class SearchAfterVC: UIViewController {
         default:
             pipHeight = view.frame.height * 0.085
             break
-        }
+        }*/
         
         
         view.addSubview(pipContainerView)
@@ -416,20 +416,18 @@ class SearchAfterVC: UIViewController {
                        paddingRight: 20)
         
         pipContainerView.addSubview(lessonTitleLabel)
-        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
-                                left: pipContainerView.leftAnchor,
+        lessonTitleLabel.anchor(left: pipContainerView.leftAnchor,
                                 right: pipContainerView.rightAnchor,
-                                paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 paddingRight: 80,
                                 height: 17)
+        lessonTitleLabel.center(inView: pipContainerView, yConstant: -10)
         lessonTitleLabel.text = pipVideoData?.videoTitle ?? ""
         
         pipContainerView.addSubview(teachernameLabel)
-        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
-                                left: lessonTitleLabel.leftAnchor,
-                                paddingTop: 5,
+        teachernameLabel.anchor(left: lessonTitleLabel.leftAnchor,
                                 height: 15)
+        teachernameLabel.center(inView: pipContainerView, yConstant: 10)
         teachernameLabel.text = pipVideoData?.teacherName ?? ""
         
         

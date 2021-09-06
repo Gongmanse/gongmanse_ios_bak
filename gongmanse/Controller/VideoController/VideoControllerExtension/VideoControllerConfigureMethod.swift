@@ -119,12 +119,20 @@ extension VideoController {
                 topBorderLine.alpha = 0
                 bottomBorderLine.alpha = 0
                 toggleButton.alpha = 0
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    teacherInfoUnfoldConstraint?.constant = view.frame.width * 0.601
+                }
             } else {
                 portraitConstraint(true)
                 landscapeConstraint(false)
                 topBorderLine.alpha = 1
                 bottomBorderLine.alpha = 1
                 toggleButton.alpha = 1
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    teacherInfoUnfoldConstraint?.constant = 190
+                }
             }
             changeFullScreenConstraint(false)
             

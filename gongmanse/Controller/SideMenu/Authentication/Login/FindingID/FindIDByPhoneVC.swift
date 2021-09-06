@@ -155,7 +155,7 @@ class FindIDByPhoneVC: UIViewController {
         
         // "완료" UIButton
         view.addSubview(completeButton)
-        completeButton.setDimensions(height: 40, width: 260)
+        completeButton.setDimensions(height: 40, width: tfWidth)
         completeButton.layer.cornerRadius = 10
         completeButton.centerX(inView: view)
         completeButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,

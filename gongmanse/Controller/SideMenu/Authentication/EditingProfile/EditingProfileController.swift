@@ -251,12 +251,19 @@ class EditingProfileController: UIViewController {
         imagePickerController.delegate = self
         
         self.navigationItem.title = "프로필 편집"
-        let leftBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"),
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(tapBackButton))
+        //네비게이션 바 뒤로가기 버튼 색상 바꾸기
+        self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
         
-        self.navigationItem.leftBarButtonItem = leftBarButton
+        //네비게이션 바 뒤로가기 버튼 타이틀 없애기
+        self.navigationController?.navigationBar.topItem?.title = ""
+        
+        tabBarController?.tabBar.isHidden = true
+//        let leftBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"),
+//                                            style: .plain,
+//                                            target: self,
+//                                            action: #selector(tapBackButton))
+//        
+//        self.navigationItem.leftBarButtonItem = leftBarButton
         
         // 크기 비율
         let verticalPadding = view.frame.height * 0.077
@@ -306,7 +313,7 @@ class EditingProfileController: UIViewController {
         idTextField.setDimensions(height: tfHeight, width: tfWidth)
         idTextField.centerX(inView: view)
         idTextField.anchor(top: profileImageContainerView.topAnchor,
-                             paddingTop: verticalPadding + 30)
+                             paddingTop: verticalPadding + 100)
         
         view.addSubview(blockViewForID)
         blockViewForID.anchor(top: idTextField.topAnchor,
@@ -358,7 +365,7 @@ class EditingProfileController: UIViewController {
                              paddingTop: verticalPadding)
         
         view.addSubview(completeButton)
-        completeButton.setDimensions(height: 40, width: 260)
+        completeButton.setDimensions(height: 40, width: tfWidth)
         completeButton.layer.cornerRadius = 10
         completeButton.centerX(inView: view)
         completeButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -461,7 +468,9 @@ extension EditingProfileController {
          추후 진행예정
         */
         
-        profileImageView.sd_setImage(with: URL(string: profileImageURL), completed: nil)
+//        profileImageView.sd_setImage(with: URL(string: profileImageURL), completed: nil)
+        profileImageView.sd_setImage(with: URL(string: profileImageURL), placeholderImage: #imageLiteral(resourceName: "idOff"), options: [], completed: nil)
+        
         idTextField.text = id
         viewModel.username = id
         nameTextField.text = name

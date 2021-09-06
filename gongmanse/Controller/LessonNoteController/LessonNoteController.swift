@@ -419,13 +419,13 @@ class LessonNoteController: UIViewController {
     }
     
     @objc fileprivate func openWritingImplement() {
-        let width = view.frame.width * 0.5
+        let width = CGFloat(207)
         let noteMode = scrollView.isScrollEnabled
         scrollView.isScrollEnabled.toggle()
 
         // !noteMode -> 노트필기 불가능한상태
         if !noteMode {
-            writingImplementLeftConstraint?.constant = -(width * 0.8)
+            writingImplementLeftConstraint?.constant = -(width * 0.75)
             writingImplementToggleButton.setImage(.none, for: .normal)
             writingImplementToggleButton.setTitle("필기\n도구", for: .normal)
 
@@ -808,9 +808,11 @@ class LessonNoteController: UIViewController {
     }
     
     private func setupWritingImplement() {
-        let width = UIScreen.main.bounds.size.width * 0.5
+        let width = CGFloat(207)
         let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.height * 0.07
-        let height = UIScreen.main.bounds.size.height * 0.09
+        let height = CGFloat(81)
+        
+        writingImplementToggleButton.setDimensions(height: height, width: width * 0.25)
         
         writingImplement.alpha = 1
         view.addSubview(writingImplement)
@@ -820,7 +822,7 @@ class LessonNoteController: UIViewController {
             = writingImplement.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomPadding)
         writingImplementYPosition?.isActive = true
         
-        writingImplementLeftConstraint = writingImplement.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -(width * 0.8))
+        writingImplementLeftConstraint = writingImplement.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -(width * 0.75))
         writingImplementLeftConstraint?.isActive = true
         
         view.addSubview(savingNoteButton)
@@ -851,8 +853,8 @@ class LessonNoteController: UIViewController {
             writingImplementToggleButton
         ])
         
-        colorStackView.spacing = 4
-        colorStackView.distribution = .fillEqually
+//        colorStackView.spacing = 4
+        colorStackView.distribution = .equalSpacing
         writingImplement.addSubview(colorStackView)
         colorStackView.centerY(inView: writingImplement)
         colorStackView.anchor(left: writingImplement.leftAnchor,
@@ -866,7 +868,7 @@ class LessonNoteController: UIViewController {
     
     func setupPIPView() {
         
-        var pipHeight = view.frame.height * 0.085
+        let pipHeight = Constant.height * 0.085
 //
 //        switch Constant.height {
 //        case 896.0:
@@ -876,7 +878,7 @@ class LessonNoteController: UIViewController {
 //        }
 //
         
-        switch Constant.width {
+        /*switch Constant.width {
         case 375.0:
             pipHeight = view.frame.height * 0.085
             break
@@ -886,7 +888,7 @@ class LessonNoteController: UIViewController {
         default:
             pipHeight = view.frame.height * 0.085
             break
-        }
+        }*/
         
         
         view.addSubview(pipContainerView)
@@ -928,20 +930,18 @@ class LessonNoteController: UIViewController {
                        paddingRight: 20)
         
         pipContainerView.addSubview(lessonTitleLabel)
-        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
-                                left: pipContainerView.leftAnchor,
+        lessonTitleLabel.anchor(left: pipContainerView.leftAnchor,
                                 right: pipContainerView.rightAnchor,
-                                paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 paddingRight: 80,
                                 height: 17)
+        lessonTitleLabel.center(inView: pipContainerView, yConstant: -10)
         lessonTitleLabel.text = pipVideoData?.videoTitle ?? ""
         
         pipContainerView.addSubview(teachernameLabel)
-        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
-                                left: lessonTitleLabel.leftAnchor,
-                                paddingTop: 5,
+        teachernameLabel.anchor(left: lessonTitleLabel.leftAnchor,
                                 height: 15)
+        teachernameLabel.center(inView: pipContainerView, yConstant: 10)
         teachernameLabel.text = pipVideoData?.teacherName ?? ""
         
         //0713 - added by hp

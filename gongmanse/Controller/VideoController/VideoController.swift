@@ -871,21 +871,19 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         
         /* lessonTitleLabel - Constraint */
         self.pipContainerView.addSubview(self.lessonTitleLabel)
-        self.lessonTitleLabel.anchor(top: self.pipContainerView.topAnchor,
-                                     left: self.pipContainerView.leftAnchor,
+        self.lessonTitleLabel.anchor(left: self.pipContainerView.leftAnchor,
                                      right: self.pipContainerView.rightAnchor,
-                                     paddingTop: 13,
                                      paddingLeft: pipHeight * 1.77 + 5,
                                      paddingRight: 35,
                                      height: 17)
+        self.lessonTitleLabel.center(inView: self.pipContainerView, yConstant: -10)
         self.lessonTitleLabel.text = self.videoDataManager.previousVideoTitle
         
         /* teachernameLabel - Constraint */
         self.pipContainerView.addSubview(self.teachernameLabel)
-        self.teachernameLabel.anchor(top: self.lessonTitleLabel.bottomAnchor,
-                                     left: self.lessonTitleLabel.leftAnchor,
-                                     paddingTop: 5,
+        self.teachernameLabel.anchor(left: self.lessonTitleLabel.leftAnchor,
                                      height: 15)
+        self.teachernameLabel.center(inView: self.pipContainerView, yConstant: 10)
         if let previousTeacherName = videoDataManager.previousVideoTeachername {
             self.teachernameLabel.text = previousTeacherName + " 선생님"
         }
@@ -1067,6 +1065,7 @@ extension VideoController {
         
         self.seriesID = response.data.iSeriesId
         self.lessonInfoController.seriesID = self.seriesID
+        self.lessonInfoController._parent = self
         
         //재생목록 로드
         self.loadBottomPlayList(true)
@@ -1316,6 +1315,7 @@ extension VideoController {
 
         self.seriesID = response.data.iSeriesId
         self.lessonInfoController.seriesID = self.seriesID
+        self.lessonInfoController._parent = self
         
         self.loadBottomPlayList(true)
         

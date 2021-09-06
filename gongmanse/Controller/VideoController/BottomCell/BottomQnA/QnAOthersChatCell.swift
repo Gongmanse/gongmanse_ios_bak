@@ -10,8 +10,7 @@ import UIKit
 class QnAOthersChatCell: UITableViewCell {
 
     @IBOutlet weak var otherProfile: UIImageView!
-    @IBOutlet weak var otherContent: UITextView!
-    @IBOutlet weak var otherStackView: UIStackView!
+    @IBOutlet weak var otherContent: PaddingLabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -18,7 +18,7 @@ class GongManseStoryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        /*
         manseImage.contentMode = .scaleAspectFit
         manseImage.sizeToFit()
         let image = #imageLiteral(resourceName: "aboutManse") // aboutManse
@@ -34,7 +34,7 @@ class GongManseStoryVC: UIViewController {
 //        manseImage.image = image.resize(3500)
         print(manseImage.image?.size)
         print(UIScreen.main.scale)
-        
+        */
         // 0.16615
         // 387.69
         // 2333.33

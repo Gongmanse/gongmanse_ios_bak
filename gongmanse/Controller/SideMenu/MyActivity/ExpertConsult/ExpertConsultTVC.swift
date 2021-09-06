@@ -45,7 +45,8 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
 //        getDataFromJson()
         
         //테이블 뷰 빈칸 숨기기
-        tableView.tableFooterView = UIView()
+//        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
         
         //xib 셀 등록
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
@@ -212,7 +213,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if value.totalNum == "0" {
-            presentAlert(message: "전문가 상담 목록이 없습니다.")
+//            presentAlert(message: "전문가 상담 목록이 없습니다.")
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExpertConsultationDetailVC") as! ExpertConsultationDetailVC
             vc.receiveData = expertConsult?.data[indexPath.row]

@@ -126,7 +126,7 @@ extension VideoController {
     /// 동영상 앞으로 가기 기능을 담당하는 콜백 메소드
     @objc func moveForwardPlayer() {
         /// 10초를 계산하기 위한 프로퍼티
-        let seconds = Double(230) / Double(23.98)
+        let seconds = 10.0//Double(230) / Double(23.98)
         
         /// 23 프레임을 기준으로 10초를 입력한 CMTime 프로퍼티
         let oneFrame = CMTime(seconds: seconds, preferredTimescale: 600)
@@ -138,7 +138,7 @@ extension VideoController {
     
     /// 동영상 뒤로 가기 기능을 담당하는 콜백 메소드
     @objc func moveBackwardPlayer() {
-        let seconds = Double(230) / Double(23.98)
+        let seconds = 10.0//Double(230) / Double(23.98)
         let oneFrame = CMTime(seconds: seconds, preferredTimescale: 60)
         let subTractTime = CMTimeSubtract(player.currentTime(), oneFrame)
         player.seek(to: subTractTime, toleranceBefore: .zero, toleranceAfter: .zero)

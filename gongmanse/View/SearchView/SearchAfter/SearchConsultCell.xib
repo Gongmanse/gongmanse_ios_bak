@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -33,23 +33,31 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="w3M-qJ-NTY">
-                                        <rect key="frame" x="20" y="9.6666666666666643" width="116" height="60.999999999999993"/>
+                                        <rect key="frame" x="19.999999999999996" y="9.6666666666666679" width="60.666666666666657" height="60.666666666666657"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="w3M-qJ-NTY" secondAttribute="height" multiplier="1:1" id="66a-Jw-TG3"/>
+                                        </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상대성이론과 불확정성이론의 차이점에 대해서 알려주세요." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ez-Fg-pYb">
-                                        <rect key="frame" x="144" y="9.6666666666666643" width="173.66666666666663" height="34"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상대성이론과 " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ez-Fg-pYb">
+                                        <rect key="frame" x="88.666666666666686" y="9.6666666666666679" width="227" height="15.666666666666668"/>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mJg-BX-rPQ">
-                                        <rect key="frame" x="144" y="50.666666666666664" width="20" height="19.999999999999993"/>
+                                        <rect key="frame" x="88.666666666666671" y="50.333333333333336" width="20" height="20.000000000000007"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="Wek-33-OJj"/>
                                             <constraint firstAttribute="width" secondItem="mJg-BX-rPQ" secondAttribute="height" multiplier="1:1" id="Z8g-Lz-R2F"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대기중 &gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fec-Pt-HZy" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
                                         <rect key="frame" x="323.66666666666669" y="9.6666666666666643" width="70.333333333333314" height="18"/>
                                         <color key="backgroundColor" red="0.86250628847064392" green="0.86250628847064392" blue="0.86250628847064392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70.333333333333314" id="7bq-MG-luM"/>
+                                            <constraint firstAttribute="height" constant="18" id="PpE-sj-B1v"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -69,13 +77,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10일 전" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8L-FY-mNV">
-                                        <rect key="frame" x="358" y="53.666666666666664" width="36" height="16.999999999999993"/>
+                                        <rect key="frame" x="358" y="53.333333333333336" width="36" height="17.000000000000007"/>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="페퍼민트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOf-Sk-vpb">
-                                        <rect key="frame" x="167" y="55" width="40.333333333333343" height="14"/>
+                                        <rect key="frame" x="111.66666666666667" y="55" width="40.333333333333329" height="14"/>
                                         <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="11"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -84,8 +92,6 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="fec-Pt-HZy" firstAttribute="top" secondItem="w3M-qJ-NTY" secondAttribute="top" id="1ey-SL-gEc"/>
-                                    <constraint firstItem="fec-Pt-HZy" firstAttribute="height" secondItem="fca-90-AHM" secondAttribute="height" multiplier="0.225" id="4jn-VG-FJc"/>
-                                    <constraint firstItem="fec-Pt-HZy" firstAttribute="width" secondItem="fca-90-AHM" secondAttribute="width" multiplier="0.17" id="5fu-8p-ciX"/>
                                     <constraint firstItem="l8L-FY-mNV" firstAttribute="bottom" secondItem="w3M-qJ-NTY" secondAttribute="bottom" id="892-J0-lVL"/>
                                     <constraint firstItem="mJg-BX-rPQ" firstAttribute="leading" secondItem="5ez-Fg-pYb" secondAttribute="leading" id="BSa-g7-kU5"/>
                                     <constraint firstItem="rOf-Sk-vpb" firstAttribute="centerY" secondItem="l8L-FY-mNV" secondAttribute="centerY" id="CKX-qO-Xn5"/>
@@ -93,17 +99,14 @@
                                     <constraint firstItem="rOf-Sk-vpb" firstAttribute="height" secondItem="l8L-FY-mNV" secondAttribute="height" multiplier="0.823529" id="Cyc-A7-XYu"/>
                                     <constraint firstItem="w3M-qJ-NTY" firstAttribute="centerY" secondItem="fca-90-AHM" secondAttribute="centerY" id="Eg0-Ps-b7D"/>
                                     <constraint firstItem="l8L-FY-mNV" firstAttribute="height" secondItem="fca-90-AHM" secondAttribute="height" multiplier="0.2125" id="JYU-0v-SPr"/>
-                                    <constraint firstItem="5ez-Fg-pYb" firstAttribute="width" secondItem="fca-90-AHM" secondAttribute="width" multiplier="0.42" id="KH0-nK-Lck"/>
-                                    <constraint firstItem="w3M-qJ-NTY" firstAttribute="height" secondItem="fca-90-AHM" secondAttribute="height" multiplier="0.7625" id="MsG-LD-Wsv"/>
                                     <constraint firstItem="5ez-Fg-pYb" firstAttribute="leading" secondItem="w3M-qJ-NTY" secondAttribute="trailing" constant="8" id="Ogw-Zl-9Fv"/>
                                     <constraint firstItem="rOf-Sk-vpb" firstAttribute="leading" secondItem="mJg-BX-rPQ" secondAttribute="trailing" constant="3" id="SsZ-Xl-UP7"/>
                                     <constraint firstItem="w3M-qJ-NTY" firstAttribute="leading" secondItem="fca-90-AHM" secondAttribute="leading" constant="20" id="bca-vv-XGR"/>
-                                    <constraint firstItem="5ez-Fg-pYb" firstAttribute="height" secondItem="fca-90-AHM" secondAttribute="height" multiplier="0.425" id="e8h-8o-zLd"/>
                                     <constraint firstAttribute="trailing" secondItem="fec-Pt-HZy" secondAttribute="trailing" constant="20" id="gDi-hX-hPX"/>
                                     <constraint firstAttribute="trailing" secondItem="l8L-FY-mNV" secondAttribute="trailing" constant="20" id="ikv-XJ-W1P"/>
-                                    <constraint firstItem="mJg-BX-rPQ" firstAttribute="width" secondItem="fca-90-AHM" secondAttribute="width" multiplier="0.0483092" id="pOu-fS-CPd"/>
+                                    <constraint firstItem="w3M-qJ-NTY" firstAttribute="top" secondItem="fca-90-AHM" secondAttribute="top" constant="9.6666666666666643" id="oq2-i1-UtQ"/>
+                                    <constraint firstItem="fec-Pt-HZy" firstAttribute="leading" secondItem="5ez-Fg-pYb" secondAttribute="trailing" constant="8" id="wYk-8d-0he"/>
                                     <constraint firstItem="mJg-BX-rPQ" firstAttribute="bottom" secondItem="w3M-qJ-NTY" secondAttribute="bottom" id="zT5-5S-vh1"/>
-                                    <constraint firstItem="w3M-qJ-NTY" firstAttribute="width" secondItem="fca-90-AHM" secondAttribute="width" multiplier="0.28" id="zkd-yk-vJ8"/>
                                 </constraints>
                             </view>
                         </subviews>

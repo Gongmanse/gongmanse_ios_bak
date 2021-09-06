@@ -5,6 +5,7 @@ class LectureQuestionsDeleteBottomPopUpCell: UITableViewCell {
     @IBOutlet weak var checkImage: UIImageView!
     @IBOutlet weak var deleteContext: UILabel!
     @IBOutlet weak var answerStatus: UILabel!
+    @IBOutlet weak var timeBefore: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

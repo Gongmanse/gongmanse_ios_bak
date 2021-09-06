@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,7 +21,8 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ml-4S-DMw">
                         <rect key="frame" x="20" y="0.5" width="25" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="9ml-4S-DMw" secondAttribute="height" multiplier="1:1" id="sdt-1R-o81"/>
+                            <constraint firstAttribute="width" constant="25" id="EFW-DU-Izj"/>
+                            <constraint firstAttribute="height" constant="25" id="nwH-HQ-ifX"/>
                         </constraints>
                         <imageReference key="image" image="1.circle.fill" catalog="system" renderingMode="template"/>
                     </imageView>
@@ -33,11 +34,10 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="9ml-4S-DMw" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.078125" id="1Ia-jn-mJo"/>
                     <constraint firstItem="uhT-Gq-Xuf" firstAttribute="leading" secondItem="9ml-4S-DMw" secondAttribute="trailing" constant="13" id="2wH-Iv-id5"/>
                     <constraint firstAttribute="bottom" secondItem="uhT-Gq-Xuf" secondAttribute="bottom" id="EA3-EZ-V5R"/>
                     <constraint firstItem="uhT-Gq-Xuf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EvM-41-be4"/>
-                    <constraint firstAttribute="bottom" secondItem="9ml-4S-DMw" secondAttribute="bottom" id="n8d-4c-Q1M"/>
+                    <constraint firstItem="9ml-4S-DMw" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="g7x-vc-gnG"/>
                     <constraint firstItem="9ml-4S-DMw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="xNm-7A-PBP"/>
                     <constraint firstItem="uhT-Gq-Xuf" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" id="xc9-z6-dUX"/>
                 </constraints>

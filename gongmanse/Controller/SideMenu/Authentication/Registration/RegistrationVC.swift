@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import WebKit
 
-class RegistrationVC: UIViewController {
+class RegistrationVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     // MARK: - Properties
     
@@ -15,29 +16,7 @@ class RegistrationVC: UIViewController {
     
     var isSelected: Bool = false
     var bottomIsSelected: Bool = false
-    
-    // 이용약관 레이블
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = Constant.termOfServiceText
-        label.numberOfLines = 0
-        label.font = UIFont.appRegularFontWith(size: 12.5)
-        label.textAlignment = .left
-        label.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-        return label
-    }()
-    
-    // 개인정보 레이블
-    let bottomtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = Constant.termOfServiceText
-        label.numberOfLines = 0
-        label.font = UIFont.appRegularFontWith(size: 12.5)
-        label.textAlignment = .left
-        label.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-        return label
-    }()
-    
+        
     // MARK: - IBOutlet
     // 오토레이아웃 - CODE
     @IBOutlet weak var currentProgressView: UIView!
@@ -45,20 +24,17 @@ class RegistrationVC: UIViewController {
     @IBOutlet weak var pageID: UILabel!
     @IBOutlet weak var pageNumber: UILabel!
     
-    // scrollView
-    // top
-    @IBOutlet weak var topScrollView: UIScrollView!
+    //top
     @IBOutlet weak var topContentView: UIView!
-    @IBOutlet weak var scrollViewContainerView: UIView!
     @IBOutlet weak var termsOfServiceLabel: UILabel!
     @IBOutlet weak var termsOfServiceButton: UIButton!
+    @IBOutlet weak var webView1: WKWebView!
     
     // bottom
-    @IBOutlet weak var bottomScrollView: UIScrollView!
     @IBOutlet weak var bottomContentView: UIView!
-    @IBOutlet weak var bottomScrollViewContainerView: UIView!
     @IBOutlet weak var termsOfInfoLabel: UILabel!
     @IBOutlet weak var termsOfInfoButton: UIButton!
+    @IBOutlet weak var webView2: WKWebView!
     
     // all Agree
     @IBOutlet weak var allAgreeLabel: UILabel!
@@ -166,13 +142,13 @@ class RegistrationVC: UIViewController {
                                  height: 4)
         totalProgressView.backgroundColor = UIColor(white: 200.0 / 255.0, alpha: 1.0)
         
-        currentProgressView.setDimensions(height: 4, width: view.frame.width * 0.25)
+        currentProgressView.setDimensions(height: 4, width: Constant.width * 0.25)
         currentProgressView.anchor(top:totalProgressView.topAnchor,
                                    left: totalProgressView.leftAnchor)
         currentProgressView.backgroundColor = .mainOrange
         
         pageID.setDimensions(height: view.frame.height * 0.02,
-                             width: view.frame.width * 0.15)
+                             width: Constant.width * 0.15)
         pageID.anchor(top: totalProgressView.bottomAnchor,
                       left: totalProgressView.leftAnchor,
                       paddingTop: 11,
@@ -181,7 +157,7 @@ class RegistrationVC: UIViewController {
         pageID.textAlignment = .left
         
         pageNumber.setDimensions(height: view.frame.height * 0.02,
-                                 width: view.frame.width * 0.15)
+                                 width: Constant.width * 0.15)
         pageNumber.anchor(top: totalProgressView.bottomAnchor,
                           right: view.rightAnchor,
                           paddingTop: 11,
@@ -192,8 +168,8 @@ class RegistrationVC: UIViewController {
         // termsOfServiceButton
         termsOfServiceButton.setDimensions(height: termsOfServiceLabel.frame.height,
                                            width: termsOfServiceLabel.frame.height)
-        termsOfServiceButton.anchor(top: scrollViewContainerView.bottomAnchor,
-                                   left: scrollViewContainerView.leftAnchor,
+        termsOfServiceButton.anchor(top: topContentView.bottomAnchor,
+                                   left: topContentView.leftAnchor,
                                    paddingTop: 5,
                                    paddingLeft: 0)
         termsOfServiceButton.setImage(UIImage(named: "checkFalse"), for: .normal)
@@ -208,7 +184,7 @@ class RegistrationVC: UIViewController {
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange]))
         termsOfServiceLabel.attributedText = attributedString
         termsOfServiceLabel.font = UIFont.appBoldFontWith(size: 13)
-        termsOfServiceLabel.setDimensions(height: view.frame.height * 0.0175, width: view.frame.width * 0.33)
+//        termsOfServiceLabel.setDimensions(height: view.frame.height * 0.0175, width: Constant.width * 0.33)
         termsOfServiceLabel.centerY(inView: termsOfServiceButton)
         termsOfServiceLabel.anchor(left: termsOfServiceButton.leftAnchor,
                                    paddingLeft: termsOfServiceButton.frame.width - 5)
@@ -216,8 +192,8 @@ class RegistrationVC: UIViewController {
         // termsOfInfoButton
         termsOfInfoButton.setDimensions(height: termsOfServiceLabel.frame.height,
                                            width: termsOfServiceLabel.frame.height)
-        termsOfInfoButton.anchor(top: bottomScrollViewContainerView.bottomAnchor,
-                                   left: scrollViewContainerView.leftAnchor,
+        termsOfInfoButton.anchor(top: bottomContentView.bottomAnchor,
+                                   left: topContentView.leftAnchor,
                                    paddingTop: 5,
                                    paddingLeft: 0)
         termsOfInfoButton.setImage(UIImage(named: "checkFalse"), for: .normal)
@@ -231,9 +207,9 @@ class RegistrationVC: UIViewController {
         
         attributedString2.append(NSAttributedString(string: "(필수)",
                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.mainOrange]))
-        termsOfInfoLabel.attributedText = attributedString
+        termsOfInfoLabel.attributedText = attributedString2
         termsOfInfoLabel.font = UIFont.appBoldFontWith(size: 13)
-        termsOfInfoLabel.setDimensions(height: view.frame.height * 0.0175, width: view.frame.width * 0.33)
+//        termsOfInfoLabel.setDimensions(height: view.frame.height * 0.0175, width: Constant.width * 0.33)
         termsOfInfoLabel.centerY(inView: termsOfInfoButton)
         termsOfInfoLabel.anchor(left: termsOfInfoButton.leftAnchor,
                                    paddingLeft: termsOfInfoButton.frame.width - 5)
@@ -250,7 +226,7 @@ class RegistrationVC: UIViewController {
         // allAgreeLabel
         allAgreeLabel.textColor = UIColor.black
         allAgreeLabel.font = UIFont.appBoldFontWith(size: 13)
-        allAgreeLabel.setDimensions(height: view.frame.height * 0.0175, width: view.frame.width * 0.8)
+        allAgreeLabel.setDimensions(height: view.frame.height * 0.0175, width: Constant.width * 0.8)
         allAgreeLabel.centerY(inView: allAgreeButton)
         allAgreeLabel.anchor(left: allAgreeButton.leftAnchor,
                                    paddingLeft: allAgreeButton.frame.width - 5)
@@ -266,6 +242,17 @@ class RegistrationVC: UIViewController {
         navigationItem.titleView = title
     }
     
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let urlString = navigationAction.request.url?.absoluteString {
+            if urlString.contains("webview.gongmanse.com") {
+                decisionHandler(.allow)
+            } else {
+                decisionHandler(.cancel)
+            }
+        } else {
+            decisionHandler(.cancel)
+        }
+    }
 }
 
 
@@ -277,73 +264,55 @@ class RegistrationVC: UIViewController {
 private extension RegistrationVC {
     func setupScrollView() {
         // top
-        //  ScrollView container (그림자 효과를 주기 위해서)
-        scrollViewContainerView.setDimensions(height: view.frame.height * 0.23,
-                                    width: view.frame.width * 0.74)
-        scrollViewContainerView.centerX(inView: view)
-        scrollViewContainerView.anchor(top: totalProgressView.bottomAnchor,
+        topContentView.setDimensions(height: view.frame.height * 0.23,
+                                              width: Constant.width * 0.74)
+        topContentView.centerX(inView: view)
+        topContentView.anchor(top: totalProgressView.bottomAnchor,
                              paddingTop: 45)
-        scrollViewContainerView.layer.cornerRadius = 10
-        scrollViewContainerView.layer.masksToBounds = true
-        scrollViewContainerView.clipsToBounds = true
-        scrollViewContainerView.addShadow()
-        
-        // topScrollView
-        topScrollView.layer.cornerRadius = 10
-        topScrollView.backgroundColor = .white
-        topScrollView.anchor(top: scrollViewContainerView.topAnchor,
-                             left: scrollViewContainerView.leftAnchor,
-                             bottom: scrollViewContainerView.bottomAnchor,
-                             right: scrollViewContainerView.rightAnchor)
+        topContentView.layer.cornerRadius = 0
+        topContentView.layer.masksToBounds = true
+        topContentView.clipsToBounds = true
+        topContentView.addShadow()
     
-        // topContentView
-        topContentView.centerX(inView: topScrollView)
-        topContentView.backgroundColor = .white
-        topContentView.anchor(top: topScrollView.topAnchor,
-                              bottom: topScrollView.bottomAnchor,
-                              width: topScrollView.frame.width)
+        // wkwebview
+        webView1.anchor(top: topContentView.topAnchor,
+                              bottom: topContentView.bottomAnchor,
+                              width: Constant.width * 0.74,
+                              height: view.frame.height * 0.23)
         
         // bottom
-        // ScrollView container (그림자 효과를 주기 위해서)
-        bottomScrollViewContainerView.setDimensions(height: view.frame.height * 0.23,
-                                    width: view.frame.width * 0.74)
-        bottomScrollViewContainerView.centerX(inView: view)
-        bottomScrollViewContainerView.anchor(top: termsOfServiceLabel.bottomAnchor,
+        bottomContentView.setDimensions(height: view.frame.height * 0.23,
+                                    width: Constant.width * 0.74)
+        bottomContentView.centerX(inView: view)
+        bottomContentView.anchor(top: termsOfServiceLabel.bottomAnchor,
                              paddingTop: 20)
-        bottomScrollViewContainerView.layer.cornerRadius = 10
-        bottomScrollViewContainerView.layer.masksToBounds = true
-        bottomScrollViewContainerView.clipsToBounds = true
-        bottomScrollViewContainerView.addShadow()
-        
-        // topScrollView
-        bottomScrollView.layer.cornerRadius = 10
-        bottomScrollView.backgroundColor = .white
-        bottomScrollView.anchor(top: bottomScrollViewContainerView.topAnchor,
-                             left: bottomScrollViewContainerView.leftAnchor,
-                             bottom: bottomScrollViewContainerView.bottomAnchor,
-                             right: bottomScrollViewContainerView.rightAnchor)
+        bottomContentView.layer.cornerRadius = 0
+        bottomContentView.layer.masksToBounds = true
+        bottomContentView.clipsToBounds = true
+        bottomContentView.addShadow()
     
-        // topContentView
-        bottomContentView.centerX(inView: topScrollView)
-        bottomContentView.backgroundColor = .white
-        bottomContentView.anchor(top: bottomScrollView.topAnchor,
-                              bottom: bottomScrollView.bottomAnchor,
-                              width: bottomScrollView.frame.width)
+        // wkwebview
+        webView2.anchor(top: bottomContentView.topAnchor,
+                              bottom: bottomContentView.bottomAnchor,
+                              width: Constant.width * 0.74,
+                              height: view.frame.height * 0.23)
     }
     
     func setupViews() {
-        // top: label in ScrollView - contentView
-        topContentView.addSubview(titleLabel)
-        titleLabel.centerX(inView: topContentView)
-        titleLabel.anchor(top: topContentView.topAnchor,
-                          bottom: topContentView.bottomAnchor,
-                          width: topContentView.frame.width * 0.9)
+        webView1.backgroundColor = .clear
+        webView1.uiDelegate = self
+        webView1.navigationDelegate = self
+        let url1 = URL(string: "https://webview.gongmanse.com/users/toa_read")
+        let request1 = URLRequest(url: url1!)
+        self.webView1.allowsBackForwardNavigationGestures = true
+        webView1.load(request1)
         
-        // bottom: label in ScrollView - contentView
-        bottomContentView.addSubview(bottomtitleLabel)
-        bottomtitleLabel.centerX(inView: bottomContentView)
-        bottomtitleLabel.anchor(top: bottomContentView.topAnchor,
-                          bottom: bottomContentView.bottomAnchor,
-                          width: bottomContentView.frame.width * 0.9)
+        webView2.backgroundColor = .clear
+        webView2.uiDelegate = self
+        webView2.navigationDelegate = self
+        let url2 = URL(string: "https://webview.gongmanse.com/users/privacy_policy")
+        let request2 = URLRequest(url: url2!)
+        self.webView2.allowsBackForwardNavigationGestures = true
+        webView2.load(request2)
     }
 }

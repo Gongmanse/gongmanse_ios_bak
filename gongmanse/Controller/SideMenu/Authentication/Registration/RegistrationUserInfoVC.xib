@@ -36,11 +36,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="acO-bh-jpX">
-                    <rect key="frame" x="57.666666666666657" y="708" width="260" height="40"/>
+                    <rect key="frame" x="48.666666666666657" y="708" width="277.66666666666674" height="40"/>
                     <color key="backgroundColor" systemColor="systemOrangeColor"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="acO-bh-jpX" secondAttribute="height" multiplier="13:2" id="QhN-oR-wSt"/>
-                        <constraint firstAttribute="width" constant="260" id="p0c-m2-WqU"/>
+                        <constraint firstAttribute="height" constant="40" id="2J2-z0-FWv"/>
                     </constraints>
                     <state key="normal" title="다음">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -117,6 +116,7 @@
             <constraints>
                 <constraint firstItem="d2Z-h4-3tz" firstAttribute="bottom" secondItem="acO-bh-jpX" secondAttribute="bottom" constant="30" id="HOE-uC-DOd"/>
                 <constraint firstItem="acO-bh-jpX" firstAttribute="centerX" secondItem="C9N-MY-bAY" secondAttribute="centerX" id="iZ8-Dy-2W2"/>
+                <constraint firstItem="acO-bh-jpX" firstAttribute="width" secondItem="C9N-MY-bAY" secondAttribute="width" multiplier="0.74" id="qHZ-Sn-sv5"/>
             </constraints>
             <point key="canvasLocation" x="-149.59999999999999" y="105.66502463054188"/>
         </view>

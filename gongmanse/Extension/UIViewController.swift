@@ -200,7 +200,7 @@ extension UIViewController {
         superView.addSubview(line)
         line.backgroundColor = .progressBackgroundColor
         line.setDimensions(height: height,
-                           width: superView.frame.width)
+                           width: UIScreen.main.bounds.width)
         line.anchor(bottom: superView.bottomAnchor)
     }
 }

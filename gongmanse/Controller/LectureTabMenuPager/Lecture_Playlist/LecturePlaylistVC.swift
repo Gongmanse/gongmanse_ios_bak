@@ -322,7 +322,7 @@ class LecturePlaylistVC: UIViewController {
     func configureNavi() {
         let title = UILabel()
         title.text = videoNumber != "" ? "관련 시리즈" : "강사별 강의"
-        ct_margin_bottom.constant = videoNumber != "" ? 35 : 7
+        ct_margin_bottom.constant = videoNumber != "" ? 45 : 7
         
         autoPlaySwitch.isHidden = videoNumber.isEmpty
         lbAutoPlay.isHidden = videoNumber.isEmpty
@@ -363,7 +363,7 @@ class LecturePlaylistVC: UIViewController {
 //                                   videoTitle: pipDataManager.currentVideoTitle ?? "",
 //                                   teacherName: videoDataManager.previousVideoTeachername ?? "")
         
-        let pipHeight = view.frame.height * 0.085
+        let pipHeight = Constant.height * 0.085
         self.pipVC = PIPController(isPlayPIP: true)
         guard let pipVC = self.pipVC else { return }
         pipVC.pipVideoData = pipData
@@ -409,21 +409,19 @@ class LecturePlaylistVC: UIViewController {
         
         /* lessonTitleLabel - Constraint */
         pipContainerView.addSubview(lessonTitleLabel)
-        lessonTitleLabel.anchor(top: pipContainerView.topAnchor,
-                                left: pipContainerView.leftAnchor,
+        lessonTitleLabel.anchor(left: pipContainerView.leftAnchor,
                                 right: pipContainerView.rightAnchor,
-                                paddingTop: 13,
                                 paddingLeft: pipHeight * 1.77 + 5,
                                 paddingRight: 70,
                                 height: 17)
+        lessonTitleLabel.center(inView: pipContainerView, yConstant: -10)
         lessonTitleLabel.text = pipData?.videoTitle
         
         /* teachernameLabel - Constraint */
         pipContainerView.addSubview(teachernameLabel)
-        teachernameLabel.anchor(top: lessonTitleLabel.bottomAnchor,
-                                left: lessonTitleLabel.leftAnchor,
-                                paddingTop: 5,
+        teachernameLabel.anchor(left: lessonTitleLabel.leftAnchor,
                                 height: 15)
+        teachernameLabel.center(inView: pipContainerView, yConstant: 10)
         teachernameLabel.text = pipData?.teacherName ?? "" + " 선생님"
         
         ct_bottom_margin.constant = view.frame.height * 0.085

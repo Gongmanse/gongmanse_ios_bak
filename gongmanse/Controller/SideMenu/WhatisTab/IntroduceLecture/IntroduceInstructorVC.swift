@@ -54,7 +54,8 @@ class IntroduceInstructorVC: UIViewController {
 extension IntroduceInstructorVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        let width = view.frame.width - 20
+        return (width - 20) / 16 * 9
     }
 }
 
@@ -69,7 +70,10 @@ extension IntroduceInstructorVC: UITableViewDataSource {
         
         
         let thumbnailList = allLectureThumbnail?[indexPath.row].fullthumbnail ?? ""
-        cell.thumbnail.setImageUrl(thumbnailList)
+//        cell.thumbnail.setImageUrl(thumbnailList)
+        cell.thumbnail.kf.setImage(with: URL(string: thumbnailList))
+        cell.thumbnail.layer.cornerRadius = 13
+        
         cell.selectionStyle = .none
         
         let totalRows = tableView.numberOfRows(inSection: indexPath.section)

@@ -524,13 +524,13 @@ extension SearchVC {
                            left: view.leftAnchor,
                            bottom:buttonContainerView.bottomAnchor,
                            paddingLeft: 25)
-        gradeButton.setDimensions(height: 30, width: view.frame.width * 0.38)
+        gradeButton.setDimensions(height: 30, width: 140)
         
         // 과목 버튼
         subjectButton.anchor(top: buttonContainerView.topAnchor,
                              bottom: buttonContainerView.bottomAnchor, right: view.rightAnchor,
                              paddingRight: 25)
-        subjectButton.setDimensions(height: 30, width: view.frame.width * 0.38)
+        subjectButton.setDimensions(height: 30, width: 140)
         
         // tabsView Contraint
         tabsView.anchor(top: buttonContainerView.bottomAnchor,
@@ -550,7 +550,7 @@ extension SearchVC {
         bottomBorder.frame = CGRect(
             x:0,
             y: self.tabsView.frame.size.height - thickness,
-            width: self.tabsView.frame.size.width,
+            width: UIScreen.main.bounds.width,
             height:thickness
             )
         bottomBorder.backgroundColor = UIColor.systemGray4.cgColor

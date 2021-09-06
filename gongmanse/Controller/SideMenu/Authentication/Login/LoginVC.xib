@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,9 +27,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_logo" translatesAutoresizingMaskIntoConstraints="NO" id="V0s-mv-udY">
-                    <rect key="frame" x="113" y="154" width="164" height="60.666666666666657"/>
+                    <rect key="frame" x="120" y="144" width="150" height="56.333333333333343"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="V0s-mv-udY" secondAttribute="height" multiplier="154:57" id="I7m-LI-ezb"/>
+                        <constraint firstAttribute="width" constant="150" id="hJw-d3-4zC"/>
+                        <constraint firstAttribute="width" secondItem="V0s-mv-udY" secondAttribute="height" multiplier="101:38" id="z3N-9X-Tg1"/>
                     </constraints>
                 </imageView>
                 <textField opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kte-JM-11E" customClass="SloyTextField" customModule="gongmanse" customModuleProvider="target">
@@ -101,10 +102,9 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="V0s-mv-udY" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="RoX-TP-e4C"/>
-                <constraint firstItem="V0s-mv-udY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" multiplier="3.5" id="XgG-h5-KQ6"/>
+                <constraint firstItem="V0s-mv-udY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="XgG-h5-KQ6"/>
                 <constraint firstItem="KVO-ll-IWL" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="jhb-ER-zvQ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KVO-ll-IWL" secondAttribute="trailing" constant="20" id="nJR-5n-aCe"/>
-                <constraint firstItem="V0s-mv-udY" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.42" id="vwl-6Q-iGy"/>
             </constraints>
             <point key="canvasLocation" x="-163.07692307692307" y="105.92417061611374"/>
         </view>

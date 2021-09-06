@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GongManseStoryVC" customModule="gongmanse" customModuleProvider="target">
             <connections>
-                <outlet property="manseImage" destination="TkK-JK-tdl" id="lXU-XY-T3v"/>
+                <outlet property="manseImage" destination="T2b-Gs-DNq" id="Bgt-Mc-bNS"/>
                 <outlet property="scrollView" destination="tLn-4x-rZ8" id="wj5-wx-tBN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -24,20 +24,20 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tLn-4x-rZ8">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="about" translatesAutoresizingMaskIntoConstraints="NO" id="TkK-JK-tdl">
-                            <rect key="frame" x="0.0" y="0.0" width="1080" height="6500"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about" translatesAutoresizingMaskIntoConstraints="NO" id="T2b-Gs-DNq">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="2491.5"/>
                             <constraints>
-                                <constraint firstAttribute="height" priority="250" constant="128" id="BVz-aP-2SJ"/>
+                                <constraint firstAttribute="width" secondItem="T2b-Gs-DNq" secondAttribute="height" multiplier="1080:6500" id="Nz0-SR-R0B"/>
                             </constraints>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="TkK-JK-tdl" secondAttribute="trailing" id="7QX-lD-fu7"/>
-                        <constraint firstItem="TkK-JK-tdl" firstAttribute="width" secondItem="tLn-4x-rZ8" secondAttribute="width" id="Dc8-Sa-zf7"/>
-                        <constraint firstItem="TkK-JK-tdl" firstAttribute="leading" secondItem="tLn-4x-rZ8" secondAttribute="leading" id="RDl-GW-hEM"/>
-                        <constraint firstAttribute="bottom" secondItem="TkK-JK-tdl" secondAttribute="bottom" id="RdW-tS-2J3"/>
-                        <constraint firstItem="TkK-JK-tdl" firstAttribute="top" secondItem="tLn-4x-rZ8" secondAttribute="top" id="qDI-Bq-pS4"/>
+                        <constraint firstAttribute="trailing" secondItem="T2b-Gs-DNq" secondAttribute="trailing" id="0Qg-ke-kYh"/>
+                        <constraint firstItem="T2b-Gs-DNq" firstAttribute="width" secondItem="tLn-4x-rZ8" secondAttribute="width" id="FZi-xl-yM5"/>
+                        <constraint firstItem="T2b-Gs-DNq" firstAttribute="top" secondItem="tLn-4x-rZ8" secondAttribute="top" id="PZa-Yf-8L7"/>
+                        <constraint firstAttribute="bottom" secondItem="T2b-Gs-DNq" secondAttribute="bottom" id="nnu-7p-ZPr"/>
+                        <constraint firstItem="T2b-Gs-DNq" firstAttribute="leading" secondItem="tLn-4x-rZ8" secondAttribute="leading" id="z6p-zJ-Az7"/>
                     </constraints>
                 </scrollView>
             </subviews>

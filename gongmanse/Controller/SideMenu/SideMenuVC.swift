@@ -28,7 +28,7 @@ class SideMenuVC: UITableViewController {
     ]
     
     /// HeaderView 높이
-    lazy var headerViewHeight = view.frame.height * 0.31 {
+    lazy var headerViewHeight = CGFloat(277) {
         didSet {
             tableView.reloadData()
         }
@@ -50,7 +50,7 @@ class SideMenuVC: UITableViewController {
         super.viewWillAppear(true)
         // viewWillAppear에 로그인 여부 로직을 작성한 이유)
         // 혹시 추후에 sideMenu를 종료한 이후에 sideMenu가 들어가지 않도록 해달라는 요구까지 대응하기 위함이다.
-        viewModel.headerViewHeight = view.frame.height
+        viewModel.headerViewHeight = CGFloat(277) //view.frame.height
         headerViewHeight = viewModel.isHeaderHeight
         tableView.reloadData()
     }
@@ -66,6 +66,9 @@ class SideMenuVC: UITableViewController {
         // tableView 설정
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        
+        tableView.separatorInset = .zero
+        tableView.layoutMargins = .zero
     }
     
     // 사이드메뉴 Header에서 프로필 정보를 보여줘야하기 때문에, 이곳에서 API 호출을 한다.
@@ -281,7 +284,7 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
     func clickedRegistrationButton(isLogin: Bool) {
         
         if isLogin {
-            let vc = EditingProfileController()
+            let vc = EditingProfileController(nibName: "EditingProfileController", bundle: nil)
             vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
             

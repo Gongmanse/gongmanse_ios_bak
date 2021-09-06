@@ -36,11 +36,17 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        borderStyles()
+        tableView.tableFooterView = UIView()
         
         getDataFromJson()
         lectureTitle.text = video_title
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        borderStyles()
     }
     
     func borderStyles() {
@@ -196,6 +202,7 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         })
         
         cell.deleteContext.text = indexData.sQuestion
+        cell.timeBefore.text = indexData.simpleDt
         deleteButton.tag = indexPath.row
         
         if indexData.sAnswer != nil {

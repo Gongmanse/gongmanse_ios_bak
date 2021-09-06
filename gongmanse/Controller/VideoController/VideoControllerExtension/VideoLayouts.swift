@@ -6,6 +6,7 @@ extension VideoController {
     
     /// 세로모드 제약조건 정의
     func setConstraintInPortrait() {
+        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(0.7) : CGFloat(1.0)
         
         /* VideoContainerView */
         view.addSubview(videoContainerView)
@@ -21,9 +22,9 @@ extension VideoController {
             = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
         // Landscape 제약조건 정의
         videoContainerViewLandscapeWidthConstraint
-            = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width)
+            = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width * ratio)
         videoContainerViewLandscapeHeightConstraint
-            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.57)
+            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width * ratio * 0.57)
         videoContainerViewLandscapeTopConstraint
             = videoContainerView.topAnchor.constraint(equalTo: view.topAnchor)
         videoContainerViewLandscapeLeftConstraint
@@ -108,8 +109,13 @@ extension VideoController {
         teacherInfoUnfoldConstraint?.priority = UILayoutPriority(rawValue: 999)
         teacherInfoFoldConstraint
             = lessonInfoView.heightAnchor.constraint(equalToConstant: 0)
-        teacherInfoUnfoldConstraint
-            = lessonInfoView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.43)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            teacherInfoUnfoldConstraint
+                = lessonInfoView.heightAnchor.constraint(equalToConstant: 190)
+        } else {
+            teacherInfoUnfoldConstraint
+                = lessonInfoView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.43)
+        }
         
         // Portrait 제약조건 정의
         lessonInfoViewPorTraitTopConstraint
@@ -175,7 +181,7 @@ extension VideoController {
         
         // Landscape 제약조건 정의
         pageCollectionViewLandscapeLeftConstraint
-            = pageController.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width - 5)
+            = pageController.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width * ratio - 5)
         pageCollectionViewLandscapeRightConstraint
             = pageController.rightAnchor.constraint(equalTo: view.rightAnchor)
         pageCollectionViewLandscapeBottomConstraint
@@ -208,6 +214,10 @@ extension VideoController {
             topBorderLine.alpha = 1
             bottomBorderLine.alpha = 1
             toggleButton.alpha = 1
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                teacherInfoUnfoldConstraint?.constant = 190
+            }
         } else {            // 가로모드인 경우
             print("DEBUG: 가로모드")
             portraitConstraint(false)
@@ -215,6 +225,10 @@ extension VideoController {
             topBorderLine.alpha = 0
             bottomBorderLine.alpha = 0
             toggleButton.alpha = 0
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                teacherInfoUnfoldConstraint?.constant = view.frame.width * 0.601
+            }
         }
     }
     

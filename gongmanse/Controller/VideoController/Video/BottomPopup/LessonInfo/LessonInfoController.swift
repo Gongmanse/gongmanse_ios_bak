@@ -18,6 +18,7 @@ protocol LessonInfoControllerDelegate: AnyObject {
 class LessonInfoController: UIViewController {
     // MARK: - Properties
     
+    var _parent: VideoController?
     var pipVideoData: PIPVideoData? // PIP 재생을 위해 필요한 구조체
     var seriesID: String?
     var thumbnail: String?
@@ -366,7 +367,9 @@ class LessonInfoController: UIViewController {
         layout.itemSize.height = 20
         sTagsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(sTagsCollectionView ?? UICollectionView())
-        sTagsCollectionView?.setDimensions(height: 20, width: view.frame.width - 60)
+//        sTagsCollectionView?.setDimensions(height: 20, width: view.frame.width - 60)
+        sTagsCollectionView?.setHeight(20)
+        sTagsCollectionView?.centerX(inView: view)
         sTagsCollectionView?.anchor(top: lessonnameLabel.bottomAnchor,
                                     left: lessonnameLabel.leftAnchor,
                                     paddingTop: 10, paddingLeft: 0)
@@ -415,8 +418,9 @@ class LessonInfoController: UIViewController {
         stack.spacing = 0
         stack.alignment = .leading
         stack.centerX(inView: view)
-        stack.setDimensions(height: buttonHeight, width: view.frame.width - 60)
-        stack.anchor(top: sTagsCollectionView?.bottomAnchor, paddingTop: 10)
+//        stack.setDimensions(height: buttonHeight, width: view.frame.width - 60)
+        stack.setHeight(buttonHeight)
+        stack.anchor(top: sTagsCollectionView?.bottomAnchor, left: sTagsCollectionView?.leftAnchor, paddingTop: 10)
     }
     
     func getShareURL(_type: Int) {
@@ -594,5 +598,7 @@ extension LessonInfoController: RatingControllerDelegate {
         //내 점수가 아닌 유저들의 평균점수 userRating을 보여줘야 한다
         //userRating을 다시 가져오자
         delegate?.needUpdateRating()
+        
+        self._parent?.presentAlert(message: "평점이 적용되었습니다.")
     }
 }

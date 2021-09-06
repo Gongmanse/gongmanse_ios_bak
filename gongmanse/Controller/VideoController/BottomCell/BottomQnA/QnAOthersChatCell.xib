@@ -18,52 +18,55 @@
                 <rect key="frame" x="0.0" y="0.0" width="285" height="89"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3kZ-fJ-0uu">
-                        <rect key="frame" x="10" y="10" width="125" height="69"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="idOff" translatesAutoresizingMaskIntoConstraints="NO" id="h2o-jL-Wag">
-                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="W2Q-Nx-wnE"/>
-                                    <constraint firstAttribute="width" constant="30" id="ols-pn-MOV"/>
-                                </constraints>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="glh-Ub-mkP">
-                                <rect key="frame" x="40" y="0.0" width="85" height="69"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
-                                <string key="text">00 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 0000 00 00 00 00 00 00 00 00 00 00 00 00 00</string>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" image="idOff" translatesAutoresizingMaskIntoConstraints="NO" id="h2o-jL-Wag">
+                        <rect key="frame" x="10" y="10" width="30" height="30"/>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ioE-fc-W4r"/>
+                            <constraint firstAttribute="height" constant="30" id="W2Q-Nx-wnE"/>
+                            <constraint firstAttribute="width" constant="30" id="ols-pn-MOV"/>
                         </constraints>
-                    </stackView>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23x-fb-bP4" customClass="PaddingLabel" customModule="gongmanse" customModuleProvider="target">
+                        <rect key="frame" x="50" y="10" width="35.5" height="17"/>
+                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="3kZ-fJ-0uu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="BMS-bj-LxD"/>
-                    <constraint firstAttribute="trailing" secondItem="3kZ-fJ-0uu" secondAttribute="trailing" constant="150" id="F4F-FZ-CBT"/>
-                    <constraint firstItem="3kZ-fJ-0uu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="flw-HI-zM0"/>
-                    <constraint firstAttribute="bottom" secondItem="3kZ-fJ-0uu" secondAttribute="bottom" constant="10" id="yXz-tk-Ba5"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="23x-fb-bP4" secondAttribute="bottom" constant="10" id="BbY-iZ-aEO"/>
+                    <constraint firstItem="23x-fb-bP4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="ESD-JO-PH4"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="23x-fb-bP4" secondAttribute="trailing" constant="150" id="JQG-yf-qKU"/>
+                    <constraint firstItem="23x-fb-bP4" firstAttribute="leading" secondItem="h2o-jL-Wag" secondAttribute="trailing" constant="10" id="PyN-Xv-uzC"/>
+                    <constraint firstItem="h2o-jL-Wag" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="UXg-QA-c5X"/>
+                    <constraint firstItem="h2o-jL-Wag" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="gsO-yc-23w"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="otherContent" destination="glh-Ub-mkP" id="Xvq-eT-qrp"/>
+                <outlet property="otherContent" destination="23x-fb-bP4" id="Sf4-n9-uUe"/>
                 <outlet property="otherProfile" destination="h2o-jL-Wag" id="JMf-Pw-ypg"/>
-                <outlet property="otherStackView" destination="3kZ-fJ-0uu" id="rCv-yR-Mr4"/>
             </connections>
             <point key="canvasLocation" x="226.81159420289856" y="118.86160714285714"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="idOff" width="24" height="24"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

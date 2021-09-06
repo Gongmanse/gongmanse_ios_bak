@@ -207,7 +207,7 @@ class LectureNoteController: UIViewController {
         scrollView.isScrollEnabled.toggle()
         
         let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
-        let width = isPortrait ? UIScreen.main.bounds.size.width * 0.5 : UIScreen.main.bounds.size.height * 0.5
+        let width = CGFloat(207)
         
         isNoteTaking = !isNoteTaking
         
@@ -408,9 +408,9 @@ class LectureNoteController: UIViewController {
     private func setupWritingImplement() {
         // viewdidload에서 orientation구하기 위함
         let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
-        let width = isPortrait ? UIScreen.main.bounds.size.width * 0.5 : UIScreen.main.bounds.size.height * 0.5
+        let width = CGFloat(207)
         let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.height * 0.07
-        let height = isPortrait ? UIScreen.main.bounds.size.height * 0.09 : UIScreen.main.bounds.size.width * 0.09
+        let height = CGFloat(81)
         
         writingImplementToggleButton.setDimensions(height: height, width: width * 0.25)
         

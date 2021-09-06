@@ -150,12 +150,39 @@ class MyCalendarVC: UIViewController {
         let currentDate = formatter.string(from: Date())
         myCalendarVM?.requestMyCalendarApi(currentDate)
         
+        navigationConfigure()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        calendarView.calendarWeekdayView.layer.addBorder([.top, .bottom], color: .systemGray4, width: 1)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationConfigure()
+        calendarView.calendarWeekdayView.weekdayLabels[0].textColor = .rgb(red: 255, green: 0, blue: 35)    // 일 색 변경
+        calendarView.calendarWeekdayView.weekdayLabels[1].textColor = .black
+        calendarView.calendarWeekdayView.weekdayLabels[2].textColor = .black
+        calendarView.calendarWeekdayView.weekdayLabels[3].textColor = .black
+        calendarView.calendarWeekdayView.weekdayLabels[4].textColor = .black
+        calendarView.calendarWeekdayView.weekdayLabels[5].textColor = .black
+        calendarView.calendarWeekdayView.weekdayLabels[6].textColor = .rgb(red: 21, green: 176, blue: 172)  // 토 색 변경
+        
+        // 주간 라벨들 폰트 변경
+        calendarView.calendarWeekdayView.weekdayLabels[0].font = .appBoldFontWith(size: 18)
+        calendarView.calendarWeekdayView.weekdayLabels[1].font = .appBoldFontWith(size: 18)
+        calendarView.calendarWeekdayView.weekdayLabels[2].font = .appBoldFontWith(size: 18)
+        calendarView.calendarWeekdayView.weekdayLabels[3].font = .appBoldFontWith(size: 18)
+        calendarView.calendarWeekdayView.weekdayLabels[4].font = .appBoldFontWith(size: 18)
+        calendarView.calendarWeekdayView.weekdayLabels[5].font = .appBoldFontWith(size: 18)
+        calendarView.calendarWeekdayView.weekdayLabels[6].font = .appBoldFontWith(size: 18)
+        
+        calendarView.headerHeight = 60
+        calendarView.weekdayHeight = 50
+        
+//        navigationConfigure()
         configuration()
         constraints()
         
@@ -338,7 +365,8 @@ extension MyCalendarVC {
         calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        calendarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(height / 3)).isActive = true
+//        calendarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(height / 3)).isActive = true
+        calendarView.setHeight(350)
         
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
         floatingButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -30).isActive = true

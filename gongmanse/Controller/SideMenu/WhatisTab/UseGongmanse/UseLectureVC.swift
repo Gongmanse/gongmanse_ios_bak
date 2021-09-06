@@ -54,14 +54,15 @@ extension UseLectureVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: UseLectureCellIdentifier, for: indexPath) as? UseLectureCell else { return UITableViewCell() }
         
-        switch UIScreen.main.scale {
+        /*switch UIScreen.main.scale {
         case 2.0:
             cell.lectureImage.image = UIImage(named: "\(lectureImageList[indexPath.row])")?.resize(1000)
         case 3.0:
             cell.lectureImage.image = UIImage(named: "\(lectureImageList[indexPath.row])")?.resize(2000)
         default:
             return UITableViewCell()
-        }
+        }*/
+        cell.lectureImage.image = UIImage(named: "\(lectureImageList[indexPath.row])")
         
         cell.selectionStyle = .none
         return cell

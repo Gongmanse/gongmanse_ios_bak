@@ -24,7 +24,7 @@ class SideMenuHeaderView: UIView {
     var viewModel: SideMenuHeaderViewModel? {
         didSet {
             commonInit()
-            updateUI()
+//            updateUI()
         }
     }
     
@@ -43,7 +43,14 @@ class SideMenuHeaderView: UIView {
     public var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.image = #imageLiteral(resourceName: "idOff")
+//        imageView.image = #imageLiteral(resourceName: "logoIconGray")
+        return imageView
+    }()
+    
+    public var defaultImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = #imageLiteral(resourceName: "logoIconGray")
         return imageView
     }()
     
@@ -62,6 +69,13 @@ class SideMenuHeaderView: UIView {
         label.font = UIFont.appBoldFontWith(size: 12)
         label.text = "공만세 님은 일반 회원입니다."
         return label
+    }()
+    
+    private let stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 20
+        return stack
     }()
     
     /// 로그인 버튼
@@ -187,10 +201,12 @@ class SideMenuHeaderView: UIView {
     func configureUI() {
         self.addSubview(closeButton)
         self.addSubview(profileImageView)
+        self.addSubview(defaultImageView)
         self.addSubview(nickName)
         self.addSubview(membershipLevel)
-        self.addSubview(loginBtn)
-        self.addSubview(signUpBtn)
+//        self.addSubview(loginBtn)
+//        self.addSubview(signUpBtn)
+        self.addSubview(stackView)
         self.addSubview(passTicketContainerView)
         passTicketContainerView.addSubview(buyingPassTicketLabel)
         passTicketContainerView.addSubview(buyingPassTicketButton)
@@ -203,19 +219,24 @@ class SideMenuHeaderView: UIView {
                            paddingRight: 10)
         
         
-        let profileImageConstant = self.frame.height * 0.32
-        let viewWidth = self.frame.width
+        let profileImageConstant = CGFloat(88)
+        let viewWidth = CGFloat(331)
         
         profileImageView.addShadow()
         profileImageView.clipsToBounds = true
-        profileImageView.setDimensions(height: profileImageConstant,
-                                   width: profileImageConstant)
+        profileImageView.setDimensions(height: 88,
+                                   width: 88)
         profileImageView.layer.cornerRadius = profileImageConstant * 0.5
         profileImageView.layer.masksToBounds = true
         profileImageView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
         profileImageView.centerX(inView: self)
         profileImageView.anchor(top: self.safeAreaLayoutGuide.topAnchor,
                             paddingTop: viewWidth * 0.11)
+        
+        defaultImageView.setDimensions(height: 60,
+                                   width: 60)
+        defaultImageView.centerX(inView: profileImageView)
+        defaultImageView.centerY(inView: profileImageView)
         
         nickName.centerX(inView: self)
         nickName.anchor(top: profileImageView.bottomAnchor,
@@ -230,22 +251,28 @@ class SideMenuHeaderView: UIView {
         loginBtn.layer.cornerRadius = 10
         loginBtn.setDimensions(height: viewWidth * 0.097,
                                width: viewWidth * 0.35)
-        loginBtn.anchor(top: membershipLevel.bottomAnchor,
-                        left: self.leftAnchor,
-                        paddingTop: viewWidth * 0.043,
-                        paddingLeft: viewWidth * 0.125)
+//        loginBtn.anchor(top: membershipLevel.bottomAnchor,
+//                        left: self.leftAnchor,
+//                        paddingTop: viewWidth * 0.043,
+//                        paddingLeft: viewWidth * 0.125)
         
         signUpBtn.layer.cornerRadius = 10
         signUpBtn.setDimensions(height: viewWidth * 0.097,
                                 width: viewWidth * 0.35)
-        signUpBtn.anchor(top: membershipLevel.bottomAnchor,
-                         right: self.rightAnchor,
-                         paddingTop: viewWidth * 0.043,
-                         paddingRight: viewWidth * 0.125)
+//        signUpBtn.anchor(top: membershipLevel.bottomAnchor,
+//                         right: self.rightAnchor,
+//                         paddingTop: viewWidth * 0.043,
+//                         paddingRight: viewWidth * 0.125)
+        
+        stackView.addArrangedSubview(loginBtn)
+        stackView.addArrangedSubview(signUpBtn)
+        stackView.centerX(inView: self)
+        stackView.anchor(top: membershipLevel.bottomAnchor,
+                               paddingTop: viewWidth * 0.019)
         
         passTicketContainerView.layer.cornerRadius = 10
         passTicketContainerView.setDimensions(height: viewWidth * 0.12,
-                                              width: self.frame.width * 0.83)
+                                              width: viewWidth * 0.83)
         passTicketContainerView.centerX(inView: self)
         passTicketContainerView.anchor(top: signUpBtn.bottomAnchor,
                                        paddingTop: viewWidth * 0.023)
@@ -253,12 +280,12 @@ class SideMenuHeaderView: UIView {
         
         buyingPassTicketLabel.centerY(inView: passTicketContainerView)
         buyingPassTicketLabel.anchor(left: passTicketContainerView.leftAnchor,
-                                     paddingLeft: self.frame.width * 0.066,
+                                     paddingLeft: viewWidth * 0.066,
                                      height: 13)
         
         buyingPassTicketButton.layer.cornerRadius = 8.5
-        buyingPassTicketButton.setDimensions(height: self.frame.height * 0.09,
-                                             width: self.frame.width * 0.33)
+        buyingPassTicketButton.setDimensions(height: 25,
+                                             width: viewWidth * 0.33)
         buyingPassTicketButton.centerY(inView: passTicketContainerView)
         buyingPassTicketButton.anchor(right: passTicketContainerView.rightAnchor,
                                       paddingRight: 5)
@@ -277,15 +304,18 @@ class SideMenuHeaderView: UIView {
             
             nickName.text = viewModel.userID
             membershipLevel.text = "\(viewModel.userID)님은 일반 회원입니다."
-            let profileImageConstant = Constant.width * 0.115
+            let profileImageConstant = CGFloat(88)
 
             if let imageURL = viewModel.profileImageURL {
+                self.defaultImageView.isHidden = true
                 profileImageView.sd_setImage(with: URL(string: "https://file.gongmanse.com/"+imageURL)!) { image, Error, SDImageCacheType, URL in
                     self.profileImageView.addShadow()
                     self.profileImageView.image = image
                     self.profileImageView.clipsToBounds = true
                     self.profileImageView.layer.masksToBounds = true
                 }
+            } else {
+                self.defaultImageView.isHidden = false
             }
             self.profileImageView.layer.cornerRadius = profileImageConstant
 
@@ -312,7 +342,7 @@ class SideMenuHeaderView: UIView {
             
             
         } else {
-            
+            self.defaultImageView.isHidden = false
             nickName.text = "로그인을 해주세요."
             membershipLevel.text = "로그인하고 더 많은 서비스를 누리세요."
         }

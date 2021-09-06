@@ -162,7 +162,7 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
         
         let indexData = searchConsultationVM.responseDataModel?.data[indexPath.row]
         
-        cell.questionTitle.text = indexData?.sQuestion
+        cell.questionTitle.text = indexData?.sQuestion?.withoutHtmlTags
         cell.writer.text = indexData?.sNickname
         
         cell.writtenDate.text = indexData?.simpleDt ?? ""
@@ -178,12 +178,23 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
             cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
         }
         
-        if indexData?.sFilepaths != nil {
-            cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sFilepaths ?? "")")
-        }else {
-            cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+//        if indexData?.sFilepaths != nil {
+//            cell.titleImage.setImageUrl("\(fileBaseURL)/\(indexData?.sFilepaths ?? "")")
+//        }else {
+//            cell.titleImage.image = UIImage(named: "extraSmallUserDefault")
+//        }
+        if indexData?.sFilepaths == nil {
+            cell.titleImage.contentMode = .scaleAspectFit
+            cell.titleImage.image = UIImage(named: "app_icon")
+        } else {
+            cell.titleImage.contentMode = .scaleAspectFill
+            cell.titleImage.sd_setImage(with: URL(string: "\(fileBaseURL)/\(indexData?.sFilepaths ?? "")")) { img, err, type, URL in
+                if img == nil {
+                    cell.titleImage.contentMode = .scaleAspectFit
+                    cell.titleImage.image = UIImage(named: "app_icon")
+                }
+            }
         }
-        
         
         return cell
     }

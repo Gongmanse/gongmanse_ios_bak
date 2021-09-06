@@ -189,14 +189,14 @@ class RegistrationUserInfoVC: UIViewController {
         totalProgressView.backgroundColor = UIColor(white: 200.0 / 255.0, alpha: 1.0)
         
         // 현재 페이지의 진행상황을 나타내는 View(화면 최상단에 있는 .mainOrange View)
-        currentProgressView.setDimensions(height: 4, width: view.frame.width * 0.5) // 진행상황에 맞게 width값 변경
+        currentProgressView.setDimensions(height: 4, width: Constant.width * 0.5) // 진행상황에 맞게 width값 변경
         currentProgressView.anchor(top:totalProgressView.topAnchor,
                                    left: totalProgressView.leftAnchor)
         currentProgressView.backgroundColor = .mainOrange
         
         // 현재 페이지 명칭을 나타내는 UILabel("정보기입" 라고 작성된 레이블)(화면 좌상단)
         pageID.setDimensions(height: view.frame.height * 0.02,
-                             width: view.frame.width * 0.15)
+                             width: Constant.width * 0.15)
 //        pageID.anchor(top: totalProgressView.bottomAnchor,
 //                      left: totalProgressView.leftAnchor,
 //                      paddingTop: 11,
@@ -210,7 +210,7 @@ class RegistrationUserInfoVC: UIViewController {
         
         // 현재 페이지 명칭을 나타내는 UILabel("2/4" 라고 작성된 레이블)(화면 우상단)
         pageNumber.setDimensions(height: view.frame.height * 0.02,
-                                 width: view.frame.width * 0.15)
+                                 width: Constant.width * 0.15)
 //        pageNumber.anchor(top: totalProgressView.bottomAnchor,
 //                          right: view.rightAnchor,
 //                          paddingTop: 11,
@@ -223,7 +223,7 @@ class RegistrationUserInfoVC: UIViewController {
         pageNumber.textAlignment = .right
             
         // MARK: 텍스트필드
-        let tfWidth = view.frame.width - 125                                        // textField width 값 기준
+        let tfWidth = Constant.width * 0.74                                        // textField width 값 기준
     
         // 아이디 TextField
         let idTfLeftView = settingLeftViewInTextField(idTextField, #imageLiteral(resourceName: "idOn"))              // leftView 생성 커스텀메소드 활용
@@ -280,7 +280,7 @@ class RegistrationUserInfoVC: UIViewController {
 
     // MARK: 텍스트필드 하단 레이블 UI
     func configureBottomLabel() {
-        let tfWidth = view.frame.width - 125
+        let tfWidth = Constant.width * 0.74
 
         // 아이디 하단 레이블
         view.addSubview(idBottomLabel)

@@ -68,14 +68,20 @@ class AlramRelationListViewController: BottomPopupViewController {
         return view
     }()
     
-    lazy var topStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [topLittleImage, topTextLabel, topDismissButton])
-        stack.backgroundColor = .white
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        return stack
+    lazy var topView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }()
+    
+//    lazy var topStackView: UIStackView = {
+//        let stack = UIStackView(arrangedSubviews: [topLittleImage, topTextLabel, topDismissButton])
+//        stack.backgroundColor = .white
+//        stack.axis = .horizontal
+//        stack.alignment = .fill
+//        stack.distribution = .fillEqually
+//        return stack
+//    }()
     
     let alarmListTextArray: [String] = ["없음", "정시", "10분 전", "30분 전", "1시간 전", "3시간 전", "12시간 전", "1일 전","1주 전"]
     
@@ -98,11 +104,11 @@ class AlramRelationListViewController: BottomPopupViewController {
     func setUpTopView() {
         switch alarmState {
         case .Alram:
-            topLittleImage.image = UIImage(named: "timeline")
+            topLittleImage.image = UIImage(named: "ic_schedule_alarm")
             topTextLabel.text = "알림"
             
         case .Repeat:
-            topLittleImage.image = UIImage(named: "timeline")
+            topLittleImage.image = UIImage(named: "popupCategory")
             topTextLabel.text = "반복"
             
         case .none:
@@ -188,8 +194,9 @@ extension AlramRelationListViewController {
         
         
         view.addSubview(tableView)
-        view.addSubview(topStackView)
+        view.addSubview(topView)
         view.addSubview(topOrangeLineView)
+        
         
         tableView.register(AlarmListCell.self, forCellReuseIdentifier: AlarmListCell.identifier)
         tableView.delegate = self
@@ -200,15 +207,15 @@ extension AlramRelationListViewController {
     func constraints() {
         
         
-        topStackView.translatesAutoresizingMaskIntoConstraints = false
-        topStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        topStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        topStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        topView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         
         topOrangeLineView.translatesAutoresizingMaskIntoConstraints = false
-        topOrangeLineView.topAnchor.constraint(equalTo: topStackView.bottomAnchor).isActive = true
+        topOrangeLineView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         topOrangeLineView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         topOrangeLineView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         topOrangeLineView.heightAnchor.constraint(equalToConstant: 2).isActive = true
@@ -219,6 +226,18 @@ extension AlramRelationListViewController {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        topView.addSubview(topLittleImage)
+        topLittleImage.centerY(inView: topView)
+        topLittleImage.anchor(left: topView.leftAnchor, paddingLeft: 20)
+        
+        topView.addSubview(topTextLabel)
+        topTextLabel.centerY(inView: topView)
+        topTextLabel.anchor(left: topLittleImage.rightAnchor, paddingLeft: 20)
+        
+        topView.addSubview(topDismissButton)
+        topDismissButton.centerY(inView: topView)
+        topDismissButton.anchor(right: topView.rightAnchor, paddingRight: 20)
     }
 }
 

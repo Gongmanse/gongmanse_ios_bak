@@ -27,7 +27,15 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         textview.layer.borderColor = UIColor.rgb(red: 237, green: 237, blue: 237).cgColor
         textview.layer.borderWidth = 2
         textview.autocorrectionType = .no
+        textview.textColor = .black
         return textview
+    }()
+    
+    private let placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.font = .appBoldFontWith(size: 16)
+        label.textColor = .lightGray
+        return label
     }()
     
     var textChanged: ((String) -> Void)?
@@ -47,22 +55,27 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "제목" || textView.text == "내용" {
+   /* func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "클릭하여 제목을 입력하세요" || textView.text == "클릭하여 내용을 입력하세요" {
             textView.text = ""
             registerTextView.textColor = .black
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "클릭하여 제목을 입력하세요"
+            registerTextView.textColor = .lightGray
+        }
         textChanged?(textView.text)
-    }
+    }*/
     
     func textChanged(action: @escaping (String) -> Void) {
         self.textChanged = action
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
         textChanged?(textView.text)
     }
     
@@ -70,18 +83,23 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         titleLabels.text = text
     }
     
+    func placeholderAppear(text: String) {
+        placeholderLabel.text = text
+    }
+    
     func contentAppear(text: String) {
         
         registerTextView.text = text
+        placeholderLabel.isHidden = !text.isEmpty
         
-        switch text {
-        case "제목":
+        /*switch text {
+        case "클릭하여 제목을 입력하세요":
             registerTextView.textColor = .lightGray
-        case "내용":
+        case "클릭하여 내용을 입력하세요":
             registerTextView.textColor = .lightGray
         default:
             registerTextView.textColor = .black
-        }
+        }*/
         
     }
     
@@ -90,6 +108,7 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         
         contentView.addSubview(titleLabels)
         contentView.addSubview(registerTextView)
+        contentView.addSubview(placeholderLabel)
         
         titleLabels.translatesAutoresizingMaskIntoConstraints = false
         titleLabels.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
@@ -102,7 +121,9 @@ class ScheduleAddCell: UITableViewCell, UITextViewDelegate {
         registerTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         registerTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = true
         
-        
+        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        placeholderLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
+        placeholderLabel.leadingAnchor.constraint(equalTo: titleLabels.trailingAnchor, constant: 44).isActive = true
     }
 }
 
@@ -121,7 +142,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     
     let allDayLabel: UILabel = {
         let label = UILabel()
-        label.font = .appBoldFontWith(size: 14)
+        label.font = .appBoldFontWith(size: 16)
         label.text = "하루종일"
         label.textAlignment = .right
         label.textColor = .rgb(red: 164, green: 164, blue: 164)
@@ -133,6 +154,7 @@ class ScheduleAddTimerCell: UITableViewCell {
         let witch = UISwitch()
         witch.frame = CGRect(x: 0, y: 0, width: 35, height: 20)
         witch.isOn = false
+        witch.onTintColor = .mainOrange
         return witch
     }()
     
@@ -157,14 +179,14 @@ class ScheduleAddTimerCell: UITableViewCell {
     // 시작
     let startTime: UILabel = {
         let label = UILabel()
-        label.font = .appBoldFontWith(size: 13)
+        label.font = .appBoldFontWith(size: 16)
         label.text = "시작"
         return label
     }()
     
     let startDateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13)
+        label.font = .systemFont(ofSize: 16)
         label.textAlignment = .right
         label.text = "2021-05-31 (목) 15:10"
         label.isUserInteractionEnabled = true
@@ -183,7 +205,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     // 종료
     let endTime: UILabel = {
         let label = UILabel()
-        label.font = .appBoldFontWith(size: 13)
+        label.font = .appBoldFontWith(size: 16)
         label.text = "종료"
         label.setContentHuggingPriority(.defaultLow-1, for: .horizontal)
         return label
@@ -191,7 +213,7 @@ class ScheduleAddTimerCell: UITableViewCell {
     
     let endDateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13)
+        label.font = .systemFont(ofSize: 16)
         label.text = "2021-05-31 (목) 15:10"
         label.textAlignment = .right
         label.isUserInteractionEnabled = true

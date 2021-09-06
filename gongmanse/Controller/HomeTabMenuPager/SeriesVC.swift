@@ -170,6 +170,6 @@ extension SeriesVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width - 40
-        return CGSize(width: width, height: 265)
+        return CGSize(width: width, height: (width / 16 * 9 + 70))
     }
 }

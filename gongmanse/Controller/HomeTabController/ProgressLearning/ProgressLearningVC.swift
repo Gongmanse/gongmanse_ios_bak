@@ -57,7 +57,7 @@ class ProgressLearningVC: UIViewController {
         bottomBorder.frame = CGRect(
             x:0,
             y: self.tabsView.frame.size.height - thickness,
-            width: self.tabsView.frame.size.width,
+            width: UIScreen.main.bounds.width,
             height:thickness
             )
         bottomBorder.backgroundColor = UIColor.systemGray4.cgColor

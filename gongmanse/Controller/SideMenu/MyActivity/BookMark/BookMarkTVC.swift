@@ -53,7 +53,8 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         super.viewDidLoad()
         
         //테이블 뷰 빈칸 숨기기
-        tableView.tableFooterView = UIView()
+//        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
         
         //xib 셀 등록
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
@@ -283,7 +284,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if value.totalNum == "0" {
-            presentAlert(message: "즐겨찾기 목록이 없습니다.")
+//            presentAlert(message: "즐겨찾기 목록이 없습니다.")
             return
         }
         

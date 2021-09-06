@@ -73,6 +73,8 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         table.isUserInteractionEnabled = true
         table.estimatedRowHeight = 50
         table.separatorEffect = .none
+        
+        table.tableFooterView = UIView()
         return table
     }()
     
@@ -101,7 +103,7 @@ class ScheduleAddViewController: UIViewController, AlarmListProtocol, PassAllSta
         super.viewDidLoad()
         
         view.backgroundColor = .white
-//        navigationConfigure()
+        navigationConfigure()
         configuration()
         constraints()
         
@@ -233,6 +235,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
+                cell.placeholderAppear(text: "클릭하여 제목을 입력하세요")
                 cell.selectionStyle = .none
                 
                 cell.textChanged { [weak self] text in
@@ -259,6 +262,7 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 
                 cell.titleAppear(text: titleText[indexPath.row])
+                cell.placeholderAppear(text: "클릭하여 내용을 입력하세요")
                 cell.selectionStyle = .none
                 
                 cell.textChanged { [weak self] text in
@@ -344,7 +348,8 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
-                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "제목")
+                cell.placeholderAppear(text: "클릭하여 제목을 입력하세요")
+                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sTitle ?? "")
                 
                 cell.textChanged { [weak self] text in
                     self?.cellTitleText = text
@@ -357,7 +362,8 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleAddCell.identifier, for: indexPath) as? ScheduleAddCell else { return UITableViewCell() }
                 
                 cell.titleAppear(text: titleText[indexPath.row])
-                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "내용")
+                cell.placeholderAppear(text: "클릭하여 내용을 입력하세요")
+                cell.contentAppear(text: passedDateModel?.description[modifyIndexPath].sDescription ?? "")
                 
                 cell.textChanged { [weak self] text in
                     self?.cellContentText = text
@@ -472,9 +478,9 @@ extension ScheduleAddViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView()
-    }
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        return UIView()
+//    }
 }
 
 extension ScheduleAddViewController {

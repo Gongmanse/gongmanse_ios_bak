@@ -29,6 +29,12 @@ class ExpertConsultationDetailVC: UIViewController {
         getCounselMedia()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        expertConsultDetailHeaderView.layer.addBorder([.bottom], color: .mainOrange, width: 3.0)
+    }
+    
     func getCounselMedia() {
         if let cid = receiveData?.consultation_id {
         let url = apiBaseURL + "/v/consultation/condetails?consultation_id=\(cid)"
@@ -60,8 +66,6 @@ class ExpertConsultationDetailVC: UIViewController {
         
         //네비게이션 바 뒤로가기 버튼 타이틀 없애기
         self.navigationController?.navigationBar.topItem?.title = ""
-        
-        expertConsultDetailHeaderView.layer.addBorder([.bottom], color: .mainOrange, width: 3.0)
     }
     
     func receiveDataSettings() {

@@ -22,7 +22,7 @@ class StartLabelPickerViewController: BottomPopupViewController, PassStartDateTi
         let image = UIImageView()
         image.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
         image.contentMode = .scaleAspectFit
-        image.image = UIImage(named: "popup_date")
+        image.image = UIImage(named: "schedule")
         image.contentMode = .scaleAspectFit
         return image
     }()
@@ -46,14 +46,20 @@ class StartLabelPickerViewController: BottomPopupViewController, PassStartDateTi
         return view
     }()
     
-    lazy var topStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [topLittleImage, topTextLabel, topDismissButton])
-        stack.backgroundColor = .white
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        return stack
+    lazy var topView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }()
+    
+//    lazy var topStackView: UIStackView = {
+//        let stack = UIStackView(arrangedSubviews: [topLittleImage, topTextLabel, topDismissButton])
+//        stack.backgroundColor = .white
+//        stack.axis = .horizontal
+//        stack.alignment = .fill
+//        stack.distribution = .fillEqually
+//        return stack
+//    }()
     //
     
     
@@ -162,7 +168,7 @@ extension StartLabelPickerViewController {
     func configuration() {
         
         view.backgroundColor = .white
-        view.addSubview(topStackView)
+        view.addSubview(topView)
         view.addSubview(topOrangeLineView)
         view.addSubview(buttonStack)
         view.addSubview(startDatePicker)
@@ -172,15 +178,15 @@ extension StartLabelPickerViewController {
     
     func constraints() {
         
-        topStackView.translatesAutoresizingMaskIntoConstraints = false
-        topStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        topStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        topStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        topView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         
         topOrangeLineView.translatesAutoresizingMaskIntoConstraints = false
-        topOrangeLineView.topAnchor.constraint(equalTo: topStackView.bottomAnchor).isActive = true
+        topOrangeLineView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         topOrangeLineView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         topOrangeLineView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         topOrangeLineView.heightAnchor.constraint(equalToConstant: 2).isActive = true
@@ -196,6 +202,19 @@ extension StartLabelPickerViewController {
         startDatePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         startDatePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         startDatePicker.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
+        
+        
+        topView.addSubview(topLittleImage)
+        topLittleImage.centerY(inView: topView)
+        topLittleImage.anchor(left: topView.leftAnchor, paddingLeft: 20)
+        
+        topView.addSubview(topTextLabel)
+        topTextLabel.centerY(inView: topView)
+        topTextLabel.anchor(left: topLittleImage.rightAnchor, paddingLeft: 20)
+        
+        topView.addSubview(topDismissButton)
+        topDismissButton.centerY(inView: topView)
+        topDismissButton.anchor(right: topView.rightAnchor, paddingRight: 20)
         
     }
 }

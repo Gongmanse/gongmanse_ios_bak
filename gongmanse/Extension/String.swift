@@ -131,4 +131,10 @@ extension String {
         let value = Double(self) ?? 0.0
         return String(format: "%.1f", value)
     }
+    
+    var withoutHtmlTags: String {
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options:
+        .regularExpression, range: nil).replacingOccurrences(of: "&[^;]+;", with:
+        "", options:.regularExpression, range: nil)
+    }
 }

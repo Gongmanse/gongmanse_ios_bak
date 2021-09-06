@@ -23,6 +23,13 @@ class LoginVC: UIViewController {
     @IBOutlet weak var findingPasswordButton: UIButton!
     @IBOutlet weak var registrationButton: UIButton!
     
+    let stackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.distribution = .equalSpacing
+        return view
+    }()
+    
     /// 비밀번호 찾기 좌측 구분선
     let leftDividerView: UIView = {
         let view = UIView()
@@ -102,7 +109,7 @@ class LoginVC: UIViewController {
         
         
         /// width 값을 위한 프로퍼티
-        let tfWidth = view.frame.width - 40
+        let tfWidth = Constant.width - 40
         
         // 아이디 TextField leftView를 추가한다.
         let idImage = #imageLiteral(resourceName: "idOn")
@@ -143,47 +150,60 @@ class LoginVC: UIViewController {
         loginButton.anchor(top: passwordTextField.bottomAnchor,
                            paddingTop: view.frame.height * 0.05)
         loginButton.setDimensions(height: 40,
-                                  width: view.frame.width * 0.75)
+                                  width: Constant.width - 80)
         
         // 아이디 찾기 Button 관련 설정을 한다.
         findingIDButton.setDimensions(height: 18, width: 78)
-        findingIDButton.anchor(top: loginButton.bottomAnchor,
-                               left: view.safeAreaLayoutGuide.leftAnchor,
-                               paddingTop: view.frame.height * 0.05,
-                               paddingLeft: 15)
+//        findingIDButton.anchor(top: loginButton.bottomAnchor,
+//                               left: view.safeAreaLayoutGuide.leftAnchor,
+//                               paddingTop: view.frame.height * 0.05,
+//                               paddingLeft: 15)
         findingIDButton.titleLabel?.font = UIFont.appBoldFontWith(size: 14)
         
         // 비밀번호 찾기 Button 관련 설정을 한다.
         findingPasswordButton.setDimensions(height: 18, width: 85)
-        findingPasswordButton.centerX(inView: view)
-        findingPasswordButton.anchor(top: findingIDButton.topAnchor)
+//        findingPasswordButton.centerX(inView: view)
+//        findingPasswordButton.anchor(top: findingIDButton.topAnchor)
         findingPasswordButton.titleLabel?.font = UIFont.appBoldFontWith(size: 14)
         
         /// 좌측 구분선
-        let leftXPoint = (view.center.x * 0.5) + 30
-        view.addSubview(leftDividerView)
+//        let leftXPoint = (view.center.x * 0.5) + 30
+//        view.addSubview(leftDividerView)
         leftDividerView.setDimensions(height: 18, width: 1)
-        leftDividerView.anchor(left: logoImage.leftAnchor)
-        leftDividerView.anchor(top: findingPasswordButton.topAnchor)
+//        leftDividerView.anchor(left: logoImage.leftAnchor)
+//        leftDividerView.anchor(top: findingPasswordButton.topAnchor)
 //                               left: view.leftAnchor,
 //                           paddingLeft: leftXPoint)
         
         /// 우측 구분선
-        let rightXPoint = (view.center.x * 0.5) + 30
-        view.addSubview(rightDividerView)
+//        let rightXPoint = (view.center.x * 0.5) + 30
+//        view.addSubview(rightDividerView)
         rightDividerView.setDimensions(height: 18, width: 1)
-        rightDividerView.anchor(right: logoImage.rightAnchor)
-        rightDividerView.anchor(top: findingPasswordButton.topAnchor)
+//        rightDividerView.anchor(right: logoImage.rightAnchor)
+//        rightDividerView.anchor(top: findingPasswordButton.topAnchor)
 //                           right: view.rightAnchor,
 //                           paddingRight: rightXPoint)
         
-        
         // 회원가입 Button 관련 설정을 한다.
         registrationButton.setDimensions(height: 18, width: 78)
-        registrationButton.anchor(top: findingIDButton.topAnchor,
-                                  right: view.safeAreaLayoutGuide.rightAnchor,
-                                  paddingRight: 15)
+//        registrationButton.anchor(top: findingIDButton.topAnchor,
+//                                  right: view.safeAreaLayoutGuide.rightAnchor,
+//                                  paddingRight: 15)
         registrationButton.titleLabel?.font = UIFont.appBoldFontWith(size: 14)
+        
+        view.addSubview(stackView)
+        stackView.addArrangedSubview(findingIDButton)
+        stackView.addArrangedSubview(leftDividerView)
+        stackView.addArrangedSubview(findingPasswordButton)
+        stackView.addArrangedSubview(rightDividerView)
+        stackView.addArrangedSubview(registrationButton)
+        
+        stackView.anchor(top: loginButton.bottomAnchor,
+                                       left: view.safeAreaLayoutGuide.leftAnchor,
+                                       right: view.safeAreaLayoutGuide.rightAnchor,
+                                       paddingTop: view.frame.height * 0.05,
+                                       paddingLeft: UIDevice.current.userInterfaceIdiom == .pad ? 100 : 30,
+                                       paddingRight: UIDevice.current.userInterfaceIdiom == .pad ? 100 : 30)
     }
     
     /// UITextField 에서 텍스트 변경될 때마다, 호출되는 Callback method

@@ -354,6 +354,7 @@
 		800984A026B82DB00089C201 /* ShareDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8009849E26B82DB00089C201 /* ShareDialog.swift */; };
 		800984A126B82DB00089C201 /* ShareDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8009849F26B82DB00089C201 /* ShareDialog.xib */; };
 		800984A526B834D10089C201 /* ShareDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800984A426B834D10089C201 /* ShareDataManager.swift */; };
+		800CCC7D26DFC86D0026B712 /* EditingProfileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 800CCC7C26DFC86D0026B712 /* EditingProfileController.xib */; };
 		80309A6226B4E55D00A6B770 /* gong_outro1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 80309A6026B4E55D00A6B770 /* gong_outro1.mov */; };
 		80309A6326B4E55D00A6B770 /* gong_outro2.mov in Resources */ = {isa = PBXBuildFile; fileRef = 80309A6126B4E55D00A6B770 /* gong_outro2.mov */; };
 		80E9BC0226B81F4B0049BDE8 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9BC0126B81F4B0049BDE8 /* Reachability.swift */; };
@@ -835,6 +836,7 @@
 		8009849E26B82DB00089C201 /* ShareDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDialog.swift; sourceTree = "<group>"; };
 		8009849F26B82DB00089C201 /* ShareDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareDialog.xib; sourceTree = "<group>"; };
 		800984A426B834D10089C201 /* ShareDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDataManager.swift; sourceTree = "<group>"; };
+		800CCC7C26DFC86D0026B712 /* EditingProfileController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditingProfileController.xib; sourceTree = "<group>"; };
 		80309A6026B4E55D00A6B770 /* gong_outro1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = gong_outro1.mov; sourceTree = "<group>"; };
 		80309A6126B4E55D00A6B770 /* gong_outro2.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = gong_outro2.mov; sourceTree = "<group>"; };
 		80E9BC0126B81F4B0049BDE8 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -1249,6 +1251,7 @@
 			isa = PBXGroup;
 			children = (
 				25608EE22665FA5C00E3246C /* EditingProfileController.swift */,
+				800CCC7C26DFC86D0026B712 /* EditingProfileController.xib */,
 			);
 			path = EditingProfile;
 			sourceTree = "<group>";
@@ -3371,6 +3374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6CD7C3D125F086E60092D30E /* LaunchScreen.storyboard in Resources */,
+				800CCC7D26DFC86D0026B712 /* EditingProfileController.xib in Resources */,
 				2598E419266DBAB300C48BEB /* PIPController.xib in Resources */,
 				25201DB026042872001098AC /* FindIDByEmailVC.xib in Resources */,
 				259B8BAD260301D8009A7146 /* SearchVideoCell.xib in Resources */,
@@ -4046,7 +4050,7 @@
 				CODE_SIGN_ENTITLEMENTS = gongmanse/gongmanse.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4054,7 +4058,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4072,7 +4076,7 @@
 				CODE_SIGN_ENTITLEMENTS = gongmanse/gongmanse.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4080,7 +4084,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

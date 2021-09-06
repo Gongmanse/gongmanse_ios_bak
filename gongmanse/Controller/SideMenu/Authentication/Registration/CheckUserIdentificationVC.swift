@@ -155,7 +155,7 @@ class CheckUserIdentificationVC: UIViewController {
 
     func configureUI() {
         
-        let tfWidth = view.frame.width - 125
+        let tfWidth = Constant.width * 0.74
         nextButton.backgroundColor = UIColor.progressBackgroundColor
         nextButton.layer.cornerRadius = 10
         nextButton.addShadow()
@@ -198,14 +198,14 @@ class CheckUserIdentificationVC: UIViewController {
                                  height: 4)
         totalProgressView.backgroundColor = UIColor(white: 200.0 / 255.0, alpha: 1.0)
         
-        currentProgressView.setDimensions(height: 4, width: view.frame.width * 0.75)
+        currentProgressView.setDimensions(height: 4, width: Constant.width * 0.75)
         currentProgressView.anchor(top:totalProgressView.topAnchor,
                                    left: totalProgressView.leftAnchor)
         currentProgressView.backgroundColor = .mainOrange
         
         // 정보기입
         pageID.setDimensions(height: view.frame.height * 0.02,
-                             width: view.frame.width * 0.15)
+                             width: Constant.width * 0.15)
         pageID.anchor(top: totalProgressView.bottomAnchor,
                       left: totalProgressView.leftAnchor,
                       paddingTop: 11,
@@ -215,7 +215,7 @@ class CheckUserIdentificationVC: UIViewController {
         
         // 2/4
         pageNumber.setDimensions(height: view.frame.height * 0.02,
-                                 width: view.frame.width * 0.15)
+                                 width: Constant.width * 0.15)
         pageNumber.anchor(top: totalProgressView.bottomAnchor,
                           right: view.rightAnchor,
                           paddingTop: 11,
@@ -226,7 +226,7 @@ class CheckUserIdentificationVC: UIViewController {
         // 경고창 오토 레이아웃
         view.addSubview(errorMessageView)
         errorMessageView.setDimensions(height: 50,
-                                       width: view.frame.width * 0.77)
+                                       width: Constant.width * 0.74)
         self.errorMessageView.centerX(inView: self.view)
         self.errorMessageView.centerY(inView: self.view)
         
