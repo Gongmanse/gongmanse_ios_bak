@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.notice.NoticeFragment">
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.gongmanse.app.model.Notice" />
+
+        <variable
+            name="item"
+            type="Notice" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,16 +20,34 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nav_notice"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_notice"
+                bindNoticeData="@{item.data}"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:visibility="@{item.data.size() > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintHorizontal_bias="0.473"
+                tools:listitem="@layout/item_notice"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/layout_empty"
+                layout="@layout/layout_empty"
+                android:visibility="@{item.data.size() > 0 ? View.GONE : View.VISIBLE}"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

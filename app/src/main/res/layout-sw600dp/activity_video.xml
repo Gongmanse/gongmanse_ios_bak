@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.graphics.Color"/>
+        <variable name="viewModel" type="com.gongmanse.app.model.VideoViewModel" />
+        <variable name="useCaption" type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.VideoActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/player_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@id/player_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/content_layout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_content_info2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.gongmanse.app.utils.CustomLabelView
+                    android:id="@+id/cv_subject2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    labelColor="@{viewModel.data.subjectColor}"
+                    labelText="@{viewModel.data.subject}"
+                    app:txtSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:txt="과학"/>
+
+                <com.gongmanse.app.utils.CustomLabelView
+                    android:id="@+id/cv_unit2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    labelUnitColor="@{viewModel.data.unit}"
+                    labelText="@{viewModel.data.unit}"
+                    app:txtSize="14sp"
+                    app:layout_constraintTop_toTopOf="@id/cv_subject2"
+                    app:layout_constraintStart_toEndOf="@id/cv_subject2"
+                    app:layout_constraintBottom_toBottomOf="@id/cv_subject2"
+                    tools:txt="용어"/>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:id="@+id/tv_teacher_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/content_text_teacher_name(viewModel.data.teacherName)}"
+                    android:textColor="@color/light_black2"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="@id/cv_subject2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/cv_subject2"
+                    tools:ignore="SmallSp"
+                    tools:text="고광윤 선생님" />
+
+                <!-- 제목 -->
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:id="@+id/tv_title2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{viewModel.data.title}"
+                    android:textColor="@color/light_black2"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@id/cv_subject2"
+                    app:layout_constraintBottom_toTopOf="@id/rv_hash_tag2"
+                    tools:text="파울리의 배타 원리" />
+
+                <!-- 태그 리스트 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_hash_tag2"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    bindHashTag="@{viewModel.data.tags}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title2"
+                    app:layout_constraintBottom_toTopOf="@id/layout_menu_list2"
+                    tools:listitem="@layout/item_hash_tag"/>
+
+                <!-- 메뉴 아이콘 -->
+                <LinearLayout
+                    android:id="@+id/layout_menu_list2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/rv_hash_tag2"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        style="@style/NanumSquareRoundB.TextView.Sw600dp2"
+                        android:id="@+id/btn_bookmark2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:text="@string/content_checkbox_favorite"
+                        bindIsBookMark="@{viewModel.bookmark}"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> viewModel.setBookMark()}"
+                        tools:textColor="@color/main_color"
+                        tools:drawableTopCompat="@drawable/ic_favorite_on"/>
+
+                    <TextView
+                        style="@style/NanumSquareRoundB.TextView.Sw600dp2"
+                        android:id="@+id/btn_rating2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClick"
+                        bindRating="@{viewModel.rating}"
+                        bindUserRating="@{viewModel.useRating}"
+                        tools:text="5.0"
+                        tools:textColor="@color/main_color"
+                        tools:drawableTopCompat="@drawable/ic_grade_on" />
+
+                    <TextView
+                        style="@style/NanumSquareRoundB.TextView.Sw600dp2"
+                        android:id="@+id/btn_share2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClick"
+                        android:text="@string/content_checkbox_share"
+                        android:textColor="@color/black"
+                        app:drawableTopCompat="@drawable/ic_share" />
+
+                    <TextView
+                        style="@style/NanumSquareRoundB.TextView.Sw600dp2"
+                        android:id="@+id/btn_series2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> viewModel.moveSeriesList()}"
+                        android:text="@string/content_checkbox_series"
+                        android:textColor="@color/black"
+                        app:drawableTopCompat="@drawable/ic_series" />
+
+                    <TextView
+                        style="@style/NanumSquareRoundB.TextView.Sw600dp2"
+                        android:id="@+id/btn_problem2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> viewModel.goCommentary()}"
+                        android:text="@{viewModel.data.hasCommentary == 1 ? @string/content_checkbox_problem : @string/content_checkbox_question}"
+                        android:textColor="@color/black"
+                        bindHasCommentary="@{viewModel.data.commentaryId}"
+                        app:drawableTopCompat="@drawable/ic_question"
+                        tools:text="@string/content_checkbox_problem"
+                        tools:visibility="visible" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/dark_gray"
+            app:layout_constraintTop_toBottomOf="@id/player_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicator="@android:color/transparent"
+                    app:tabInlineLabel="true"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill"
+                    app:tabMaxWidth="0dp"
+                    app:tabTextAppearance="@style/NanumSquareRoundB.TabLayoutSw600">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:icon="@drawable/ic_note_off"
+                        android:text="@string/content_tab_item_note" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:icon="@drawable/ic_qna_off"
+                        android:text="@string/content_tab_item_qna" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:icon="@drawable/ic_playlist_off"
+                        android:text="@string/content_tab_item_play_list" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <View
+                    android:id="@+id/view_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/divider_size"
+                    android:background="@color/main_color"
+                    app:layout_constraintTop_toBottomOf="@id/tab_layout"
+                    app:layout_constraintStart_toStartOf="@id/tab_layout"
+                    app:layout_constraintEnd_toEndOf="@id/tab_layout"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_sliding_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_gray"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/layout_tabs">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_content_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="15dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.gongmanse.app.utils.CustomLabelView
+                        android:id="@+id/cv_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        labelColor="@{viewModel.data.subjectColor}"
+                        labelText="@{viewModel.data.subject}"
+                        app:txtSize="12sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:txt="과학"/>
+
+                    <com.gongmanse.app.utils.CustomLabelView
+                        android:id="@+id/cv_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        labelUnitColor="@{viewModel.data.unit}"
+                        labelText="@{viewModel.data.unit}"
+                        app:txtSize="12sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cv_subject"
+                        tools:txt="용어"/>
+
+                    <TextView
+                        style="@style/NanumSquareRoundB"
+                        android:id="@+id/tv_teacher_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/content_text_teacher_name(viewModel.data.teacherName)}"
+                        android:textColor="@color/light_black2"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/cv_subject"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/cv_subject"
+                        tools:ignore="SmallSp"
+                        tools:text="고광윤 선생님" />
+
+                    <!-- 제목 -->
+                    <TextView
+                        style="@style/NanumSquareRoundB"
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@{viewModel.data.title}"
+                        android:textColor="@color/light_black2"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@id/cv_subject"
+                        tools:text="파울리의 배타 원리" />
+
+                    <!-- 태그 리스트 -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_hash_tag"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        bindHashTag="@{viewModel.data.tags}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title"
+                        app:layout_constraintBottom_toTopOf="@id/layout_menu_list"
+                        tools:listitem="@layout/item_hash_tag"/>
+
+                    <!-- 메뉴 아이콘 -->
+                    <LinearLayout
+                        android:id="@+id/layout_menu_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/rv_hash_tag">
+
+                        <TextView
+                            style="@style/NanumSquareRoundB.TextView.Sw600dp"
+                            android:id="@+id/btn_bookmark"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:text="@string/content_checkbox_favorite"
+                            bindIsBookMark="@{viewModel.bookmark}"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{() -> viewModel.setBookMark()}"
+                            tools:textColor="@color/main_color"
+                            tools:drawableTopCompat="@drawable/ic_favorite_on"/>
+
+                        <TextView
+                            style="@style/NanumSquareRoundB.TextView.Sw600dp"
+                            android:id="@+id/btn_rating"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            bindRating="@{viewModel.rating}"
+                            bindUserRating="@{viewModel.useRating}"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="onClick"
+                            tools:text="5.0"
+                            tools:textColor="@color/main_color"
+                            tools:drawableTopCompat="@drawable/ic_grade_on" />
+
+                        <TextView
+                            style="@style/NanumSquareRoundB.TextView.Sw600dp"
+                            android:id="@+id/btn_share"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="onClick"
+                            android:text="@string/content_checkbox_share"
+                            android:textColor="@color/black"
+                            app:drawableTopCompat="@drawable/ic_share" />
+
+                        <TextView
+                            style="@style/NanumSquareRoundB.TextView.Sw600dp"
+                            android:id="@+id/btn_series"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{() -> viewModel.moveSeriesList()}"
+                            android:text="@string/content_checkbox_series"
+                            android:textColor="@color/black"
+                            app:drawableTopCompat="@drawable/ic_series" />
+
+                        <TextView
+                            style="@style/NanumSquareRoundB.TextView.Sw600dp"
+                            android:id="@+id/btn_problem"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{() -> viewModel.goCommentary()}"
+                            android:text="@{viewModel.data.hasCommentary == 1 ? @string/content_checkbox_problem : @string/content_checkbox_question}"
+                            android:textColor="@color/black"
+                            bindHasCommentary="@{viewModel.data.commentaryId}"
+                            app:drawableTopCompat="@drawable/ic_question"
+                            tools:text="@string/content_checkbox_problem"
+                            tools:visibility="visible" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view_divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_size"
+                    android:background="@color/main_color"
+                    app:layout_constraintTop_toBottomOf="@id/layout_content_info" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Sliding Handler -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_sliding_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:translationZ="5dp"
+                app:layout_constraintTop_toBottomOf="@id/layout_sliding_content">
+
+                <ImageView
+                    android:id="@+id/btn_sliding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:paddingHorizontal="9dp"
+                    android:paddingVertical="8dp"
+                    android:background="@drawable/background_half_round"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onClick"
+                    android:contentDescription="@string/content_description_image_video_info_button"
+                    android:src="@mipmap/ic_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/layout_sliding_content"
+                app:layout_constraintBottom_toTopOf="@+id/layout_player" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_player"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:visibility="@{viewModel.bottomVideoId == null ? View.GONE : View.VISIBLE}"
+                android:background="@drawable/background_border_gray"
+                app:layout_constraintTop_toBottomOf="@id/view_pager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    bindBottomThumbnail="@{viewModel.bottomURL}"
+                    bindBottomPlayerPosition="@{viewModel.bottomPosition}"
+                    android:contentDescription="@string/content_description_bottom_thumbnail"
+                    app:layout_constraintDimensionRatio="16:9"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_bottom_title"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="90dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/light_black"
+                    android:textSize="15sp"
+                    android:text="@{viewModel.bottomTitle}"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                    app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="제목이 들어갈 부분" />
+
+                <TextView
+                    android:id="@+id/tv_bottom_name"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="90dp"
+                    android:textColor="@color/light_black"
+                    android:textSize="13sp"
+                    android:text="@{viewModel.bottomTeacherName}"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tv_bottom_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_bottom_title"
+                    tools:text="홍길동 선생님" />
+
+                <ImageView
+                    android:id="@+id/ic_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_large_x"
+                    android:contentDescription="@string/content_description_note_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/player"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:translationZ="10dp"
+            app:layout_constraintTop_toTopOf="@id/player_layout"
+            app:layout_constraintBottom_toBottomOf="@id/player_layout"
+            app:layout_constraintStart_toStartOf="@id/player_layout"
+            app:layout_constraintEnd_toEndOf="@id/player_layout">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:use_controller="false"
+                app:controller_layout_id="@layout/custom_video_control_layout"
+                app:show_buffering="when_playing"
+                app:surface_type="surface_view"
+                app:auto_show="true"
+                app:resize_mode="fit"
+                app:rewind_increment="10000"
+                app:fastforward_increment="10000" />
+
+            <TextView
+                style="@style/NanumSquareRoundB.Subtitles"
+                android:id="@+id/tv_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:background="@color/black_50"
+                android:bufferType="spannable"
+                android:visibility="@{useCaption ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_replay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_70"
+                android:visibility="@{viewModel.useOutro ? View.VISIBLE : View.GONE}">
+
+                <ImageView
+                    android:id="@+id/btn_replay"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/content_description_image_replay"
+                    android:src="@drawable/ic_replay_24px"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onClick"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

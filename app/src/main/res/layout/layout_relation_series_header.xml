@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.Color"/>
+        <variable name="header" type="com.gongmanse.app.model.SeriesData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_series"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            style="@style/NanumSquareRoundEB"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:text="@{header.title}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_teacher_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/card_subject"
+            tools:text="관련 시리즈 제목"/>
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_teacher_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:text="@{header.teacherName == null ?@string/content_empty : @string/content_text_teacher_name(header.teacherName)}"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            tools:text="관련 시리즈 제목"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardBackgroundColor="@{header.subjectColor != null ? Color.parseColor(@string/content_text_subject_color(header.subjectColor)) : @color/sub_etc}"
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp">
+
+                <!-- 과목 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        style="@style/NanumSquareRoundB"
+                        android:id="@+id/tv_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="1dp"
+                        android:paddingHorizontal="3dp"
+                        android:textColor="@{header.subjectColor != null ? Color.parseColor(@string/content_text_subject_color(header.subjectColor)) : @color/sub_etc}"
+                        android:textSize="11sp"
+                        bindGradeToFirst="@{header.grade}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SmallSp"
+                        tools:text="초" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:id="@+id/tv_subject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:text="@{header.subject}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/card_grade"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="SmallSp"
+                    tools:text="국어" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

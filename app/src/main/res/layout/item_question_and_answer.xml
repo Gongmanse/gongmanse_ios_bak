@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.gongmanse.app.model.QNAData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <!-- Question -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_question_profile"
+                bindProfileURL2="@{data.userProfile}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="@string/content_description_image_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/cv_question"
+                tools:src="@mipmap/ic_logo_gray"
+                 />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                app:cardBackgroundColor="@color/main_color"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@id/iv_question_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="200dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_question_nickname"
+                        style="@style/NanumSquareRoundEB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/content_text_question_nickname(data.nickname)}"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Q. 닉네임" />
+
+                    <TextView
+                        android:id="@+id/tv_question"
+                        style="@style/NanumSquareRoundB"
+                        bindRemoveMarkUpQNA="@{data.question}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_question_nickname"
+                        tools:text="파울리의 배타 원리에 대해서 설명 해주세요." />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Answer -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:visibility="@{data.answer == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_question">
+
+            <ImageView
+                android:id="@+id/iv_answer_profile"
+                bindProfileURL2="@{data.teacherProfile}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:contentDescription="@string/content_description_image_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/cv_answer"
+                tools:src="@mipmap/ic_logo_gray" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                app:cardBackgroundColor="@color/light_gray"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintStart_toEndOf="@id/iv_answer_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="200dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_answer_nickname"
+                        style="@style/NanumSquareRoundEB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/content_text_answer_nickname(data.teacherName)}"
+                        android:textColor="@color/light_black2"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="A. 닉네임" />
+
+                    <TextView
+                        android:id="@+id/tv_answer"
+                        style="@style/NanumSquareRoundB"
+                        bindRemoveMarkUpQNA="@{data.answer}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:textColor="@color/light_black2"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_answer_nickname"
+                        tools:text="파울리의 배타원리는 왜 원자내 전자들이 원자 핵주위의 가장 에너지레벨이 낮은 궤도를 돌지 않는지를 설명합니다." />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

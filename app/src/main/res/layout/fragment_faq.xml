@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.gongmanse.app.model.FAQ" />
+
+        <variable
+            name="item"
+            type="FAQ" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".fragments.customer.FAQFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_faq"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingVertical="10dp"
+            android:orientation="vertical"
+            bindFAQData="@{item.data}"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            tools:listitem="@layout/item_faq"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

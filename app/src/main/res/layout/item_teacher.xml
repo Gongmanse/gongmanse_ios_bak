@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="com.gongmanse.app.data.model.teacher.TeacherBody"/>
+            type="com.gongmanse.app.model.Teacher"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/desc_image_teacher"
+                android:contentDescription="@string/content_description_image_teacher"
                 android:adjustViewBounds="true"
                 android:background="@color/dark_gray2" />
 

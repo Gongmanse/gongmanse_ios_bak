@@ -7,7 +7,7 @@
         <import type="android.graphics.Color"/>
         <variable
             name="data"
-            type="com.gongmanse.app.data.model.video.VideoBody"/>
+            type="com.gongmanse.app.model.CounselData"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,104 +19,104 @@
         android:background="?attr/selectableItemBackground"
         android:paddingVertical="10dp"
         android:paddingHorizontal="20dp">
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/cv_preview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:cardCornerRadius="10dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/tv_q_content">-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_q_content">
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imageView3"-->
-<!--                bindURLImage="@{data.filePath}"-->
-<!--                android:layout_width="80dp"-->
-<!--                android:layout_height="80dp"-->
-<!--                android:contentDescription="@string/content_description_image_counsel_preview"-->
-<!--                android:scaleType="fitXY"/>-->
+            <ImageView
+                android:id="@+id/imageView3"
+                bindURLImage="@{data.filePath}"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/content_description_image_counsel_preview"
+                android:scaleType="fitXY"/>
 
-<!--        </androidx.cardview.widget.CardView>-->
+        </androidx.cardview.widget.CardView>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView2"-->
-<!--            bindProfileURL="@{data.SProfile}"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:contentDescription="@string/content_description_image_profile"-->
-<!--            android:src="@drawable/ic_user"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/cv_preview"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/tv_q_content" />-->
+        <ImageView
+            android:id="@+id/imageView2"
+            bindProfileURL="@{data.SProfile}"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/content_description_image_profile"
+            android:src="@drawable/ic_user"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_preview"
+            app:layout_constraintStart_toStartOf="@+id/tv_q_content" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_nickname"-->
-<!--            style="@style/NanumSquareRoundB"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:text="@{data.SNickname}"-->
-<!--            android:textColor="@color/dark_gray"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/imageView2"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/imageView2"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/imageView2"-->
-<!--            tools:text="마포4번출구>" />-->
+        <TextView
+            android:id="@+id/tv_nickname"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@{data.SNickname}"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            tools:text="마포4번출구>" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_date"-->
-<!--            style="@style/NanumSquareRoundB"-->
-<!--            bindToDate="@{data.dtRegister}"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textColor="@color/dark_gray"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/cardView"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/cardView"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/tv_nickname"-->
-<!--            tools:text="2012-12-12" />-->
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/NanumSquareRoundB"
+            bindToDate="@{data.dtRegister}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/tv_nickname"
+            tools:text="2012-12-12" />
 
-<!--        <TextView-->
-<!--            style="@style/NanumSquareRoundR"-->
-<!--            android:id="@+id/tv_q_content"-->
-<!--            bindRemoveMarkUp="@{data.SQuestion}"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            android:ellipsize="end"-->
-<!--            android:maxLines="2"-->
-<!--            android:textColor="@color/light_black2"-->
-<!--            android:textSize="14sp"-->
-<!--            android:fontFamily="@font/nanum_square_round_b"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/cardView"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/cv_preview"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            tools:text="합성어와 파생어의 차이에 대해서 궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다. 궁금합니다." />-->
+        <TextView
+            style="@style/NanumSquareRoundR"
+            android:id="@+id/tv_q_content"
+            bindRemoveMarkUp="@{data.SQuestion}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/light_black2"
+            android:textSize="14sp"
+            android:fontFamily="@font/nanum_square_round_b"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintStart_toEndOf="@+id/cv_preview"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="합성어와 파생어의 차이에 대해서 궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다. 궁금합니다." />
 
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/cardView"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:cardCornerRadius="10dp"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/tv_q_content">-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_q_content">
 
-<!--            <TextView-->
-<!--                android:id="@+id/contents_count"-->
-<!--                style="@style/NanumSquareRoundB"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="20dp"-->
-<!--                android:background="@{data.IAnswered == 1 ? @color/main_color : @color/gray}"-->
-<!--                android:ellipsize="end"-->
-<!--                android:gravity="center"-->
-<!--                android:textSize="13sp"-->
-<!--                android:minWidth="80dp"-->
-<!--                android:paddingStart="10dp"-->
-<!--                android:paddingEnd="10dp"-->
-<!--                android:text="@{data.IAnswered > 0 ? @string/content_counsel_answer_true : @string/content_counsel_answer_false }"-->
-<!--                android:textColor="@color/white"-->
-<!--                tools:text="대기중 >" />-->
+            <TextView
+                android:id="@+id/contents_count"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:background="@{data.IAnswered == 1 ? @color/main_color : @color/gray}"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:minWidth="80dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@{data.IAnswered > 0 ? @string/content_counsel_answer_true : @string/content_counsel_answer_false }"
+                android:textColor="@color/white"
+                tools:text="대기중 >" />
 
-<!--        </androidx.cardview.widget.CardView>-->
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

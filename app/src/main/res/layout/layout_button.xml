@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="btn_text"
+            type="String" />
+        <variable
+            name="btn_status"
+            type="Boolean" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="false"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/gray"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/tv_btn"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:text="@{btn_text}"
+            bindBtnChangeColor="@{btn_status}"
+            tools:text="전송"
+            />
+
+    </androidx.cardview.widget.CardView>
+</layout>

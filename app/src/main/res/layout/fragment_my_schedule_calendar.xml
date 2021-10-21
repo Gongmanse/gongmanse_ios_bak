@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="@color/white">
+
+              <androidx.constraintlayout.widget.ConstraintLayout
+                  android:id="@+id/layout_root"
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:animateLayoutChanges="true"
+                  android:orientation="vertical"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent">
+
+                     <TextView
+                         android:id="@+id/tv_calendar_title"
+                         style="@style/NanumSquareRoundB"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="20dp"
+                         android:gravity="center"
+                         android:textColor="@color/black"
+                         android:textSize="25sp"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintStart_toStartOf="parent"
+                         app:layout_constraintTop_toTopOf="parent"
+                         tools:text="2021년 1월" />
+                     <ImageView
+                         android:id="@+id/iv_previous"
+                         android:layout_width="40dp"
+                         android:layout_height="40dp"
+                         android:scaleY="0.6"
+                         android:scaleX="0.6"
+                         android:layout_marginStart="20dp"
+                         android:contentDescription="@string/content_description_calendar_before"
+                         android:src="@drawable/ic_schedule_move"
+                         app:layout_constraintBottom_toBottomOf="@+id/tv_calendar_title"
+                         app:layout_constraintStart_toStartOf="parent"
+                         app:layout_constraintTop_toTopOf="@+id/tv_calendar_title" />
+
+                     <ImageView
+                         android:id="@+id/iv_next"
+                         android:layout_width="40dp"
+                         android:layout_height="40dp"
+                         android:scaleY="0.6"
+                         android:scaleX="0.6"
+                         android:layout_marginEnd="20dp"
+                         android:contentDescription="@string/content_description_calendar_next"
+                         android:rotation="180"
+                         android:src="@drawable/ic_schedule_move"
+                         app:layout_constraintBottom_toBottomOf="@+id/tv_calendar_title"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintTop_toTopOf="@+id/tv_calendar_title" />
+
+                     <View
+                         android:id="@+id/view3"
+                         android:layout_width="0dp"
+                         android:layout_height="0.5dp"
+                         android:layout_marginStart="20dp"
+                         android:layout_marginEnd="20dp"
+                         android:background="@color/gray"
+                         app:layout_constraintBottom_toTopOf="@+id/rv_week"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintStart_toStartOf="parent" />
+
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/rv_week"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="15dp"
+                         android:layout_marginTop="15dp"
+                         android:layout_marginEnd="15dp"
+                         android:orientation="horizontal"
+                         android:overScrollMode="never"
+                         android:scrollbars="none"
+                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintStart_toStartOf="parent"
+                         app:layout_constraintTop_toBottomOf="@+id/tv_calendar_title"
+                         tools:itemCount="7"
+                         tools:listitem="@layout/item_date" />
+
+                     <View
+                         android:id="@+id/view2"
+                         android:layout_width="0dp"
+                         android:layout_height="0.5dp"
+                         android:layout_marginStart="20dp"
+                         android:layout_marginEnd="20dp"
+                         android:background="@color/gray"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintStart_toStartOf="parent"
+                         app:layout_constraintTop_toBottomOf="@+id/rv_week" />
+
+                     <androidx.recyclerview.widget.RecyclerView
+                         android:id="@+id/rv_date"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="15dp"
+                         android:layout_marginTop="8dp"
+                         android:layout_marginEnd="15dp"
+                         android:orientation="horizontal"
+                         android:overScrollMode="never"
+                         android:scrollbars="none"
+                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintStart_toStartOf="parent"
+                         app:layout_constraintTop_toBottomOf="@+id/rv_week"
+                         tools:itemCount="31"
+                         tools:listitem="@layout/item_date" />
+
+                     <com.google.android.material.floatingactionbutton.FloatingActionButton
+                         android:id="@+id/btn_add_schedule"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_margin="30dp"
+                         android:clickable="true"
+                         android:contentDescription="@string/content_description_calendar_add"
+                         android:focusable="true"
+                         app:fabSize="mini"
+                         app:layout_constraintBottom_toTopOf="@+id/layout_bottom"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:srcCompat="@drawable/ic_add" />
+
+                     <androidx.constraintlayout.widget.ConstraintLayout
+                         android:id="@+id/layout_bottom"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:visibility="gone"
+                         app:layout_constraintBottom_toBottomOf="parent"
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintStart_toStartOf="parent">
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                style="@style/NanumSquareRoundB"
+                                android:layout_width="match_parent"
+                                android:layout_height="33dp"
+                                android:background="@color/gray"
+                                android:drawablePadding="10dp"
+                                android:gravity="fill_vertical"
+                                android:padding="20dp"
+                                android:text="@string/content_schedule_bottom_title"
+                                android:textColor="@color/black"
+                                app:drawableStartCompat="@drawable/ic_schedule"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_schedule"
+                                android:layout_width="match_parent"
+                                android:layout_height="160dp"
+                                app:layout_constraintTop_toBottomOf="@+id/textView11"
+                                tools:listitem="@layout/item_schedule" />
+
+                            <include
+                                android:id="@+id/layout_empty"
+                                layout="@layout/layout_empty2"
+                                android:layout_width="match_parent"
+                                android:layout_height="160dp"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp"
+                                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+              </androidx.constraintlayout.widget.ConstraintLayout>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

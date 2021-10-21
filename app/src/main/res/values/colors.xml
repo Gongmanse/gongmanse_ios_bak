@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-
-
-    <color name="colorPrimary">#ED7600</color>
-    <color name="txtColor">#1C1C1C</color>
-    <color name="ticketColor">#15b0ac</color>
-
-    <!-- Main Color -->
-    <color name="main_color">#ed7600</color>
+<!-- Main Color -->
+<color name="main_color">#ed7600</color>
 
     <!-- Default Color -->
     <color name="transparent_color">#00FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="light_black">#272727</color>
     <color name="light_black2">#1c1c1c</color>
+    <color name="black">#FF000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_70">#B3000000</color>
     <color name="light_gray">#EDEDED</color>
     <color name="gray">#FFC8C8C8</color>
     <color name="dark_gray">#a4a4a4</color>
     <color name="dark_gray2">#808080</color>
     <color name="black_trans20">#99000000</color>
 
+    <!-- Sub Color -->
+    <color name="sub_ko">#40a551</color>   <!--국어-->
+    <color name="sub_eng">#c14560</color>  <!--영어-->
+    <color name="sub_math">#a1449e</color> <!--수학-->
+    <color name="sub_soc">#9c9637</color>  <!--사회-->
+    <color name="sub_sci">#7241a4</color>  <!--과학-->
+    <color name="sub_etc">#144d64</color>  <!--나머지 과목-->#15b0ac
+
+    <color name="sub_color7">#ff0023</color>
+    <color name="sub_color8">#15b0ac</color>
+
+    <!-- Week Color -->
+    <color name="week_color_sun">#ff0023</color>
+    <color name="week_color_sat">#15b0ac</color>
+    <color name="date_color_num">#707070</color>
+
+    <!-- date Color -->
+    <color name="date_color_click">#15b0ac</color>
+
     <!-- sUnit color -->
     <color name="term_color">#fb6225</color>
     <color name="term_other_than_color">#008dc1</color>
+
+    <!-- Note Move button -->
+    <color name="move_button_color">#ffdd9c</color>
+
+
 
 </resources>

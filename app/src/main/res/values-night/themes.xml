@@ -1,16 +1,215 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Gongmanse2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Gongmanseapk" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryVariant">@color/main_color</item>
+        <item name="colorOnPrimary">@color/sub_soc</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/main_color</item>
+        <item name="colorSecondaryVariant">@color/main_color</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:buttonStyle">@style/NanumSquareRoundB</item>
+        <item name="android:editTextStyle">@style/NanumSquareRoundB</item>
+        <item name="android:radioButtonStyle">@style/NanumSquareRoundB</item>
+        <item name="android:checkboxStyle">@style/NanumSquareRoundB</item>
+        <item name="android:textViewStyle">@style/NanumSquareRoundB</item>
     </style>
+
+    <!-- Full screen theme. -->
+    <style name="Theme.Gongmanseapk.FullScreen">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- BottomNavigationView Inactive -->
+    <style name="BottomNavigation" parent="TextAppearance.AppCompat.Caption">
+        <item name="fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:color">@android:color/transparent</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- BottomNavigationView Active -->
+    <style name="BottomNavigation.Active" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- Nanum Square Round B -->
+    <style name="NanumSquareRoundB" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <style name="LabelTextStyle" parent="NanumSquareRoundB">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Nanum Square Round EB -->
+    <style name="NanumSquareRoundEB" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_eb</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Nanum Square Round L -->
+    <style name="NanumSquareRoundL" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_l</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Nanum Square Round R -->
+    <style name="NanumSquareRoundR" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/nanum_square_round_r</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- TextInputLayout -->
+    <style name="NanumSquareRoundB.FormInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/selector_input_text</item>
+        <item name="startIconTint">@color/selector_input_text</item>
+        <item name="endIconTint">@color/selector_end_icon</item>
+        <item name="hintTextColor">@color/selector_input_text</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.FormInputText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <!-- Checkbox -->
+    <style name="NanumSquareRoundB.FormCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:button">@drawable/selector_check_box</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- Checkbox -->
+    <style name="NanumSquareRoundB.Checkbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <!-- Subtitle -->
+    <style name="NanumSquareRoundB.Subtitles">
+        <!--        <item name="android:background">@color/black_87</item>-->
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Error Message -->
+    <style name="NanumSquareRoundB.ErrorMessage" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/sub_color7</item>
+    </style>
+
+    <!-- Tab Item -->
+    <style name="NanumSquareRoundB.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayoutSw600" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout2" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout_12SP" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout_11SP" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">11dp</item>
+    </style>
+
+    <!-- ActionBar Menu Margin -->
+    <style name="ActionBar" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="ActionBar2" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <!-- Chip Style -->
+    <style name="ChipEvent" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:layout_width">140dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:checked">false</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textAlignment">center</item>
+        <item name="chipBackgroundColor">@color/selector_chip</item>
+        <item name="chipCornerRadius">10dp</item>
+        <item name="minHeight">30dp</item>
+        <item name="chipStrokeColor">@color/selector_chip</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">11sp</item>
+    </style>
+
+    <!-- Select Box -->
+    <style name="SelectBox" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxWidth">130dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/ic_select_box</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+    </style>
+
 </resources>

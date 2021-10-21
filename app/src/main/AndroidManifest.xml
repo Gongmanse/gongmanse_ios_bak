@@ -2,42 +2,181 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.gongmanse.app">
-    <!-- 권한: 인터넷 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 권한: 카메라 -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 권한: 저장소 -->
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 카메라 권한 (갤러리 포함) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 외부 저장소 읽기 권한 -->
+
+    <!--queries에 카카오톡 패키지 추가-->
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
 
     <application
         android:name=".MyApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_icon_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_icon_logo_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Gongmanse2"
+        android:theme="@style/Theme.Gongmanseapk"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".feature.member.UpdateMemberActivity"></activity>
-        <activity android:name=".feature.member.LoginActivity" />
+        <activity android:name=".activities.VideoActivity"
+            android:theme="@style/Theme.Gongmanseapk.FullScreen"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".feature.splash.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Gongmanse2.FullScreen" />
+            android:name=".activities.RelationSeriesActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.Intro.IntroActivity"
+            android:name=".activities.NoticeDetailWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ScheduleAddActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Gongmanse2.FullScreen" />
-        <activity android:name=".MainActivity">
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.customer.AddOneToOneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.customer.CustomerServiceDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.customer.CustomerServiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PrivacyPolicyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.TermsOfServiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WhatIsGongmanseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AlarmDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AlarmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.NoticeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SeriesListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SearchResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyScheduleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyScheduleSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ProgressDetailPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.TeacherListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.VideoNoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CounselCreateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.CounselDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyActiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.TeacherDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RegisterUpdateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EnterNewPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ResultFindPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ResultFindIdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FindPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FindIdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="gongmanse" android:scheme="myapp" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name=".DeepLink" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.IntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Gongmanseapk.FullScreen" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Gongmanseapk.FullScreen" />
+
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" /> <!-- 네이티브 앱 키 설정 -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1008222056278488"
+            android:exported="true" />
     </application>
 
 </manifest>

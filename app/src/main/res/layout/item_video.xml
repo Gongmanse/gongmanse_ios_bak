@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingDefaultResource">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.graphics.Color" />
         <import type="android.view.View" />
-        <variable name="data" type="com.gongmanse.app.data.model.video.VideoBody" />
+        <variable name="data" type="com.gongmanse.app.model.VideoData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,9 +47,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:contentDescription="@string/desc_image_preview" />
+                    android:contentDescription="@string/content_description_image_preview" />
+
+                <TextView
+                    android:id="@+id/iv_video_count"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_trans20"
+                    android:gravity="center"
+                    android:text="@{@string/content_format_series_video_count(data.seriesCount)}"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:visibility="@{data.seriesCount > 0? View.VISIBLE : View.GONE}" />
 
             </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/iv_quick_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_play_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="10dp"
+                android:visibility="@{data.videoId == null || data.videoId.empty ? View.GONE : View.VISIBLE}"
+                app:cardUseCompatPadding="false"
+                android:contentDescription="@string/content_description_note_quick_video"
+                app:layout_constraintTop_toTopOf="@id/tv_title"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_title"
@@ -58,14 +84,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@{data.title}"
                 android:textColor="@color/light_black2"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_preview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_quick_video"
                 tools:text="시의 표현법(변화주ㅇㅇㅇㅇㅇㅇㅇ" />
 
             <androidx.cardview.widget.CardView
@@ -83,7 +110,7 @@
                     style="@style/NanumSquareRoundB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@{data.subjectColor == null ? @color/main_color : Color.parseColor(data.subjectColor)}"
+                    android:background="@{data.subjectColor == null ? @color/main_color : Color.parseColor(@string/content_format_subject_background(data.subjectColor))}"
                     android:gravity="center"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="4dp"
@@ -131,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:text="@{data.rating != null &amp;&amp; !data.rating.empty ? String.valueOf(data.rating) : @string/content_text_rating_value_null}"
+                android:text="@{data.rating != null &amp;&amp; !data.rating.empty ? String.valueOf(Float.parseFloat(data.rating)) : @string/content_text_rating_value_null}"
                 android:textColor="@color/light_black2"
                 android:textSize="15sp"
                 android:visibility="@{data.rating == null ? View.GONE : View.VISIBLE }"

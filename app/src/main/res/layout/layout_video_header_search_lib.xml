@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="totalNum" type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_total_num1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black2"
+            android:textSize="16sp"
+            android:text="@string/content_format_video_count1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_total_num2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:textColor="@color/main_color"
+            android:textSize="16sp"
+            android:text="@{totalNum != null ? @string/content_format_video_count2(totalNum) : @string/content_format_init_count_value}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_total_num1"
+            tools:text="3"/>
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_total_num3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/light_black2"
+            android:textSize="16sp"
+            android:text="@string/content_format_video_count3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_total_num2" />
+
+        <Switch
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/sw_auto_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchPadding="8dp"
+            android:thumb="@drawable/custom_switch_thumb"
+            android:track="@drawable/custom_switch_track"
+            android:textColor="@color/selector_switch_text"
+            android:textSize="12sp"
+            android:text="@string/content_home_switch_text"
+            android:checked="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/tv_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:drawablePadding="5dp"
+            android:text="@string/content_home_spinner_default_relevance"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintStart_toEndOf="@+id/tv_total_num3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableEndCompat="@drawable/ic_arrow_below_gray" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

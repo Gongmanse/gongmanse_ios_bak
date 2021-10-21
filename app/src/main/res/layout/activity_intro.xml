@@ -2,87 +2,59 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.Intro.IntroActivity">
+    tools:context=".activities.IntroActivity">
 
-    <TextView
-        style="@style/NanumSquareRoundB"
+    <com.rd.PageIndicatorView
+        android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="30sp"
-        android:text="@string/content_intro_text1"
-        android:textColor="@color/light_black"
-        android:textSize="30sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        tools:text="동영상학습 백과사전" />
-
-    <TextView
-        android:id="@+id/textView"
-        style="@style/NanumSquareRoundEB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginEnd="60dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="0sp"
-        android:text="@string/content_intro_text2"
-        android:textSize="50sp"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="68dp"
+        android:layout_marginBottom="10dp"
+        app:piv_animationType="none"
+        app:piv_dynamicCount="true"
+        app:piv_interactiveAnimation="true"
+        app:piv_selectedColor="@color/main_color"
+        app:piv_unselectedColor="@color/light_gray"
+        app:piv_viewPager="@id/view_pager"
+        app:piv_padding="8dp"
+        app:piv_radius="4dp"
+        app:piv_count="8"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="동영상 강의\n45,000" />
-
-    <TextView
-        android:id="@+id/textView4"
-        style="@style/NanumSquareRoundB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="46dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="38sp"
-        android:text="@string/content_intro_text3"
-        android:textColor="@color/light_black2"
-        android:textSize="22sp"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="138dp"
-        android:layout_height="253dp"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="274dp"
-        android:layout_marginEnd="111dp"
-        android:contentDescription="@string/desc_image_intro"
-        android:src="@mipmap/intro_phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/view_pager2"/>
 
-    <!-- 다음 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="45dp"
+        android:src="@mipmap/gongmanse_manual01"
+        android:contentDescription="@string/content_description_image_intro"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/indicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_intro_next" />
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_intro_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="56dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
         android:layout_marginBottom="28dp"
-        android:text="@string/content_button_next"
+        android:paddingVertical="11dp"
+        android:fontFamily="@font/nanum_square_round_b"
         android:textColor="@color/white"
-        app:cornerRadius="@dimen/button_radius"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        android:textSize="17sp"
+        android:textStyle="normal"
+        android:text="@string/content_btn_text"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

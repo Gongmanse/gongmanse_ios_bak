@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress DeprecatedClassUsageInspection -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.graphics.Color" />
+
+        <import type="com.gongmanse.app.model.NoteCanvasData" />
+
+        <import type="com.gongmanse.app.model.VideoData" />
+
+        <variable
+            name="item"
+            type="NoteCanvasData" />
+
+        <variable
+            name="data"
+            type="VideoData" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/layout_actionbar3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="300dp"
+                    android:elevation="10dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.gongmanse.app.utils.BackgroundView
+                    android:id="@+id/canvas_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.gongmanse.app.utils.GraphicView
+                    android:id="@+id/canvas_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/btn_canvas_show"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="68dp"
+            android:layout_height="80dp"
+            android:background="@drawable/background_right_half_round"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/content_button_canvas_save"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sliding" />
+
+        <SlidingDrawer
+            android:id="@+id/sliding"
+            android:layout_width="220dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="10dp"
+            android:content="@id/content"
+            android:handle="@id/handle"
+            android:orientation="horizontal"
+            android:rotation="180"
+            app:layout_constraintBottom_toTopOf="@+id/layout_player"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RadioGroup
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/main_color"
+                android:checkedButton="@id/rb_1"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:rotation="180">
+
+                <RadioButton
+                    android:id="@+id/rb_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button_red_pencils"
+                    android:button="@null"
+                    android:text="@null" />
+
+                <RadioButton
+                    android:id="@+id/rb_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button_green_pencils"
+                    android:button="@null"
+                    android:text="@null" />
+
+                <RadioButton
+                    android:id="@+id/rb_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button_blue_pencils"
+                    android:button="@null"
+                    android:text="@null" />
+
+                <RadioButton
+                    android:id="@+id/rb_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button_eraser"
+                    android:button="@null"
+                    android:text="@null" />
+
+            </RadioGroup>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/handle"
+                android:layout_width="68dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_left_half_round"
+                android:rotation="180">
+
+                <TextView
+                    android:id="@+id/handle_close"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/content_button_canvas_menu"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/handle_open"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/content_description_image_close_canvas"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_double_arrow"
+                    android:visibility="invisible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </SlidingDrawer>
+
+        <TextView
+            android:id="@+id/tv_back"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="68dp"
+            android:layout_height="35dp"
+            android:background="@drawable/background_right_half_round"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/content_video_button_back"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sliding" />
+
+        <TextView
+            android:id="@+id/tv_next"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="68dp"
+            android:layout_height="35dp"
+            android:background="@drawable/background_right_half_round"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/content_video_button_next"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/sliding"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_player"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:background="@drawable/background_border_gray"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/videoView2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                app:auto_show="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:resize_mode="fit"
+                app:surface_type="surface_view"
+                app:use_controller="false" />
+
+            <TextView
+                android:id="@+id/textView16"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{data.title}"
+                android:textColor="@color/light_black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintStart_toEndOf="@+id/videoView2"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="제목이 들어갈 부분" />
+
+            <TextView
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{@string/content_text_teacher_name(data.teacherName)}"
+                android:textColor="@color/light_black"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@+id/textView16"
+                app:layout_constraintTop_toBottomOf="@+id/textView16"
+                tools:text="홍길동 선생님" />
+
+            <ImageView
+                android:id="@+id/ic_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_note_play"
+                android:focusable="true"
+                android:src="@drawable/ic_play"
+                android:visibility="gone"
+                android:onClick="onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_note_pause"
+                android:focusable="true"
+                android:src="@drawable/ic_pause"
+                android:visibility="gone"
+                android:onClick="onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_note_close"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:src="@drawable/ic_large_x"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

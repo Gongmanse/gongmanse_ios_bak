@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "1058839479652",
+    "firebase_url": "https://gongmanse.firebaseio.com",
+    "project_id": "gongmanse",
+    "storage_bucket": "gongmanse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058839479652:android:0190c644c44ec8079ee671",
+        "android_client_info": {
+          "package_name": "com.gongmanse.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058839479652-g2h21o1plh0g3sp0s6bjqeo4g56a3noc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gongmanse.app",
+            "certificate_hash": "184dfa4cc7d9fd6ba843f572def229374a207b13"
+          }
+        },
+        {
+          "client_id": "1058839479652-taae1gtrva5hg7r4dhqrlvtiiu8h95t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxH_Ke4gKVNoHVbDaNFS-s3WcnsSXTJis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058839479652-taae1gtrva5hg7r4dhqrlvtiiu8h95t0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1058839479652-408o1lhq56fmu3faev31affcpmm8losd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gongmanse.gongmanse"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058839479652:android:a5e52f955754804b9ee671",
+        "android_client_info": {
+          "package_name": "com.softlabs.gongmanse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058839479652-p6tlvdojj4ie5lb644t9rke6ie55f3s4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.softlabs.gongmanse",
+            "certificate_hash": "184dfa4cc7d9fd6ba843f572def229374a207b13"
+          }
+        },
+        {
+          "client_id": "1058839479652-taae1gtrva5hg7r4dhqrlvtiiu8h95t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxH_Ke4gKVNoHVbDaNFS-s3WcnsSXTJis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058839479652-taae1gtrva5hg7r4dhqrlvtiiu8h95t0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1058839479652-408o1lhq56fmu3faev31affcpmm8losd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gongmanse.gongmanse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

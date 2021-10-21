@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="android.graphics.Color"/>
+        <variable name="data" type="com.gongmanse.app.model.CounselData"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_q_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/content_description_image_counsel_preview"
+                    android:scaleType="fitXY"
+                    bindURLImage="@{data.filePath}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_remove"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/main_color"
+                    android:clickable="true"
+                    android:contentDescription="@string/content_description_remove"
+                    android:focusable="true"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="22dp"
+                    android:src="@drawable/ic_delete_thing"
+                    android:visibility="@{data.remove ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView3"
+                    app:layout_constraintStart_toStartOf="@id/imageView3"
+                    app:layout_constraintTop_toTopOf="@id/imageView3"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintWidth_percent="0.45" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/imageView2"
+            bindProfileURL2="@{data.SProfile}"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/content_description_image_profile"
+            android:src="@drawable/ic_user"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_preview"
+            app:layout_constraintStart_toStartOf="@+id/tv_q_content" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@{data.SNickname}"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            tools:text="마포4번출구>" />
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_date"
+            bindToDate="@{data.dtLastUpdated}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintTop_toTopOf="@id/tv_nickname"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="2012-12-12" />
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_q_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/light_black2"
+            android:textSize="14sp"
+            bindRemoveMarkUp="@{data.SQuestion}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cv_preview"
+            app:layout_constraintEnd_toStartOf="@+id/cv_response"
+            tools:text="합성어와 파생어의 차이에 대해서 궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다.궁금합니다. 궁금합니다." />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="@{data.IAnswered == 1 ? @color/main_color : @color/gray}"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_response"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="@{data.IAnswered > 0 ? @string/content_text_apply : @string/content_text_wait}"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                tools:ignore="SmallSp"
+                tools:text="답변 완료" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,42 +1,46 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Gongmanse2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Gongmanseapk" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_color</item>
         <item name="colorPrimaryVariant">@color/main_color</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/sub_soc</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/main_color</item>
         <item name="colorSecondaryVariant">@color/main_color</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <!-- Navigation Menu Item Font theme. -->
-    <style name="Navigation.Item" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/nanum_square_round_b</item>
-        <item name="android:textColor">@color/txtColor</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@color/black</item>
+        <item name="android:buttonStyle">@style/NanumSquareRoundB</item>
+        <item name="android:editTextStyle">@style/NanumSquareRoundB</item>
+        <item name="android:radioButtonStyle">@style/NanumSquareRoundB</item>
+        <item name="android:checkboxStyle">@style/NanumSquareRoundB</item>
+        <item name="android:textViewStyle">@style/NanumSquareRoundB</item>
     </style>
 
     <!-- Full screen theme. -->
-    <style name="Theme.Gongmanse2.FullScreen">
+    <style name="Theme.Gongmanseapk.FullScreen">
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- BottomNavigationView Inactive -->
+    <style name="BottomNavigation" parent="TextAppearance.AppCompat.Caption">
+        <item name="fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:color">@android:color/transparent</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- BottomNavigationView Active -->
+    <style name="BottomNavigation.Active" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- Nanum Square Round B -->
@@ -44,6 +48,11 @@
         <item name="android:fontFamily">@font/nanum_square_round_b</item>
         <item name="android:letterSpacing">-0.04</item>
         <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <style name="LabelTextStyle" parent="NanumSquareRoundB">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- Nanum Square Round EB -->
@@ -67,275 +76,164 @@
         <item name="android:lineSpacingExtra">7sp</item>
     </style>
 
-    <!-- Appbar Title Style -->
-    <style name="NanumSquareRoundEB.AppbarTitle">
-        <item name="android:textColor">@color/txtColor</item>
-        <item name="android:textSize">17sp</item>
-    </style>
-
-    <!-- BottomNavigationView Inactive -->
-    <style name="NanumSquareRoundB.BottomNavigation" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:color">@android:color/transparent</item>
-        <item name="android:textSize">11sp</item>
-    </style>
-
-    <!-- BottomNavigationView Active -->
-    <style name="NanumSquareRoundB.BottomNavigation.Active">
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <!-- Navigation Header Nickname -->
-    <style name="NavigationHeaderNickname" parent="NanumSquareRoundB">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <!-- Navigation Header Nickname -->
-    <style name="NavigationHeaderGrade" parent="NanumSquareRoundR">
-        <item name="android:textColor">@color/light_black</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <!-- Navigation Header Button -->
-    <style name="NavigationHeaderButton" parent="NanumSquareRoundB">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="NavigationHeaderTicketText" parent="NanumSquareRoundB">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">11sp</item>
-    </style>
-
-    <style name="NavigationHeaderTicketButton" parent="NanumSquareRoundB">
-        <item name="android:textColor">@color/light_black2</item>
-        <item name="android:textSize">11sp</item>
-    </style>
-
-    <!-- TabLayout theme. -->
-    <style name="TabLayoutStyle" parent="TextAppearance.Design.Tab">
-        <item name="android:fontFamily">@font/nanum_square_round_b</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <!-- Tab Item -->
-    <style name="NanumSquareRoundB.TabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:textSize">15sp</item>
-    </style>
-
-    <!-- FormInputLayout -->
+    <!-- TextInputLayout -->
     <style name="NanumSquareRoundB.FormInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxBackgroundMode">filled</item>
         <item name="boxBackgroundColor">@color/white</item>
         <item name="boxStrokeWidth">2dp</item>
-        <item name="boxStrokeColor">@color/selector_text_input_layout</item>
-        <item name="startIconTint">@color/selector_text_input_layout</item>
-        <item name="endIconTint">@color/selector_text_input_layout</item>
-        <item name="hintTextColor">@color/selector_text_input_layout</item>
+        <item name="boxStrokeColor">@color/selector_input_text</item>
+        <item name="startIconTint">@color/selector_input_text</item>
+        <item name="endIconTint">@color/selector_end_icon</item>
+        <item name="hintTextColor">@color/selector_input_text</item>
         <item name="android:textSize">10sp</item>
     </style>
 
-    <!-- FormTextInputLayout -->
-    <style name="FormTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:fontFamily">@font/nanum_square_round_b</item>
-        <item name="android:letterSpacing">-0.04</item>
-        <item name="android:lineSpacingExtra">7sp</item>
-        <item name="android:textSize">10sp</item>
-        <item name="boxBackgroundMode">filled</item>
-        <item name="boxBackgroundColor">@color/white</item>
-        <item name="boxStrokeWidth">2dp</item>
-        <item name="boxStrokeColor">@color/selector_text_input_layout</item>
-        <item name="startIconTint">@color/selector_text_input_layout</item>
-        <item name="endIconTint">@color/selector_text_input_layout</item>
-        <item name="hintTextColor">@color/selector_text_input_layout</item>
-        <item name="boxCornerRadiusTopStart">@dimen/txt_input_layout_radius</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/txt_input_layout_radius</item>
-    </style>
-
-    <style name="FormTextInputLayout.Disabled">
-        <item name="android:enabled">false</item>
-    </style>
-
-    <style name="FormTextInputLayout.Username">
-        <item name="android:hint">@string/prompt_username</item>
-        <item name="startIconDrawable">@drawable/ic_username_gray</item>
-        <item name="startIconContentDescription">@string/desc_image_username</item>
-    </style>
-
-    <style name="FormTextInputLayout.Username.Disabled">
-        <item name="android:enabled">false</item>
-    </style>
-
-    <style name="FormTextInputLayout.Password">
-        <item name="android:hint">@string/prompt_password</item>
-        <item name="startIconDrawable">@drawable/ic_password_gray</item>
-        <item name="startIconContentDescription">@string/desc_image_password</item>
-    </style>
-
-    <style name="FormTextInputLayout.PasswordConfirm">
-        <item name="android:hint">@string/prompt_password_confirm</item>
-        <item name="startIconDrawable">@drawable/ic_password_gray</item>
-        <item name="startIconContentDescription">@string/desc_image_password</item>
-    </style>
-
-    <style name="FormTextInputLayout.Name">
-        <item name="android:hint">@string/prompt_name</item>
-        <item name="startIconDrawable">@drawable/ic_name_gray</item>
-        <item name="startIconContentDescription">@string/desc_image_name</item>
-    </style>
-
-    <style name="FormTextInputLayout.Name.Disabled">
-        <item name="android:enabled">false</item>
-    </style>
-
-    <style name="FormTextInputLayout.Nickname">
-        <item name="android:hint">@string/prompt_nickname</item>
-        <item name="startIconDrawable">@drawable/ic_nickname_gray</item>
-        <item name="startIconContentDescription">@string/desc_image_nickname</item>
-    </style>
-
-    <style name="FormTextInputLayout.Email">
-        <item name="android:hint">@string/prompt_email</item>
-        <item name="startIconDrawable">@drawable/ic_email_gray</item>
-        <item name="startIconContentDescription">@string/desc_image_email</item>
-    </style>
-
-    <!-- FormInputText -->
     <style name="NanumSquareRoundB.FormInputText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/light_black2</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <!-- FormInputEditText -->
-    <style name="FormInputEditText" parent="Widget.AppCompat.EditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+
+    <!-- Checkbox -->
+    <style name="NanumSquareRoundB.FormCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:button">@drawable/selector_check_box</item>
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- Checkbox -->
+    <style name="NanumSquareRoundB.Checkbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.Checkbox.Sw600dp">
         <item name="android:textSize">14sp</item>
-        <item name="android:imeOptions">actionDone</item>
-        <item name="singleLine">true</item>
-        <item name="android:inputType">text|textNoSuggestions</item>
     </style>
 
-    <style name="FormInputEditText.Password">
-        <item name="android:inputType">textPassword|textNoSuggestions</item>
+    <style name="NanumSquareRoundB.Checkbox.Sw600dp2">
+        <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="FormInputEditText.Email">
-        <item name="android:inputType">textEmailAddress|textNoSuggestions</item>
+    <style name="NanumSquareRoundB.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="FormInputEditText.Disabled">
-        <item name="android:textColor">@color/gray</item>
-        <item name="android:enabled">false</item>
+    <style name="NanumSquareRoundB.TextView.Sw600dp">
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <!-- Login Button -->
-    <style name="LoginButton" parent="NanumSquareRoundB">
-        <item name="android:text">@string/button_login</item>
-        <item name="android:textSize">17sp</item>
+    <style name="NanumSquareRoundB.TextView.Sw600dp2">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Subtitle -->
+    <style name="NanumSquareRoundB.Subtitles">
+        <!--        <item name="android:background">@color/black_87</item>-->
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <!-- Exit Button -->
-    <style name="ImageButton">
-        <item name="android:paddingStart">@dimen/horizontal_spacing_30dp</item>
-        <item name="android:paddingEnd">@dimen/horizontal_spacing_10dp</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <!-- Vertical Line -->
-    <style name="VerticalLine" parent="NanumSquareRoundB">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/light_black2</item>
-        <item name="android:textSize">17sp</item>
-        <item name="android:text">|</item>
-    </style>
-
-    <style name="TextButtonAppearance" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/nanum_square_round_b</item>
-        <item name="android:letterSpacing">-0.04</item>
-        <item name="android:lineSpacingExtra">7sp</item>
-        <item name="android:textSize">17sp</item>
-    </style>
-
-    <!-- SideMenu -->
-    <style name="SideMenuItem" parent="NanumSquareRoundB">
-        <item name="android:layout_weight">1</item>
-        <item name="android:paddingTop">@dimen/vertical_spacing_9dp</item>
-        <item name="android:paddingBottom">@dimen/vertical_spacing_9dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:textColor">@color/dark_gray</item>
-        <item name="android:textSize">13sp</item>
-    </style>
-
-    <!-- Select Box -->
-    <style name="SelectBox" parent="Widget.AppCompat.TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingStart">5dp</item>
-        <item name="android:paddingEnd">20dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/light_black2</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxWidth">130dp</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:background">@drawable/ic_select_box</item>
-        <item name="android:fontFamily">@font/nanum_square_round_b</item>
     </style>
 
-    <!-- TabLayout -->
-    <style name="MyActiveTabLayoutStyle" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:textSize">13sp</item>
+    <!-- Error Message -->
+    <style name="NanumSquareRoundB.ErrorMessage" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/sub_color7</item>
     </style>
 
-    <!-- Selection Sheet Unit Type -->
-    <style name="SheetTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:layout_width">wrap_content</item>
+    <!-- Tab Item -->
+    <style name="NanumSquareRoundB.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayoutSw600" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout2" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout2Sw600dp" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout_12SP" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="NanumSquareRoundB.TabLayout_11SP" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:textSize">11dp</item>
+    </style>
+
+    <!-- ActionBar Menu Margin -->
+    <style name="ActionBar" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="ActionBar2" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <!-- Chip Style -->
+    <style name="ChipEvent" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:layout_width">140dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:drawablePadding">10dp</item>
-        <item name="android:layout_marginStart">10dp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-
-        <item name="android:text">@string/content_format_selected_title_grade</item>
-        <item name="android:drawableLeft">@drawable/ic_popup_class</item>
-
+        <item name="android:checked">false</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:textAlignment">center</item>
+        <item name="chipBackgroundColor">@color/selector_chip</item>
+        <item name="chipCornerRadius">10dp</item>
+        <item name="minHeight">30dp</item>
+        <item name="chipStrokeColor">@color/selector_chip</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:lineSpacingExtra">11sp</item>
     </style>
 
-<!--    <style name="HomeSheetSelection" parent="SheetTextStyle">-->
-<!--        <item name="android:text">@string/content_format_selected_title</item>-->
-<!--        <item name="android:drawableLeft">@drawable/ic_popup_category</item>-->
-<!--    </style>-->
-
-<!--    <style name="HomeSheetSpinner" parent="SheetTextStyle">-->
-<!--        <item name="android:text">@string/content_format_selected_align_title</item>-->
-<!--        <item name="android:drawableLeft">@drawable/ic_popup_align</item>-->
-<!--    </style>-->
-
-<!--    <style name="GradeSheetSelection" parent="SheetTextStyle">-->
-<!--        <item name="android:text">@string/content_format_selected_title_grade</item>-->
-<!--        <item name="android:drawableLeft">@drawable/ic_popup_class</item>-->
-<!--    </style>-->
-
-    <style name="SubjectSheetSelection" parent="SheetTextStyle">
-        <item name="android:text">@string/content_format_selected_subject</item>
-        <item name="android:drawableLeft">@drawable/ic_popup_subject</item>
+    <style name="SelectBoxTextViewBasics" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/nanum_square_round_b</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/light_black2</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="UnitSheetSelection" parent="SheetTextStyle">
-        <item name="android:text">@string/content_format_selected_title_unit</item>
-        <item name="android:drawableLeft">@drawable/ic_popup_unit</item>
+    <style name="ExoMediaButton2">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:layout_width">@dimen/dp_74</item>
+        <item name="android:layout_height">@dimen/dp_74</item>
     </style>
 
 </resources>

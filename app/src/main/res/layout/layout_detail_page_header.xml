@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.Color"/>
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.gongmanse.app.model.ProgressData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_title_and_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:letterSpacing="-0.04"
+                android:lineSpacingExtra="46sp"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="normal"
+                android:ellipsize="end"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@{data.jindoTitle}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layout_cv"
+                tools:text="[초등 - 3학년] 영어 문법" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layout_cv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="@{Color.parseColor(@string/content_format_subject_background(data.subjectColor))}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <!-- 과목 -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_class"
+                            bindGradeTextOfJindo="@{data.grade}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanum_square_round_b"
+                            android:letterSpacing="-0.04"
+                            android:lineSpacingExtra="9sp"
+                            android:paddingStart="6dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="5dp"
+                            android:textSize="9sp"
+                            android:textStyle="normal"
+                            android:textColor="@{Color.parseColor(@string/content_format_subject_background(data.subjectColor))}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="SmallSp"
+                            tools:text="초" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/tv_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/nanum_square_round_b"
+                        android:lineSpacingExtra="-0.04dp"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        android:textStyle="normal"
+                        android:text="@{data.subject}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cv_subject"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SmallSp"
+                        tools:text="국어" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

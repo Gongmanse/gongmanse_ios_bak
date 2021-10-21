@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.main.progress.ProgressFragment">
+        android:background="@color/white"
+        tools:context=".fragments.progress.ProgressFragment">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout_progress"
-            style="@style/TabLayoutStyle"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -18,21 +18,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabBackground="@drawable/selector_tab_indicator"
+            app:tabGravity="fill"
             app:tabIndicator="@android:color/transparent"
             app:tabIndicatorGravity="bottom"
             app:tabIndicatorHeight="3dp"
+            app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabTextAppearance="@style/TabLayoutStyle" />
+            app:tabTextAppearance="@style/NanumSquareRoundB.TabLayout" />
 
         <View
             android:id="@+id/divider_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/light_gray"
-            app:layout_constraintTop_toBottomOf="@id/tab_layout_progress" />
+            app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_progress"
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

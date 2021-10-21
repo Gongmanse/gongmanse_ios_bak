@@ -7,10 +7,11 @@
 
         <import type="android.view.View" />
 
-        <import type="com.gongmanse.app.data.model.video.Video" />
+        <import type="com.gongmanse.app.model.Counsel" />
+
         <variable
             name="item"
-            type="Video" />
+            type="Counsel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,15 +40,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-<!--                bindSearchCounselData="@{item.videoHeader.totalRows}"-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_counsel_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:overScrollMode="never"
                     android:paddingVertical="10dp"
-
-                    android:visibility="@{item.videoBody.size() > 0 ? View.VISIBLE : View.GONE}"
+                    bindSearchCounselData="@{item.data}"
+                    android:visibility="@{item.data.size() > 0 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@+id/layout_header"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:listitem="@layout/item_counsel" />
@@ -57,7 +57,7 @@
                     layout="@layout/layout_empty"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{item.videoBody.size() > 0 ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{item.data.size() > 0 ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

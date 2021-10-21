@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/layout_button_next">
+
+            <!-- 이용약관 -->
+            <LinearLayout
+                android:id="@+id/cv_terms_of_service"
+                android:layout_width="0dp"
+                android:layout_height="151dp"
+                android:background="@drawable/background_round_border_gray"
+                android:elevation="5dp"
+                app:layout_constraintEnd_toEndOf="@id/cb_all"
+                app:layout_constraintStart_toStartOf="@id/cb_all"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <WebView
+                    android:id="@+id/wv_terms_of_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cb_terms_of_service"
+                style="@style/NanumSquareRoundB.FormCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/content_checkbox_terms_of_service_agree"
+                app:layout_constraintStart_toStartOf="@id/cv_terms_of_service"
+                app:layout_constraintTop_toBottomOf="@id/cv_terms_of_service"
+                tools:checked="false" />
+
+            <!-- 개인정보처리방침 -->
+            <LinearLayout
+                android:id="@+id/cv_privacy"
+                android:layout_width="0dp"
+                android:layout_height="151dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/background_round_border_gray"
+                android:elevation="5dp"
+                app:layout_constraintEnd_toEndOf="@id/cb_all"
+                app:layout_constraintStart_toStartOf="@id/cb_all"
+                app:layout_constraintTop_toBottomOf="@id/cb_terms_of_service">
+
+                <WebView
+                    android:id="@+id/wv_privacy_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cb_privacy"
+                style="@style/NanumSquareRoundB.FormCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/content_checkbox_privacy_agree"
+                app:layout_constraintStart_toStartOf="@id/cv_privacy"
+                app:layout_constraintTop_toBottomOf="@id/cv_privacy"
+                tools:checked="true" />
+
+            <CheckBox
+                android:id="@+id/cb_all"
+                style="@style/NanumSquareRoundB.FormCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="39dp"
+                android:text="@string/content_checkbox_all_agree"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cb_privacy"
+                tools:checked="true"
+                tools:ignore="UnusedAttribute" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/layout_button_next"
+            layout="@layout/layout_button_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

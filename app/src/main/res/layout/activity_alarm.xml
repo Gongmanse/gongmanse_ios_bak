@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="item" type="com.gongmanse.app.model.Alarm" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.AlarmActivity">
+
+        <!-- Actionbar -->
+        <include layout="@layout/layout_actionbar"
+            android:id="@+id/layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:visibility="@{item.data.size() > 0 ? View.VISIBLE : View.GONE}"
+            android:orientation="vertical"
+            bindAlarm="@{item.data}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_alarm"
+            tools:visibility="visible" />
+
+        <include layout="@layout/layout_empty"
+            android:id="@+id/layout_empty"
+            android:visibility="@{item.data.size() > 0 ? View.GONE : View.VISIBLE}"
+            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar"
+            tools:layout_editor_absoluteX="0dp"
+            tools:visibility="gone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

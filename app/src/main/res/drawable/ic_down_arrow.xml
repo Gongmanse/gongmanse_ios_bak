@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="386.257"
+    android:viewportHeight="386.257">
+  <path
+      android:fillColor="#FFFFFFFF"
+      android:pathData="M0,96.879l193.129,192.5l193.128,-192.5z"/>
+</vector>
+
+<!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->

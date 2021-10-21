@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="data"
+            type="com.gongmanse.app.model.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.RegisterUpdateActivity">
+
+        <include layout="@layout/layout_actionbar"
+            android:id="@+id/layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="28dp"
+            android:paddingStart="52dp"
+            android:paddingEnd="52dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            app:layout_constraintBottom_toTopOf="@id/btn_apply">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 프로필 이미지 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btn_profile"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        app:cardUseCompatPadding="false"
+                        app:cardCornerRadius="50dp"
+                        app:cardBackgroundColor="@color/light_gray"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/iv_profile_none"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="15dp"
+                                android:visibility="@{data.SImage != null ? View.GONE : View.VISIBLE}"
+                                android:contentDescription="@string/content_description_image_profile"
+                                android:src="@drawable/ic_id_off"/>
+
+                            <ImageView
+                                android:id="@+id/iv_profile"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:visibility="@{data.SImage != null ? View.VISIBLE : View.GONE}"
+                                android:contentDescription="@string/content_description_image_profile"
+                                bindProfileURL="@{data.SImage}"
+                                tools:visibility="gone"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:cardUseCompatPadding="false"
+                        app:cardCornerRadius="15dp"
+                        app:cardBackgroundColor="@color/main_color"
+                        app:layout_constraintVertical_bias="0.8"
+                        app:layout_constraintHorizontal_bias="0.8"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:contentDescription="@string/content_description_image_profile"
+                            android:src="@drawable/ic_image"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 아이디 (고정) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_hint_id"
+                    android:enabled="false"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/gray"
+                    app:boxStrokeWidth="2dp"
+                    app:startIconDrawable="@drawable/ic_id_off"
+                    app:startIconTint="@color/gray"
+                    app:startIconContentDescription="@string/content_description_image_id">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
+                        android:inputType="text|textNoSuggestions"
+                        android:text="@{data.SUsername}"
+                        tools:text="id123" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 비밀번호 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:hint="@string/content_hint_password"
+                    app:errorEnabled="true"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/selector_input_text"
+                    app:boxStrokeWidth="2dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_password_off"
+                    app:startIconTint="@color/selector_input_text"
+                    app:startIconContentDescription="@string/content_description_image_password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="textPassword|textNoSuggestions"
+                        tools:text="id123123"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 비밀번호 재입력 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_password_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_password_confirm"
+                    app:errorEnabled="true"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/selector_input_text"
+                    app:boxStrokeWidth="2dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_password_off"
+                    app:startIconTint="@color/selector_input_text"
+                    app:startIconContentDescription="@string/content_description_image_password_confirm">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_password_confirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="textPassword|textNoSuggestions"
+                        tools:text="id123123"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 이름 (고정) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_name"
+                    android:enabled="false"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/gray"
+                    app:boxStrokeWidth="2dp"
+                    app:startIconDrawable="@drawable/ic_name_off"
+                    app:startIconTint="@color/gray"
+                    app:startIconContentDescription="@string/content_description_image_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
+                        android:inputType="text|textNoSuggestions"
+                        android:text="@{data.SFirstName}"
+                        tools:text="변준희"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 닉네임 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:hint="@string/content_hint_nickname"
+                    app:errorEnabled="true"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/selector_input_text"
+                    app:boxStrokeWidth="2dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_nickname_off"
+                    app:startIconTint="@color/selector_input_text"
+                    app:startIconContentDescription="@string/content_description_image_nickname">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="text|textNoSuggestions"
+                        android:text="@{data.SNickname}"
+                        tools:text="id123"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 이메일 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_email"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/selector_input_text"
+                    app:boxStrokeWidth="2dp"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_email_off"
+                    app:startIconTint="@color/selector_input_text"
+                    app:startIconContentDescription="@string/content_description_image_email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="textEmailAddress|textNoSuggestions"
+                        android:text="@{data.SEmail}"
+                        tools:text="id123@email.com"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btn_apply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginEnd="52dp"
+            android:focusable="true"
+            android:clickable="false"
+            android:onClick="onClick"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/gray"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                style="@style/NanumSquareRoundB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:text="@string/content_button_done"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

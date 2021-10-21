@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".fragments.whats.HowUseFragment">
+
+        <ScrollView
+            android:id="@+id/sv_how_use"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_manual_01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual01"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_02"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual02"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_01" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual03"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_02" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_04"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual04"
+
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_03" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_05"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual05"
+
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_04" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_06"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual06"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_05" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_07"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual07"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_06" />
+
+                <ImageView
+                    android:id="@+id/iv_manual_08"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/content_description_image_manual"
+                    android:src="@mipmap/gongmanse_manual08"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_manual_07" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

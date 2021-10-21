@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="tag" type="String" />
+    </data>
+
+    <TextView
+        style="@style/NanumSquareRoundB"
+        android:id="@+id/tv_hash_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:textColor="@color/dark_gray"
+        android:textSize="16sp"
+        android:text="@{tag}"
+        tools:text="#태그"
+        tools:ignore="SmallSp" />
+
+</layout>

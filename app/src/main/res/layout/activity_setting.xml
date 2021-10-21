@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="setting"
+            type="com.gongmanse.app.model.SettingInfo" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout10"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".activities.MyActiveActivity">
+
+        <!-- Actionbar -->
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/layout_actionbar"
+            android:elevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/content_setting_grade"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="기본 학년 선택" />
+
+                <TextView
+                    android:id="@+id/tv_grade"
+                    style="@style/NanumSquareRoundB"
+                    bindSettingInfoGrade="@{setting.grade}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:onClick="onClick"
+                    android:textColor="@color/dark_gray2"
+                    android:textSize="18sp"
+                    app:drawableEndCompat="@drawable/ic_notice_show"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="모든 학년" />
+                <!--android:text="@string/content_setting_grade_sub"-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/content_setting_subject"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="기본 과목 선택" />
+
+                <TextView
+                    android:id="@+id/tv_subject"
+                    style="@style/NanumSquareRoundB"
+                    bindSettingInfoSubject="@{setting.subject}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:onClick="onClick"
+                    android:textColor="@color/dark_gray2"
+                    android:textSize="18sp"
+                    app:drawableEndCompat="@drawable/ic_notice_show"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="모든 과목" />
+                <!--android:text="@string/content_setting_subject_sub"-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/content_setting_subtitle"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="자막 선택" />
+
+                <Switch
+                    android:id="@+id/sw_sub_title"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick"
+                    android:switchPadding="8dp"
+                    android:text=""
+                    android:textColor="@color/dark_gray2"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:text="미적용" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/content_setting_data"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="모바일 데이터 허용" />
+
+                <Switch
+                    android:id="@+id/sw_data"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick"
+                    android:switchPadding="8dp"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/content_setting_push"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="푸시 알림" />
+
+                <Switch
+                    android:id="@+id/sw_push"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView10"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Switch
+                    android:id="@+id/sw_push_specialist"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:onClick="onClick"
+                    android:text="@string/content_setting_push_sub1"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView10"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <Switch
+                    android:id="@+id/sw_push_one_on_one_inquiry"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:onClick="onClick"
+                    android:text="@string/content_setting_push_sub2"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintEnd_toEndOf="@+id/sw_push_specialist"
+                    app:layout_constraintStart_toStartOf="@+id/sw_push_specialist"
+                    app:layout_constraintTop_toBottomOf="@+id/sw_push_specialist"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <Switch
+                    android:id="@+id/sw_push_my_schedule"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:onClick="onClick"
+                    android:text="@string/content_setting_push_sub3"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintEnd_toEndOf="@+id/sw_push_one_on_one_inquiry"
+                    app:layout_constraintStart_toStartOf="@+id/sw_push_one_on_one_inquiry"
+                    app:layout_constraintTop_toBottomOf="@+id/sw_push_one_on_one_inquiry"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <Switch
+                    android:id="@+id/sw_push_notice"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:onClick="onClick"
+                    android:text="@string/content_setting_push_sub4"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:thumb="@drawable/custom_switch_thumb"
+                    android:track="@drawable/custom_switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/sw_push_my_schedule"
+                    app:layout_constraintStart_toStartOf="@+id/sw_push_my_schedule"
+                    app:layout_constraintTop_toBottomOf="@+id/sw_push_my_schedule"
+                    tools:checked="false"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

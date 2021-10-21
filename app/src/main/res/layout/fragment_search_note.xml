@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.search.SearchNoteFragment">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.gongmanse.app.model.VideoList" />
+
+        <variable
+            name="item"
+            type="VideoList" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/layout_header"
+            layout="@layout/layout_video_header_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_note"
+            bindSearchNoteData="@{item.data}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:paddingTop="10dp"
+            android:scrollbars="none"
+            android:visibility="@{item.data.size() > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/layout_pb"
+            app:layout_constraintTop_toBottomOf="@+id/layout_header"
+            tools:listitem="@layout/item_note"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/layout_empty"
+            layout="@layout/layout_empty"
+            android:visibility="@{item.data.size() > 0 ? View.GONE : View.VISIBLE}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:visibility="gone" />
+
+        <include
+            android:id="@+id/layout_pb"
+            layout="@layout/layout_loading_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

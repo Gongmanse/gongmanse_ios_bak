@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.SearchResultActivity">
+
+        <!-- Actionbar -->
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/layout_actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            app:cardBackgroundColor="@color/light_gray"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_input_search"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/content_hint_search"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColorHint="@color/gray"
+                app:boxBackgroundColor="@color/light_gray"
+                app:boxStrokeColor="@android:color/transparent"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:endIconMode="clear_text"
+                app:errorEnabled="false"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/ic_search"
+                app:startIconTint="@color/main_color">
+
+                <!--app:boxBackgroundMode="filled"-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_search"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tabs Menu -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_search"
+            app:tabBackground="@drawable/selector_tab_indicator"
+            app:tabGravity="fill"
+            app:tabIndicator="@android:color/transparent"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/NanumSquareRoundB.TabLayoutSw600" />
+
+        <!-- Contents -->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_player"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_player"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:background="@drawable/background_border_gray"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/videoView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onClick"
+                app:auto_show="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:resize_mode="fit"
+                app:show_buffering="when_playing"
+                app:surface_type="surface_view"
+                app:use_controller="false" />
+
+            <TextView
+                android:id="@+id/tv_bottom_title"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/light_black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintStart_toEndOf="@+id/videoView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="제목이 들어갈 부분" />
+
+            <TextView
+                android:id="@+id/tv_bottom_name"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/light_black"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_bottom_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_bottom_title"
+                tools:text="홍길동 선생님" />
+
+            <ImageView
+                android:id="@+id/ic_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_note_play"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:src="@drawable/ic_play"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_note_pause"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:src="@drawable/ic_pause"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_note_close"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:src="@drawable/ic_large_x"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

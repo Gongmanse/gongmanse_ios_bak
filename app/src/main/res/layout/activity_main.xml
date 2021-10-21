@@ -1,70 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="right"
+    tools:context=".activities.MainActivity">
 
-    <data>
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    </data>
-
-    <com.gongmanse.app.utils.CustomDrawerLayout
-        android:id="@+id/drawer_layout"
+    <FrameLayout
+        android:id="@+id/drawer_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="end">
+        android:layout_gravity="end"
+        android:background="@color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@color/black"
+        android:dividerHeight="1dp" />
 
-        <include layout="@layout/layout_app_bar_main"
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:fitsSystemWindows="true"
-            app:menu="@menu/navigation_menu"
-            app:itemIconTint="@color/colorPrimary"
-            app:itemTextAppearance="@style/Navigation.Item"
-            tools:ignore="RtlHardcoded">
-
-            <!-- Footer View -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/light_gray"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                    <TextView
-                        style="@style/SideMenuItem"
-                        android:id="@+id/btn_terms_of_service"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="onClick"
-                        android:text="@string/button_terms_of_service"/>
-
-                    <TextView
-                        style="@style/SideMenuItem"
-                        android:id="@+id/btn_privacy_policy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="onClick"
-                        android:text="@string/button_privacy"/>
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.navigation.NavigationView>
-
-    </com.gongmanse.app.utils.CustomDrawerLayout>
-
-</layout>
+</androidx.drawerlayout.widget.DrawerLayout>

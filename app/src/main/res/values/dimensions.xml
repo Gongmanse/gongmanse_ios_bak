@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="shadow_size">8dp</dimen>
+    <dimen name="layer_size">250dp</dimen>
+    <dimen name="preview_offset_distance">214dp</dimen>
+    <dimen name="offset_distance">42dp</dimen>
+    <dimen name="divider_size">5dp</dimen>
+    <dimen name="label_size_padding_horizontal">6dp</dimen>
+    <dimen name="label_size_padding_vertical">2dp</dimen>
+</resources>

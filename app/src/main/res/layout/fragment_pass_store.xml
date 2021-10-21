@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="41dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="41dp"
+        android:paddingBottom="28dp"
+        android:background="@color/white"
+        tools:context=".fragments.pass.PassStoreFragment">
+
+        <TextView
+            android:id="@+id/tv_content_info"
+            style="@style/NanumSquareRoundB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/content_text_pass_store_info"
+            android:textColor="@color/dark_gray"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="53dp"
+            android:checkedButton="@id/rb_pass_30days"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/btn_purchase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_content_info">
+
+            <RadioButton
+                android:id="@+id/rb_pass_30days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_radio_button_30days"
+                android:button="@null"
+                android:text="@null" />
+
+            <RadioButton
+                android:id="@+id/rb_pass_90days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/selector_radio_button_90days"
+                android:button="@null"
+                android:text="@null" />
+
+            <RadioButton
+                android:id="@+id/rb_pass_150days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/selector_radio_button_150days"
+                android:button="@null"
+                android:text="@null" />
+
+        </RadioGroup>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btn_purchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/main_color"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                style="@style/NanumSquareRoundB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:text="@string/content_button_purchase"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

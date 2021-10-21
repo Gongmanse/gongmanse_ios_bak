@@ -1,56 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="android_status_bar_height">24dp</dimen>
-
-    <dimen name="activity_app_bar_horizontal_padding">10dp</dimen>
-    <dimen name="activity_app_bar_vertical_padding">10dp</dimen>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <dimen name="vertical_spacing">27dp</dimen>
-    <dimen name="vertical_spacing_5dp">5dp</dimen>
-    <dimen name="vertical_spacing_9dp">9dp</dimen>
-    <dimen name="vertical_spacing_10dp">10dp</dimen>
-    <dimen name="vertical_spacing_13dp">13dp</dimen>
-    <dimen name="vertical_spacing_18dp">18dp</dimen>
-    <dimen name="vertical_spacing_20dp">20dp</dimen>
-    <dimen name="vertical_spacing_25dp">25dp</dimen>
-    <dimen name="vertical_spacing_30dp">30dp</dimen>
-    <dimen name="vertical_spacing_40dp">40dp</dimen>
-
-    <dimen name="horizontal_spacing_5dp">5dp</dimen>
-    <dimen name="horizontal_spacing_8dp">8dp</dimen>
-    <dimen name="horizontal_spacing_10dp">10dp</dimen>
-    <dimen name="horizontal_spacing_11dp">11dp</dimen>
-    <dimen name="horizontal_spacing_12dp">12dp</dimen>
-    <dimen name="horizontal_spacing_14dp">14dp</dimen>
-    <dimen name="horizontal_spacing_21dp">21dp</dimen>
-    <dimen name="horizontal_spacing_28dp">28dp</dimen>
-    <dimen name="horizontal_spacing_29dp">29dp</dimen>
-    <dimen name="horizontal_spacing_30dp">30dp</dimen>
-    <dimen name="horizontal_spacing_49dp">49dp</dimen>
-    <dimen name="horizontal_spacing_52dp">52dp</dimen>
-
-    <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="nav_header_local_height">263dp</dimen>
-    <dimen name="nav_header_login_height">310dp</dimen>
-    <dimen name="nav_header_profile_width">94dp</dimen>
-    <dimen name="nav_header_profile_height">94dp</dimen>
-    <dimen name="nav_header_profile_radius">47dp</dimen>
-
-    <dimen name="button_radius">10dp</dimen>
-    <dimen name="txt_input_layout_radius">10dp</dimen>
-
-    <dimen name="login_form_layout_vertical_spacing">10dp</dimen>
-    <dimen name="login_form_layout_horizontal_spacing">31dp</dimen>
-    <dimen name="login_button_horizontal_spacing">50dp</dimen>
-
-    <dimen name="update_profile_width">94dp</dimen>
-    <dimen name="update_profile_height">94dp</dimen>
-    <dimen name="update_profile_radius">47dp</dimen>
-
-    <dimen name="update_image_icon_width">30dp</dimen>
-    <dimen name="update_image_icon_height">30dp</dimen>
-    <dimen name="update_image_icon_radius">15dp</dimen>
-
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
+    <dimen name="dp_14">14dp</dimen>
+    <dimen name="dp_74">74dp</dimen>
 </resources>

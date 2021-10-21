@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="android.graphics.Color" />
+        <variable name="data" type="com.gongmanse.app.model.VideoData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <!-- 썸네일 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/content_description_image_counsel_preview"
+                    android:scaleType="fitXY"
+                    bindURLImage="@{data.thumbnail}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_remove"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingVertical="22dp"
+                    android:paddingHorizontal="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@color/main_color"
+                    android:contentDescription="@string/content_description_remove"
+                    android:src="@drawable/ic_delete_thing"
+                    android:visibility="@{data.remove ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintTop_toTopOf="@id/imageView3"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView3"
+                    app:layout_constraintStart_toStartOf="@id/imageView3"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cv_preview"
+            app:layout_constraintTop_toTopOf="@+id/cv_preview">
+            <!-- 과목 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@{Color.parseColor(@string/content_text_subject_color(data.subjectColor))}"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_subject"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/label_size_padding_horizontal"
+                    android:paddingVertical="@dimen/label_size_padding_vertical"
+                    android:text="@{data.subject}"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    tools:background="@color/black"
+                    tools:ignore="SmallSp"
+                    tools:text="화학" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- unit -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:visibility="@{data.unit.empty ? View.GONE : View.VISIBLE}"
+                bindUnitColor="@{data.unit}"
+                app:cardBackgroundColor="@{Color.parseColor(@string/content_text_subject_color(data.subjectColor))}"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="false"
+                app:layout_constraintStart_toEndOf="@+id/cv_subject"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_unit"
+                    style="@style/NanumSquareRoundB"
+                    bindUnit="@{data.unit}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/label_size_padding_horizontal"
+                    android:paddingVertical="@dimen/label_size_padding_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    tools:background="@color/black"
+                    tools:text="용어"
+                    tools:ignore="SmallSp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 제목 -->
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{data.title}"
+                android:textColor="@color/light_black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_subject"
+                tools:text="일정 성분비 법칙" />
+
+            <!-- 담당 선생님 -->
+            <TextView
+                android:id="@+id/tv_teacher_name"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@{@string/content_text_teacher_name(data.teacherName)}"
+                android:textColor="@color/light_black"
+                android:textSize="11sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="고광윤 선생님"
+                tools:ignore="SmallSp" />
+
+
+            <!-- 시간 -->
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/NanumSquareRoundB"
+                bindToDate="@{data.dtRegister}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_gray"
+                android:textSize="11sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="2012-12-12"
+                tools:ignore="SmallSp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

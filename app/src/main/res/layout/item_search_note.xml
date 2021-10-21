@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.Color"/>
+        <import type="android.view.View"/>
+        <variable
+            name="video"
+            type="com.gongmanse.app.model.VideoData"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_preview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                bindURLTeacher="@{video.thumbnail}"
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/content_description_image_preview" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            app:layout_constraintRight_toRightOf="parent"
+            app:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/tv_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                style="@style/NanumSquareRoundB"
+                android:text="@{video.subject}"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:minWidth="50dp"
+                android:background="@{Color.parseColor(@string/content_format_subject_background(video.subjectColor))}"
+                android:textColor="@color/white"
+                tools:text="국어"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            style="@style/NanumSquareRoundB"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="20sp"
+            android:textColor="@color/light_black2"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@{video.title}"
+            app:layout_constraintTop_toBottomOf="@id/cv_preview"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/layout_star"
+            tools:text="시의 표현법(변화주ㅇㅇㅇㅇㅇㅇㅇ"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_teacher_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_teacher_name">
+
+            <ImageView
+                android:id="@+id/iv_star"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/content_description_image_star"
+                android:src="@drawable/ic_star"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@{String.valueOf(Float.parseFloat(video.rating))}"
+                android:textColor="@color/light_black2"
+                android:textSize="15sp"
+                style="@style/NanumSquareRoundB"
+                app:layout_constraintBottom_toBottomOf="@id/iv_star"
+                app:layout_constraintLeft_toRightOf="@id/iv_star"
+                app:layout_constraintTop_toTopOf="@id/iv_star"
+                tools:text="5.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_teacher_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:textColor="@color/light_black2"
+            android:textSize="14sp"
+            android:text="@{@string/content_format_teacher_name(video.teacherName)}"
+            style="@style/NanumSquareRoundB"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="박상준 선생님" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

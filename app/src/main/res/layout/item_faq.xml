@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.gongmanse.app.model.FAQData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_question_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:letterSpacing="-0.04"
+                android:lineSpacingExtra="6sp"
+                android:textColor="@color/light_black"
+                android:textSize="17sp"
+                android:text="@string/content_text_question_header"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Q." />
+
+            <TextView
+                android:id="@+id/tv_question_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:letterSpacing="-0.04"
+                android:lineSpacingExtra="6sp"
+                android:textColor="@color/light_black"
+                android:textSize="17sp"
+                android:text="@{data.question}"
+                android:ellipsize="end"
+                android:maxLines="2"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_question_header"
+                app:layout_constraintStart_toEndOf="@+id/tv_question_header"
+                app:layout_constraintTop_toTopOf="@+id/tv_question_header"
+                app:layout_constraintEnd_toStartOf="@id/iv_arrow"
+                tools:text="갑자기 자막이 나오지 않아요." />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/content_description_image_arrow"
+                android:src="@drawable/ic_notice_show"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/layout_question"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_answer_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:letterSpacing="-0.04"
+                android:lineSpacingExtra="6sp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                android:text="@string/content_text_answer_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="A." />
+
+            <TextView
+                android:id="@+id/tv_answer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:letterSpacing="-0.04"
+                android:lineSpacingExtra="6sp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                android:text="@{data.answer}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_answer_header"
+                app:layout_constraintTop_toTopOf="@id/tv_answer_header"
+                tools:text="동영상 플레이어 상단에 자막 아이콘을 누른 후, 무자막으로 선택되어 있는지 확인하세요. 해당 아이콘을 누르면 자막을 켜고 끌 수가 있습니다." />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

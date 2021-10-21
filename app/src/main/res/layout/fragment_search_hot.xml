@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.search.SearchHotFragment">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.gongmanse.app.model.SearchHotList" />
+        <variable
+            name="item"
+            type="SearchHotList" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:background="@color/white">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_hot_list"
+                    bindSearchHotListData="@{item.data}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:visibility="@{item.data.size() > 0 ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/item_search_hot"/>
+
+                <include
+                    android:id="@+id/layout_empty"
+                    layout="@layout/layout_empty"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="@{item.data.size() > 0 ? View.GONE : View.VISIBLE}"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

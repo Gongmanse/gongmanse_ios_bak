@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.gongmanse.app.model.SearchRecentList" />
+
+        <variable
+            name="item"
+            type="SearchRecentList" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".fragments.search.SearchRecentFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recent_list"
+            bindSearchRecentData="@{item.data}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:visibility="@{item.data.size() > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_search_recent" />
+
+        <include
+            android:id="@+id/layout_empty"
+            layout="@layout/layout_empty"
+            android:visibility="@{item.data.size() > 0 ? View.GONE : View.VISIBLE}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

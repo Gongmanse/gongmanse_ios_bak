@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.Color"/>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="com.gongmanse.app.model.ScheduleDescription"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_items"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="?attr/selectableItemBackground"
+            android:visibility="@{data == null ?  View.GONE :View.VISIBLE }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/NanumSquareRoundEB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{data.title}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_repeat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="일정 제목" />
+
+            <TextView
+                android:id="@+id/textView12"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/content_schedule_start"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="시작" />
+
+            <TextView
+                android:id="@+id/tv_alarm1"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@{data.startDate}"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="시작" />
+
+            <TextView
+                android:id="@+id/textView9"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/content_schedule_end"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_alarm1"
+                tools:text="종료" />
+
+            <TextView
+                android:id="@+id/tv_alarm2"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@{data.endDate}"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/tv_alarm1"
+                tools:text="종료" />
+
+            <ImageView
+                android:id="@+id/iv_repeat"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/content_description_calendar_repeat"
+                android:src="@drawable/ic_schedule_repeat"
+                android:visibility="@{data.repeatCode == null ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toStartOf="@+id/iv_alarm"
+                app:layout_constraintTop_toTopOf="@+id/tv_title" />
+
+            <ImageView
+                android:id="@+id/iv_alarm"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/content_description_calendar_alarm"
+                android:src="@drawable/ic_schedule_alarm"
+                android:visibility="@{data.alarmCode == null ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</layout>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="52dp"
+        android:paddingEnd="52dp"
+        android:background="@color/white">
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="28dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/layout_button_next">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- 아이디 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_input_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_hint_id"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/selector_input_text"
+                    app:boxStrokeWidth="2dp"
+                    app:endIconMode="custom"
+                    app:errorEnabled="true"
+                    app:startIconDrawable="@drawable/ic_id_off"
+                    app:startIconTint="@color/selector_input_text"
+                    app:startIconContentDescription="@string/content_description_image_id"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:helperText="중복된 아이디입니다.">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/NanumSquareRoundB.FormInputText"
+                        android:id="@+id/input_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 비밀번호 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_password"
+                    app:errorEnabled="true"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_password_off"
+                    app:startIconContentDescription="@string/content_description_image_password"
+                    app:layout_constraintTop_toBottomOf="@id/layout_input_id"
+                    tools:helperText="사용할 수 없는 비밀번호입니다.">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/NanumSquareRoundB.FormInputText"
+                        android:id="@+id/input_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 비밀번호 재확인 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_password_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_password_confirm"
+                    app:errorEnabled="true"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_password_off"
+                    app:startIconContentDescription="@string/content_description_image_password_confirm"
+                    app:layout_constraintTop_toBottomOf="@id/layout_input_password"
+                    tools:helperText="비밀번호가 일치하지 않습니다.">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/NanumSquareRoundB.FormInputText"
+                        android:id="@+id/input_password_confirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 이름 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_name"
+                    app:errorEnabled="true"
+                    app:startIconDrawable="@drawable/ic_name_off"
+                    app:startIconContentDescription="@string/content_description_image_name"
+                    app:layout_constraintTop_toBottomOf="@id/layout_input_password_confirm">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/NanumSquareRoundB.FormInputText"
+                        android:id="@+id/input_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 닉네임 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_nickname"
+                    app:errorEnabled="true"
+                    app:endIconMode="custom"
+                    app:startIconDrawable="@drawable/ic_nickname_off"
+                    app:startIconContentDescription="@string/content_description_image_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/layout_input_name"
+                    tools:helperText="중복된 닉네임입니다.">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/NanumSquareRoundB.FormInputText"
+                        android:id="@+id/input_nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 이메일 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/NanumSquareRoundB.FormInputLayout"
+                    android:id="@+id/layout_input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/content_hint_email"
+                    app:errorEnabled="true"
+                    app:endIconMode="custom"
+                    app:startIconDrawable="@drawable/ic_email_off"
+                    app:startIconContentDescription="@string/content_description_image_email"
+                    app:layout_constraintTop_toBottomOf="@id/layout_input_nickname"
+                    tools:helperText="사용할 수 없는 이메일 형식입니다.">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/NanumSquareRoundB.FormInputText"
+                        android:id="@+id/input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textEmailAddress|textNoSuggestions" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <include layout="@layout/layout_button_next"
+            android:id="@+id/layout_button_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

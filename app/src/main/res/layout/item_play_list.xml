@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.graphics.Color"/>
+        <variable name="data" type="com.gongmanse.app.model.VideoData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        bindPlayListColor="@{data.focusing}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- 썸네일 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="false"
+                app:cardBackgroundColor="@color/main_color"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:contentDescription="@string/content_description_image_preview"
+                    android:adjustViewBounds="false"
+                    android:scaleType="fitXY"
+                    bindURL="@{data.thumbnail}"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 라벨 목록 : 추가사항 -->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintStart_toEndOf="@+id/cv_preview"
+                app:layout_constraintTop_toTopOf="@+id/cv_preview">
+
+                <TextView
+                    android:id="@+id/tv_subject"
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@{data.subjectColor == null ? @color/main_color : Color.parseColor(@string/content_format_subject_background(data.subjectColor))}"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:textSize="10sp"
+                    android:text="@{data.subject}"
+                    android:textColor="@color/white"
+                    tools:background="@color/black"
+                    tools:text="국어"
+                    tools:ignore="SmallSp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_unit"
+                bindUnitColor="@{data.unit}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:visibility="@{data.unit.empty || data.unit == null ? View.GONE : View.VISIBLE}"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="false"
+                app:layout_constraintStart_toEndOf="@id/cardView2"
+                app:layout_constraintTop_toTopOf="@id/cardView2"
+                tools:cardBackgroundColor="@color/black">
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    bindUnit="@{data.unit}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    tools:ignore="SmallSp"
+                    tools:text="화학" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 제목 -->
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{data.title}"
+                android:textColor="@color/light_black"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                app:layout_constraintStart_toStartOf="@+id/cardView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="일정 성분비 법칙" />
+
+            <!-- 담당 선생님 -->
+            <TextView
+                android:id="@+id/tv_teacher_name"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@{@string/content_text_teacher_name(data.teacherName)}"
+                android:textColor="@color/light_black"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:ignore="SmallSp"
+                tools:text="고광윤 선생님" />
+
+            <!-- 평점 -->
+            <TextView
+                style="@style/NanumSquareRoundB"
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:text="@{data.rating != null &amp;&amp; !data.rating.empty ? String.valueOf(Float.parseFloat(data.rating)) : @string/content_text_rating_value_null}"
+                android:textColor="@color/light_black2"
+                android:textSize="13sp"
+                android:visibility="@{data.rating == null ? View.GONE : View.VISIBLE }"
+                app:drawableStartCompat="@drawable/ic_star"
+                app:layout_constraintTop_toTopOf="@id/tv_teacher_name"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_teacher_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="5.0"
+                tools:visibility="visible" />
+
+           <!-- <TextView
+                android:id="@+id/tv_grade"
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.rating != null ? String.valueOf(data.rating) : @string/content_text_rating_value_null}"
+                android:textColor="@color/light_black"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_teacher_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="SmallSp"
+                tools:text="5.0" />
+
+            &lt;!&ndash; 별 아이콘 &ndash;&gt;
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="@string/content_description_image_star"
+                android:src="@drawable/ic_star"
+                app:layout_constraintBottom_toBottomOf="@id/tv_grade"
+                app:layout_constraintEnd_toStartOf="@id/tv_grade"
+                app:layout_constraintTop_toTopOf="@id/tv_grade" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

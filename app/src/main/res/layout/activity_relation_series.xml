@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="player" type="com.gongmanse.app.model.VideoPlayer" />
+        <variable name="data" type="com.gongmanse.app.model.VideoList" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/layout_actionbar"
+            android:id="@+id/layout_title_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_title_unit"
+            app:layout_constraintBottom_toTopOf="@id/layout_player">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    layout="@layout/layout_relation_series_header"
+                    android:id="@+id/layout_info_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:header="@{data.seriesData}"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/layout_auto_layer"
+                    layout="@layout/layout_video_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:totalNum="@{data.totalNum == null ? 0 : data.totalNum}"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_info_header" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:scrollbars="none"
+                    android:overScrollMode="never"
+                    android:orientation="vertical"
+                    android:visibility="@{data.data.empty ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_auto_layer"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/item_progress_detail"
+                    tools:visibility="visible" />
+
+                <include
+                    layout="@layout/layout_empty"
+                    android:id="@+id/layout_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="@{data.data.empty ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@id/layout_auto_layer"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:visibility="gone" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_player"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:visibility="@{player != null ? View.VISIBLE : View.GONE}"
+            android:background="@drawable/background_border_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/videoView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                app:use_controller="false"
+                app:surface_type="surface_view"
+                app:show_buffering="when_playing"
+                app:auto_show="true"
+                app:resize_mode="fit"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/NanumSquareRoundB"
+                android:id="@+id/textView16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:text="@{player.title}"
+                android:textColor="@color/light_black"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintStart_toEndOf="@+id/videoView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="제목이 들어갈 부분" />
+
+            <TextView
+                style="@style/NanumSquareRoundB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="13sp"
+                android:textColor="@color/light_black"
+                android:text="@{@string/content_text_teacher_name(player.teacherName)}"
+                app:layout_constraintStart_toStartOf="@+id/textView16"
+                app:layout_constraintTop_toBottomOf="@+id/textView16"
+                tools:text="홍길동 선생님"/>
+
+            <ImageView
+                android:id="@+id/ic_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_play"
+                android:visibility="gone"
+                android:focusable="true"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:contentDescription="@string/content_description_note_play"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_pause"
+                android:visibility="gone"
+                android:focusable="true"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:contentDescription="@string/content_description_note_pause"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ic_close"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_large_x"
+                android:focusable="true"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:contentDescription="@string/content_description_note_close"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginVertical="9dp"
+            android:contentDescription="@string/content_description_image_category_dismiss"
+            android:src="@drawable/ic_popup_close"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            style="@style/NanumSquareRoundEB"
+            android:id="@+id/tv_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginVertical="9dp"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/light_black2"
+            android:textSize="14sp"
+            android:text="@string/content_title_video_play_speed"
+            app:drawableStartCompat="@drawable/ic_popup_play_speed"
+            app:layout_constraintTop_toTopOf="@id/btn_close"
+            app:layout_constraintBottom_toBottomOf="@id/btn_close"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginVertical="9dp"
+            android:background="@color/main_color"
+            app:layout_constraintTop_toBottomOf="@id/tv_header"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/view_divider">
+
+            <LinearLayout
+                android:id="@+id/btn_play_speed_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{position == 1 ? View.VISIBLE : View.INVISIBLE}"
+                    android:contentDescription="@string/content_description_image_play_speed_check"
+                    android:src="@drawable/ic_check"
+                    app:tint="@color/main_color"/>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@{position == 1 ? @color/main_color : @color/light_black2}"
+                    android:textSize="14sp"
+                    android:text="@string/content_button_play_speed_15" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/btn_play_speed_125"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{position == 2 ? View.VISIBLE : View.INVISIBLE}"
+                    android:contentDescription="@string/content_description_image_play_speed_check"
+                    android:src="@drawable/ic_check"
+                    app:tint="@color/main_color"/>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@{position == 2 ? @color/main_color : @color/light_black2}"
+                    android:textSize="14sp"
+                    android:text="@string/content_button_play_speed_125" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/btn_play_speed_default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{position == 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:contentDescription="@string/content_description_image_play_speed_check"
+                    android:src="@drawable/ic_check"
+                    app:tint="@color/main_color"/>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@{position == 0 ? @color/main_color : @color/light_black2}"
+                    android:textSize="14sp"
+                    android:text="@string/content_button_play_speed_default" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/btn_play_speed_075"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{position == 3 ? View.VISIBLE : View.INVISIBLE}"
+                    android:contentDescription="@string/content_description_image_play_speed_check"
+                    android:src="@drawable/ic_check"
+                    app:tint="@color/main_color"/>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@{position == 3 ? @color/main_color : @color/light_black2}"
+                    android:textSize="14sp"
+                    android:text="@string/content_button_play_speed_075" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/btn_play_speed_05"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{position == 4 ? View.VISIBLE : View.INVISIBLE}"
+                    android:contentDescription="@string/content_description_image_play_speed_check"
+                    android:src="@drawable/ic_check"
+                    app:tint="@color/main_color"/>
+
+                <TextView
+                    style="@style/NanumSquareRoundB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@{position == 4 ? @color/main_color : @color/light_black2}"
+                    android:textSize="14sp"
+                    android:text="@string/content_button_play_speed_05" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@color/light_gray" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
