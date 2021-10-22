@@ -308,7 +308,7 @@ class SideMenuHeaderView: UIView {
 
             if let imageURL = viewModel.profileImageURL {
                 self.defaultImageView.isHidden = true
-                profileImageView.sd_setImage(with: URL(string: "https://file.gongmanse.com/"+imageURL)!) { image, Error, SDImageCacheType, URL in
+                profileImageView.sd_setImage(with: URL(string: "\(fileBaseURL)/"+imageURL)!) { image, Error, SDImageCacheType, URL in
                     self.profileImageView.addShadow()
                     self.profileImageView.image = image
                     self.profileImageView.clipsToBounds = true

@@ -28,7 +28,7 @@ struct RecentKeywordAPIManager {
                              completion: @escaping resultModel<RecentKeywordSaveMessage>) {
         let data = parameter
         
-        let saveUrl = "https://api.gongmanse.com/v1/searches"
+        let saveUrl = "\(apiBaseURL)/v1/searches"
         
         AF.upload(multipartFormData: {
             $0.append(data.token.data(using: .utf8) ?? Data(), withName: "token")
@@ -50,7 +50,7 @@ struct RecentKeywordAPIManager {
         
         let data = parameter
         
-        let deleteUrl = "https://api.gongmanse.com/v/search/mysearches"
+        let deleteUrl = "\(apiBaseURL)/v/search/mysearches"
         
         AF.upload(multipartFormData: {
             $0.append(data.keywordID.data(using: .utf8) ?? Data(), withName: "keyword_id")

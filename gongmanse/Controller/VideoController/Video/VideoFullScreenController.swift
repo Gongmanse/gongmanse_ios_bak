@@ -1090,7 +1090,7 @@ extension VideoFullScreenController {
         self.videoURL = URL(string: response.data.source_url) as NSURL?
         
         // sSubtitles -> vttURL
-        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.vttURL =  "\(fileBaseURL)/" + response.data.sSubtitle
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags
@@ -1114,7 +1114,7 @@ extension VideoFullScreenController {
         }
         
         // sSubtitles -> vttURL
-        self.vttURL =  "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.vttURL =  "\(fileBaseURL)/" + response.data.sSubtitle
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags

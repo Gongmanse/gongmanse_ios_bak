@@ -1081,9 +1081,9 @@ extension VideoController {
         }
         
         // videoSubtitleURL을 저장한다.
-        let subtitleURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        let subtitleURL = "\(fileBaseURL)/" + response.data.sSubtitle
         self.videoDataManager.addVideoSubtitleURLLog(videoSubtitleURL: subtitleURL)
-        self.vttURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.vttURL = "\(fileBaseURL)/" + response.data.sSubtitle
         self.videoAndVttURL.vttURL = self.vttURL
         
         // sTags
@@ -1146,7 +1146,7 @@ extension VideoController {
         
         // 썸네일 이미지를 저장한다.
         let imageStringURL = response.data.sThumbnail
-        let convertThumbnailImageURL = "https://file.gongmanse.com/" + makeStringKoreanEncoded(imageStringURL)
+        let convertThumbnailImageURL = "\(fileBaseURL)/" + makeStringKoreanEncoded(imageStringURL)
         self.lessonInfoController.thumbnail = convertThumbnailImageURL
         let imageURL = URL(string: convertThumbnailImageURL)
         
@@ -1218,7 +1218,7 @@ extension VideoController {
         }
         
         // sSubtitles -> vttURL
-        self.vttURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.vttURL = "\(fileBaseURL)/" + response.data.sSubtitle
         self.videoAndVttURL.vttURL = self.vttURL
         
         // sTags -> sTagsArray
@@ -1330,9 +1330,9 @@ extension VideoController {
         self.videoAndVttURL.videoURL = url
         
         // videoSubtitleURL을 저장한다.
-        let subtitleURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        let subtitleURL = "\(fileBaseURL)/" + response.data.sSubtitle
         self.videoDataManager.addVideoSubtitleURLLog(videoSubtitleURL: subtitleURL)
-        self.vttURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        self.vttURL = "\(fileBaseURL)/" + response.data.sSubtitle
         self.videoAndVttURL.vttURL = self.vttURL
         
         // sTags
@@ -1389,7 +1389,7 @@ extension VideoController {
         
         // 썸네일 이미지를 저장한다.
         let imageStringURL = response.data.sThumbnail
-        let convertThumbnailImageURL = "https://file.gongmanse.com/" + makeStringKoreanEncoded(imageStringURL)
+        let convertThumbnailImageURL = "\(fileBaseURL)/" + makeStringKoreanEncoded(imageStringURL)
         self.lessonInfoController.thumbnail = convertThumbnailImageURL
         let imageURL = URL(string: convertThumbnailImageURL)
         

@@ -110,7 +110,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         
         isLoading = true
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mybookmark?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/mybookmark?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
             print(url.absoluteString)
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
@@ -224,7 +224,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         guard let json = self.bookMark else { return }
         guard let id = tableViewInputData[sender.tag].iBookmarkId else { return }
         
-        let baseURL = URL(string: "https://api.gongmanse.com/v/member/mybookmark")!
+        let baseURL = URL(string: "\(apiBaseURL)/v/member/mybookmark")!
         let fullURL = baseURL.appendingPathComponent("/put")
         
         var request = URLRequest(url: fullURL)

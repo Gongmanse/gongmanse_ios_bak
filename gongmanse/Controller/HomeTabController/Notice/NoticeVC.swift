@@ -23,7 +23,7 @@ class NoticeVC: UITableViewController {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v3/notice?token=\(Constant.token)") {
+        if let url = URL(string: "\(apiBaseURL)/v3/notice?token=\(Constant.token)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             

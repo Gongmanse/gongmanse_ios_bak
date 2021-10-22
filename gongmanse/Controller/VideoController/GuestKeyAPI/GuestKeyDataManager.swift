@@ -16,7 +16,7 @@ class GuestKeyDataManager {
         let videoID = videoID
         
         // URL을 구성한다.
-        let url = "https://api.gongmanse.com/v/video/recommendurl?video_id=\(videoID)&token="
+        let url = "\(apiBaseURL)/v/video/recommendurl?video_id=\(videoID)&token="
         
         /// HTTP Method: GET
         /// API 명: "02023. 추천 동영상 비디오 경로"
@@ -42,7 +42,7 @@ class GuestKeyDataManager {
         let videoID = videoID
         
         // URL을 구성한다.
-        let url = "https://api.gongmanse.com/v/video/recommendurl?video_id=\(videoID)&token="
+        let url = "\(apiBaseURL)/v/video/recommendurl?video_id=\(videoID)&token="
         
         /// HTTP Method: GET
         /// API 명: "02023. 추천 동영상 비디오 경로"
@@ -68,7 +68,7 @@ class GuestKeyDataManager {
         let videoID = videoID
         
         // URL을 구성한다.
-        let url = "https://api.gongmanse.com/v/video/recommendnotes?video_id=\(videoID)"
+        let url = "\(apiBaseURL)/v/video/recommendnotes?video_id=\(videoID)"
         
         /// HTTP Method: GET
         /// API 명: "02025. 추천 동영상 비디오 노트"
@@ -93,7 +93,7 @@ class GuestKeyDataManager {
         let videoID = videoID
         
         // URL을 구성한다.
-        let url = "https://api.gongmanse.com/v/video/recommendnotes?video_id=\(videoID)"
+        let url = "\(apiBaseURL)/v/video/recommendnotes?video_id=\(videoID)"
         
         /// HTTP Method: GET
         /// API 명: "02025. 추천 동영상 비디오 노트"

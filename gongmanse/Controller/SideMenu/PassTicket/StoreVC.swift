@@ -254,7 +254,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
     func finishBackend (_ receiptData: String) {
         // TODO: URL, API call이 현재 하드코딩 되어있습니다. 코딩 컨벤션에 맞춰 쓰시기 바랍니다.
-        let url = URL(string: "https://api.gongmanse.com/v2/purchase_ios")!
+        let url = URL(string: "\(apiBaseURL)/v2/purchase_ios")!
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

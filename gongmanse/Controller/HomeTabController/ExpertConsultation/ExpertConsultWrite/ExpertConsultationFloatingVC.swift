@@ -151,7 +151,7 @@ class ExpertConsultationFloatingVC: UIViewController, UITextViewDelegate {
                     MultipartFormData.append("\(self.imagesURL[2])".data(using: .utf8)!, withName: "media[]")
                 }
                 
-            }, to: "https://api.gongmanse.com/v1/my/expert/consultations_urgent").response { (response) in
+            }, to: "\(apiBaseURL)/v1/my/expert/consultations_urgent").response { (response) in
                 switch response.result {
                 case .success:
                     print("POST 성공")
@@ -338,7 +338,7 @@ extension ExpertConsultationFloatingVC: UIImagePickerControllerDelegate, UINavig
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
             MultipartFormData.append(data, withName: "file", fileName: "file.jpg", mimeType: "image/jpg")
 
-        }, to: "https://file.gongmanse.com/transfer/consultations/upload").response { (response) in
+        }, to: "\(fileBaseURL)/transfer/consultations/upload").response { (response) in
             switch response.result {
             case .success:
                 print("POST 성공")

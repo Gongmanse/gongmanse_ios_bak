@@ -13,7 +13,7 @@ import Alamofire
 
 struct SearchAfterVideoAPIManager {
     
-    let videoUrl = "https://api.gongmanse.com/v/search/searchbar"
+    let videoUrl = "\(apiBaseURL)/v/search/searchbar"
     
     func fetchVideoAPI(_ parameters: SearchVideoPostModel,
                        completion: @escaping resultModel<SearchVideoModel> ) {

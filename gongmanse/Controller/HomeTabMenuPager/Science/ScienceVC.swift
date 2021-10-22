@@ -163,7 +163,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
                             
                             for i in 0 ..< json.data.count {
                                 let item = json.data[i]
-                                videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: "", title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: item.iCount))
+                                videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: "", title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "\(fileBaseURL)/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: item.iCount))
                             }
                             self.scienceVideo = videoInput
                         }
@@ -184,7 +184,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
                             //                        self.isMoreBool = Bool(isMores) ?? false
                             for i in 0..<json.data.count {
                                 let item = json.data[i]
-                                self.scienceVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: "", title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: item.iCount))
+                                self.scienceVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: "", title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "\(fileBaseURL)/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: "", rating: "", isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: item.iCount))
                             }
                             
                         }
@@ -242,7 +242,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     
     func getDataFromJsonSecond() {
         
-        if let url = URL(string: "https://api.gongmanse.com/v/video/bycategory?category_id=36&offset=\(listCount)&commentary=\(inputFilterNum)&sort_id=\(inputFilterNum == 1 ? 2 : inputSortNum)&limit=20") {
+        if let url = URL(string: "\(apiBaseURL)/v/video/bycategory?category_id=36&offset=\(listCount)&commentary=\(inputFilterNum)&sort_id=\(inputFilterNum == 1 ? 2 : inputSortNum)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -314,7 +314,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
                         
                         for i in 0 ..< json.data.count {
                             let item = json.data[i]
-                            videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
+                            videoInput.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "\(fileBaseURL)/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
                         }
                         self.scienceVideo = videoInput
                     }
@@ -335,7 +335,7 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
                         //                        self.isMoreBool = Bool(isMores) ?? false
                         for i in 0..<json.data.count {
                             let item = json.data[i]
-                            self.scienceVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "https://file.gongmanse.com/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
+                            self.scienceVideo?.body.append(VideoModels(seriesId: item.iSeriesId, videoId: item.videoID, title: item.sTitle, tags: "", teacherName: item.sTeacher, thumbnail: "\(fileBaseURL)/\(item.sThumbnail!)", subject: item.sSubject, subjectColor: item.sSubjectColor, unit: item.sUnit, rating: item.iRating, isRecommended: "", registrationDate: "", modifiedDate: "", totalRows: ""))
                         }
                         
                     }

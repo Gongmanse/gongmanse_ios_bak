@@ -12,7 +12,7 @@ struct Constant {
     static var sortedIndex: SortedIndex = .rating
     static var category: Category = .all
     
-    static let BASE_URL = "https://api.gongmanse.com"
+    static let BASE_URL = apiBaseURL
 //    static let GONGMANSE_BASE_URL = ""
     
     static var userID: String = ""

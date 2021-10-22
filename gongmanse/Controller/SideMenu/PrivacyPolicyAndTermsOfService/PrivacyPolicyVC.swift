@@ -43,7 +43,7 @@ class PrivacyPolicyVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.navigationController?.navigationBar.topItem?.title = ""
         
         view.backgroundColor = .white
-        let url = URL(string: "https://webview.gongmanse.com/users/privacy_policy")
+        let url = URL(string: "\(webBaseURL)/users/privacy_policy")
         let request = URLRequest(url: url!)
         self.webView.allowsBackForwardNavigationGestures = true
         webView.configuration.preferences.javaScriptEnabled = true

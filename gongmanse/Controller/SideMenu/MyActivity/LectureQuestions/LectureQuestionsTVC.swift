@@ -77,7 +77,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             

@@ -15,7 +15,7 @@ class DetailNoteDataManager {
         
         let data = parameters
         
-        let url = "https://api.gongmanse.com/v/video/detail_notes?video_id=\(data.video_id)&token=\(Constant.token)"
+        let url = "\(apiBaseURL)/v/video/detail_notes?video_id=\(data.video_id)&token=\(Constant.token)"
         
         AF.request(url)
             .responseDecodable(of: NoteResponse.self) { response in
@@ -37,7 +37,7 @@ class DetailNoteDataManager {
         
         let data = parameters
         
-        let url = "https://api.gongmanse.com/v/video/detail_notes?video_id=\(data.video_id)&token=\(Constant.token)"
+        let url = "\(apiBaseURL)/v/video/detail_notes?video_id=\(data.video_id)&token=\(Constant.token)"
         
         AF.request(url)
             .responseDecodable(of: NoteResponse.self) { response in
@@ -57,7 +57,7 @@ class DetailNoteDataManager {
     /// 노트저장 API 메소드
     func savingNoteTakingAPI(_ inputData: NoteTakingInput, viewController: DetailNoteController) {
         
-        let url = "https://api.gongmanse.com/v/video/detail_notes"
+        let url = "\(apiBaseURL)/v/video/detail_notes"
         
         let param: Parameters =
             [
@@ -93,7 +93,7 @@ class DetailNoteDataManager {
         
         let data = parameters
         
-        let url = "https://api.gongmanse.com/v/video/detail_notes?video_id=\(data.video_id)&token=\(Constant.token)"
+        let url = "\(apiBaseURL)/v/video/detail_notes?video_id=\(data.video_id)&token=\(Constant.token)"
         
         AF.request(url)
             .responseDecodable(of: NoteResponse.self) { response in
@@ -112,7 +112,7 @@ class DetailNoteDataManager {
     
     func savingNoteTakingAPI(_ inputData: NoteTakingInput, viewController: LectureNoteController) {
         
-        let url = "https://api.gongmanse.com/v/video/detail_notes"
+        let url = "\(apiBaseURL)/v/video/detail_notes"
         
         let param: Parameters =
             [
@@ -147,7 +147,7 @@ class DetailNoteDataManager {
     // 전체화면 노트보기 API
     func savingNoteTakingAPI(_ inputData: NoteTakingInput, viewController: LessonNoteController) {
         
-        let url = "https://api.gongmanse.com/v/video/detail_notes"
+        let url = "\(apiBaseURL)/v/video/detail_notes"
         
         let param: Parameters =
             [

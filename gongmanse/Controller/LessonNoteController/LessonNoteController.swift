@@ -674,7 +674,7 @@ class LessonNoteController: UIViewController {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=\(self.viewModel.videoIDArr.count)&limit=20&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/mynotes?token=\(Constant.token)&offset=\(self.viewModel.videoIDArr.count)&limit=20&sort_id=\(inputSortNum)") {
             print("노트목록\(url.absoluteString)")
             
             var request = URLRequest.init(url: url)

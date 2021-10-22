@@ -14,7 +14,7 @@ class UpdateProfileImageDataManager {
     /* 프로필이미지 변경 */
     func changeProfileImage(_ parameters: UpdateProfileImageInput, viewController: EditingProfileController) {
         
-        let url = "https://file.gongmanse.com/transfer/profiles/image_upload"
+        let url = "\(fileBaseURL)/transfer/profiles/image_upload"
         let data = parameters
         
         let profileImage = parameters.file
@@ -114,7 +114,7 @@ class UpdateProfileImageDataManager {
 //    
     func changeNicknameAndEmail(_ parameters: changeNicknameAndEmailInput, viewController: EditingProfileController) {
         
-        let url = "https://api.gongmanse.com/v/member/getuserinfo"
+        let url = "\(apiBaseURL)/v/member/getuserinfo"
         let param: Parameters =
             [
             "token"     : parameters.token,

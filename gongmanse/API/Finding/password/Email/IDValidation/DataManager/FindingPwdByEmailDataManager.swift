@@ -16,7 +16,7 @@ class FindingPwdByEmailDataManager {
         let data = parameters
         
         // 이메일로 찾기
-        let urlString = "https://api.gongmanse.com/v/member/recoverid?receiver_type=email&receiver=\(data.receiver)&name=\(data.name)"
+        let urlString = "\(apiBaseURL)/v/member/recoverid?receiver_type=email&receiver=\(data.receiver)&name=\(data.name)"
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),let url = URL(string: encoded)
         {
             AF.request(url)

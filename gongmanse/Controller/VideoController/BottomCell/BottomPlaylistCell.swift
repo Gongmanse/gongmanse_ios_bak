@@ -488,7 +488,7 @@ extension BottomPlaylistCell: UITableViewDelegate, UITableViewDataSource {
                     
                     let indexOnData = playlist.data[indexPath.row]
                     
-                    let urlString = "https://file.gongmanse.com/" + indexOnData.sThumbnail
+                    let urlString = "\(fileBaseURL)/" + indexOnData.sThumbnail
                     
                     let url = URL(string: makeStringKoreanEncoded(urlString))
                     cell.cellVideoID = indexOnData.id

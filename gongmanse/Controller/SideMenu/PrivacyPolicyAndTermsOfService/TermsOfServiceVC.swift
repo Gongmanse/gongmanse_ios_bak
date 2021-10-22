@@ -52,7 +52,7 @@ class TermsOfServiceVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         self.navigationController?.navigationBar.topItem?.title = ""
         
         view.backgroundColor = .white
-        let url = URL(string: "https://webview.gongmanse.com/users/toa_read")
+        let url = URL(string: "\(webBaseURL)/users/toa_read")
         let request = URLRequest(url: url!)
         self.webView.allowsBackForwardNavigationGestures = true
         webView.load(request)

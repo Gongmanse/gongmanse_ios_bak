@@ -85,7 +85,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/mynotes?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/mynotes?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
             print("노트목록\(url.absoluteString)")
             
             var request = URLRequest.init(url: url)
@@ -372,7 +372,7 @@ class NoteListTVCDataManager {
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "note_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
             
-        }, to: "https://api.gongmanse.com/v/member/mynotes").response { (response) in
+        }, to: "\(apiBaseURL)/v/member/mynotes").response { (response) in
             switch response.result {
             case .success:
                 print("POST 성공")

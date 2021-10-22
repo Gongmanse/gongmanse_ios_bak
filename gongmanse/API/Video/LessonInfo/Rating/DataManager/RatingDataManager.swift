@@ -13,7 +13,7 @@ class RatingDataManager {
     func addRatingToVideo(_ parameters: RatingInput, viewController: RatingController) {
         
         // Input 데이터
-        let url = "https://api.gongmanse.com/v/member/myrating"
+        let url = "\(apiBaseURL)/v/member/myrating"
         let data = parameters
         
         let param: Parameters = [ "token": data.token,

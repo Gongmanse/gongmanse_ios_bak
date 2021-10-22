@@ -29,7 +29,7 @@ class SeriesVC: UIViewController {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/serieslist?series_id=\(receiveSeriesId ?? "")&offset=0&limit=60") {
+        if let url = URL(string: "\(apiBaseURL)/v/video/serieslist?series_id=\(receiveSeriesId ?? "")&offset=0&limit=60") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
 

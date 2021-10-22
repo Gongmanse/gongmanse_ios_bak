@@ -56,7 +56,7 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/detailqna?token=\(Constant.token)&offset=0&limit=2147483647&video_id=\(video_id)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/detailqna?token=\(Constant.token)&offset=0&limit=2147483647&video_id=\(video_id)") {
             
             isLoading = true
             
@@ -271,7 +271,7 @@ class LectureQuestionsDeleteBottomPopUpVCDataManager {
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "qna_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
             
-        }, to: "https://api.gongmanse.com/v/member/myqna").response { (response) in
+        }, to: "\(apiBaseURL)/v/member/myqna").response { (response) in
             switch response.result {
             case .success:
                 print("POST 성공")

@@ -452,7 +452,7 @@ extension EditingProfileController {
         let email = receivedData.sEmail
         var profileImageURL = String()
         if let imageURL = receivedData.sImage {
-            profileImageURL = "https://file.gongmanse.com/" + imageURL
+            profileImageURL = "\(fileBaseURL)/" + imageURL
         }
         
         // UI에 데이터를 입력한다.

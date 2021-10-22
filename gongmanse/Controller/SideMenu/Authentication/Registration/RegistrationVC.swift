@@ -302,7 +302,7 @@ private extension RegistrationVC {
         webView1.backgroundColor = .clear
         webView1.uiDelegate = self
         webView1.navigationDelegate = self
-        let url1 = URL(string: "https://webview.gongmanse.com/users/toa_read")
+        let url1 = URL(string: "\(webBaseURL)/users/toa_read")
         let request1 = URLRequest(url: url1!)
         self.webView1.allowsBackForwardNavigationGestures = true
         webView1.load(request1)
@@ -310,7 +310,7 @@ private extension RegistrationVC {
         webView2.backgroundColor = .clear
         webView2.uiDelegate = self
         webView2.navigationDelegate = self
-        let url2 = URL(string: "https://webview.gongmanse.com/users/privacy_policy")
+        let url2 = URL(string: "\(webBaseURL)/users/privacy_policy")
         let request2 = URLRequest(url: url2!)
         self.webView2.allowsBackForwardNavigationGestures = true
         webView2.load(request2)

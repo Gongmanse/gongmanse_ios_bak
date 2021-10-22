@@ -13,7 +13,7 @@ class EditingProfileDataManager {
     func getProfileInfoFromAPI(_ parameters: EditingProfileInput, viewController: EditingProfileController) {
         
         let data = parameters
-        let url = "https://api.gongmanse.com/v/member/getuserinfo?token=\(data.token)"
+        let url = "\(apiBaseURL)/v/member/getuserinfo?token=\(data.token)"
         URLCache.shared.removeAllCachedResponses()
 
         /// HTTP Method: GET
@@ -35,7 +35,7 @@ class EditingProfileDataManager {
     func getProfileInfoFromAPIAtSideMenu(_ parameters: EditingProfileInput, viewController: SideMenuVC) {
         
         let data = parameters
-        let url = "https://api.gongmanse.com/v/member/getuserinfo?token=\(data.token)"
+        let url = "\(apiBaseURL)/v/member/getuserinfo?token=\(data.token)"
         
         
         URLCache.shared.removeAllCachedResponses()
@@ -59,7 +59,7 @@ class EditingProfileDataManager {
     func getProfileInfoFromAPIAtSideMenu(_ parameters: EditingProfileInput, completion: @escaping (_ response: EditingProfileResponse) -> Void) {
         
         let data = parameters
-        let url = "https://api.gongmanse.com/v/member/getuserinfo?token=\(data.token)"
+        let url = "\(apiBaseURL)/v/member/getuserinfo?token=\(data.token)"
         
         
         URLCache.shared.removeAllCachedResponses()
@@ -83,7 +83,7 @@ class EditingProfileDataManager {
     func getPremiumDateFromAPI(_ parameters: EditingProfileInput, viewController: LoginVC) {
         
         let data = parameters
-        let url = "https://api.gongmanse.com/v/member/getuserinfo?token=\(data.token)"
+        let url = "\(apiBaseURL)/v/member/getuserinfo?token=\(data.token)"
         
 
 
@@ -107,7 +107,7 @@ class EditingProfileDataManager {
     }
     
     func getUserId(_ token: String, _ fcm_token: String) {
-        let url = "https://api.gongmanse.com/v/member/userid?token=\(token)"
+        let url = "\(apiBaseURL)/v/member/userid?token=\(token)"
         URLCache.shared.removeAllCachedResponses()
 
         /// HTTP Method: GET

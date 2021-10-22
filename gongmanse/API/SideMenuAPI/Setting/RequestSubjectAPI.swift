@@ -51,7 +51,7 @@ struct postFilteringAPI {
     
     // POST방식, 아직 고민중
 //    func performFiltering(_ token: String?, _ grade: String?, _ subject: String?) {
-//        let filterUrl = "https://api.gongmanse.com/v/setting/searchsetting"
+//        let filterUrl = "\(apiBaseURL)/v/setting/searchsetting"
 //        guard let token = token else { return }
 //        guard let grade = grade else { return }
 //        guard let subject = subject else { return }

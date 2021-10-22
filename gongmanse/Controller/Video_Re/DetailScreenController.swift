@@ -137,7 +137,7 @@ extension DetailScreenController {
         let url = URL(string: sourceURL) as NSURL?
 
         // sSubtitles -> vttURL
-        let vttURL = "https://file.gongmanse.com/" + response.data.sSubtitle
+        let vttURL = "\(fileBaseURL)/" + response.data.sSubtitle
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags

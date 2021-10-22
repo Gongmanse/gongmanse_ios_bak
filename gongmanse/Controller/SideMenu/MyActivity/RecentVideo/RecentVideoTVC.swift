@@ -92,7 +92,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "https://api.gongmanse.com/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset=\(self.tableViewInputData.count)&limit=20") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset=\(self.tableViewInputData.count)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -345,7 +345,7 @@ class RecentVideoTVCDataManager {
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "history_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
             
-        }, to: "https://api.gongmanse.com/v/member/watchhistory").response { (response) in
+        }, to: "\(apiBaseURL)/v/member/watchhistory").response { (response) in
             switch response.result {
             case .success:
                 print("POST 성공")

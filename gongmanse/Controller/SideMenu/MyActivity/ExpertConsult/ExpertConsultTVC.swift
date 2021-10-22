@@ -67,7 +67,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func getDataFromJson() {
-        if let url = URL(string: "https://api.gongmanse.com/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId! + 4)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId! + 4)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -269,7 +269,7 @@ class ExpertConsultTVCDataManager {
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "con_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
 
-        }, to: "https://api.gongmanse.com/v/member/myconsultation").response { (response) in
+        }, to: "\(apiBaseURL)/v/member/myconsultation").response { (response) in
             switch response.result {
             case .success:
                 print("POST 성공")

@@ -17,7 +17,7 @@ enum InfoError: Swift.Error {
 
 
 struct PopularAPIManager {
-    let popularURL = "https://api.gongmanse.com/v/video/trending_keyword"
+    let popularURL = "\(apiBaseURL)/v/video/trending_keyword"
     
     func fetchPopularAPI(completion: @escaping resultModel<PopularKeywordModel>) {
         

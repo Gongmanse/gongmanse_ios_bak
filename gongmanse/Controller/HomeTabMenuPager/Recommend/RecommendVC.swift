@@ -69,7 +69,7 @@ class RecommendVC: UIViewController {
     }
     
     func getDataFromJsonSecond() {
-        if let url = URL(string: "https://api.gongmanse.com/v/video/recommendvid?offset=\(default1)&limit=20") {
+        if let url = URL(string: "\(apiBaseURL)/v/video/recommendvid?offset=\(default1)&limit=20") {
             default1 += 20
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
