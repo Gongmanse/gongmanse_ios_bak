@@ -244,7 +244,7 @@ class RegistrationVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let urlString = navigationAction.request.url?.absoluteString {
-            if urlString.contains("webview.gongmanse.com") {
+            if urlString.contains(webBaseURL) {
                 decisionHandler(.allow)
             } else {
                 decisionHandler(.cancel)
@@ -307,7 +307,7 @@ private extension RegistrationVC {
         self.webView1.allowsBackForwardNavigationGestures = true
         webView1.load(request1)
         
-        webView2.backgroundColor = .clear
+        webView2.backgroundColor = .gray
         webView2.uiDelegate = self
         webView2.navigationDelegate = self
         let url2 = URL(string: "\(webBaseURL)/users/privacy_policy")

@@ -120,14 +120,26 @@ extension NoticeListVC: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoticeIdentifier, for: indexPath) as? NoticeCell else { return UICollectionViewCell() }
         
         let contentImageName = noticeListArray[indexPath.row].sContent
+        print("contentImageName : \(contentImageName)")
         
         //정규식
         let imageRegex = "(http(s?):\\/\\/file\\.gongmanse\\.com\\/uploads\\/editor\\/[0-9]{0,}\\/[a-z0-9]{0,}\\.(png|jpg))"
+        let imageRegexDev = "(http(s?):\\/\\/filedev\\.gongmanse\\.com\\/uploads\\/editor\\/[0-9]{0,}\\/[a-z0-9]{0,}\\.(png|jpg))"
         
         var allRegex: [String] = []
         allRegex.append(contentsOf: contentImageName.getCertificationNumber(regex: imageRegex))
+        
+        var allRegexDev: [String] = []
+        allRegexDev.append(contentsOf: contentImageName.getCertificationNumber(regex: imageRegexDev))
 
-        cell.contentImage.setImageUrl(allRegex[0])
+        if allRegex.count > 0 {// 컨탠츠 내 이미지 수량 확인
+            cell.contentImage.setImageUrl(allRegex[0])
+        } else if allRegexDev.count > 0 {
+            cell.contentImage.setImageUrl(allRegexDev[0])
+        } else {
+            cell.contentImage.image = UIImage(named: "photoDefault")
+        }
+        
         cell.contentTitle.text = noticeListArray[indexPath.row].sTitle
         cell.contentViewer.text = noticeListArray[indexPath.row].viewer
         cell.createContentDate.text = noticeListArray[indexPath.row].dateViewer
