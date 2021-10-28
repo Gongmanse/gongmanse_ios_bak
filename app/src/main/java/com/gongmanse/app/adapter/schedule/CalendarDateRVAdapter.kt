@@ -80,6 +80,7 @@ class CalendarDateRVAdapter( private val listener: OnScheduleClickListener) : Re
 
     fun addItems(newItems : ArrayList<ScheduleData>){
         items.clear()
+        newItems.sortBy { it.date }
         items.addAll(newItems)
         notifyDataSetChanged()
     }
