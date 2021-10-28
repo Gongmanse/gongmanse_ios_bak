@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
-import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import com.gongmanse.app.BR
@@ -96,7 +95,14 @@ class RegisterUpdateActivity : AppCompatActivity(), View.OnClickListener {
         TedImagePicker.with(this)
             .start {
                 binding.ivProfile.setImageURI(it)
+
+                //이미지 최초 설정 시 visibility 가 GONE 으로 초기화 되어있음.
+                binding.ivProfile.visibility = View.VISIBLE
+                binding.ivProfileNone.visibility = View.GONE
+
                 mUri = it
+
+                uploadImage()
             }
     }
 
@@ -193,20 +199,34 @@ class RegisterUpdateActivity : AppCompatActivity(), View.OnClickListener {
                 setMessage("업로드중입니다...")
                 show()
             }
-            val applyImage = mUri?.let { uploadImage(it) }
+//            val applyImage = mUri?.let { uploadImage(it) }
             val applyProfile = uploadProfile()
             val applyPassword = uploadPassword()
-            Log.d(TAG, "applyImage => $applyImage")
+//            Log.d(TAG, "applyImage => $applyImage")
             Log.d(TAG, "applyProfile => $applyProfile")
             Log.d(TAG, "applyPassword => $applyPassword")
             asyncDialog.dismiss()
-            if (applyProfile != null && applyImage != null && applyPassword != null) {
+            if (applyProfile != null /*&& applyImage != null*/ && applyPassword != null) {
                 imm.hideSoftInputFromWindow(binding.inputNickname.windowToken, 0)
                 imm.hideSoftInputFromWindow(binding.inputPassword.windowToken, 0)
                 imm.hideSoftInputFromWindow(binding.inputPasswordConfirm.windowToken, 0)
                 imm.hideSoftInputFromWindow(binding.inputEmail.windowToken, 0)
                 finish()
             }
+        }
+    }
+
+    // 프로필 이미지 변경 프로세스 분리
+    private fun uploadImage() {
+        GlobalScope.launch(Dispatchers.Main) {
+            val asyncDialog = ProgressDialog(this@RegisterUpdateActivity).apply {
+                setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                setMessage("업로드중입니다...")
+                show()
+            }
+            val applyImage = mUri?.let { uploadImage(it) }
+            Log.d(TAG, "applyImage => $applyImage")
+            asyncDialog.dismiss()
         }
     }
 
