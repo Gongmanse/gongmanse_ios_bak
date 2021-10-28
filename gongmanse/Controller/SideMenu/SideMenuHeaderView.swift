@@ -224,8 +224,8 @@ class SideMenuHeaderView: UIView {
         
         profileImageView.addShadow()
         profileImageView.clipsToBounds = true
-        profileImageView.setDimensions(height: 88,
-                                   width: 88)
+        profileImageView.setDimensions(height: profileImageConstant,
+                                   width: profileImageConstant)
         profileImageView.layer.cornerRadius = profileImageConstant * 0.5
         profileImageView.layer.masksToBounds = true
         profileImageView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
@@ -233,8 +233,8 @@ class SideMenuHeaderView: UIView {
         profileImageView.anchor(top: self.safeAreaLayoutGuide.topAnchor,
                             paddingTop: viewWidth * 0.11)
         
-        defaultImageView.setDimensions(height: 60,
-                                   width: 60)
+        defaultImageView.setDimensions(height: profileImageConstant,
+                                   width: profileImageConstant)
         defaultImageView.centerX(inView: profileImageView)
         defaultImageView.centerY(inView: profileImageView)
         
@@ -317,7 +317,7 @@ class SideMenuHeaderView: UIView {
             } else {
                 self.defaultImageView.isHidden = false
             }
-            self.profileImageView.layer.cornerRadius = profileImageConstant
+            self.profileImageView.layer.cornerRadius = profileImageConstant * 0.5
 
             loginBtn.setTitle("로그아웃", for: .normal)
 //            loginBtn.centerX(inView: self)

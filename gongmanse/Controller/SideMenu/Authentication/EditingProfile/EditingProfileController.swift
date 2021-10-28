@@ -455,19 +455,6 @@ extension EditingProfileController {
             profileImageURL = "\(fileBaseURL)/" + imageURL
         }
         
-        // UI에 데이터를 입력한다.
-        /*
-         21.06.02 작성
-         - 프로필 이미지 변경 시, .png 로 입력한다.
-         - 프로필 전체정보 중에서 이미지는 String(URL)로 준다.
-         - 프로필이미지파일을 주면 서버에서 URL로 변환해주어야 한다고 생각한다.
-         - 프로펄 이미지 변경 시, API Response는 정상적으로 되었다고 하고 있으나
-         다시 프로필 정보조회를 하면 변경되어있지 않다.
-         1. DB에서 저장기능이 이상하거나
-         2. 프로필 이미니 넣는 방식이 잘못되었거나
-         추후 진행예정
-        */
-        
 //        profileImageView.sd_setImage(with: URL(string: profileImageURL), completed: nil)
         profileImageView.sd_setImage(with: URL(string: profileImageURL), placeholderImage: #imageLiteral(resourceName: "idOff"), options: [], completed: nil)
         
@@ -489,6 +476,13 @@ extension EditingProfileController {
     func didSuccessUpdateProfileImage(response: UpdateProfileImageResponse) {
         print("DEBUG: 성공메세지 \(response.message)")
         profileImageView.image = willChangeProfileImage
+        
+        // 프로필 이미지 url 캐시 초기화, 동일한 url 에 이미지 업데이트 됨
+        if let cacheKey = profileImageView.sd_imageURL()?.absoluteString {
+            SDImageCache.shared().removeImage(forKey: cacheKey) {
+                print("profile cache removed")
+            }
+        }
     }
 }
 
