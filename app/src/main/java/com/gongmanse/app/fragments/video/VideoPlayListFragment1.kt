@@ -99,6 +99,19 @@ class VideoPlayListFragment1 : Fragment() {
         mVideoViewModel.playList.observe(viewLifecycleOwner, Observer {
             Log.v(TAG, "playList => $it")
             Log.v(TAG, "playListSize => ${it?.data?.size}")
+
+            // API 요청으로 포지션 조회 시 강의 리스트 포지션과 재생아이템 포지션이 상이하여 직접 비교하도록 수정
+            it.data?.let { list ->
+                Log.v(TAG, "getViewModel list check")
+                for (i in list.indices) {
+                    if (list[i].id == mVideoViewModel.videoId.value)  {
+                        Log.e(TAG, "playList position : $i")
+                        mVideoViewModel.playListNowPosition.value = i
+                        break;
+                    }
+                }
+            }
+
             mRecyclerAdapter.addItems(it?.data)
             binding.isEmpty = mRecyclerAdapter.itemCount == 0
             isLoading = false
