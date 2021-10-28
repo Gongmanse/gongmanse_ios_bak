@@ -528,7 +528,12 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
         lateinit var url: URL
         override fun doInBackground(vararg params: Void?): Bitmap {
             HttpsURLConnection.setDefaultSSLSocketFactory(SSLHelper.getInstance().sslContext.socketFactory)
-            return BitmapFactory.decodeStream(url.openStream())
+            return try {
+                BitmapFactory.decodeStream(url.openStream())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Bitmap.createBitmap(10,10,Bitmap.Config.ARGB_8888)
+            }
         }
 
         override fun onPostExecute(result: Bitmap?) {
