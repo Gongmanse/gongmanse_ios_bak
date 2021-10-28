@@ -608,8 +608,9 @@ extension LectureNoteController {
                     return
                 }
                 DispatchQueue.main.async {
-                    let resultImage = UIImage(data: data)!
-                    self.noteImageArr.append(resultImage)
+                    if let resultImage = UIImage(data: data) {
+                        self.noteImageArr.append(resultImage)
+                    }
                     
                     if noteData.sNotes.count > index + 1 {
                         self.getImageFromURL(noteData: noteData, index: index + 1)
