@@ -72,7 +72,7 @@ class CustomSideMenuNavigation: SideMenuNavigationController, SideMenuNavigation
                                         width: footerView.frame.width * 0.5)
         
         let versionLabel = UILabel()
-        versionLabel.text = "버전 2.0"
+        versionLabel.text = "버전 \(appVersion)"
         versionLabel.font = UIFont.appBoldFontWith(size: 12)
         versionLabel.textColor = .gray
         versionLabel.backgroundColor = .white
@@ -85,4 +85,15 @@ class CustomSideMenuNavigation: SideMenuNavigationController, SideMenuNavigation
         termsOfServiceBtn.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    var appVersion: String {
+        guard let dictionary = Bundle.main.infoDictionary,
+              let version = dictionary["CFBundleShortVersionString"] as? String,
+              let build = dictionary["CFBundleVersion"] as? String else {
+            return ""
+            
+        }
+        let versionAndBuild: String = "vserion: \(version), build: \(build)"
+        print(versionAndBuild)
+        return version
+    }
 }

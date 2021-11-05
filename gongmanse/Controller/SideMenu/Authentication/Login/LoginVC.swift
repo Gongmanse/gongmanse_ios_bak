@@ -306,7 +306,7 @@ extension LoginVC {
     func didSuccessNetworing(response: EditingProfileResponse) {
         
         print("DEBUG: 시작일: \(response.dtPremiumActivate)")
-        print("DEBUG: 종료일: \(response.dtPremiumActivate)")
+        print("DEBUG: 종료일: \(response.dtPremiumExpire)")
         Constant.remainPremiumDateInt = nil
         
         let activateDate: String? = response.dtPremiumActivate

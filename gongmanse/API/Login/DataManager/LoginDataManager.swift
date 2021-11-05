@@ -76,7 +76,7 @@ class LoginDataManager {
                     EditingProfileDataManager().getProfileInfoFromAPIAtSideMenu(inputData) { response in
                         let activateDate: String? = response.dtPremiumActivate
                         let expireDate: String? = response.dtPremiumExpire
-                        var dateRemainingString: String?
+//                        var dateRemainingString: String?
                         
                         
                         guard let startDateString = activateDate else { return }

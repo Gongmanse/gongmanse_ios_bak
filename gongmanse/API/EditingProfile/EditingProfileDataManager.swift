@@ -26,8 +26,8 @@ class EditingProfileDataManager {
                     viewController.didSuccessNetworing(response: response)
                     
                 case .failure(let error):
-                    print("DEBUG: 프로필데이터 수신 API 통신 실패")
-                    print("DEBUG: faild connection \(error.localizedDescription)")
+                    print("DEBUG1: 프로필데이터 수신 API 통신 실패")
+                    print("DEBUG1: faild connection \(error.localizedDescription)")
                 }
             }
     }
@@ -50,8 +50,8 @@ class EditingProfileDataManager {
                     viewController.didSuccessNetworing(response: response)
                     
                 case .failure(let error):
-                    print("DEBUG: 프로필데이터 수신 API 통신 실패")
-                    print("DEBUG: faild connection \(error.localizedDescription)")
+                    print("DEBUG2: 프로필데이터 수신 API 통신 실패")
+                    print("DEBUG2: faild connection \(error.localizedDescription)")
                 }
             }
     }
@@ -74,8 +74,8 @@ class EditingProfileDataManager {
                     completion(response)
                     
                 case .failure(let error):
-                    print("DEBUG: 프로필데이터 수신 API 통신 실패")
-                    print("DEBUG: faild connection \(error.localizedDescription)")
+                    print("DEBUG3: 프로필데이터 수신 API 통신 실패")
+                    print("DEBUG3: faild connection \(error.localizedDescription)")
                 }
             }
     }
@@ -100,8 +100,8 @@ class EditingProfileDataManager {
                     viewController.didSuccessNetworing(response: response)
                     
                 case .failure(let error):
-                    print("DEBUG: 프로필데이터 수신 API 통신 실패")
-                    print("DEBUG: faild connection \(error.localizedDescription)")
+                    print("DEBUG4: 프로필데이터 수신 API 통신 실패")
+                    print("DEBUG4: faild connection \(error.localizedDescription)")
                 }
             }
     }
@@ -120,8 +120,8 @@ class EditingProfileDataManager {
                     self.registerFcmToken(fcm_token, response.user_id)
                     
                 case .failure(let error):
-                    print("DEBUG: 프로필데이터 수신 API 통신 실패")
-                    print("DEBUG: faild connection \(error.localizedDescription)")
+                    print("DEBUG5: 프로필데이터 수신 API 통신 실패")
+                    print("DEBUG5: faild connection \(error.localizedDescription)")
                 }
             }
     }

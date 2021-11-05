@@ -61,6 +61,22 @@ extension IAPHelper {
     public func restorePurchases() {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
+    
+    public func getReceiptData() -> String? {
+        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
+            do {
+                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
+                let receiptString = receiptData.base64EncodedString(options: [])
+                return receiptString
+            }
+            catch {
+                print("Couldn't read receipt data with error: " + error.localizedDescription)
+                return nil
+            }
+        }
+        return nil
+    }
 }
 
 extension IAPHelper: SKProductsRequestDelegate {

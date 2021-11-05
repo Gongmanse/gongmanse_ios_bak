@@ -313,7 +313,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions as [SKPaymentTransaction]{
-            switch transaction.transactionState{
+            switch transaction.transactionState {
             
             case SKPaymentTransactionState.purchased:
                 print("구매했습니다.")
@@ -337,7 +337,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
                 // TODO: 실패시 처리
                 queue.finishTransaction(transaction)
             default:
-                print("defult")
+                print("SKPaymentTransactionState : \(transaction.transactionState)")
                 break
                 
             }
