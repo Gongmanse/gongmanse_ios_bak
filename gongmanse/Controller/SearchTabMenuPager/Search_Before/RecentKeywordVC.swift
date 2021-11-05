@@ -139,7 +139,7 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == recentVM.recentList.count - 1 {
+        if indexPath.row == recentVM.recentList.count - 1 && !recentVM.isLoading {
             //더보기
             recentVM.requestGetListApi(recentVM.recentList.count)
         }

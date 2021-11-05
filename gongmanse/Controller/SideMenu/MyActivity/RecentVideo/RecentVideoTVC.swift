@@ -35,9 +35,11 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     var sortedId: Int? {
         didSet {
             self.tableViewInputData.removeAll()
-            getDataFromJson()
+            self.tableView.reloadData()
+            getDataFromJson(offset: 0)
         }
     }
+    var isLoading = false
     
     var delegate: RecentVideoVCDelegate?
     
@@ -63,6 +65,8 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         //스위치 버튼 크기 줄이기
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         autoPlayLabel.textColor = UIColor.black
+        
+        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +82,10 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
-    func getDataFromJson() {
+    func getDataFromJson(offset: Int) {
+        print("Recent getDataFromJson : \(offset)")
+        isLoading = true
+        
         switch sortedId {
         case 0:
             inputSortNum = 4
@@ -92,17 +99,19 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "\(apiBaseURL)/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset=\(self.tableViewInputData.count)&limit=20") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/watchhistory?token=\(Constant.token)&sort_id=\(inputSortNum)&offset=\(offset)&limit=20") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
+                
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
-                    self.recentViedo = json
                     self.tableViewInputData.append(contentsOf: json.data)
+                    self.recentViedo = json
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -162,7 +171,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecentVideoTVCell") as! RecentVideoTVCell
             
-            guard let json = self.recentViedo else { return cell }
+            guard let _ = self.recentViedo else { return cell }
             
             let indexData = self.tableViewInputData[indexPath.row]
             let defaultURL = fileBaseURL
@@ -188,7 +197,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     }
     
     @objc func deleteAction(_ sender: UIButton) {
-        guard let json = self.recentViedo else { return }
+        guard let _ = self.recentViedo else { return }
         guard let id = self.tableViewInputData[sender.tag].id else { return }
         
         let inputData = RecentVideoInput(id: id)
@@ -289,15 +298,15 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     //0711 - added by hp
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.tableViewInputData.count - 1 {
+        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
+            && self.tableViewInputData.count < (Int(self.recentViedo?.totalNum ?? "0") ?? 0) {
             //더보기
-            getDataFromJson()
+            getDataFromJson(offset: self.tableViewInputData.count)
         }
     }
 }
 
-extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
-    
+extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {    
     func recentPassSortedIdRow(_ recentSortedIdRowIndex: Int) {
         
         if recentSortedIdRowIndex == 0 {          // 1 번째 Cell

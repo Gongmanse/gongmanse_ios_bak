@@ -31,7 +31,9 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     var sortedId: Int? {
         didSet {
-//            getDataFromJson()
+            tableViewInputData.removeAll()
+            tableView.reloadData()
+            getDataFromJson(offset: 0)
         }
     }
     var isLoading = false
@@ -49,12 +51,12 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
 //        tableView.tableFooterView = UIView()
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
         
-        getDataFromJson()
-        
         //xib 셀 등록
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
         
         NotificationCenter.default.addObserver(self, selector: #selector(noteListFilterNoti(_:)), name: NSNotification.Name("noteListFilterText"), object: nil)
+        
+        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +71,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
-    func getDataFromJson() {
+    func getDataFromJson(offset: Int) {
+        print("Note getDataFromJson : \(offset)")
         isLoading = true
         
         switch sortedId {
@@ -85,9 +88,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "\(apiBaseURL)/v/member/mynotes?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
-            print("노트목록\(url.absoluteString)")
-            
+        if let url = URL(string: "\(apiBaseURL)/v/member/mynotes?token=\(Constant.token)&offset=\(offset)&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -98,8 +99,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
-                    self.noteList = json
                     self.tableViewInputData.append(contentsOf: json.data)
+                    self.noteList = json
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -160,7 +161,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTVCell") as! NoteListTVCell
             
-            guard let json = self.noteList else { return cell }
+            guard let _ = self.noteList else { return cell }
             
             let indexData = self.tableViewInputData[indexPath.row]
             let defaultURL = fileBaseURL
@@ -189,7 +190,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
     
     @objc func deleteAction(_ sender: UIButton) {
-        guard let json = self.noteList else { return }
+        guard let _ = self.noteList else { return }
         guard let id = tableViewInputData[sender.tag].id else { return }
         
         let inputData = NoteListInput(id: id)
@@ -199,9 +200,6 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         tableView.reloadData()
         
         NoteListTVCDataManager().postRemoveNoteList(param: inputData, viewController: self)
-        
-        getDataFromJson()
-        tableView.reloadData()
     }
     
     @objc func videoPlay(_ sender: UIButton) {
@@ -220,7 +218,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             //let token = Constant.token
             
             guard let value = self.noteList else { return }
-            let data = value.data
+            let _ = value.data
             
             //            guard let selectedVideoIndex = self.selectedRow else { return }
             //            print("slectedRow is \(selectedVideoIndex)")
@@ -315,9 +313,10 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     
     //0711 - added by hp
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading && self.tableViewInputData.count < (Int(self.noteList?.totalNum ?? "0") ?? 0) {
+        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
+            && self.tableViewInputData.count < (Int(self.noteList?.totalNum ?? "0") ?? 0) {
             //더보기
-            getDataFromJson()
+            getDataFromJson(offset: self.tableViewInputData.count)
         }
     }
 }
@@ -340,7 +339,7 @@ extension NoteListTVC: NoteListBottomPopUpVCDelegate {
         
         noteList = nil
         tableViewInputData.removeAll()
-        getDataFromJson()
+        getDataFromJson(offset: 0)
     }
 }
 

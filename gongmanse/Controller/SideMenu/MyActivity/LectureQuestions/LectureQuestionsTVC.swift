@@ -19,13 +19,17 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     var pageIndex: Int!
     var lectureQnA: FilterVideoModels?
+    var tableViewInputData: [FilterVideoData] = []
     private let emptyCellIdentifier = "EmptyTableViewCell"
     
     var sortedId: Int? {
         didSet {
-            getDataFromJson()
+            self.tableViewInputData.removeAll()
+            self.tableView.reloadData()
+            getDataFromJson(offset: 0)
         }
     }
+    var isLoading = false
     
     var inputSortNum = 4
     
@@ -37,9 +41,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getDataFromJson()
-        
+                
         //테이블 뷰 빈칸 숨기기
 //        tableView.tableFooterView = UIView()
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
@@ -48,12 +50,13 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         tableView.register(UINib(nibName: emptyCellIdentifier, bundle: nil), forCellReuseIdentifier: emptyCellIdentifier)
         
         NotificationCenter.default.addObserver(self, selector: #selector(lectureQuestionsFilterNoti(_:)), name: NSNotification.Name("lectureQuestionsFilterText"), object: nil)
+        
+        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.isDeleteMode = true
-        tableView.reloadData()
         
     }
     
@@ -62,7 +65,9 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
-    func getDataFromJson() {
+    func getDataFromJson(offset: Int) {
+        print("Lecture getDataFromJson : \(offset)")
+        isLoading = true
         
         switch sortedId {
         case 0:
@@ -77,15 +82,17 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
             inputSortNum = 4
         }
         
-        if let url = URL(string: "\(apiBaseURL)/v/member/myqna?token=\(Constant.token)&offset=0&sort_id=\(inputSortNum)") {
+        if let url = URL(string: "\(apiBaseURL)/v/member/myqna?token=\(Constant.token)&offset=\(offset)&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
-                    //print(json.body)
+//                    print(json.body)
+                    self.tableViewInputData.append(contentsOf: json.data)
                     self.lectureQnA = json
                 }
                 DispatchQueue.main.async {
@@ -126,8 +133,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         if value.totalNum == "0" {
             return 1
         } else {
-            guard let data = self.lectureQnA?.data else { return 0}
-            return data.count
+            return  tableViewInputData.count
         }
     }
     
@@ -147,9 +153,9 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "LectureQuestionsTVCell") as! LectureQuestionsTVCell
             
-            guard let json = self.lectureQnA else { return cell }
+            guard let _ = self.lectureQnA else { return cell }
             
-            let indexData = json.data[indexPath.row]
+            let indexData = self.tableViewInputData[indexPath.row]//json.data[indexPath.row]
             let defaultURL = fileBaseURL
             guard let thumbnailURL = indexData.sThumbnail else { return UITableViewCell() }
             let url = URL(string: makeStringKoreanEncoded(defaultURL + "/" + thumbnailURL))
@@ -194,7 +200,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func removeItem(_ video_id: String) {
-        getDataFromJson()
+        getDataFromJson(offset: 0)
     }
     
     @objc func deleteAction(_ sender: UIButton) {

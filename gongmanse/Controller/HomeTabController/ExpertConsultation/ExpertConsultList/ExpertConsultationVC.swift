@@ -17,7 +17,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     
     var sortedId: Int = 4
     
-    var bLoading: Bool = false
+    var isLoading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,13 +47,13 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     
     func getDataFromJson() {
         if let url = URL(string: ExpertConsultation_URL + "limit=20&offset=\(consultModelData.count)&sort_id=\(sortedId)") {
-            bLoading = true
+            isLoading = true
             
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
-                self.bLoading = false
+                self.isLoading = false
                 
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
@@ -176,7 +176,7 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpertConsultationTVCell") as! ExpertConsultationTVCell
         
-        guard let json = self.consultModels else { return cell }
+        guard let _ = self.consultModels else { return cell }
         
         let indexData = consultModelData[indexPath.row]
         let defaultLink = fileBaseURL
@@ -230,7 +230,8 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.consultModelData.count - 1 && !bLoading {
+        if indexPath.row == self.consultModelData.count - 1 && !isLoading
+            && self.consultModelData.count < (Int(consultModels?.totalNum ?? "0") ?? 0) {
             //더보기
             getDataFromJson()
         }

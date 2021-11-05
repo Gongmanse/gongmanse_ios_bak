@@ -38,13 +38,13 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     var sortedId: Int? {
         didSet {
             self.tableViewInputData.removeAll()
-            getDataFromJson()
+            self.tableView.reloadData()
+            getDataFromJson(offset: 0)
         }
     }
     var isLoading = false
-    var isMore = true
-    var delegate: BookMarkTVCDelegate?
     
+    var delegate: BookMarkTVCDelegate?
     var height: CGFloat = 240
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
@@ -66,6 +66,8 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         
         playSwitch.addTarget(self, action: #selector(playSwitchDidTap(_:)), for: .valueChanged)
         autoPlayLabel.textColor = UIColor.black
+        
+        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,7 +95,9 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    func getDataFromJson() {
+    func getDataFromJson(offset: Int) {
+        print("BookMark getDataFromJson : \(offset)")
+        isLoading = true
         
         switch sortedId {
         case 0:
@@ -107,11 +111,8 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         default:
             inputSortNum = 4
         }
-        
-        isLoading = true
-        
-        if let url = URL(string: "\(apiBaseURL)/v/member/mybookmark?token=\(Constant.token)&offset=\(tableViewInputData.count)&limit=20&sort_id=\(inputSortNum)") {
-            print(url.absoluteString)
+                
+        if let url = URL(string: "\(apiBaseURL)/v/member/mybookmark?token=\(Constant.token)&offset=\(offset)&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
@@ -121,9 +122,8 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
-                    self.bookMark = json
                     self.tableViewInputData.append(contentsOf: json.data)
-                    self.isMore = json.data.count > 0
+                    self.bookMark = json
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -182,7 +182,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "BookMarkTVCell") as! BookMarkTVCell
             
-            guard let json = self.bookMark else { return cell }
+            guard let _ = self.bookMark else { return cell }
             
             let indexData = tableViewInputData[indexPath.row]
             let defaultURL = fileBaseURL
@@ -221,7 +221,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     }
     
     @objc func deleteAction(_ sender: UIButton) {
-        guard let json = self.bookMark else { return }
+        guard let _ = self.bookMark else { return }
         guard let id = tableViewInputData[sender.tag].iBookmarkId else { return }
         
         let baseURL = URL(string: "\(apiBaseURL)/v/member/mybookmark")!
@@ -324,7 +324,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
                 inputArr.append(inputData)
             }
             
-            let inputData = VideoInput(body: inputArr)
+//            let inputData = VideoInput(body: inputArr)
             autoPlayDataManager.currentViewTitleView = "즐겨찾기"
             autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
             autoPlayDataManager.videoDataList.removeAll()
@@ -349,9 +349,10 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
     
     //0711 - added by hp
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.tableViewInputData.count - 1 && !isLoading && isMore {
+        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
+            && self.tableViewInputData.count < (Int(self.bookMark?.totalNum ?? "0") ?? 0){
             //더보기
-            getDataFromJson()
+            getDataFromJson(offset: self.tableViewInputData.count)
         }
     }
 }

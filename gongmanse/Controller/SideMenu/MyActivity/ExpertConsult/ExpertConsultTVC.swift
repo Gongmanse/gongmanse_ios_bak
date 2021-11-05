@@ -12,6 +12,8 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     
+    var inputSortNum = 4
+    
     var isDeleteMode: Bool = false {
         didSet {
             self.tableView.reloadData()
@@ -26,12 +28,12 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     
     var sortedId: Int? {
         didSet {
-            self.tableViewInputData.removeAll()
-            self.tableView.reloadData()
-            
-            self.getDataFromJson()
+            tableViewInputData.removeAll()
+            tableView.reloadData()
+            getDataFromJson(offset: 0)
         }
     }
+    var isLoading = false
     
     var delegate: ExpertConsultTVCDelegate?
     
@@ -41,9 +43,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        getDataFromJson()
-        
+                
         //테이블 뷰 빈칸 숨기기
 //        tableView.tableFooterView = UIView()
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
@@ -53,6 +53,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(expertConsultFilterNoti(_:)), name: NSNotification.Name("expertConsultFilterText"), object: nil)
         
+        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,18 +67,36 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         filteringBtn.setTitle(filterButtonTitle as? String, for: .normal)
     }
     
-    func getDataFromJson() {
-        if let url = URL(string: "\(apiBaseURL)/v/member/myconsultation?token=\(Constant.token)&offset=0&limit=20&sort_id=\(sortedId! + 4)") {
+    func getDataFromJson(offset: Int) {
+        print("Expert getDataFromJson : \(offset)")
+        isLoading = true
+        
+        switch sortedId {
+        case 0:
+            inputSortNum = 4
+        case 1:
+            inputSortNum = 1
+        case 2:
+            inputSortNum = 2
+        case 3:
+            inputSortNum = 3
+        default:
+            inputSortNum = 4
+        }
+        
+        if let url = URL(string: "\(apiBaseURL)/v/member/myconsultation?token=\(Constant.token)&offset=\(offset)&limit=20&sort_id=\(inputSortNum)") {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
+                self.isLoading = false
+                
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
                     //print(json.body)
-                    self.expertConsult = json
                     self.tableViewInputData.append(contentsOf: json.data)
+                    self.expertConsult = json
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -136,7 +155,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ExpertConsultTVCell") as! ExpertConsultTVCell
             
-            guard let json = self.expertConsult else { return cell }
+            guard let _ = self.expertConsult else { return cell }
             
             let indexData = tableViewInputData[indexPath.row]
             let defaultLink = fileBaseURL
@@ -194,6 +213,11 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         guard let id = json.data[sender.tag].cu_id else { return }
 
         let inputData = ExpertConsultInput(id: id)
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        self.tableViewInputData.remove(at: indexPath.row)
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
+        
         ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
     }
     
@@ -221,6 +245,14 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
+            && self.tableViewInputData.count < (Int(self.expertConsult?.totalNum ?? "0") ?? 0) {
+            //더보기
+            getDataFromJson(offset: self.tableViewInputData.count)
+        }
+    }
 }
 
 extension ExpertConsultTVC: ExpertConsultBottomPopUpVCDelegate {
@@ -246,7 +278,7 @@ extension ExpertConsultTVC {
         tableViewInputData.removeAll()
         tableView.reloadData()
         
-        getDataFromJson()
+        getDataFromJson(offset: 0)
         //self.tableView.reloadData()
 //        self.view.layoutIfNeeded()
     }
