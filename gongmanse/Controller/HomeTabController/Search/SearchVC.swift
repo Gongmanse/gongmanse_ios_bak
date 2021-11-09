@@ -251,13 +251,13 @@ extension SearchVC: TabsDelegate {
         //선택한 탭 셀 위치가 pageController의 현재 위치와 동일한 지 확인하고 그렇지 않은 경우 앞으로 또는 뒤로 이동
         if position != currentIndex {
             if position > currentIndex {
-                self.pageController.setViewControllers([showViewController(position)!], direction: .forward, animated: true, completion: nil)
+                self.pageController.setViewControllers([showViewController(position)!], direction: .forward, animated: false, completion: nil)
                 
                 // 화면 전환 시, 최종 페이지 확인하기 위한 Index
                 self.isRecentPage = true
                 
             } else {
-                self.pageController.setViewControllers([showViewController(position)!], direction: .reverse, animated: true, completion: nil)
+                self.pageController.setViewControllers([showViewController(position)!], direction: .reverse, animated: false, completion: nil)
                 
                 // 화면 전환 시, 최종 페이지 확인하기 위한 Index
                 self.isRecentPage = false
