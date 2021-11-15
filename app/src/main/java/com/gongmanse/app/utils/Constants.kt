@@ -35,16 +35,16 @@ class Constants {
     companion object {
 
         /* Server API IP */
-//        const val BASE_DOMAIN                    = "https://api.gongmanse.com"
-//        const val FILE_DOMAIN                    = "https://file.gongmanse.com"
-//        const val WEB_VIEW_DOMAIN                = "https://webview.gongmanse.com"
-//        const val NOTICE_EVENT_VALUE_DOMAIN      = "https://webview.gongmanse.com/events/view/"
+        const val BASE_DOMAIN                    = "https://api.gongmanse.com"
+        const val FILE_DOMAIN                    = "https://file.gongmanse.com"
+        const val WEB_VIEW_DOMAIN                = "https://webview.gongmanse.com"
+        const val NOTICE_EVENT_VALUE_DOMAIN      = "https://webview.gongmanse.com/events/view/"
 
         // 21.10.20 settings Dev domain
-        const val BASE_DOMAIN                    = "https://apidev.gongmanse.com"
-        const val FILE_DOMAIN                    = "https://filedev.gongmanse.com"
-        const val WEB_VIEW_DOMAIN                = "https://webviewdev.gongmanse.com"
-        const val NOTICE_EVENT_VALUE_DOMAIN      = "https://webviewdev.gongmanse.com/events/view/"
+//        const val BASE_DOMAIN                    = "https://apidev.gongmanse.com"
+//        const val FILE_DOMAIN                    = "https://filedev.gongmanse.com"
+//        const val WEB_VIEW_DOMAIN                = "https://webviewdev.gongmanse.com"
+//        const val NOTICE_EVENT_VALUE_DOMAIN      = "https://webviewdev.gongmanse.com/events/view/"
 
         const val PRIVACY_POLICY_DOMAIN          = "/users/privacy_policy"
         const val TERMS_OF_SERVICE_DOMAIN        = "/users/toa_read"

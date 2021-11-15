@@ -840,7 +840,7 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
             GBLog.v(TAG, "mediaURL => ${mVideoViewModel.data.value?.videoURL}")
             var devUrl = mVideoViewModel.data.value?.videoURL.toString()
             if (devUrl.contains("https://file.gongmanse.com/om/")) {
-                devUrl = devUrl.replace("https://file.gongmanse.com/om/", "https://filedev.gongmanse.com/")
+                devUrl = devUrl.replace("https://file.gongmanse.com/om", Constants.FILE_DOMAIN)
             }
             GBLog.v(TAG, "devUrl => $devUrl")
             val subtitleUri = Uri.parse(subtitleUrl)
