@@ -10,13 +10,20 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    //APK 사이닝 시 에러 발생, 옵션 활성화 필요
+    lintOptions {
+        checkReleaseBuilds false
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.gongmanse.app"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 222
-        versionName "2.0.22"
+        versionCode 224
+        versionName "2.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //aab 파일명 설정
         setProperty("archivesBaseName", "Gongmanse" + "_V" + versionName)
