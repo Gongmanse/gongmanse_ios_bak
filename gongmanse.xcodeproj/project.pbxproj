@@ -481,6 +481,7 @@
 		C2F22746261E9EB600559065 /* SubjectListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F22744261E9EB600559065 /* SubjectListCell.xib */; };
 		C2F2274A261EA02900559065 /* GradeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F22748261EA02900559065 /* GradeListCell.swift */; };
 		C2F2274B261EA02900559065 /* GradeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F22749261EA02900559065 /* GradeListCell.xib */; };
+		F0AED47B274B7D9B00C6FEDA /* PurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -965,6 +966,7 @@
 		C2F22749261EA02900559065 /* GradeListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradeListCell.xib; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
+		F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1813,6 +1815,7 @@
 				A9850EEE2616130300908BA4 /* SideMenu */,
 				259B8B672603008A009A7146 /* Progress */,
 				259B8B662603007B009A7146 /* Search */,
+				F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3797,6 +3800,7 @@
 				6C4713B425F8532500D68A2B /* MyActivityVC.swift in Sources */,
 				C2F22734261D500300559065 /* FilteringViewModel.swift in Sources */,
 				253B4ECD260B15DB000B7DB9 /* String.swift in Sources */,
+				F0AED47B274B7D9B00C6FEDA /* PurchaseModel.swift in Sources */,
 				2588F852260985C10070C2FC /* RegistrationResponse.swift in Sources */,
 				C27401B82677397700A2B484 /* CalendarUpdateMOdel.swift in Sources */,
 				25608EEF26661E1600E3246C /* ChangePasswordResponse.swift in Sources */,
@@ -4058,7 +4062,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.2;
+				MARKETING_VERSION = 2.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4084,7 +4088,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.2;
+				MARKETING_VERSION = 2.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
