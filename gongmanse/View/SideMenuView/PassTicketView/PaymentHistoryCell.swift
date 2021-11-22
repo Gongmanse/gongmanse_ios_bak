@@ -13,15 +13,14 @@ class PaymentHistoryCell: UITableViewCell {
     
     
     // MARK: - IBOutlet
-    
     @IBOutlet weak var passImage: UIImageView!
     @IBOutlet weak var passLabel: UILabel!
     @IBOutlet weak var paymentDate: UILabel!
     @IBOutlet weak var price: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     
     // MARK: - Lifecycle
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         configureUI()
@@ -42,11 +41,17 @@ class PaymentHistoryCell: UITableViewCell {
         
         // passImage
         passImage.setDimensions(height: viewHegiht * 0.11,
-                                width: viewWidth * 0.22)
+                                width: viewHegiht * 0.11)
         passImage.anchor(top: self.topAnchor,
                          left: self.leftAnchor,
-                         paddingTop: viewHegiht * 0.2,
+                         paddingTop: viewHegiht * 0.15,
                          paddingLeft: 20)
+        
+        titleLabel.font = UIFont.appBoldFontWith(size: 10)
+        titleLabel.centerY(inView: passImage)
+        titleLabel.anchor(left: passImage.rightAnchor,
+                            paddingLeft: 2)
+        
         
         // passLabel
         passLabel.font = UIFont.appEBFontWith(size: 18)
@@ -55,14 +60,8 @@ class PaymentHistoryCell: UITableViewCell {
                                 width: viewWidth * 0.4)
         passLabel.anchor(top: passImage.bottomAnchor,
                          left: passImage.leftAnchor,
-                         paddingTop: viewHegiht * 0.07,
-                         paddingLeft: 2)
+                         paddingTop: viewHegiht * 0.07)
         
-        // paymentDate
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let currentDateString = formatter.string(from: Date())
-        paymentDate.text = "결제일 | " + "\(currentDateString)"
         paymentDate.font = UIFont.appBoldFontWith(size: 10)
         paymentDate.centerY(inView: passImage)
         paymentDate.setDimensions(height: passImage.frame.height,
@@ -77,10 +76,5 @@ class PaymentHistoryCell: UITableViewCell {
         price.anchor(bottom: passLabel.bottomAnchor,
                      right: self.rightAnchor,
                      paddingRight: 20)
-        
-        
-        
-        
     }
-    
 }
