@@ -56,7 +56,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(noteListFilterNoti(_:)), name: NSNotification.Name("noteListFilterText"), object: nil)
         
-        getDataFromJson(offset: 0)
+//        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -336,10 +336,6 @@ extension NoteListTVC: NoteListBottomPopUpVCDelegate {
         
         self.delegate?.noteListPassSortedIdSettingValue(noteListSortedIdRowIndex)
         self.tableView.reloadData()
-        
-        noteList = nil
-        tableViewInputData.removeAll()
-        getDataFromJson(offset: 0)
     }
 }
 

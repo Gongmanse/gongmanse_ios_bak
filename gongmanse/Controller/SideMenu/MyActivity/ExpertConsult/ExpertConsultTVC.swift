@@ -53,7 +53,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(expertConsultFilterNoti(_:)), name: NSNotification.Name("expertConsultFilterText"), object: nil)
         
-        getDataFromJson(offset: 0)
+//        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {

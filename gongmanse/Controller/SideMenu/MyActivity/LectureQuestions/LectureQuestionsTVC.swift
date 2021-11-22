@@ -51,7 +51,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(lectureQuestionsFilterNoti(_:)), name: NSNotification.Name("lectureQuestionsFilterText"), object: nil)
         
-        getDataFromJson(offset: 0)
+//        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {

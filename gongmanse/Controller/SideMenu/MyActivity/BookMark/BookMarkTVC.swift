@@ -67,7 +67,7 @@ class BookMarkTVC: UITableViewController, BottomPopupDelegate {
         playSwitch.addTarget(self, action: #selector(playSwitchDidTap(_:)), for: .valueChanged)
         autoPlayLabel.textColor = UIColor.black
         
-        getDataFromJson(offset: 0)
+//        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {

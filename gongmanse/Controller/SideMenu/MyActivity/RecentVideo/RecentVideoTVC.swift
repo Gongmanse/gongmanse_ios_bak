@@ -66,7 +66,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         autoPlayLabel.textColor = UIColor.black
         
-        getDataFromJson(offset: 0)
+//        getDataFromJson(offset: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -301,6 +301,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
             && self.tableViewInputData.count < (Int(self.recentViedo?.totalNum ?? "0") ?? 0) {
             //더보기
+            print("Recent tableViewInputData : \(self.tableViewInputData.count), isLoading : \(self.isLoading)")
             getDataFromJson(offset: self.tableViewInputData.count)
         }
     }
