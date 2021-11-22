@@ -98,6 +98,30 @@ class StoreVC: UIViewController {
     }
     
     
+    //MARK: - loading progress
+    var vSpinner : UIView?
+    func showSpinner(onView : UIView) {
+        if vSpinner == nil {
+            DispatchQueue.main.async {
+                self.vSpinner = UIView.init(frame: onView.bounds)
+                self.vSpinner!.backgroundColor = UIColor.init(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6)
+                let ai = UIActivityIndicatorView.init(style: .medium)
+                ai.startAnimating()
+                ai.center = self.vSpinner!.center
+        
+                self.vSpinner!.addSubview(ai)
+                onView.addSubview(self.vSpinner!)
+            }
+        } else {
+            print("aleady shown")
+        }
+    }
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            self.vSpinner?.removeFromSuperview()
+            self.vSpinner = nil
+        }
+    }
 }
 
 
@@ -160,6 +184,10 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 break
             }
             self.dismiss(animated: true, completion: nil)
+            
+            // TODO: ui progress show
+            print("StoreVC show progress")
+            self.showSpinner(onView: self.view)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
@@ -267,20 +295,35 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         request.httpBody = jsonData
         
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+            // TODO: ui progress hide.
+            print("StoreVC hide progress")
+            self.removeSpinner()
+            
             if let error = error {
                 print("Error with fetching films: \(error)")
+                // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
+                self.showAlert(msg: "서버통신이 원활하지 않습니다.\n\(error.localizedDescription)", okStr: "재시도", okAction: {
+                    self.finishBackend(receiptData)
+                }, cancelStr: nil)
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 // 실패시 처리
-                print("Error with the response, unexpected status code: \(response)")
+                print("Error with the response, unexpected status code: \(String(describing: response))")
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     print("Response data string:\n \(dataString)")
                 }
+                
+                // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
+                self.showAlert(msg: "서버통신이 원활하지 않습니다.\nresponse : \(String(describing: response))", okStr: "재시도", okAction: {
+                    self.finishBackend(receiptData)
+                }, cancelStr: nil)
+                
                 return
             }
+            
             // 성공시 처리
             print ("Good!")
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
@@ -323,6 +366,13 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
                     finishBackend(receiptData);
                 } else {
                     // TODO: 이 경우는 어떤 경우일지 생각해봐야함
+                    
+                    // 21.11.22 영수증 읽기 실패 시 얼럿 팝업 노출
+                    showAlert(msg: "구매 영수증을 불러올 수 없습니다.", okStr: "재시도", okAction: {
+                        if let receiptData = self.getReceiptData() {
+                            self.finishBackend(receiptData);
+                        }
+                    }, cancelStr: nil)
                 }
                 break
                 

@@ -203,4 +203,24 @@ extension UIViewController {
                            width: UIScreen.main.bounds.width)
         line.anchor(bottom: superView.bottomAnchor)
     }
+    
+    
+    //MARK: - alert
+    func showAlert(msg: String, okStr: String, okAction: @escaping () -> Void, cancelStr: String?) {
+        let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+        let ok = UIAlertAction(title: okStr, style: .default) { _ in
+            self.dismiss(animated: true, completion: nil)
+            okAction()
+        }
+        alert.addAction(ok)
+        
+        if cancelStr != nil {
+            let cancel = UIAlertAction(title: cancelStr, style: .default) { _ in
+                self.dismiss(animated: true, completion: nil)
+            }
+            alert.addAction(cancel)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }
