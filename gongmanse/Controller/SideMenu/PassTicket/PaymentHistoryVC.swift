@@ -47,14 +47,14 @@ class PaymentHistoryVC: UIViewController {
             var request = URLRequest.init(url: url)
             request.httpMethod = "GET"
             
-            print("url : \(url)")
+//            print("url : \(url)")
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 self.isLoading = false
                                 
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(Purchase.self, from: data) {
-                    print("json.data : \(json.data), cnt : \(json.data.count)")
+//                    print("json.data : \(json.data), cnt : \(json.data.count)")
                     self.tableViewInputData.append(contentsOf: json.data)
                     self.paymentHistory = json
                     self.isPaymentHistory = true
@@ -76,7 +76,7 @@ extension PaymentHistoryVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isPaymentHistory && tableViewInputData.count > 0{
+        if isPaymentHistory && tableViewInputData.count > 0 {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PaymentHistoryCell
             let item = tableViewInputData[indexPath.row]
             
@@ -94,7 +94,7 @@ extension PaymentHistoryVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return isPaymentHistory ? view.frame.height * 0.107 : tableView.frame.height
+        return isPaymentHistory && tableViewInputData.count > 0  ? view.frame.height * 0.107 : tableView.frame.height
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -386,6 +386,10 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
             case SKPaymentTransactionState.failed:
                 // TODO: 실패시 처리
                 queue.finishTransaction(transaction)
+                showAlert(msg: "인앱 결제 실패\n이용권 구매에 실패하였습니다.", okStr: "확인", okAction: {
+                    print("이용권 구매 실패, 확인...")
+                    self.removeSpinner()
+                }, cancelStr: nil)
             default:
                 print("SKPaymentTransactionState : \(transaction.transactionState)")
                 break
