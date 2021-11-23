@@ -224,3 +224,34 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
+
+//MARK: - loading progress
+var vSpinner: UIView?
+var onView: UIView?
+func showSpinner() {
+    if onView != nil && vSpinner == nil {
+        DispatchQueue.main.async {
+            vSpinner = UIView.init(frame: onView!.bounds)
+            vSpinner!.backgroundColor = UIColor.init(red: 0.8, green: 0.8, blue: 0.8, alpha: 0.6)
+            let ai = UIActivityIndicatorView.init(style: .medium)
+            ai.startAnimating()
+            ai.center = vSpinner!.center
+    
+            vSpinner!.addSubview(ai)
+            
+            onView!.addSubview(vSpinner!)
+        }
+    } else {
+        if onView == nil {
+            print("onView nil")
+        } else {
+            print("aleady shown")
+        }
+    }
+}
+func removeSpinner() {
+    DispatchQueue.main.async {
+        vSpinner?.removeFromSuperview()
+        vSpinner = nil
+    }
+}

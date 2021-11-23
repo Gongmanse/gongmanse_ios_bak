@@ -33,7 +33,12 @@ class PassTicketVC: UIViewController {
         setupStyle()
         configureConstraint()
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        onView = self.view
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        onView = nil
+    }
     
     //MARK: - Actions
     

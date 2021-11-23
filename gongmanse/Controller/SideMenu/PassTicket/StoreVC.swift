@@ -98,32 +98,6 @@ class StoreVC: UIViewController {
         buyButton.addShadow()
         
     }
-    
-    
-    //MARK: - loading progress
-    var vSpinner : UIView?
-    func showSpinner(onView : UIView) {
-        if vSpinner == nil {
-            DispatchQueue.main.async {
-                self.vSpinner = UIView.init(frame: onView.bounds)
-                self.vSpinner!.backgroundColor = UIColor.init(red: 0.8, green: 0.8, blue: 0.8, alpha: 0.6)
-                let ai = UIActivityIndicatorView.init(style: .medium)
-                ai.startAnimating()
-                ai.center = self.vSpinner!.center
-        
-                self.vSpinner!.addSubview(ai)
-                onView.addSubview(self.vSpinner!)
-            }
-        } else {
-            print("aleady shown")
-        }
-    }
-    func removeSpinner() {
-        DispatchQueue.main.async {
-            self.vSpinner?.removeFromSuperview()
-            self.vSpinner = nil
-        }
-    }
 }
 
 
@@ -191,7 +165,7 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
             self.dismiss(animated: true, completion: nil)
 
             print("StoreVC show progress")
-            self.showSpinner(onView: self.view)
+            showSpinner()
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
@@ -320,7 +294,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
             print("StoreVC hide progress")
-            self.removeSpinner()
+            removeSpinner()
             
             if let error = error {
                 print("Error with fetching films: \(error)")
@@ -405,7 +379,7 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
                 DispatchQueue.main.async {
                     self.showAlert(msg: "결제 실패\n이용권 구매가 취소되었습니다.", okStr: "확인", okAction: {
                         print("이용권 구매 실패, 확인...")
-                        self.removeSpinner()
+                        removeSpinner()
                     }, cancelStr: nil)
                 }
             default:
