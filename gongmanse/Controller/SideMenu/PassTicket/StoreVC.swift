@@ -56,16 +56,18 @@ class StoreVC: UIViewController {
         
         //purchase
         SKPaymentQueue.default().add(self)
+        
+        // 결제프로세스 진행 중, 서버 동기화 되지 않은 케이스 방어코드
+        let isPurchased = UserDefaults.standard.bool(forKey: "purchased")
+        if isPurchased {
+            print("try upload data")
+            if let receiptData = getReceiptData() {
+                finishBackend(receiptData);
+            }
+        } else {
+            print("sync done...")
+        }
     }
-    
-    
-    // MARK: - Actions
-    
-    @IBAction func handleBuy(_ sender: Any) {
-        print("DEBUG: clicked Button")
-    }
-    
-    
     
     
     // MARK: - Helper functions
@@ -104,7 +106,7 @@ class StoreVC: UIViewController {
         if vSpinner == nil {
             DispatchQueue.main.async {
                 self.vSpinner = UIView.init(frame: onView.bounds)
-                self.vSpinner!.backgroundColor = UIColor.init(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6)
+                self.vSpinner!.backgroundColor = UIColor.init(red: 0.8, green: 0.8, blue: 0.8, alpha: 0.6)
                 let ai = UIActivityIndicatorView.init(style: .medium)
                 ai.startAnimating()
                 ai.center = self.vSpinner!.center
@@ -163,20 +165,23 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         let alert = UIAlertController(title: nil, message: "\(buttonText) 이용권을 구매하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "결제", style: .default) { _ in
-            // 결제창 연결
+            // 결제창 연결. 구매 진행중 상태 저장
             switch sender.tag {
             case 0:
                 InAppProducts.store30.requestProducts{ (success,products) in
+                    UserDefaults.standard.set(true, forKey: "purchased")
                     InAppProducts.store30.buyProduct((products?.first)!)
                 }
                 break
             case 1:
                 InAppProducts90.store90.requestProducts{ (success,products) in
+                    UserDefaults.standard.set(true, forKey: "purchased")
                     InAppProducts90.store90.buyProduct((products?.first)!)
                 }
                 break
             case 2:
                 InAppProducts150.store150.requestProducts{ (success,products) in
+                    UserDefaults.standard.set(true, forKey: "purchased")
                     InAppProducts150.store150.buyProduct((products?.first)!)
                 }
                 break
@@ -184,8 +189,7 @@ extension StoreVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 break
             }
             self.dismiss(animated: true, completion: nil)
-            
-            // TODO: ui progress show
+
             print("StoreVC show progress")
             self.showSpinner(onView: self.view)
         }
@@ -247,6 +251,8 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         public static let store150 = IAPHelper(productIds: InAppProducts150.productIdentifiers)
     }
     
+    
+    //MARK: - Consumable products. restore 기능 지원 X
     func getProductInfo(){
         if SKPaymentQueue.canMakePayments(){
             
@@ -259,7 +265,25 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         }else{
             print("인앱결제를 활성화해주세요")
         }
-        
+    }
+
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        print("products.count : \(response.products.count)");
+        products = response.products
+        if !products.isEmpty {
+            for product in products {
+                print("products : \(product.localizedDescription)")
+            }
+            // 구매 상품 설정.
+            product = products[0] as SKProduct
+        } else {
+            print("애플계정에 등록된 상품정보 확인불가")
+        }
+
+        let productList = response.invalidProductIdentifiers
+        for productItem in productList{
+            print("Product not found : \(productItem)")
+        }
     }
     
     func getReceiptData () -> String? {
@@ -295,37 +319,47 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         request.httpBody = jsonData
         
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            // TODO: ui progress hide.
             print("StoreVC hide progress")
             self.removeSpinner()
             
             if let error = error {
                 print("Error with fetching films: \(error)")
-                // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
-                self.showAlert(msg: "서버통신이 원활하지 않습니다.\n\(error.localizedDescription)", okStr: "재시도", okAction: {
-                    self.finishBackend(receiptData)
-                }, cancelStr: nil)
+                DispatchQueue.main.async {
+                    // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
+                    self.showAlert(msg: "서버통신이 원활하지 않습니다.\n\(error.localizedDescription)", okStr: "재시도", okAction: {
+                        self.finishBackend(receiptData)
+                    }, cancelStr: nil)
+                }
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 // 실패시 처리
-                print("Error with the response, unexpected status code: \(String(describing: response))")
+                print("Error with the response, unexpected status code: \((response as! HTTPURLResponse).statusCode)")
+                
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
+                    print("Error Response data string:\n \(dataString)")
+                    
+                    if dataString.contains("Already Processed Order") {
+                        // 이미 등록된 결제키인 경우 패스.
+                        print("Already Processed Order")
+                        UserDefaults.standard.set(false, forKey: "purchased")
+                    } else {
+                        // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
+                        DispatchQueue.main.async {
+                            self.showAlert(msg: "서버통신이 원활하지 않습니다.\nresponse : \(String(describing: dataString))", okStr: "재시도", okAction: {
+                                self.finishBackend(receiptData)
+                            }, cancelStr: nil)
+                        }
+                    }
                 }
-                
-                // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
-                self.showAlert(msg: "서버통신이 원활하지 않습니다.\nresponse : \(String(describing: response))", okStr: "재시도", okAction: {
-                    self.finishBackend(receiptData)
-                }, cancelStr: nil)
-                
                 return
             }
             
             // 성공시 처리
             print ("Good!")
+            UserDefaults.standard.set(false, forKey: "purchased")//결제프로세스 완료
             if let data = data, let dataString = String(data: data, encoding: .utf8) {
                 print("Response data string:\n \(dataString)")
             }
@@ -334,62 +368,46 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
         task.resume()
     }
     
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        
-        print (response.products.count);
-        products = response.products
-        if !products.isEmpty {
-            product = products[0] as SKProduct
-            //purchase.isEnabled = true //정보 받아오고나서부터는 이거 트루
-            
-            print("정보를 받아왔습니다.")
-        }else{
-            print("애플계정에 등록된 상품정보 확인불가")
-            
-        }
-        
-        let productList = response.invalidProductIdentifiers
-        for productItem in productList{
-            print("Product not found : \(productItem)")
-        }
-    }
-    
+
+    // 인앱결제 결과처리
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions as [SKPaymentTransaction]{
             switch transaction.transactionState {
             
             case SKPaymentTransactionState.purchased:
-                print("구매했습니다.")
-                // self.unlockFeature() //purchased시 실행될 액션
+                print("SKPaymentTransactionState.purchased")
                 queue.finishTransaction(transaction)
                 if let receiptData = getReceiptData() {
                     finishBackend(receiptData);
                 } else {
-                    // TODO: 이 경우는 어떤 경우일지 생각해봐야함
-                    
-                    // 21.11.22 영수증 읽기 실패 시 얼럿 팝업 노출
-                    showAlert(msg: "구매 영수증을 불러올 수 없습니다.", okStr: "재시도", okAction: {
-                        if let receiptData = self.getReceiptData() {
-                            self.finishBackend(receiptData);
-                        }
-                    }, cancelStr: nil)
+                    DispatchQueue.main.async {
+                        // 21.11.22 영수증 읽기 실패 시 얼럿 팝업 노출
+                        self.showAlert(msg: "구매 영수증을 불러올 수 없습니다.", okStr: "재시도", okAction: {
+                            if let receiptData = self.getReceiptData() {
+                                self.finishBackend(receiptData);
+                            }
+                        }, cancelStr: nil)
+                    }
                 }
                 break
                 
             case SKPaymentTransactionState.restored:
-                print("이미 구매했습니다.")
-                //self.unlockFeature() //restore시 실행될 액션
+                //restore. 미제공 (Consumable products, Non-renewable subscriptions)
+                print("SKPaymentTransactionState.restored")
                 queue.finishTransaction(transaction)
-                // TODO: 실패시 처리
                 break
                 
             case SKPaymentTransactionState.failed:
-                // TODO: 실패시 처리
+                print("SKPaymentTransactionState.failed")
                 queue.finishTransaction(transaction)
-                showAlert(msg: "인앱 결제 실패\n이용권 구매에 실패하였습니다.", okStr: "확인", okAction: {
-                    print("이용권 구매 실패, 확인...")
-                    self.removeSpinner()
-                }, cancelStr: nil)
+
+                UserDefaults.standard.set(false, forKey: "purchased")// 결제프로세스 취소, 완료
+                DispatchQueue.main.async {
+                    self.showAlert(msg: "결제 실패\n이용권 구매가 취소되었습니다.", okStr: "확인", okAction: {
+                        print("이용권 구매 실패, 확인...")
+                        self.removeSpinner()
+                    }, cancelStr: nil)
+                }
             default:
                 print("SKPaymentTransactionState : \(transaction.transactionState)")
                 break

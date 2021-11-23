@@ -31,7 +31,8 @@ open class IAPHelper: NSObject  {
         }
 
         super.init()
-        SKPaymentQueue.default().add(self)
+        // observer 중복 등록... 삭제
+//        SKPaymentQueue.default().add(self)
     }
 }
 
