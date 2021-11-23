@@ -54,9 +54,6 @@ class StoreVC: UIViewController {
         tabBarController?.tabBar.isHidden = true
         buyButton.isHidden = true
         
-        //purchase
-        SKPaymentQueue.default().add(self)
-        
         // 결제프로세스 진행 중, 서버 동기화 되지 않은 케이스 방어코드
         let isPurchased = UserDefaults.standard.bool(forKey: "purchased")
         if isPurchased {
@@ -67,6 +64,14 @@ class StoreVC: UIViewController {
         } else {
             print("sync done...")
         }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        print("viewDidAppear")
+        SKPaymentQueue.default().add(self)
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("viewDidDisappear")
+        SKPaymentQueue.default().remove(self)
     }
     
     
