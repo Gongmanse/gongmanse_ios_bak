@@ -187,7 +187,9 @@ class ActiveFavoritesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         // 추가 호출
         Log.d(TAG, "loadMoreData => offset = $offset")
         if (isLoading) {
-            mAdapter?.addLoading()
+            binding.recyclerView.post {
+                mAdapter?.addLoading()
+            }
         }
         Handler().postDelayed({
             mOffset = offset

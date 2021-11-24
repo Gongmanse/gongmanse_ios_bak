@@ -136,7 +136,9 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun loadMoreData(offset: Int) {
         Log.d(TAG, "loadMoreData : isLoading => $isLoading")
         if (isLoading) {
-            mRecyclerAdapter.addLoading()
+            binding.rvVideo.post {
+                mRecyclerAdapter.addLoading()
+            }
         }
         Handler().postDelayed({
             mOffset = offset

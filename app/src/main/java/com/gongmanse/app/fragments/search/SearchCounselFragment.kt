@@ -156,7 +156,11 @@ class SearchCounselFragment(private val keyword:String?,  private var from: Bool
 
     private fun loadMoreData(offset: Int) {
         Log.d(TAG, "loadMoreData => $offset")
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvCounselList.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

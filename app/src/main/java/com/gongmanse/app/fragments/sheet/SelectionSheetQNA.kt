@@ -147,7 +147,11 @@ class SelectionSheetQNA(
     }
 
     private fun loadMoreData(offset: Int) {
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.recyclerView.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

@@ -266,7 +266,11 @@ class ProgressScienceFragment :
     }
 
     private fun loadMoreData(offset: Int) {
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvScienceList.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

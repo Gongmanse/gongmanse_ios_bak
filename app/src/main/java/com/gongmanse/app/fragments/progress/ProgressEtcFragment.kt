@@ -272,7 +272,11 @@ class ProgressEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     private fun loadMoreData(offset: Int) {
         // 추가 호출
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvEtcList.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

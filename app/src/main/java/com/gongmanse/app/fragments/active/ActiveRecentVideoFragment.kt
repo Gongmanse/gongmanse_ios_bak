@@ -184,7 +184,9 @@ class ActiveRecentVideoFragment : Fragment(), SwipeRefreshLayout.OnRefreshListen
     private fun loadMoreData(offset: Int) {
         // 추가 호출
         if (isLoading) {
-            mAdapter?.addLoading()
+            binding.recyclerView.post {
+                mAdapter?.addLoading()
+            }
         }
         Handler().postDelayed({
             mOffset = offset

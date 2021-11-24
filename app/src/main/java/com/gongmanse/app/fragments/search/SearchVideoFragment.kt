@@ -181,7 +181,11 @@ class SearchVideoFragment(
 
     private fun loadMoreData(offset: Int) {
         Log.d(TAG, "loadMoreData => $offset")
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvVideo.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

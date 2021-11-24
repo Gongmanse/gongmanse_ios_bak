@@ -117,7 +117,9 @@ class AlarmActivity : AppCompatActivity() {
         // 추가 호출
         Log.d(TAG, "loadMoreData => offset = $offset")
         if (isLoading) {
-            mAdapter.addLoading()
+            binding.rvAlarm.post {
+                mAdapter.addLoading()
+            }
         }
         Handler(Looper.getMainLooper()).postDelayed({
             mOffset = offset

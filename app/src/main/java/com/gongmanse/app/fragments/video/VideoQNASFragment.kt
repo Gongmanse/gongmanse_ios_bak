@@ -66,7 +66,9 @@ class VideoQNASFragment : Fragment() {
     private val onRefresh = SwipeRefreshLayout.OnRefreshListener {
         mAdapter.clear()
         isLoading = true
-        mAdapter.addLoading()
+        binding.recyclerView.post {
+            mAdapter.addLoading()
+        }
         mVideoViewModel.offsetQNA.value = Constants.OFFSET_DEFAULT
         binding.refreshLayout.isRefreshing = false
     }
@@ -138,7 +140,9 @@ class VideoQNASFragment : Fragment() {
                     imm.hideSoftInputFromWindow(binding.etQuestion.windowToken, 0)
                     if (!isLoading) {
                         isLoading = true
-                        mAdapter.addLoading()
+                        binding.recyclerView.post {
+                            mAdapter.addLoading()
+                        }
                         offsetQNA.value = (mAdapter.itemCount.minus(1)).toString()
                     }
                 }
@@ -179,7 +183,9 @@ class VideoQNASFragment : Fragment() {
                     if (!isLoading && totalItemsCount >= 20) {
                         Log.e(TAG, "EndlessRVScrollListener In")
                         isLoading = true
-                        mAdapter.addLoading()
+                        binding.recyclerView.post {
+                            mAdapter.addLoading()
+                        }
                         mVideoViewModel.offsetQNA.postValue(totalItemsCount.toString())
                     }
                 }

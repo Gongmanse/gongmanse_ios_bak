@@ -270,7 +270,11 @@ class ProgressKEMFragment :
     }
 
     private fun loadMoreData(offset: Int) {
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvKemList.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

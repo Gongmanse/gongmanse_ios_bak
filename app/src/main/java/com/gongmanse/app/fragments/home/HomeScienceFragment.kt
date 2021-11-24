@@ -194,7 +194,9 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
 
     private fun load(totalItemsCount: Int) {
         if (isLoading) {
-            mRecyclerAdapter.addLoading()
+            binding.rvVideo.post {
+                mRecyclerAdapter.addLoading()
+            }
         }
         Handler().postDelayed({
             when(selectView){

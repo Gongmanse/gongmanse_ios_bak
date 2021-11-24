@@ -266,7 +266,11 @@ class ProgressSocietyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun loadMoreData(offset: Int) {
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvSocietyList.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset

@@ -148,7 +148,9 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun loadMoreData(offset: Int) {
         Log.e(TAG,"loadMoreData offset => $offset")
         if (isLoading) {
-            mViewpagerAdapter.addLoading()
+            binding.rvVideo.post {
+                mViewpagerAdapter.addLoading()
+            }
         }
         Handler().postDelayed({
             mOffset = offset

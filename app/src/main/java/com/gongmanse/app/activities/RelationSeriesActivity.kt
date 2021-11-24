@@ -284,7 +284,9 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     private fun loadMoreData(offset: Int) {
         // 로딩 화면
         if (isLoading) {
-            mAdapter.addLoading()
+            binding.recyclerView.post {
+                mAdapter.addLoading()
+            }
         }
         Handler().postDelayed({
             mOffset = offset

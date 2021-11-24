@@ -189,7 +189,11 @@ class CounselFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
 
     private fun loadMoreData(offset: Int) {
         mOffset = offset
-        if (isLoading) mAdapter.addLoading()
+        if (isLoading) {
+            binding.rvCounselList.post {
+                mAdapter.addLoading()
+            }
+        }
         val handler = Handler()
         handler.postDelayed({
             mOffset = offset
