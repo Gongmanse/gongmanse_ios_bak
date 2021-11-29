@@ -94,7 +94,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
-                    //print(json.body)
+//                    print(json.data)
                     self.tableViewInputData.append(contentsOf: json.data)
                     self.expertConsult = json
                 }

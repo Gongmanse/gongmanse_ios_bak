@@ -58,7 +58,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
                 guard let data = data else { return }
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
-                    //print(json.body)
+//                    print(json.data)
                     self.consultModels = json
                     self.consultModelData.append(contentsOf: json.data)
                 }
