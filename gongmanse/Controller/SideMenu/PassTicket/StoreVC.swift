@@ -324,6 +324,10 @@ extension StoreVC: SKProductsRequestDelegate, SKPaymentTransactionObserver {
                         // 이미 등록된 결제키인 경우 패스.
                         print("Already Processed Order")
                         UserDefaults.standard.set(false, forKey: "purchased")
+                    } else if dataString.contains("Item does not exists") {
+                        //
+                        print("Processe canceled")
+                        UserDefaults.standard.set(false, forKey: "purchased")
                     } else {
                         // 21.11.22 영수증 서버등록 실패 시 얼럿 팝업 노출
                         DispatchQueue.main.async {
