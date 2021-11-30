@@ -118,6 +118,7 @@ class LessonInfoController: UIViewController {
     init(videoID: String?) {
         super.init(nibName: nil, bundle: nil)
         self.videoID = videoID
+        print("init videoID : \(String(describing: self.videoID))")
     }
     
     @available(*, unavailable)
@@ -226,6 +227,12 @@ class LessonInfoController: UIViewController {
             presentAlert(message: "로그인후 이용해주세요.")
             return
         }
+                
+        if videoID == nil || videoID!.isEmpty {
+            presentAlert(message: "영상이 준비되지 않았습니다.")
+            return
+        }
+        
         ShareDialog.show(self) { _type in
             ShareDataManager().getShareCount(Constant.token) { countFiltered in
                 if countFiltered < 5 {
@@ -486,7 +493,19 @@ class LessonInfoController: UIViewController {
     }
     
     func updateShareCount(_ _type: String) {
-        ShareDataManager().updateShareCount(Constant.token, videoID!, _type) {
+//        const val CONTENT_SHARE_SNS_TYPE_KK      = "kk"
+//        const val CONTENT_SHARE_SNS_TYPE_FB      = "fb"
+        let socialType: String
+        if _type == "kakao" {
+            socialType = "kk"
+        } else if _type == "facebook" {
+            socialType = "fb"
+        } else {
+            self.presentAlert(message: "공유가 실패되었습니다.")
+            return
+        }
+        
+        ShareDataManager().updateShareCount(Constant.token, videoID!, socialType) {
             
         }
     }

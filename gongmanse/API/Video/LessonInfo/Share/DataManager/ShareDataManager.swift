@@ -57,13 +57,20 @@ class ShareDataManager {
     
     // 공유 URL 횟수 업데이트
     func updateShareCount(_ token: String, _ videoId: String, _ socialType: String, completionHandler: @escaping () -> Void) {
-        
         // Input 데이터
-        let url = "\(Constant.BASE_URL)/v/video/sharekey?token=\(token)&video=\(videoId)&field=iShare&value=\(socialType)"
+        let url = "\(Constant.BASE_URL)/v1/my/video/statistics"
+                    
+        let param: Parameters = [
+            "token" : token,
+            "video" : videoId,
+            "field" : "iShare",
+            "value" : socialType
+        ]
         
-        AF.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
-            .response(completionHandler: { response in
+        AF.request(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: nil)
+            .response() { response in
+                print("updateShareCount : \(response)")
                 completionHandler()
-            })
+            }
     }
 }
