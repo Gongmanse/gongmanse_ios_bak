@@ -94,7 +94,7 @@ extension PaymentHistoryVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return isPaymentHistory && tableViewInputData.count > 0  ? view.frame.height * 0.107 : tableView.frame.height
+        return isPaymentHistory && tableViewInputData.count > 0  ? view.frame.width * 0.2 : tableView.frame.height
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
