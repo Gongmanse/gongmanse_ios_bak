@@ -143,7 +143,7 @@ class VideoQNASFragment : Fragment() {
                         binding.recyclerView.post {
                             mAdapter.addLoading()
                         }
-                        offsetQNA.value = (mAdapter.itemCount.minus(1)).toString()
+                        offsetQNA.value = (mAdapter.itemCount).toString()
                     }
                 }
             })
