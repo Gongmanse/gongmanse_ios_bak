@@ -72,17 +72,17 @@ class TeacherDetailActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefresh
     }
 
     private fun loadData() {
-        if (intent.hasExtra("teacher")) {
-            intent.getSerializableExtra("teacher").let {
+        if (intent.hasExtra(Constants.EXTRA_KEY_TEACHER)) {
+            intent.getSerializableExtra(Constants.EXTRA_KEY_TEACHER).let {
                 val teacherData = it as Teacher
                 Log.i(TAG, "Teacher Data => $teacherData")
                 binding.layoutDetailHeader.data = teacherData
             }
-            intent.getStringExtra("id").let{
+            intent.getStringExtra(Constants.REQUEST_KEY_ID).let{
                 if (it != null) {
                     id = it.toInt()
                 }else{
-                    videoId= intent.getStringExtra("videoId")?.toInt()
+                    videoId= intent.getStringExtra(Constants.EXTRA_KEY_VIDEO_ID)?.toInt()
                 }
             }
         }

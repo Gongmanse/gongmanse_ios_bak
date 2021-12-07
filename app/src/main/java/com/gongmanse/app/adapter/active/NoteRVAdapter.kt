@@ -115,9 +115,10 @@ class NoteRVAdapter(private val context: ActiveNoteFragment) : RecyclerView.Adap
                         else ->{
                             (itemView.context as Activity).apply {
                                 val intent = Intent(itemView.context, VideoNoteActivity::class.java)
-                                intent.putExtra(Constants.EXTRA_KEY_SEARCH_NOTE, items)
-                                intent.putExtra("position", position)
-                                intent.putExtra("type", Constants.NOTE_TYPE_ACTIVE)
+                                intent.putExtra(Constants.EXTRA_KEY_ACTIVE_NOTE, items)
+                                intent.putExtra(Constants.EXTRA_KEY_POSITION, position)
+                                intent.putExtra(Constants.EXTRA_KEY_SORT_ID, sortId)
+                                intent.putExtra(Constants.EXTRA_KEY_TYPE2, Constants.NOTE_TYPE_ACTIVE)
                                 intent.putExtra(Constants.EXTRA_KEY_TOTAL_NUM,totalItemNum)
                                 startActivityForResult(intent, 9001)
                             }

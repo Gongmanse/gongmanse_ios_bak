@@ -56,7 +56,7 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
     private var videoURL:String = ""
     private var playBool = true
     private var type : Int = 0
-    private var `type2`: Int = 0
+    private var type2: Int = 0
     private var grade :String? = null
     private var subjectId : Int? = null
     private var keyword : String? = null
@@ -153,63 +153,73 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
 
     @Suppress("UNCHECKED_CAST")
     private fun initData(){
-        // 홈쪽에서 넘어왔을때
-        if(intent.hasExtra(Constants.EXTRA_KEY_ITEMS)){
-            Log.e(TAG,"hasExtra item@@@@@@")
-            totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
-            items = intent.getSerializableExtra(Constants.EXTRA_KEY_ITEMS) as ArrayList<VideoData>
-            position = intent.getIntExtra(Constants.EXTRA_KEY_NOW_POSITION , 0)
-            videoId = items[position].videoId
-            seriesId = items[position].seriesId
-            Log.v(TAG, "videoId => $videoId")
-            Log.v(TAG, "seriesId => $seriesId")
-            type = intent.getIntExtra(Constants.EXTRA_KEY_TYPE,-1)
-            type2 = intent.getIntExtra(Constants.EXTRA_KEY_TYPE2,-1)
-        }
-        // 검색 결과: 노트보기에서 넘어 왔을때
-        if (intent.hasExtra(Constants.EXTRA_KEY_SEARCH_NOTE)) {
-            totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
-            items = intent.getSerializableExtra(Constants.EXTRA_KEY_SEARCH_NOTE) as ArrayList<VideoData>
-            position = intent.getIntExtra("position" , 0)
-            videoId = items[position].videoId
-            seriesId = items[position].seriesId
-            Log.v(TAG, "videoId => $videoId")
-            Log.v(TAG, "seriesId => $seriesId")
-
-            grade =intent.getStringExtra("grade")
-            subjectId = intent.getIntExtra("subjectId" ,0)
-            keyword = intent.getStringExtra("keyword")
-            sortId = intent.getIntExtra("sortId",0)
-            Log.d(Constants.EXTRA_KEY_SEARCH_NOTE,"videoId : $videoId - grade: $grade - subjectId : $subjectId - keyword : $keyword ")
-            Log.d("${Constants.EXTRA_KEY_SEARCH_NOTE}:items", "$items")
-        }
-        if(intent.hasExtra(("id"))){
-            videoId = intent.getStringExtra("id")
-            totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
-            position = intent.getIntExtra("position" , -1)
-            Log.d(TAG, "position=> $position")
-        }
-
-        //비디오 재생중 넘어 왔을때
-        if(intent.hasExtra(Constants.EXTRA_KEY_VIDEO_ID)){
-            totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
-            videoId = intent.getStringExtra(Constants.EXTRA_KEY_VIDEO_ID)
-            seriesId = intent.getStringExtra(Constants.EXTRA_KEY_SERIES_ID)
-            mPlayerPosition = intent.getLongExtra(Constants.EXTRA_KEY_VIDEO_POSITION,0)
-            videoURL = intent.getStringExtra(Constants.EXTRA_KEY_VIDEO_URL).toString()
-            noteData = intent.getSerializableExtra(Constants.EXTRA_KEY_NOTE_DATA) as NoteCanvasData
-            sJson = intent.getSerializableExtra(Constants.EXTRA_KEY_NOTE_JSON) as NoteJson
-            intent.getSerializableExtra(Constants.EXTRA_KEY_DATA)?.let {
-                videoInfo = intent.getSerializableExtra(Constants.EXTRA_KEY_DATA) as VideoData
+        when {
+            // 홈쪽에서 넘어왔을때
+            intent.hasExtra(Constants.EXTRA_KEY_ITEMS) -> {
+                items = intent.getSerializableExtra(Constants.EXTRA_KEY_ITEMS) as ArrayList<VideoData>
+                position = intent.getIntExtra(Constants.EXTRA_KEY_NOW_POSITION , 0)
+                videoId = items[position].videoId
+                seriesId = items[position].seriesId
+                type = intent.getIntExtra(Constants.EXTRA_KEY_TYPE,-1)
+                type2 = intent.getIntExtra(Constants.EXTRA_KEY_TYPE2,-1)
+                totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
+                Log.v(TAG, "EXTRA_KEY_ITEMS : type=$type, type2=$type2")
             }
-            Log.d(TAG,"strokes => $sJson")
-            Log.d(TAG,"NoteCanvasData => $noteData")
-            if (Preferences.token.isEmpty()) loadVideoInfoBest(videoId) else loadVideoInfo(videoId)
-            binding.tvBack.visibility = View.GONE
-            binding.tvNext.visibility = View.GONE
-            binding.layoutPlayer.visibility = View.VISIBLE
-            binding.setVariable(BR.data, videoInfo)
+            // 검색 결과: 노트보기에서 넘어 왔을때
+            intent.hasExtra(Constants.EXTRA_KEY_SEARCH_NOTE) -> {
+                items = intent.getSerializableExtra(Constants.EXTRA_KEY_SEARCH_NOTE) as ArrayList<VideoData>
+                position = intent.getIntExtra(Constants.EXTRA_KEY_POSITION , 0)
+                videoId = items[position].videoId
+                seriesId = items[position].seriesId
+                grade =intent.getStringExtra(Constants.EXTRA_KEY_GRADE)
+                subjectId = intent.getIntExtra(Constants.EXTRA_KEY_SUBJECT_ID ,0)
+                keyword = intent.getStringExtra(Constants.EXTRA_KEY_KEYWORD)
+                sortId = intent.getIntExtra(Constants.EXTRA_KEY_SORT_ID,0)
+                type2 = intent.getIntExtra(Constants.EXTRA_KEY_TYPE2,-1)
+                totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
+            }
+            // 비디오 재생중 넘어 왔을때
+            intent.hasExtra(Constants.EXTRA_KEY_VIDEO_ID) -> {
+                videoId = intent.getStringExtra(Constants.EXTRA_KEY_VIDEO_ID)
+                seriesId = intent.getStringExtra(Constants.EXTRA_KEY_SERIES_ID)
+                mPlayerPosition = intent.getLongExtra(Constants.EXTRA_KEY_VIDEO_POSITION,0)
+                videoURL = intent.getStringExtra(Constants.EXTRA_KEY_VIDEO_URL).toString()
+                noteData = intent.getSerializableExtra(Constants.EXTRA_KEY_NOTE_DATA) as NoteCanvasData
+                sJson = intent.getSerializableExtra(Constants.EXTRA_KEY_NOTE_JSON) as NoteJson
+                intent.getSerializableExtra(Constants.EXTRA_KEY_DATA)?.let {
+                    videoInfo = intent.getSerializableExtra(Constants.EXTRA_KEY_DATA) as VideoData
+                }
+                totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
+
+                Log.d(TAG,"strokes => $sJson")
+                Log.d(TAG,"NoteCanvasData => $noteData")
+                if (Preferences.token.isEmpty()) loadVideoInfoBest(videoId) else loadVideoInfo(videoId)
+                binding.tvBack.visibility = View.GONE
+                binding.tvNext.visibility = View.GONE
+                binding.layoutPlayer.visibility = View.VISIBLE
+                binding.setVariable(BR.data, videoInfo)
+            }
+            // 나의 활동
+            intent.hasExtra(Constants.EXTRA_KEY_ACTIVE_NOTE) -> {
+                items = intent.getSerializableExtra(Constants.EXTRA_KEY_ACTIVE_NOTE) as ArrayList<VideoData>
+                position = intent.getIntExtra(Constants.EXTRA_KEY_POSITION , 0)
+                videoId = items[position].videoId
+                seriesId = items[position].seriesId
+                sortId = intent.getIntExtra(Constants.EXTRA_KEY_SORT_ID,0)
+                type2 = intent.getIntExtra(Constants.EXTRA_KEY_TYPE2,-1)
+                totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
+            }
         }
+
+//        if(intent.hasExtra(("id"))){//??
+//            videoId = intent.getStringExtra("id")
+//            totalItemNum = intent.getIntExtra(Constants.EXTRA_KEY_TOTAL_NUM,0)
+//            position = intent.getIntExtra("position" , -1)
+//            Log.d(TAG, "position=> $position")
+//        }
+
+        Log.v(TAG, "videoId => $videoId")
+        Log.v(TAG, "seriesId => $seriesId")
 
         checkSize()
         buttonClick()
@@ -306,14 +316,15 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun checkSize(){
-        Log.e("checkSize","$totalItemNum")
-        if(position >= totalItemNum && type != Constants.NOTE_TYPE_ACTIVE){
+        Log.e(TAG,"totalItemNum : $totalItemNum")
+        if(position >= totalItemNum){
             when(type2){
                 Constants.NOTE_TYPE_KEM     -> {loadVideoNote(type, items.size)}
                 Constants.NOTE_TYPE_SCIENCE -> {loadVideoNote(type, items.size)}
                 Constants.NOTE_TYPE_SOCIETY -> {loadVideoNote(type, items.size)}
                 Constants.NOTE_TYPE_ETC     -> {loadVideoNote(type, items.size)}
                 Constants.NOTE_TYPE_SEARCH  -> {loadVideoNote(items.size)}
+                Constants.NOTE_TYPE_ACTIVE  -> {loadActiveVideoNote(items.size.toString())}
             }
         }
     }
@@ -322,21 +333,21 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
         try{
             binding.tvNext.setOnClickListener {
                 val size = items.size
-                Log.d("이전포지션 : 사이즈-1 ","$position : ${size-1}")
-                if(position != -1){
-                    if(items.size != totalItemNum){
-                        if(position >= size -4 && type != Constants.NOTE_TYPE_ACTIVE  && size >= 20){
+                Log.d(TAG,"curIdx : $position, maxIdx : ${size-1}")
+                if(position != -1) {
+                    if(items.size != totalItemNum) {
+                        if(position >= size - 4 && size >= 20) {// items.size < totalItemNum...
                             Log.d("진입" ,"$type2")
-                            // 나의 활동은 미리 받아서 처리함
                             when(type2){
                                 Constants.NOTE_TYPE_KEM     -> {loadVideoNote(type2, items.size)}
                                 Constants.NOTE_TYPE_SCIENCE -> {loadVideoNote(type2, items.size)}
                                 Constants.NOTE_TYPE_SOCIETY -> {loadVideoNote(type2, items.size)}
                                 Constants.NOTE_TYPE_ETC     -> {loadVideoNote(type2, items.size)}
                                 Constants.NOTE_TYPE_SEARCH  -> {loadVideoNote(items.size)}
+                                Constants.NOTE_TYPE_ACTIVE  -> {loadActiveVideoNote(items.size.toString())}
                             }
                         }
-                    }else if(position == size -1 ){
+                    } else if(position == size - 1 ){
                         toast("다음 목록이 없습니다.")
                         position -= 1
                     }
@@ -385,7 +396,7 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
                 binding.tvBack.visibility = View.GONE
                 binding.tvNext.visibility = View.GONE
             }else{
-                if (intent.hasExtra("search")) {
+                if (intent.hasExtra(Constants.EXTRA_KEY_SEARCH)) {
                     binding.tvNext.visibility = View.GONE
                     binding.tvBack.visibility = View.GONE
                 }else{
@@ -541,7 +552,26 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun loadVideoNote(type : Int,offset: Int) {
+    private fun loadActiveVideoNote(offset: String) {// 나의 활동
+        RetrofitClient.getService().getNoteList(Preferences.token, sortId, offset, "20").enqueue(object: Callback<VideoList> {
+            override fun onFailure(call: Call<VideoList>, t: Throwable) {
+                Log.d(TAG, "Failed API call with call : $call\nexception : $t")
+            }
+
+            override fun onResponse(call: Call<VideoList>, response: Response<VideoList>) {
+                if (!response.isSuccessful) Log.d(TAG, "Failed API code : ${response.code()}\n message : ${response.message()}")
+                if (response.isSuccessful) {
+                    response.body()?.apply {
+                        this.data.let {
+                            items.addAll(it as List<VideoData>)
+                            Log.e(TAG, "isSuccessful : $it")
+                        }
+                    }
+                }
+            }
+        })
+    }
+    private fun loadVideoNote(type : Int,offset: Int) {// 홈
         val categoryId : Int = when(type){
             Constants.NOTE_TYPE_KEM -> Constants.GRADE_SORT_ID_KEM
             Constants.NOTE_TYPE_SCIENCE -> Constants.GRADE_SORT_ID_SCIENCE
@@ -571,7 +601,7 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
     }
-    private fun loadVideoNote(offset: Int){
+    private fun loadVideoNote(offset: Int){// 검색
         if(subjectId == 0){
             subjectId = null
         }
@@ -603,14 +633,14 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         }else{
             val intent = Intent()
-            intent.putExtra("items",items)
-            intent.putExtra("position",position)
+            intent.putExtra(Constants.EXTRA_KEY_ITEMS,items)
+            intent.putExtra(Constants.EXTRA_KEY_POSITION, position)
             when(type){
-                Constants.NOTE_TYPE_KEM         -> intent.putExtra("type" , Constants.NOTE_TYPE_KEM)
-                Constants.NOTE_TYPE_SCIENCE     -> intent.putExtra("type" , Constants.NOTE_TYPE_SCIENCE)
-                Constants.NOTE_TYPE_SOCIETY     -> intent.putExtra("type" , Constants.NOTE_TYPE_SOCIETY)
-                Constants.NOTE_TYPE_ETC         -> intent.putExtra("type" , Constants.NOTE_TYPE_ETC)
-                Constants.NOTE_TYPE_SEARCH      -> intent.putExtra("type" , Constants.NOTE_TYPE_SEARCH)
+                Constants.NOTE_TYPE_KEM         -> intent.putExtra(Constants.EXTRA_KEY_TYPE , Constants.NOTE_TYPE_KEM)
+                Constants.NOTE_TYPE_SCIENCE     -> intent.putExtra(Constants.EXTRA_KEY_TYPE , Constants.NOTE_TYPE_SCIENCE)
+                Constants.NOTE_TYPE_SOCIETY     -> intent.putExtra(Constants.EXTRA_KEY_TYPE , Constants.NOTE_TYPE_SOCIETY)
+                Constants.NOTE_TYPE_ETC         -> intent.putExtra(Constants.EXTRA_KEY_TYPE , Constants.NOTE_TYPE_ETC)
+                Constants.NOTE_TYPE_SEARCH      -> intent.putExtra(Constants.EXTRA_KEY_TYPE , Constants.NOTE_TYPE_SEARCH)
             }
             setResult(RESPONSE_CODE,intent)
             finish()

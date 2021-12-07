@@ -63,8 +63,8 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
         binding.refreshLayout.setOnRefreshListener(this)
         binding.layoutEmpty.title = resources.getString(R.string.content_empty_progress)
         binding.layoutTitleUnit.title = Constants.ACTIONBAR_TITLE_JINDO
-        if (intent.hasExtra("progress")) {
-            intent.getSerializableExtra("progress").let {
+        if (intent.hasExtra(Constants.EXTRA_KEY_PROGRESS)) {
+            intent.getSerializableExtra(Constants.EXTRA_KEY_PROGRESS).let {
                 val progressData = it as ProgressData
                 Log.i(TAG, "ProgressData => $progressData")
                 jindoId = progressData.id.toString()

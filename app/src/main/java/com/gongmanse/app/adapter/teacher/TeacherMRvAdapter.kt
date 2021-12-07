@@ -9,6 +9,7 @@ import com.gongmanse.app.R
 import com.gongmanse.app.activities.TeacherListActivity
 import com.gongmanse.app.databinding.ItemTeacherBinding
 import com.gongmanse.app.model.Teacher
+import com.gongmanse.app.utils.Constants
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.singleTop
 
@@ -41,8 +42,8 @@ class TeacherMRvAdapter : RecyclerView.Adapter<TeacherMRvAdapter.ViewHolder>() {
                 itemView.context.apply {
                     startActivity(
                         intentFor<TeacherListActivity>(
-                            "teacher" to item,
-                            "grade" to "중등"
+                            Constants.EXTRA_KEY_TEACHER to item,
+                            Constants.EXTRA_KEY_GRADE to "중등"
                         ).singleTop()
                     )
                 }

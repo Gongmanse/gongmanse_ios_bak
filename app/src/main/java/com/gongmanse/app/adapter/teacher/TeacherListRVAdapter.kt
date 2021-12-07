@@ -11,6 +11,7 @@ import com.gongmanse.app.activities.*
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.model.Teacher
 import com.gongmanse.app.model.VideoData
+import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.IsWIFIConnected
 import com.gongmanse.app.utils.Preferences
 import org.jetbrains.anko.alert
@@ -77,9 +78,9 @@ class TeacherListRVAdapter(val grade : String) : RecyclerView.Adapter<TeacherLis
                                 )
                                 startActivity(
                                     intentFor<TeacherDetailActivity>(
-                                        "id" to item.seriesId,
-                                        "teacher" to itemTeacher,
-                                        "videoId" to item.videoId
+                                        Constants.REQUEST_KEY_ID to item.seriesId,
+                                        Constants.EXTRA_KEY_TEACHER to itemTeacher,
+                                        Constants.EXTRA_KEY_VIDEO_ID to item.videoId
                                     ).singleTop()
                                 )
                             } else if(item.id != null){
@@ -95,9 +96,9 @@ class TeacherListRVAdapter(val grade : String) : RecyclerView.Adapter<TeacherLis
                                 )
                                 startActivity(
                                     intentFor<TeacherDetailActivity>(
-                                        "id" to item.seriesId,
-                                        "teacher" to itemTeacher,
-                                        "videoId" to item.videoId
+                                        Constants.REQUEST_KEY_ID to item.seriesId,
+                                        Constants.EXTRA_KEY_TEACHER to itemTeacher,
+                                        Constants.EXTRA_KEY_VIDEO_ID to item.videoId
                                     ).singleTop()
                                 )
                             }

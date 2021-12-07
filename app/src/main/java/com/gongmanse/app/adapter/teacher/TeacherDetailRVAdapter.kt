@@ -78,7 +78,7 @@ class TeacherDetailRVAdapter() : RecyclerView.Adapter<TeacherDetailRVAdapter.Vie
                                 if (auto) {
                                     intent.putExtra(Constants.EXTRA_KEY_TYPE, Constants.QUERY_TYPE_TEACHER)
                                     intent.putExtra(Constants.EXTRA_KEY_NOW_POSITION, position)
-                                    intent.putExtra("isAutoPlay", auto)
+                                    intent.putExtra(Constants.EXTRA_KEY_IS_AUTO, auto)
                                 }
 //                                intent.putExtra("seriesId", item.seriesId)
 //                                intent.putExtra("videoId", item.videoId ?: item.id)

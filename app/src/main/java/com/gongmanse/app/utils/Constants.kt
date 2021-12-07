@@ -210,6 +210,7 @@ class Constants {
 
 
         /* Intent Extras Key */
+        const val EXTRA_KEY_ITEM                 = "item"
         const val EXTRA_KEY_ITEMS                = "items"
         const val EXTRA_KEY_PUSH                 = "push"
         const val EXTRA_KEY_DEEP_LINK            = "deepLink"
@@ -246,6 +247,9 @@ class Constants {
         const val EXTRA_KEY_POSITION             = "position"
         const val EXTRA_KEY_IS_AUTO              = "isAutoPlay"
 
+        const val EXTRA_KEY_TEACHER              = "teacher"
+        const val EXTRA_KEY_SEARCH               = "search"
+        const val EXTRA_KEY_SORT_ID              = "sortId"
         const val EXTRA_KEY_KEYWORD              = "keyword"
         const val EXTRA_KEY_SERIES_ID            = "series_id"
         const val EXTRA_KEY_GRADE                = "grade"
@@ -253,6 +257,7 @@ class Constants {
         const val EXTRA_KEY_VIDEO_TITLE          = "title"
         const val EXTRA_KEY_TEACHER_NAME         = "teacherName"
         const val EXTRA_KEY_SEARCH_NOTE          = "searchNote"
+        const val EXTRA_KEY_ACTIVE_NOTE          = "activeNote"
         const val EXTRA_KEY_PROGRESS             = "progress"
         const val EXTRA_KEY_ONE_TO_ONE           = "one_to_one"
         const val EXTRA_KEY_QNA_ID               = "qna_id"

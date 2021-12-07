@@ -123,9 +123,9 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
                                     val grade = item.title?.substring(1,2)
                                     Log.d("grade" ,"$grade")
                                     startActivity(intentFor<SeriesListActivity>(
-                                        "series_id" to item.seriesId,
-                                        "grade" to grade,
-                                        "item" to item
+                                        Constants.REQUEST_KEY_SERIES_ID to item.seriesId,
+                                        Constants.EXTRA_KEY_GRADE to grade,
+                                        Constants.EXTRA_KEY_ITEM to item
                                     ).singleTop())
                                 }
                             }

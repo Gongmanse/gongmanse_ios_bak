@@ -65,8 +65,8 @@ class TeacherListActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefreshLi
     }
 
     private fun loadData() {
-        if (intent.hasExtra("teacher")) {
-            intent.getSerializableExtra("teacher").let {
+        if (intent.hasExtra(Constants.EXTRA_KEY_TEACHER)) {
+            intent.getSerializableExtra(Constants.EXTRA_KEY_TEACHER).let {
                 val teacherData = it as Teacher
                 binding.layoutDetailHeader.data = teacherData
                 binding.layoutDetailHeader.tvTitle.visibility = View.GONE
@@ -75,7 +75,7 @@ class TeacherListActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefreshLi
                 id = teacherData.id
                 grade = teacherData.grade
             }
-            intent.getStringExtra("grade").let{
+            intent.getStringExtra(Constants.EXTRA_KEY_GRADE).let{
                 if (it != null) {
                     grade = it
                 }

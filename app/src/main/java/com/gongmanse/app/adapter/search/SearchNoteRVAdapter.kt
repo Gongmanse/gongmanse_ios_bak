@@ -147,13 +147,13 @@ class SearchNoteRVAdapter(private val context: Activity) : RecyclerView.Adapter<
                             else -> {
                                 val intent = Intent(context, VideoNoteActivity::class.java)
                                 intent.putExtra(Constants.EXTRA_KEY_SEARCH_NOTE, items)
-                                intent.putExtra("position", position)
-                                intent.putExtra("type2", Constants.NOTE_TYPE_SEARCH)
-                                intent.putExtra("grade", grade)
-                                intent.putExtra("subjectId", subjectId)
-                                intent.putExtra("keyword", keyword)
-                                intent.putExtra("sortId", sortId)
+                                intent.putExtra(Constants.EXTRA_KEY_POSITION, position)
+                                intent.putExtra(Constants.EXTRA_KEY_GRADE, grade)
+                                intent.putExtra(Constants.EXTRA_KEY_SUBJECT_ID, subjectId)
+                                intent.putExtra(Constants.EXTRA_KEY_KEYWORD, keyword)
+                                intent.putExtra(Constants.EXTRA_KEY_SORT_ID, sortId)
                                 intent.putExtra(Constants.EXTRA_KEY_TOTAL_NUM, totalItemNum)
+                                intent.putExtra(Constants.EXTRA_KEY_TYPE2, Constants.NOTE_TYPE_SEARCH)
                                 context.startActivityForResult(intent, REQUEST_CODE)
                             }
                         }

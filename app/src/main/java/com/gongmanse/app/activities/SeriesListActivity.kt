@@ -84,8 +84,8 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
     }
 
     private fun initData(){
-        if (intent.hasExtra("series_id")){
-            val sSeriesId = intent.getStringExtra("series_id").toString()
+        if (intent.hasExtra(Constants.REQUEST_KEY_SERIES_ID)){
+            val sSeriesId = intent.getStringExtra(Constants.REQUEST_KEY_SERIES_ID).toString()
             seriesId = sSeriesId.toInt()
             Log.d("series_id", "${seriesId}")
         }else{
@@ -178,9 +178,9 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
 
     @SuppressLint("SetTextI18n")
     private fun headerBinding(){
-        if (intent.hasExtra("item")){
-            val item = intent.getSerializableExtra("item") as VideoData
-            val grade = intent.getStringExtra("grade")
+        if (intent.hasExtra(Constants.EXTRA_KEY_ITEM)){
+            val item = intent.getSerializableExtra(Constants.EXTRA_KEY_ITEM) as VideoData
+            val grade = intent.getStringExtra(Constants.EXTRA_KEY_GRADE)
             binding.layoutDetailHeader.apply {
                 tvTitle.text = item.title
                 tvClass.text = grade

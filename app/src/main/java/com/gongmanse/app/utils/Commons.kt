@@ -63,7 +63,7 @@ class Commons {
             context.apply {
                 val intent = Intent(this, VideoActivity::class.java)
                 intent.putExtra(Constants.EXTRA_KEY_VIDEO_QUERY, videoQuery)
-                intent.putExtra("videoPosition" , position)
+                intent.putExtra(Constants.EXTRA_KEY_VIDEO_POSITION , position)
                 Log.e("goVideoView" , " goVideoView => $videoQuery")
                 startActivity(intent)
             }

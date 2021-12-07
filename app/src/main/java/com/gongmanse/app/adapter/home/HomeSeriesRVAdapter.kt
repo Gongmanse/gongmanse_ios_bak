@@ -75,7 +75,7 @@ class HomeSeriesRVAdapter : RecyclerView.Adapter<HomeSeriesRVAdapter.ViewHolder>
                                     intent.putExtra(Constants.EXTRA_KEY_VIDEO_ID, it)
                                     intent.putExtra(Constants.EXTRA_KEY_TYPE, Constants.QUERY_TYPE_TEACHER)
                                     intent.putExtra(Constants.EXTRA_KEY_NOW_POSITION,position)
-                                    intent.putExtra("isAutoPlay", auto)
+                                    intent.putExtra(Constants.EXTRA_KEY_IS_AUTO, auto)
                                     startActivity(intent)
                                 }
                             }

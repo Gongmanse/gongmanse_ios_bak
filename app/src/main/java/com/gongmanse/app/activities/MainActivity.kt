@@ -74,9 +74,9 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
                 VideoNoteActivity.RESPONSE_CODE -> {
                     Log.d(TAG,"getData => $data")
                     if(data!=null){
-                        val items = data.getSerializableExtra("items") as ArrayList<VideoData>
-                        val position = data.getIntExtra("position",0)
-                        val type = data.getIntExtra("type",-1)
+                        val items = data.getSerializableExtra(Constants.EXTRA_KEY_ITEMS) as ArrayList<VideoData>
+                        val position = data.getIntExtra(Constants.EXTRA_KEY_POSITION,0)
+                        val type = data.getIntExtra(Constants.EXTRA_KEY_TYPE,-1)
                         listData.updateValue(ActionType.CLEAR,items,position,type)
                         listData.updateValue(ActionType.SET,items,position,type)
                         Log.d(TAG,"getData2 => $items")
