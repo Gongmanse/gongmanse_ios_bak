@@ -284,7 +284,6 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
             //0713 - added by hp
             pipDelegate?.serachAfterVCPIPViewDismiss()
-            VideoDataManager.shared.isFirstPlayVideo = false
             
             //video->lectureplaylist->video 와 같은 현상을 방지하기 위한
             let vc = self.presentingViewController as! VideoController
@@ -293,6 +292,10 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 vc.id = receviedVideoID
                 vc.keyword = self.searchData.searchText
                 vc.configureDataAndNoti(true)
+                
+                print("#hashtag Controller")
+                VideoDataManager.shared.isFirstPlayVideo = true
+                VideoDataManager.shared.removeVideoLastLog()
             }
             
         }
