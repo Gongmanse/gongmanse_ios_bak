@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class FindingPwdByEmailVC: UIViewController {
 
@@ -55,6 +56,7 @@ class FindingPwdByEmailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupUI()
         configureNotificationObservers()
     }
     
@@ -71,7 +73,7 @@ class FindingPwdByEmailVC: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else {
-            presentAlert(message: "기입한 정보를 확인해주세요.")
+            presentAlert(message: "기입한 정보를 확인해주세요.", alignment: .center)
         }
     }
         
@@ -226,7 +228,7 @@ extension FindingPwdByEmailVC {
     func didSucceedSendingID(response: FindingPwdByEmailResponse) {
         
         guard let id = response.sUsername else {
-            return presentAlert(message: "입력하신 정보를 확인해주세요.")
+            return presentAlert(message: "입력하신 정보를 확인해주세요.", alignment: .center)
         }
         viewModel.receivedID = id
         
@@ -251,36 +253,25 @@ extension FindingPwdByEmailVC {
                 vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
             }
             // 타이머 호출과 동시에 인증번호를 발송한다.
-            FindingPwdByEmailDataManager().certificationNumberByEmail(ByEmailInput(receiver: "\(viewModel.email)", name: "\(viewModel.name)"), viewController: self)
+//            FindingPwdByEmailDataManager().certificationNumberByEmail(ByEmailInput(receiver: "\(viewModel.email)", name: "\(viewModel.name)"), viewController: self)
+            FindingPwdByEmailDataManager().certificationNumber(name: viewModel.name, receiver: viewModel.email, vc: self)
         } else {
             // 불일치한 경우...
-            presentAlert(message: "이름을 확인해주세요.")
+            presentAlert(message: "이름을 확인해주세요.", alignment: .center)
         }
     }
     
     func didFaildNetworingAPI() {
-        presentAlert(message: "입력하신 이름, 아이디, 이메일을 확인해주세요.")
+        presentAlert(message: "입력하신 이름, 아이디, 이메일을 확인해주세요.", alignment: .center)
     }
     
     func didSucceedReceiveNumber(response: String) {        // response 값에 서버 로그와 key:123456 이 함께 전달됨.
-        let findIndex = response.firstIndex(of: "\"")!      // " 가 사용된 첫번째 텍스트 부터
-        let lastIndex = response.lastIndex(of: "}")!        // } 가 사용된 마지막 텍스트 까지
-        let responseData = response[findIndex..<lastIndex]  // 위 조건 텍스트를 저장
-        
-        // 정규표현식을 통해서 {"key":숫자6자리} 만 필터링해보자.
-        let filteredData = self.matches(for: "[0-9]{1}", in: String(responseData)) // ["4", "2", ...]
-        
-        var result = 0 // 인증번호를 저장한 프로퍼티
-        var count = 0  // 자리수를 위한 인덱스
-        var digit = 0  // 자리수(10의 거듭제곱) * 인자(1~9)
-        
-        for num in filteredData {
-            count += 1
-            digit = Int(self.power_for(x: 10, n: (6 - count)))
-            result += (digit * Int(num)!)
-        }
-        print("DEBUG: result is \(result)...")
-        viewModel.receivedKey = result
+        let findIndex = response.lastIndex(of: "[")!
+        let preIndex = response.index(after: findIndex)
+        let lastIndex = response.lastIndex(of: "]")!
+        let responseData = response[preIndex..<lastIndex]
+        print("key : \(responseData)")
+        viewModel.receivedKey = Int(responseData)
     }
 
 }

@@ -7,6 +7,7 @@
 // 아이디찾기 > 휴대전화로 찾기
 
 import UIKit
+import Alamofire
 
 class FindIDByPhoneVC: UIViewController {
     
@@ -55,6 +56,7 @@ class FindIDByPhoneVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupUI()
         configureNotificationObservers()
     }
     
@@ -71,7 +73,7 @@ class FindIDByPhoneVC: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else {
-            presentAlert(message: "기입한 정보를 확인해주세요.")
+            presentAlert(message: "기입한 정보를 확인해주세요.", alignment: .center)
         }
     }
     
@@ -201,12 +203,13 @@ private extension FindIDByPhoneVC {
                 vTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCallback), userInfo: nil, repeats: true)
             }
             
-            // 인증번호 발송 - 이곳에 구현할 것.
-            // 인증번호 발송을 클릭했을 때, DataManager method를 호출한다.
-            let input = ByPhoneInput(receiver: "\(viewModel.cellPhone)", name: "\(viewModel.name)")
-            FindingIDDataManager().certificationNumberByPhone(input, viewController: self)
+            let params: Parameters = [
+                "name":"\(viewModel.name)",
+                "phone":"\(viewModel.cellPhone)"
+            ]
+            FindingIDDataManager().findRegister(type: "cellphone", params, viewController: self)
         } else {
-            presentAlert(message: "이름과 휴대전화를 확인해주세요.")
+            presentAlert(message: "이름과 휴대전화를 확인해주세요.", alignment: .center)
         }
     }
     
@@ -237,28 +240,28 @@ private extension FindIDByPhoneVC {
 
 /// 인증번호 API
 extension FindIDByPhoneVC {
-    func didSucceedCertificationNumber(response: ByPhoneResponse) {
+    func didSucceedCertificationNumber(response: AuthNumResponse) {
         
         self.sendingNumButton.setTitle("재발송", for: .normal)
 
         guard let key = response.key else {
             self.sendingNumButton.setTitle("인증번호 발송", for: .normal)
             vTimer?.invalidate()
-            return presentAlert(message: "입력하신 정보를 확인해주세요.")
+            return presentAlert(message: "입력하신 정보를 확인해주세요.", alignment: .center)
         }
         viewModel.receivedKey = key
         print("DEBUG: key is \(key)...")
         
         if let message = response.message {
-            presentAlert(message: message)
+            presentAlert(message: message, alignment: .center)
             vTimer?.invalidate()
         }
     }
-    
-    func didFaildCertificationNumber(response: ByPhoneResponse) {
-        vTimer?.invalidate()
-        presentAlert(message: "\(String(describing: response.message))")
-    }
+    // error response 즉시처리, 미사용함수
+//    func didFaildCertificationNumber(response: AuthNumResponse) {
+//        vTimer?.invalidate()
+//        presentAlert(message: "\(String(describing: response.message))")
+//    }
 }
 
 // MARK: - Vaildation

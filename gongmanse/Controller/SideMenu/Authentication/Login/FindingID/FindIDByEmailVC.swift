@@ -7,6 +7,7 @@
 // 아이디찾기 > 이메일로 찾기
 
 import UIKit
+import Alamofire
 
 class FindIDByEmailVC: UIViewController {
 
@@ -61,6 +62,7 @@ class FindIDByEmailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupUI()
         configureNotificationObservers()
     }
 
@@ -80,7 +82,7 @@ class FindIDByEmailVC: UIViewController {
             self.navigationController?.pushViewController(vc, animated: false)
             
         } else {
-            presentAlert(message: "기입한 정보를 확인해주세요.")
+            presentAlert(message: "기입한 정보를 확인해주세요.", alignment: .center)
         }
     }
     
@@ -140,7 +142,7 @@ class FindIDByEmailVC: UIViewController {
         // 인증번호 TextField
         certificationNumberTextField.setDimensions(height: tfHeight, width: tfWidth)
         setupTextField(certificationNumberTextField, placehoder: "인증번호", leftView: certificationleftView)
-        certificationNumberTextField.keyboardType = .numberPad
+//        certificationNumberTextField.keyboardType = .numberPad
         certificationNumberTextField.centerX(inView: view)
         certificationNumberTextField.anchor(top: emailTextField.bottomAnchor,
                              paddingTop: 20)
@@ -207,13 +209,13 @@ private extension FindIDByEmailVC {
                                               repeats: true)
             }
             
-            let inputData = ByEmailInput(receiver_type: "email",
-                                         receiver: "\(viewModel.email)",
-                                         name: "\(viewModel.name)")
-            FindingIDDataManager().certificationNumberByEmail(inputData,
-                                                              viewController: self)
+            let params: Parameters = [
+                "name":"\(viewModel.name)",
+                "email":"\(viewModel.email)"
+            ]
+            FindingIDDataManager().findRegister(type: "email", params, viewController: self)
         } else {
-            presentAlert(message: "이름과 이메일을 기입해주세요.")
+            presentAlert(message: "이름과 이메일을 기입해주세요.", alignment: .center)
         }
     }
     
@@ -253,33 +255,20 @@ extension FindIDByEmailVC {
         // 글자가 1 글자라도 있다면, API에서 인증번호를 발송하는 상태이다.
         // 그러므로 발송에 대한 정보를 사용자에게 알려주기 위해 버튼의 title을 변경한다.
         self.sendingNumButton.setTitle("재발송", for: .normal)
-        
-        let findIndex = response.firstIndex(of: "\"")!      // " 가 사용된 첫번째 텍스트 부터
-        let lastIndex = response.lastIndex(of: "}")!        // } 가 사용된 마지막 텍스트 까지
-        let responseData = response[findIndex..<lastIndex]   // 위 조건 텍스트를 저장
-        
-        // 정규표현식을 통해서 {"key":숫자6자리} 만 필터링해보자.
-        let filteredData = self.matches(for: "[0-9]{1}", in: String(responseData)) // ["4", "2", ...]
-        
-        var result = 0 // 인증번호를 저장한 프로퍼티
-        var count = 0  // 자리수를 위한 인덱스
-        var digit = 0  // 자리수(10의 거듭제곱) * 인자(1~9)
-        
-        for num in filteredData {
-            count += 1
-            digit = Int(self.power_for(x: 10, n: (6 - count)))
-            result += (digit * Int(num)!)
-        }
-        print("DEBUG: result is \(result)...")
-        viewModel.receivedKey = result
+        let findIndex = response.lastIndex(of: "[")!
+        let preIndex = response.index(after: findIndex)
+        let lastIndex = response.lastIndex(of: "]")!
+        let responseData = response[preIndex..<lastIndex]   // 위 조건 텍스트를 저장
+        print("key : \(responseData)")
+        viewModel.receivedKey = Int(responseData)
         
         if response.contains("입력하신 정보") {
-            presentAlert(message: "입력하신 정보가 회원정보와 일치하지 않습니다.")
+            presentAlert(message: "입력하신 정보가 회원정보와 일치하지 않습니다.", alignment: .center)
         }
     }
     
     func didFaild(response: String) {
-        presentAlert(message: "네트워크 상태를 확인해주세요.")
+        presentAlert(message: "네트워크 상태를 확인해주세요.", alignment: .center)
         vTimer?.invalidate()
     }
 

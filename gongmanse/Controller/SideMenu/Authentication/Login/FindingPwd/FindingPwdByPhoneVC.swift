@@ -1,4 +1,5 @@
 import UIKit
+import Alamofire
 
 class FindingPwdByPhoneVC: UIViewController {
 
@@ -48,6 +49,7 @@ class FindingPwdByPhoneVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupUI()
         configureNotificationObservers()
     }
     
@@ -64,7 +66,7 @@ class FindingPwdByPhoneVC: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else {
-            presentAlert(message: "기입한 정보를 확인해주세요.")
+            presentAlert(message: "기입한 정보를 확인해주세요.", alignment: .center)
         }
         
     }
@@ -243,21 +245,21 @@ extension FindingPwdByPhoneVC {
             }
             
             // 타이머 호출과 동시에 인증번호를 발송한다.
-            let inputData = ByPhoneInput(receiver: "\(viewModel.cellPhone)",
-                                         name: "\(viewModel.name)")
-            FindingPwdByPhoneDataManager().certificationNumberByPhone(inputData,
-                                                                      viewController: self)
+//            let inputData = ByPhoneInput(receiver: "\(viewModel.cellPhone)",
+//                                         name: "\(viewModel.name)")
+//            FindingPwdByPhoneDataManager().certificationNumberByPhone(inputData, viewController: self)
+            FindingPwdByPhoneDataManager().certificationNumber(name: viewModel.name, receiver: viewModel.cellPhone, vc: self)
         } else {
             // 불일치한 경우...
-            presentAlert(message: "아이디를 확인해주세요.")
+            presentAlert(message: "아이디를 확인해주세요.", alignment: .center)
         }
     }
     
     func didFaildSendingCertificationNumber() {
-        presentAlert(message: "입력하신 이름, 아이디, 휴대전화 번호를 확인해주세요.")
+        presentAlert(message: "입력하신 이름, 아이디, 휴대전화 번호를 확인해주세요.", alignment: .center)
     }
     
-    func didSucceedCertificationNumber(response: ByPhoneResponse) {
+    func didSucceedCertificationNumber(response: AuthNumResponse) {
         guard let key = response.key else { return }
         viewModel.receivedKey = key
         print("DEBUG: key is \(key)...")

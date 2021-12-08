@@ -52,6 +52,7 @@ class NewPasswordVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupUI()
         configureNotificationObservers()
         configureBottomLabel()
     }

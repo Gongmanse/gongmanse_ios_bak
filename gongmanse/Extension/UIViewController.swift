@@ -154,7 +154,12 @@ extension UIViewController {
     
     /// 커스텀 경고창
     /// - 잠시 생겼다가 사라지는 경고창
-    func presentAlert(message: String) {
+    enum AlertAlignment {
+        case top
+        case center
+        case bottom
+    }
+    func presentAlert(message: String, alignment: AlertAlignment = .bottom) {
         
         let alertSuperView = UIView()
         alertSuperView.backgroundColor
@@ -168,11 +173,22 @@ extension UIViewController {
         
         self.view.addSubview(alertSuperView)
         alertSuperView.centerX(inView: self.view)
-        alertSuperView.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
-                              paddingBottom: 50,
-                              width: self.view.frame.width * 0.89,
-                              height: 37)
-        
+        if alignment == .bottom {
+            alertSuperView.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                  paddingBottom: 50,
+                                  width: self.view.frame.width * 0.89,
+                                  height: 37)
+        } else if alignment == .top {
+            alertSuperView.anchor(top: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                  paddingTop: 50,
+                                  width: self.view.frame.width * 0.89,
+                                  height: 37)
+        } else if alignment == .center {
+            alertSuperView.anchor(width: self.view.frame.width * 0.89,
+                                  height: 37)
+            alertSuperView.centerX(inView: self.view)
+            alertSuperView.centerY(inView: self.view)
+        }
         alertSuperView.addSubview(alertLabel)
         alertLabel.centerY(inView: alertSuperView)
         alertLabel.centerX(inView: alertSuperView)
