@@ -87,9 +87,9 @@ class LecturePlaylistVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        isLoading = true
-        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
-        collectionView.reloadData()
+//        isLoading = true
+//        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
+//        collectionView.reloadData()
         
         if let pipVC = self.pipVC {
             if !isPlayPIPVideo {
@@ -233,9 +233,8 @@ class LecturePlaylistVC: UIViewController {
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         
 //        isLoading = true
-//        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
+        detailVM?.lectureDetailApi(seriesID ?? "", offset: 0)
         detailVM?.delegate = self
-        
         
         if videoNumber != "" {
             isLoading = true
@@ -476,7 +475,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! LectureCell
             guard let detailSeriesData = detailVM?.lectureDetail?.data[indexPath.row] else {
                 return UICollectionViewCell() }
-            print(detailSeriesData.sTeacher)
+//            print(detailSeriesData.sTeacher)
             cell.setSeriesCellData(detailSeriesData)
             
             return cell
