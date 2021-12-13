@@ -1088,16 +1088,19 @@ extension VideoController {
         
         // sTags
         let receivedsTagsData = response.data.sTags
-        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
-        self.lessonInfoController.sTagsArray = sTagsArray
-        
+        if receivedsTagsData.contains(",") {
+            let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+            self.lessonInfoController.sTagsArray = sTagsArray
+        }
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
         // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.(자막에서 색상칠할 키워드 찾는용도)
-        for index in 0 ... sTagsArray.count - 1 {
-            let inputData = String(sTagsArray[index])
-            self.tempsTagsArray.append(inputData)
+        if sTagsArray.count > 0 {
+            for index in 0 ... sTagsArray.count - 1 {
+                let inputData = String(sTagsArray[index])
+                self.tempsTagsArray.append(inputData)
+            }
         }
         
         // 선생님이름을 저장한다.
@@ -1223,16 +1226,19 @@ extension VideoController {
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags
-        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
-        self.lessonInfoController.sTagsArray = sTagsArray
-        
+        if receivedsTagsData.contains(",") {
+            let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+            self.lessonInfoController.sTagsArray = sTagsArray
+        }
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
         // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.(자막에서 색상칠할 키워드 찾는용도)
-        for index in 0 ... sTagsArray.count - 1 {
-            let inputData = String(sTagsArray[index])
-            self.tempsTagsArray.append(inputData)
+        if sTagsArray.count > 0 {
+            for index in 0 ... sTagsArray.count - 1 {
+                let inputData = String(sTagsArray[index])
+                self.tempsTagsArray.append(inputData)
+            }
         }
         
         // "sTeacher" -> LessonInfoController.teachernameLabel.text
@@ -1337,18 +1343,21 @@ extension VideoController {
         
         // sTags
         let receivedsTagsData = response.data.sTags
-        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
-        self.lessonInfoController.sTagsArray = sTagsArray
+        if receivedsTagsData.contains(",") {
+            let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+            self.lessonInfoController.sTagsArray = sTagsArray
+        }
         
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
         // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.(자막에서 색상칠할 키워드 찾는용도)
-        for index in 0 ... sTagsArray.count - 1 {
-            let inputData = String(sTagsArray[index])
-            self.tempsTagsArray.append(inputData)
+        if sTagsArray.count > 0 {
+            for index in 0 ... sTagsArray.count - 1 {
+                let inputData = String(sTagsArray[index])
+                self.tempsTagsArray.append(inputData)
+            }
         }
-        
         // 선생님이름을 저장한다.
         let teachername = response.data.sTeacher
         self.teachername = response.data.sTeacher + " 선생님"

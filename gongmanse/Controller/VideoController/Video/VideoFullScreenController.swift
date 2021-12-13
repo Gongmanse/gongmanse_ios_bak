@@ -756,8 +756,10 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
                     
                     /* API에서 sTag 값을 받아올 위치 */
                     strongSelf.sTagsArray.removeAll()
-                    for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
-                        strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
+                    if strongSelf.tempsTagsArray.count > 0 {
+                        for index in 0 ... strongSelf.tempsTagsArray.count - 1 {
+                            strongSelf.sTagsArray.append(strongSelf.tempsTagsArray[index])
+                        }
                     }
                     
                     // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
@@ -1100,9 +1102,11 @@ extension VideoFullScreenController {
         self.sTagsArray.removeAll()
         
         // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.
-        for index in 0 ... sTagsArray.count - 1 {
-            let inputData = String(sTagsArray[index])
-            self.tempsTagsArray.append(inputData)
+        if sTagsArray.count > 0 {
+            for index in 0 ... sTagsArray.count - 1 {
+                let inputData = String(sTagsArray[index])
+                self.tempsTagsArray.append(inputData)
+            }
         }
         playVideo()
     }
@@ -1124,9 +1128,11 @@ extension VideoFullScreenController {
         self.sTagsArray.removeAll()
         
         // "sTagsArray"는 String.Sequence이므로 String으로 캐스팅한 후, 값을 할당한다.
-        for index in 0 ... sTagsArray.count - 1 {
-            let inputData = String(sTagsArray[index])
-            self.tempsTagsArray.append(inputData)
+        if sTagsArray.count > 0 {
+            for index in 0 ... sTagsArray.count - 1 {
+                let inputData = String(sTagsArray[index])
+                self.tempsTagsArray.append(inputData)
+            }
         }
         playVideo()
     }
