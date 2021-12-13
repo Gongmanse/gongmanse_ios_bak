@@ -247,25 +247,26 @@ extension VideoController {
         let keyword = scanner.scanUpToString("<")
         
         // #keyword 와 일치하는 값이 sTags 중 있는지 확인한다.
-        for j in 0...sTagsArray.count-1 {
-            
-            /* #이후에 있는 단어와 API로부터 받은 sTags와 동일한 경우 */
-            if ("#" + keyword!) == sTagsArray[j] {
-                // "Stags" 글자색 변경 및 폰트를 변경한다.
-                setUpAttributeString(keywordAttriString,
-                                     text: subtitleFinal,
-                                     array: sTagsArray,
-                                     arrayIndex: j,
-                                     label: label)
-                
-                if let keyword = keyword {
-                    self.currentKeywords[i] = keyword
+        if sTagsArray.count > 0 {
+            for j in 0...sTagsArray.count-1 {                
+                /* #이후에 있는 단어와 API로부터 받은 sTags와 동일한 경우 */
+                if ("#" + keyword!) == sTagsArray[j] {
+                    // "Stags" 글자색 변경 및 폰트를 변경한다.
+                    setUpAttributeString(keywordAttriString,
+                                         text: subtitleFinal,
+                                         array: sTagsArray,
+                                         arrayIndex: j,
+                                         label: label)
+                    
+                    if let keyword = keyword {
+                        self.currentKeywords[i] = keyword
+                    }
+                    
+                    detectSTagsAndChangeColor(text: subtitleFinal,
+                                              sTagsArray: sTagsArray,
+                                              j: j,
+                                              i: i)
                 }
-                
-                detectSTagsAndChangeColor(text: subtitleFinal,
-                                          sTagsArray: sTagsArray,
-                                          j: j,
-                                          i: i)
             }
         }
     }
