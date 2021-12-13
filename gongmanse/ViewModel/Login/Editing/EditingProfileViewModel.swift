@@ -19,7 +19,10 @@ struct EditingProfileViewModel {
     
     
     var buttonBackgroundColor: UIColor {
-        return passwordIsValid && confirmPasswrdIsVaild && emailIsValid && nicknameIsValid ? .mainOrange : .gray
+        return allVaild ? .mainOrange : .gray
+    }
+    var allVaild: Bool {
+        return passwordIsValid && confirmPasswrdIsVaild && emailIsValid && nicknameIsValid
     }
     
     var buttonTitleColor: UIColor {

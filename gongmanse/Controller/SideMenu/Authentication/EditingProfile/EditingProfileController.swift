@@ -22,6 +22,10 @@ class EditingProfileController: UIViewController {
     let imagePickerController = UIImagePickerController()
     var willChangeProfileImage: UIImage?
     
+    // 프로필 스크롤 뷰
+    let scrollView = UIScrollView()
+    let contentsView = UIView()
+    
     /// 프로필 이미지
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -77,7 +81,8 @@ class EditingProfileController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("완료", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .mainOrange
+        button.backgroundColor = .gray
+        button.isEnabled = false
         button.addTarget(self, action: #selector(tapCompleteButton), for: .touchUpInside)
         return button
     }()
@@ -172,6 +177,7 @@ class EditingProfileController: UIViewController {
         }
         
         completeButton.backgroundColor = viewModel.buttonBackgroundColor
+        completeButton.isEnabled = viewModel.allVaild
     }
     
     // 텍스트필드에 콜벡메소드 추가
@@ -266,10 +272,10 @@ class EditingProfileController: UIViewController {
 //        self.navigationItem.leftBarButtonItem = leftBarButton
         
         // 크기 비율
-        let verticalPadding = view.frame.height * 0.077
         let tfWidth = Constant.width * 0.73
         let tfHeight = Constant.height * 0.06
-        let profileImageConstant = view.frame.height * 0.1
+        let verticalPadding = tfHeight * 0.5
+        let profileImageConstant = view.frame.width * 0.25
         let viewWidth = view.frame.width
         
         // leftView - 추후에 각각의 텍스트 필드에 맞는 이미지로 변경할 것.
@@ -280,14 +286,18 @@ class EditingProfileController: UIViewController {
         let nicknameLeftView = addLeftView(image: #imageLiteral(resourceName: "nicknameOn"))
         let emailLeftView = addLeftView(image: #imageLiteral(resourceName: "emailOn"))
     
+        let contentViewH = Constant.height * 0.6 + viewWidth * 0.4
+        contentsView.setDimensions(height: contentViewH, width: tfWidth)
+        
+        
         // 오토레이아웃 적용
-        view.addSubview(profileImageContainerView)
+        contentsView.addSubview(profileImageContainerView)
         profileImageContainerView.backgroundColor = .clear
         profileImageContainerView.setDimensions(height: profileImageConstant,
                                                 width: profileImageConstant)
-        profileImageContainerView.centerX(inView: view)
-        profileImageContainerView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                         paddingTop: viewWidth * 0.11)
+        profileImageContainerView.centerX(inView: contentsView)
+        profileImageContainerView.anchor(top: contentsView.safeAreaLayoutGuide.topAnchor,
+                                         paddingTop: viewWidth * 0.12)
         
         profileImageContainerView.addSubview(profileImageView)
         profileImageView.addShadow()
@@ -308,62 +318,83 @@ class EditingProfileController: UIViewController {
                             paddingBottom: -15,
                             paddingRight: -15)
         
-        view.addSubview(idTextField)
+        
+        // textfield - start
+        contentsView.addSubview(idTextField)
         setupTextField(idTextField, placehoder: "아이디", leftView: idleftView)
         idTextField.setDimensions(height: tfHeight, width: tfWidth)
-        idTextField.centerX(inView: view)
-        idTextField.anchor(top: profileImageContainerView.topAnchor,
-                             paddingTop: verticalPadding + 100)
+        idTextField.centerX(inView: contentsView)
+        idTextField.anchor(top: profileImageContainerView.bottomAnchor,
+                           paddingTop: viewWidth * 0.12)
         
-        view.addSubview(blockViewForID)
+        contentsView.addSubview(blockViewForID)
         blockViewForID.anchor(top: idTextField.topAnchor,
                               left: idTextField.leftAnchor,
                               bottom: idTextField.bottomAnchor,
                               right: idTextField.rightAnchor)
         
-        view.addSubview(passwordTextField)
+        contentsView.addSubview(passwordTextField)
         passwordTextField.isSecureTextEntry = true
         setupTextField(passwordTextField, placehoder: "비밀번호", leftView: passwordLeftView)
         passwordTextField.setDimensions(height: tfHeight, width: tfWidth)
-        passwordTextField.centerX(inView: view)
-        passwordTextField.anchor(top: idTextField.topAnchor,
+        passwordTextField.centerX(inView: contentsView)
+        passwordTextField.anchor(top: idTextField.bottomAnchor,
                              paddingTop: verticalPadding)
         
-        view.addSubview(confirmPasswordTextField)
+        contentsView.addSubview(confirmPasswordTextField)
         confirmPasswordTextField.isSecureTextEntry = true
         setupTextField(confirmPasswordTextField, placehoder: "비밀번호 재입력", leftView: confirmPasswordLeftView)
         confirmPasswordTextField.setDimensions(height: tfHeight, width: tfWidth)
-        confirmPasswordTextField.centerX(inView: view)
-        confirmPasswordTextField.anchor(top: passwordTextField.topAnchor,
+        confirmPasswordTextField.centerX(inView: contentsView)
+        confirmPasswordTextField.anchor(top: passwordTextField.bottomAnchor,
                              paddingTop: verticalPadding)
         
-        view.addSubview(nameTextField)
+        contentsView.addSubview(nameTextField)
         setupTextField(nameTextField, placehoder: "이름", leftView: nameleftView)
         nameTextField.setDimensions(height: tfHeight, width: tfWidth)
-        nameTextField.centerX(inView: view)
-        nameTextField.anchor(top: confirmPasswordTextField.topAnchor,
+        nameTextField.centerX(inView: contentsView)
+        nameTextField.anchor(top: confirmPasswordTextField.bottomAnchor,
                              paddingTop: verticalPadding)
         
-        view.addSubview(blockViewForName)
+        contentsView.addSubview(blockViewForName)
         blockViewForName.anchor(top: nameTextField.topAnchor,
                                 left: nameTextField.leftAnchor,
                                 bottom: nameTextField.bottomAnchor,
                                 right: nameTextField.rightAnchor)
         
-        view.addSubview(nicknameTextField)
+        contentsView.addSubview(nicknameTextField)
         setupTextField(nicknameTextField, placehoder: "닉네임", leftView: nicknameLeftView)
         nicknameTextField.setDimensions(height: tfHeight, width: tfWidth)
-        nicknameTextField.centerX(inView: view)
-        nicknameTextField.anchor(top: nameTextField.topAnchor,
+        nicknameTextField.centerX(inView: contentsView)
+        nicknameTextField.anchor(top: nameTextField.bottomAnchor,
                              paddingTop: verticalPadding)
         
-        view.addSubview(emailTextField)
+        contentsView.addSubview(emailTextField)
         setupTextField(emailTextField, placehoder: "이메일", leftView: emailLeftView)
         emailTextField.setDimensions(height: tfHeight, width: tfWidth)
-        emailTextField.centerX(inView: view)
-        emailTextField.anchor(top: nicknameTextField.topAnchor,
+        emailTextField.centerX(inView: contentsView)
+        emailTextField.anchor(top: nicknameTextField.bottomAnchor,
                              paddingTop: verticalPadding)
+        // textfield - end
         
+        
+        // scrollView & container 적용
+        scrollView.addSubview(contentsView)
+        contentsView.anchor(top: scrollView.topAnchor,
+                            bottom: scrollView.bottomAnchor)
+        contentsView.centerX(inView: scrollView)
+        view.addSubview(scrollView)
+        scrollView.setDimensions(height: view.frame.height - 80, width: viewWidth)
+        scrollView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                          left: view.safeAreaLayoutGuide.leftAnchor,
+                          bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                          right: view.safeAreaLayoutGuide.rightAnchor,
+                          paddingBottom: 80)
+        scrollView.alwaysBounceVertical = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        
+        // bottom button
         view.addSubview(completeButton)
         completeButton.setDimensions(height: 40, width: tfWidth)
         completeButton.layer.cornerRadius = 10
@@ -384,14 +415,14 @@ class EditingProfileController: UIViewController {
         let tfWidth = view.frame.width - 125
 
         // 비밀번호 하단 레이블
-        view.addSubview(passwordBottomLabel)
+        contentsView.addSubview(passwordBottomLabel)
         passwordBottomLabel.setDimensions(height: 10, width: tfWidth)
         passwordBottomLabel.anchor(top: passwordTextField.bottomAnchor,
                            left: passwordTextField.leftAnchor,
                            paddingTop: 3,
                            paddingLeft: 5)
         // 비밀번호 재입력 하단 레이블
-        view.addSubview(confirmPasswrodBottomLabel)
+        contentsView.addSubview(confirmPasswrodBottomLabel)
         confirmPasswrodBottomLabel.setDimensions(height: 10, width: tfWidth)
         confirmPasswrodBottomLabel.anchor(top: confirmPasswordTextField.bottomAnchor,
                                           left: confirmPasswordTextField.leftAnchor,
@@ -399,14 +430,14 @@ class EditingProfileController: UIViewController {
                                           paddingLeft: 5)
         
         // 닉네임 하단 레이블
-        view.addSubview(nicknameBottomLabel)
+        contentsView.addSubview(nicknameBottomLabel)
         nicknameBottomLabel.setDimensions(height: 10, width: tfWidth)
         nicknameBottomLabel.anchor(top: nicknameTextField.bottomAnchor,
                                           left: nicknameTextField.leftAnchor,
                                           paddingTop: 3,
                                           paddingLeft: 5)
         // 이메일 하단 레이블
-        view.addSubview(emailBottomLabel)
+        contentsView.addSubview(emailBottomLabel)
         emailBottomLabel.setDimensions(height: 10, width: tfWidth)
         emailBottomLabel.anchor(top: emailTextField.bottomAnchor,
                                           left: emailTextField.leftAnchor,
