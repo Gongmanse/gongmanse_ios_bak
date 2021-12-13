@@ -353,6 +353,14 @@ class LessonNoteController: UIViewController {
         self.navigationController?.navigationBar.layer.shadowRadius = 1.0
         self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
         self.navigationController?.navigationBar.layer.masksToBounds = false
+        
+        // 노트 페이지에서 비디오 로그 초기화 하도록 적용
+        let videoLog = VideoDataManager.shared.videoPlayIDLog
+        if videoLog.count > 0 {
+            for i in 0..<videoLog.count {
+                VideoDataManager.shared.removeVideoLastLog()
+            }
+        }
     }
     
     @objc func videoPlayAction(_ sender: UIButton) {
