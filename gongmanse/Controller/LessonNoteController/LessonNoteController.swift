@@ -353,19 +353,12 @@ class LessonNoteController: UIViewController {
         self.navigationController?.navigationBar.layer.shadowRadius = 1.0
         self.navigationController?.navigationBar.layer.shadowOpacity = 0.3
         self.navigationController?.navigationBar.layer.masksToBounds = false
-        
-        // 노트 페이지에서 비디오 로그 초기화 하도록 적용
-        let videoLog = VideoDataManager.shared.videoPlayIDLog
-        if videoLog.count > 0 {
-            for i in 0..<videoLog.count {
-                VideoDataManager.shared.removeVideoLastLog()
-            }
-        }
     }
     
     @objc func videoPlayAction(_ sender: UIButton) {
-        let videoDM = VideoDataManager.shared
-        if videoDM.currentVideoID == id {
+        //PIP 재생중인 영상인 경우
+        if let _ = pipVC?.pipVideoData?.videoURL {
+            print("play pip")
 //            dismiss(animated: true)
             
             //0711 - edit by hp

@@ -57,6 +57,15 @@ class HomeVC: UIViewController {
 
         //다른 뷰 영향 받지 않고 무조건 탭 바 보이기
         self.tabBarController?.tabBar.isHidden = false
+        
+        // 비디오 로그 초기화 하도록 적용
+        let videoLog = VideoDataManager.shared.videoPlayIDLog
+        print("videoLog.count : \(videoLog.count)")
+        if videoLog.count > 0 {
+            for _ in 0..<videoLog.count {
+                VideoDataManager.shared.removeVideoLastLog()
+            }
+        }
     }
     
     func addBottomBorder() {
