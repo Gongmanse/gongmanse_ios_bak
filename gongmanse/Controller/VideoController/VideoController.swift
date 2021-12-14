@@ -1087,11 +1087,10 @@ extension VideoController {
         self.videoAndVttURL.vttURL = self.vttURL
         
         // sTags
-        let receivedsTagsData = response.data.sTags
-        if receivedsTagsData.contains(",") {
-            let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
-            self.lessonInfoController.sTagsArray = sTagsArray
-        }
+        let receivedsTagsData = response.data.sTags        
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+        self.lessonInfoController.sTagsArray = sTagsArray
+        
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
@@ -1226,10 +1225,9 @@ extension VideoController {
         
         // sTags -> sTagsArray
         let receivedsTagsData = response.data.sTags
-        if receivedsTagsData.contains(",") {
-            let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
-            self.lessonInfoController.sTagsArray = sTagsArray
-        }
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+        self.lessonInfoController.sTagsArray = sTagsArray
+        
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
         
@@ -1343,10 +1341,8 @@ extension VideoController {
         
         // sTags
         let receivedsTagsData = response.data.sTags
-        if receivedsTagsData.contains(",") {
-            let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
-            self.lessonInfoController.sTagsArray = sTagsArray
-        }
+        let sTagsArray = receivedsTagsData.split(separator: ",").map { String($0) }
+        self.lessonInfoController.sTagsArray = sTagsArray
         
         // 이전에 sTags 값이 있을 수 있으므로 값을 제거한다.
         self.sTagsArray.removeAll()
