@@ -269,6 +269,15 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
             }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
+            && self.tableViewInputData.count < (Int(self.lectureQnA?.totalNum ?? "0") ?? 0) {
+            //더보기
+            print("lectureQnA tableViewInputData : \(self.tableViewInputData.count), isLoading : \(self.isLoading)")
+            getDataFromJson(offset: self.tableViewInputData.count)
+        }
+    }
 }
 
 extension LectureQuestionsTVC: LectureQuestionsBottomPopUpVCDelegate {
