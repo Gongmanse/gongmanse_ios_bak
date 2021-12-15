@@ -101,15 +101,15 @@ class RatingController: UIViewController {
         
         RatingDataManager().addRatingToVideo(inputData,
                                              viewController: self)
-        
-        // 바로 LessonInfoVC에 적용하기 위한 delegation
+    }
+    // 평점 등록, 응답대기 후에 정보 요청하도록 수정
+    func refreshUserRating() {
         delegate?.ratingAvaergePassVC(rating: "\(Int(ratingBar.rating))")
         
         dismiss(animated: false)
         // 유저가 평점을 줬다면,
         // 1. dismiss 이후에, 모든 회원들의 평균 점수가 보여야한다.
         // 2. 버튼이 .mainOrange로 변경되어야한다.
-        
     }
     
     // MARK: - Heleprs

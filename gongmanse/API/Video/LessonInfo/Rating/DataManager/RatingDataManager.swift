@@ -26,6 +26,7 @@ class RatingDataManager {
             // 그러므로 Response에 대한 Decoding 전략은 작성하지 않았다. (정확히 말하면 필요가 없음)
             .responseString { response in
                 print("DEBUG: 평점 추가 API Response \(response)")
+                viewController.refreshUserRating()
             }
     }
     
