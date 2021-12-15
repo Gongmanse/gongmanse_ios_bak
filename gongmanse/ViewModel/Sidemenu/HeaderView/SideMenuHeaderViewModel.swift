@@ -87,8 +87,9 @@ class SideMenuHeaderViewModel {
         let expireDate = dateStringToDate(expireDateString)
         
         let dateRemaining = dateRemainingCalculateByTody(startDate: startDate, expireDate: expireDate)
-        Constant.remainPremiumDateInt = dateRemaining
-        
+        if dateRemaining > 0 {
+            Constant.remainPremiumDateInt = dateRemaining
+        }
         self.dateRemainingString = "\(dateRemaining)"
         
         return dateRemainingString!

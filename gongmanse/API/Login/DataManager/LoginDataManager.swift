@@ -85,9 +85,10 @@ class LoginDataManager {
                         let startDate = self.dateStringToDate(startDateString)
                         let endDate = self.dateStringToDate(expireDateString)
                         
-                        let dateRemaining = self.dateRemainingCalculate(startDate: startDate, expireDate: endDate)
-                        Constant.remainPremiumDateInt = dateRemaining
-                        print("DEBUG: dateRemaining \(dateRemaining)")
+                        let dateRemaining = self.dateRemainingCalculateByTody(startDate: startDate, expireDate: endDate)
+                        if dateRemaining > 0 {
+                            Constant.remainPremiumDateInt = dateRemaining
+                        }
                     }
                 }
             case .failure(let error):

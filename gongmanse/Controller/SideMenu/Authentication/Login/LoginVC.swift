@@ -305,13 +305,13 @@ extension LoginVC {
     
     func didSuccessNetworing(response: EditingProfileResponse) {
         
-        print("DEBUG: 시작일: \(response.dtPremiumActivate)")
-        print("DEBUG: 종료일: \(response.dtPremiumExpire)")
+//        print("DEBUG: 시작일: \(response.dtPremiumActivate)")
+//        print("DEBUG: 종료일: \(response.dtPremiumExpire)")
         Constant.remainPremiumDateInt = nil
         
         let activateDate: String? = response.dtPremiumActivate
         let expireDate: String? = response.dtPremiumExpire
-        var dateRemainingString: String?
+//        var dateRemainingString: String?
         
         
         guard let startDateString = activateDate else { return }
@@ -321,8 +321,9 @@ extension LoginVC {
         let endDate = dateStringToDate(expireDateString)
         
         let dateRemaining = dateRemainingCalculate(startDate: startDate, expireDate: endDate)
-        Constant.remainPremiumDateInt = dateRemaining
-        print("DEBUG: dateRemaining \(dateRemaining)")
+        if dateRemaining > 0 {
+            Constant.remainPremiumDateInt = dateRemaining
+        }
     }
 }
 
