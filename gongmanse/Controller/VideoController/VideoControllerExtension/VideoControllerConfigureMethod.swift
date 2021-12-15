@@ -39,12 +39,13 @@ extension VideoController {
         NotificationCenter.default.removeObserver(self)
         player.pause()
         present(vc, animated: true)*/
-        
         if !isFullScreenMode {
-            if !UIWindow.isLandscape {
-                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+            // 가로 고정
+            if UIDevice.current.orientation.rawValue == UIInterfaceOrientation.landscapeLeft.rawValue {
+                AppDelegate.AppUtility.lockOrientation(.landscape, andRotateTo: .landscapeLeft)
+            } else {
+                AppDelegate.AppUtility.lockOrientation(.landscape, andRotateTo: .landscapeRight)
             }
-            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
             
 //            customMenuBar.isHidden = true
 //            topBorderLine.isHidden = true
@@ -84,14 +85,8 @@ extension VideoController {
             
             isFullScreenMode = true
         } else {
-            
-            let orientation = UIDevice.current.value(forKey: "orientation") as! Int
-            if orientation == UIInterfaceOrientation.landscapeRight.rawValue {
-                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.landscapeRight)
-            } else {
-                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
-                AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.all, andRotateTo: UIInterfaceOrientation.portrait)
-            }
+            // 고정 해제
+            AppDelegate.AppUtility.lockOrientation(.all)
             
 //            customMenuBar.isHidden = false
 //            topBorderLine.isHidden = false
@@ -113,7 +108,8 @@ extension VideoController {
             videoControlContainerViewBottomConstraint?.constant = -30
             changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
             
-            if orientation == UIInterfaceOrientation.landscapeRight.rawValue {
+            if UIWindow.isLandscape {
+                print("landscape")
                 portraitConstraint(false)
                 landscapeConstraint(true)
                 topBorderLine.alpha = 0
@@ -124,6 +120,7 @@ extension VideoController {
                     teacherInfoUnfoldConstraint?.constant = view.frame.width * 0.601
                 }
             } else {
+                print("portrait")
                 portraitConstraint(true)
                 landscapeConstraint(false)
                 topBorderLine.alpha = 1

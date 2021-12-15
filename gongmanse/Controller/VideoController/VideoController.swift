@@ -574,7 +574,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         if isStartVideo && !isFullScreenMode {
             AppDelegate.AppUtility.lockOrientation(.all)
         } else if isFullScreenMode {
-            AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.landscapeRight, andRotateTo: UIInterfaceOrientation.landscapeRight)
+            if UIDevice.current.orientation.rawValue == UIInterfaceOrientation.landscapeLeft.rawValue {
+                AppDelegate.AppUtility.lockOrientation(.landscape, andRotateTo: .landscapeLeft)
+            } else {
+                AppDelegate.AppUtility.lockOrientation(.landscape, andRotateTo: .landscapeRight)
+            }
             
             self.view.bringSubviewToFront(videoContainerView)
             self.view.bringSubviewToFront(subtitleLabel)
@@ -843,6 +847,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         } else {
             self.pageCollectionViewLandscapeBottomConstraint?.isActive = false
             self.pageCollectionViewLandscapeBottomConstraint1?.isActive = true
+        }
+        
+        if isFullScreenMode {
+            // 전체화면 재생중에 PIP가 상단에 노출되지 않도록
+            self.view.bringSubviewToFront(videoContainerView)
+            self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(playPauseButton)
+            self.view.bringSubviewToFront(replayButton)
+            self.view.bringSubviewToFront(videoForwardTimeButton)
+            self.view.bringSubviewToFront(videoBackwardTimeButton)
         }
         
         let pipTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.pipViewDidTap))
@@ -1463,7 +1477,7 @@ extension VideoController: VideoFullScreenControllerDelegate {
         if isFullScreenMode {
             isFullScreenMode = false
             
-            AppDelegate.AppUtility.lockOrientation(.all, andRotateTo: .landscapeRight)
+            AppDelegate.AppUtility.lockOrientation(.all)
         }
     }
 }
