@@ -571,11 +571,6 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             present(alert, animated: true, completion: nil)
         }
         
-        //노트 다시그리기 // 21.12.14 노트 데이터 반복 요청으로 이슈 발생. 주석처리.
-//        if let vc = self.noteViewController {
-//            vc.setupData()
-//        }
-        
         if isStartVideo && !isFullScreenMode {
             AppDelegate.AppUtility.lockOrientation(.all)
         } else if isFullScreenMode {
@@ -1026,6 +1021,13 @@ extension VideoController: UICollectionViewDelegateFlowLayout {
 // MARK: - API
 
 extension VideoController {
+    func didSaveNote() {
+        //노트 다시그리기. 21.12.14 노트 데이터 반복 요청으로 이슈 발생. 위치 이동
+        if let vc = self.noteViewController {
+            vc.setupData()
+        }
+    }
+    
     func didSuccessUpdateRating(response: DetailVideoResponse) {
         /// 내가준 점수
         if let lessonRating = response.data.iUserRating {

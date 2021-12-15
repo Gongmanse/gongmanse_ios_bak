@@ -114,10 +114,11 @@ class LessonNoteViewModel {
     }
 }
 
-/// 05.25 이후 노트 컨트롤러
+/// 05.25 이후 노트 컨트롤러 _ 전체화면 노트 보기
 class LessonNoteController: UIViewController {
     // MARK: - Properties
 
+    var alertSaveNote: (() -> ())? = nil
     var currentVideoTime: CMTime? = CMTime() // 이전 화면으로 돌아올 때 사용
     
     // MARK: Data
@@ -1029,9 +1030,14 @@ class LessonNoteController: UIViewController {
 
 extension LessonNoteController {
     internal func didSaveNote() {
+        print("LessonNoteController didSaveNote")
         let alert = UIAlertController(title: nil, message: "저장 완료", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+        alertSaveNote?()
+    }
+    func setSaveNoteResut(result: @escaping () -> ()) {
+        alertSaveNote = result
     }
     
     internal func didSucceedReceiveNoteData(responseData: NoteResponse) {

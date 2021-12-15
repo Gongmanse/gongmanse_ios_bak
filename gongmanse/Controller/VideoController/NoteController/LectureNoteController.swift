@@ -8,7 +8,7 @@
 import Alamofire
 import UIKit
 
-/// 05.25 이후 노트 컨트롤러
+/// 05.25 이후 노트 컨트롤러 _ 바텀 노트뷰 노트 보기
 class LectureNoteController: UIViewController {
     // MARK: - Properties
 
@@ -276,6 +276,9 @@ class LectureNoteController: UIViewController {
                         // isPlayPIP 값을 "SearchAfterVC" 에 전달한다. -> 완료
                         // 그 값에 따라서 PIP 재생여부를 결정한다.
                         vc.isOnPIP = true // PIP 모드를 실행시키기 위한 변수
+                        vc.setSaveNoteResut {
+                            self._parent.didSaveNote()
+                        }
                     }
                 }
 //            }
