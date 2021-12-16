@@ -109,18 +109,14 @@ extension VideoController {
     
     /// 플레이어 재생 및 일시정지 액션을 담당하는 콜백메소드
     @objc func playPausePlayer() {
-        let playImage = UIImage(named: "영상재생버튼")
-        let pauseImage = UIImage(named: "영상일시정지버튼")
-        
         /// 연산프로퍼티 "isPlaying" 에 따라서 플레이어를 정지 혹은 재생시킨다.
         if isPlaying {
-            playPauseButton.setBackgroundImage(playImage, for: .normal)
             player.pause()
             
         } else {
-            playPauseButton.setBackgroundImage(pauseImage, for: .normal)
             player.playImmediately(atRate: currentVideoPlayRate)
         }
+        setPlayButtonImage()
     }
     
     /// 동영상 앞으로 가기 기능을 담당하는 콜백 메소드
@@ -516,11 +512,23 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 }
             }
             self.player.play()
+            self.setPlayButtonImage()
         }
         
 //        pageCollectionView.reloadData()
 //        pageCollectionView.setNeedsDisplay()
         player.isMuted = false
+    }
+    
+    // play 상태 변경 시 재생버튼 이미지 변경
+    func setPlayButtonImage() {
+        let playImage = UIImage(named: "영상재생버튼")
+        let pauseImage = UIImage(named: "영상일시정지버튼")
+        if !isPlaying {
+            playPauseButton.setBackgroundImage(playImage, for: .normal)
+        } else {
+            playPauseButton.setBackgroundImage(pauseImage, for: .normal)
+        }
     }
     
     func configureVideoControlView() {

@@ -529,6 +529,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
 //            self.player.currentItem?.removeObserver(self, forKeyPath: "duration", context: nil)
             NotificationCenter.default.removeObserver(self)
             self.player.pause()
+            self.setPlayButtonImage()
             //여기서 remove해주면 관련시리즈,해시태그,노트보기, 전체보기 화면에 갔다가 뒤돌아오면 타임라인이 동작하지 않는다.
             //따라서 동영상이 바뀌는곳에서 remove하는것으로 변경
 //            self.removePeriodicTimeObserver() //
@@ -691,10 +692,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     
     @objc func resignActive() {
         self.player.pause()
+        self.setPlayButtonImage()
     }
     
     @objc func becomeActive() {
         self.player.play()
+        setPlayButtonImage()
     }
     
     @objc func closeInfoView() {
@@ -743,6 +746,8 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         
         if let previousVideoID = videoDataManager.previousVideoID {
             self.player.pause()
+            setPlayButtonImage()
+            
             removePeriodicTimeObserver()
             setRemoveNotification()
             let inputData = DetailVideoInput(video_id: previousVideoID,
@@ -1490,6 +1495,8 @@ extension VideoController: BottomPlaylistCellDelegate {
             return
         }
         self.player.pause()
+        setPlayButtonImage()
+        
         removePeriodicTimeObserver()
         setRemoveNotification()
 
@@ -1529,6 +1536,7 @@ extension VideoController: BottomPlaylistCellDelegate {
         vc.id = videoID
         present(vc, animated: true) {
             self.player.pause()
+            self.setPlayButtonImage()
         }
     }
 }
@@ -1550,6 +1558,7 @@ extension VideoController: IntroControllerDelegate {
     func playVideoEndedIntro() {
         setNotification()
         self.player.play()
+        setPlayButtonImage()
     }
     
     // 아웃트로 끝나면 호출되는 Delegation 메소드
@@ -1577,6 +1586,8 @@ extension VideoController: LessonInfoControllerDelegate {
     
     func problemSolvingLectureVideoPlay(videoID: String) {
         self.player.pause()
+        setPlayButtonImage()
+        
         removePeriodicTimeObserver()
         setRemoveNotification()
         
@@ -1614,6 +1625,7 @@ extension VideoController: LessonInfoControllerDelegate {
                 self.player.seek(to: currentTime)
             }
             self.player.play()
+            setPlayButtonImage()
             UIView.animate(withDuration: 0.33) {
                 //0713 - added by hp
                 if !self.videoDataManager.isFirstPlayVideo && self.videoDataManager.currentVideoID == self.videoDataManager.previousVideoID {
@@ -1640,6 +1652,7 @@ extension VideoController: LessonInfoControllerDelegate {
     // 화면 이동시 현재 영상을 일시정지하기 위한 메소드
     func videoVCPauseVideo() {
         self.player.pause()
+        self.setPlayButtonImage()
     }
 }
 
@@ -1656,6 +1669,7 @@ extension VideoController {
     // 영상 토큰이 남아있는 것을 방지하기 위해 "상세검색" 화면에서 토큰을 제거하기 위해 Notification을 이용한다.
     @objc func removeNotificationFromSearchAfterVC(_ notification: Notification) {
         self.player.pause()
+        self.setPlayButtonImage()
         self.setRemoveNotification()
     }
 }
