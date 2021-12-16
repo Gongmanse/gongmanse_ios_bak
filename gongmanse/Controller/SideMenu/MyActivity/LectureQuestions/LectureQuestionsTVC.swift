@@ -263,7 +263,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
                 
                 let vc = VideoController()
                 vc.modalPresentationStyle = .fullScreen
-                let videoID = lectureQnA?.data[indexPath.row].id
+                let videoID = tableViewInputData[indexPath.row].id
                 vc.id = videoID
                 present(vc, animated: true)
             }
