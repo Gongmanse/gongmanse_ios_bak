@@ -64,10 +64,26 @@ class RecommendCRV: UICollectionReusableView {
         }
     }
     
+    // AOS와 동일한 구조로 좌우 반복 형태로 변경
+    var clockWise = true
     @objc func changeImage() {
-        
         guard let currentItemNumber = sliderCollectionView.indexPathsForVisibleItems.first?.item else { return }
-        let nextItemNumber = currentItemNumber + 1
+        var nextItemNumber: Int
+        if clockWise {
+            nextItemNumber = currentItemNumber + 1
+            if nextItemNumber >= recommendBanner?.body.count ?? 0 {
+                clockWise = !clockWise
+                changeImage()
+                return
+            }
+        } else {
+            nextItemNumber = currentItemNumber - 1
+            if nextItemNumber < 0 {
+                clockWise = !clockWise
+                changeImage()
+                return
+            }
+        }
         let nextIndexPath = IndexPath(item: nextItemNumber, section: 0)
         sliderCollectionView.scrollToItem(at: nextIndexPath, at: .left, animated: true)
     }
@@ -77,7 +93,7 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         guard let bannerCount = recommendBanner?.body.count else { return 0 }
-        return bannerCount
+        return 2 * bannerCount -  1// 중앙을 0번으로 지정.
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -97,8 +113,6 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if onlyOnce {
-            let middleIndex = IndexPath(item: Int(infiniteSize / 2), section: 0)
-            sliderCollectionView.scrollToItem(at: middleIndex, at: .centeredHorizontally, animated: false)
             startTimer()
             onlyOnce = false
         }
@@ -129,6 +143,19 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updatePageControl(scrollView: scrollView)
+
+        // 무한스크롤을 위해 스크롤 종료 시 애니메이션 없이 좌표 이동
+        let pageFloat = (scrollView.contentOffset.x / scrollView.frame.size.width)
+        let pageInt = Int(round(pageFloat))
+        
+        switch pageInt {
+        case 0:
+            sliderCollectionView.scrollToItem(at: [0, 12], at: .left, animated: false)
+        case 2 * recommendBanner!.body.count - 2:
+            sliderCollectionView.scrollToItem(at: [0, 11], at: .left, animated: false)
+        default:
+            break
+        }
     }
     
     func updatePageControl(scrollView: UIScrollView) {
