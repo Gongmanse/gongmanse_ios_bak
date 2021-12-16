@@ -512,6 +512,11 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
             
         } else {
+            // 이용권 사용기간 체크 추가
+            guard Constant.remainPremiumDateInt != nil else {
+                presentAlert(message: "이용권을 구매해주세요")
+                return
+            }
             
             guard let value = self.koreanEnglishMathVideo else { return }
             let data = value.body
