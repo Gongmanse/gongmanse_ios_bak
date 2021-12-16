@@ -28,7 +28,7 @@ class RecommendCRV: UICollectionReusableView {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
-        pageView.numberOfPages = 12
+        pageView.numberOfPages = 3
         pageView.currentPage = 0
         pageView.isEnabled = false
     }
@@ -55,6 +55,9 @@ class RecommendCRV: UICollectionReusableView {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(RecommendBannerImage.self, from: data) {
                     self.recommendBanner = json
+                    DispatchQueue.main.async {
+                        self.pageView.numberOfPages = json.body.count
+                    }
                 }
                 DispatchQueue.main.async {
                     self.sliderCollectionView.reloadData()
@@ -68,17 +71,20 @@ class RecommendCRV: UICollectionReusableView {
     var clockWise = true
     @objc func changeImage() {
         guard let currentItemNumber = sliderCollectionView.indexPathsForVisibleItems.first?.item else { return }
+        guard let count = self.recommendBanner?.body.count else { return }
         var nextItemNumber: Int
         if clockWise {
             nextItemNumber = currentItemNumber + 1
-            if nextItemNumber >= recommendBanner?.body.count ?? 0 {
+            if nextItemNumber == count ||
+                nextItemNumber == 2 * count {
                 clockWise = !clockWise
                 changeImage()
                 return
             }
         } else {
             nextItemNumber = currentItemNumber - 1
-            if nextItemNumber < 0 {
+            if nextItemNumber == -1 ||
+                nextItemNumber == count - 1 {
                 clockWise = !clockWise
                 changeImage()
                 return
@@ -93,7 +99,7 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         guard let bannerCount = recommendBanner?.body.count else { return 0 }
-        return 2 * bannerCount -  1// 중앙을 0번으로 지정.
+        return 2 * bannerCount
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -113,15 +119,15 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if onlyOnce {
+            sliderCollectionView.scrollToItem(at: [0, self.recommendBanner!.body.count], at: .left, animated: false)
+            
             startTimer()
             onlyOnce = false
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: 무한 페이징 + 클릭 시, 영상호출되도록 처리할 예정 05.21 김우성
         if let bannerData = self.recommendBanner {
-            
             if let videoID = bannerData.body[indexPath.row].videoId {
                 delegate?.presentVideoControllerInBanner(videoID: videoID)
             }
@@ -144,15 +150,15 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updatePageControl(scrollView: scrollView)
 
-        // 무한스크롤을 위해 스크롤 종료 시 애니메이션 없이 좌표 이동
-        let pageFloat = (scrollView.contentOffset.x / scrollView.frame.size.width)
-        let pageInt = Int(round(pageFloat))
+        guard let count = self.recommendBanner?.body.count else { return }
         
-        switch pageInt {
+        // 무한스크롤을 위해 스크롤 종료 시 애니메이션 없이 좌표 이동
+        guard let currentItemNumber = sliderCollectionView.indexPathsForVisibleItems.first?.item else { return }
+        switch currentItemNumber {
         case 0:
-            sliderCollectionView.scrollToItem(at: [0, 12], at: .left, animated: false)
-        case 2 * recommendBanner!.body.count - 2:
-            sliderCollectionView.scrollToItem(at: [0, 11], at: .left, animated: false)
+            sliderCollectionView.scrollToItem(at: [0, count], at: .left, animated: false)
+        case 2 * count - 1:
+            sliderCollectionView.scrollToItem(at: [0, count - 1], at: .left, animated: false)
         default:
             break
         }
