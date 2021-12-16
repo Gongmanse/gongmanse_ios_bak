@@ -128,7 +128,7 @@ extension RecommendCRV: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let bannerData = self.recommendBanner {
-            if let videoID = bannerData.body[indexPath.row].videoId {
+            if let videoID = bannerData.body[indexPath.row % bannerData.body.count].videoId {
                 delegate?.presentVideoControllerInBanner(videoID: videoID)
             }
         }
