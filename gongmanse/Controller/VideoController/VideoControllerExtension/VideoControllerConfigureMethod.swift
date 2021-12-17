@@ -181,7 +181,7 @@ extension VideoController {
     
     func loadBottomQnA(_ isHidden: Bool = true) {
         if self.qnaCell == nil {
-            self.qnaCell = BottomQnACell()
+            self.qnaCell = BottomQnACell(frame: self.view.frame)
         }
         qnaCell?.videoID = id!
         self.pageController.addSubview(self.qnaCell!)

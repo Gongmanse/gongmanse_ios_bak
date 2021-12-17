@@ -47,8 +47,8 @@ class BottomQnACell: UICollectionViewCell {
         text.setContentHuggingPriority(.defaultLow, for: .horizontal)
         text.placeholder = "질문을 입력해주세요."
         text.backgroundColor = .rgb(red: 237, green: 237, blue: 237)
-        text.keyboardType = .default
-        text.returnKeyType = .default
+        text.keyboardType = .emailAddress
+        text.returnKeyType = .done
         return text
     }()
     
@@ -349,8 +349,8 @@ extension BottomQnACell {
         emptyStackView.translatesAutoresizingMaskIntoConstraints = false
         emptyStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -25).isActive = true
-        emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        emptyStackView.widthAnchor.constraint(equalToConstant: frame.width / 2).isActive = true
+        emptyStackView.heightAnchor.constraint(equalToConstant: frame.width / 4).isActive = true
     }
 }
 
