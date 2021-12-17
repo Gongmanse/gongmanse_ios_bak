@@ -254,7 +254,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
     }
     private fun loadVideoProblem(offset: Int, commentary : Int) {
         Log.d(TAG, "loadVideoAll::")
-        RetrofitClient.getService().getSubjectList(CATEGORY_ID, offset,commentary,Constants.LIMIT_DEFAULT).enqueue( object :
+        RetrofitClient.getService().getSubjectList(CATEGORY_ID, offset,commentary,Constants.CONTENT_RESPONSE_VALUE_SUBJECT,Constants.LIMIT_DEFAULT).enqueue( object :
             Callback<VideoList> {
             override fun onFailure(call: Call<VideoList>, t: Throwable) {
                 Log.e(TAG, "Failed API call with call : $call\nexception : $t")
@@ -276,6 +276,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
                             binding.tvVideoCount.tvSpinner.visibility = View.GONE
                             mRecyclerAdapter.addType(Constants.QUERY_TYPE_SCIENCE_PROBLEM)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
+                            mRecyclerAdapter.addSortId(Constants.CONTENT_RESPONSE_VALUE_SUBJECT)
                             isLoading = false
                         }
                         val temp = this.totalNum!!.toInt()
