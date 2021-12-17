@@ -17,21 +17,27 @@ class SettingsVC: UIViewController, BottomPopupDelegate {
        
     var dismissDuration: Double = 0.5
     
-    private var gradeButton: UIButton = {
+    lazy var gradeButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
+//        button.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
         button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("모든 학년", for: .normal)
         button.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+        button.addTarget(self, action: #selector(presentFilterGradeList), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = true
         return button
     }()
     
-    private var subjectButton: UIButton = {
+    lazy var subjectButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
+//        button.frame = CGRect(x: 0, y: 0, width: 60, height: 18)
         button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("모든 과목", for: .normal)
         button.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+        button.addTarget(self, action: #selector(presentFilterSubjectList), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = true
         return button
     }()
     
@@ -135,19 +141,16 @@ extension SettingsVC {
     func setTableView() {
         view.addSubview(tableView)
         tableView.separatorStyle = .none
-        
+        tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-                
     }
-    
-    
+        
     
     @objc func presentFilterGradeList(_ sender: UIButton) {
-        
         
         let popupvc = FilteringGradePopUpVC()
         popupvc.height = height
@@ -213,116 +216,104 @@ extension SettingsVC {
     }
 }
 
-extension SettingsVC: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-}
+extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 2))
 
-extension SettingsVC: UITableViewDataSource {
+        footerView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)// bottom line.
+        tableView.addSubview(footerView)
+
+        return footerView
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 2
+    }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return configurationList.count
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()// * 참고사항 cell 에 직접 addView 할 경우 contentView 뒤로 가려짐.
         
-        if 2...8 ~= section {
+        if 2...8 ~= indexPath.row {
             
             let switchControl = UISwitch(frame: CGRect(x: 0, y: 0, width: 35, height: 16))
-            switchControl.tag = section
+            switchControl.tag = indexPath.row
             switchControl.addTarget(self, action: #selector(onSwitch(_:)), for: .valueChanged)
-            switchControl.isOn = self.arrSwitch[section - 2]
+            switchControl.isOn = self.arrSwitch[indexPath.row - 2]
             switchControl.isEnabled = true
             switchControl.onTintColor = UIColor.rgb(red: 237, green: 118, blue: 0)
-            headerView.addSubview(switchControl)
+            cell.contentView.addSubview(switchControl)
             
             switchControl.translatesAutoresizingMaskIntoConstraints = false
-            switchControl.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
-            switchControl.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+            switchControl.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -20).isActive = true
+            switchControl.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
             
-            if section == 2 {
+            if indexPath.row == 2 {
                 let statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-                statusLabel.text = self.arrSwitch[section - 2] ? "적용" : "미적용"
+                statusLabel.text = self.arrSwitch[indexPath.row - 2] ? "적용" : "미적용"
                 statusLabel.textAlignment = .right
                 
-                headerView.addSubview(statusLabel)
+                cell.contentView.addSubview(statusLabel)
                 
                 statusLabel.translatesAutoresizingMaskIntoConstraints = false
-                statusLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+                statusLabel.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
                 statusLabel.trailingAnchor.constraint(equalTo: switchControl.leadingAnchor, constant: -10).isActive = true
             }
         }
         
-        if section == 0 {
-            
-            gradeButton.addTarget(self, action: #selector(presentFilterGradeList(_:)), for: .touchUpInside)
-            headerView.addSubview(gradeButton)
-            
-            gradeButton.translatesAutoresizingMaskIntoConstraints = false
-            gradeButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
-            gradeButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        
+        if indexPath.row == 0 {
+            cell.contentView.addSubview(gradeButton)
+            gradeButton.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -20).isActive = true
+            gradeButton.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
+            cell.bringSubviewToFront(gradeButton)
         }
         
-        if section == 1 {
-            
-            subjectButton.addTarget(self, action: #selector(presentFilterSubjectList(_:)), for: .touchUpInside)
-            headerView.addSubview(subjectButton)
-            
-            subjectButton.translatesAutoresizingMaskIntoConstraints = false
-            subjectButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20).isActive = true
-            subjectButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        if indexPath.row == 1 {
+            cell.contentView.addSubview(subjectButton)
+            subjectButton.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -20).isActive = true
+            subjectButton.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
+            cell.bringSubviewToFront(subjectButton)
         }
         
         let configurationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-        configurationLabel.text = configurationList[section]
+        configurationLabel.text = configurationList[indexPath.row]
         
-        headerView.addSubview(configurationLabel)
-        tableView.addSubview(headerView)
+        cell.contentView.addSubview(configurationLabel)
+        tableView.addSubview(cell)
         
         configurationLabel.translatesAutoresizingMaskIntoConstraints = false
-        configurationLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        configurationLabel.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
         configurationLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
 
-        if 0...4 ~= section {
+        if 0...4 ~= indexPath.row {
             configurationLabel.font = UIFont(name: "NanumSquareRoundB", size: 16)
-            configurationLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20).isActive = true
+            configurationLabel.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20).isActive = true
             configurationLabel.textColor = .black
         } else {
-            configurationLabel.font = UIFont(name: "NanumSquareRoundB", size: 14)
-            configurationLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 40).isActive = true
-            configurationLabel.textColor = self.arrSwitch[section - 2] ? .black: .gray
+            configurationLabel.font = UIFont(name: "NanumSquareRoundR", size: 14)
+            configurationLabel.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 40).isActive = true
+            configurationLabel.textColor = self.arrSwitch[indexPath.row - 2] ? .black: .gray
         }
         
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 2))
+        let lineView = UIView(frame: CGRect(x: 20, y: 59, width: tableView.frame.size.width - 20, height: 2))
+        lineView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)// bottom line.
         
-        footerView.backgroundColor = UIColor.rgb(red: 237, green: 237, blue: 237)
-        tableView.addSubview(footerView)
-        
-        return footerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 2
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PushAlertCellIdentifier, for: indexPath) as? PushAlertCell else { return UITableViewCell() }
+        if 0...3 ~= indexPath.row {
+            print("add line")
+            cell.contentView.addSubview(lineView)
+        }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if 0...3 ~= indexPath.row {
+            return 60
+        } else {
+            return 50
+        }
     }
 }
