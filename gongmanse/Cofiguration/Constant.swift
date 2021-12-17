@@ -36,7 +36,21 @@ struct Constant {
 
     static var dtPremiumExpire: String = ""
     
-    static var remainPremiumDateInt: Int?
+    // premiumDate 를 만료일 상시 체크하도록 수정
+    static var remainPremiumDateInt: Int? {
+        guard !dtPremiumActivate.isEmpty else { return nil}
+        guard !dtPremiumExpire.isEmpty else { return nil}
+        
+        let endDate = dateStringToDate(dtPremiumExpire)
+        let dateRemaining = endDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+        
+        print("dateRemaining : \(dateRemaining)")
+        if dateRemaining > 0 {
+            return 1
+        } else {
+            return nil
+        }
+    }
     
     var getRefreshToken: Void {
         LoginDataManager().getTokenByRefreshToken(RefreshTokenInput(grant_type: "refresh_token",
@@ -137,3 +151,12 @@ enum Category {
     }
 }
 
+func dateStringToDate(_ dateString: String) -> Date {
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+    
+    let date: Date = dateFormatter.date(from: dateString)!
+    return date
+}

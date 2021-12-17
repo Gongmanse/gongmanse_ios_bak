@@ -45,24 +45,19 @@ class SideMenuHeaderViewModel {
     
     // 이용권 소유 여부를 판단한다.
     var hasPreminum: Bool {
-        return (activateDate != nil) && (activateDate != nil)
-    }
-    
-    // 만약 이용권이 있다면, String로 받아온 값을 Date로 변경한다.
-    func dateStringToDate(_ dateString: String) -> Date {
+        guard let _ = self.activateDate else { return false }
+        guard let expireDateString = self.expireDate else { return false }
+        let expireDate = dateStringToDate(expireDateString)
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-        
-        let date: Date = dateFormatter.date(from: dateString)!
-        return date
-    }
-    
-    func dateRemainingCalculateByTody(startDate: Date, expireDate: Date) -> Int {
-        
+        // 만료일 남은 시간 계산하여 리턴
         let dateRemaining = expireDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
-        let result = Int(dateRemaining / 86400)
+        return dateRemaining > 0
+    }
+    
+    func dateRemainingCalculateByTody(startDate: Date, expireDate: Date) -> Int {        
+        let dateRemaining = expireDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+        var result = Int(dateRemaining / 86400)//만 하루가 남아있을 경우 1일...
+        if result < 0 { result = 0 }
         return result
     }
     
@@ -83,14 +78,18 @@ class SideMenuHeaderViewModel {
         guard let startDateString = self.activateDate else { return "" }
         guard let expireDateString = self.expireDate else { return "" }
         
+        Constant.dtPremiumActivate = startDateString
+        Constant.dtPremiumExpire = expireDateString
+        
         let startDate = dateStringToDate(startDateString)
         let expireDate = dateStringToDate(expireDateString)
         
-        let dateRemaining = dateRemainingCalculateByTody(startDate: startDate, expireDate: expireDate)
-        if dateRemaining > 0 {
-            Constant.remainPremiumDateInt = dateRemaining
-        }
-        self.dateRemainingString = "\(dateRemaining)"
+//        let dateRemaining = expireDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+        let dayRemaining = dateRemainingCalculateByTody(startDate: startDate, expireDate: expireDate)
+//        if dateRemaining > 0 {//시간 조회
+//            Constant.remainPremiumDateInt = dayRemaining//날짜표기 nill 체크 시 사용
+//        }
+        self.dateRemainingString = "\(dayRemaining)"
         
         return dateRemainingString!
     }

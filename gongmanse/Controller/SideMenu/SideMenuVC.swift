@@ -260,7 +260,7 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         let alert = UIAlertController(title: nil, message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
             Constant.token = ""
-            Constant.remainPremiumDateInt = nil
+//            Constant.remainPremiumDateInt = nil
             
             self.viewModel.token = Constant.token
             self.headerViewHeight = self.viewModel.isHeaderHeight

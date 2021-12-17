@@ -76,19 +76,21 @@ class LoginDataManager {
                     EditingProfileDataManager().getProfileInfoFromAPIAtSideMenu(inputData) { response in
                         let activateDate: String? = response.dtPremiumActivate
                         let expireDate: String? = response.dtPremiumExpire
-//                        var dateRemainingString: String?
-                        
-                        
+
                         guard let startDateString = activateDate else { return }
                         guard let expireDateString = expireDate else { return }
                         
-                        let startDate = self.dateStringToDate(startDateString)
-                        let endDate = self.dateStringToDate(expireDateString)
+                        Constant.dtPremiumActivate = startDateString
+                        Constant.dtPremiumExpire = expireDateString
                         
-                        let dateRemaining = self.dateRemainingCalculateByTody(startDate: startDate, expireDate: endDate)
-                        if dateRemaining > 0 {
-                            Constant.remainPremiumDateInt = dateRemaining
-                        }
+//                        let startDate = dateStringToDate(startDateString)
+//                        let endDate = dateStringToDate(expireDateString)
+                        
+//                        let dateRemaining = endDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+//                        let dayRemaining = self.dateRemainingCalculateByTody(startDate: startDate, expireDate: startDate)
+//                        if dateRemaining > 0 {
+//                            Constant.remainPremiumDateInt = dayRemaining
+//                        }
                     }
                 }
             case .failure(let error):
@@ -97,18 +99,6 @@ class LoginDataManager {
                 Constant.refreshToken = ""
             }
         }
-    }
-
-    //0719 - added by hp
-    // 만약 이용권이 있다면, String로 받아온 값을 Date로 변경한다.
-    func dateStringToDate(_ dateString: String) -> Date {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-        
-        let date: Date = dateFormatter.date(from: dateString)!
-        return date
     }
     
     func dateRemainingCalculateByTody(startDate: Date, expireDate: Date) -> Int {
