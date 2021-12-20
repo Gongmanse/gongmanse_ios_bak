@@ -45,6 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             appearance.backgroundColor = .white
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
             UINavigationBar.appearance().standardAppearance = appearance
+            
+            UITableView.appearance().sectionHeaderTopPadding = 0.0
         }
         
         return true
