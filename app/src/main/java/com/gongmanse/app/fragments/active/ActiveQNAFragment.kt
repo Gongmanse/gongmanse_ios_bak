@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gongmanse.app.BR
 import com.gongmanse.app.R
@@ -94,18 +93,25 @@ class ActiveQNAFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBo
         }
     }
 
-    override fun removeItems(items: ArrayList<String>, removeItemSize: Int) {
+    var deleteIndexCnt = 0
+    var responseIndexCnt = 0
+    override fun removeItems(items: ArrayList<String>, removeSize: Int) {
         Log.d(TAG, "remove items => $items")
         CoroutineScope(Dispatchers.Main).launch {
-            if(items.size < removeItemSize) {
+            if(items.size < removeSize) {
                 toast("답변이 완료된 Q&A는 삭제가 불가능합니다.")
                 Log.d(TAG,"items.size < removeItemSize")
             } else {
+                deleteIndexCnt = items.count()
+                responseIndexCnt = 0
                 items.forEach {
                     val responseBody = removeQNA(it)
+
                     bottomSheetQna.dismiss()
-                    onRefresh()
-                    Log.d(TAG, "responseBody => $responseBody")
+
+                    responseIndexCnt++
+                    Log.d(TAG, "responseBody => ${responseBody?.string()}... ($responseIndexCnt/$deleteIndexCnt)")
+                    if (responseIndexCnt == deleteIndexCnt) onRefresh()
                 }
             }
         }
