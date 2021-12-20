@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNp-eM-zGT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNp-eM-zGT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -222,7 +222,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExpertConsultationTVCell" rowHeight="80" id="DVA-jm-ckL" customClass="ExpertConsultationTVCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="80"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DVA-jm-ckL" id="aNO-I2-zWr">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -1073,7 +1073,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Dk-4v-IwF">
-                                            <rect key="frame" x="8" y="237.5" width="398" height="27.5"/>
+                                            <rect key="frame" x="8" y="239" width="398" height="26"/>
                                             <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="currentPageIndicatorTintColor" systemColor="systemOrangeColor"/>
                                         </pageControl>
@@ -1386,7 +1386,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="KoreanEnglishMathBottomPopUpTVCell" id="VGC-LK-2tC" customClass="KoreanEnglishMathBottomPopUpTVCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VGC-LK-2tC" id="Gvd-H6-CTl">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -2615,7 +2615,7 @@
                                     <rect key="frame" x="307" y="17" width="42" height="15"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="15" id="6yj-rq-IGi"/>
-                                        <constraint firstAttribute="width" constant="42" id="eMl-pa-zlT"/>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="eMl-pa-zlT"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                     <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
@@ -2639,11 +2639,12 @@
                                 <constraint firstItem="6qI-Qn-kXi" firstAttribute="leading" secondItem="6eg-ov-hYx" secondAttribute="trailing" constant="8" symbolic="YES" id="byG-xl-EuP"/>
                                 <constraint firstItem="qpJ-eL-DVN" firstAttribute="top" secondItem="I4u-2k-gPx" secondAttribute="top" constant="7" id="doE-AX-Itb"/>
                                 <constraint firstItem="jDK-vE-arS" firstAttribute="top" secondItem="I4u-2k-gPx" secondAttribute="top" constant="17" id="fYy-8q-r3P"/>
+                                <constraint firstItem="jDK-vE-arS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6qI-Qn-kXi" secondAttribute="trailing" constant="8" symbolic="YES" id="xNt-02-y9K"/>
                             </constraints>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentVideoTVCell" rowHeight="80" id="mCj-vF-KPG" customClass="RecentVideoTVCell" customModule="gongmanse" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68.5" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="88.5" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mCj-vF-KPG" id="Udu-Fd-q4g">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -2719,13 +2720,21 @@
                                                     </constraints>
                                                     <state key="normal" image="deleteThing"/>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="op8-3L-P3R">
+                                                    <rect key="frame" x="0.0" y="0.0" width="53" height="65"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="op8-3L-P3R" firstAttribute="height" secondItem="RIH-U3-2vx" secondAttribute="height" id="5Wq-BE-GIS"/>
                                                 <constraint firstItem="bC7-UY-NnK" firstAttribute="leading" secondItem="RIH-U3-2vx" secondAttribute="leading" constant="18" id="ERg-uc-3of"/>
+                                                <constraint firstItem="op8-3L-P3R" firstAttribute="centerY" secondItem="RIH-U3-2vx" secondAttribute="centerY" id="HPw-Ee-gB2"/>
                                                 <constraint firstItem="bC7-UY-NnK" firstAttribute="top" secondItem="RIH-U3-2vx" secondAttribute="top" constant="22" id="ge6-3R-WH5"/>
                                                 <constraint firstAttribute="height" constant="65" id="kYY-bV-3Dr"/>
+                                                <constraint firstItem="op8-3L-P3R" firstAttribute="width" secondItem="RIH-U3-2vx" secondAttribute="width" id="kws-wS-pd1"/>
                                                 <constraint firstAttribute="width" constant="53" id="uVQ-lx-eEo"/>
+                                                <constraint firstItem="op8-3L-P3R" firstAttribute="centerX" secondItem="RIH-U3-2vx" secondAttribute="centerX" id="wHT-hH-Frq"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -2738,15 +2747,17 @@
                                         <constraint firstItem="RIH-U3-2vx" firstAttribute="top" secondItem="Udu-Fd-q4g" secondAttribute="top" constant="8" id="Tf5-bp-9kM"/>
                                         <constraint firstItem="MHo-Xi-LDZ" firstAttribute="top" secondItem="Udk-k9-tWa" secondAttribute="bottom" constant="8" symbolic="YES" id="Vfb-xE-ejA"/>
                                         <constraint firstItem="RIH-U3-2vx" firstAttribute="leading" secondItem="Udu-Fd-q4g" secondAttribute="leading" constant="20" symbolic="YES" id="WJ4-Im-huA"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wx3-sq-NfE" secondAttribute="trailing" constant="20" symbolic="YES" id="ZZx-hF-ocX"/>
                                         <constraint firstItem="wx3-sq-NfE" firstAttribute="top" secondItem="Udu-Fd-q4g" secondAttribute="top" constant="8" id="b3i-yR-kdm"/>
                                         <constraint firstItem="Mh8-Hc-KCT" firstAttribute="leading" secondItem="Udu-Fd-q4g" secondAttribute="leading" constant="20" symbolic="YES" id="de0-mV-LWz"/>
                                         <constraint firstItem="Udk-k9-tWa" firstAttribute="top" secondItem="wx3-sq-NfE" secondAttribute="bottom" constant="8" symbolic="YES" id="kYR-2a-j2d"/>
+                                        <constraint firstItem="eUv-JO-T6o" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MHo-Xi-LDZ" secondAttribute="trailing" constant="8" symbolic="YES" id="uD8-5d-Z4X"/>
                                         <constraint firstItem="wx3-sq-NfE" firstAttribute="leading" secondItem="Mh8-Hc-KCT" secondAttribute="trailing" constant="15" id="vLX-yn-gyP"/>
                                         <constraint firstAttribute="trailing" secondItem="eUv-JO-T6o" secondAttribute="trailing" constant="20" symbolic="YES" id="yUp-E3-SNI"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="deleteButton" destination="bC7-UY-NnK" id="f9Y-r4-2R6"/>
+                                    <outlet property="deleteButton" destination="op8-3L-P3R" id="oEp-qA-B8b"/>
                                     <outlet property="deleteView" destination="RIH-U3-2vx" id="e97-qZ-ImF"/>
                                     <outlet property="subjects" destination="wx3-sq-NfE" id="jhg-Ie-FRT"/>
                                     <outlet property="teachersName" destination="MHo-Xi-LDZ" id="O8f-sz-2QY"/>
@@ -2842,7 +2853,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteListTVCell" rowHeight="80" id="P5k-oN-mwB" customClass="NoteListTVCell" customModule="gongmanse" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68.5" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="88.5" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P5k-oN-mwB" id="d2Y-nR-n74">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -2918,12 +2929,20 @@
                                                     </constraints>
                                                     <state key="normal" image="deleteThing"/>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxc-JD-jEt">
+                                                    <rect key="frame" x="0.0" y="0.0" width="53" height="65"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="bxc-JD-jEt" firstAttribute="centerX" secondItem="QgC-uy-ze1" secondAttribute="centerX" id="LhA-lB-TfC"/>
+                                                <constraint firstItem="bxc-JD-jEt" firstAttribute="height" secondItem="QgC-uy-ze1" secondAttribute="height" id="Rnj-l6-ihK"/>
+                                                <constraint firstItem="bxc-JD-jEt" firstAttribute="centerY" secondItem="QgC-uy-ze1" secondAttribute="centerY" id="Wwr-Ob-VPm"/>
                                                 <constraint firstItem="ZKj-oS-CAk" firstAttribute="top" secondItem="QgC-uy-ze1" secondAttribute="top" constant="22" id="YLw-fg-74N"/>
                                                 <constraint firstAttribute="height" constant="65" id="Zh3-Ew-PG4"/>
                                                 <constraint firstItem="ZKj-oS-CAk" firstAttribute="leading" secondItem="QgC-uy-ze1" secondAttribute="leading" constant="18" id="dbS-zh-UYF"/>
+                                                <constraint firstItem="bxc-JD-jEt" firstAttribute="width" secondItem="QgC-uy-ze1" secondAttribute="width" id="e2r-wQ-emE"/>
                                                 <constraint firstAttribute="width" constant="53" id="myS-zg-3bZ"/>
                                             </constraints>
                                         </view>
@@ -2955,7 +2974,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="deleteButton" destination="ZKj-oS-CAk" id="PPe-f6-RfS"/>
+                                    <outlet property="deleteButton" destination="bxc-JD-jEt" id="Wa0-To-kGq"/>
                                     <outlet property="deleteView" destination="QgC-uy-ze1" id="eSf-gW-gF7"/>
                                     <outlet property="noteVideoPlayBtn" destination="Z9H-Gf-TiB" id="9f7-Ve-BT0"/>
                                     <outlet property="subjects" destination="Twh-1c-Ckd" id="dxz-bk-Y0P"/>
@@ -3036,7 +3055,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LectureQuestionsTVCell" rowHeight="80" id="eo2-Gz-bBE" customClass="LectureQuestionsTVCell" customModule="gongmanse" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68.5" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="88.5" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eo2-Gz-bBE" id="Ldo-nY-Bmm">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -3134,13 +3153,21 @@
                                                     </constraints>
                                                     <state key="normal" image="deleteThing"/>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmN-QK-0se">
+                                                    <rect key="frame" x="0.0" y="0.0" width="53" height="65"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="53" id="5ZO-Qw-Hqg"/>
                                                 <constraint firstAttribute="height" constant="65" id="Dsa-1A-ba7"/>
                                                 <constraint firstItem="V0n-yk-x4b" firstAttribute="leading" secondItem="O9T-9H-w7D" secondAttribute="leading" constant="18" id="E1w-No-nfN"/>
+                                                <constraint firstItem="OmN-QK-0se" firstAttribute="centerX" secondItem="O9T-9H-w7D" secondAttribute="centerX" id="NOM-83-pqK"/>
+                                                <constraint firstItem="OmN-QK-0se" firstAttribute="centerY" secondItem="O9T-9H-w7D" secondAttribute="centerY" id="V23-vM-XJG"/>
+                                                <constraint firstItem="OmN-QK-0se" firstAttribute="height" secondItem="O9T-9H-w7D" secondAttribute="height" id="WtK-W0-HU2"/>
                                                 <constraint firstItem="V0n-yk-x4b" firstAttribute="top" secondItem="O9T-9H-w7D" secondAttribute="top" constant="22" id="nWt-jE-s4f"/>
+                                                <constraint firstItem="OmN-QK-0se" firstAttribute="width" secondItem="O9T-9H-w7D" secondAttribute="width" id="rGY-45-nZ2"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -3166,7 +3193,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="answerStatus" destination="RZZ-mN-agy" id="ru6-fy-4jx"/>
-                                    <outlet property="deleteButton" destination="V0n-yk-x4b" id="S7c-9C-rYw"/>
+                                    <outlet property="deleteButton" destination="OmN-QK-0se" id="5UU-wr-FzD"/>
                                     <outlet property="deleteView" destination="O9T-9H-w7D" id="IOI-3b-BgU"/>
                                     <outlet property="subjects" destination="Qty-do-yjY" id="WDZ-0S-uRM"/>
                                     <outlet property="teachersName" destination="05O-VL-No7" id="dFj-OO-waR"/>
@@ -3247,7 +3274,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExpertConsultTVCell" rowHeight="80" id="cxe-9j-t3t" customClass="ExpertConsultTVCell" customModule="gongmanse" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68.5" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="88.5" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cxe-9j-t3t" id="xqI-c6-p1J">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -3317,13 +3344,21 @@
                                                     </constraints>
                                                     <state key="normal" image="deleteThing"/>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wyd-ra-75p">
+                                                    <rect key="frame" x="0.0" y="0.0" width="53" height="65"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="Wyd-ra-75p" firstAttribute="centerY" secondItem="cwk-vc-ajj" secondAttribute="centerY" id="11N-Dv-y65"/>
+                                                <constraint firstItem="Wyd-ra-75p" firstAttribute="width" secondItem="cwk-vc-ajj" secondAttribute="width" id="8YL-Zy-dRI"/>
                                                 <constraint firstAttribute="width" constant="53" id="BOF-yT-CYH"/>
                                                 <constraint firstItem="fcy-dy-VGA" firstAttribute="top" secondItem="cwk-vc-ajj" secondAttribute="top" constant="22" id="MF1-kV-wdI"/>
                                                 <constraint firstAttribute="height" constant="65" id="ZbN-Xp-Hxi"/>
                                                 <constraint firstItem="fcy-dy-VGA" firstAttribute="leading" secondItem="cwk-vc-ajj" secondAttribute="leading" constant="18" id="c0B-Qn-Z7V"/>
+                                                <constraint firstItem="Wyd-ra-75p" firstAttribute="centerX" secondItem="cwk-vc-ajj" secondAttribute="centerX" id="dT2-Xe-Yy4"/>
+                                                <constraint firstItem="Wyd-ra-75p" firstAttribute="height" secondItem="cwk-vc-ajj" secondAttribute="height" id="fn7-mW-yIZ"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -3349,7 +3384,7 @@
                                     <outlet property="answerStatus" destination="KGp-FB-zF9" id="815-hY-G97"/>
                                     <outlet property="consultThumbnail" destination="qxO-wC-HdW" id="5wL-Io-l28"/>
                                     <outlet property="consultTitle" destination="LPW-dl-4ry" id="RvM-Km-LwR"/>
-                                    <outlet property="deleteButton" destination="fcy-dy-VGA" id="Kxc-fS-5Et"/>
+                                    <outlet property="deleteButton" destination="Wyd-ra-75p" id="a8F-vN-yIL"/>
                                     <outlet property="deleteView" destination="cwk-vc-ajj" id="bMl-QH-awV"/>
                                     <outlet property="nickName" destination="6lC-X9-rfw" id="LV5-rD-bOg"/>
                                     <outlet property="profileImage" destination="rjj-YJ-4p1" id="Fr9-L8-n4g"/>
@@ -3448,7 +3483,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BookMarkTVCell" rowHeight="80" id="Oze-mX-vXz" customClass="BookMarkTVCell" customModule="gongmanse" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68.5" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="88.5" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Oze-mX-vXz" id="ldF-UH-z89">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -3558,11 +3593,19 @@
                                                     </constraints>
                                                     <state key="normal" image="deleteThing"/>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gkY-Hr-WrQ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="53" height="65"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="gkY-Hr-WrQ" firstAttribute="height" secondItem="RCc-Cv-9y9" secondAttribute="height" id="2ZC-JR-O2C"/>
+                                                <constraint firstItem="gkY-Hr-WrQ" firstAttribute="centerX" secondItem="RCc-Cv-9y9" secondAttribute="centerX" id="GI2-be-DmL"/>
                                                 <constraint firstAttribute="width" constant="53" id="Guc-lh-06k"/>
                                                 <constraint firstItem="O8D-dH-pxn" firstAttribute="top" secondItem="RCc-Cv-9y9" secondAttribute="top" constant="22" id="Hoa-bS-rGl"/>
+                                                <constraint firstItem="gkY-Hr-WrQ" firstAttribute="width" secondItem="RCc-Cv-9y9" secondAttribute="width" id="OZk-lS-ua4"/>
+                                                <constraint firstItem="gkY-Hr-WrQ" firstAttribute="centerY" secondItem="RCc-Cv-9y9" secondAttribute="centerY" id="YO8-oO-e7B"/>
                                                 <constraint firstItem="O8D-dH-pxn" firstAttribute="leading" secondItem="RCc-Cv-9y9" secondAttribute="leading" constant="18" id="faj-86-QcQ"/>
                                                 <constraint firstAttribute="height" constant="65" id="gSE-se-dbz"/>
                                             </constraints>
@@ -3575,8 +3618,10 @@
                                         <constraint firstAttribute="trailing" secondItem="Xtv-tA-wnY" secondAttribute="trailing" constant="19.5" id="Kme-lo-9wD"/>
                                         <constraint firstItem="K8a-9u-dEJ" firstAttribute="top" secondItem="T9K-4p-Ny6" secondAttribute="bottom" constant="8" symbolic="YES" id="LND-8T-KpV"/>
                                         <constraint firstItem="vvq-xf-4La" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="QyW-nn-ipv"/>
+                                        <constraint firstItem="Xtv-tA-wnY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pK6-fa-KDA" secondAttribute="trailing" constant="8" symbolic="YES" id="TBg-h3-sgh"/>
                                         <constraint firstItem="Xtv-tA-wnY" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="59" id="WCl-1V-gjL"/>
                                         <constraint firstItem="tqB-4g-B9M" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="b4i-aa-fuv"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tqB-4g-B9M" secondAttribute="trailing" constant="20" symbolic="YES" id="dgQ-fy-Cs8"/>
                                         <constraint firstItem="RCc-Cv-9y9" firstAttribute="leading" secondItem="ldF-UH-z89" secondAttribute="leading" constant="20" symbolic="YES" id="nbQ-AO-Cc5"/>
                                         <constraint firstItem="K8a-9u-dEJ" firstAttribute="leading" secondItem="vvq-xf-4La" secondAttribute="trailing" constant="15" id="omK-jm-ZYX"/>
                                         <constraint firstItem="RCc-Cv-9y9" firstAttribute="top" secondItem="ldF-UH-z89" secondAttribute="top" constant="8" id="sjx-bB-l8x"/>
@@ -3587,7 +3632,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="deleteButton" destination="O8D-dH-pxn" id="Z5S-tD-wHz"/>
+                                    <outlet property="deleteButton" destination="gkY-Hr-WrQ" id="y2Q-uj-QHf"/>
                                     <outlet property="deleteView" destination="RCc-Cv-9y9" id="Flu-P5-Fz3"/>
                                     <outlet property="starRating" destination="Ic8-xe-cfM" id="Eqy-DS-nYb"/>
                                     <outlet property="subjects" destination="T9K-4p-Ny6" id="OfN-JP-DpP"/>
@@ -3783,7 +3828,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoticeTVCell" rowHeight="60" id="Pk5-Ha-xlz" customClass="NoticeTVCell" customModule="gongmanse" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Pk5-Ha-xlz" id="6kE-ZA-RZ6">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
@@ -3858,7 +3903,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Z4x-Fb-hPM">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Z4x-Fb-hPM" id="5yh-pU-ZeK">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -4067,7 +4112,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="KoreanEnglishMathAlignmentTVCell" id="V4G-SM-kcK" customClass="KoreanEnglishMathAlignmentTVCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="V4G-SM-kcK" id="cPr-sQ-JiI">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -4410,7 +4455,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExpertConsultationBottomPopUpTVCell" id="zvX-bC-4vh" customClass="ExpertConsultationBottomPopUpTVCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zvX-bC-4vh" id="gtG-s5-g10">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -4596,7 +4641,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentVideoBottomPopUpCell" id="fSH-sa-nQS" customClass="RecentVideoBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fSH-sa-nQS" id="GXG-Wx-moG">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -4714,7 +4759,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteListBottomPopUpCell" id="GAS-6k-ufJ" customClass="NoteListBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GAS-6k-ufJ" id="QK6-V8-SiX">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -4832,7 +4877,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LectureQuestionsBottomPopUpCell" id="TXY-V3-JPd" customClass="LectureQuestionsBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TXY-V3-JPd" id="a6O-Dn-EdY">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -4950,7 +4995,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExpertConsultBottomPopUpCell" id="G9c-ng-cdQ" customClass="ExpertConsultBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G9c-ng-cdQ" id="Jpu-On-52y">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -5068,7 +5113,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BookMarkBottomPopUpCell" id="XTA-34-wMY" customClass="BookMarkBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="88.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XTA-34-wMY" id="hZW-Sd-ukM">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -5143,7 +5188,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LectureQuestionsDeleteBottomPopUpCell" rowHeight="44" id="jkZ-ES-3dv" customClass="LectureQuestionsDeleteBottomPopUpCell" customModule="gongmanse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jkZ-ES-3dv" id="7J4-Kc-bEq">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>

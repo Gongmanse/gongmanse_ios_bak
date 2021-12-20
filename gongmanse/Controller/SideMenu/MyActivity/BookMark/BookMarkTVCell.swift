@@ -25,6 +25,8 @@ class BookMarkTVCell: UITableViewCell {
         
         //deleteView 라운딩 처리
         deleteView.roundCorners(corners: [.topLeft, .bottomLeft], radius: 13.0)
+        deleteButton.roundCorners(corners: [.topLeft, .bottomLeft], radius: 13.0)
+        deleteButton.setBackgroundColor(.lightGray.withAlphaComponent(0.7), for: .highlighted)
         
         //버튼, 버튼 뷰 숨김
         deleteView.isHidden = true
