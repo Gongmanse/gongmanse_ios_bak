@@ -126,6 +126,8 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
         tableView.reloadData()
     }
     
+    var deleteIndexCnt = 0
+    var responseIndexCnt = 0
     @IBAction func deleteButtonAction(_ sender: UIButton) {
         //isSelect = !isSelect
         //selectIndexId.value = isSelect
@@ -141,6 +143,10 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
             presentAlert(message: "삭제할 질문을 선택해주세요.")
             return
         }
+        
+        // 21.12.20 샥제 요청과 응답 카운팅하여 새로고침 마지막에서 하도록 수정.
+        deleteIndexCnt = currentTrueIndex.count
+        responseIndexCnt = 0
         for index in currentTrueIndex {
             deleteSelectedRowInAPI(index)
         }
@@ -247,11 +253,22 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
 
 extension LectureQuestionsDeleteBottomPopUpVC {
     func didSuccessPostAPI() {
-        self.getDataFromJson()
+//        self.getDataFromJson()
     }
-    
+    // 요청/응답 카운팅 비교
     func didSuccessDeleteQnACell() {
-        
+        print("didSuccessDeleteQnACell : \(deleteIndexCnt)")
+        responseIndexCnt += 1;
+        if deleteIndexCnt == responseIndexCnt {
+            self.getDataFromJson()
+        }
+    }
+    func didFailedDeleteQnACell() {
+        print("didFailedDeleteQnACell : \(deleteIndexCnt)")
+        responseIndexCnt += 1;
+        if deleteIndexCnt == responseIndexCnt {
+            self.getDataFromJson()
+        }
     }
 }
 
@@ -275,10 +292,10 @@ class LectureQuestionsDeleteBottomPopUpVCDataManager {
             switch response.result {
             case .success:
                 print("POST 성공")
-                viewController.didSuccessPostAPI()
-                print(response)
+                viewController.didSuccessDeleteQnACell()
             case.failure:
                 print("error")
+                viewController.didFailedDeleteQnACell()
             }
         }
     }

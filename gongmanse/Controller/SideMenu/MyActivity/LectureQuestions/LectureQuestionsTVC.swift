@@ -200,6 +200,8 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
     
     func removeItem(_ video_id: String) {
+        self.tableViewInputData.removeAll()
+        self.tableView.reloadData()
         getDataFromJson(offset: 0)
     }
     
