@@ -39,6 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         KakaoSDKCommon.initSDK(appKey: "66773aa669c7d7d858ebebf335f1dc80")
         
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.shadowColor = UIColor.lightGray
+            appearance.backgroundColor = .white
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            UINavigationBar.appearance().standardAppearance = appearance
+        }
+        
         return true
     }
 
