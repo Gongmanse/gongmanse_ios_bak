@@ -28,8 +28,6 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     var deleteLectureQnA: LectureQnAModels?
     var video_id: String = ""
     var video_title: String = ""
-    var selectImageChange: Dynamic<Bool> = Dynamic(false)
-    var selectIndexId: Dynamic<Bool> = Dynamic(false)
     var isSelect: Bool = false
     var tableViewInputData: [LectureQnAData]?
     
@@ -70,8 +68,6 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(LectureQnAModels.self, from: data) {
                     //print(json.body)
-                    self.isSelect = false
-                    self.selectImageChange.value = false
                     self.currentSelectedRowState.removeAll()
                     self.deleteLectureQnA = json
                     
@@ -116,26 +112,26 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     }
     
     @IBAction func allSelectButtonAction(_ sender: UIButton) {
-        isSelect = !isSelect
-        selectImageChange.value = isSelect
-        
+        // 21.12.22 전체선택 시 체크해제 하지않도록 수정
         for index in currentSelectedRowState.indices {
-            currentSelectedTableViewCell(index)
+            currentSelectedRowState[index] = true
         }
-        
         tableView.reloadData()
     }
     
     var deleteIndexCnt = 0
     var responseIndexCnt = 0
     @IBAction func deleteButtonAction(_ sender: UIButton) {
-        //isSelect = !isSelect
-        //selectIndexId.value = isSelect
-        
         var currentTrueIndex = [Int]()
         
         for (index, state) in currentSelectedRowState.enumerated() {
             if state {
+                // 21.12.22 답변 완료 항목은 삭제할 수 없도록 조건 추가
+                guard let json = self.deleteLectureQnA else { return }
+                guard json.data[index].sAnswer == nil else {
+                    presentAlert(message: "답변이 완료된 Q&A는 삭제가 불가능합니다.")
+                    return
+                }
                 currentTrueIndex.append(index)
             }
         }
@@ -155,7 +151,6 @@ class LectureQuestionsDeleteBottomPopUpVC: BottomPopupViewController {
     
     /// (편집모드 클릭 후) 선택된 셀을 삭제하는 메소드
     func deleteSelectedRowInAPI(_ selectedIndex: Int) {
-        
         guard let json = self.deleteLectureQnA else { return }
         guard let indexid = json.data[selectedIndex].sQid else { return }
         let inputData = LectureQuestionsDeleteBottomPopUpInput(id: indexid)
@@ -199,13 +194,9 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         
         guard let json = self.deleteLectureQnA else { return cell }
         let indexData = json.data[indexPath.row]
-        
-        selectImageChange.bindAndFire(listener: { bool in
-            DispatchQueue.main.async {
-                cell.checkImage.image = bool ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
-                cell.checkImage.tintColor = bool ? UIColor.mainOrange : UIColor.systemGray4
-            }
-        })
+       
+        cell.checkImage.image = currentSelectedRowState[indexPath.row] ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
+        cell.checkImage.tintColor = currentSelectedRowState[indexPath.row] ? UIColor.mainOrange : UIColor.systemGray4
         
         cell.deleteContext.text = indexData.sQuestion
         cell.timeBefore.text = indexData.simpleDt
@@ -224,28 +215,17 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? LectureQuestionsDeleteBottomPopUpCell else { return }
-        
-        let clickedRow = indexPath.row
-        self.clickedRow = clickedRow
-        
-        currentSelectedTableViewCell(clickedRow)
-        
-        if cell.checkImage.image == UIImage(systemName: "checkmark.circle") {
+        currentSelectedRowState[indexPath.row].toggle()
+        if currentSelectedRowState[indexPath.row] {
             cell.checkImage.image = UIImage(systemName: "checkmark.circle.fill")
             cell.checkImage.tintColor = .mainOrange
-        } else if cell.checkImage.image == UIImage(systemName: "checkmark.circle.fill") {
+        } else {
             cell.checkImage.image = UIImage(systemName: "checkmark.circle")
             cell.checkImage.tintColor = .systemGray4
         }
         
-        print("클릭된 cell IndexPath is \(indexPath.row)")
-        
+//        print("클릭된 cell IndexPath is \(indexPath.row)")
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func currentSelectedTableViewCell(_ clickedRow: Int) {
-        // Boolean  배열을 생성해서 현재 클릭된 여부를 확인한다.
-        currentSelectedRowState[clickedRow].toggle()
     }
 }
 
