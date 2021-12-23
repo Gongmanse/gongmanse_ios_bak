@@ -156,7 +156,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         }
         
         if inputFilterNum == 2 {
-            if let url = URL(string: apiBaseURL + "/v/video/byseries?category_id=35&offset=\(listCount)&limit=20") {
+            if let url = URL(string: apiBaseURL + "/v/video/byseries?category_id=37&offset=\(listCount)&limit=20") {
                 var request = URLRequest.init(url: url)
                 request.httpMethod = "GET"
                 
