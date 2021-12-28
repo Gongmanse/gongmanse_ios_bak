@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -23,10 +24,7 @@ import com.gongmanse.app.api.SSLHelper
 import com.gongmanse.app.databinding.ActivityVideoNoteBinding
 import com.gongmanse.app.model.*
 import com.gongmanse.app.utils.*
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultAllocator
@@ -673,6 +671,17 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
             prepare(source)
             playWhenReady = mPlayerPosition != -1L
             seekTo(mPlayerPosition)
+
+            addListener(object: Player.EventListener {
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        if (playWhenReady)
+                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        else
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    }
+                }
+            })
         }
         binding.videoView2.apply {
             this.videoSurfaceView?.setOnClickListener { backToVideo() }

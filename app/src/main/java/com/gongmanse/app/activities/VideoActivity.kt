@@ -20,9 +20,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -932,6 +930,13 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
 
     private val onPlayerEventListener = object: Player.EventListener {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            if (playbackState == Player.STATE_READY) {
+                if (playWhenReady)
+                    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                else
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+
             if (playWhenReady && playbackState == Player.STATE_ENDED) {
                 when(mVideoViewModel.videoMode.value) {
                     Constants.VIDEO_INTRO -> {

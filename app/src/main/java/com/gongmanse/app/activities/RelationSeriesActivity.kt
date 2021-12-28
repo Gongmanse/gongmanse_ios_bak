@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
@@ -323,6 +323,17 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
                 playWhenReady = it != -1L
                 seekTo(it)
             }
+
+            addListener(object: Player.EventListener {
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        if (playWhenReady)
+                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        else
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    }
+                }
+            })
         }
         binding.videoView.apply {
             useController = false // 컨트롤러 사용 안함

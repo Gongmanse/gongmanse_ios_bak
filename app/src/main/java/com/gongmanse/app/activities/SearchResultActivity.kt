@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -22,14 +23,10 @@ import com.gongmanse.app.fragments.search.SearchNoteFragment
 import com.gongmanse.app.fragments.search.SearchVideoFragment
 import com.gongmanse.app.model.ActionType
 import com.gongmanse.app.model.NoteLiveDataModel
-import com.gongmanse.app.model.User
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.utils.Constants
 import com.gongmanse.app.utils.Preferences
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultAllocator
@@ -260,6 +257,17 @@ class SearchResultActivity : AppCompatActivity(), View.OnClickListener {
                 playWhenReady = it != -1L
                 seekTo(it)
             }
+
+            addListener(object: Player.EventListener {
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        if (playWhenReady)
+                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        else
+                           window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    }
+                }
+            })
         }
         binding.videoView.apply {
             useController = false // 컨트롤러 사용 안함
