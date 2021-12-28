@@ -12,6 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <View
+        android:id="@+id/cover_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
     <FrameLayout
         android:id="@+id/drawer_frame"
         android:layout_width="match_parent"
@@ -21,11 +27,5 @@
         android:choiceMode="singleChoice"
         android:divider="@color/black"
         android:dividerHeight="1dp" />
-
-    <View
-        android:id="@+id/cover_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
