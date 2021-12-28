@@ -154,8 +154,7 @@
             android:theme="@style/Theme.Gongmanseapk.FullScreen" />
         <activity
             android:name=".activities.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Gongmanseapk.FullScreen" />
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.MyFirebaseMessagingService"
