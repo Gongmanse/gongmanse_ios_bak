@@ -331,24 +331,23 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
         try{
             binding.tvNext.setOnClickListener {
                 val size = items.size
-                Log.d(TAG,"curIdx : $position, maxIdx : ${size-1}")
-                if(position != -1) {
-                    if(items.size != totalItemNum) {
-                        if(position >= size - 4 && size >= 20) {// items.size < totalItemNum...
-                            Log.d("진입" ,"$type2")
-                            when(type2){
-                                Constants.NOTE_TYPE_KEM     -> {loadVideoNote(type2, items.size)}
-                                Constants.NOTE_TYPE_SCIENCE -> {loadVideoNote(type2, items.size)}
-                                Constants.NOTE_TYPE_SOCIETY -> {loadVideoNote(type2, items.size)}
-                                Constants.NOTE_TYPE_ETC     -> {loadVideoNote(type2, items.size)}
-                                Constants.NOTE_TYPE_SEARCH  -> {loadVideoNote(items.size)}
-                                Constants.NOTE_TYPE_ACTIVE  -> {loadActiveVideoNote(items.size.toString())}
-                            }
+                Log.v(TAG,"curIdx : $position, maxIdx : ${size-1}, totalItemNum: $totalItemNum")
+                if (position != -1) {
+                    if (items.size < totalItemNum && position == size - 4) {
+                        Log.v("TAG" ,"request note, type:$type2, offset:${items.size}")
+                        when(type2){
+                            Constants.NOTE_TYPE_KEM     -> {loadVideoNote(type2, items.size)}
+                            Constants.NOTE_TYPE_SCIENCE -> {loadVideoNote(type2, items.size)}
+                            Constants.NOTE_TYPE_SOCIETY -> {loadVideoNote(type2, items.size)}
+                            Constants.NOTE_TYPE_ETC     -> {loadVideoNote(type2, items.size)}
+                            Constants.NOTE_TYPE_SEARCH  -> {loadVideoNote(items.size)}
+                            Constants.NOTE_TYPE_ACTIVE  -> {loadActiveVideoNote(items.size.toString())}
                         }
-                    } else if(position == size - 1 ){
+                    } else if (position == size - 1 ) {
                         toast("다음 목록이 없습니다.")
-                        position -= 1
+                        return@setOnClickListener
                     }
+
                     position += 1
                     videoId = items[position].videoId
                     seriesId = items[position].seriesId

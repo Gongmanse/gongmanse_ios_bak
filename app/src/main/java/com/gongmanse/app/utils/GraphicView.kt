@@ -99,7 +99,7 @@ class GraphicView: View, View.OnTouchListener {
             lastCount = mPaints.size
             mPaints.forEach { stroke ->
                 stroke.points.forEachIndexed { index, point ->
-                    Log.e(TAG,"index:$index, point:$point")
+//                    Log.e(TAG,"index:$index, point:$point")
                     if (index == 0) drawStart(getRatioX(point.x), getRatioY(point.y))
                     else {
                         val paint = if (stroke.pointColor == null) mPaint else stroke.getPaint()
