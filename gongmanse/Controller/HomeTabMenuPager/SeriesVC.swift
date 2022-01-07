@@ -161,7 +161,7 @@ extension SeriesVC: UICollectionViewDelegate, UICollectionViewDataSource {
         AutoplayDataManager.shared.videoSeriesDataList.removeAll()
         
         let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
         let videoID = seriesShow?.data[indexPath.row].id
         vc.id = videoID
         present(vc, animated: true)

@@ -212,7 +212,7 @@ extension ProgressDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
             autoPlayDataManager.videoSeriesDataList.removeAll()
             autoPlayDataManager.currentIndex = self.autoPlaySwitch.isOn ? indexPath.row : -1
                         
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true)
             return
         }

@@ -247,7 +247,7 @@ extension PopularVC: UICollectionViewDelegate {
             let vc = VideoController()
             let videoDataManager = VideoDataManager.shared
             videoDataManager.isFirstPlayVideo = true
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .overFullScreen
             let videoID = popularVideoSecond?.data[indexPath.row].id
             vc.id = videoID
             //            let seriesID = popularVideoSecond?.data[indexPath.row].iSeriesId

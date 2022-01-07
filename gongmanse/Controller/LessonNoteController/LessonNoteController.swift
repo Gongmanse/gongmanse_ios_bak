@@ -377,7 +377,7 @@ class LessonNoteController: UIViewController {
         PIPDataManager.shared.currentVideoCMTime = CMTime() //초기화
         
         let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
         let videoID = id
         vc.id = videoID
         present(vc, animated: true)

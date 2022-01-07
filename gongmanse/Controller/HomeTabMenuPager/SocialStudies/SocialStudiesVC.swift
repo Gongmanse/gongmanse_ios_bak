@@ -526,7 +526,7 @@ extension SocialStudiesVC: UICollectionViewDataSource {
             
             let vc = VideoController()
             vc.id = data[sender.tag].videoId
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true) {
                 sleep(1)
             }
@@ -550,7 +550,7 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
                 videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = socialStudiesVideo?.body[indexPath.row].videoId
                 vc.id = videoID
 //                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
@@ -581,7 +581,7 @@ extension SocialStudiesVC: UICollectionViewDelegate {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
                 videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = socialStudiesVideo?.body[indexPath.row].videoId
                 vc.id = videoID
 //                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId

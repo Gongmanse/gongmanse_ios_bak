@@ -368,7 +368,7 @@ extension RecentVideoTVC: UITableViewDataSource, UITableViewDelegate {
                 presentAlert(message: "영상 목록이 없습니다.")
             } else {
                 let vc = VideoController()
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = tableViewInputData[indexPath.row].video_id
                 vc.id = videoID
                 present(vc, animated: true)

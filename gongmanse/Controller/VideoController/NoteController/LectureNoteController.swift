@@ -204,6 +204,8 @@ class LectureNoteController: UIViewController {
     
     @objc fileprivate func openWritingImplement() {
         let noteMode = scrollView.isScrollEnabled
+        _parent?.swipeAreaChange(noteWriting: noteMode)
+        
         scrollView.isScrollEnabled.toggle()
         
         let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width

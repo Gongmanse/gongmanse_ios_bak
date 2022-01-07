@@ -218,12 +218,12 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
             AutoplayDataManager.shared.videoSeriesDataList.removeAll()
             AutoplayDataManager.shared.currentIndex = -1
             
-            if let comeFromSearchVC = self.comeFromSearchVC {
+            if let _ = self.comeFromSearchVC {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
                 videoDataManager.isFirstPlayVideo = true
                 vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 //0711 - added by hp
                 //노트 검색에서 문제풀이 노트인가를 알수 가 없음
                 //마찬가지로 국영수,과학,사회,기타,나의활동의 노트에서 문제풀이 노트인가를 알수가 없음

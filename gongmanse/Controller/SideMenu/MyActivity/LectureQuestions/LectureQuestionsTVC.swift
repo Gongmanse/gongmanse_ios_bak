@@ -276,7 +276,7 @@ extension LectureQuestionsTVC: UITableViewDelegate, UITableViewDataSource {
                 AutoplayDataManager.shared.videoSeriesDataList.removeAll()
                 
                 let vc = VideoController()
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = tableViewInputData[indexPath.row].id
                 vc.id = videoID
                 present(vc, animated: true)

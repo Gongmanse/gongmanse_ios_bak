@@ -525,7 +525,7 @@ extension ScienceVC: UICollectionViewDataSource {
             
             let vc = VideoController()
             vc.id = data[sender.tag].videoId
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true) {
                 sleep(1)
             }
@@ -562,7 +562,7 @@ extension ScienceVC: UICollectionViewDelegate {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
                 videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 vc.id = videoID
 //                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
@@ -598,7 +598,7 @@ extension ScienceVC: UICollectionViewDelegate {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
                 videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = scienceVideo?.body[indexPath.row].videoId
                 vc.id = videoID
 //                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId

@@ -240,7 +240,7 @@ extension NoteListTVC: UITableViewDelegate, UITableViewDataSource {
             
             let vc = VideoController()
             vc.id = tableViewInputData[sender.tag].video_id
-            vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true) {
                 sleep(1)
             }

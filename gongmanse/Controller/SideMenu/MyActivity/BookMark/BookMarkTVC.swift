@@ -416,7 +416,7 @@ extension BookMarkTVC: UITableViewDelegate, UITableViewDataSource {
                 presentAlert(message: "즐겨찾기 목록이 없습니다.")
             } else {
                 let vc = VideoController()
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 let videoID = tableViewInputData[indexPath.row].id
                 vc.id = videoID
                 present(vc, animated: true)

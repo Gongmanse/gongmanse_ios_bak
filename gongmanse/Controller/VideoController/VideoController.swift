@@ -635,7 +635,55 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             
             backButton.alpha = 1
         }
+        
+        // swipe close 기능 추가.
+        // modal view 형태로 작업되어있어 navigation 적용하지 않고 gesture 로 적용
+        view.addGestureRecognizer(swipeGesture)
     }
+    
+    //MARK: - swipe gesture
+    lazy var swipeGesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGesture))
+    @objc func panGesture(recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: self.view)
+        let width  = view.frame.width
+        let height = view.frame.height
+        var positionX = self.view.frame.minX + translation.x
+
+        // scroll limit
+        if positionX < 0 {
+            print("over scroll")
+        } else {
+            // set position change & touch offset re-init.
+            self.view.frame = CGRect(x:positionX, y:0, width:width, height:height)
+            recognizer.setTranslation(CGPoint.zero, in: self.view)
+        }
+        
+        // check touch up. auto scroll to position
+        if recognizer.state == .ended {
+            if positionX < width / 2 {
+                positionX = 0
+            } else {
+                positionX = width
+            }
+            
+            UIView.animate(withDuration: 0.4) { [weak self] in
+                self?.view.frame = CGRect(x:positionX, y:0, width:width, height:height)
+                if positionX == width {
+                    self?.dismiss(animated: false, completion: nil)
+                }
+            }
+        }
+    }
+    func swipeAreaChange(noteWriting: Bool) {
+        if noteWriting {
+            view.removeGestureRecognizer(swipeGesture)
+            videoContainerView.addGestureRecognizer(swipeGesture)
+        } else {
+            videoContainerView.removeGestureRecognizer(swipeGesture)
+            view.addGestureRecognizer(swipeGesture)
+        }
+    }
+    
     
     @objc func keyboardWillShow(_ sender: Notification) {
         NotificationCenter.default.post(name: Notification.Name("1234"), object: nil)
@@ -1532,7 +1580,7 @@ extension VideoController: BottomPlaylistCellDelegate {
         //사용안함
         
         let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
         vc.id = videoID
         present(vc, animated: true) {
             self.player.pause()

@@ -536,7 +536,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 // 비디오 연결
                 let vc = VideoController()
                 vc.id = receviedVideoID
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 self.present(vc, animated: true)
                 return
             } else {
@@ -601,7 +601,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                     let mainTabVC2 = storyboard.instantiateViewController(withIdentifier: "MainTabBarController")
                     mainTabVC2.modalPresentationStyle = .fullScreen
                     let vc = VideoController()
-                    vc.modalPresentationStyle = .fullScreen
+                    vc.modalPresentationStyle = .overFullScreen
                     videoDataManager.isFirstPlayVideo = false
                     let receviedVideoID = self.detailVM?.relationSeriesList?.data[indexPath.row].id
     //                let receviedVideoID = self.searchVideoVM.responseVideoModel?.data[indexPath.row].id

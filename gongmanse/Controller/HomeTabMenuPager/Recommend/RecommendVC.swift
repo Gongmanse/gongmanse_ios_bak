@@ -267,7 +267,7 @@ extension RecommendVC: UICollectionViewDelegate {
         videoDataManager.isFirstPlayVideo = true
         vc.delegate = self
         vc.id = recommendVideo.body[selectedRow].videoId
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
 //        vc.recommendReceiveData = recommendVideo
         
         autoPlayDataManager.currentViewTitleView = "추천"
@@ -308,7 +308,7 @@ extension RecommendVC: RecommendCRVDelegate {
         videoDataManager.isFirstPlayVideo = true
         vc.delegate = self
         vc.id = videoID
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
 //        vc.recommendReceiveData = recommendVideo
         
         autoPlayDataManager.currentViewTitleView = "추천"
@@ -325,7 +325,7 @@ extension RecommendVC: VideoControllerDelegate {
     
     func recommandVCPresentVideoVC() {
         let vc = VideoController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overFullScreen
         vc.id = "15188"
         self.present(vc, animated: false)
     }
