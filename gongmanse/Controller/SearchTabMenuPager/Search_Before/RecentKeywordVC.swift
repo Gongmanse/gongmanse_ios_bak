@@ -75,11 +75,11 @@ extension RecentKeywordVC: UITableViewDelegate, UITableViewDataSource {
             let recentList = recentVM.recentList[indexPath.row]
 
             // ID와 word를 묶기 위한 Tuple사용
-            let tuples: (id:String, word:String, tag:Int) = (recentList.id ?? "", recentList.sWords ?? "", indexPath.row)
+            let tuples: (id:String, word:String, tag:Int) = (recentList.id ?? "", recentList.sWords?.replacingOccurrences(of: "|", with: " ") ?? "", indexPath.row)
             
             cell.selectionStyle = .none
             
-            cell.keyword.text = tuples.word
+            cell.keyword.text = tuples.word.htmlEscaped
             cell.date.text = recentList.convertDate
             cell.deleteButton.addTarget(self, action: #selector(deleteWord(_:)), for: .touchUpInside)
             cell.deleteButton.tag = tuples.tag
