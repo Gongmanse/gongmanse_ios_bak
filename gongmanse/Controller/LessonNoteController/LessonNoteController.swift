@@ -380,7 +380,15 @@ class LessonNoteController: UIViewController {
         vc.modalPresentationStyle = .overFullScreen
         let videoID = id
         vc.id = videoID
-        present(vc, animated: true)
+
+        if let pvc = self.presentingViewController {
+            print("dismiss note & present Video")
+            self.dismiss(animated: false, completion: {
+                pvc.present(vc, animated: true, completion: nil)
+            })
+        } else {
+            present(vc, animated: true)
+        }
     }
     
     // MARK: - Actions
