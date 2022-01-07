@@ -198,7 +198,7 @@ extension LectureQuestionsDeleteBottomPopUpVC: UITableViewDelegate, UITableViewD
         cell.checkImage.image = currentSelectedRowState[indexPath.row] ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "checkmark.circle")
         cell.checkImage.tintColor = currentSelectedRowState[indexPath.row] ? UIColor.mainOrange : UIColor.systemGray4
         
-        cell.deleteContext.text = indexData.sQuestion
+        cell.deleteContext.text = indexData.sQuestion?.htmlEscaped
         cell.timeBefore.text = indexData.simpleDt
         deleteButton.tag = indexPath.row
         

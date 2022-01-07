@@ -275,7 +275,7 @@ extension BottomQnACell: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: myChatIdentifier, for: indexPath) as? QnAMyChatCell else { return UITableViewCell() }
 
             cell.selectionStyle = .none
-            cell.myContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")"
+            cell.myContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")".htmlEscaped
             
             if let sUrl = short?.sUserImg {
 //                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
