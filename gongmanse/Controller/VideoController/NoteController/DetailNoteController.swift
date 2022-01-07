@@ -265,9 +265,10 @@ extension DetailNoteController: UICollectionViewDelegate, UICollectionViewDataSo
 
 extension DetailNoteController {
     internal func didSaveNote() {
-        let alert = UIAlertController(title: nil, message: "저장 완료", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: nil, message: "저장 완료", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//        present(alert, animated: true, completion: nil)
+        presentAlert(message: "저장 완료")
     }
     
     func didSucceedReceiveNoteData(responseData: NoteResponse) {

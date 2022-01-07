@@ -1031,9 +1031,10 @@ class LessonNoteController: UIViewController {
 extension LessonNoteController {
     internal func didSaveNote() {
         print("LessonNoteController didSaveNote")
-        let alert = UIAlertController(title: nil, message: "저장 완료", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: nil, message: "저장 완료", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//        present(alert, animated: true, completion: nil)
+        presentAlert(message: "저장 완료")
         alertSaveNote?()
     }
     func setSaveNoteResut(result: @escaping () -> ()) {
