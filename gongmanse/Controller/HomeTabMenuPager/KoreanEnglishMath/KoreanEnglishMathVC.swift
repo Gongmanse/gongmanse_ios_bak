@@ -42,6 +42,10 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     @IBOutlet weak var playSwitch: UISwitch!
     @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        koreanEnglishMathCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
     
     var inputFilterNum = 0
     var inputSortNum = 4
@@ -83,6 +87,11 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         
         //xib 셀 등록
         koreanEnglishMathCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
+        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
 //    @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -650,7 +659,13 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
         
         guard let cellCount = koreanEnglishMathVideo?.body.count  else { return }
         
-        guard let cellCountSecond = koreanEnglishMathVideoSecond?.data.count else { return }
+        guard let _ = koreanEnglishMathVideoSecond?.data.count else { return }
+        
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
         
         if indexPath.row == cellCount - 1 {
             

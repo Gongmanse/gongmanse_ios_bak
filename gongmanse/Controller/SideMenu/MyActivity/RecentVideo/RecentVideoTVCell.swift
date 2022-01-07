@@ -31,6 +31,10 @@ class RecentVideoTVCell: UITableViewCell {
         deleteView.isHidden = true
         deleteButton.isHidden = true
         upLoadDate.isHidden = true
+        
+        // 삭제 버튼 체크박스로 변경
+        deleteButton.isSelected = false
+        deleteButton.setImage(UIImage(named: "checkTrue"), for: .selected)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

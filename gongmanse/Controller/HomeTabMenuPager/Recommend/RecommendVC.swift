@@ -22,14 +22,21 @@ class RecommendVC: UIViewController {
     }()
     
     @IBOutlet weak var recommendCollection: UICollectionView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        recommendCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         recommendCollection.refreshControl = recommendRC
         
         getDataFromJson()
-//        getDataFromJsonSecond()
         
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     //API
@@ -210,6 +217,12 @@ extension RecommendVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == self.recommendVideo.body.count - 1 && !self.isLoading {
             loadMoreData()
         }

@@ -31,6 +31,10 @@ class BookMarkTVCell: UITableViewCell {
         //버튼, 버튼 뷰 숨김
         deleteView.isHidden = true
         deleteButton.isHidden = true
+        
+        // 삭제 버튼 체크박스로 변경
+        deleteButton.isSelected = false
+        deleteButton.setImage(UIImage(named: "checkTrue"), for: .selected)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

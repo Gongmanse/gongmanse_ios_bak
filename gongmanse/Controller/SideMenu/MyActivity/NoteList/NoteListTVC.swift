@@ -6,15 +6,20 @@ protocol noteListTVCDelegate: AnyObject {
     func noteListPassSortedIdSettingValue(_ noteListSortedIndex: Int)
 }
 
-class NoteListTVC: UITableViewController, BottomPopupDelegate {
+class NoteListTVC: UIViewController, BottomPopupDelegate {
     
-    @IBOutlet weak var tableHeaderView: UIView!
+//    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
-    
-    var isDeleteMode: Bool = true {
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        let indexPath = NSIndexPath(row: NSNotFound, section: 0)
+        tableView.scrollToRow(at: indexPath as IndexPath, at: .top, animated: false)
+    }
+    var isDeleteModeOff: Bool = true {
         didSet {
-            self.tableView.reloadData()
+            tableView?.reloadData()
         }
     }
     
@@ -32,7 +37,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     var sortedId: Int? {
         didSet {
             tableViewInputData.removeAll()
-            tableView.reloadData()
+//            tableView.reloadData()
             getDataFromJson(offset: 0)
         }
     }
@@ -56,12 +61,15 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(noteListFilterNoti(_:)), name: NSNotification.Name("noteListFilterText"), object: nil)
         
-//        getDataFromJson(offset: 0)
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.isDeleteMode = true
+        self.isDeleteModeOff = true
         
     }
     
@@ -135,8 +143,11 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+}
+
+//MARK: - tableView delegate
+extension NoteListTVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.noteList else { return 0 }
         
         if value.totalNum == "0" {
@@ -146,7 +157,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let value = self.noteList else { return UITableViewCell() }
         
@@ -179,8 +190,8 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
             cell.noteVideoPlayBtn.tag = indexPath.row
             cell.noteVideoPlayBtn.addTarget(self, action: #selector(videoPlay(_:)), for: .touchUpInside)
             
-            cell.deleteButton.isHidden = isDeleteMode
-            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.isHidden = isDeleteModeOff
+            cell.deleteView.isHidden = isDeleteModeOff
             cell.deleteButton.tag = indexPath.row
             
             cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
@@ -254,7 +265,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.noteList else { return 0 }
         
         if value.totalNum == "0" {
@@ -265,7 +276,7 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let value = self.noteList else { return }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -312,7 +323,13 @@ class NoteListTVC: UITableViewController, BottomPopupDelegate {
     }
     
     //0711 - added by hp
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
             && self.tableViewInputData.count < (Int(self.noteList?.totalNum ?? "0") ?? 0) {
             //더보기

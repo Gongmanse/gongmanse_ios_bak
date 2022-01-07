@@ -34,6 +34,10 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     @IBOutlet weak var playSwitch: UISwitch!
     @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var scienceCollection: UICollectionView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        scienceCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
     
     var inputFilterNum = 0
     var inputSortNum = 4
@@ -81,6 +85,11 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
         
         //xib 셀 등록
         scienceCollection.register(UINib(nibName: cellIdentifier, bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
+        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
 //    @objc func videoFilterNoti(_ sender: NotificationCenter) {
@@ -737,6 +746,12 @@ extension ScienceVC: UICollectionViewDelegate {
         guard let cellCount = scienceVideo?.body.count else { return }
         
         guard let cellCountSecond = scienceVideoSecond?.data.count else { return }
+        
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
         
         if indexPath.row == cellCount - 1 {
             listCount += 20

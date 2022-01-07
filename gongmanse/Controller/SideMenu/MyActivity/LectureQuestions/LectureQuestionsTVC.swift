@@ -5,15 +5,20 @@ protocol LectureQuestionsTVCDelegate: AnyObject {
     func lectureQuestionsPassSortedIdSettingValue(_ lectureQuestionsSortedIndex: Int)
 }
 
-class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
+class LectureQuestionsTVC: UIViewController, BottomPopupDelegate {
     
-    @IBOutlet weak var tableHeaderView: UIView!
+//    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
-    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        let indexPath = NSIndexPath(row: NSNotFound, section: 0)
+        tableView.scrollToRow(at: indexPath as IndexPath, at: .top, animated: false)
+    }
     var isDeleteMode: Bool = true {
         didSet {
-            self.tableView.reloadData()
+            tableView?.reloadData()
         }
     }
     
@@ -24,8 +29,8 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     
     var sortedId: Int? {
         didSet {
-            self.tableViewInputData.removeAll()
-            self.tableView.reloadData()
+            tableViewInputData.removeAll()
+//            tableView.reloadData()
             getDataFromJson(offset: 0)
         }
     }
@@ -51,7 +56,11 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(lectureQuestionsFilterNoti(_:)), name: NSNotification.Name("lectureQuestionsFilterText"), object: nil)
         
-//        getDataFromJson(offset: 0)
+        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,8 +136,11 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
+}
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//MARK: - tableView delegate
+extension LectureQuestionsTVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.lectureQnA else { return 0 }
         if value.totalNum == "0" {
             return 1
@@ -138,7 +150,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
     
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let value = self.lectureQnA else { return UITableViewCell() }
         
@@ -221,7 +233,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         present(deleteBottomPopUpVC, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.lectureQnA else { return 0 }
         
         if value.totalNum == "0" {
@@ -232,7 +244,7 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let value = self.lectureQnA else { return }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -272,7 +284,13 @@ class LectureQuestionsTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
             && self.tableViewInputData.count < (Int(self.lectureQnA?.totalNum ?? "0") ?? 0) {
             //더보기

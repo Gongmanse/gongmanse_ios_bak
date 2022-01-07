@@ -6,23 +6,77 @@ protocol RecentVideoVCDelegate: AnyObject {
     func recentVideoPassSortedIdSettingValue(_ recentVideoSortedIndex: Int)
 }
 
-class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
+class RecentVideoTVC: UIViewController, BottomPopupDelegate {
     
     let autoPlayDataManager = AutoplayDataManager.shared
     
+    // 전체 삭제 기능
+    private var deleteStateList = [Bool]()
+    @IBOutlet weak var deleteModeView: UIView!
+    @IBOutlet weak var deleteAllSelectBtn: UIButton!
+    @IBAction func deleteSelectedItem(_ sender: Any) {
+        var currentTrueIndex = [Int]()
+        var temp = [FilterVideoData]()
+        for (index, selected) in deleteStateList.enumerated() {
+            if selected {
+                currentTrueIndex.append(index)
+            } else {
+                temp.append(self.tableViewInputData[index])
+            }
+        }
+        
+        if currentTrueIndex.count > 0 {
+            for deleteIdx in currentTrueIndex {
+                if let id = self.tableViewInputData[deleteIdx].id {
+                let inputData = RecentVideoInput(id: id)
+                    print("deleteIdx : \(inputData.id)")
+                // 배열로 삭제 확인
+//                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+                }
+            }
+            
+            tableViewInputData = temp
+            deleteStateList.removeAll()
+            for _ in tableViewInputData.indices {
+                deleteStateList.append(deleteAllSelectBtn.isSelected)
+            }
+            
+            self.tableView.reloadData()
+        } else {
+            presentAlert(message: "삭제할 항목을 선택해주세요.")
+        }
+    }
+    @IBAction func deleteAllSelect(_ sender: Any) {
+        deleteAllSelectBtn.isSelected.toggle()
+        deleteStateList.removeAll()
+        for _ in tableViewInputData.indices {
+            deleteStateList.append(deleteAllSelectBtn.isSelected)
+        }
+        tableView.reloadData()
+    }
+    
+    
+    //    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var autoPlayLabel: UILabel!
-    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
     @IBOutlet weak var playSwitch: UISwitch!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        let indexPath = NSIndexPath(row: NSNotFound, section: 0)
+        tableView.scrollToRow(at: indexPath as IndexPath, at: .top, animated: false)
+    }
     
     var ticket: SideMenuHeaderViewModel?
     
     var inputSortNum = 4
     
-    var isDeleteMode: Bool = true {
+    var isDeleteModeOff: Bool = true {
         didSet {
-            self.tableView.reloadData()
+            deleteAllSelectBtn?.isSelected = false
+            tableView?.reloadData()
+            deleteModeView?.isHidden = isDeleteModeOff
         }
     }
     
@@ -34,8 +88,9 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     
     var sortedId: Int? {
         didSet {
-            self.tableViewInputData.removeAll()
-            self.tableView.reloadData()
+            tableViewInputData.removeAll()
+            deleteStateList.removeAll()
+//            self.tableView.reloadData()
             getDataFromJson(offset: 0)
         }
     }
@@ -66,12 +121,20 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         playSwitch.transform = CGAffineTransform(scaleX: 0.65, y: 0.65)
         autoPlayLabel.textColor = UIColor.black
         
-//        getDataFromJson(offset: 0)
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
+        
+        // 전체 선택 삭제 기능 추가
+        deleteAllSelectBtn.setImage(UIImage(named: "checkTrue"), for: .selected)
+        deleteAllSelectBtn.setTitleColor(.black, for: .normal)
+        deleteAllSelectBtn.setTitleColor(.black, for: .selected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.isDeleteMode = true
+        self.isDeleteModeOff = true
         
 //        playSwitch.isOn = autoPlayDataManager.isAutoplayRecentTab
     }
@@ -112,12 +175,16 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
                     //print(json.body)
                     self.tableViewInputData.append(contentsOf: json.data)
                     self.recentViedo = json
+                    
+                    // 추가 항목 선택상태 설정
+                    DispatchQueue.main.async {
+                        for _ in json.data {
+                            self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
+                        }
+                        self.tableView.reloadData()
+                        self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+                    }
                 }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
-                }
-                
             }.resume()
         }
     }
@@ -136,6 +203,16 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         self.countAll.attributedText = attributedString
     }
     
+    @IBAction func autoplaySwitch(_ sender: UISwitch) {
+                
+        if playSwitch.isOn {
+            autoPlayLabel.textColor = UIColor.black
+        } else {
+            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        }
+    }
+    
+    
     @IBAction func alignment(_ sender: Any) {
         let popupVC = self.storyboard?.instantiateViewController(identifier: "RecentVideoBottomPopUpVC") as! RecentVideoBottomPopUpVC
         popupVC.height = height
@@ -146,8 +223,11 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+}
+
+//MARK: - tableView delegate
+extension RecentVideoTVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.recentViedo else { return 0 }
         
         if value.totalNum == "0" {
@@ -157,7 +237,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let value = self.recentViedo else { return UITableViewCell() }
         
@@ -186,40 +266,40 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
             cell.subjects.text = indexData.sSubject
             cell.subjects.backgroundColor = UIColor(hex: indexData.sSubjectColor ?? "nil")
             
-            cell.deleteButton.isHidden = isDeleteMode
-            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.isHidden = isDeleteModeOff
+            cell.deleteView.isHidden = isDeleteModeOff
             cell.deleteButton.tag = indexPath.row
             
             cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
             
+            cell.deleteButton.isSelected = deleteStateList[indexPath.row]
             return cell
         }
     }
     
     @objc func deleteAction(_ sender: UIButton) {
         guard let _ = self.recentViedo else { return }
-        guard let id = self.tableViewInputData[sender.tag].id else { return }
+        guard let _ = self.tableViewInputData[sender.tag].id else { return }
         
-        let inputData = RecentVideoInput(id: id)
+        sender.isSelected.toggle()
+//        let inputData = RecentVideoInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        self.tableViewInputData.remove(at: indexPath.row)
-//        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.reloadData()
+        deleteStateList[sender.tag] = sender.isSelected
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         
-        
-        RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
-    }
-    
-    @IBAction func autoplaySwitch(_ sender: UISwitch) {
-                
-        if playSwitch.isOn {
-            autoPlayLabel.textColor = UIColor.black
-        } else {
-            autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        if !sender.isSelected {
+            deleteAllSelectBtn.isSelected = false
         }
+        
+//        self.tableViewInputData.remove(at: indexPath.row)
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+//        tableView.reloadData()
+        
+        
+//        RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.recentViedo else { return 0 }
         
         if value.totalNum == "0" {
@@ -230,7 +310,7 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     }
     
     //셀 push 로 넘겨주고 난 후 강조 표시 해제
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let value = self.recentViedo else { return }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -297,7 +377,14 @@ class RecentVideoTVC: UITableViewController, BottomPopupDelegate {
     }
     
     //0711 - added by hp
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        print("cell height : \(cell.frame.height * CGFloat(indexPath.row))")
+        if tableView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
             && self.tableViewInputData.count < (Int(self.recentViedo?.totalNum ?? "0") ?? 0) {
             //더보기
@@ -330,9 +417,7 @@ extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
 
 extension RecentVideoTVC {
     func didSuccessPostAPI() {
-        
         self.textSettings((Int(self.recentViedo?.totalNum ?? "0") ?? 0) - 1)
-        //self.tableView.reloadData()
         self.view.layoutIfNeeded()
     }
 }

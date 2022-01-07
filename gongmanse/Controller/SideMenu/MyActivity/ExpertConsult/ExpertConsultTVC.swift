@@ -6,17 +6,23 @@ protocol ExpertConsultTVCDelegate: AnyObject {
     func expertConsultPassSortedIdSettingValue(_ expertConsultSortedIndex: Int)
 }
 
-class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
+class ExpertConsultTVC: UIViewController, BottomPopupDelegate {
     
-    @IBOutlet weak var tableHeaderView: UIView!
+//    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        let indexPath = NSIndexPath(row: NSNotFound, section: 0)
+        tableView.scrollToRow(at: indexPath as IndexPath, at: .top, animated: false)
+    }
     
     var inputSortNum = 4
     
     var isDeleteMode: Bool = false {
         didSet {
-            self.tableView.reloadData()
+            tableView?.reloadData()
         }
     }
     
@@ -29,7 +35,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
     var sortedId: Int? {
         didSet {
             tableViewInputData.removeAll()
-            tableView.reloadData()
+//            tableView.reloadData()
             getDataFromJson(offset: 0)
         }
     }
@@ -53,7 +59,11 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(expertConsultFilterNoti(_:)), name: NSNotification.Name("expertConsultFilterText"), object: nil)
         
-//        getDataFromJson(offset: 0)
+        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,8 +142,12 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         popupVC.sortedItem = self.sortedId
         present(popupVC, animated: true)
     }
+}
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+//MARK: - tableView delegate
+extension ExpertConsultTVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let value = self.expertConsult else { return 0 }
         if value.totalNum == "0" {
             return 1
@@ -142,7 +156,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let value = self.expertConsult else { return UITableViewCell() }
         
         if value.totalNum == "0" {
@@ -221,7 +235,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.expertConsult else { return 0 }
         
         if value.totalNum == "0" {
@@ -231,7 +245,7 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let value = self.expertConsult else { return }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -246,7 +260,13 @@ class ExpertConsultTVC: UITableViewController, BottomPopupDelegate {
         }
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == self.tableViewInputData.count - 1 && !self.isLoading
             && self.tableViewInputData.count < (Int(self.expertConsult?.totalNum ?? "0") ?? 0) {
             //더보기

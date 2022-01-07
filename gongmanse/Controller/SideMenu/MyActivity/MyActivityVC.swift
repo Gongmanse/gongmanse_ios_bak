@@ -21,11 +21,11 @@ class MyActivityVC: UIViewController {
     var pageController: UIPageViewController!
     var isSelected: Bool = true {
         didSet {
-            self.recentVideoTVC.isDeleteMode = isSelected
-            self.noteListTVC.isDeleteMode = isSelected
+            self.recentVideoTVC.isDeleteModeOff = isSelected
+            self.noteListTVC.isDeleteModeOff = isSelected
             self.lectureQuestionsTVC.isDeleteMode = isSelected
             self.expertConsultTVC.isDeleteMode = isSelected
-            self.bookMarkTVC.isDeleteMode = isSelected
+            self.bookMarkTVC.isDeleteModeOff = isSelected
         }
     }
     

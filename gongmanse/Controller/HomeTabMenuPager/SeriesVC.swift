@@ -12,6 +12,11 @@ class SeriesVC: UIViewController {
     @IBOutlet weak var gradeLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
     
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        seriesCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
+    
     var seriesShow: SeriesModels?
     var receiveSeriesId: String? = ""
     
@@ -21,6 +26,10 @@ class SeriesVC: UIViewController {
         getDataFromJson()
         mainFontAndRadiusSettings()
         
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     func mainFontAndRadiusSettings() {
@@ -156,6 +165,14 @@ extension SeriesVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let videoID = seriesShow?.data[indexPath.row].id
         vc.id = videoID
         present(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
     }
 }
 
