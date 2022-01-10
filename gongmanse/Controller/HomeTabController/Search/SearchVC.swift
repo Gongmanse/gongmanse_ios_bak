@@ -521,32 +521,26 @@ extension SearchVC {
     }
     
     func autoLayout() {
-        var filterWidth = 140.0
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            filterWidth = 280.0
-        }
+        let filterWidth = view.frame.width * 0.34
+        let paddingLeft = view.frame.width * 0.06
         // buttonContainerView Constraint
         buttonContainerView.anchor(top: searchBar.bottomAnchor,
                                    left: view.leftAnchor,
                                    right: view.rightAnchor,
-                                   paddingTop: 20, height: 30)
+                                   paddingTop: 20, height: 28)
         // 학년 버튼
         gradeButton.anchor(top: buttonContainerView.topAnchor,
-                           left: view.leftAnchor,
                            bottom:buttonContainerView.bottomAnchor,
                            right: view.centerXAnchor,
-                           paddingLeft: 25,
-                           paddingRight: 25)
-        gradeButton.setDimensions(height: 30, width: filterWidth)
+                           paddingRight: paddingLeft)
+        gradeButton.setDimensions(height: 28, width: filterWidth)
         
         // 과목 버튼
         subjectButton.anchor(top: buttonContainerView.topAnchor,
                              left: view.centerXAnchor,
                              bottom: buttonContainerView.bottomAnchor,
-                             right: view.rightAnchor,
-                             paddingLeft: 25,
-                             paddingRight: 25)
-        subjectButton.setDimensions(height: 30, width: filterWidth)
+                             paddingLeft: paddingLeft)
+        subjectButton.setDimensions(height: 28, width: filterWidth)
         
         // tabsView Contraint
         tabsView.anchor(top: buttonContainerView.bottomAnchor,

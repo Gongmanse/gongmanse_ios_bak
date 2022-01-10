@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,9 +31,8 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="53"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxZ-hm-PPy">
-                            <rect key="frame" x="45" y="12.5" width="130" height="28"/>
+                            <rect key="frame" x="41.5" y="12.5" width="140.5" height="28"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="130" id="5oS-DF-Y3Q"/>
                                 <constraint firstAttribute="height" constant="28" id="Kjr-KB-he0"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
@@ -44,11 +43,14 @@
                                 <action selector="selectedGrade:" destination="-1" eventType="touchUpInside" id="1Nf-dR-Qbl"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EOs-vR-MwH">
+                            <rect key="frame" x="182" y="13.5" width="50" height="26.5"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ycD-kd-I6f">
-                            <rect key="frame" x="240" y="12.5" width="130" height="28"/>
+                            <rect key="frame" x="232" y="12.5" width="140.5" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="I2v-E1-SmT"/>
-                                <constraint firstAttribute="width" constant="130" id="Rne-Ze-WDj"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                             <state key="normal" title="모든 단원  " backgroundImage="모든학년배경이미지">
@@ -61,11 +63,17 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstItem="fxZ-hm-PPy" firstAttribute="leading" secondItem="ZHj-H2-JMu" secondAttribute="leading" constant="45" id="55i-Hg-RuO"/>
+                        <constraint firstItem="ycD-kd-I6f" firstAttribute="width" secondItem="ZHj-H2-JMu" secondAttribute="width" multiplier="0.34" id="26d-HV-gUQ"/>
+                        <constraint firstItem="EOs-vR-MwH" firstAttribute="centerX" secondItem="ZHj-H2-JMu" secondAttribute="centerX" id="CeM-aO-zce"/>
+                        <constraint firstItem="EOs-vR-MwH" firstAttribute="centerY" secondItem="ZHj-H2-JMu" secondAttribute="centerY" id="Hhk-q8-V1d"/>
+                        <constraint firstItem="EOs-vR-MwH" firstAttribute="width" secondItem="ZHj-H2-JMu" secondAttribute="width" multiplier="0.12" id="HvC-nd-We6"/>
+                        <constraint firstItem="EOs-vR-MwH" firstAttribute="leading" secondItem="fxZ-hm-PPy" secondAttribute="trailing" id="K26-OV-aiK"/>
+                        <constraint firstItem="ycD-kd-I6f" firstAttribute="leading" secondItem="EOs-vR-MwH" secondAttribute="trailing" id="Pam-sE-Q2q"/>
+                        <constraint firstItem="fxZ-hm-PPy" firstAttribute="width" secondItem="ZHj-H2-JMu" secondAttribute="width" multiplier="0.34" id="aDj-MV-bR0"/>
                         <constraint firstItem="fxZ-hm-PPy" firstAttribute="centerY" secondItem="ZHj-H2-JMu" secondAttribute="centerY" id="hA0-G4-072"/>
+                        <constraint firstItem="EOs-vR-MwH" firstAttribute="height" secondItem="ZHj-H2-JMu" secondAttribute="height" multiplier="0.5" id="iya-fH-Aix"/>
                         <constraint firstAttribute="height" constant="53" id="rhj-zg-j4s"/>
                         <constraint firstItem="ycD-kd-I6f" firstAttribute="centerY" secondItem="ZHj-H2-JMu" secondAttribute="centerY" id="tQd-68-cuz"/>
-                        <constraint firstAttribute="trailing" secondItem="ycD-kd-I6f" secondAttribute="trailing" constant="44" id="wK5-Kp-Yu2"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vx9-uJ-14o">

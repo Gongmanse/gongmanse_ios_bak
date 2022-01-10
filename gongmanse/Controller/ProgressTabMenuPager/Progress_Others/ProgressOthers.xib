@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,10 +31,9 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="53"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPx-Gm-nHS">
-                            <rect key="frame" x="45" y="12.5" width="130" height="28"/>
+                            <rect key="frame" x="41.5" y="12.5" width="140.5" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="AhD-ms-5r6"/>
-                                <constraint firstAttribute="width" constant="130" id="ikY-4J-fjx"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                             <state key="normal" title="모든 학년  " backgroundImage="모든학년배경이미지">
@@ -45,9 +44,8 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08u-Zb-177">
-                            <rect key="frame" x="240" y="12.5" width="130" height="28"/>
+                            <rect key="frame" x="232" y="12.5" width="140.5" height="28"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="130" id="BqA-ep-Y9f"/>
                                 <constraint firstAttribute="height" constant="28" id="G9e-11-9b7"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
@@ -58,14 +56,24 @@
                                 <action selector="selectedChapter:" destination="-1" eventType="touchUpInside" id="Umu-NL-3Rd"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Chv-41-rfe">
+                            <rect key="frame" x="182" y="13.5" width="50" height="26.5"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
+                        <constraint firstItem="Chv-41-rfe" firstAttribute="width" secondItem="deC-Hd-TZb" secondAttribute="width" multiplier="0.12" id="495-wh-CnY"/>
+                        <constraint firstItem="Chv-41-rfe" firstAttribute="centerX" secondItem="deC-Hd-TZb" secondAttribute="centerX" id="4Tw-Xz-Q1P"/>
                         <constraint firstAttribute="height" constant="53" id="76z-pB-xrk"/>
                         <constraint firstItem="08u-Zb-177" firstAttribute="centerY" secondItem="deC-Hd-TZb" secondAttribute="centerY" id="8Uh-B6-GZo"/>
-                        <constraint firstItem="vPx-Gm-nHS" firstAttribute="leading" secondItem="deC-Hd-TZb" secondAttribute="leading" constant="45" id="SqL-Zl-d3y"/>
-                        <constraint firstAttribute="trailing" secondItem="08u-Zb-177" secondAttribute="trailing" constant="44" id="ndW-Mj-W13"/>
+                        <constraint firstItem="vPx-Gm-nHS" firstAttribute="width" secondItem="deC-Hd-TZb" secondAttribute="width" multiplier="0.34" id="AgS-oT-NKo"/>
+                        <constraint firstItem="08u-Zb-177" firstAttribute="leading" secondItem="Chv-41-rfe" secondAttribute="trailing" id="CcG-b2-Nfo"/>
+                        <constraint firstItem="Chv-41-rfe" firstAttribute="leading" secondItem="vPx-Gm-nHS" secondAttribute="trailing" id="XYl-4k-Mll"/>
+                        <constraint firstItem="Chv-41-rfe" firstAttribute="height" secondItem="deC-Hd-TZb" secondAttribute="height" multiplier="0.5" id="fXt-k6-Be6"/>
+                        <constraint firstItem="Chv-41-rfe" firstAttribute="centerY" secondItem="deC-Hd-TZb" secondAttribute="centerY" id="j1q-aR-HKc"/>
                         <constraint firstItem="vPx-Gm-nHS" firstAttribute="centerY" secondItem="deC-Hd-TZb" secondAttribute="centerY" id="oYv-EK-J4I"/>
+                        <constraint firstItem="08u-Zb-177" firstAttribute="width" secondItem="deC-Hd-TZb" secondAttribute="width" multiplier="0.34" id="wn2-wh-KhI"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TDw-6V-nc5">
