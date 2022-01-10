@@ -65,7 +65,7 @@ class SearchVC: UIViewController {
     let subjectButton: UIButton = {
         let button = UIButton(type: .system)
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 30) // 과목 버튼 글자 Inset
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 30) // 과목 버튼 글자 Inset
         button.titleLabel?.lineBreakMode = .byTruncatingTail
         return button
     }()
@@ -495,7 +495,11 @@ extension SearchVC {
         gradeButton.setTitle("모든 학년", for: .normal)
         gradeButton.setTitleColor(.black, for: .normal)
         gradeButton.titleLabel?.font = .appBoldFontWith(size: 13)
-        gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경_pad"), for: .normal)
+        } else {
+            gradeButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        }
 //        gradeButton.layer.borderWidth = 2
         gradeButton.layer.borderColor = borderColor.cgColor
         gradeButton.layer.cornerRadius = 13
@@ -505,7 +509,11 @@ extension SearchVC {
         subjectButton.setTitle("모든 과목", for: .normal)
         subjectButton.setTitleColor(.black, for: .normal)
         subjectButton.titleLabel?.font = .appBoldFontWith(size: 13)
-        subjectButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            subjectButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경_pad"), for: .normal)
+        } else {
+            subjectButton.setBackgroundImage(#imageLiteral(resourceName: "검색배경"), for: .normal)
+        }
 //        subjectButton.layer.borderWidth = 3.2
         subjectButton.layer.borderColor = borderColor.cgColor
         subjectButton.layer.cornerRadius = 13
@@ -513,7 +521,10 @@ extension SearchVC {
     }
     
     func autoLayout() {
-        
+        var filterWidth = 140.0
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            filterWidth = 280.0
+        }
         // buttonContainerView Constraint
         buttonContainerView.anchor(top: searchBar.bottomAnchor,
                                    left: view.leftAnchor,
@@ -523,14 +534,19 @@ extension SearchVC {
         gradeButton.anchor(top: buttonContainerView.topAnchor,
                            left: view.leftAnchor,
                            bottom:buttonContainerView.bottomAnchor,
-                           paddingLeft: 25)
-        gradeButton.setDimensions(height: 30, width: 140)
+                           right: view.centerXAnchor,
+                           paddingLeft: 25,
+                           paddingRight: 25)
+        gradeButton.setDimensions(height: 30, width: filterWidth)
         
         // 과목 버튼
         subjectButton.anchor(top: buttonContainerView.topAnchor,
-                             bottom: buttonContainerView.bottomAnchor, right: view.rightAnchor,
+                             left: view.centerXAnchor,
+                             bottom: buttonContainerView.bottomAnchor,
+                             right: view.rightAnchor,
+                             paddingLeft: 25,
                              paddingRight: 25)
-        subjectButton.setDimensions(height: 30, width: 140)
+        subjectButton.setDimensions(height: 30, width: filterWidth)
         
         // tabsView Contraint
         tabsView.anchor(top: buttonContainerView.bottomAnchor,
