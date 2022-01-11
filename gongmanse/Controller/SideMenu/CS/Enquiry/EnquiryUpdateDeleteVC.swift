@@ -101,6 +101,8 @@ extension EnquiryUpdateDeleteVC {
         enquriyText.font = .appBoldFontWith(size: 16)
         enquriyText.textColor = .rgb(red: 128, green: 128, blue: 128)
         
+        questionLabel.font = .appBoldFontWith(size: 14)
+        
         updateButton.setTitle("수정", for: .normal)
         updateButton.titleLabel?.font = .appBoldFontWith(size: 14)
         updateButton.titleLabel?.textColor = .black
@@ -110,9 +112,10 @@ extension EnquiryUpdateDeleteVC {
         
         // 답변
         answerText.text = "답변 >"
-        answerLabel.font = .appBoldFontWith(size: 16)
+        answerText.font = .appBoldFontWith(size: 16)
+        answerText.textColor = .rgb(red: 128, green: 128, blue: 128)
         
-        
+        answerLabel.font = .appBoldFontWith(size: 14)
     }
     
 }
