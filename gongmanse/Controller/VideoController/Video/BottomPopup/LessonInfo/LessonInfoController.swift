@@ -54,6 +54,7 @@ class LessonInfoController: UIViewController {
     public var teachernameLabel = PlainLabel("김우성 선생님", fontSize: 11.5)
     public var lessonnameLabel = UILabel() //PlainLabel("분석명제와 종합명제", fontSize: 17)
     public var sTagsCollectionView: UICollectionView?
+    private lazy var marginView = UIView()
     private lazy var bookmarkButton = TopImageBottomTitleView(frame: buttonSize,
                                                               title: "즐겨찾기",
                                                               image: UIImage(named: "favoriteOff")!)
@@ -159,8 +160,61 @@ class LessonInfoController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+
         if UIDevice.current.orientation.isLandscape {
             sTagsCollectionView?.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+        }
+        sTagsCollectionView?.reloadData()
+        
+        // rotate 시 size 재설정
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let buttonHeight: CGFloat
+            let buttonWidth: CGFloat
+            if UIDevice.current.orientation.isLandscape {
+                print("set font size Landscape in pad")
+                buttonHeight = view.frame.height * 0.14
+                buttonWidth = view.frame.height * 0.14
+                lessonnameLabel.font = UIFont.appBoldFontWith(size: 22)
+                teachernameLabel.font = UIFont.appBoldFontWith(size: 15.5)
+                
+                bookmarkButton.titleLabel.font = UIFont.appBoldFontWith(size: 16)
+                rateLessonButton.titleLabel.font = UIFont.appBoldFontWith(size: 16)
+                shareLessonButton.titleLabel.font = UIFont.appBoldFontWith(size: 16)
+                relatedSeriesButton.titleLabel.font = UIFont.appBoldFontWith(size: 16)
+                problemSolvingButton.titleLabel.font = UIFont.appBoldFontWith(size: 16)
+                
+                sSubjectLabel.font = UIFont.appBoldFontWith(size: 18)
+                sUnitLabel01.font = UIFont.appBoldFontWith(size: 18)
+                sUnitLabel02.font = UIFont.appBoldFontWith(size: 18)
+                
+                marginView.setDimensions(height: 20, width: 15)
+                sTagsCollectionView?.setHeight(30)
+            } else {
+                print("set font size Portrait in pad")
+                buttonHeight = view.frame.width * 0.13
+                buttonWidth = view.frame.width * 0.13
+                lessonnameLabel.font = UIFont.appBoldFontWith(size: 20)
+                teachernameLabel.font = UIFont.appBoldFontWith(size: 13.5)
+                
+                bookmarkButton.titleLabel.font = UIFont.appBoldFontWith(size: 14)
+                rateLessonButton.titleLabel.font = UIFont.appBoldFontWith(size: 14)
+                shareLessonButton.titleLabel.font = UIFont.appBoldFontWith(size: 14)
+                relatedSeriesButton.titleLabel.font = UIFont.appBoldFontWith(size: 14)
+                problemSolvingButton.titleLabel.font = UIFont.appBoldFontWith(size: 14)
+                
+                sSubjectLabel.font = UIFont.appBoldFontWith(size: 15.5)
+                sUnitLabel01.font = UIFont.appBoldFontWith(size: 15.5)
+                sUnitLabel02.font = UIFont.appBoldFontWith(size: 15.5)
+                
+                marginView.setDimensions(height: 10, width: 10)
+                sTagsCollectionView?.setHeight(20)
+            }
+            
+            bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
+            rateLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
+            shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
+            relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
+            problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
         }
     }
     
@@ -323,7 +377,7 @@ class LessonInfoController: UIViewController {
     
     func configureUI() {
         let sSubjectsUnitContainerView = UIView()
-        let paddingConstant = view.frame.height * 0.025
+//        let paddingConstant = view.frame.height * 0.025
 
         // API에서 받아온 값을 레이블에 할당한다.
         sSubjectLabel.labelText = "과목명"
@@ -359,9 +413,13 @@ class LessonInfoController: UIViewController {
         
         // TODO: [UI] 강의 명 -> 05.04 OK
         sSubjectsUnitContainerView.addSubview(lessonnameLabel)
-        lessonnameLabel.numberOfLines = 2
-        lessonnameLabel.lineBreakMode = .byWordWrapping
-        lessonnameLabel.font = UIFont.appBoldFontWith(size: 17)
+        lessonnameLabel.numberOfLines = 1
+        lessonnameLabel.lineBreakMode = .byTruncatingTail
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            lessonnameLabel.font = UIFont.appBoldFontWith(size: 20)
+        } else {
+            lessonnameLabel.font = UIFont.appBoldFontWith(size: 17)
+        }
         lessonnameLabel.anchor(top: sSubjectLabel.bottomAnchor,
                                left: sSubjectLabel.leftAnchor,
                                right: sSubjectsUnitContainerView.rightAnchor,
@@ -375,7 +433,11 @@ class LessonInfoController: UIViewController {
         sTagsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(sTagsCollectionView ?? UICollectionView())
 //        sTagsCollectionView?.setDimensions(height: 20, width: view.frame.width - 60)
-        sTagsCollectionView?.setHeight(20)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            sTagsCollectionView?.setHeight(30)
+        } else {
+            sTagsCollectionView?.setHeight(20)
+        }
         sTagsCollectionView?.centerX(inView: view)
         sTagsCollectionView?.anchor(top: lessonnameLabel.bottomAnchor,
                                     left: lessonnameLabel.leftAnchor,
@@ -411,8 +473,16 @@ class LessonInfoController: UIViewController {
         // TODO: [UI] 즐겨찾기, 평점, 공유, 관련시리즈, 문제풀이 -> 05.04 UI 완성
         let stack = UIStackView(arrangedSubviews:
             [bookmarkButton, rateLessonButton, shareLessonButton, relatedSeriesButton, problemSolvingButton])
-        let buttonHeight = view.frame.width * 0.12
-        let buttonWidth = view.frame.width * 0.1
+        let buttonHeight: CGFloat
+        let buttonWidth: CGFloat
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            buttonHeight = view.frame.width * 0.13
+            buttonWidth = view.frame.width * 0.13
+        } else {
+            buttonHeight = view.frame.width * 0.12
+            buttonWidth = view.frame.width * 0.1
+        }
+        
         bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
         rateLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
         shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
@@ -426,8 +496,13 @@ class LessonInfoController: UIViewController {
         stack.alignment = .leading
         stack.centerX(inView: view)
 //        stack.setDimensions(height: buttonHeight, width: view.frame.width - 60)
-        stack.setHeight(buttonHeight)
-        stack.anchor(top: sTagsCollectionView?.bottomAnchor, left: sTagsCollectionView?.leftAnchor, paddingTop: 10)
+        stack.setHeight(buttonHeight * 1.2)
+        view.addSubview(marginView)
+        
+        marginView.anchor(top: sTagsCollectionView?.bottomAnchor, left: sTagsCollectionView?.leftAnchor)
+        marginView.setDimensions(height: 10, width: 10)
+        
+        stack.anchor(top: marginView.bottomAnchor, left: marginView.leftAnchor)
     }
     
     func getShareURL(_type: Int) {
@@ -557,8 +632,18 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
+        let fontSize: CGFloat!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                fontSize = 19
+            } else {
+                fontSize = 17
+            }
+        } else {
+            fontSize = 15
+        }
         let item = sTagsArray[indexPath.row]
-        let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: 15)])
+        let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: fontSize)])
         return itemSize
     }
     

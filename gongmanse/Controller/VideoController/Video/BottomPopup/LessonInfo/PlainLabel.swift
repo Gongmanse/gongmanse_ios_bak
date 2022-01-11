@@ -27,6 +27,9 @@ class PlainLabel: UILabel {
         self.labelText = labelText
         self.labelBackgroundColor = labelColor
         self.fontSize = fontSize
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.fontSize = fontSize! + 2
+        }
         self.commonInit()
     }
     

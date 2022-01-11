@@ -5,8 +5,19 @@ class sTagsCell: UICollectionViewCell {
     //MARK: - Properties
 
     var cellLabel: UILabel = {
+        let fontSize: CGFloat!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                fontSize = 18
+            } else {
+                fontSize = 16
+            }
+        } else {
+            fontSize = 14
+        }
+        
         let label = UILabel()
-        label.font = UIFont.appBoldFontWith(size: 14)
+        label.font = UIFont.appBoldFontWith(size: fontSize)
         label.text = "TEST"
         label.textColor = UIColor.rgb(red: 128, green: 128, blue: 128)
         label.textAlignment = .center

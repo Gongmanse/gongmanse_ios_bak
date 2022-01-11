@@ -62,8 +62,15 @@ class sUnitLabel: UILabel {
         
         adjustsFontSizeToFitWidth = true
         
+        let fontSize: CGFloat!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            fontSize = 15.5
+        } else {
+            fontSize = 13.5
+        }
+        
         /* Text 속성 부여 */
-        self.font = UIFont.appBoldFontWith(size: 13.5)
+        self.font = UIFont.appBoldFontWith(size: fontSize)
         self.clipsToBounds = true
         self.layer.cornerRadius = 11.5
         self.textColor = .white

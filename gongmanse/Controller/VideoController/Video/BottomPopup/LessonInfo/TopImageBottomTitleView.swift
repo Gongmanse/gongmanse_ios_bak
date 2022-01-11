@@ -62,6 +62,17 @@ class TopImageBottomTitleView: UIView {
     // MARK: - Helpers
     
     private func commonInit(){
+        let fontSize: CGFloat!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                fontSize = 16
+            } else {
+                fontSize = 14
+            }
+        } else {
+            fontSize = 12
+        }
+        
         self.addSubview(imageView)
         imageView.setDimensions(height: self.frame.height * 0.66,
                                 width: self.frame.width)
@@ -69,16 +80,12 @@ class TopImageBottomTitleView: UIView {
         imageView.anchor(top: self.topAnchor)
         
         self.addSubview(titleLabel)
-        titleLabel.font = UIFont.appBoldFontWith(size: 12)
+        titleLabel.font = UIFont.appBoldFontWith(size: fontSize)
         titleLabel.textAlignment = .center
         titleLabel.textColor = .black
         titleLabel.centerX(inView: self)
         titleLabel.anchor(top: imageView.bottomAnchor,
                           paddingTop: self.frame.height * 0.14,
-                          height: self.frame.height * 0.3)
-        
-        
-        
-        
+                          height: self.frame.height * 0.4)
     }
 }

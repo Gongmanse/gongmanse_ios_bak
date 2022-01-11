@@ -405,6 +405,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     
     /// AVPlayer 자막역햘을 할 UILabel
     var subtitleLabel: UILabel = {
+        let fontSize: CGFloat!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            fontSize = 16
+        } else {
+            fontSize = 13
+        }
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
