@@ -797,10 +797,11 @@ class LessonNoteController: UIViewController {
     
     private func setupViews() {
         let canvasWidth = CGFloat(1024) //isLandscapeMode ? _parent.view.frame.height : _parent.view.frame.width
-        
-        for i in 0 ..< noteImageArr.count {
-            resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
-                self.noteImageArr[i] = image!
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            for i in 0 ..< noteImageArr.count {
+                resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
+                    self.noteImageArr[i] = image!
+                }
             }
         }
         if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
