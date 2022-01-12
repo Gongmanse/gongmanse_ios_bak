@@ -35,8 +35,8 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
                 if let id = self.tableViewInputData[deleteIdx].id {
                 let inputData = RecentVideoInput(id: id)
                     print("deleteIdx : \(inputData.id)")
-                // 배열로 삭제 확인 API
-//                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+                // TODO 배열로 삭제 확인 API
+                requestDelete(id: id)
                 }
             }
             
@@ -184,16 +184,16 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
-                    self.tableViewInputData.append(contentsOf: json.data)
-                    self.bookMark = json
-                    
                     // 추가 항목 선택상태 설정
                     DispatchQueue.main.async {
                         for _ in json.data {
                             self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
                         }
-                        self.tableView.reloadData()
                         self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
+                        self.tableViewInputData.append(contentsOf: json.data)
+                        self.bookMark = json
+                        
+                        self.tableView.reloadData()
                     }
                 }
             }.resume()
@@ -303,7 +303,7 @@ extension BookMarkTVC: UITableViewDelegate, UITableViewDataSource {
         if !sender.isSelected {
             deleteAllSelectBtn.isSelected = false
         }
-        requestDelete(id: id)
+//        requestDelete(id: id)
     }
     
     private func requestDelete(id: String) {

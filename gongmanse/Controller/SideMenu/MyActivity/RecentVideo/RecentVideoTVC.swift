@@ -30,8 +30,8 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
                 if let id = self.tableViewInputData[deleteIdx].id {
                 let inputData = RecentVideoInput(id: id)
                     print("deleteIdx : \(inputData.id)")
-                // 배열로 삭제 확인
-//                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+                // TODO 배열로 삭제 확인
+                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
                 }
             }
             
@@ -173,16 +173,17 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
-                    self.tableViewInputData.append(contentsOf: json.data)
-                    self.recentViedo = json
-                    
                     // 추가 항목 선택상태 설정
                     DispatchQueue.main.async {
                         for _ in json.data {
                             self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
                         }
-                        self.tableView.reloadData()
+                        
                         self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+                        self.tableViewInputData.append(contentsOf: json.data)
+                        self.recentViedo = json
+                        
+                        self.tableView.reloadData()
                     }
                 }
             }.resume()
