@@ -87,7 +87,7 @@ class BottomQnACell: UICollectionViewCell {
     private let emptyAlert: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "alert")
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .center
         return image
     }()
     
@@ -154,8 +154,8 @@ class BottomQnACell: UICollectionViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide(_:)), name: NSNotification.Name("keyboardHide"), object: nil)
         
         
-        emptyStackView.isHidden = true
-        tableView.isHidden = false
+        emptyStackView.isHidden = !Constant.isGuestKey
+        tableView.isHidden = Constant.isGuestKey
     }
     
     @objc func keyboardHide(_ sender: Notification) {
@@ -350,7 +350,6 @@ extension BottomQnACell {
         emptyStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         emptyStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -25).isActive = true
         emptyStackView.widthAnchor.constraint(equalToConstant: frame.width / 2).isActive = true
-        emptyStackView.heightAnchor.constraint(equalToConstant: frame.width / 4).isActive = true
     }
 }
 
