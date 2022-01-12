@@ -131,6 +131,7 @@ class EditingProfileController: UIViewController {
         return label
     }()
     
+    var offsetPoint: CGPoint?
     
     // MARK: - Lifecycle
     
@@ -141,8 +142,25 @@ class EditingProfileController: UIViewController {
         setupLayout()
         configureBottomLabel()
         configureNotificationObservers()
+        
+        // textField edit 중 포커스 확인하여 스크롤뷰 offset 컨트롤
+        nicknameTextField.delegate = self
+        emailTextField.delegate = self
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: - Actions
     
@@ -264,19 +282,14 @@ class EditingProfileController: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         
         tabBarController?.tabBar.isHidden = true
-//        let leftBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back"),
-//                                            style: .plain,
-//                                            target: self,
-//                                            action: #selector(tapBackButton))
-//        
-//        self.navigationItem.leftBarButtonItem = leftBarButton
+        
         
         // 크기 비율
         let tfWidth = Constant.width * 0.73
-        let tfHeight = Constant.height * 0.06
+        let tfHeight = 50.0// 뷰 높이 고정사이즈로 변경.
         let verticalPadding = tfHeight * 0.5
         let profileImageConstant = view.frame.width * 0.25
-        let viewWidth = view.frame.width
+//        let viewWidth = view.frame.width
         
         // leftView - 추후에 각각의 텍스트 필드에 맞는 이미지로 변경할 것.
         let idleftView = addLeftView(image: #imageLiteral(resourceName: "idOn"))
@@ -286,7 +299,7 @@ class EditingProfileController: UIViewController {
         let nicknameLeftView = addLeftView(image: #imageLiteral(resourceName: "nicknameOn"))
         let emailLeftView = addLeftView(image: #imageLiteral(resourceName: "emailOn"))
     
-        let contentViewH = Constant.height * 0.6 + viewWidth * 0.4
+        let contentViewH = 450 + view.frame.width * 0.5//tfHeight * 6 + verticalPadding * 5 + profileImageConstant * 2 + 25
         contentsView.setDimensions(height: contentViewH, width: tfWidth)
         
         
@@ -297,7 +310,7 @@ class EditingProfileController: UIViewController {
                                                 width: profileImageConstant)
         profileImageContainerView.centerX(inView: contentsView)
         profileImageContainerView.anchor(top: contentsView.safeAreaLayoutGuide.topAnchor,
-                                         paddingTop: viewWidth * 0.12)
+                                         paddingTop: profileImageConstant * 0.5)
         
         profileImageContainerView.addSubview(profileImageView)
         profileImageView.addShadow()
@@ -325,7 +338,7 @@ class EditingProfileController: UIViewController {
         idTextField.setDimensions(height: tfHeight, width: tfWidth)
         idTextField.centerX(inView: contentsView)
         idTextField.anchor(top: profileImageContainerView.bottomAnchor,
-                           paddingTop: viewWidth * 0.12)
+                           paddingTop: profileImageConstant * 0.5)
         
         contentsView.addSubview(blockViewForID)
         blockViewForID.anchor(top: idTextField.topAnchor,
@@ -383,8 +396,10 @@ class EditingProfileController: UIViewController {
         contentsView.anchor(top: scrollView.topAnchor,
                             bottom: scrollView.bottomAnchor)
         contentsView.centerX(inView: scrollView)
+        
         view.addSubview(scrollView)
-        scrollView.setDimensions(height: view.frame.height - 80, width: viewWidth)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+//        scrollView.setDimensions(height: view.frame.height - 80, width: view.frame.width)
         scrollView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                           left: view.safeAreaLayoutGuide.leftAnchor,
                           bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -443,6 +458,45 @@ class EditingProfileController: UIViewController {
                                           left: emailTextField.leftAnchor,
                                           paddingTop: 3,
                                           paddingLeft: 5)
+    }
+    
+    //MARK: - keyboard size check
+    var isKeyboardSelect = false
+    @objc func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == false {
+            let keyboardRectangle = keyboardFame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            UIView.animate(withDuration: 1) {
+                let safeArea = self.view.safeAreaInsets.bottom
+                let contentViewH = (450 - safeArea) + Constant.width * 0.5 + keyboardHeight// 키보드 시작위치 계산하여 추가 스크롤영역 제공
+//                print("contentViewH : \(contentViewH)")
+                self.scrollView.contentSize.height = contentViewH
+                
+                if var point = self.offsetPoint {
+                    let offset = point.y - (self.scrollView.frame.height - keyboardHeight + safeArea) - 5
+                    if offset > self.scrollView.contentOffset.y {
+                        point.y = offset
+                        self.scrollView.setContentOffset(point, animated: true)
+                    }
+                }
+            }
+            
+            isKeyboardSelect = true
+        }
+    }
+ 
+    @objc func keyboardWillHide(_ sender: Notification) {
+        if let keyboardFame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, isKeyboardSelect == true {
+            let keyboardRectangle = keyboardFame.cgRectValue
+            let _ = keyboardRectangle.height
+            UIView.animate(withDuration: 1) {
+                let contentViewH = 450 + Constant.width * 0.5
+//                print("contentViewH : \(contentViewH)")
+                self.scrollView.contentSize.height = contentViewH
+            }
+            
+            isKeyboardSelect = false
+        }
     }
 }
 
@@ -554,6 +608,15 @@ extension EditingProfileController: UIImagePickerControllerDelegate, UINavigatio
                  추후 진행예정
                 */
             }
+        }
+    }
+}
+
+//MARK: - textField focus 확인.
+extension EditingProfileController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == nicknameTextField || textField == emailTextField {
+            offsetPoint = textField.frame.origin
         }
     }
 }
