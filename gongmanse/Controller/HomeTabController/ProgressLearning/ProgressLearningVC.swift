@@ -79,7 +79,11 @@ class ProgressLearningVC: UIViewController {
         //TabView 커스텀
         tabsView.titleColor = .black
         tabsView.indicatorColor = #colorLiteral(red: 0.9294117647, green: 0.462745098, blue: 0, alpha: 1)
-        tabsView.titleFont = UIFont.boldSystemFont(ofSize: 18)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            tabsView.titleFont = UIFont.boldSystemFont(ofSize: 20)
+        } else {
+            tabsView.titleFont = UIFont.boldSystemFont(ofSize: 18)
+        }
         tabsView.collectionView.backgroundColor = .white
         
         //TabsView Delegate 설정
