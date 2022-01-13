@@ -7,11 +7,7 @@ class sSubjectsUnitCell: UICollectionViewCell {
     let cellLabel: UILabel = {
         let fontSize: CGFloat!
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if UIDevice.current.orientation.isLandscape {
-                fontSize = 18
-            } else {
-                fontSize = 16
-            }
+            fontSize = 16            
         } else {
             fontSize = 14
         }

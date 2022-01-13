@@ -161,10 +161,9 @@ class LessonInfoController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        if UIDevice.current.orientation.isLandscape {
+//        if UIDevice.current.orientation.isLandscape {
             sTagsCollectionView?.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-        }
-        sTagsCollectionView?.reloadData()
+//        }
         
         // rotate 시 size 재설정
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -216,6 +215,8 @@ class LessonInfoController: UIViewController {
             relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
             problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
         }
+        
+        sTagsCollectionView?.reloadData()
     }
     
     @objc func handleBookmarkAction(sender: UIView) {
@@ -656,11 +657,7 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
     {
         let fontSize: CGFloat!
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if UIDevice.current.orientation.isLandscape {
-                fontSize = 19
-            } else {
-                fontSize = 17
-            }
+            fontSize = 18
         } else {
             fontSize = 15
         }
