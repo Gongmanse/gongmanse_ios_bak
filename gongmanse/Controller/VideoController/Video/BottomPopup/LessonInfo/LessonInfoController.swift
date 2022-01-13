@@ -476,11 +476,48 @@ class LessonInfoController: UIViewController {
         let buttonHeight: CGFloat
         let buttonWidth: CGFloat
         if UIDevice.current.userInterfaceIdiom == .pad {
-            buttonHeight = view.frame.width * 0.13
-            buttonWidth = view.frame.width * 0.13
+            buttonHeight = 65
+            buttonWidth = 65
+            
+            view.addSubview(marginView)
+            marginView.anchor(top: sTagsCollectionView?.bottomAnchor,
+                              left: view.leftAnchor,
+                              right: view.rightAnchor,
+                              paddingLeft: 30,
+                              paddingRight: 30)
+            marginView.setDimensions(height: 10, width: 10)
+            
+            view.addSubview(stack)
+            stack.isUserInteractionEnabled = true
+            stack.translatesAutoresizingMaskIntoConstraints = false
+            stack.axis = .horizontal
+            stack.spacing = 10
+            stack.distribution = .fillEqually
+            stack.setDimensions(height: buttonHeight * 1.2, width: view.frame.width - 60)
+            stack.anchor(top: marginView.bottomAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         paddingLeft: 30,
+                         paddingRight: 30)
         } else {
             buttonHeight = view.frame.width * 0.12
             buttonWidth = view.frame.width * 0.1
+            
+            view.addSubview(stack)
+            stack.isUserInteractionEnabled = true
+            stack.distribution = .equalSpacing
+            stack.axis = .horizontal
+            stack.spacing = 0
+            stack.alignment = .leading
+            stack.centerX(inView: view)
+    //        stack.setDimensions(height: buttonHeight, width: view.frame.width - 60)
+            stack.setHeight(buttonHeight * 1.2)
+            view.addSubview(marginView)
+            
+            marginView.anchor(top: sTagsCollectionView?.bottomAnchor, left: sTagsCollectionView?.leftAnchor)
+            marginView.setDimensions(height: 10, width: 10)
+            
+            stack.anchor(top: marginView.bottomAnchor, left: marginView.leftAnchor)
         }
         
         bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
@@ -488,21 +525,6 @@ class LessonInfoController: UIViewController {
         shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
         relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
         problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
-        view.addSubview(stack)
-        stack.isUserInteractionEnabled = true
-        stack.distribution = .equalSpacing
-        stack.axis = .horizontal
-        stack.spacing = 0
-        stack.alignment = .leading
-        stack.centerX(inView: view)
-//        stack.setDimensions(height: buttonHeight, width: view.frame.width - 60)
-        stack.setHeight(buttonHeight * 1.2)
-        view.addSubview(marginView)
-        
-        marginView.anchor(top: sTagsCollectionView?.bottomAnchor, left: sTagsCollectionView?.leftAnchor)
-        marginView.setDimensions(height: 10, width: 10)
-        
-        stack.anchor(top: marginView.bottomAnchor, left: marginView.leftAnchor)
     }
     
     func getShareURL(_type: Int) {

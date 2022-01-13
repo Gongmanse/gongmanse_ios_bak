@@ -64,11 +64,7 @@ class TopImageBottomTitleView: UIView {
     private func commonInit(){
         let fontSize: CGFloat!
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if UIDevice.current.orientation.isLandscape {
-                fontSize = 16
-            } else {
-                fontSize = 14
-            }
+            fontSize = 15
         } else {
             fontSize = 12
         }
@@ -84,8 +80,15 @@ class TopImageBottomTitleView: UIView {
         titleLabel.textAlignment = .center
         titleLabel.textColor = .black
         titleLabel.centerX(inView: self)
-        titleLabel.anchor(top: imageView.bottomAnchor,
-                          paddingTop: self.frame.height * 0.14,
-                          height: self.frame.height * 0.4)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            titleLabel.anchor(top: imageView.bottomAnchor,
+                              paddingTop: 10,
+                              height: self.frame.height * 0.4)
+        } else {
+            titleLabel.anchor(top: imageView.bottomAnchor,
+                              paddingTop: self.frame.height * 0.14,
+                              height: self.frame.height * 0.3)
+        }
     }
 }
