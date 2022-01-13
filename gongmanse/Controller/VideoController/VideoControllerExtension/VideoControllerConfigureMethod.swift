@@ -104,7 +104,13 @@ extension VideoController {
             
             teacherInfoFoldConstraint!.isActive = false
             teacherInfoUnfoldConstraint!.isActive = true
-            subtitleLabel.font = UIFont.appBoldFontWith(size: 13)
+            let fontSize: CGFloat!
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                fontSize = 16
+            } else {
+                fontSize = 13
+            }
+            subtitleLabel.font = UIFont.appBoldFontWith(size: fontSize)
             videoControlContainerViewBottomConstraint?.constant = -30
             changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
             

@@ -16,7 +16,15 @@ extension VideoController {
         
         teacherInfoFoldConstraint!.isActive = true
         teacherInfoUnfoldConstraint!.isActive = false
-        subtitleLabel.font = UIFont.appBoldFontWith(size: 13)
+        
+        let fontSize: CGFloat!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            fontSize = 16
+        } else {
+            fontSize = 13
+        }
+        subtitleLabel.font = UIFont.appBoldFontWith(size: fontSize)
+        
         videoControlContainerViewBottomConstraint?.constant = -30
         changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
         
@@ -178,7 +186,7 @@ extension VideoController {
         // "keyword"에 해당하는 텍스트에 텍스트 색상과 폰트를 설정한다.
         attributedString
             .addAttribute(NSAttributedString.Key.font,
-                          value: UIFont.appBoldFontWith(size: !isFullScreenMode ? 13 : 22),
+                          value: UIFont.appBoldFontWith(size: !isFullScreenMode ? (UIDevice.current.userInterfaceIdiom == .pad ? 16 : 13) : 22),
                           range: (text as NSString).range(of: ("\(array[aIndex])")))
         attributedString
             .addAttribute(NSAttributedString.Key.foregroundColor,

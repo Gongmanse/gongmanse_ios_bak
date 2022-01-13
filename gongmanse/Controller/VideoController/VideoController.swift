@@ -414,7 +414,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         let label = UILabel()
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
-        label.font = UIFont.appBoldFontWith(size: 13)
+        label.font = UIFont.appBoldFontWith(size: fontSize)
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
