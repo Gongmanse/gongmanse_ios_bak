@@ -38,7 +38,7 @@ class HomeVC: UIViewController {
         let image = UIImage(named: "top_logo")
         let iv = UIImageView(image: image)
         if UIDevice.current.userInterfaceIdiom == .pad {
-            iv.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            iv.transform = CGAffineTransform(scaleX: 1.44, y: 1.44)
         }
         navigationItem.titleView = iv
         
