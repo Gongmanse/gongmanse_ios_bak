@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,6 +19,7 @@
                 <outlet property="gradeLabel" destination="cFB-BD-NYC" id="Js1-6m-6AO"/>
                 <outlet property="lbAutoPlay" destination="Kpa-zq-d4P" id="2h5-gM-hk8"/>
                 <outlet property="numberOfLesson" destination="7Py-W7-GQP" id="Z4d-3G-jG6"/>
+                <outlet property="scrollBtn" destination="Sv4-cg-Hjh" id="Atc-50-403"/>
                 <outlet property="subjectLabel" destination="s1n-L0-9H3" id="bno-Hj-mJ5"/>
                 <outlet property="teacherName" destination="3gZ-Yu-S96" id="eSU-98-kJg"/>
                 <outlet property="titleText" destination="sTY-4y-Csj" id="Ple-qf-pgi"/>
@@ -40,6 +41,19 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sv4-cg-Hjh">
+                    <rect key="frame" x="290" y="710" width="50" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="gVS-ey-vi3"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="arrow.up" catalog="system"/>
+                    <connections>
+                        <action selector="scrollToTop:" destination="-1" eventType="touchUpInside" id="Oqf-UK-p69"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEu-jo-hJz" userLabel="최상단">
                     <rect key="frame" x="0.0" y="44" width="390" height="80"/>
                     <subviews>
@@ -149,7 +163,10 @@
                 <constraint firstItem="Kpa-zq-d4P" firstAttribute="top" secondItem="eEu-jo-hJz" secondAttribute="bottom" constant="18.5" id="6RR-Ui-8EA"/>
                 <constraint firstAttribute="bottom" secondItem="u25-N5-oQF" secondAttribute="bottom" id="ECn-2D-5EZ"/>
                 <constraint firstItem="eEu-jo-hJz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="J7T-2R-MRw"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Sv4-cg-Hjh" secondAttribute="trailing" constant="50" id="J8f-nI-Wgg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Sv4-cg-Hjh" secondAttribute="bottom" constant="50" id="Lc5-54-5RB"/>
                 <constraint firstItem="RTe-uj-R4U" firstAttribute="top" secondItem="eEu-jo-hJz" secondAttribute="bottom" constant="7.6666666666666856" id="QJY-Iz-hwv"/>
+                <constraint firstItem="Sv4-cg-Hjh" firstAttribute="width" secondItem="Sv4-cg-Hjh" secondAttribute="height" id="QW6-iC-Brp"/>
                 <constraint firstItem="7Py-W7-GQP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="QdH-fH-FbM"/>
                 <constraint firstItem="RTe-uj-R4U" firstAttribute="leading" secondItem="Kpa-zq-d4P" secondAttribute="trailing" constant="4" id="i0p-er-UWQ"/>
                 <constraint firstItem="u25-N5-oQF" firstAttribute="top" secondItem="7Py-W7-GQP" secondAttribute="bottom" constant="16" id="n0B-1I-nSC"/>
@@ -163,6 +180,7 @@
         </view>
     </objects>
     <resources>
+        <image name="arrow.up" catalog="system" width="120" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
