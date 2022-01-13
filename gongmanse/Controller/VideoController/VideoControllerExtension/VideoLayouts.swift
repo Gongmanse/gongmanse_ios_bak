@@ -6,7 +6,7 @@ extension VideoController {
     
     /// 세로모드 제약조건 정의
     func setConstraintInPortrait() {
-        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(0.7) : CGFloat(1.0)
+        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(0.9) : CGFloat(1.0)
         
         /* VideoContainerView */
         view.addSubview(videoContainerView)
@@ -15,16 +15,17 @@ extension VideoController {
         videoContainerViewPorTraitWidthConstraint
             = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width)
         videoContainerViewPorTraitHeightConstraint
-            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.57)
+            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width * 9 / 16)
         videoContainerViewPorTraitTopConstraint
             = videoContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         videoContainerViewPorTraitLeftConstraint
             = videoContainerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        
         // Landscape 제약조건 정의
         videoContainerViewLandscapeWidthConstraint
             = videoContainerView.widthAnchor.constraint(equalToConstant: view.frame.width * ratio)
         videoContainerViewLandscapeHeightConstraint
-            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width * ratio * 0.57)
+            = videoContainerView.heightAnchor.constraint(equalToConstant: view.frame.width * ratio *  9 / 16)
         videoContainerViewLandscapeTopConstraint
             = videoContainerView.topAnchor.constraint(equalTo: view.topAnchor)
         videoContainerViewLandscapeLeftConstraint
@@ -129,7 +130,7 @@ extension VideoController {
         lessonInfoViewLandscapeTopConstraint
             = lessonInfoView.topAnchor.constraint(equalTo: videoContainerView.bottomAnchor)
         lessonInfoViewLandscapeLeftConstraint
-            = lessonInfoView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -5)
+            = lessonInfoView.leadingAnchor.constraint(equalTo: videoContainerView.leadingAnchor)
         lessonInfoViewLandscapeRightConstraint
             = lessonInfoView.trailingAnchor.constraint(equalTo: videoContainerView.trailingAnchor)
         
