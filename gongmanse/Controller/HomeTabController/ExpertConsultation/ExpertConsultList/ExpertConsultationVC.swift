@@ -14,6 +14,12 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     @IBOutlet weak var expertConsultationTV: UITableView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
+    @IBOutlet weak var addBtn: UIButton!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        let indexPath = NSIndexPath(row: NSNotFound, section: 0)
+        expertConsultationTV.scrollToRow(at: indexPath as IndexPath, at: .top, animated: false)
+    }
     
     var sortedId: Int = 4
     
@@ -23,7 +29,13 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
         super.viewDidLoad()
         
         //getDataFromJson()
-        floatingButton()
+//        floatingButton()
+        
+        self.addBtn.imageView?.contentMode = .scaleAspectFill
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+            self.addBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
         
         //테이블 뷰 빈칸 숨기기
         expertConsultationTV.tableFooterView = UIView()
@@ -118,6 +130,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     
     //플로팅 버튼 생성 및 크기 지정 후 뷰 이동
     func floatingButton() {
+        
         let btn = UIButton(type: .custom)
         btn.frame = CGRect(x: 0, y: 0, width: 56, height: 56)
         btn.setImage(UIImage(named: "floatingBtn"), for: .normal)
@@ -140,13 +153,14 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
                                         NSLayoutConstraint(item: btn,
                                                            attribute: .bottom,
                                                            relatedBy: .equal,
-                                                           toItem: view,
+                                                           toItem: view.safeAreaLayoutGuide,
                                                            attribute: .bottom,
-                                                           multiplier: 0.89,
-                                                           constant: 0)])
+                                                           multiplier: 1,
+                                                           constant: -15)])
     }
     
-    @objc func buttonTapped() {
+//    @objc func buttonTapped() {
+    @IBAction func buttonTapped(_ sender: Any) {
         if !Constant.isLogin {
             let alert = UIAlertController(title: "로그인", message: "로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?", preferredStyle: .alert)
             
@@ -231,6 +245,12 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView.frame.height < cell.frame.height * CGFloat(indexPath.row) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == self.consultModelData.count - 1 && !isLoading
             && self.consultModelData.count < (Int(consultModels?.totalNum ?? "0") ?? 0) {
             //더보기
