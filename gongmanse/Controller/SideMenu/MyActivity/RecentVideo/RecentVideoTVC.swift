@@ -179,9 +179,9 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
                             self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
                         }
                         
-                        self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
                         self.tableViewInputData.append(contentsOf: json.data)
                         self.recentViedo = json
+                        self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
                         
                         self.tableView.reloadData()
                     }

@@ -228,7 +228,7 @@ extension VideoController {
             toggleButton.alpha = 0
             
             if UIDevice.current.userInterfaceIdiom == .pad {
-                teacherInfoUnfoldConstraint?.constant = view.frame.width * 0.601
+                teacherInfoUnfoldConstraint?.constant = view.frame.width * 8.1/16 // 영상 확대에 맞춰...
             }
         }
     }
