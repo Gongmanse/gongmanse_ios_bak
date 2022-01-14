@@ -58,7 +58,12 @@ class SearchAfterVC: UIViewController {
         return label
     }()
     
-    private var isPlayPIPVideo: Bool = true
+    private var isPlayPIPVideo: Bool = true {
+        didSet {
+            print("isPlayPIPVideo : \(isPlayPIPVideo)")
+            playPauseButton.setImage(UIImage(systemName: isPlayPIPVideo ? "pause" : "play.fill"), for: .normal)
+        }
+    }
     private let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
@@ -180,10 +185,8 @@ class SearchAfterVC: UIViewController {
         //0713 - edited by hp
         if isPlayPIPVideo {
             pipVC?.player?.play()
-            playPauseButton.setImage(UIImage(systemName: "pause"), for: .normal)
         } else {
             pipVC?.player?.pause()
-            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         }
     }
     
@@ -393,8 +396,6 @@ class SearchAfterVC: UIViewController {
         //0713 - added by hp
         //영상 재생/일시정지 버튼 이슈관련 해결
         self.isPlayPIPVideo = pipVideoData?.isPlayPIP ?? false
-        playPauseButton.setImage(UIImage(systemName: isPlayPIPVideo ? "pause" : "play.fill"), for: .normal)
-        
         let pipContainerViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(pipContainerViewDidTap))
         pipContainerView.addGestureRecognizer(pipContainerViewTapGesture)
         pipContainerView.isUserInteractionEnabled = true
@@ -623,7 +624,9 @@ extension SearchAfterVC: RecentKeywordVCDelegate {
 extension SearchAfterVC: SearchVideoVCDelegate {
     func serachAfterVCPIPViewDismiss() {
         //0711 - added by hp - pip
+        print("-----serachAfterVCPIPViewDismiss222-----")
         pipVC?.player?.pause()
+        isPlayPIPVideo = false
         setRemoveNotification()
         PIPDataManager.shared.currentVideoCMTime = CMTime()
         PIPDataManager.shared.currentVideoTime = pipVC?.currentVideoTimeAsFloat
@@ -634,8 +637,10 @@ extension SearchAfterVC: SearchNoteVCDelegate {
     func serachAfterVCPIPViewDismiss1() -> CMTime {
 //        serachAfterVCPIPViewDismiss()
         if self.pipVC != nil {
+            print("-----serachAfterVCPIPViewDismiss111-----")
             setRemoveNotification()
             pipVC?.player?.pause()
+            isPlayPIPVideo = false
             PIPDataManager.shared.currentVideoCMTime = pipVC?.currentVideoTime
             
             return pipVC?.currentVideoTime ?? CMTime()
