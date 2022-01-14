@@ -42,10 +42,10 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sv4-cg-Hjh">
-                    <rect key="frame" x="290" y="710" width="50" height="50"/>
+                    <rect key="frame" x="330" y="750" width="35" height="35"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="gVS-ey-vi3"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="gVS-ey-vi3"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -163,8 +163,8 @@
                 <constraint firstItem="Kpa-zq-d4P" firstAttribute="top" secondItem="eEu-jo-hJz" secondAttribute="bottom" constant="18.5" id="6RR-Ui-8EA"/>
                 <constraint firstAttribute="bottom" secondItem="u25-N5-oQF" secondAttribute="bottom" id="ECn-2D-5EZ"/>
                 <constraint firstItem="eEu-jo-hJz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="J7T-2R-MRw"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Sv4-cg-Hjh" secondAttribute="trailing" constant="50" id="J8f-nI-Wgg"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Sv4-cg-Hjh" secondAttribute="bottom" constant="50" id="Lc5-54-5RB"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Sv4-cg-Hjh" secondAttribute="trailing" constant="25" id="J8f-nI-Wgg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Sv4-cg-Hjh" secondAttribute="bottom" constant="25" id="Lc5-54-5RB"/>
                 <constraint firstItem="RTe-uj-R4U" firstAttribute="top" secondItem="eEu-jo-hJz" secondAttribute="bottom" constant="7.6666666666666856" id="QJY-Iz-hwv"/>
                 <constraint firstItem="Sv4-cg-Hjh" firstAttribute="width" secondItem="Sv4-cg-Hjh" secondAttribute="height" id="QW6-iC-Brp"/>
                 <constraint firstItem="7Py-W7-GQP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="QdH-fH-FbM"/>
