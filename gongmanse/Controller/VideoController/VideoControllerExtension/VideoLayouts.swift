@@ -67,10 +67,21 @@ extension VideoController {
         videoBackwardTimeButton.anchor(right: playPauseButton.leftAnchor,
                                        paddingRight: 60)
         
+        
+        // safeArea 에 자막이 겹치지 않도록 여백 추가
+        marginView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(marginView)
+        marginView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        marginView.anchor(left: view.leftAnchor,
+                          bottom: videoContainerView.bottomAnchor,
+                          right: view.rightAnchor)
+        marginViewHeight = marginView.heightAnchor.constraint(equalToConstant: 0)
+        marginViewHeight!.isActive = true
+        
         /* subtitleLabel(자막) */
         view.addSubview(subtitleLabel)
         subtitleLabel.anchor(left: videoContainerView.leftAnchor,
-                             bottom: videoContainerView.bottomAnchor,
+                             bottom: marginView.topAnchor,
                              right: videoContainerView.rightAnchor)
         subtitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30).isActive = true
         
@@ -238,6 +249,10 @@ extension VideoController {
         videoContainerViewFullScreenHeightConstraint?.isActive = isActive
         videoContainerViewFullScreenTopConstraint?.isActive = isActive
         videoContainerViewFullScreenLeftConstraint?.isActive = isActive
+        
+        // safeArea 에 자막이 겹쳐보이는 것 대응
+        // isFullScreenMode 함수 호출 뒤에 값이 변경되므로 직전 상태를 나타냄
+        marginViewHeight?.constant = (!isFullScreenMode ? marginHeight : 0)
     }
     
     /// Portait 제약조건 활성화 메소드

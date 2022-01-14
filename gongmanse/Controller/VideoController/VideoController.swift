@@ -422,6 +422,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         label.alpha = UserDefaults.standard.bool(forKey: "subtitle") ? 1 : 0
         return label
     }()
+    let marginView = UILabel()
+    var marginHeight: CGFloat = 0
+    var marginViewHeight : NSLayoutConstraint?
     
     /// 자막 기능을 담고 있는 자막 인스턴스(subtitleTextLabel에 text를 넣어줌)
     lazy var subtitles = Subtitles(subtitles: "")
@@ -589,6 +592,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             
             self.view.bringSubviewToFront(videoContainerView)
             self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(marginView)
             self.view.bringSubviewToFront(playPauseButton)
             self.view.bringSubviewToFront(replayButton)
             self.view.bringSubviewToFront(videoForwardTimeButton)
@@ -645,6 +649,9 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         // swipe close 기능 추가.
         // modal view 형태로 작업되어있어 navigation 적용하지 않고 gesture 로 적용
         view.addGestureRecognizer(swipeGesture)
+    }
+    override func viewDidLayoutSubviews() {
+        marginHeight = view.safeAreaInsets.bottom
     }
     
     //MARK: - swipe gesture
@@ -912,6 +919,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             // 전체화면 재생중에 PIP가 상단에 노출되지 않도록
             self.view.bringSubviewToFront(videoContainerView)
             self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(marginView)
             self.view.bringSubviewToFront(playPauseButton)
             self.view.bringSubviewToFront(replayButton)
             self.view.bringSubviewToFront(videoForwardTimeButton)

@@ -55,6 +55,7 @@ extension VideoController {
 //            pageController.isHidden = true
             self.view.bringSubviewToFront(videoContainerView)
             self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(marginView)
             self.view.bringSubviewToFront(playPauseButton)
             self.view.bringSubviewToFront(replayButton)
             self.view.bringSubviewToFront(videoForwardTimeButton)
@@ -96,6 +97,7 @@ extension VideoController {
 //            pageController.isHidden = false
             self.view.bringSubviewToFront(videoContainerView)
             self.view.bringSubviewToFront(subtitleLabel)
+            self.view.bringSubviewToFront(marginView)
             self.view.bringSubviewToFront(playPauseButton)
             self.view.bringSubviewToFront(replayButton)
             self.view.bringSubviewToFront(videoForwardTimeButton)
