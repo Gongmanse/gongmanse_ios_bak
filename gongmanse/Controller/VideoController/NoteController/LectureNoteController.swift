@@ -38,6 +38,10 @@ class LectureNoteController: UIViewController {
     }()
     private var ct_iv_height : NSLayoutConstraint?
     
+    private let marginView = UIView()
+    private var marginViewWidth : NSLayoutConstraint?
+    private var marginWidth : CGFloat = 0.0
+    
     // 노트필기 객체
     public let canvas = Canvas()
     private let savingNoteButton: UIButton = {
@@ -153,9 +157,10 @@ class LectureNoteController: UIViewController {
             isLandscapeMode = false
         }
         
-//        if _parent.isFullScreenMode && isLandscapeMode {
-//            return
-//        }
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.marginViewWidth?.constant = self.isLandscapeMode ? 0.0 : marginWidth
+        }
+
         //width가 좁아지면서 상하로 여백이 생긴다 (혹시 커질수도 있는지.. 무튼 아래 코드로 해결)
         let preWidth = self.imageView01.frame.size.width
         DispatchQueue.main.async {
@@ -351,15 +356,25 @@ class LectureNoteController: UIViewController {
         view.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        marginView.translatesAutoresizingMaskIntoConstraints = false
         
+        // 우측 여백이될 marginView 를 추가
+        view.addSubview(marginView)
+        marginWidth = UIDevice.current.userInterfaceIdiom == .pad ? view.frame.width * 0.4 : 0
+        marginView.anchor(top: view.topAnchor,
+                          bottom: view.bottomAnchor,
+                          right: view.rightAnchor)
+        marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
+        marginViewWidth?.isActive = true
+                
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        scrollView.centerX(inView: view)
+//        scrollView.centerX(inView: view)
         scrollView.anchor(top: view.topAnchor,
                           left: view.leftAnchor,
                           bottom: view.bottomAnchor,
-                          right: view.rightAnchor,
+                          right: marginView.leftAnchor,
                           paddingTop: 13)
         
         contentView.anchor(top: scrollView.topAnchor,
@@ -392,11 +407,10 @@ class LectureNoteController: UIViewController {
     
     private func setupViews() {
         let canvasWidth = CGFloat(1024) //isLandscapeMode ? _parent.view.frame.height : _parent.view.frame.width
-        if UIDevice.current.userInterfaceIdiom != .pad {
-            for i in 0 ..< noteImageArr.count {
-                resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
-                    self.noteImageArr[i] = image!
-                }
+        
+        for i in 0 ..< noteImageArr.count {
+            resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
+                self.noteImageArr[i] = image!
             }
         }
         if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
@@ -413,7 +427,7 @@ class LectureNoteController: UIViewController {
     
     private func setupWritingImplement() {
         // viewdidload에서 orientation구하기 위함
-        let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
+//        let isPortrait = UIScreen.main.bounds.size.height > UIScreen.main.bounds.size.width
         let width = CGFloat(207)
         let bottomPadding = CGFloat(10)//UIScreen.main.bounds.size.height * 0.07
         let height = CGFloat(81)
