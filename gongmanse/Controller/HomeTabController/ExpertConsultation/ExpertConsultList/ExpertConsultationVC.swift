@@ -185,7 +185,8 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         let profileImageURL = indexData.sProfile ?? ""
         let profileURL = URL(string: fileBaseURL + "/" + profileImageURL)
         
-        cell.consultTitle.text = indexData.sQuestion?.htmlEscaped
+        cell.consultTitle.text = indexData.sQuestion?.htmlEscaped.trimmingCharacters(in: .whitespacesAndNewlines)// 문장 시작과 끝의 공백&줄바꿈 제거
+        
         cell.nickName.text = indexData.sNickname
         cell.answerStatus.text = indexData.iAnswer
         cell.profileImage.contentMode = .scaleAspectFill

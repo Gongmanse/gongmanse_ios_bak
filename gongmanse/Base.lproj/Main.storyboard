@@ -183,7 +183,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnA-Yh-2iy">
                                             <rect key="frame" x="18" y="17" width="54" height="16"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="54" id="3EE-8E-QL6"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="3EE-8E-QL6"/>
                                                 <constraint firstAttribute="height" constant="16" id="jmI-RK-aL9"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -257,7 +257,7 @@
                                                     <color key="backgroundColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="Cai-gh-Gek"/>
-                                                        <constraint firstAttribute="width" constant="57" id="nDv-oZ-Ahm"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="57" id="nDv-oZ-Ahm"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -272,11 +272,14 @@
                                                     <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상담하기 제목이 들어가는 곳jkhikhjkhjkhkhjkhjk" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NAE-lg-d0l">
-                                                    <rect key="frame" x="125" y="8" width="204" height="31.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NAE-lg-d0l">
+                                                    <rect key="frame" x="125" y="8" width="204" height="39"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="204" id="x5a-jn-YPj"/>
                                                     </constraints>
+                                                    <string key="text">굳이는 구지로 발음하나요?
+구디로 발음하나요? 
+</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -293,6 +296,7 @@
                                                 <constraint firstItem="AVw-Dz-SaQ" firstAttribute="top" secondItem="hdJ-Mn-y8F" secondAttribute="bottom" constant="35" id="PB2-Py-e5p"/>
                                                 <constraint firstItem="NAE-lg-d0l" firstAttribute="top" secondItem="aNO-I2-zWr" secondAttribute="top" constant="8" id="VZT-LA-xey"/>
                                                 <constraint firstAttribute="trailing" secondItem="hdJ-Mn-y8F" secondAttribute="trailing" constant="20" symbolic="YES" id="XtH-8V-A78"/>
+                                                <constraint firstItem="AVw-Dz-SaQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lsl-P3-QpZ" secondAttribute="trailing" constant="8" symbolic="YES" id="lsb-Wd-JPj"/>
                                                 <constraint firstItem="hzG-aI-kzp" firstAttribute="leading" secondItem="aNO-I2-zWr" secondAttribute="leading" constant="20" symbolic="YES" id="qQs-cs-QOV"/>
                                                 <constraint firstItem="hzG-aI-kzp" firstAttribute="top" secondItem="aNO-I2-zWr" secondAttribute="top" constant="8" id="qhE-JM-jPJ"/>
                                                 <constraint firstItem="hdJ-Mn-y8F" firstAttribute="leading" secondItem="NAE-lg-d0l" secondAttribute="trailing" constant="8" symbolic="YES" id="tFc-Y6-fwN"/>
@@ -5917,8 +5921,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="amk-EG-qGo"/>
-        <segue reference="bmy-6v-dzF"/>
+        <segue reference="ltC-PN-uOf"/>
+        <segue reference="YI5-pe-RfL"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addPhoto" width="18" height="18"/>
