@@ -14,7 +14,7 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
     private var deleteStateList = [Bool]()
     @IBOutlet weak var deleteModeView: UIView!
     @IBOutlet weak var deleteAllSelectBtn: UIButton!
-    @IBAction func deleteSelectedItem(_ sender: Any) {
+    @IBAction func deleteSelectedItem(_ sender: Any) {        
         var currentTrueIndex = [Int]()
         var temp = [FilterVideoData]()
         for (index, selected) in deleteStateList.enumerated() {
@@ -25,27 +25,42 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
             }
         }
         
+        // 삭제항목 선택 카운트 체크
         if currentTrueIndex.count > 0 {
-            for deleteIdx in currentTrueIndex {
-                if let id = self.tableViewInputData[deleteIdx].id {
-                let inputData = RecentVideoInput(id: id)
-                    print("deleteIdx : \(inputData.id)")
-                // TODO 배열로 삭제 확인
-                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
-                }
+            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+    
+            let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+                self.actionDelete(currentTrueIndex, temp)
             }
-            
-            tableViewInputData = temp
-            deleteStateList.removeAll()
-            for _ in tableViewInputData.indices {
-                deleteStateList.append(deleteAllSelectBtn.isSelected)
-            }
-            
-            self.tableView.reloadData()
+            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            self.present(alert, animated: true, completion: nil)
         } else {
             presentAlert(message: "삭제할 항목을 선택해주세요.")
         }
     }
+    private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
+        for deleteIdx in currentTrueIndex {
+            if let id = self.tableViewInputData[deleteIdx].id {
+            let inputData = RecentVideoInput(id: id)
+                print("deleteIdx : \(inputData.id)")
+            // TODO 배열로 삭제 확인
+            RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+            }
+        }
+        
+        tableViewInputData = temp
+        deleteStateList.removeAll()
+        for _ in tableViewInputData.indices {
+            deleteStateList.append(deleteAllSelectBtn.isSelected)
+        }
+        
+        self.tableView.reloadData()
+    }
+    
     @IBAction func deleteAllSelect(_ sender: Any) {
         deleteAllSelectBtn.isSelected.toggle()
         deleteStateList.removeAll()
