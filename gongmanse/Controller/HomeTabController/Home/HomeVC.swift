@@ -34,6 +34,17 @@ class HomeVC: UIViewController {
         setupTabs()
         setupPageViewController()
         
+        addBottomBorder()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("HomeVC viewDidAppear")
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("HomeVC viewWillAppear")
         //네비게이션 바 타이틀에 공만세 이미지 적용
         let image = UIImage(named: "main_logo")
         let iv = UIImageView(image: image)
@@ -42,11 +53,6 @@ class HomeVC: UIViewController {
         }
         navigationItem.titleView = iv
         
-        addBottomBorder()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         //네비게이션 바 bottom border 제거 후 shadow 효과 적용
         self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
