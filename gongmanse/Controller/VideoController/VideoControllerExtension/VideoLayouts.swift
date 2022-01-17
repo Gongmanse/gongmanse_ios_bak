@@ -124,6 +124,16 @@ extension VideoController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             teacherInfoUnfoldConstraint
                 = lessonInfoView.heightAnchor.constraint(equalToConstant: 190)
+            
+            if UIWindow.isLandscape {
+                teacherInfoUnfoldConstraint?.constant = view.frame.width * 8.1/16
+            } else {
+                if let height = lessonInfoController.tagsHeight?.constant {
+                    teacherInfoUnfoldConstraint?.constant = 160 + height
+                } else {
+                    teacherInfoUnfoldConstraint?.constant = 190
+                }
+            }
         } else {
             teacherInfoUnfoldConstraint
                 = lessonInfoView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.43)
@@ -252,8 +262,7 @@ extension VideoController {
         videoContainerViewFullScreenLeftConstraint?.isActive = isActive
         
         // safeArea 에 자막이 겹쳐보이는 것 대응
-        // isFullScreenMode 함수 호출 뒤에 값이 변경되므로 직전 상태를 나타냄
-        marginViewHeight?.constant = (!isFullScreenMode ? marginHeight : 0)
+        marginViewHeight?.constant = (isFullScreenMode ? marginHeight : 0)
     }
     
     /// Portait 제약조건 활성화 메소드

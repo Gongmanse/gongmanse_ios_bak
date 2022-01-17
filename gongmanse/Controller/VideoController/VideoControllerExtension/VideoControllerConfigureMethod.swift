@@ -82,9 +82,8 @@ extension VideoController {
             videoContainerViewLandscapeTopConstraint?.isActive = false
             videoContainerViewLandscapeLeftConstraint?.isActive = false
             
-            changeFullScreenConstraint(true)
-            
             isFullScreenMode = true
+            changeFullScreenConstraint(true)
         } else {
             // 고정 해제
             AppDelegate.AppUtility.lockOrientation(.all)
@@ -139,9 +138,8 @@ extension VideoController {
                     teacherInfoUnfoldConstraint?.constant = 190
                 }
             }
-            changeFullScreenConstraint(false)
-            
             isFullScreenMode = false
+            changeFullScreenConstraint(false)            
         }
     }
 
