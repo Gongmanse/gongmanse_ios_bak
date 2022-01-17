@@ -161,11 +161,14 @@ class LectureNoteController: UIViewController {
             self.marginViewWidth?.constant = self.isLandscapeMode ? 0.0 : marginWidth
         }
 
-        //width가 좁아지면서 상하로 여백이 생긴다 (혹시 커질수도 있는지.. 무튼 아래 코드로 해결)
-        let preWidth = self.imageView01.frame.size.width
         DispatchQueue.main.async {
             let afrWidth = self.imageView01.frame.size.width
-            self.ct_iv_height?.constant *= (afrWidth / preWidth)
+            let height = self.imageView01.image!.size.height
+                    * self.contentView.frame.size.width / self.imageView01.image!.size.width
+            self.ct_iv_height?.constant = height
+            
+//            let afrWidth = self.imageView01.frame.size.width
+//            self.ct_iv_height?.constant *= (afrWidth / preWidth)
             
             self.canvas.mWidth = Int(afrWidth)
             self.canvas.mHeight = Int(self.ct_iv_height?.constant ?? 1)
@@ -360,11 +363,16 @@ class LectureNoteController: UIViewController {
         
         // 우측 여백이될 marginView 를 추가
         view.addSubview(marginView)
-        marginWidth = UIDevice.current.userInterfaceIdiom == .pad ? view.frame.width * 0.4 : 0
+        marginWidth = UIDevice.current.userInterfaceIdiom == .pad ?
+        ( UIWindow.isLandscape ? view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
         marginView.anchor(top: view.topAnchor,
                           bottom: view.bottomAnchor,
                           right: view.rightAnchor)
-        marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
+        if UIWindow.isLandscape {
+            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: 0)
+        } else {
+            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
+        }
         marginViewWidth?.isActive = true
                 
         view.addSubview(scrollView)

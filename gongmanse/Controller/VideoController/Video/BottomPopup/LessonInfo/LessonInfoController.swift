@@ -63,7 +63,10 @@ class LessonInfoController: UIViewController {
                 // 패딩 제외한 공간에 배치할 경우 예상되는 라인 수 계산하여 * 30
                 let tagHeight = (tagsWidth / (Constant.width - 60)).rounded(.up) * 30
                 tagsHeight!.constant = tagHeight
-                _parent?.teacherInfoUnfoldConstraint?.constant = 160 + tagHeight
+                
+                if !UIWindow.isLandscape {
+                    _parent?.teacherInfoUnfoldConstraint?.constant = 160 + tagHeight
+                }
             }
             
             sTagsCollectionView?.reloadData()
