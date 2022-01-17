@@ -35,7 +35,7 @@ class HomeVC: UIViewController {
         setupPageViewController()
         
         //네비게이션 바 타이틀에 공만세 이미지 적용
-        let image = UIImage(named: "top_logo")
+        let image = UIImage(named: "main_logo")
         let iv = UIImageView(image: image)
         if UIDevice.current.userInterfaceIdiom == .pad {
             iv.transform = CGAffineTransform(scaleX: 1.44, y: 1.44)
