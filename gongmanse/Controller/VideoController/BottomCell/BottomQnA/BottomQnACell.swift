@@ -259,7 +259,7 @@ extension BottomQnACell: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
             
             cell.selectionStyle = .none
-            cell.otherContent.text = "A. \(teacher)\n\(short?.sAnswer ?? "")".htmlEscaped
+            cell.otherContent.text = "A. \(teacher)\n\(short?.sAnswer?.htmlEscaped ?? "")"
             
             if let sUrl = short?.sTeacherImg {
 //                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
@@ -275,7 +275,7 @@ extension BottomQnACell: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: myChatIdentifier, for: indexPath) as? QnAMyChatCell else { return UITableViewCell() }
 
             cell.selectionStyle = .none
-            cell.myContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion ?? "")".htmlEscaped
+            cell.myContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion?.htmlEscaped ?? "")"
             
             if let sUrl = short?.sUserImg {
 //                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
