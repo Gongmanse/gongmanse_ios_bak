@@ -105,7 +105,7 @@ extension VideoController {
         
         // Landscape 제약조건 정의
         customMenuBarLandscapeTopConstraint
-            = customMenuBar.topAnchor.constraint(equalTo: view.topAnchor)
+        = customMenuBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         customMenuBarLandscapeRightConstraint
             = customMenuBar.rightAnchor.constraint(equalTo: view.rightAnchor)
         customMenuBarLandscapeLeftConstraint
