@@ -6,7 +6,7 @@ extension VideoController {
     
     /// 세로모드 제약조건 정의
     func setConstraintInPortrait() {
-        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(0.9) : CGFloat(1.0)
+        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(1.0) : CGFloat(1.0)
         
         /* VideoContainerView */
         view.addSubview(videoContainerView)
@@ -228,7 +228,8 @@ extension VideoController {
             toggleButton.alpha = 1
             
             if UIDevice.current.userInterfaceIdiom == .pad {
-                teacherInfoUnfoldConstraint?.constant = 190
+                let height = lessonInfoController.tagsHeight!.constant
+                teacherInfoUnfoldConstraint?.constant = 160 + height
             }
         } else {            // 가로모드인 경우
             print("DEBUG: 가로모드")

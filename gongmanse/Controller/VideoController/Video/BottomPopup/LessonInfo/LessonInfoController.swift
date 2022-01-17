@@ -45,9 +45,29 @@ class LessonInfoController: UIViewController {
     public var sSubjectLabel = sUnitLabel("DEFAULT", .brown)
     public var sUnitLabel01 = sUnitLabel("DEFAULT", .darkGray)
     public var sUnitLabel02 = sUnitLabel("DEFAULT", .mainOrange)
-    
+    public var tagsWidth: CGFloat = 0.0
+    public var tagsHeight : NSLayoutConstraint?
     public var sTagsArray = [String]() {
-        didSet { sTagsCollectionView?.reloadData() }
+        didSet {
+            // 패드에서 태그 줄바꿈 처리를 위한 내용 추가
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let fontSize = 18.0
+                tagsWidth = 0.0
+                for item in sTagsArray {
+                    let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: fontSize)])
+                    tagsWidth += itemSize.width
+                }
+                // 간격합친 총 너비 계산
+                tagsWidth += CGFloat(sTagsArray.count - 1) * 10.0
+                
+                // 패딩 제외한 공간에 배치할 경우 예상되는 라인 수 계산하여 * 30
+                let tagHeight = (tagsWidth / (Constant.width - 60)).rounded(.up) * 30
+                tagsHeight!.constant = tagHeight
+                _parent?.teacherInfoUnfoldConstraint?.constant = 160 + tagHeight
+            }
+            
+            sTagsCollectionView?.reloadData()
+        }
     }
     
     let buttonSize = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -187,7 +207,6 @@ class LessonInfoController: UIViewController {
                 sUnitLabel02.font = UIFont.appBoldFontWith(size: 18)
                 
                 marginView.setDimensions(height: 20, width: 15)
-                sTagsCollectionView?.setHeight(30)
             } else {
                 print("set font size Portrait in pad")
                 buttonHeight = view.frame.width * 0.13
@@ -206,7 +225,6 @@ class LessonInfoController: UIViewController {
                 sUnitLabel02.font = UIFont.appBoldFontWith(size: 15.5)
                 
                 marginView.setDimensions(height: 10, width: 10)
-                sTagsCollectionView?.setHeight(20)
             }
             
             bookmarkButton.setDimensions(height: buttonHeight, width: buttonWidth)
@@ -306,7 +324,7 @@ class LessonInfoController: UIViewController {
             presentAlert(message: "관련 시리즈가 없습니다.")
             return
         }
-        let videoDataManager = VideoDataManager.shared
+        let _ = VideoDataManager.shared
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
@@ -378,7 +396,6 @@ class LessonInfoController: UIViewController {
     
     func configureUI() {
         let sSubjectsUnitContainerView = UIView()
-//        let paddingConstant = view.frame.height * 0.025
 
         // API에서 받아온 값을 레이블에 할당한다.
         sSubjectLabel.labelText = "과목명"
@@ -427,18 +444,23 @@ class LessonInfoController: UIViewController {
                                paddingTop: 10, paddingLeft: 0, paddingRight: 0)
         
         // TODO: [UI] 해쉬 태그 -> 05.04 UI 완성
+        let tagHeight:CGFloat!
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.scrollDirection = .horizontal
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            layout.scrollDirection = .vertical
+            tagHeight = 30.0
+        } else {
+            layout.scrollDirection = .horizontal
+            tagHeight = 20.0
+        }
         layout.itemSize.height = 20
         sTagsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(sTagsCollectionView ?? UICollectionView())
-//        sTagsCollectionView?.setDimensions(height: 20, width: view.frame.width - 60)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            sTagsCollectionView?.setHeight(30)
-        } else {
-            sTagsCollectionView?.setHeight(20)
-        }
+
+        tagsHeight = sTagsCollectionView?.heightAnchor.constraint(equalToConstant: tagHeight)
+        tagsHeight!.isActive = true
+        
         sTagsCollectionView?.centerX(inView: view)
         sTagsCollectionView?.anchor(top: lessonnameLabel.bottomAnchor,
                                     left: lessonnameLabel.leftAnchor,
@@ -666,6 +688,9 @@ extension LessonInfoController: UICollectionViewDelegate, UICollectionViewDataSo
         return itemSize
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath)
     {
