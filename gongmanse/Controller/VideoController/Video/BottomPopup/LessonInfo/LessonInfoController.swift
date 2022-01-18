@@ -49,27 +49,33 @@ class LessonInfoController: UIViewController {
     public var tagsHeight : NSLayoutConstraint?
     public var sTagsArray = [String]() {
         didSet {
-            // 패드에서 태그 줄바꿈 처리를 위한 내용 추가
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let fontSize = 18.0
-                tagsWidth = 0.0
-                for item in sTagsArray {
-                    let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: fontSize)])
-                    tagsWidth += itemSize.width
-                }
-                // 간격합친 총 너비 계산
-                tagsWidth += CGFloat(sTagsArray.count - 1) * 10.0
-                
-                // 패딩 제외한 공간에 배치할 경우 예상되는 라인 수 계산하여 * 30
-                let tagHeight = (tagsWidth / (Constant.width - 60)).rounded(.up) * 30
-                tagsHeight!.constant = tagHeight
-                
-                if !UIWindow.isLandscape {
-                    _parent?.teacherInfoUnfoldConstraint?.constant = 160 + tagHeight
-                }
-            }
-            
+            setTagsHeight()
             sTagsCollectionView?.reloadData()
+        }
+    }
+    private func setTagsHeight() {
+        // 패드에서 태그 줄바꿈 처리를 위한 내용 추가
+        let fontSize = 18.0
+        tagsWidth = 0.0
+        for item in sTagsArray {
+            let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: fontSize)])
+            tagsWidth += itemSize.width
+        }
+        
+        // 간격합친 총 너비 계산
+        tagsWidth += CGFloat(sTagsArray.count - 1) * 10.0
+        
+        // 패딩 제외한 공간에 배치할 경우 예상되는 라인 수 계산하여 * 30
+        let parentWidth = UIDevice.current.orientation.isLandscape ? Constant.height * 0.6 : Constant.width
+        let tagHeight = (tagsWidth / (parentWidth - 60)).rounded(.up) * 30
+        
+        print("parentWidth : \(parentWidth)")
+        print("tagHeight : \(tagHeight)")
+        
+        tagsHeight!.constant = tagHeight
+        
+        if !UIWindow.isLandscape {
+            _parent?.teacherInfoUnfoldConstraint?.constant = 160 + tagHeight
         }
     }
     
@@ -235,8 +241,8 @@ class LessonInfoController: UIViewController {
             shareLessonButton.setDimensions(height: buttonHeight, width: buttonWidth)
             relatedSeriesButton.setDimensions(height: buttonHeight, width: buttonWidth)
             problemSolvingButton.setDimensions(height: buttonHeight, width: buttonWidth)
+            setTagsHeight()
         }
-        
         sTagsCollectionView?.reloadData()
     }
     
