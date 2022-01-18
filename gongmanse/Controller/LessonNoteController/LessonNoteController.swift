@@ -759,7 +759,7 @@ class LessonNoteController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? 0.6 : 1.0
+//        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? 0.6 : 1.0
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -767,7 +767,7 @@ class LessonNoteController: UIViewController {
         scrollView.anchor(top: view.topAnchor,
                           left: view.leftAnchor,
                           bottom: view.bottomAnchor,
-                          width: view.frame.width * ratio)
+                          width: view.frame.width)
         
 //        contentView.centerX(inView: view)
         contentView.anchor(top: scrollView.topAnchor,
@@ -800,11 +800,16 @@ class LessonNoteController: UIViewController {
     private func setupViews() {
         let canvasWidth = CGFloat(1024) //isLandscapeMode ? _parent.view.frame.height : _parent.view.frame.width
         
-        for i in 0 ..< noteImageArr.count {
-            resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
-                self.noteImageArr[i] = image!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            print("pad, do not resize image... make margin")
+        } else {
+            for i in 0 ..< noteImageArr.count {
+                resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
+                    self.noteImageArr[i] = image!
+                }
             }
         }
+        
         if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
         
             //calc content height

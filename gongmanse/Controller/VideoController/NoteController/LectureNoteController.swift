@@ -158,13 +158,13 @@ class LectureNoteController: UIViewController {
         }
         
         if UIDevice.current.userInterfaceIdiom == .pad {
-            self.marginViewWidth?.constant = self.isLandscapeMode ? 0.0 : marginWidth
+            self.marginViewWidth!.constant = self.isLandscapeMode ? 0.0 : marginWidth
         }
 
         DispatchQueue.main.async {
             let afrWidth = self.imageView01.frame.size.width
             let height = self.imageView01.image!.size.height
-                    * self.contentView.frame.size.width / self.imageView01.image!.size.width
+            * (self.contentView.frame.size.width - self.marginViewWidth!.constant) / self.imageView01.image!.size.width
             self.ct_iv_height?.constant = height
             
 //            let afrWidth = self.imageView01.frame.size.width
@@ -361,20 +361,6 @@ class LectureNoteController: UIViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         marginView.translatesAutoresizingMaskIntoConstraints = false
         
-        // 우측 여백이될 marginView 를 추가
-        view.addSubview(marginView)
-        marginWidth = UIDevice.current.userInterfaceIdiom == .pad ?
-        ( UIWindow.isLandscape ? view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
-        marginView.anchor(top: view.topAnchor,
-                          bottom: view.bottomAnchor,
-                          right: view.rightAnchor)
-        if UIWindow.isLandscape {
-            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: 0)
-        } else {
-            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
-        }
-        marginViewWidth?.isActive = true
-                
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -382,15 +368,31 @@ class LectureNoteController: UIViewController {
         scrollView.anchor(top: view.topAnchor,
                           left: view.leftAnchor,
                           bottom: view.bottomAnchor,
-                          right: marginView.leftAnchor,
+                          right: view.rightAnchor,
                           paddingTop: 13)
         
         contentView.anchor(top: scrollView.topAnchor,
-                           left: scrollView.leftAnchor,
-                           bottom: scrollView.bottomAnchor,
-                           right: scrollView.rightAnchor)
+                           
+                           bottom: scrollView.bottomAnchor)
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.backgroundColor = .white
+        
+        
+        // 우측 여백이될 marginView 를 추가
+        marginWidth = UIDevice.current.userInterfaceIdiom == .pad ?
+        ( UIWindow.isLandscape ? view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
+
+        contentView.addSubview(marginView)
+        marginView.anchor(top: contentView.topAnchor,
+                          bottom: contentView.bottomAnchor,
+                          right: contentView.rightAnchor)
+        if UIWindow.isLandscape {
+            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: 0)
+        } else {
+            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
+        }
+        marginViewWidth?.isActive = true
+        
         
         // 배경이 될 imageView를 쌓는다.
         imageView01.contentMode = .scaleAspectFit
@@ -398,7 +400,7 @@ class LectureNoteController: UIViewController {
         imageView01.anchor(top: contentView.topAnchor,
                            left: contentView.leftAnchor,
                            bottom: contentView.bottomAnchor,
-                           right: contentView.rightAnchor)
+                           right: marginView.leftAnchor)
         ct_iv_height = imageView01.heightAnchor.constraint(equalToConstant: CGFloat(1))
         ct_iv_height?.isActive = true
         
@@ -424,7 +426,7 @@ class LectureNoteController: UIViewController {
         if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
         
             //calc content height
-            let height = convertedImage.size.height * contentView.frame.size.width / convertedImage.size.width
+            let height = convertedImage.size.height * (contentView.frame.size.width - marginWidth) / convertedImage.size.width
             ct_iv_height?.constant = height
             imageView01.image = convertedImage
             
