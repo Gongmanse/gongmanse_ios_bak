@@ -162,7 +162,6 @@ class LectureNoteController: UIViewController {
         }
 
         DispatchQueue.main.async {
-            let afrWidth = self.imageView01.frame.size.width
             let height = self.imageView01.image!.size.height
             * (self.contentView.frame.size.width - self.marginViewWidth!.constant) / self.imageView01.image!.size.width
             self.ct_iv_height?.constant = height
@@ -170,10 +169,15 @@ class LectureNoteController: UIViewController {
 //            let afrWidth = self.imageView01.frame.size.width
 //            self.ct_iv_height?.constant *= (afrWidth / preWidth)
             
-            self.canvas.mWidth = Int(afrWidth)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.canvas.mWidth = Int(self.contentView.frame.size.width)
+            } else {
+                self.canvas.mWidth = Int(self.imageView01.frame.size.width)
+            }
+            
             self.canvas.mHeight = Int(self.ct_iv_height?.constant ?? 1)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.canvas.setNeedsDisplay()
             }
         }
@@ -380,13 +384,14 @@ class LectureNoteController: UIViewController {
         
         // 우측 여백이될 marginView 를 추가
         marginWidth = UIDevice.current.userInterfaceIdiom == .pad ?
-        ( UIWindow.isLandscape ? view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
+        ( UIDevice.current.orientation.isLandscape ?
+          view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
 
         contentView.addSubview(marginView)
         marginView.anchor(top: contentView.topAnchor,
                           bottom: contentView.bottomAnchor,
                           right: contentView.rightAnchor)
-        if UIWindow.isLandscape {
+        if UIDevice.current.orientation.isLandscape {
             marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: 0)
         } else {
             marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
@@ -426,11 +431,14 @@ class LectureNoteController: UIViewController {
         if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
         
             //calc content height
-            let height = convertedImage.size.height * (contentView.frame.size.width - marginWidth) / convertedImage.size.width
+            //가로모드에서 화면 전환 시 사이즈 재설정..
+            let height = convertedImage.size.height * (contentView.frame.size.width - (UIDevice.current.orientation.isLandscape ? 0 :marginWidth)) / convertedImage.size.width
+            print("setupView height : \(height)")
+            
             ct_iv_height?.constant = height
             imageView01.image = convertedImage
             
-            self.canvas.mWidth = Int(imageView01.frame.size.width)
+            self.canvas.mWidth = Int(contentView.frame.size.width)
             self.canvas.mHeight = Int(height)
         }
     }
