@@ -49,7 +49,9 @@ class LessonInfoController: UIViewController {
     public var tagsHeight : NSLayoutConstraint?
     public var sTagsArray = [String]() {
         didSet {
-            setTagsHeight()
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                setTagsHeight()
+            }
             sTagsCollectionView?.reloadData()
         }
     }
