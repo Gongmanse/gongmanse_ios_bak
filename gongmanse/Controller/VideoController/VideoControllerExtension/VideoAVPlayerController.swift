@@ -555,7 +555,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                                      right: videoContainerView.rightAnchor,
                                      height: height)
         videoControlContainerViewBottomConstraint
-            = videoControlContainerView.bottomAnchor.constraint(equalTo: videoContainerView.bottomAnchor, constant: -30)
+            = videoControlContainerView.bottomAnchor.constraint(equalTo: videoContainerView.bottomAnchor, constant: -45)
         videoControlContainerViewBottomConstraint?.isActive = true
         
         // backButton

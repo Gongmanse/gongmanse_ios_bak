@@ -411,7 +411,10 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         } else {
             fontSize = 13
         }
-        let label = UILabel()
+        let label = PaddingLabel()
+        label.topInset = 5.0
+        label.bottomInset = 5.0
+        
         let backgroundColor = UIColor.black.withAlphaComponent(0.7)
         label.backgroundColor = backgroundColor
         label.font = UIFont.appBoldFontWith(size: fontSize)
@@ -602,7 +605,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             teacherInfoUnfoldConstraint!.isActive = true
             self.view.endEditing(true)
             subtitleLabel.font = UIFont.appBoldFontWith(size: 22)
-            videoControlContainerViewBottomConstraint?.constant = -55
+            videoControlContainerViewBottomConstraint?.constant = -80
             changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_exit"), for: .normal)
             
             portraitConstraint(false)

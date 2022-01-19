@@ -26,7 +26,7 @@ extension VideoController {
         }
         subtitleLabel.font = UIFont.appBoldFontWith(size: fontSize)
         
-        videoControlContainerViewBottomConstraint?.constant = -30
+        videoControlContainerViewBottomConstraint?.constant = -45
         changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
         
         portraitConstraint(true)

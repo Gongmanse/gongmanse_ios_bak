@@ -65,7 +65,7 @@ extension VideoController {
             teacherInfoUnfoldConstraint!.isActive = true
             self.view.endEditing(true)
             subtitleLabel.font = UIFont.appBoldFontWith(size: 22)
-            videoControlContainerViewBottomConstraint?.constant = -55
+            videoControlContainerViewBottomConstraint?.constant = -80
             changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_exit"), for: .normal)
             
             portraitConstraint(false)
@@ -112,7 +112,7 @@ extension VideoController {
                 fontSize = 13
             }
             subtitleLabel.font = UIFont.appBoldFontWith(size: fontSize)
-            videoControlContainerViewBottomConstraint?.constant = -30
+            videoControlContainerViewBottomConstraint?.constant = -45
             changeOrientationButton.setImage(UIImage(named: "icon_fullscreen_enter"), for: .normal)
             
             if UIWindow.isLandscape {
