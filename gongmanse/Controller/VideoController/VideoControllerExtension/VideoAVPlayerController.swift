@@ -315,7 +315,8 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.timeObserverToken = player.addPeriodicTimeObserver(
-            forInterval: CMTimeMake(value: 1, timescale: 60),
+//            forInterval: CMTimeMake(value: 1, timescale: 60),
+            forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1),// 확인 주기 변경
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
                 guard let strongSelf = self else { return }
@@ -346,6 +347,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
                                                                 time.seconds)
                 {
+//                    print("subtitleText : \(subtitleText)")// html tag 포함.
                     /// 슬라이싱한 최종결과를 저장할 프로퍼티
                     var subtitleFinal = String()
                     /// 태그의 개수를 파악하기 위해 정규표현식을 적용한 string 프로퍼티
@@ -353,7 +355,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     /// 태그의 개수를 Int로 캐스팅한 Int 프로퍼티
                     let numberOfsTags = Int(Double(tagCounter.count) * 0.5)
                     /// ">"값을 기준으로 자막을 슬라이싱한 텍스트
-                    let firstSlicing = subtitleText.split(separator: ">")
+//                    let firstSlicing = subtitleText.split(separator: ">")
                     
                     // "<"값을 기준으로 자막을 슬라이싱한 후, "subtitleFinal에 결과를 입력한다.
                     if numberOfsTags >= 1 {
@@ -392,17 +394,22 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
                     /* 자막에 "#"가 존재하는 경우 */
                     if subtitleFinal.contains("#") {
+                        print("# subtitleFinal : \(subtitleFinal)")
                         // "#"을 기준으로 자막을 나눈다.
                         let subtitleArray = subtitleText.split(separator: "#")
+                        print("subtitleArray : \(subtitleArray)")
+                        
                         // "#"의 개수를 확인한다.
                         let hashtagCounter = subtitleFinal.getOnlyText(regex: "#")
-                        /// #"의 개수 프로퍼티
+                        print("hashtagCounter : \(hashtagCounter), \(hashtagCounter.count)")
+                        
+                        // #"의 개수 프로퍼티
                         let numberOfHasgtags = hashtagCounter.count
                         
-                        /// 키워드 개수에 맞게 글자 속성 부여 및 클릭 시 호출되도록 설정 메소드
-                        /// - "subtitleLabel"의 foregroundColor 변경(default: .orange)
-                        /// - "subtitleLabel"의 Font 변경(default: 14)
-                        /// - "subtitleLabel" 클릭 시, 클릭한 키워드 판별로직
+                        // 키워드 개수에 맞게 글자 속성 부여 및 클릭 시 호출되도록 설정 메소드
+                        // - "subtitleLabel"의 foregroundColor 변경(default: .orange)
+                        // - "subtitleLabel"의 Font 변경(default: 14)
+                        // - "subtitleLabel" 클릭 시, 클릭한 키워드 판별로직
                         strongSelf.manageTextInSubtitle(numberOfHasgtags: numberOfHasgtags,
                                                         subtitleArray: subtitleArray,
                                                         sTagsArray: strongSelf.sTagsArray,
