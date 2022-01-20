@@ -813,10 +813,10 @@ class LessonNoteController: UIViewController {
         canvas.isUserInteractionEnabled = false
         canvas.alpha = 1
         canvas.backgroundColor = .clear
-        canvas.anchor(top: contentView.topAnchor,
-                      left: contentView.leftAnchor,
-                      bottom: contentView.bottomAnchor,
-                      right: contentView.rightAnchor)
+        canvas.anchor(top: imageView01.topAnchor,
+                      left: imageView01.leftAnchor,
+                      bottom: imageView01.bottomAnchor,
+                      right: imageView01.rightAnchor)
         scrollView.isScrollEnabled = true
     }
     
