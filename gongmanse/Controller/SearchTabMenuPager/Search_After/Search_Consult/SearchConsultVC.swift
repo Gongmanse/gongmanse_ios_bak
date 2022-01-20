@@ -162,7 +162,7 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
         
         let indexData = searchConsultationVM.responseDataModel?.data[indexPath.row]
         
-        cell.questionTitle.text = indexData?.sQuestion?.withoutHtmlTags
+        cell.questionTitle.text = indexData?.sQuestion?.htmlEscaped.trimmingCharacters(in: .whitespacesAndNewlines)// 문장 시작과 끝의 공백&줄바꿈 제거
         cell.writer.text = indexData?.sNickname
         
         cell.writtenDate.text = indexData?.simpleDt ?? ""
