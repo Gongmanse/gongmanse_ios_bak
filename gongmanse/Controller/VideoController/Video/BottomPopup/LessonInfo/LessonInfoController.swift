@@ -57,19 +57,24 @@ class LessonInfoController: UIViewController {
     }
     private func setTagsHeight() {
         // 패드에서 태그 줄바꿈 처리를 위한 내용 추가
+        let parentWidth = (UIDevice.current.orientation.isLandscape
+                           ? Constant.height * 0.6 : Constant.width) - 60// 화면너비 & 패딩.
+        var tagLines = 1
         let fontSize = 18.0
-        tagsWidth = 0.0
+        tagsWidth = 0
+        
         for item in sTagsArray {
             let itemSize = item.size(withAttributes: [NSAttributedString.Key.font: UIFont.appBoldFontWith(size: fontSize)])
-            tagsWidth += itemSize.width
+            tagsWidth += (itemSize.width + 10)// 아이템 하나 + 기본 여백.
+            print("tagsWidth : \(tagsWidth)")
+            if tagsWidth > parentWidth + 10 {// check line break
+                tagLines += 1
+                print("line break... \(tagLines)")
+                tagsWidth = itemSize.width + 10
+            }
         }
-        
-        // 간격합친 총 너비 계산
-        tagsWidth += CGFloat(sTagsArray.count - 1) * 10.0
-        
-        // 패딩 제외한 공간에 배치할 경우 예상되는 라인 수 계산하여 * 30
-        let parentWidth = UIDevice.current.orientation.isLandscape ? Constant.height * 0.6 : Constant.width
-        let tagHeight = (tagsWidth / (parentWidth - 60)).rounded(.up) * 30
+
+        let tagHeight: CGFloat = CGFloat(tagLines) * 30.0//(tagsWidth / (parentWidth - 60)).rounded(.up) * 30
         
         print("parentWidth : \(parentWidth)")
         print("tagHeight : \(tagHeight)")
