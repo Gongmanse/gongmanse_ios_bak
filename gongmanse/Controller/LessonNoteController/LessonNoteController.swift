@@ -207,6 +207,11 @@ class LessonNoteController: UIViewController {
         return imageView
     }()
     private var ct_iv_height : NSLayoutConstraint?
+    
+    private let marginViewLeft = UIView()
+    private let marginViewRight = UIView()
+    private var marginWidth : CGFloat = 0.0
+    
     var isLoading = false
     
     // 노트필기 객체
@@ -758,8 +763,9 @@ class LessonNoteController: UIViewController {
         view.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        marginViewLeft.translatesAutoresizingMaskIntoConstraints = false
+        marginViewRight.translatesAutoresizingMaskIntoConstraints = false
         
-//        let ratio = UIDevice.current.userInterfaceIdiom == .pad ? 0.6 : 1.0
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -775,13 +781,30 @@ class LessonNoteController: UIViewController {
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.backgroundColor = .white
         
+        // 여백이될 marginView 를 추가
+        marginWidth = UIDevice.current.userInterfaceIdiom == .pad ?
+        ( UIDevice.current.orientation.isLandscape ?
+          view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
+        
+        contentView.addSubview(marginViewLeft)
+        contentView.addSubview(marginViewRight)
+        marginViewLeft.anchor(top: contentView.topAnchor,
+                              left: contentView.leftAnchor,
+                              bottom: contentView.bottomAnchor)
+        marginViewRight.anchor(top: contentView.topAnchor,
+                               bottom: contentView.bottomAnchor,
+                               right: contentView.rightAnchor)
+        marginViewLeft.widthAnchor.constraint(equalToConstant: marginWidth*0.55).isActive = true
+        marginViewRight.widthAnchor.constraint(equalToConstant: marginWidth*0.45).isActive = true
+        
+        
         // 배경이 될 imageView를 쌓는다.
         imageView01.contentMode = .scaleAspectFit
         contentView.addSubview(imageView01)
         imageView01.anchor(top: contentView.topAnchor,
-                           left: contentView.leftAnchor,
+                           left: marginViewLeft.rightAnchor,
                            bottom: contentView.bottomAnchor,
-                           right: contentView.rightAnchor)
+                           right: marginViewRight.leftAnchor)
         ct_iv_height = imageView01.heightAnchor.constraint(equalToConstant: CGFloat(1))
         ct_iv_height?.isActive = true
         
@@ -800,20 +823,20 @@ class LessonNoteController: UIViewController {
     private func setupViews() {
         let canvasWidth = CGFloat(1024) //isLandscapeMode ? _parent.view.frame.height : _parent.view.frame.width
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            print("pad, do not resize image... make margin")
-        } else {
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            print("pad, do not resize image... make margin")
+//        } else {
             for i in 0 ..< noteImageArr.count {
                 resize(image: crop(image: noteImageArr[i]), canvasWidth: canvasWidth) { image in
                     self.noteImageArr[i] = image!
                 }
             }
-        }
+//        }
         
         if let convertedImage = mergeVerticallyImagesIntoImage(images: noteImageArr) {
         
             //calc content height
-            let height = convertedImage.size.height * contentView.frame.size.width / convertedImage.size.width
+            let height = convertedImage.size.height * (contentView.frame.size.width - marginWidth) / convertedImage.size.width
             ct_iv_height?.constant = height
             imageView01.image = convertedImage
             

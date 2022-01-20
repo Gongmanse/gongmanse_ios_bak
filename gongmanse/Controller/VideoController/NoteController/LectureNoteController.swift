@@ -38,8 +38,10 @@ class LectureNoteController: UIViewController {
     }()
     private var ct_iv_height : NSLayoutConstraint?
     
-    private let marginView = UIView()
-    private var marginViewWidth : NSLayoutConstraint?
+    private let marginViewLeft = UIView()
+    private let marginViewRight = UIView()
+    private var marginLeft : NSLayoutConstraint?
+    private var marginRight : NSLayoutConstraint?
     private var marginWidth : CGFloat = 0.0
     
     // 노트필기 객체
@@ -158,26 +160,20 @@ class LectureNoteController: UIViewController {
         }
         
         if UIDevice.current.userInterfaceIdiom == .pad {
-            self.marginViewWidth!.constant = self.isLandscapeMode ? 0.0 : marginWidth
+            self.marginLeft!.constant = self.isLandscapeMode ? 0.0 : marginWidth*0.55
+            self.marginRight!.constant = self.isLandscapeMode ? 0.0 : marginWidth*0.45
         }
 
         DispatchQueue.main.async {
             let height = self.imageView01.image!.size.height
-            * (self.contentView.frame.size.width - self.marginViewWidth!.constant) / self.imageView01.image!.size.width
+            * (self.contentView.frame.size.width - self.marginLeft!.constant - self.marginRight!.constant) / self.imageView01.image!.size.width
+            
             self.ct_iv_height?.constant = height
             
-//            let afrWidth = self.imageView01.frame.size.width
-//            self.ct_iv_height?.constant *= (afrWidth / preWidth)
+            self.canvas.mWidth = Int(self.imageView01.frame.size.width)
+            self.canvas.mHeight = Int(height)
             
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                self.canvas.mWidth = Int(self.contentView.frame.size.width)
-            } else {
-                self.canvas.mWidth = Int(self.imageView01.frame.size.width)
-            }
-            
-            self.canvas.mHeight = Int(self.ct_iv_height?.constant ?? 1)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.canvas.setNeedsDisplay()
             }
         }
@@ -363,7 +359,8 @@ class LectureNoteController: UIViewController {
         view.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        marginView.translatesAutoresizingMaskIntoConstraints = false
+        marginViewLeft.translatesAutoresizingMaskIntoConstraints = false
+        marginViewRight.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -376,36 +373,41 @@ class LectureNoteController: UIViewController {
                           paddingTop: 13)
         
         contentView.anchor(top: scrollView.topAnchor,
-                           
                            bottom: scrollView.bottomAnchor)
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.backgroundColor = .white
         
-        
-        // 우측 여백이될 marginView 를 추가
+        // 여백이될 marginView 를 추가
         marginWidth = UIDevice.current.userInterfaceIdiom == .pad ?
         ( UIDevice.current.orientation.isLandscape ?
           view.frame.height * 0.4 : view.frame.width * 0.4 ) : 0
 
-        contentView.addSubview(marginView)
-        marginView.anchor(top: contentView.topAnchor,
-                          bottom: contentView.bottomAnchor,
-                          right: contentView.rightAnchor)
+        contentView.addSubview(marginViewLeft)
+        contentView.addSubview(marginViewRight)
+        marginViewLeft.anchor(top: contentView.topAnchor,
+                              left: contentView.leftAnchor,
+                              bottom: contentView.bottomAnchor)
+        marginViewRight.anchor(top: contentView.topAnchor,
+                               bottom: contentView.bottomAnchor,
+                               right: contentView.rightAnchor)
         if UIDevice.current.orientation.isLandscape {
-            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: 0)
+            marginLeft = marginViewLeft.widthAnchor.constraint(equalToConstant: 0)
+            marginRight = marginViewRight.widthAnchor.constraint(equalToConstant: 0)
         } else {
-            marginViewWidth = marginView.widthAnchor.constraint(equalToConstant: marginWidth)
+            marginLeft = marginViewLeft.widthAnchor.constraint(equalToConstant: marginWidth*0.55)
+            marginRight = marginViewRight.widthAnchor.constraint(equalToConstant: marginWidth*0.45)
         }
-        marginViewWidth?.isActive = true
+        marginLeft?.isActive = true
+        marginRight?.isActive = true
         
         
         // 배경이 될 imageView를 쌓는다.
         imageView01.contentMode = .scaleAspectFit
         contentView.addSubview(imageView01)
         imageView01.anchor(top: contentView.topAnchor,
-                           left: contentView.leftAnchor,
+                           left: marginViewLeft.rightAnchor,
                            bottom: contentView.bottomAnchor,
-                           right: marginView.leftAnchor)
+                           right: marginViewRight.leftAnchor)
         ct_iv_height = imageView01.heightAnchor.constraint(equalToConstant: CGFloat(1))
         ct_iv_height?.isActive = true
         
@@ -413,10 +415,10 @@ class LectureNoteController: UIViewController {
         contentView.addSubview(canvas)
         canvas.isUserInteractionEnabled = false
         canvas.backgroundColor = .clear
-        canvas.anchor(top: contentView.topAnchor,
-                      left: contentView.leftAnchor,
-                      bottom: contentView.bottomAnchor,
-                      right: contentView.rightAnchor)
+        canvas.anchor(top: imageView01.topAnchor,
+                      left: imageView01.leftAnchor,
+                      bottom: imageView01.bottomAnchor,
+                      right: imageView01.rightAnchor)
         scrollView.isScrollEnabled = true
     }
     
@@ -438,7 +440,7 @@ class LectureNoteController: UIViewController {
             ct_iv_height?.constant = height
             imageView01.image = convertedImage
             
-            self.canvas.mWidth = Int(contentView.frame.size.width)
+            self.canvas.mWidth = Int(imageView01.frame.size.width)
             self.canvas.mHeight = Int(height)
         }
     }
