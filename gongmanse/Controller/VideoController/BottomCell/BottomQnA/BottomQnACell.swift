@@ -248,19 +248,22 @@ extension BottomQnACell: UITableViewDelegate {
 extension BottomQnACell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videoVM.videoQnAInformation?.data.count ?? 0
+//        return (videoVM.videoQnAInformation?.data.count ?? 0) * 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let short = videoVM.videoQnAInformation?.data[indexPath.row]
+//        let short = videoVM.videoQnAInformation?.data[indexPath.row / 2]
         
 //        print(sideHeaderVM.userID)
         
+//        if indexPath.row % 2 == 0 {
         if let teacher = short?.sTeacher {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: otherChatIdentifier, for: indexPath) as? QnAOthersChatCell else { return UITableViewCell() }
             
             cell.selectionStyle = .none
             cell.otherContent.text = "A. \(teacher)\n\(short?.sAnswer?.htmlEscaped ?? "")"
-            
+//            cell.otherContent.text = "Q. \(short?.sNickname ?? "")\n\(short?.sQuestion?.htmlEscaped ?? "")"
             if let sUrl = short?.sTeacherImg {
 //                let url = URL(string: "\(fileBaseURL)/\(sUrl)")
 //                let data = try? Data(contentsOf: url!)

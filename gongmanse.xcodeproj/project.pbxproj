@@ -481,6 +481,7 @@
 		C2F22746261E9EB600559065 /* SubjectListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F22744261E9EB600559065 /* SubjectListCell.xib */; };
 		C2F2274A261EA02900559065 /* GradeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F22748261EA02900559065 /* GradeListCell.swift */; };
 		C2F2274B261EA02900559065 /* GradeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F22749261EA02900559065 /* GradeListCell.xib */; };
+		F060FEBA2794F4AA003481A3 /* launcher_img.png in Resources */ = {isa = PBXBuildFile; fileRef = F060FEB92794F4AA003481A3 /* launcher_img.png */; };
 		F064A48C27604F75006FDCA6 /* FindEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F064A48B27604F75006FDCA6 /* FindEntity.swift */; };
 		F0AED47B274B7D9B00C6FEDA /* PurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */; };
 /* End PBXBuildFile section */
@@ -967,6 +968,7 @@
 		C2F22749261EA02900559065 /* GradeListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradeListCell.xib; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
+		F060FEB92794F4AA003481A3 /* launcher_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launcher_img.png; sourceTree = "<group>"; };
 		F064A48B27604F75006FDCA6 /* FindEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindEntity.swift; sourceTree = "<group>"; };
 		F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2551,6 +2553,7 @@
 		6CD7C3C325F086E00092D30E /* gongmanse */ = {
 			isa = PBXGroup;
 			children = (
+				F060FEB92794F4AA003481A3 /* launcher_img.png */,
 				6CE92DD1268065E60018B43F /* gongmanse.entitlements */,
 				C279FA7D264CB151009FA317 /* Enum */,
 				C20C8E272645044A00B0566A /* Generic */,
@@ -3443,6 +3446,7 @@
 				259B8BA2260301CF009A7146 /* SearchNoteCell.xib in Resources */,
 				259B8BF4260305E1009A7146 /* SearchVideoVC.xib in Resources */,
 				6CB1FA9E265F9E7500027666 /* LoadingCell.xib in Resources */,
+				F060FEBA2794F4AA003481A3 /* launcher_img.png in Resources */,
 				C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */,
 				25201DB526042880001098AC /* FindIDByPhoneVC.xib in Resources */,
 				6C9BEEBC265E163C00FFF655 /* EmptyTableViewCell.xib in Resources */,
