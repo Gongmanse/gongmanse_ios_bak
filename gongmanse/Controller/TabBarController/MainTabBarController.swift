@@ -23,6 +23,10 @@ class MainTabBarController: UITabBarController {
         
         //탭 바 색상 변경
         tabBarController?.tabBar.barTintColor = UIColor.white
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 11)], for: .normal)
+            UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 11)], for: .selected)
+        }
     }
     
     func setupStyle() {
