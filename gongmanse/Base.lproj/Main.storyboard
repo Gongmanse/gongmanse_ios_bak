@@ -1042,6 +1042,20 @@
                                                         </stackView>
                                                     </subviews>
                                                 </stackView>
+                                                <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nMq-sq-CTL">
+                                                    <rect key="frame" x="0.0" y="-1" width="360" height="202.5"/>
+                                                    <subviews>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="iqZ-t5-CWN">
+                                                            <rect key="frame" x="170" y="91" width="20" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="color" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </activityIndicatorView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29747211380510141" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="nMq-sq-CTL" secondAttribute="height" multiplier="16:9" id="xIp-qS-89O"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="AJL-Cj-tED" firstAttribute="leading" secondItem="N2R-Mc-JLG" secondAttribute="leading" id="27Z-iD-x88"/>
@@ -1050,16 +1064,21 @@
                                                 <constraint firstAttribute="trailing" secondItem="yjg-Pz-Z7x" secondAttribute="trailing" constant="10" id="OyH-Bs-MdI"/>
                                                 <constraint firstItem="gs1-Mr-fka" firstAttribute="top" secondItem="N2R-Mc-JLG" secondAttribute="top" id="P1B-Zv-Uc6"/>
                                                 <constraint firstAttribute="bottom" secondItem="AJL-Cj-tED" secondAttribute="bottom" constant="5" id="Tvg-WS-kH2"/>
+                                                <constraint firstItem="nMq-sq-CTL" firstAttribute="top" secondItem="N2R-Mc-JLG" secondAttribute="top" id="WIo-Ra-sH8"/>
                                                 <constraint firstAttribute="bottom" secondItem="yjg-Pz-Z7x" secondAttribute="bottom" constant="5" id="izo-Lo-Xcx"/>
                                                 <constraint firstAttribute="trailing" secondItem="gs1-Mr-fka" secondAttribute="trailing" id="qfU-Kp-w1o"/>
+                                                <constraint firstItem="nMq-sq-CTL" firstAttribute="width" secondItem="N2R-Mc-JLG" secondAttribute="width" id="rTs-iq-t0g"/>
+                                                <constraint firstItem="nMq-sq-CTL" firstAttribute="centerX" secondItem="N2R-Mc-JLG" secondAttribute="centerX" id="sn2-Gp-8Ox"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="360" height="265"/>
                                         <connections>
+                                            <outlet property="loadingView" destination="iqZ-t5-CWN" id="SqL-cN-9M8"/>
                                             <outlet property="starRating" destination="tUq-rl-5yH" id="ofu-R6-ETG"/>
                                             <outlet property="subjects" destination="dj1-Wh-9Aj" id="q0G-wy-3SQ"/>
                                             <outlet property="teachersName" destination="Vxm-pd-6LQ" id="q1P-tC-FzR"/>
                                             <outlet property="term" destination="nUY-sC-5JJ" id="jAO-Fw-1in"/>
+                                            <outlet property="videoAreaView" destination="nMq-sq-CTL" id="A6O-wV-qW6"/>
                                             <outlet property="videoThumbnail" destination="Eg2-Ud-P2f" id="CSI-Dd-LOH"/>
                                             <outlet property="videoTitle" destination="Sz6-bw-uCm" id="i45-LB-z0X"/>
                                         </connections>

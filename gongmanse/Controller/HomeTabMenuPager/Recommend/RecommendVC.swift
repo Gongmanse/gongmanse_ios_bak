@@ -1,8 +1,14 @@
 import UIKit
 import SDWebImage
 import Alamofire
+import AVFoundation
 
 class RecommendVC: UIViewController {
+    var visibleIP : IndexPath?
+//    var aboutToBecomeInvisibleCell = -1
+    var avPlayerLayer: AVPlayerLayer!
+    var videoURLs = Array<URL>()
+    var firstLoad = true
     
     var pageIndex: Int!
     
@@ -118,6 +124,7 @@ extension RecommendVC: UICollectionViewDataSource {
         let indexData = json.body[indexPath.row]
         let url = URL(string: makeStringKoreanEncoded(indexData.thumbnail ?? "nil"))
         
+        cell.videoID = indexData.videoId
         cell.videoThumbnail.contentMode = .scaleAspectFill
         cell.videoThumbnail.sd_setImage(with: url)
         cell.videoThumbnail.sizeToFit()
@@ -228,19 +235,75 @@ extension RecommendVC: UICollectionViewDataSource {
         }
     }
     
-    /*func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        if position == (recommendCollection.contentSize.height - scrollView.frame.size.height) {
-            //            /// TODO: 로딩인디케이터
-            //            UIView.animate(withDuration: 3) {
-            //                // 로딩이미지
-            //            } completion: { (_) in
-            //                // API 호출
-            //            }
-            getDataFromJson()
-            recommendCollection.reloadData()
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let indexPaths = recommendCollection.indexPathsForVisibleItems
+        var cells = [Any]()
+        for ip in indexPaths {
+            if let videoCell = recommendCollection.cellForItem(at: ip) as? RecommendCVCell {
+                cells.append(videoCell)
+            }
         }
-    }*/
+        
+        let cellCount = cells.count
+//        if cellCount == 0 {return}
+//        else if cellCount == 1 {
+//            if let videoCell = cells.last! as? RecommendCVCell {
+//                let intersect = videoCell.frame.intersection(recommendCollection.bounds)
+//                let currentHeight = intersect.height
+//
+//                if (videoCell.frame.size.height * 0.95) < currentHeight {
+//                    if visibleIP != indexPaths[0] {
+////                        print ("visible = \(indexPaths[0])")
+//                        visibleIP = indexPaths[0]
+//                        videoCell.startPlayback()
+//                    }
+//                } else {
+//                    if visibleIP != nil {
+//                        videoCell.stopPlayback()
+//                        visibleIP = nil
+//                    }
+//                }
+//            }
+//        }
+//        else
+        if cellCount >= 2 {
+            for i in 0..<cellCount {
+                let cellRect = (cells[i] as! RecommendCVCell).frame
+                let intersect = cellRect.intersection(recommendCollection.bounds)
+
+                let currentHeight = intersect.height
+                let cellHeight = (cells[i] as AnyObject).frame.size.height
+                if (cellHeight * 0.95) < currentHeight {
+                    if visibleIP != indexPaths[i] {// 아이템 변경 체크
+                        if visibleIP == nil {
+                            
+                        }
+                        
+                        visibleIP = indexPaths[i]
+//                        print ("visible = \(indexPaths[i])")
+                        if let videoCell = cells[i] as? RecommendCVCell {
+                            videoCell.startPlayback()
+                        }
+                    }
+                }
+                else {
+                    if let videoCell = cells[i] as? RecommendCVCell {
+                        if visibleIP == indexPaths[i] {
+                            visibleIP = nil
+                            videoCell.stopPlayback()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forRowAt indexPath: IndexPath) {
+        print("end = \(indexPath)")
+        if let videoCell = cell as? RecommendCVCell {
+            videoCell.stopPlayback()
+        }
+    }
 }
 
 extension RecommendVC: UICollectionViewDelegate {

@@ -229,6 +229,24 @@ class DetailVideoDataManager {
                 }
             }
     }
+    
+    func DetailVideoDataManager(_ videoID: String, completion: @escaping (_ response: DetailVideoResponse) -> Void) {
+        let token = Constant.token
+        let url = Constant.BASE_URL + "/v/video/details?video_id=\(videoID)&token=\(token)"
+        
+        /// HTTP Method: GET
+        AF.request(url)
+            .responseDecodable(of: DetailVideoResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    print("DetailVideoDataManager : \(response.data)")
+                    completion(response)
+                case .failure(let error):
+                    print("DetailVideoDataManager : faild connection \(error.localizedDescription)")
+                }
+            }
+    }
 }
 
 

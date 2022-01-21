@@ -230,6 +230,14 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
     //            vc.isChangedName = false
                 self.present(vc, animated: true)
             } else {
+                //제한 해제 테스트
+//                let vc = VideoController()
+//                let videoDataManager = VideoDataManager.shared
+//                videoDataManager.isFirstPlayVideo = true
+//                vc.id = searchNoteVM.searchNotesDataModel?.data[sender.tag].videoID ?? ""
+//                vc.modalPresentationStyle = .overFullScreen
+//                self.present(vc, animated: true)
+                
                 //video->lectureplaylist->video 와 같은 현상을 방지하기 위한
                 let vc = self.presentingViewController as! VideoController
                 vc.isFullScreenMode = false

@@ -111,6 +111,24 @@ class GuestKeyDataManager {
                 }
             }
     }
+    
+    
+    func GuestKeyAPIGetData(_ videoID: String, completion: @escaping (_ response: GuestKeyResponse) -> Void) {
+        let url = "\(apiBaseURL)/v/video/recommendurl?video_id=\(videoID)&token="
+        
+        AF.request(url)
+            .responseDecodable(of: GuestKeyResponse.self) { response in
+                
+                switch response.result {
+                case .success(let response):
+                    print("GuestKeyAPIGetData : \(response.data)")
+                    completion(response)
+                    
+                case .failure(let error):
+                    print("GuestKeyAPIGetData, faild connection \(error.localizedDescription)")
+                }
+            }
+    }
 }
 
 
