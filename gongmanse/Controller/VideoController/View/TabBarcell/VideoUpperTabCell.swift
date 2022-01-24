@@ -11,7 +11,11 @@ class VideoUpperCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .rgb(red: 28, green: 28, blue: 28)
         label.textAlignment = .center
-        label.font = UIFont.appBoldFontWith(size: 14)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            label.font = UIFont.appBoldFontWith(size: 16)
+        } else {
+            label.font = UIFont.appBoldFontWith(size: 14)
+        }
         return label
     }()
     

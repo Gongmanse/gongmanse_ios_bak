@@ -52,7 +52,7 @@ class LectureNoteController: UIViewController {
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: buttonFontSize)
         button.layer.masksToBounds = true
         button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         button.layer.cornerRadius = 5
@@ -113,7 +113,7 @@ class LectureNoteController: UIViewController {
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: buttonFontSize)
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button

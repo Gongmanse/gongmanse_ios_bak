@@ -222,7 +222,7 @@ class LessonNoteController: UIViewController {
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: buttonFontSize)
         button.layer.masksToBounds = true
         button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         button.layer.cornerRadius = 5
@@ -285,7 +285,7 @@ class LessonNoteController: UIViewController {
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: buttonFontSize)
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(openWritingImplement), for: .touchUpInside)
         return button
@@ -296,7 +296,7 @@ class LessonNoteController: UIViewController {
         button.setTitle("이전", for: .normal)
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: buttonFontSize)
         button.backgroundColor = UIColor.rgb(red: 21, green: 176, blue: 172)
         button.layer.masksToBounds = true
         button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
@@ -310,7 +310,7 @@ class LessonNoteController: UIViewController {
         button.setTitle("다음", for: .normal)
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.appBoldFontWith(size: 12)
+        button.titleLabel?.font = UIFont.appBoldFontWith(size: buttonFontSize)
         button.backgroundColor = UIColor.rgb(red: 21, green: 176, blue: 172)
         button.layer.masksToBounds = true
         button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]

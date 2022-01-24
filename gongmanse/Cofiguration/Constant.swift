@@ -160,3 +160,5 @@ func dateStringToDate(_ dateString: String) -> Date {
     let date: Date = dateFormatter.date(from: dateString)!
     return date
 }
+
+var buttonFontSize:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 13 : 12
