@@ -22,8 +22,8 @@ android {
         applicationId "com.gongmanse.app"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2252
-        versionName "2.2.5"
+        versionCode 2264
+        versionName "2.2.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //aab 파일명 설정
         setProperty("archivesBaseName", "Gongmanse" + "_V" + versionName)
@@ -97,7 +97,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // material
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
 
     // indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
@@ -180,4 +180,6 @@ dependencies {
     // Facebook
     implementation 'com.facebook.android:facebook-share:5.15.3'
 
+    // HashTag linebreak on tablet
+    implementation "com.google.android:flexbox:2.0.1"
 }

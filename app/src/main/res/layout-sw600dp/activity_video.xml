@@ -16,6 +16,22 @@
         android:layout_height="match_parent"
         tools:context=".activities.VideoActivity">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6"/>
+
+        <View
+            android:id="@+id/landscape_video_guide"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/root_layout"
+            app:layout_constraintTop_toTopOf="@id/root_layout"
+            app:layout_constraintBottom_toBottomOf="@id/root_layout"
+            app:layout_constraintEnd_toEndOf="@id/center_guide"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/player_layout"
             android:layout_width="0dp"
@@ -40,7 +56,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_content_info2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="15dp"
                 app:layout_constraintTop_toTopOf="parent">
@@ -101,11 +117,12 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_hash_tag2"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHeight_max="55dp"
+                    android:maxHeight="55dp"
+                    android:layout_marginTop="10dp"
                     bindHashTag="@{viewModel.data.tags}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tv_title2"
                     app:layout_constraintBottom_toTopOf="@id/layout_menu_list2"
                     tools:listitem="@layout/item_hash_tag"/>
@@ -115,10 +132,9 @@
                     android:id="@+id/layout_menu_list2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/rv_hash_tag2"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/rv_hash_tag2">
 
                     <TextView
                         style="@style/NanumSquareRoundB.TextView.Sw600dp2"
@@ -228,7 +244,7 @@
                     app:tabMode="fixed"
                     app:tabGravity="fill"
                     app:tabMaxWidth="0dp"
-                    app:tabTextAppearance="@style/NanumSquareRoundB.TabLayoutSw600">
+                    app:tabTextAppearance="@style/NanumSquareRoundB.TabLayout.Sw600dp">
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
@@ -333,9 +349,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
                         bindHashTag="@{viewModel.data.tags}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/tv_title"
                         app:layout_constraintBottom_toTopOf="@id/layout_menu_list"
                         tools:listitem="@layout/item_hash_tag"/>

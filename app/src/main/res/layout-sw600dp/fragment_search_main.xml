@@ -246,7 +246,7 @@
             app:tabIndicatorHeight="3dp"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabTextAppearance="@style/NanumSquareRoundB.TabLayout" />
+            app:tabTextAppearance="@style/NanumSquareRoundB.TabLayout.Sw600dp" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"

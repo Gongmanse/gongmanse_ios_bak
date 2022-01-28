@@ -107,7 +107,7 @@ class VideoNoteViewModel(private val videoRepository: VideoRepository?): ViewMod
 //                            binding.canvasBackground.invalidate()
 //                            binding.canvasBackground.requestLayout()
 //                        }
-//                        binding.canvasView.setLayoutSize(binding.canvasBackground.getLayoutHeight())
+//                        binding.canvasView.setLayoutSize(binding.canvasBackground.height.toFloat())
 //                        binding.canvasView.invalidate()
 //                        binding.canvasView.requestLayout()
 //                        binding.canvasView.clear()

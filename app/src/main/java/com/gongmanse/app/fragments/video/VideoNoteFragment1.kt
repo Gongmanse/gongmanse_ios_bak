@@ -1,15 +1,22 @@
 package com.gongmanse.app.fragments.video
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.gongmanse.app.R
 import com.gongmanse.app.activities.VideoActivity
@@ -18,6 +25,7 @@ import com.gongmanse.app.api.video.VideoRepository
 import com.gongmanse.app.databinding.FragmentVideoNoteBinding
 import com.gongmanse.app.model.*
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.gongmanse.app.utils.GraphicView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +42,58 @@ class VideoNoteFragment1 : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_video_note, container, false)
+        setConfigurationLayout(resources.configuration.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         return binding.root
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        GBLog.v("TAG", "onConfigurationChanged")
+        setConfigurationLayout(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+    }
+
+    private fun setConfigurationLayout(isPortrait: Boolean) {
+        if (isPortrait) {
+            val constraints = ConstraintSet()
+            constraints.clone(binding.rootLayout)
+            constraints.connect(binding.canvasBackground.id, ConstraintSet.START, binding.canvasGuideL.id, ConstraintSet.START)
+            constraints.connect(binding.canvasBackground.id, ConstraintSet.END, binding.canvasGuideR.id, ConstraintSet.END)
+            constraints.connect(binding.canvasView.id, ConstraintSet.START, binding.canvasGuideL.id, ConstraintSet.START)
+            constraints.connect(binding.canvasView.id, ConstraintSet.END, binding.canvasGuideR.id, ConstraintSet.END)
+            constraints.applyTo(binding.rootLayout)
+        } else {
+            val constraints = ConstraintSet()
+            constraints.clone(binding.rootLayout)
+            constraints.connect(binding.canvasBackground.id, ConstraintSet.START, binding.rootLayout.id, ConstraintSet.START)
+            constraints.connect(binding.canvasBackground.id, ConstraintSet.END, binding.rootLayout.id, ConstraintSet.END)
+            constraints.connect(binding.canvasView.id, ConstraintSet.START, binding.rootLayout.id, ConstraintSet.START)
+            constraints.connect(binding.canvasView.id, ConstraintSet.END, binding.rootLayout.id, ConstraintSet.END)
+            constraints.applyTo(binding.rootLayout)
+        }
+
+        // 화면 회전 시 노트 이미지 높이와 필기영역 높이 재설정
+        if (binding.canvasBackground.childCount > 0) {
+            GBLog.i(TAG, "before picY : $picY")
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (binding.canvasBackground.width <10) return@postDelayed
+
+                // configuration done...
+                picY = 0f
+                GBLog.v(TAG, "binding.canvasBackground.width : ${binding.canvasBackground.width}")
+                for (i in 0 until binding.canvasBackground.childCount) {
+                    val iv = binding.canvasBackground.getChildAt(i) as ImageView
+                    val lp = iv.layoutParams
+                    lp.height = (binding.canvasBackground.width * ratio).toInt()// 화면 크기에 맞춰 이미지 높이 계산
+                    binding.canvasBackground.getChildAt(i).layoutParams = lp
+
+                    picY += lp.height
+                }
+                GBLog.i(TAG, "after picY : $picY")
+                binding.canvasView.setLayoutSize(picY)
+            }, 300)
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,8 +112,9 @@ class VideoNoteFragment1 : Fragment() {
     }
 
     fun backNote(json: NoteJson?){
-        Log.d("json =>" ,"제이슨 확인 \n $json " )
-        binding.canvasView.setLayoutSize(binding.canvasBackground.getLayoutHeight())
+//        GBLog.d("json =>" ,"제이슨 확인 \n $json " )
+//        binding.canvasView.setLayoutSize(binding.canvasBackground.height.toFloat())
+        binding.canvasView.setLayoutSize(picY)
         binding.canvasView.clear()
         json?.let {
             binding.canvasView.addPaint(it)
@@ -62,6 +122,8 @@ class VideoNoteFragment1 : Fragment() {
         binding.canvasView.requestFocus()
     }
 
+    private var ratio = 0f
+    private var picY = 0f
     private var noteData: NoteCanvasData? = null
     private fun setLiveData(){
         Log.d("VideoNoteFragment1@@" ,"setLiveData()...." )
@@ -72,23 +134,43 @@ class VideoNoteFragment1 : Fragment() {
                 CoroutineScope(Dispatchers.Main).launch {
                     noteData = it
                     binding.apply {
-                        canvasView.setLayoutSize(binding.canvasBackground.getLayoutHeight())
-                        canvasBackground.clear()
+                        canvasView.setLayoutSize(binding.canvasBackground.height.toFloat())
+                        canvasBackground.removeAllViews()
                         canvasView.clear()
                         canvasView.requestFocus()
                     }
                     Log.d("VideoNoteFragment1@@","mVideoId => ${mVideoViewModel.videoId.value}")
+                    picY = 0f
                     it?.apply {
                         delay(500L)
                         notes?.let {
+                            val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                             for (path in it) {
                                 val imageTask =  VideoNoteActivity.URLtoBitmapTask()
                                     .apply { url = URL("${Constants.FILE_DOMAIN}/$path") }
                                 val bitmap = imageTask.execute().get()
-                                binding.canvasBackground.addImage(bitmap)
+                                val resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, (bitmap.width * 0.6).toInt(), bitmap.height)
+
+                                GBLog.i(TAG,"resizeBmp : ${resizeBmp.width}x${resizeBmp.height}")
+
+//                                lp.width = binding.canvasBackground.width
+                                ratio = resizeBmp.height.toFloat() / resizeBmp.width
+                                GBLog.i(TAG, "ratio : $ratio")
+                                lp.height = (binding.canvasBackground.width * ratio).toInt()// 화면 크기에 맞춰 이미지 높이 계산
+
+                                val iv = ImageView(context)
+                                iv.scaleType = ImageView.ScaleType.FIT_XY
+                                iv.layoutParams = lp
+
+                                iv.setImageBitmap(resizeBmp)
+
+                                binding.canvasBackground.addView(iv)
+                                picY += lp.height
                             }
                         }
-                        binding.canvasView.setLayoutSize(binding.canvasBackground.getLayoutHeight())
+                        GBLog.e("", "picY : $picY")
+
+                        binding.canvasView.setLayoutSize(picY)
                         binding.canvasView.clear()
                         json?.let {
                             binding.canvasView.addPaint(it)

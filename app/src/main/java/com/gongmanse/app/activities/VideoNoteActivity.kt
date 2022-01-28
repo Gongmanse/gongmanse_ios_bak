@@ -10,10 +10,14 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -252,24 +256,56 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
         finish()
     }
 
+    private var picY = 0f
     private fun returnFromVideo(){
         noteData.apply {
             Log.d(TAG, "NoteCanvasData back => $this")
             notes?.let {
-                binding.canvasBackground.clear()
+                binding.canvasBackground.removeAllViews()
+                picY = 0f
+                var itemCnt = 0
                 for (path in it) {
                     val imageTask =  URLtoBitmapTask().apply { url = URL("${Constants.FILE_DOMAIN}/$path") }
                     val bitmap = imageTask.execute().get()
-                    binding.canvasBackground.addImage(bitmap)
+                    // 데이터 처리로 인해 UI 가 늦게 그려질 경우 view size 측정 불가하여 handler 이용 스레드 변경 처리.
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, (bitmap.width * 0.6).toInt(), bitmap.height)
+
+                        val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                        lp.width = binding.canvasBackground.width
+                        lp.height = lp.width * resizeBmp.height / resizeBmp.width
+
+                        GBLog.i("","lp : ${lp.width}x${lp.height}")
+
+                        val iv = ImageView(this@VideoNoteActivity)
+                        iv.scaleType = ImageView.ScaleType.FIT_START
+                        iv.layoutParams = lp
+
+                        iv.setImageBitmap(resizeBmp)
+
+                        binding.canvasBackground.addView(iv)
+                        picY += lp.height
+                        itemCnt++
+
+                        if (itemCnt == it.count()) {
+                            GBLog.i(TAG,"image setting done. draw paint.")
+                            binding.canvasView.setLayoutSize(picY)
+                            binding.canvasView.invalidate()
+                            binding.canvasView.requestLayout()
+                            binding.canvasView.clear()
+
+                            sJson.let { path ->
+                                GBLog.i(TAG, "draw path $path")
+                                runOnUiThread {
+                                    binding.canvasView.addPaint(path)
+                                    binding.progressBar.visibility = View.GONE
+                                }
+                            }
+                            binding.canvasView.requestFocus()
+                        }
+                    }, 100L)
                 }
             }
-            binding.canvasView.setLayoutSize(binding.canvasBackground.getLayoutHeight())
-            binding.canvasView.invalidate()
-            binding.canvasView.requestLayout()
-            sJson.let {
-                binding.canvasView.addPaint(it)
-            }
-            binding.canvasView.requestFocus()
         }
         val uri = Uri.parse(videoURL)
         initPlayer(uri)
@@ -434,17 +470,34 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
                             response.body()?.apply {
                                 Log.d(TAG, "onResponse => ${this.data}")
                                 data?.apply {
-                                    binding.canvasBackground.clear()
+                                    binding.canvasBackground.removeAllViews()
+                                    picY = 0f
+                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                     notes?.let {
                                         for (path in it) {
                                             val imageTask =  URLtoBitmapTask().apply { url = URL("${Constants.FILE_DOMAIN}/$path") }
                                             val bitmap = imageTask.execute().get()
-                                            binding.canvasBackground.addImage(bitmap)
+//                                            binding.canvasBackground.addImage(bitmap)
+                                            val resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, (bitmap.width * 0.6).toInt(), bitmap.height)
+
+                                            lp.width = binding.canvasBackground.width
+                                            lp.height = lp.width * resizeBmp.height / resizeBmp.width
+
+                                            GBLog.i("","lp : ${lp.width}x${lp.height}")
+
+                                            val iv = ImageView(this@VideoNoteActivity)
+                                            iv.scaleType = ImageView.ScaleType.FIT_START
+                                            iv.layoutParams = lp
+
+                                            iv.setImageBitmap(resizeBmp)
+
+                                            binding.canvasBackground.addView(iv)
+                                            picY += lp.height
                                         }
                                         binding.canvasBackground.invalidate()
                                         binding.canvasBackground.requestLayout()
                                     }
-                                    binding.canvasView.setLayoutSize(binding.canvasBackground.getLayoutHeight())
+                                    binding.canvasView.setLayoutSize(picY)
                                     binding.canvasView.invalidate()
                                     binding.canvasView.requestLayout()
                                     binding.canvasView.clear()
@@ -463,10 +516,10 @@ class VideoNoteActivity : AppCompatActivity(), View.OnClickListener {
             }else{
                 Log.d(TAG, "strokes => returnFromVideo()////")
                 returnFromVideo()
-                binding.progressBar.visibility = View.GONE
+//                binding.progressBar.visibility = View.GONE
             }
         }catch (e: Exception){
-            Log.e(TAG,"메모리부족")
+            Log.e(TAG,"메모리부족, ${e.printStackTrace()}")
         }
     }
 

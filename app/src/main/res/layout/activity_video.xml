@@ -16,6 +16,22 @@
         android:layout_height="match_parent"
         tools:context=".activities.VideoActivity">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <View
+            android:id="@+id/landscape_video_guide"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/root_layout"
+            app:layout_constraintTop_toTopOf="@id/root_layout"
+            app:layout_constraintBottom_toBottomOf="@id/root_layout"
+            app:layout_constraintEnd_toEndOf="@id/center_guide"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/player_layout"
             android:layout_width="0dp"

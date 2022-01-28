@@ -35,6 +35,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -74,6 +75,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
+import com.google.android.flexbox.*
 import com.google.android.material.tabs.TabLayout
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.link.LinkClient
@@ -133,7 +135,7 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.v(TAG, "onConfigurationChanged")
+        GBLog.v(TAG, "onConfigurationChanged")
         setConfigurationLayout(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
     }
 
@@ -536,18 +538,70 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
             val items = ObservableArrayList<String>()
             addItems(items)
         }
-        binding.rvHashTag.apply {
-            adapter = mHashTagRVAdapter
-            layoutManager = LinearLayoutManager(this@VideoActivity).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
+        // 태블릿에서 해시태그리스트 사이즈 설정.
+        if (isTablet) {
+            setTabletHashTagView(binding.rvHashTag)
+            setTabletHashTagView(binding.rvHashTag2)
+            calcLandscapeMaxContentHeight()
+        } else {
+            binding.rvHashTag.apply {
+                adapter = mHashTagRVAdapter
+                layoutManager = LinearLayoutManager(this@VideoActivity).apply {
+                    orientation = LinearLayoutManager.HORIZONTAL
+                }
+            }
+            binding.rvHashTag2.apply {
+                adapter = mHashTagRVAdapter
+                layoutManager = LinearLayoutManager(this@VideoActivity).apply {
+                    orientation = LinearLayoutManager.HORIZONTAL
+                }
             }
         }
-        binding.rvHashTag2.apply {
+    }
+
+    private fun setTabletHashTagView(rv: RecyclerView) {
+        rv.apply {
             adapter = mHashTagRVAdapter
-            layoutManager = LinearLayoutManager(this@VideoActivity).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
+            // 리스트 줄바꿈 처리를 위해 Flexbox 방식 적용
+            val flexBoxLayoutManager = FlexboxLayoutManager(context).apply {
+                alignItems = AlignItems.FLEX_START
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.FLEX_START
             }
+
+            val itemDecoration = FlexboxItemDecoration(context).apply {
+                setDrawable(ContextCompat.getDrawable(context, R.drawable.bg_divider))
+                setOrientation(FlexboxItemDecoration.VERTICAL)
+            }
+            // 아이템 간격 설정
+            if (itemDecorationCount == 0)
+                addItemDecoration(itemDecoration)
+
+            layoutManager = flexBoxLayoutManager
         }
+    }
+
+    // 가로/세로 및 스크린 사이즈에 따른 해시태그 높이 최대값 계산
+    private fun calcLandscapeMaxContentHeight() {
+        val height = resources.displayMetrics.heightPixels
+        val width = resources.displayMetrics.widthPixels
+        val landscapeContentHeight = if (height > width) {
+            width - (9.0/16 * 0.6 * height)
+        } else {
+            height - (9.0/16 * 0.6 * width)
+        }
+        GBLog.i(TAG, "landscapeContentHeight : $landscapeContentHeight")
+
+        var maxHeight = Constants.dpToPx(this, 55)//갤럭시 Tab A 기준 2줄 노출 시 높이 값
+        val diff = landscapeContentHeight.toInt() - (maxHeight * 5.3).toInt()
+        if (diff > 0)
+            maxHeight += diff
+
+        GBLog.i(TAG, "maxHeight : $maxHeight")
+        val set = ConstraintSet()
+        set.clone(binding.layoutContentInfo2)
+        set.constrainMaxHeight(R.id.rv_hash_tag2, maxHeight)
+        set.applyTo(binding.layoutContentInfo2)
     }
 
     // 자막
@@ -691,8 +745,11 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
                 Log.v(TAG, "ORIENTATION_LANDSCAPE")
                 val constraints = ConstraintSet()
                 constraints.clone(binding.rootLayout)
-                constraints.connect(binding.playerLayout.id, ConstraintSet.END, binding.contentLayout.id, ConstraintSet.START)
-                constraints.connect(binding.infoLayout.id, ConstraintSet.END, binding.contentLayout.id, ConstraintSet.START)
+//                constraints.connect(binding.playerLayout.id, ConstraintSet.END, binding.contentLayout.id, ConstraintSet.START)
+//                constraints.connect(binding.infoLayout.id, ConstraintSet.END, binding.contentLayout.id, ConstraintSet.START)
+                // 태블릿에서 가로모드 시 영상 비율 확대
+                constraints.connect(binding.playerLayout.id, ConstraintSet.END, binding.landscapeVideoGuide.id, ConstraintSet.END)
+                constraints.connect(binding.infoLayout.id, ConstraintSet.END, binding.landscapeVideoGuide.id, ConstraintSet.END)
                 constraints.connect(binding.contentLayout.id, ConstraintSet.START, binding.playerLayout.id, ConstraintSet.END)
                 constraints.connect(binding.contentLayout.id, ConstraintSet.TOP, binding.rootLayout.id, ConstraintSet.TOP)
                 constraints.applyTo(binding.rootLayout)

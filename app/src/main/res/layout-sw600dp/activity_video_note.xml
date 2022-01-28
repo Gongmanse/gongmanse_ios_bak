@@ -63,18 +63,36 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.gongmanse.app.utils.BackgroundView
-                    android:id="@+id/canvas_background"
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/canvas_guide_l"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.20"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/canvas_guide_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.85"/>
+
+                <LinearLayout
+                    android:id="@+id/canvas_background"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/canvas_guide_l"
+                    app:layout_constraintEnd_toEndOf="@id/canvas_guide_r"
+                    android:orientation="vertical"/>
 
                 <com.gongmanse.app.utils.GraphicView
                     android:id="@+id/canvas_view"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/canvas_guide_l"
+                    app:layout_constraintEnd_toEndOf="@id/canvas_guide_r"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
