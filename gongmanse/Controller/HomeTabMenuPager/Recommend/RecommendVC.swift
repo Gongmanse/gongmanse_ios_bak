@@ -5,6 +5,7 @@ import AVFoundation
 
 class RecommendVC: UIViewController {
     var visibleIP : IndexPath?
+    var seekTimes = [String:CMTime]()
 //    var aboutToBecomeInvisibleCell = -1
     var avPlayerLayer: AVPlayerLayer!
     var videoURLs = Array<URL>()
@@ -245,28 +246,27 @@ extension RecommendVC: UICollectionViewDataSource {
         }
         
         let cellCount = cells.count
-//        if cellCount == 0 {return}
-//        else if cellCount == 1 {
-//            if let videoCell = cells.last! as? RecommendCVCell {
-//                let intersect = videoCell.frame.intersection(recommendCollection.bounds)
-//                let currentHeight = intersect.height
-//
-//                if (videoCell.frame.size.height * 0.95) < currentHeight {
-//                    if visibleIP != indexPaths[0] {
-////                        print ("visible = \(indexPaths[0])")
-//                        visibleIP = indexPaths[0]
-//                        videoCell.startPlayback()
-//                    }
-//                } else {
-//                    if visibleIP != nil {
-//                        videoCell.stopPlayback()
-//                        visibleIP = nil
-//                    }
-//                }
-//            }
-//        }
-//        else
-        if cellCount >= 2 {
+        if cellCount == 0 {return}
+        else if cellCount == 1 {
+            if let videoCell = cells.last! as? RecommendCVCell {
+                let intersect = videoCell.frame.intersection(recommendCollection.bounds)
+                let currentHeight = intersect.height
+
+                if (videoCell.frame.size.height * 0.95) < currentHeight {
+                    if visibleIP != indexPaths[0] {
+                        visibleIP = indexPaths[0]
+                        videoCell.startPlayback(seekTimes[videoCell.videoID])
+                    }
+                } else {
+                    if visibleIP != nil {
+                        let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+                        seekTimes[videoCell.videoID] = seekTime
+                        videoCell.stopPlayback()
+                        visibleIP = nil
+                    }
+                }
+            }
+        } else if cellCount >= 2 {
             for i in 0..<cellCount {
                 let cellRect = (cells[i] as! RecommendCVCell).frame
                 let intersect = cellRect.intersection(recommendCollection.bounds)
@@ -282,13 +282,16 @@ extension RecommendVC: UICollectionViewDataSource {
                         visibleIP = indexPaths[i]
 //                        print ("visible = \(indexPaths[i])")
                         if let videoCell = cells[i] as? RecommendCVCell {
-                            videoCell.startPlayback()
+                            videoCell.startPlayback(seekTimes[videoCell.videoID])
                         }
                     }
                 }
                 else {
                     if let videoCell = cells[i] as? RecommendCVCell {
                         if visibleIP == indexPaths[i] {
+                            let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+                            seekTimes[videoCell.videoID] = seekTime
+                            
                             visibleIP = nil
                             videoCell.stopPlayback()
                         }

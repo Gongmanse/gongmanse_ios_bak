@@ -13,12 +13,14 @@ class RecommendCVCell: UICollectionViewCell {
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
     var requestDelayTimer: Timer? //동영상 정보 요청 딜레이 체크
     var videoID: String!
+    private var seekTime: CMTime?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         //비디오 썸네일 이미지 라운딩 처리
         videoThumbnail.layer.cornerRadius = 13
+        videoAreaView.layer.cornerRadius = 13
         
         //과목 label background 라운딩 처리
         subjects.layer.cornerRadius = 7
@@ -43,6 +45,7 @@ class RecommendCVCell: UICollectionViewCell {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        requestDelayTimer?.invalidate()
     }
     
     func setupMoviePlayer() {
@@ -54,19 +57,10 @@ class RecommendCVCell: UICollectionViewCell {
         avPlayer?.volume = 3
         avPlayer?.actionAtItemEnd = .none
 
-        // You need to have different variations
-        // according to the device so as the avplayer fits well
-        if UIScreen.main.bounds.width == 375 {
-            let widthRequired = self.frame.size.width - 20
-            avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: widthRequired, height: widthRequired/1.78)
-        } else if UIScreen.main.bounds.width == 320 {
-            avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: (self.frame.size.height - 120) * 1.78, height: self.frame.size.height - 120)
-        } else {
-            let widthRequired = self.frame.size.width
-            avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: widthRequired, height: widthRequired/1.78)
-        }
-        
-        self.backgroundColor = .clear
+        avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.videoAreaView.frame.size.width, height: self.videoAreaView.frame.size.height)
+        avPlayerLayer?.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
+        avPlayerLayer?.cornerRadius = 13
+
         self.videoAreaView.layer.insertSublayer(avPlayerLayer!, at: 0)
 
         // This notification is fired when the video ends, you can handle it in the method.
@@ -80,28 +74,39 @@ class RecommendCVCell: UICollectionViewCell {
         if videoAreaView.isHidden { return }
         
         print("=================stopPlayback=============\(String(describing: videoID))")
+        
         // stop video & hide video area
-//        self.avPlayer?.pause()
+        requestDelayTimer?.invalidate()
+        avPlayer?.pause()
+        
         videoAreaView.isHidden = true
+        loadingView.isHidden = true
+        loadingView.stopAnimating()
     }
-
-    func startPlayback(){
+    
+    func startPlayback(_ seekTime: CMTime?){
         if !videoAreaView.isHidden { return }
         
         print("=================startPlayback=============\(String(describing: videoID))")
         // show progress & request video url
-
-        requestDelayTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.waitDelay), userInfo: nil, repeats: false)
+        self.seekTime = seekTime
+        
+        videoAreaView.isHidden = false
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+        self.loadingView.isHidden = false
+        self.loadingView.startAnimating()
+//        }
+        
+        requestDelayTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.waitDelay), userInfo: nil, repeats: false)
     }
 
     @objc func waitDelay() {
-        videoAreaView.isHidden = false
-        loadingView.isHidden = false
         requestVideoUrl()
     }
     
     @objc func playerItemDidReachEnd(notification: Notification) {
-        print("")
+        print("playerItemDidReachEnd")
 //        let p: AVPlayerItem = notification.object as! AVPlayerItem
 //        p.seek(to: CMTime.zero)
     }
@@ -113,21 +118,35 @@ class RecommendCVCell: UICollectionViewCell {
         if Reachability.isConnectedToNetwork() {
             if Constant.isGuestKey || Constant.remainPremiumDateInt == nil {
                 GuestKeyDataManager().GuestKeyAPIGetData(videoID) { response in
-                    if self.videoTitle.isEqual(response.data.sTitle) {
-                        self.sestVideoItem(url: URL(string: response.data.source_url)!)
+                    print("current cell : \(String(describing: self.videoTitle.text))")
+                    print("response data : \(response.data.sTitle)")
+                    if (self.videoTitle.text ?? "").isEqual(response.data.sTitle) {
+                        self.setVideoItem(url: URL(string: response.data.source_url)!)
                     }
                 }
             } else {
                 DetailVideoDataManager().DetailVideoDataManager(videoID) { response in
-                    if self.videoTitle.isEqual(response.data.sTitle) {
-                        self.sestVideoItem(url: URL(string: response.data.source_url!)!)
+                    print("current cell : \(String(describing: self.videoTitle.text))")
+                    print("response data : \(response.data.sTitle)")
+                    if (self.videoTitle.text ?? "").isEqual(response.data.sTitle) {
+                        
+                        self.setVideoItem(url: URL(string: response.data.source_url!)!)
                     }
                 }
             }
         }
     }
-    func sestVideoItem(url: URL) {
+    
+    func setVideoItem(url: URL) {
+        print("setVideoItem")
         loadingView.isHidden = true
+        loadingView.stopAnimating()
         videoPlayerItem = AVPlayerItem(url: url)
+        avPlayer?.play()
+        
+        if let seekTime = seekTime {
+            print("seek to \(seekTime.seconds)")
+            avPlayer?.seek(to: seekTime)
+        }
     }
 }

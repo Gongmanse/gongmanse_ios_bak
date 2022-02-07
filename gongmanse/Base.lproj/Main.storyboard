@@ -1042,17 +1042,18 @@
                                                         </stackView>
                                                     </subviews>
                                                 </stackView>
-                                                <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nMq-sq-CTL">
-                                                    <rect key="frame" x="0.0" y="-1" width="360" height="202.5"/>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMq-sq-CTL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="202.5"/>
                                                     <subviews>
-                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="iqZ-t5-CWN">
-                                                            <rect key="frame" x="170" y="91" width="20" height="20"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="iqZ-t5-CWN">
+                                                            <rect key="frame" x="161.5" y="83" width="37" height="37"/>
                                                             <color key="color" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </activityIndicatorView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29747211380510141" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
+                                                        <constraint firstItem="iqZ-t5-CWN" firstAttribute="centerX" secondItem="nMq-sq-CTL" secondAttribute="centerX" id="78c-8d-wKE"/>
+                                                        <constraint firstItem="iqZ-t5-CWN" firstAttribute="centerY" secondItem="nMq-sq-CTL" secondAttribute="centerY" id="XTW-EU-gqd"/>
                                                         <constraint firstAttribute="width" secondItem="nMq-sq-CTL" secondAttribute="height" multiplier="16:9" id="xIp-qS-89O"/>
                                                     </constraints>
                                                 </view>
@@ -1130,7 +1131,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XEu-Tb-tVg">
                                             <rect key="frame" x="19" y="272.5" width="193" height="20.5"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="193" id="KNO-Ph-leV"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="193" id="KNO-Ph-leV"/>
                                                 <constraint firstAttribute="height" constant="20.5" id="THE-Yw-NKE"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1146,6 +1147,7 @@
                                     <constraints>
                                         <constraint firstItem="XEu-Tb-tVg" firstAttribute="top" secondItem="RUf-Gt-Nmz" secondAttribute="bottom" constant="39.5" id="GqS-t2-191"/>
                                         <constraint firstItem="XEu-Tb-tVg" firstAttribute="leading" secondItem="2xC-0K-f4p" secondAttribute="leading" constant="19" id="OJg-vy-Oag"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XEu-Tb-tVg" secondAttribute="trailing" constant="20" symbolic="YES" id="P2g-vW-yK2"/>
                                         <constraint firstItem="2Dk-4v-IwF" firstAttribute="centerX" secondItem="RUf-Gt-Nmz" secondAttribute="centerX" id="Ref-Wf-5wO"/>
                                         <constraint firstItem="2Dk-4v-IwF" firstAttribute="leading" secondItem="2xC-0K-f4p" secondAttribute="leading" constant="8" id="Zzm-t7-dwC"/>
                                         <constraint firstItem="RUf-Gt-Nmz" firstAttribute="leading" secondItem="2xC-0K-f4p" secondAttribute="leading" id="azn-Hh-xFD"/>
