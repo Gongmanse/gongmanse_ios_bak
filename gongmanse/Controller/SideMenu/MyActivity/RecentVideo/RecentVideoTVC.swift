@@ -53,6 +53,12 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
             }
         }
         deleteCount = currentTrueIndex.count
+        var remainCnt = (Int(recentViedo?.totalNum ?? "0") ?? 0) - self.deleteCount
+        if remainCnt < 0 {
+            remainCnt = 0
+        }
+        recentViedo?.totalNum = "\(remainCnt)"
+        
         tableViewInputData = temp
         deleteStateList.removeAll()
         for _ in tableViewInputData.indices {
@@ -437,13 +443,8 @@ extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
 extension RecentVideoTVC {
     func didSuccessPostAPI() {
         if deleteCount != 0 {
-            // 삭제 요청 시 삭제 수량만큼 카운트 감소
-            let remainCnt = (Int(recentViedo?.totalNum ?? "0") ?? 0) - deleteCount
-            textSettings(remainCnt)
-            
+            textSettings(Int(recentViedo?.totalNum ?? "0") ?? 0)
             deleteCount = 0
-            recentViedo?.totalNum = "\(remainCnt)"
-            print("recentViedo?.totalNum : \(String(describing: recentViedo?.totalNum))")
             self.view.layoutIfNeeded()
         }
     }
