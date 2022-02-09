@@ -42,16 +42,17 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
             presentAlert(message: "삭제할 항목을 선택해주세요.")
         }
     }
+    private var deleteCount = 0
     private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
         for deleteIdx in currentTrueIndex {
             if let id = self.tableViewInputData[deleteIdx].id {
             let inputData = RecentVideoInput(id: id)
                 print("deleteIdx : \(inputData.id)")
-            // TODO 배열로 삭제 확인
-            RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+                // TODO 배열로 삭제 확인
+                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
             }
         }
-        
+        deleteCount = currentTrueIndex.count
         tableViewInputData = temp
         deleteStateList.removeAll()
         for _ in tableViewInputData.indices {
@@ -196,7 +197,9 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
                         
                         self.tableViewInputData.append(contentsOf: json.data)
                         self.recentViedo = json
-                        self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+                        if offset == 0 {
+                            self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+                        }
                         
                         self.tableView.reloadData()
                     }
@@ -433,8 +436,16 @@ extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
 
 extension RecentVideoTVC {
     func didSuccessPostAPI() {
-        self.textSettings((Int(self.recentViedo?.totalNum ?? "0") ?? 0) - 1)
-        self.view.layoutIfNeeded()
+        if deleteCount != 0 {
+            // 삭제 요청 시 삭제 수량만큼 카운트 감소
+            let remainCnt = (Int(recentViedo?.totalNum ?? "0") ?? 0) - deleteCount
+            textSettings(remainCnt)
+            
+            deleteCount = 0
+            recentViedo?.totalNum = "\(remainCnt)"
+            print("recentViedo?.totalNum : \(String(describing: recentViedo?.totalNum))")
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
