@@ -10,7 +10,7 @@ class ExpertConsultationVC: UIViewController, BottomPopupDelegate {
     var presentDuration: Double = 0.2
     var dismissDuration: Double = 0.5
     
-    @IBOutlet weak var tableHeaderView: UIView!
+//    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var expertConsultationTV: UITableView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -215,9 +215,8 @@ extension ExpertConsultationVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         DispatchQueue.main.async {
-            if profileImageURL == ""{
-                cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
-            }else {
+            cell.profileImage.image = UIImage(named: "extraSmallUserDefault")
+            if profileImageURL != "" {
                 cell.profileImage.sd_setImage(with: profileURL)
             }
             
