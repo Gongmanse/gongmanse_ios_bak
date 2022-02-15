@@ -1,5 +1,6 @@
 import UIKit
 import BottomPopup
+import Alamofire
 
 protocol BookMarkTVCDelegate: AnyObject {
     func bookMarkPassSortedIdSettingValue(_ bookMarkSortedIndex: Int)
@@ -46,15 +47,23 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
             presentAlert(message: "삭제할 항목을 선택해주세요.")
         }
     }
+    private var deleteCount = 0
     private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
         for deleteIdx in currentTrueIndex {
-            if let id = self.tableViewInputData[deleteIdx].id {
-            let inputData = RecentVideoInput(id: id)
+            if let id = self.tableViewInputData[deleteIdx].iBookmarkId {
+                let inputData = RecentVideoInput(id: id)
                 print("deleteIdx : \(inputData.id)")
-            // TODO 배열로 삭제 확인
-            requestDelete(id: id)
+                    
+                // TODO 배열로 삭제 확인
+                requestDelete(id: id)
             }
         }
+        deleteCount = currentTrueIndex.count
+        var remainCnt = (Int(bookMark?.totalNum ?? "0") ?? 0) - self.deleteCount
+        if remainCnt < 0 {
+            remainCnt = 0
+        }
+        bookMark?.totalNum = "\(remainCnt)"
         
         tableViewInputData = temp
         deleteStateList.removeAll()
@@ -203,9 +212,12 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
                         for _ in json.data {
                             self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
                         }
-                        self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
+                        
                         self.tableViewInputData.append(contentsOf: json.data)
                         self.bookMark = json
+                        if offset == 0 {
+                            self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
+                        }
                         
                         self.tableView.reloadData()
                     }
@@ -321,43 +333,27 @@ extension BookMarkTVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func requestDelete(id: String) {
-        let baseURL = URL(string: "\(apiBaseURL)/v/member/mybookmark")!
-        let fullURL = baseURL.appendingPathComponent("/put")
-        
-        var request = URLRequest(url: fullURL)
-        request.httpMethod = "PUT"
-        request.allHTTPHeaderFields = [
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+        let url = "\(Constant.BASE_URL)/v/member/mybookmark"
+        let param: [String: String] = [
+            "token": Constant.token,
+            "bookmark_id": id
         ]
-        
-        let parameters: [String: Any] = [
-            "bookmark_id": Int(id) ?? 0,
-            "token": Constant.token
-        ]
-        
-        let data = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-        
-        URLSession.shared.uploadTask(with: request, from: data) { (responseData, response, error) in
-            if let error = error {
-                print("Error making PUT request: \(error.localizedDescription)")
-                return
-            }
-            
-            if let responseCode = (response as? HTTPURLResponse)?.statusCode, let responseData = responseData {
-                guard responseCode == 200 else {
-                    print("InValid response code: \(responseCode)")
-                    return
+        AF.request(url, method: .put, parameters: param, encoding: JSONEncoding.default, headers: nil).responseString { response in
+            switch response.result {
+            case .success:
+                print("watchhistory delete 성공")
+                if self.deleteCount != 0 {
+                    self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
+                    self.deleteCount = 0
+                    self.view.layoutIfNeeded()
                 }
-                
-                if let responseJSONData = try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments) {
-                    print("Response JSON data = \(responseJSONData)")
-                }
+                print(response)
+            case.failure:
+                print("error")
             }
-        }.resume()
-        textSettings((Int(self.bookMark?.totalNum ?? "0") ?? 0) - 1)
+        }
+        
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let value = self.bookMark else { return 0 }
         

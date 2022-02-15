@@ -42,15 +42,22 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
             presentAlert(message: "삭제할 항목을 선택해주세요.")
         }
     }
+    private var deleteCount = 0
     private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
         for deleteIdx in currentTrueIndex {
             if let id = self.tableViewInputData[deleteIdx].id {
             let inputData = RecentVideoInput(id: id)
                 print("deleteIdx : \(inputData.id)")
-            // TODO 배열로 삭제 확인
-            RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+                // TODO 배열로 삭제 확인
+                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
             }
         }
+        deleteCount = currentTrueIndex.count
+        var remainCnt = (Int(recentViedo?.totalNum ?? "0") ?? 0) - self.deleteCount
+        if remainCnt < 0 {
+            remainCnt = 0
+        }
+        recentViedo?.totalNum = "\(remainCnt)"
         
         tableViewInputData = temp
         deleteStateList.removeAll()
@@ -196,7 +203,9 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
                         
                         self.tableViewInputData.append(contentsOf: json.data)
                         self.recentViedo = json
-                        self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+                        if offset == 0 {
+                            self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+                        }
                         
                         self.tableView.reloadData()
                     }
@@ -433,8 +442,11 @@ extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
 
 extension RecentVideoTVC {
     func didSuccessPostAPI() {
-        self.textSettings((Int(self.recentViedo?.totalNum ?? "0") ?? 0) - 1)
-        self.view.layoutIfNeeded()
+        if deleteCount != 0 {
+            textSettings(Int(recentViedo?.totalNum ?? "0") ?? 0)
+            deleteCount = 0
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
