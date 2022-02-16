@@ -8,6 +8,82 @@ protocol ExpertConsultTVCDelegate: AnyObject {
 
 class ExpertConsultTVC: UIViewController, BottomPopupDelegate {
     
+    // 전체 삭제 기능
+    private var deleteStateList = [Bool]()
+    @IBOutlet weak var deleteModeView: UIView!
+    @IBOutlet weak var deleteAllSelectBtn: UIButton!
+    @IBAction func deleteSelectedItem(_ sender: Any) {
+        var currentTrueIndex = [Int]()
+        var temp = [ExpertModelData]()
+        for (index, selected) in deleteStateList.enumerated() {
+            if selected {
+                currentTrueIndex.append(index)
+            } else {
+                temp.append(self.tableViewInputData[index])
+            }
+        }
+        
+        // 삭제항목 선택 카운트 체크
+        if currentTrueIndex.count > 0 {
+            let alert = UIAlertController(title: "삭제", message: "선택하신 \(currentTrueIndex.count)개 항목을 삭제하시겠습니까?", preferredStyle: .alert)
+    
+            let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+                self.actionDelete(currentTrueIndex, temp)
+            }
+            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            presentAlert(message: "삭제할 항목을 선택해주세요.")
+        }
+    }
+    private var deleteCount = 0
+    private func actionDelete(_ currentTrueIndex: [Int], _ temp: [ExpertModelData]) {
+        if currentTrueIndex.count > 1 {
+            var ids: String = ""
+            for deleteIdx in currentTrueIndex {
+                if let id = self.tableViewInputData[deleteIdx].cu_id {
+                   ids.append("\(id),")
+                }
+            }
+            
+            // sql 에서 IN 명령어 사용으로 변경하여 다중항목 삭제처리는 쉼표로 구분
+            let range = ids.startIndex..<ids.index(before: ids.endIndex)
+            ExpertConsultTVCDataManager().postRemoveExpertConsult(id: "\(ids[range])", viewController: self)
+        } else {
+            if let id = self.tableViewInputData[currentTrueIndex[0]].cu_id {
+                ExpertConsultTVCDataManager().postRemoveExpertConsult(id: id, viewController: self)
+            }
+        }
+        deleteCount = currentTrueIndex.count
+        var remainCnt = (Int(expertConsult?.totalNum ?? "0") ?? 0) - self.deleteCount
+        if remainCnt < 0 {
+            remainCnt = 0
+        }
+        expertConsult?.totalNum = "\(remainCnt)"
+        
+        tableViewInputData = temp
+        deleteStateList.removeAll()
+        for _ in tableViewInputData.indices {
+            deleteStateList.append(deleteAllSelectBtn.isSelected)
+        }
+        
+//        self.tableView.reloadData()
+    }
+    
+    @IBAction func deleteAllSelect(_ sender: Any) {
+        deleteAllSelectBtn.isSelected.toggle()
+        deleteStateList.removeAll()
+        for _ in tableViewInputData.indices {
+            deleteStateList.append(deleteAllSelectBtn.isSelected)
+        }
+        tableView.reloadData()
+    }
+    
+    
 //    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -20,9 +96,11 @@ class ExpertConsultTVC: UIViewController, BottomPopupDelegate {
     
     var inputSortNum = 4
     
-    var isDeleteMode: Bool = false {
+    var isDeleteModeOff: Bool = true {
         didSet {
+            deleteAllSelectBtn?.isSelected = false
             tableView?.reloadData()
+            deleteModeView?.isHidden = isDeleteModeOff
         }
     }
     
@@ -35,6 +113,7 @@ class ExpertConsultTVC: UIViewController, BottomPopupDelegate {
     var sortedId: Int? {
         didSet {
             tableViewInputData.removeAll()
+            deleteStateList.removeAll()
 //            tableView.reloadData()
             getDataFromJson(offset: 0)
         }
@@ -64,11 +143,16 @@ class ExpertConsultTVC: UIViewController, BottomPopupDelegate {
         DispatchQueue.main.async {
             self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
         }
+        
+        // 전체 선택 삭제 기능 추가
+        deleteAllSelectBtn.setImage(UIImage(named: "checkTrue"), for: .selected)
+        deleteAllSelectBtn.setTitleColor(.black, for: .normal)
+        deleteAllSelectBtn.setTitleColor(.black, for: .selected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.isDeleteMode = true
+        self.isDeleteModeOff = true
         
     }
     
@@ -105,28 +189,32 @@ class ExpertConsultTVC: UIViewController, BottomPopupDelegate {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(ExpertModels.self, from: data) {
 //                    print(json.data)
-                    self.tableViewInputData.append(contentsOf: json.data)
-                    self.expertConsult = json
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.textSettings()
+                    DispatchQueue.main.async {
+                        for _ in json.data {
+                            self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
+                        }
+                        
+                        self.tableViewInputData.append(contentsOf: json.data)
+                        self.expertConsult = json
+                        self.textSettings(Int(self.expertConsult?.totalNum ?? "0") ?? 0)
+                        
+                        self.tableView.reloadData()
+                    }
                 }
                 
             }.resume()
         }
     }
     
-    func textSettings() {
-        guard let value = self.expertConsult else { return }
+    func textSettings(_ totalNum: Int) {
         
-        let strCount = value.totalNum.withCommas() 
+        let strCount = String(totalNum).withCommas()
         self.countAll.text = "총 \(strCount)개"
         
         //비디오 총 개수 부분 오렌지 색으로 변경
         let attributedString = NSMutableAttributedString(string: countAll.text!, attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.black])
         
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: value.totalNum))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 15, weight: .regular), range: (countAll.text! as NSString).range(of: String(totalNum)))
         attributedString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (countAll.text! as NSString).range(of: strCount))
         
         self.countAll.attributedText = attributedString
@@ -212,27 +300,34 @@ extension ExpertConsultTVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
-            cell.deleteButton.isHidden = isDeleteMode
-            cell.deleteView.isHidden = isDeleteMode
+            cell.deleteButton.isHidden = isDeleteModeOff
+            cell.deleteView.isHidden = isDeleteModeOff
             cell.deleteButton.tag = indexPath.row
             
             cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
             
+            cell.deleteButton.isSelected = deleteStateList[indexPath.row]
             return cell
         }
     }
     
     @objc func deleteAction(_ sender: UIButton) {
         guard let json = self.expertConsult else { return }
-        guard let id = json.data[sender.tag].cu_id else { return }
+        guard let _ = json.data[sender.tag].cu_id else { return }
 
-        let inputData = ExpertConsultInput(id: id)
+        sender.isSelected.toggle()
+//        let inputData = ExpertConsultInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        self.tableViewInputData.remove(at: indexPath.row)
-//        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.reloadData()
+        deleteStateList[sender.tag] = sender.isSelected
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         
-        ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
+        if !sender.isSelected {
+            deleteAllSelectBtn.isSelected = false
+        }
+        
+//        self.tableViewInputData.remove(at: indexPath.row)
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+//        ExpertConsultTVCDataManager().postRemoveExpertConsult(param: inputData, viewController: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -313,10 +408,7 @@ struct ExpertConsultInput: Encodable {
 
 class ExpertConsultTVCDataManager {
     
-    func postRemoveExpertConsult(param: ExpertConsultInput, viewController: ExpertConsultTVC) {
-        
-        let id = param.id
-        
+    func postRemoveExpertConsult(id: String, viewController: ExpertConsultTVC) {
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "con_id")
             MultipartFormData.append("\(Constant.token)".data(using: .utf8)!, withName: "token")
