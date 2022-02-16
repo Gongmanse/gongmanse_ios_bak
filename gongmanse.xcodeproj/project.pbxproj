@@ -484,6 +484,7 @@
 		F060FEBA2794F4AA003481A3 /* launcher_img.png in Resources */ = {isa = PBXBuildFile; fileRef = F060FEB92794F4AA003481A3 /* launcher_img.png */; };
 		F064A48C27604F75006FDCA6 /* FindEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F064A48B27604F75006FDCA6 /* FindEntity.swift */; };
 		F0AED47B274B7D9B00C6FEDA /* PurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */; };
+		F0AF222F27BCB36600BC1EF0 /* OnboardingIntroCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -971,6 +972,7 @@
 		F060FEB92794F4AA003481A3 /* launcher_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launcher_img.png; sourceTree = "<group>"; };
 		F064A48B27604F75006FDCA6 /* FindEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindEntity.swift; sourceTree = "<group>"; };
 		F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseModel.swift; sourceTree = "<group>"; };
+		F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingIntroCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2345,6 +2347,7 @@
 		6C3F7BB6262E6ACF00475DB4 /* Intro */ = {
 			isa = PBXGroup;
 			children = (
+				F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */,
 				6C3F7BB7262E6AE500475DB4 /* OnboardingViewController.swift */,
 			);
 			path = Intro;
@@ -3668,6 +3671,7 @@
 				6CF2E65425F0A75F000FE084 /* TabsPageViewController.swift in Sources */,
 				257C50062668E03400C65355 /* VideoTabBarCell.swift in Sources */,
 				259B8C3926031CBE009A7146 /* PaymentHistoryVC.swift in Sources */,
+				F0AF222F27BCB36600BC1EF0 /* OnboardingIntroCell.swift in Sources */,
 				A9850EE92616126F00908BA4 /* AskListCell.swift in Sources */,
 				25E2280A2679A68900EFE844 /* VideoPlaylistCell.swift in Sources */,
 				251C3276264901C400C765CE /* DetailScreenTabBarMenuCell.swift in Sources */,
