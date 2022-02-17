@@ -314,7 +314,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         slider.minimumTrackTintColor = .mainOrange
         slider.maximumTrackTintColor = .white
         slider.setThumbImage(image, for: .normal)
-        slider.value = 1
+        slider.value = 0
         return slider
     }()
     var isSliderMoved = false

@@ -24,9 +24,10 @@ class RecommendCVCell: UICollectionViewCell {
         slider.minimumTrackTintColor = .mainOrange
         slider.maximumTrackTintColor = .white
         slider.setThumbImage(image, for: .normal)
-        slider.value = 1
+        slider.value = 0
         return slider
     }()
+    var isSliderMoved = false
     var timeObserverToken: Any?
     let subtitleToggleButton: UIButton = {
         let button = UIButton(type: .system)
@@ -40,9 +41,8 @@ class RecommendCVCell: UICollectionViewCell {
     let audioToggleButton: UIButton = {
         let button = UIButton(type: .system)
         let muteOn = UIImage(systemName: "speaker.slash")
-        let muteOff = UIImage(systemName: "speaker")
-        button.setImage(muteOn, for: .selected)
-        button.setImage(muteOff, for: .normal)
+//        button.setImage(muteOn, for: .selected)
+        button.setImage(muteOn, for: .normal)
         button.tintColor = .white
         button.backgroundColor = UIColor.clear
         button.addTarget(self, action: #selector(handleAudioMute), for: .touchUpInside)
@@ -100,10 +100,16 @@ class RecommendCVCell: UICollectionViewCell {
     }
     var isAudioMute: Bool = true {
         didSet {
-            audioToggleButton.isSelected = self.isAudioMute
+            if self.isAudioMute {
+                audioToggleButton.setImage(UIImage(systemName: "speaker.slash"), for: .normal)
+            } else {
+                audioToggleButton.setImage(UIImage(systemName: "speaker"), for: .normal)
+            }
             avPlayer?.isMuted = self.isAudioMute
         }
     }
+    
+    var delegate: AutoPlayDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -218,11 +224,19 @@ class RecommendCVCell: UICollectionViewCell {
         } else {
             print("show subViews")
         }
+        subtitleBackView.isHidden = false
+        actionBackView.isHidden = false
+        subtitleLabel.isHidden = false
+        timeSlider.isHidden = false
     }
 
-    func stopPlayback(){
+    func stopPlayback(isEnded: Bool){
         if videoAreaView.isHidden { return }
         
+        if isEnded {
+            print("call delegate \(String(describing: delegate))")
+            delegate?.playerItemDidReachEnd()
+        }
         print("=================stopPlayback=============\(String(describing: videoID))")
         
         // stop video & hide video area
@@ -237,6 +251,11 @@ class RecommendCVCell: UICollectionViewCell {
         videoAreaView.isHidden = true
         loadingView.isHidden = true
         loadingView.stopAnimating()
+        
+        subtitleBackView.isHidden = true
+        actionBackView.isHidden = true
+        subtitleLabel.isHidden = true
+        timeSlider.isHidden = true
     }
     
     func startPlayback(_ seekTime: CMTime?){
@@ -264,7 +283,7 @@ class RecommendCVCell: UICollectionViewCell {
         print("playerItemDidReachEnd")
 //        let p: AVPlayerItem = notification.object as! AVPlayerItem
 //        p.seek(to: CMTime.zero)
-        stopPlayback()
+        stopPlayback(isEnded: true)
     }
     
     //MARK: -  request video info
@@ -364,11 +383,25 @@ class RecommendCVCell: UICollectionViewCell {
     }
     
     //MARK: - 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
-    @objc func timeSliderValueChanged(_ slider: UISlider) {
+    @objc func timeSliderValueChanged(_ slider: UISlider, event: UIEvent) {
         let seconds = Int64(slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
-        avPlayer?.seek(to: targetTime)
-        avPlayer?.isMuted = self.isAudioMute
+        // slider 이동 중 사라지지 않도록 event 제어, slider 이동 완료된 후 seek 하도록 수정.
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                isSliderMoved = true
+
+            case .ended:
+                print("touch ended")
+                isSliderMoved = false
+                avPlayer?.seek(to: targetTime)
+                avPlayer?.isMuted = self.isAudioMute
+                
+            default:
+                print("touch state : \(touchEvent.phase)")
+            }
+        }
     }
     
     //MARK: - 자막표시여부 버튼을 클릭하면 호출하는 콜백메소드
@@ -406,8 +439,10 @@ class RecommendCVCell: UICollectionViewCell {
 //                if strongSelf.avPlayer?.currentItem?.status == AVPlayerItem.Status.readyToPlay {
 //                    print("readyToPlay")
 //                }
-                strongSelf.timeSlider.value = Float(time.seconds)
-
+                if !strongSelf.isSliderMoved {
+                    strongSelf.timeSlider.value = Float(time.seconds)
+                }
+                
                 // 자막처리
                 let label = strongSelf.subtitleLabel
                 
