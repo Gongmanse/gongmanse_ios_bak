@@ -32,7 +32,7 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
         }
         
         if currentTrueIndex.count > 0 {
-            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "삭제", message: "선택하신 \(currentTrueIndex.count)개 항목을 삭제하시겠습니까?", preferredStyle: .alert)
     
             let ok = UIAlertAction(title: "확인", style: .default) { (_) in
                 self.actionDelete(currentTrueIndex, temp)
@@ -49,12 +49,18 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
     }
     private var deleteCount = 0
     private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
-        for deleteIdx in currentTrueIndex {
-            if let id = self.tableViewInputData[deleteIdx].iBookmarkId {
-                let inputData = RecentVideoInput(id: id)
-                print("deleteIdx : \(inputData.id)")
-                    
-                // TODO 배열로 삭제 확인
+        if currentTrueIndex.count > 1 {
+            var ids: String = ""
+            for deleteIdx in currentTrueIndex {
+                if let id = self.tableViewInputData[deleteIdx].iBookmarkId {
+                   ids.append("\(id),")
+                }
+            }
+            // sql 에서 IN 명령어 사용으로 변경하여 다중항목 삭제처리는 쉼표로 구분
+            let range = ids.startIndex..<ids.index(before: ids.endIndex)
+            requestDelete(id: "\(ids[range])")
+        } else {
+            if let id = self.tableViewInputData[currentTrueIndex[0]].iBookmarkId {
                 requestDelete(id: id)
             }
         }
@@ -71,7 +77,7 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
             deleteStateList.append(deleteAllSelectBtn.isSelected)
         }
         
-        self.tableView.reloadData()
+//        self.tableView.reloadData()// 삭제 완료 후에 갱신하도록 수정
     }
     
     @IBAction func deleteAllSelect(_ sender: Any) {
@@ -215,9 +221,7 @@ class BookMarkTVC: UIViewController, BottomPopupDelegate {
                         
                         self.tableViewInputData.append(contentsOf: json.data)
                         self.bookMark = json
-                        if offset == 0 {
-                            self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
-                        }
+                        self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
                         
                         self.tableView.reloadData()
                     }
@@ -345,7 +349,19 @@ extension BookMarkTVC: UITableViewDelegate, UITableViewDataSource {
                 if self.deleteCount != 0 {
                     self.textSettings(Int(self.bookMark?.totalNum ?? "0") ?? 0)
                     self.deleteCount = 0
+                    self.tableView.reloadData()
                     self.view.layoutIfNeeded()
+                    
+                    if self.tableViewInputData.count == 0 {
+                        if self.bookMark?.totalNum == "0" {
+                            print("empty data")
+                            self.isDeleteModeOff = true
+                        } else {
+                            print("get more data")
+                            self.deleteAllSelectBtn.isSelected.toggle()
+                            self.getDataFromJson(offset: 0)
+                        }
+                    }
                 }
                 print(response)
             case.failure:

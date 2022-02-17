@@ -14,7 +14,7 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
     private var deleteStateList = [Bool]()
     @IBOutlet weak var deleteModeView: UIView!
     @IBOutlet weak var deleteAllSelectBtn: UIButton!
-    @IBAction func deleteSelectedItem(_ sender: Any) {        
+    @IBAction func deleteSelectedItem(_ sender: Any) {
         var currentTrueIndex = [Int]()
         var temp = [FilterVideoData]()
         for (index, selected) in deleteStateList.enumerated() {
@@ -27,7 +27,7 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
         
         // 삭제항목 선택 카운트 체크
         if currentTrueIndex.count > 0 {
-            let alert = UIAlertController(title: "삭제", message: "삭제하시겠습니까?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "삭제", message: "선택하신 \(currentTrueIndex.count)개 항목을 삭제하시겠습니까?", preferredStyle: .alert)
     
             let ok = UIAlertAction(title: "확인", style: .default) { (_) in
                 self.actionDelete(currentTrueIndex, temp)
@@ -44,12 +44,20 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
     }
     private var deleteCount = 0
     private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
-        for deleteIdx in currentTrueIndex {
-            if let id = self.tableViewInputData[deleteIdx].id {
-            let inputData = RecentVideoInput(id: id)
-                print("deleteIdx : \(inputData.id)")
-                // TODO 배열로 삭제 확인
-                RecentVideoTVCDataManager().postRemoveRecentVideo(param: inputData, viewController: self)
+        if currentTrueIndex.count > 1 {
+            var ids: String = ""
+            for deleteIdx in currentTrueIndex {
+                if let id = self.tableViewInputData[deleteIdx].id {
+                   ids.append("\(id),")
+                }
+            }
+            
+            // sql 에서 IN 명령어 사용으로 변경하여 다중항목 삭제처리는 쉼표로 구분
+            let range = ids.startIndex..<ids.index(before: ids.endIndex)
+            RecentVideoTVCDataManager().postRemoveRecentVideo(id: "\(ids[range])", viewController: self)
+        } else {
+            if let id = self.tableViewInputData[currentTrueIndex[0]].iBookmarkId {
+                RecentVideoTVCDataManager().postRemoveRecentVideo(id: id, viewController: self)
             }
         }
         deleteCount = currentTrueIndex.count
@@ -65,7 +73,7 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
             deleteStateList.append(deleteAllSelectBtn.isSelected)
         }
         
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
     }
     
     @IBAction func deleteAllSelect(_ sender: Any) {
@@ -203,10 +211,8 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
                         
                         self.tableViewInputData.append(contentsOf: json.data)
                         self.recentViedo = json
-                        if offset == 0 {
-                            self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
-                        }
-                        
+                        self.textSettings(Int(self.recentViedo?.totalNum ?? "0") ?? 0)
+
                         self.tableView.reloadData()
                     }
                 }
@@ -419,7 +425,7 @@ extension RecentVideoTVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {    
+extension RecentVideoTVC: RecentVideoBottomPopUpVCDelegate {
     func recentPassSortedIdRow(_ recentSortedIdRowIndex: Int) {
         
         if recentSortedIdRowIndex == 0 {          // 1 번째 Cell
@@ -447,6 +453,18 @@ extension RecentVideoTVC {
             deleteCount = 0
             self.view.layoutIfNeeded()
         }
+        self.tableView.reloadData()
+        
+        if self.tableViewInputData.count == 0 {
+            if self.recentViedo?.totalNum == "0" {
+                print("empty data")
+                self.isDeleteModeOff = true
+            } else {
+                print("get more data")
+                self.deleteAllSelectBtn.isSelected.toggle()
+                self.getDataFromJson(offset: 0)
+            }
+        }
     }
 }
 
@@ -459,10 +477,7 @@ struct RecentVideoInput: Encodable {
 
 class RecentVideoTVCDataManager {
     
-    func postRemoveRecentVideo(param: RecentVideoInput, viewController: RecentVideoTVC) {
-        
-        let id = param.id
-        
+    func postRemoveRecentVideo(id: String, viewController: RecentVideoTVC) {                
         // 로그인정보 post
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "history_id")

@@ -8,6 +8,82 @@ protocol noteListTVCDelegate: AnyObject {
 
 class NoteListTVC: UIViewController, BottomPopupDelegate {
     
+    // 전체 삭제 기능
+    private var deleteStateList = [Bool]()
+    @IBOutlet weak var deleteModeView: UIView!
+    @IBOutlet weak var deleteAllSelectBtn: UIButton!
+    @IBAction func deleteSelectedItem(_ sender: Any) {
+        var currentTrueIndex = [Int]()
+        var temp = [FilterVideoData]()
+        for (index, selected) in deleteStateList.enumerated() {
+            if selected {
+                currentTrueIndex.append(index)
+            } else {
+                temp.append(self.tableViewInputData[index])
+            }
+        }
+        
+        // 삭제항목 선택 카운트 체크
+        if currentTrueIndex.count > 0 {
+            let alert = UIAlertController(title: "삭제", message: "선택하신 \(currentTrueIndex.count)개 항목을 삭제하시겠습니까?", preferredStyle: .alert)
+    
+            let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+                self.actionDelete(currentTrueIndex, temp)
+            }
+            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            presentAlert(message: "삭제할 항목을 선택해주세요.")
+        }
+    }
+    private var deleteCount = 0
+    private func actionDelete(_ currentTrueIndex: [Int], _ temp: [FilterVideoData]) {
+        if currentTrueIndex.count > 1 {
+            var ids: String = ""
+            for deleteIdx in currentTrueIndex {
+                if let id = self.tableViewInputData[deleteIdx].id {
+                   ids.append("\(id),")
+                }
+            }
+            
+            // sql 에서 IN 명령어 사용으로 변경하여 다중항목 삭제처리는 쉼표로 구분
+            let range = ids.startIndex..<ids.index(before: ids.endIndex)
+            NoteListTVCDataManager().postRemoveNoteList(id: "\(ids[range])", viewController: self)
+        } else {
+            if let id = self.tableViewInputData[currentTrueIndex[0]].id {
+                NoteListTVCDataManager().postRemoveNoteList(id: id, viewController: self)
+            }
+        }
+        deleteCount = currentTrueIndex.count
+        var remainCnt = (Int(noteList?.totalNum ?? "0") ?? 0) - self.deleteCount
+        if remainCnt < 0 {
+            remainCnt = 0
+        }
+        noteList?.totalNum = "\(remainCnt)"
+        
+        tableViewInputData = temp
+        deleteStateList.removeAll()
+        for _ in tableViewInputData.indices {
+            deleteStateList.append(deleteAllSelectBtn.isSelected)
+        }
+        
+//        self.tableView.reloadData()
+    }
+    
+    @IBAction func deleteAllSelect(_ sender: Any) {
+        deleteAllSelectBtn.isSelected.toggle()
+        deleteStateList.removeAll()
+        for _ in tableViewInputData.indices {
+            deleteStateList.append(deleteAllSelectBtn.isSelected)
+        }
+        tableView.reloadData()
+    }
+    
+    
 //    @IBOutlet weak var tableHeaderView: UIView!
     @IBOutlet weak var countAll: UILabel!
     @IBOutlet weak var filteringBtn: UIButton!
@@ -19,7 +95,9 @@ class NoteListTVC: UIViewController, BottomPopupDelegate {
     }
     var isDeleteModeOff: Bool = true {
         didSet {
+            deleteAllSelectBtn?.isSelected = false
             tableView?.reloadData()
+            deleteModeView?.isHidden = isDeleteModeOff
         }
     }
     
@@ -37,6 +115,7 @@ class NoteListTVC: UIViewController, BottomPopupDelegate {
     var sortedId: Int? {
         didSet {
             tableViewInputData.removeAll()
+            deleteStateList.removeAll()
 //            tableView.reloadData()
             getDataFromJson(offset: 0)
         }
@@ -65,6 +144,11 @@ class NoteListTVC: UIViewController, BottomPopupDelegate {
         DispatchQueue.main.async {
             self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
         }
+        
+        // 전체 선택 삭제 기능 추가
+        deleteAllSelectBtn.setImage(UIImage(named: "checkTrue"), for: .selected)
+        deleteAllSelectBtn.setTitleColor(.black, for: .normal)
+        deleteAllSelectBtn.setTitleColor(.black, for: .selected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,14 +191,18 @@ class NoteListTVC: UIViewController, BottomPopupDelegate {
                 let decoder = JSONDecoder()
                 if let json = try? decoder.decode(FilterVideoModels.self, from: data) {
                     //print(json.body)
-                    self.tableViewInputData.append(contentsOf: json.data)
-                    self.noteList = json
+                    DispatchQueue.main.async {
+                        for _ in json.data {
+                            self.deleteStateList.append(self.deleteAllSelectBtn.isSelected)
+                        }
+                        
+                        self.tableViewInputData.append(contentsOf: json.data)
+                        self.noteList = json
+                        self.textSettings(Int(self.noteList?.totalNum ?? "0") ?? 0)
+                        
+                        self.tableView.reloadData()
+                    }
                 }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.textSettings(Int(self.noteList?.totalNum ?? "0") ?? 0)
-                }
-                
             }.resume()
         }
     }
@@ -196,21 +284,28 @@ extension NoteListTVC: UITableViewDelegate, UITableViewDataSource {
             
             cell.deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
             
+            cell.deleteButton.isSelected = deleteStateList[indexPath.row]
             return cell
         }
     }
     
     @objc func deleteAction(_ sender: UIButton) {
         guard let _ = self.noteList else { return }
-        guard let id = tableViewInputData[sender.tag].id else { return }
+        guard let _ = tableViewInputData[sender.tag].id else { return }
         
-        let inputData = NoteListInput(id: id)
+        sender.isSelected.toggle()
+//        let inputData = NoteListInput(id: id)
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        self.tableViewInputData.remove(at: indexPath.row)
-//        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.reloadData()
+        deleteStateList[sender.tag] = sender.isSelected
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         
-        NoteListTVCDataManager().postRemoveNoteList(param: inputData, viewController: self)
+        if !sender.isSelected {
+            deleteAllSelectBtn.isSelected = false
+        }
+        
+//        self.tableViewInputData.remove(at: indexPath.row)
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+//        NoteListTVCDataManager().postRemoveNoteList(param: inputData, viewController: self)
     }
     
     @objc func videoPlay(_ sender: UIButton) {
@@ -360,9 +455,23 @@ extension NoteListTVC: NoteListBottomPopUpVCDelegate {
 
 extension NoteListTVC {
     func didSuccessPostAPI() {
-        self.textSettings((Int(self.noteList?.totalNum ?? "0") ?? 0) - 1)
-        //self.tableView.reloadData()
-        self.view.layoutIfNeeded()
+        if deleteCount != 0 {
+            self.textSettings(Int(self.noteList?.totalNum ?? "0") ?? 0)
+            //self.tableView.reloadData()
+            self.view.layoutIfNeeded()
+        }
+        self.tableView.reloadData()
+        
+        if self.tableViewInputData.count == 0 {
+            if self.noteList?.totalNum == "0" {
+                print("empty data")
+                self.isDeleteModeOff = true
+            } else {
+                print("get more data")
+                self.deleteAllSelectBtn.isSelected.toggle()
+                self.getDataFromJson(offset: 0)
+            }
+        }
     }
 }
 
@@ -375,10 +484,7 @@ struct NoteListInput: Encodable {
 
 class NoteListTVCDataManager {
     
-    func postRemoveNoteList(param: NoteListInput, viewController: NoteListTVC) {
-        
-        let id = param.id
-        
+    func postRemoveNoteList(id: String, viewController: NoteListTVC) {
         // 로그인정보 post
         AF.upload(multipartFormData: { MultipartFormData in
             MultipartFormData.append("\(id)".data(using: .utf8)!, withName: "note_id")

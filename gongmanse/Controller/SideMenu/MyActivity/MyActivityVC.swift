@@ -24,7 +24,7 @@ class MyActivityVC: UIViewController {
             self.recentVideoTVC.isDeleteModeOff = isSelected
             self.noteListTVC.isDeleteModeOff = isSelected
             self.lectureQuestionsTVC.isDeleteMode = isSelected
-            self.expertConsultTVC.isDeleteMode = isSelected
+            self.expertConsultTVC.isDeleteModeOff = isSelected
             self.bookMarkTVC.isDeleteModeOff = isSelected
         }
     }
