@@ -267,7 +267,9 @@ extension RecommendVC: UICollectionViewDataSource {
                 if visibleIP != nil {
                     print("stopPlayback")
                     let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
-                    seekTimes[videoCell.videoID] = seekTime
+                    if seekTime?.seconds ?? 0 > 0 {
+                        seekTimes[videoCell.videoID] = seekTime
+                    }
                     videoCell.stopPlayback(isEnded: false)
                     visibleIP = nil
                 }
@@ -298,7 +300,9 @@ extension RecommendVC: UICollectionViewDataSource {
                 if beforeCellVisibleH < beforeVideoCell.frame.height * 0.6 {
                     print("stop current item")
                     let seekTime = beforeVideoCell.avPlayer?.currentItem?.currentTime()
-                    seekTimes[beforeVideoCell.videoID] = seekTime
+                    if seekTime?.seconds ?? 0 > 0 {
+                        seekTimes[beforeVideoCell.videoID] = seekTime
+                    }
                     beforeVideoCell.stopPlayback(isEnded: false)
                     
                     var afterVideoCell: RecommendCVCell? = nil
@@ -332,8 +336,11 @@ extension RecommendVC: UICollectionViewDelegate {
         // 자동 재생 중지
         let videoCell = collectionView.cellForItem(at: indexPath) as! RecommendCVCell
         let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
-        seekTimes[videoCell.videoID] = seekTime
+        if seekTime?.seconds ?? 0 > 0 {
+            seekTimes[videoCell.videoID] = seekTime
+        }
         videoCell.stopPlayback(isEnded: false)
+        visibleIP = nil
         
         // 토큰이 없는 경우
         // -> 추천 동영상 비디오 경로 API & 추천 동영상 비디오 노트 API를 호출한다.
@@ -358,7 +365,7 @@ extension RecommendVC: UICollectionViewDelegate {
             vc.delegate = self
             vc.id = videoID
             vc.autoPlaySeekTime = seekTimes[videoID]
-//            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
+            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
             vc.modalPresentationStyle = .overFullScreen
             
             autoPlayDataManager.currentViewTitleView = "추천"

@@ -523,8 +523,13 @@ extension VideoController: AVPlayerViewControllerDelegate {
 //        playerController.view.isHidden = false
         
         DispatchQueue.main.async {
-            //0711 - added by hp
-            if let pipData = self.pipData {
+//            print("videoPlayer play() : \(String(describing: self.autoPlaySeekTime))")
+            if let seekTime = self.autoPlaySeekTime {
+//                print("autoPlaySeekTime : \(seekTime.seconds), \(seekTime.timescale)")
+                self.player.seek(to: seekTime)
+                self.autoPlaySeekTime = nil// 다음 파일 재생 시 참조하지 않도록 seek 뒤 초기화.
+            } else if let pipData = self.pipData {
+//                print("pipData..")
                 if !pipData.currentVideoTime.isNaN && pipData.currentVideoTime != 0.0 && self.videoDataManager.previousVideoID == self.id {
                     let seconds: Int64 = Int64(pipData.currentVideoTime)
                     let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
@@ -532,10 +537,6 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     self.pipData?.currentVideoTime = 0.0 //reset
                     PIPDataManager.shared.currentVideoTime = 0
                 }
-            } else if let seekTime = self.autoPlaySeekTime {
-                print("autoPlaySeekTime : \(seekTime.seconds), \(seekTime.timescale)")
-                self.player.seek(to: seekTime)
-                self.autoPlaySeekTime = nil// 다음 파일 재생 시 참조하지 않도록 seek 뒤 초기화.
             }
 
             self.player.play()
