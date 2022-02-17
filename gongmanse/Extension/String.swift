@@ -19,6 +19,26 @@ extension String {
     var htmlToString: String {
         return htmlToAttributedString?.string ?? ""
     }
+    
+    func htmlAttributedString(font: UIFont) -> NSAttributedString {
+        let fontData =
+        String(format:"<span style=\"font-family: \(font.fontName); font-size: \(font.pointSize); color: #FFFFFF \">%@</span>", self)
+        print("fontData : \(fontData)")
+        
+        guard let data = fontData.data(using: .utf8, allowLossyConversion: true)
+        else { return NSAttributedString() }
+
+        guard  let attributedString = try? NSAttributedString(
+        data: data,
+//        options: [.documentType: NSAttributedString.DocumentType.html],
+        options: [ .documentType: NSAttributedString.DocumentType.html,
+                   .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)],
+        documentAttributes: nil)
+
+        else { return NSAttributedString() }
+
+        return attributedString
+    }
 }
 
 // NSAttributeString 중간에 글자 색 바꾸기 

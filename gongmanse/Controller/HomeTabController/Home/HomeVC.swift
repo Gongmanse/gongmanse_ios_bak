@@ -1,6 +1,6 @@
 import UIKit
 import SideMenu
-
+import AVKit
 
 class HomeVC: UIViewController {
 
@@ -36,6 +36,13 @@ class HomeVC: UIViewController {
         
         addBottomBorder()
         
+        // 탭 리스트 자동재생 시 audio session 제어
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

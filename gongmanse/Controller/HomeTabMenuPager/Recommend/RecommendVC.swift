@@ -284,7 +284,7 @@ extension RecommendVC: UICollectionViewDataSource {
                 let beforeVideoCell = recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell
                 let beforeCellVisibleH = beforeVideoCell.frame.intersection(recommendCollection.bounds).height
                 
-                print("beforeCellVisibleH : \(beforeCellVisibleH/beforeVideoCell.frame.height * 100)")
+//                print("beforeCellVisibleH : \(beforeCellVisibleH/beforeVideoCell.frame.height * 100)")
                 
                 if beforeCellVisibleH < beforeVideoCell.frame.height * 0.6 {
                     print("stop current item")
@@ -320,6 +320,11 @@ extension RecommendVC: UICollectionViewDataSource {
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 자동 재생 중지
+        let videoCell = collectionView.cellForItem(at: indexPath) as! RecommendCVCell
+        let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+        seekTimes[videoCell.videoID] = seekTime
+        videoCell.stopPlayback()
         
         // 토큰이 없는 경우
         // -> 추천 동영상 비디오 경로 API & 추천 동영상 비디오 노트 API를 호출한다.
@@ -339,19 +344,22 @@ extension RecommendVC: UICollectionViewDelegate {
         
         let vc = VideoController()
         let videoDataManager = VideoDataManager.shared
-        videoDataManager.isFirstPlayVideo = true
-        vc.delegate = self
-        vc.id = recommendVideo.body[selectedRow].videoId
-        vc.modalPresentationStyle = .overFullScreen
-//        vc.recommendReceiveData = recommendVideo
-        
-        autoPlayDataManager.currentViewTitleView = "추천"
-        autoPlayDataManager.isAutoPlay = false
-        autoPlayDataManager.videoDataList.removeAll()
-        autoPlayDataManager.videoSeriesDataList.removeAll()
-        autoPlayDataManager.currentIndex = -1
-        
-        self.present(vc, animated: true)
+        if let videoID = recommendVideo.body[selectedRow].videoId {
+            videoDataManager.isFirstPlayVideo = true
+            vc.delegate = self
+            vc.id = videoID
+            vc.autoPlaySeekTime = seekTimes[videoID]
+//            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
+            vc.modalPresentationStyle = .overFullScreen
+            
+            autoPlayDataManager.currentViewTitleView = "추천"
+            autoPlayDataManager.isAutoPlay = false
+            autoPlayDataManager.videoDataList.removeAll()
+            autoPlayDataManager.videoSeriesDataList.removeAll()
+            autoPlayDataManager.currentIndex = -1
+            
+            self.present(vc, animated: true)
+        }
     }
 }
 

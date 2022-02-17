@@ -83,15 +83,28 @@ extension VideoController {
         dismiss(animated: true, completion: nil)
     }
     
-    /// 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
-    @objc func timeSliderValueChanged(_ slider: UISlider) {
+    // 슬라이더를 이동하면 player의 값을 변경해주는 메소드(.valueChaned 시 호출되는 콜백메소드)
+    @objc func timeSliderValueChanged(_ slider: UISlider, event: UIEvent) {
         let seconds = Int64(slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
-        player.seek(to: targetTime)
         
-//        if player.rate == 0 {
-//            player.play()
-//        }
+        // slider 이동 중 사라지지 않도록 event 제어, slider 이동 완료된 후 seek 하도록 수정.
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                isSliderMoved = true
+                controllerTimer?.invalidate()
+            case .ended:
+                print("touch ended")
+                isSliderMoved = false
+                controllerTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.startTimer), userInfo: nil, repeats: false)
+                player.seek(to: targetTime)
+                
+            default:
+                print("touch state : \(touchEvent.phase)")
+            }
+        }
+        currentTimeLabel.text = convertTimeToFitText(time: Int(targetTime.seconds))
     }
     
     //재실행
@@ -330,14 +343,16 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 
                 let label = strongSelf.subtitleLabel
                 
-                // 영상의 시간이 흐름에 따라 UISlider가 이동하도록한다.
-                strongSelf.timeSlider.value = Float(time.seconds)
+                // 22.02.17 slider 이동 중에는 slider 위치의 시간이 표시되도록 수정
+                if !strongSelf.isSliderMoved {
+                    // 영상의 시간이 흐름에 따라 UISlider가 이동하도록한다.
+                    strongSelf.timeSlider.value = Float(time.seconds)
                 
-                // 영상의 시간이 흐름에 따라 Slider 좌측 Label의 텍스트를 변경한다.
-                let currentTimeInt = Int(time.seconds)
-                strongSelf.currentTimeLabel.text
-                    = strongSelf.convertTimeToFitText(time: currentTimeInt)
-                
+                    // 영상의 시간이 흐름에 따라 Slider 좌측 Label의 텍스트를 변경한다.
+                    let currentTimeInt = Int(time.seconds)
+                    strongSelf.currentTimeLabel.text
+                        = strongSelf.convertTimeToFitText(time: currentTimeInt)
+                }
                 if time.seconds >= endSeconds {
 //                    NotificationCenter.default.post(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
 //                                                    object: nil)
@@ -517,7 +532,12 @@ extension VideoController: AVPlayerViewControllerDelegate {
                     self.pipData?.currentVideoTime = 0.0 //reset
                     PIPDataManager.shared.currentVideoTime = 0
                 }
+            } else if let seekTime = self.autoPlaySeekTime {
+                print("autoPlaySeekTime : \(seekTime.seconds), \(seekTime.timescale)")
+                self.player.seek(to: seekTime)
+                self.autoPlaySeekTime = nil// 다음 파일 재생 시 참조하지 않도록 seek 뒤 초기화.
             }
+
             self.player.play()
             self.setPlayButtonImage()
         }

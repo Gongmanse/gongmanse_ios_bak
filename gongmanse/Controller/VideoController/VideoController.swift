@@ -95,6 +95,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
     var isKeyboardSelect = false
     
     var id: String?
+    var autoPlaySeekTime: CMTime?
     var seriesID: String?
     //0709 - added by hp
     var keyword: String? //해시태그 이동일 경우
@@ -316,6 +317,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         slider.value = 1
         return slider
     }()
+    var isSliderMoved = false
     
     /// ProgressView 좌측에 위치한 현재시간 레이블
     let currentTimeLabel: UILabel = {
@@ -1753,5 +1755,11 @@ extension UIWindow {
         } else {
             return UIApplication.shared.statusBarOrientation.isLandscape
         }
+    }
+}
+
+extension AVPlayer {
+    func seek(to: CMTime) {
+        self.seek(to: to, toleranceBefore: .zero, toleranceAfter: .zero)
     }
 }

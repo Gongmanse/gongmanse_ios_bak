@@ -3185,7 +3185,6 @@
                                             <constraint firstItem="Sqi-hC-7dI" firstAttribute="height" secondItem="nBF-JS-h9v" secondAttribute="height" multiplier="0.8" id="KcZ-ca-Bhh"/>
                                             <constraint firstItem="cRp-kY-S4N" firstAttribute="leading" secondItem="nBF-JS-h9v" secondAttribute="leading" constant="15" id="Q4P-M9-0Uz"/>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="Ruz-Aj-rFD"/>
-                                            <constraint firstAttribute="width" secondItem="nBF-JS-h9v" secondAttribute="height" multiplier="414:50" priority="750" id="SUY-rW-Ufw"/>
                                             <constraint firstItem="0X3-hb-xVd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Sqi-hC-7dI" secondAttribute="trailing" constant="8" symbolic="YES" id="gJk-vi-wme"/>
                                             <constraint firstItem="0X3-hb-xVd" firstAttribute="centerY" secondItem="nBF-JS-h9v" secondAttribute="centerY" id="hpX-XL-ZDN"/>
                                             <constraint firstItem="0X3-hb-xVd" firstAttribute="height" secondItem="nBF-JS-h9v" secondAttribute="height" multiplier="0.8" id="ouD-Gg-Hhl"/>
@@ -3345,7 +3344,7 @@
                                     </tableView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="nBF-JS-h9v" firstAttribute="width" secondItem="nBF-JS-h9v" secondAttribute="height" multiplier="414:50" id="JuD-Pu-J0T"/>
+                                    <constraint firstItem="nBF-JS-h9v" firstAttribute="width" secondItem="nBF-JS-h9v" secondAttribute="height" multiplier="414:50" priority="750" id="JuD-Pu-J0T"/>
                                 </constraints>
                             </stackView>
                             <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kl0-ff-niw">
