@@ -23,7 +23,7 @@ extension String {
     func htmlAttributedString(font: UIFont) -> NSAttributedString {
         let fontData =
         String(format:"<span style=\"font-family: \(font.fontName); font-size: \(font.pointSize); color: #FFFFFF \">%@</span>", self)
-        print("fontData : \(fontData)")
+//        print("fontData : \(fontData)")
         
         guard let data = fontData.data(using: .utf8, allowLossyConversion: true)
         else { return NSAttributedString() }

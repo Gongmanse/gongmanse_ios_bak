@@ -1,7 +1,6 @@
 import UIKit
 import AVFoundation
 
-var autoPlayAudioMute = true
 class RecommendCVCell: UICollectionViewCell {
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
@@ -41,7 +40,6 @@ class RecommendCVCell: UICollectionViewCell {
     let audioToggleButton: UIButton = {
         let button = UIButton(type: .system)
         let muteOn = UIImage(systemName: "speaker.slash")
-//        button.setImage(muteOn, for: .selected)
         button.setImage(muteOn, for: .normal)
         button.tintColor = .white
         button.backgroundColor = UIColor.clear
@@ -100,12 +98,13 @@ class RecommendCVCell: UICollectionViewCell {
     }
     var isAudioMute: Bool = true {
         didSet {
-            if self.isAudioMute {
+            if isAudioMute {
                 audioToggleButton.setImage(UIImage(systemName: "speaker.slash"), for: .normal)
             } else {
                 audioToggleButton.setImage(UIImage(systemName: "speaker"), for: .normal)
             }
-            avPlayer?.isMuted = self.isAudioMute
+            avPlayer?.isMuted = isAudioMute
+            autoPlayAudioMute = isAudioMute
         }
     }
     
@@ -204,7 +203,6 @@ class RecommendCVCell: UICollectionViewCell {
                                   paddingTop: 5,
                                   paddingBottom: 5,
                                   paddingRight: 5)
-            isAudioMute = autoPlayAudioMute
         
             actionBackView.addSubview(subtitleToggleButton)
             subtitleToggleButton.anchor(top: actionBackView.topAnchor,
@@ -228,6 +226,8 @@ class RecommendCVCell: UICollectionViewCell {
         actionBackView.isHidden = false
         subtitleLabel.isHidden = false
         timeSlider.isHidden = false
+        
+        isAudioMute = autoPlayAudioMute
     }
 
     func stopPlayback(isEnded: Bool){
@@ -280,9 +280,7 @@ class RecommendCVCell: UICollectionViewCell {
     }
     
     @objc func playerItemDidReachEnd(notification: Notification) {
-        print("playerItemDidReachEnd")
-//        let p: AVPlayerItem = notification.object as! AVPlayerItem
-//        p.seek(to: CMTime.zero)
+//        print("playerItemDidReachEnd")
         stopPlayback(isEnded: true)
     }
     
@@ -373,7 +371,7 @@ class RecommendCVCell: UICollectionViewCell {
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
                              for: .valueChanged)
         addPeriodicTimeObserver()
-   
+        avPlayer?.isMuted = self.isAudioMute
         avPlayer?.play()
         
         if let seekTime = seekTime {
@@ -426,7 +424,6 @@ class RecommendCVCell: UICollectionViewCell {
     //MARK: - 오디오 출력
     @objc func handleAudioMute() {
         isAudioMute.toggle()
-        autoPlayAudioMute = isAudioMute
     }
     
     func addPeriodicTimeObserver() {
@@ -452,7 +449,7 @@ class RecommendCVCell: UICollectionViewCell {
                     
                     // load HTML String
                     if subtitleText.contains("#") {
-                        print("has hashTag")
+//                        print("has hashTag")
                         label.attributedText = subtitleText.htmlAttributedString(font: UIFont.appBoldFontWith(size: strongSelf.subtitleFontSize))
                         
                         // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.

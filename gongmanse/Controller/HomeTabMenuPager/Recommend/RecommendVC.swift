@@ -3,11 +3,13 @@ import SDWebImage
 import Alamofire
 import AVFoundation
 
+var autoPlayAudioMute = true
 protocol AutoPlayDelegate: AnyObject {
     func playerItemDidReachEnd()
 }
 
 class RecommendVC: UIViewController {
+    
     var visibleIP : IndexPath?
     var seekTimes = [String:CMTime]()
 //    var aboutToBecomeInvisibleCell = -1
@@ -47,6 +49,20 @@ class RecommendVC: UIViewController {
         // 맨위로 스크롤 기능 추가
         DispatchQueue.main.async {
             self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        print("RecommendVC viewDidDisappear")
+        guard visibleIP != nil else { return }
+        
+        // 화면 이동 시 재생중지
+        if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
+            let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+            if seekTime?.seconds ?? 0 > 0 {
+                seekTimes[videoCell.videoID] = seekTime
+            }
+            videoCell.stopPlayback(isEnded: false)
         }
     }
     
@@ -246,10 +262,6 @@ extension RecommendVC: UICollectionViewDataSource {
         if indexPath.row == self.recommendVideo.body.count - 1 && !self.isLoading {
             loadMoreData()
         }
-        
-        if indexPath.row == self.recommendVideo.body.count - 1 {
-            // 마지막 항목인 경우
-        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -277,6 +289,38 @@ extension RecommendVC: UICollectionViewDataSource {
             return
         }
         
+        // 마지막 아이템까지 스크롤된 경우 마지막 아이템 재생
+        // - 이전 재생 videoCell 이 65% 이상 가려지기 전에 다음 항목 재생되도록 별도 처리
+        let heightSV = scrollView.frame.size.height
+        let offSetY = scrollView.contentOffset.y
+        let distanceFromBot = scrollView.contentSize.height - offSetY - (loadingView?.frame.height ?? 0)
+        if distanceFromBot <= heightSV {// distanceFromBot == heightSV 인 순간 바닥점 터치.
+            print("reached the bottom of the scrollView")
+            if visibleIP != nil && visibleIP!.item != indexPaths[indexPaths.count - 1].item {
+                let beforeVideoCell = recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell
+                print("stop current item")
+                let seekTime = beforeVideoCell.avPlayer?.currentItem?.currentTime()
+                if seekTime?.seconds ?? 0 > 0 {
+                    seekTimes[beforeVideoCell.videoID] = seekTime
+                }
+                beforeVideoCell.stopPlayback(isEnded: false)
+                
+                // 마지막 아이템 재생 처리
+                visibleIP = indexPaths[indexPaths.count - 1]
+                let afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
+                afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+            }
+            // 마지막 항목에 도달한 경우 loadingView 숨기기.
+            if !(loadingView?.isHidden ?? true) {
+                loadingView?.isHidden = true
+            }
+            return
+        }
+        
+        if loadingView?.isHidden ?? true {
+            loadingView?.isHidden = false
+        }
+        
         let cellCount = cells.count
         if cellCount >= 2 {
             // check last item
@@ -296,8 +340,8 @@ extension RecommendVC: UICollectionViewDataSource {
                 let beforeCellVisibleH = beforeVideoCell.frame.intersection(recommendCollection.bounds).height
                 
 //                print("beforeCellVisibleH : \(beforeCellVisibleH/beforeVideoCell.frame.height * 100)")
-                
-                if beforeCellVisibleH < beforeVideoCell.frame.height * 0.6 {
+                // 자동 스크롤이 다음 파일 재생할만큼 충분하지 못한 경우가 있어 0.6 -> 0.65 로 수정
+                if beforeCellVisibleH < beforeVideoCell.frame.height * 0.65 {
                     print("stop current item")
                     let seekTime = beforeVideoCell.avPlayer?.currentItem?.currentTime()
                     if seekTime?.seconds ?? 0 > 0 {
@@ -323,12 +367,12 @@ extension RecommendVC: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forRowAt indexPath: IndexPath) {
-        print("end = \(indexPath)")
-        if let videoCell = cell as? RecommendCVCell {
-            videoCell.stopPlayback(isEnded: false)
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forRowAt indexPath: IndexPath) {
+//        print("end = \(indexPath)")
+//        if let videoCell = cell as? RecommendCVCell {
+//            videoCell.stopPlayback(isEnded: false)
+//        }
+//    }
 }
 
 extension RecommendVC: UICollectionViewDelegate {
@@ -365,7 +409,7 @@ extension RecommendVC: UICollectionViewDelegate {
             vc.delegate = self
             vc.id = videoID
             vc.autoPlaySeekTime = seekTimes[videoID]
-            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
+//            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
             vc.modalPresentationStyle = .overFullScreen
             
             autoPlayDataManager.currentViewTitleView = "추천"
@@ -432,6 +476,12 @@ extension RecommendVC: VideoControllerDelegate {
 
 extension RecommendVC: AutoPlayDelegate {
     func playerItemDidReachEnd() {
+        guard visibleIP != nil else { return }
+        // set reachEnd item's seek time
+        if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
+            seekTimes[videoCell.videoID] = nil
+        }
+        
         // auto play ended. scroll to bottom.
         print("visibleIP!.item : \(visibleIP!.item)")// 현재 위치 파악.
         if visibleIP!.item < self.recommendVideo.body.count - 1 {// 마지막 항목이 아닌 경우
