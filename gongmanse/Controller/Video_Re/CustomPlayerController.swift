@@ -61,7 +61,7 @@ class CustomPlayerController: UIViewController {
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = "default setting..."
+        label.text = " "
         label.addGestureRecognizer(gesture)
         label.isUserInteractionEnabled = true
         return label

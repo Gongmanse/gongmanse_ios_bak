@@ -193,7 +193,7 @@ class VideoFullScreenController: UIViewController{
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = "default setting..."
+        label.text = " "
         return label
     }()
     

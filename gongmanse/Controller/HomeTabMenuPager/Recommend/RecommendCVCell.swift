@@ -10,7 +10,7 @@ class RecommendCVCell: UICollectionViewCell {
     @IBOutlet weak var starRating: UILabel!
     
     @IBOutlet weak var videoAreaView: UIView!
-    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+//    @IBOutlet weak var loadingView: UIActivityIndicatorView!
     var requestDelayTimer: Timer? //동영상 정보 요청 딜레이 체크
     var videoID: String!
     
@@ -46,13 +46,13 @@ class RecommendCVCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(handleAudioMute), for: .touchUpInside)
         return button
     }()
-    var subtitleFontSize: CGFloat = 13
+    var subtitleFontSize: CGFloat = 11
     var subtitleLabel: UILabel = {
         let fontSize: CGFloat!
         if UIDevice.current.userInterfaceIdiom == .pad {
             fontSize = 16
         } else {
-            fontSize = 13
+            fontSize = 11
         }
         let label = PaddingLabel()
         label.topInset = 5.0
@@ -64,7 +64,7 @@ class RecommendCVCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = "default setting..."
+        label.text = " "
         label.alpha = UserDefaults.standard.bool(forKey: "subtitle") ? 1 : 0
         return label
     }()
@@ -115,7 +115,7 @@ class RecommendCVCell: UICollectionViewCell {
         if UIDevice.current.userInterfaceIdiom == .pad {
             subtitleFontSize = 16
         } else {
-            subtitleFontSize = 13
+            subtitleFontSize = 11
         }
         
         //비디오 썸네일 이미지 라운딩 처리
@@ -249,8 +249,8 @@ class RecommendCVCell: UICollectionViewCell {
         removePeriodicTimeObserver()
         
         videoAreaView.isHidden = true
-        loadingView.isHidden = true
-        loadingView.stopAnimating()
+//        loadingView.isHidden = true
+//        loadingView.stopAnimating()
         
         subtitleBackView.isHidden = true
         actionBackView.isHidden = true
@@ -268,8 +268,8 @@ class RecommendCVCell: UICollectionViewCell {
         videoAreaView.isHidden = false
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
-        self.loadingView.isHidden = false
-        self.loadingView.startAnimating()
+//        self.loadingView.isHidden = false
+//        self.loadingView.startAnimating()
 //        }
         
         requestDelayTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.waitDelay), userInfo: nil, repeats: false)
@@ -354,8 +354,8 @@ class RecommendCVCell: UICollectionViewCell {
     
     func setVideoItem(url: URL) {
         print("setVideoItem")
-        loadingView.isHidden = true
-        loadingView.stopAnimating()
+//        loadingView.isHidden = true
+//        loadingView.stopAnimating()
         
         setupMoviePlayer()
         

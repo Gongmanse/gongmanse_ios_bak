@@ -37,6 +37,18 @@ class RecommendVC: UIViewController {
     @IBOutlet weak var recommendCollection: UICollectionView!
     @IBOutlet weak var scrollBtn: UIButton!
     @IBAction func scrollToTop(_ sender: Any) {
+        if visibleIP != nil {
+            if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
+                let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+                if seekTime?.seconds ?? 0 > 0 {
+                    seekTimes[videoCell.videoID] = seekTime
+                }
+                videoCell.stopPlayback(isEnded: false)
+                print("scrollToTop. stop play")
+            }
+            visibleIP = nil
+        }
+        
         recommendCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
     }
     
@@ -289,6 +301,9 @@ extension RecommendVC: UICollectionViewDataSource {
             return
         }
         
+        let cellCount = cells.count
+        if cellCount == 0 { return }
+        
         // 마지막 아이템까지 스크롤된 경우 마지막 아이템 재생
         // - 이전 재생 videoCell 이 65% 이상 가려지기 전에 다음 항목 재생되도록 별도 처리
         let heightSV = scrollView.frame.size.height
@@ -321,7 +336,7 @@ extension RecommendVC: UICollectionViewDataSource {
             loadingView?.isHidden = false
         }
         
-        let cellCount = cells.count
+
         if cellCount >= 2 {
             // check last item
 //            print("contentSize : \(scrollView.contentSize)")
@@ -360,6 +375,7 @@ extension RecommendVC: UICollectionViewDataSource {
                         afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
                     } else {
                         print("visibleIP : \(visibleIP!.row)")
+                        return
                     }
                     afterVideoCell!.startPlayback(seekTimes[afterVideoCell!.videoID])
                 }
@@ -378,13 +394,16 @@ extension RecommendVC: UICollectionViewDataSource {
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 자동 재생 중지
-        let videoCell = collectionView.cellForItem(at: indexPath) as! RecommendCVCell
-        let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
-        if seekTime?.seconds ?? 0 > 0 {
-            seekTimes[videoCell.videoID] = seekTime
+        if visibleIP != nil {
+            if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
+                let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+                if seekTime?.seconds ?? 0 > 0 {
+                    seekTimes[videoCell.videoID] = seekTime
+                }
+                videoCell.stopPlayback(isEnded: false)
+            }
+            visibleIP = nil
         }
-        videoCell.stopPlayback(isEnded: false)
-        visibleIP = nil
         
         // 토큰이 없는 경우
         // -> 추천 동영상 비디오 경로 API & 추천 동영상 비디오 노트 API를 호출한다.
@@ -408,8 +427,13 @@ extension RecommendVC: UICollectionViewDelegate {
             videoDataManager.isFirstPlayVideo = true
             vc.delegate = self
             vc.id = videoID
-            vc.autoPlaySeekTime = seekTimes[videoID]
+            if let seekTime = seekTimes[videoID] {
+                print("set seekTime \(seekTime.seconds)")
+                vc.autoPlaySeekTime = seekTime
+                vc.isStartVideo = true
 //            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
+            }
+            
             vc.modalPresentationStyle = .overFullScreen
             
             autoPlayDataManager.currentViewTitleView = "추천"

@@ -423,7 +423,7 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = "default setting..."
+        label.text = " "
         label.alpha = UserDefaults.standard.bool(forKey: "subtitle") ? 1 : 0
         return label
     }()
@@ -645,9 +645,12 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         configureVideoControlView() // 비디오 상태바 관련 메소드
         
         //intro
-        if Reachability.isConnectedToNetwork(){
-            playInOutroVideo(1)
-            
+        if Reachability.isConnectedToNetwork() {
+            if (autoPlaySeekTime?.seconds ?? 0) > 0 {
+                print("has seekTime.")
+            } else {
+                playInOutroVideo(1)
+            }
             backButton.alpha = 1
         }
         

@@ -56,7 +56,7 @@ class RecentVideoTVC: UIViewController, BottomPopupDelegate {
             let range = ids.startIndex..<ids.index(before: ids.endIndex)
             RecentVideoTVCDataManager().postRemoveRecentVideo(id: "\(ids[range])", viewController: self)
         } else {
-            if let id = self.tableViewInputData[currentTrueIndex[0]].iBookmarkId {
+            if let id = self.tableViewInputData[currentTrueIndex[0]].id {
                 RecentVideoTVCDataManager().postRemoveRecentVideo(id: id, viewController: self)
             }
         }

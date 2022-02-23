@@ -1052,12 +1052,17 @@
                                                             <color key="color" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </activityIndicatorView>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29747211380510141" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="iqZ-t5-CWN" firstAttribute="centerX" secondItem="nMq-sq-CTL" secondAttribute="centerX" id="78c-8d-wKE"/>
                                                         <constraint firstItem="iqZ-t5-CWN" firstAttribute="centerY" secondItem="nMq-sq-CTL" secondAttribute="centerY" id="XTW-EU-gqd"/>
                                                         <constraint firstAttribute="width" secondItem="nMq-sq-CTL" secondAttribute="height" multiplier="16:9" id="xIp-qS-89O"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="subviews">
+                                                            <exclude reference="iqZ-t5-CWN"/>
+                                                        </mask>
+                                                    </variation>
                                                 </view>
                                             </subviews>
                                             <constraints>
@@ -1076,7 +1081,6 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="360" height="265"/>
                                         <connections>
-                                            <outlet property="loadingView" destination="iqZ-t5-CWN" id="SqL-cN-9M8"/>
                                             <outlet property="starRating" destination="tUq-rl-5yH" id="ofu-R6-ETG"/>
                                             <outlet property="subjects" destination="dj1-Wh-9Aj" id="q0G-wy-3SQ"/>
                                             <outlet property="teachersName" destination="Vxm-pd-6LQ" id="q1P-tC-FzR"/>
