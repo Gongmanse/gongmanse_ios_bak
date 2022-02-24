@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProgressDetailCell: UICollectionViewCell {
+class ProgressDetailCell: AutoPlayVideoCell {
 
     //MARK: - Properties
     
@@ -19,6 +19,8 @@ class ProgressDetailCell: UICollectionViewCell {
     @IBOutlet weak var subjectFirst: UILabel!
     @IBOutlet weak var subjectSecond: UILabel!
     @IBOutlet weak var starRating: UILabel!
+    
+    @IBOutlet weak var videoContainer: UIView!
     
     //MARK: - Lifecycle
     
@@ -58,6 +60,6 @@ class ProgressDetailCell: UICollectionViewCell {
         subjectSecond.clipsToBounds = true
         subjectSecond.layer.cornerRadius = subjectSecond.frame.size.height / 2
         
-        
+        videoAreaView = videoContainer
     }
 }

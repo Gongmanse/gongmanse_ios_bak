@@ -485,6 +485,7 @@
 		F064A48C27604F75006FDCA6 /* FindEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F064A48B27604F75006FDCA6 /* FindEntity.swift */; };
 		F0AED47B274B7D9B00C6FEDA /* PurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */; };
 		F0AF222F27BCB36600BC1EF0 /* OnboardingIntroCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */; };
+		F0BF7DFA27C60F02008CA9BC /* AutoPlayVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BF7DF927C60F02008CA9BC /* AutoPlayVideoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -973,6 +974,7 @@
 		F064A48B27604F75006FDCA6 /* FindEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindEntity.swift; sourceTree = "<group>"; };
 		F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseModel.swift; sourceTree = "<group>"; };
 		F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingIntroCell.swift; sourceTree = "<group>"; };
+		F0BF7DF927C60F02008CA9BC /* AutoPlayVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPlayVideoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2609,6 +2611,7 @@
 				6CF2E68B25F21EB2000FE084 /* KoreanEnglishMath */,
 				6CE92DAD267AFB440018B43F /* SeriesVC.swift */,
 				6CE92DB0267AFD210018B43F /* SeriesCollectionViewCell.swift */,
+				F0BF7DF927C60F02008CA9BC /* AutoPlayVideoCell.swift */,
 			);
 			path = HomeTabMenuPager;
 			sourceTree = "<group>";
@@ -3707,6 +3710,7 @@
 				2538EDCD2643DFA20090E460 /* VideoURL.swift in Sources */,
 				C2F22745261E9EB600559065 /* SubjectListCell.swift in Sources */,
 				6CBEEA97264CBC0D0006795D /* HtmlTagDelete.swift in Sources */,
+				F0BF7DFA27C60F02008CA9BC /* AutoPlayVideoCell.swift in Sources */,
 				C2448C6826296581008CE4A1 /* ProgressDetailListAPI.swift in Sources */,
 				6C052CFF26661B0E00083F59 /* RecentVideoBottomPopUpCell.swift in Sources */,
 				6CFAAED9263BF1EA00C18531 /* ExpertConsultationDetailVC.swift in Sources */,

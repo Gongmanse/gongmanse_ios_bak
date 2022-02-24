@@ -1,5 +1,6 @@
 import UIKit
 import BottomPopup
+import AVFoundation
 
 protocol KoreanEnglishMathVCDelegate: AnyObject {
     func koreanPassSelectedIndexSettingValue(_ selectedIndex: Int)
@@ -12,6 +13,10 @@ protocol subjectVideoListInfinityScroll {
 }
 
 class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinityScroll{
+    //MARK: - auto play videoCell
+    var visibleIP : IndexPath?
+    var seekTimes = [String:CMTime]()
+    var lastContentOffset: CGFloat = 0
     
     // 자동재생기능 구현을 위한 싱글톤객체를 생성한다.
     let autoPlayDataManager = AutoplayDataManager.shared
@@ -43,7 +48,14 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
     @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var koreanEnglishMathCollection: UICollectionView!
     @IBOutlet weak var scrollBtn: UIButton!
+    
+    var isAutoScroll = false
     @IBAction func scrollToTop(_ sender: Any) {
+        if visibleIP != nil {
+            print("KoreanEnglishMathVC scrollToTop. stop play")
+            stopCurrentVideoCell()
+        }
+        isAutoScroll = true
         koreanEnglishMathCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
     }
     
@@ -93,6 +105,62 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
             self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
         }
     }
+    // 탭 이동 시 자동 재생제어
+    var isGuest = true
+    override func viewDidAppear(_ animated: Bool) {
+        print("KoreanEnglishMathVC viewDidAppear")
+        isGuest = Constant.isLogin == false || Constant.remainPremiumDateInt == nil
+        if isGuest { print("isGuest") }
+        
+
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            let currY = self.koreanEnglishMathCollection.contentOffset.y
+//            print("KoreanEnglishMathVC offsetY : \(currY)")
+//            if currY == 0 {
+//                self.koreanEnglishMathCollection.setContentOffset(CGPoint(x: 0, y: currY + 1), animated: false)
+//            } else {
+//                self.koreanEnglishMathCollection.setContentOffset(CGPoint(x: 0, y: currY - 1), animated: false)
+//            }
+//        }
+    }
+    
+    private func startFirstVideoCell(ip: IndexPath) {
+        if visibleIP?.item != ip.item {// 재생중인 파일 비교
+            if visibleIP != nil {
+                let beforeVideoCell = koreanEnglishMathCollection.cellForItem(at: visibleIP!) as? KoreanEnglishMathCVCell
+                
+                if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                    if seekTime.seconds > 0 {
+                        seekTimes[beforeVideoCell!.videoID] = seekTime
+                    }
+                }
+                beforeVideoCell?.stopPlayback(isEnded: false)
+            }
+            
+            // 첫번째 아이템 재생 처리
+            visibleIP = ip
+            let afterVideoCell = (koreanEnglishMathCollection.cellForItem(at: visibleIP!) as! KoreanEnglishMathCVCell)
+            afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+        }
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("KoreanEnglishMathVC viewDidDisappear")
+        guard visibleIP != nil else { return }
+        stopCurrentVideoCell()
+    }
+    
+    fileprivate func stopCurrentVideoCell() {
+        if let videoCell = koreanEnglishMathCollection.cellForItem(at: visibleIP!) as? KoreanEnglishMathCVCell {
+            let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+            if seekTime?.seconds ?? 0 > 0 {
+                seekTimes[videoCell.videoID] = seekTime
+            }
+            videoCell.stopPlayback(isEnded: false)
+            
+        }
+        visibleIP = nil
+    }
+    
     
 //    @objc func videoFilterNoti(_ sender: NotificationCenter) {
 //        let filterButtonTitle = UserDefaults.standard.object(forKey: "videoFilterText")
@@ -417,6 +485,8 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
         
         /// cell UI업데이트를 위한 메소드
         func setUpDefaultCellSetting() {
+            cell.delegate = self
+            cell.videoID = indexData.videoId
             cell.videoThumbnail.contentMode = .scaleAspectFill
             cell.videoThumbnail.sd_setImage(with: url)
             cell.videoTitle.text = indexData.title
@@ -545,6 +615,143 @@ extension KoreanEnglishMathVC: UICollectionViewDataSource {
             }
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isGuest {
+            print("isGuest")
+            return
+        }
+        if self.selectedItem == 3 {
+            print("isNoteList")
+            return
+        }
+        
+        let indexPaths = koreanEnglishMathCollection.indexPathsForVisibleItems.sorted(by: {$0.row < $1.row})
+        var cells = [Any]()
+        for ip in indexPaths {
+            if let videoCell = koreanEnglishMathCollection.cellForItem(at: ip) as? KoreanEnglishMathCVCell {
+                cells.append(videoCell)
+            }
+        }
+        
+        let cellCount = cells.count
+        if cellCount == 0 { return }
+        
+        // 최상단으로 스크롤된 경우 첫번째 아이템 재생
+        if scrollView.contentOffset.y == 0 {
+            print("KoreanEnglishMathVC reached the top of the scrollView, isAutoScroll : \(isAutoScroll)")
+            
+            if isAutoScroll {
+                // auto scroll 시 재생되지 않도록 적용
+                isAutoScroll = false
+            } else {
+                startFirstVideoCell(ip: IndexPath(item: 0, section: 0))
+            }
+            
+//                let delay = isAutoScroll ? 0.3 : 0.0
+//                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+//                    // auto scroll 시 화면 그려진 이후에 재생되도록 딜레이 설정
+//                    self.startFirstVideoCell(ip: IndexPath(item: 0, section: 0))
+//                    self.isAutoScroll = false
+//                }
+            return
+        }
+
+        // 마지막 아이템까지 스크롤된 경우 마지막 아이템 재생
+        // - 이전 재생 videoCell 이 65% 이상 가려지기 전에 다음 항목 재생되도록 별도 처리
+        let heightSV = scrollView.frame.size.height
+        let offSetY = scrollView.contentOffset.y
+        let distanceFromBot = scrollView.contentSize.height - offSetY
+        if distanceFromBot <= heightSV {// distanceFromBot == heightSV 인 순간 바닥점 터치.
+            print("KoreanEnglishMathVC reached the bottom of the scrollView")
+            if visibleIP != nil && visibleIP!.item != indexPaths[indexPaths.count - 1].item {
+                let beforeVideoCell = koreanEnglishMathCollection.cellForItem(at: visibleIP!) as? KoreanEnglishMathCVCell
+                print("KoreanEnglishMathVC stop current item for bottom")
+                if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                    if seekTime.seconds > 0 {
+                        seekTimes[beforeVideoCell!.videoID] = seekTime
+                    }
+                }
+                beforeVideoCell?.stopPlayback(isEnded: false)
+                
+                // 마지막 아이템 재생 처리
+                visibleIP = indexPaths[indexPaths.count - 1]
+                let afterVideoCell = (koreanEnglishMathCollection.cellForItem(at: visibleIP!) as! KoreanEnglishMathCVCell)
+                afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+            }
+            return
+        }
+
+        if cellCount >= 2 {
+            // 아이템 재생위치 계산
+            if visibleIP == nil {// 발생하지 않을 케이스..
+                print("KoreanEnglishMathVC play first item")
+                let videoCell = cells[0] as! KoreanEnglishMathCVCell
+                visibleIP = indexPaths[0]
+                videoCell.startPlayback(seekTimes[videoCell.videoID])
+            } else {
+                let beforeVideoCell = koreanEnglishMathCollection.cellForItem(at: visibleIP!) as? KoreanEnglishMathCVCell
+                let beforeCellVisibleH = beforeVideoCell?.frame.intersection(koreanEnglishMathCollection.bounds).height ?? 0.0
+                
+                // 자동 스크롤이 다음 파일 재생할만큼 충분하지 못한 경우가 있어 0.6 -> 0.65 로 수정
+                if (beforeVideoCell != nil && beforeCellVisibleH < beforeVideoCell!.frame.height * 0.65) || beforeVideoCell == nil {
+                    print("KoreanEnglishMathVC stop current item for next")
+                    if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                        if seekTime.seconds > 0 {
+                            seekTimes[beforeVideoCell!.videoID] = seekTime
+                        }
+                    }
+                    beforeVideoCell?.stopPlayback(isEnded: false)
+                    
+                    print("KoreanEnglishMathVC visibleIP!.row : \(visibleIP!.row)")
+                    // 현재 화면에 보여지고있는 셀들 중에서 다음 재생할 파일 선택.
+                    // 빠르게 스크롤 시 재생중이던 셀과 다음 재생하려고 하는 셀이 화면에 안보이는 상태일 수 있어 내용 수정.
+                    var indexPath = IndexPath(row: indexPaths[1].row, section: 0)// 중간 데이터로 초기화
+                    if (self.lastContentOffset > scrollView.contentOffset.y) {
+                        print("KoreanEnglishMathVC move up")
+                        for ip in indexPaths {
+//                            print("KoreanEnglishMathVC indexPath.row : \(ip.row)")
+                            if visibleIP!.row == ip.row {// 재생중이던 셀이 화면에 보인다면 바로 위 셀을 선택
+                                var row = visibleIP!.row - 1
+                                if row < 0 { row = 0 }
+                                indexPath.row = row
+                            }
+                        }
+
+                    }
+                    else if (self.lastContentOffset < scrollView.contentOffset.y) {
+                        print("KoreanEnglishMathVC move down")
+                        for ip in indexPaths {
+//                            print("KoreanEnglishMathVC indexPath.row : \(ip.row)")
+                            if visibleIP!.row == ip.row {// 재생중이던 셀이 화면에 보인다면 바로 아래 셀을 선택
+                                var row = visibleIP!.row + 1
+                                if row == self.koreanEnglishMathVideo!.body.count { row = self.koreanEnglishMathVideo!.body.count - 1 }
+                                indexPath.row = row
+                            }
+                        }
+                    } else {
+                        print("???")
+                    }
+                    self.lastContentOffset = scrollView.contentOffset.y
+                    
+                    visibleIP = indexPath
+                    let afterVideoCell = (koreanEnglishMathCollection.cellForItem(at: visibleIP!) as! KoreanEnglishMathCVCell)
+                    afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+                }
+            }
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("didEndDisplaying forItemAt = \(indexPath.row)")
+        if let videoCell = cell as? KoreanEnglishMathCVCell {
+            if let seekTime = videoCell.avPlayer?.currentItem?.currentTime() {
+                if seekTime.seconds > 0 {
+                    seekTimes[videoCell.videoID] = seekTime
+                }
+            }
+            videoCell.stopPlayback(isEnded: false)
+        }
+    }
 }
 
 extension KoreanEnglishMathVC: UICollectionViewDelegate {
@@ -566,31 +773,30 @@ extension KoreanEnglishMathVC: UICollectionViewDelegate {
             if self.selectedItem == 0 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
-                videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .overFullScreen
-                let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId
-                vc.id = videoID
-//                let seriesID = koreanEnglishMathVideoSecond?.data[indexPath.row].iSeriesId
-//                vc.koreanSeriesId = seriesID
-//                vc.koreanSwitchValue = playSwitch
-//                vc.koreanReceiveData = koreanEnglishMathVideo
-//                vc.koreanSelectedBtn = selectBtn
-//                //                vc.koreanViewTitle = viewTitle.text
-//                vc.koreanViewTitle = "국영수 강의"
-                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                if let videoID = koreanEnglishMathVideo?.body[indexPath.row].videoId {
+                    videoDataManager.isFirstPlayVideo = true
+                    vc.id = videoID
+                    if let seekTime = seekTimes[videoID] {
+                        print("set seekTime \(seekTime.seconds)")
+                        vc.autoPlaySeekTime = seekTime
+                        vc.isStartVideo = true
+        //            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
+                    }
+                    
+                    vc.modalPresentationStyle = .overFullScreen
+                    
+                    autoPlayDataManager.currentViewTitleView = "국영수"
+                    autoPlayDataManager.currentFiltering = "전체보기"
+                    autoPlayDataManager.currentSort = self.sortedId ?? 0
+                    autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                    autoPlayDataManager.videoDataList.removeAll()
+                    autoPlayDataManager.videoDataList.append(contentsOf: koreanEnglishMathVideo!.body)
+                    autoPlayDataManager.videoSeriesDataList.removeAll()
+                    autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                    
+                    present(vc, animated: true)
                 
-                autoPlayDataManager.currentViewTitleView = "국영수"
-                autoPlayDataManager.currentFiltering = "전체보기"
-                autoPlayDataManager.currentSort = self.sortedId ?? 0
-                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
-                autoPlayDataManager.videoDataList.removeAll()
-                autoPlayDataManager.videoDataList.append(contentsOf: koreanEnglishMathVideo!.body)
-                autoPlayDataManager.videoSeriesDataList.removeAll()
-                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
-                
-                present(vc, animated: true)
-                
-                
+                }
                 // 시리즈 보기
             } else if self.selectedItem == 1 {
                 let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
@@ -751,6 +957,27 @@ extension KoreanEnglishMathVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEng
         self.koreanEnglishMathCollection.reloadData()
         listCount = 0
         getDataFromJson()
+    }
+}
+
+
+extension KoreanEnglishMathVC: AutoPlayDelegate {
+    func playerItemDidReachEnd() {
+        guard visibleIP != nil else { return }
+        // set reachEnd item's seek time
+        if let videoCell = koreanEnglishMathCollection.cellForItem(at: visibleIP!) as? KoreanEnglishMathCVCell {
+            seekTimes[videoCell.videoID] = nil
+        }
+        
+        // auto play ended. scroll to bottom.
+        print("visibleIP!.item : \(visibleIP!.item)")// 현재 위치 파악.
+        if visibleIP!.item < self.koreanEnglishMathVideo!.body.count - 1 {// 마지막 항목이 아닌 경우
+            print("has next item & scroll to next.")
+            let indexPath = IndexPath(item: visibleIP!.item + 1, section: visibleIP!.section)
+            koreanEnglishMathCollection.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
+        } else {
+            print("is last item")
+        }
     }
 }
 

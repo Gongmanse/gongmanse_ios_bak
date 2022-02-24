@@ -10,8 +10,11 @@ protocol AutoPlayDelegate: AnyObject {
 
 class RecommendVC: UIViewController {
     
+    //MARK: - auto play videoCell
     var visibleIP : IndexPath?
     var seekTimes = [String:CMTime]()
+    var lastContentOffset: CGFloat = 0
+    
 //    var aboutToBecomeInvisibleCell = -1
     var avPlayerLayer: AVPlayerLayer!
     var videoURLs = Array<URL>()
@@ -38,15 +41,8 @@ class RecommendVC: UIViewController {
     @IBOutlet weak var scrollBtn: UIButton!
     @IBAction func scrollToTop(_ sender: Any) {
         if visibleIP != nil {
-            if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
-                let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
-                if seekTime?.seconds ?? 0 > 0 {
-                    seekTimes[videoCell.videoID] = seekTime
-                }
-                videoCell.stopPlayback(isEnded: false)
-                print("scrollToTop. stop play")
-            }
-            visibleIP = nil
+            print("scrollToTop. stop play")
+            stopCurrentVideoCell()
         }
         
         recommendCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
@@ -63,11 +59,13 @@ class RecommendVC: UIViewController {
             self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
         }
     }
-
     override func viewDidDisappear(_ animated: Bool) {
         print("RecommendVC viewDidDisappear")
         guard visibleIP != nil else { return }
-        
+        stopCurrentVideoCell()
+    }
+    
+    fileprivate func stopCurrentVideoCell() {
         // 화면 이동 시 재생중지
         if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
             let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
@@ -76,6 +74,7 @@ class RecommendVC: UIViewController {
             }
             videoCell.stopPlayback(isEnded: false)
         }
+        visibleIP = nil
     }
     
     var headerH: CGFloat!
@@ -285,25 +284,24 @@ extension RecommendVC: UICollectionViewDataSource {
             }
         }
         
+        let cellCount = cells.count
+        if cellCount == 0 { return }
+        
         // 최상단으로 스크롤된 경우 첫번째 아이템 재생 중지
         if scrollView.contentOffset.y == 0 {
+            print("stopPlayback")
             if let videoCell = cells[0] as? RecommendCVCell {
                 if visibleIP != nil {
-                    print("stopPlayback")
                     let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
                     if seekTime?.seconds ?? 0 > 0 {
                         seekTimes[videoCell.videoID] = seekTime
                     }
                     videoCell.stopPlayback(isEnded: false)
-                    visibleIP = nil
                 }
             }
             return
         }
-        
-        let cellCount = cells.count
-        if cellCount == 0 { return }
-        
+
         // 마지막 아이템까지 스크롤된 경우 마지막 아이템 재생
         // - 이전 재생 videoCell 이 65% 이상 가려지기 전에 다음 항목 재생되도록 별도 처리
         let heightSV = scrollView.frame.size.height
@@ -312,13 +310,14 @@ extension RecommendVC: UICollectionViewDataSource {
         if distanceFromBot <= heightSV {// distanceFromBot == heightSV 인 순간 바닥점 터치.
             print("reached the bottom of the scrollView")
             if visibleIP != nil && visibleIP!.item != indexPaths[indexPaths.count - 1].item {
-                let beforeVideoCell = recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell
+                let beforeVideoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell
                 print("stop current item")
-                let seekTime = beforeVideoCell.avPlayer?.currentItem?.currentTime()
-                if seekTime?.seconds ?? 0 > 0 {
-                    seekTimes[beforeVideoCell.videoID] = seekTime
+                if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                    if seekTime.seconds > 0 {
+                        seekTimes[beforeVideoCell!.videoID] = seekTime
+                    }
                 }
-                beforeVideoCell.stopPlayback(isEnded: false)
+                beforeVideoCell?.stopPlayback(isEnded: false)
                 
                 // 마지막 아이템 재생 처리
                 visibleIP = indexPaths[indexPaths.count - 1]
@@ -338,9 +337,6 @@ extension RecommendVC: UICollectionViewDataSource {
         
 
         if cellCount >= 2 {
-            // check last item
-//            print("contentSize : \(scrollView.contentSize)")
-            
             // 아이템 재생위치 계산
             if visibleIP == nil {
                 if headerH < scrollView.contentOffset.y {
@@ -351,58 +347,92 @@ extension RecommendVC: UICollectionViewDataSource {
                 }
             } else {
                 // item count change..
-                let beforeVideoCell = recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell
-                let beforeCellVisibleH = beforeVideoCell.frame.intersection(recommendCollection.bounds).height
+                let beforeVideoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell
+                let beforeCellVisibleH = beforeVideoCell?.frame.intersection(recommendCollection.bounds).height ?? 0.0
                 
 //                print("beforeCellVisibleH : \(beforeCellVisibleH/beforeVideoCell.frame.height * 100)")
                 // 자동 스크롤이 다음 파일 재생할만큼 충분하지 못한 경우가 있어 0.6 -> 0.65 로 수정
-                if beforeCellVisibleH < beforeVideoCell.frame.height * 0.65 {
+                if (beforeVideoCell != nil && beforeCellVisibleH < beforeVideoCell!.frame.height * 0.65) ||
+                    beforeVideoCell == nil {
                     print("stop current item")
-                    let seekTime = beforeVideoCell.avPlayer?.currentItem?.currentTime()
-                    if seekTime?.seconds ?? 0 > 0 {
-                        seekTimes[beforeVideoCell.videoID] = seekTime
+                    if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                        if seekTime.seconds > 0 {
+                            seekTimes[beforeVideoCell!.videoID] = seekTime
+                        }
                     }
-                    beforeVideoCell.stopPlayback(isEnded: false)
+                    beforeVideoCell?.stopPlayback(isEnded: false)
                     
-                    var afterVideoCell: RecommendCVCell? = nil
-                    if visibleIP!.row == indexPaths[0].row {
-                        print("scroll to down")
-                        visibleIP = indexPaths[1]
-                        afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
-                    } else if visibleIP!.row == indexPaths[cellCount - 1].row {
-                        print("scroll to up")
-                        visibleIP = indexPaths[cellCount - 2]
-                        afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
-                    } else {
-                        print("visibleIP : \(visibleIP!.row)")
-                        return
+//                    var afterVideoCell: RecommendCVCell? = nil
+//                    if visibleIP!.row == indexPaths[0].row {
+//                        print("scroll to down")
+//                        visibleIP = indexPaths[1]
+//                        afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
+//                    } else if visibleIP!.row == indexPaths[cellCount - 1].row {
+//                        print("scroll to up")
+//                        visibleIP = indexPaths[cellCount - 2]
+//                        afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
+//                    } else {
+//                        print(" visibleIP : \(visibleIP!.row)")
+//                        return
+//                    }
+//                    afterVideoCell!.startPlayback(seekTimes[afterVideoCell!.videoID])
+                    print("RecommendVC visibleIP!.row : \(visibleIP!.row)")
+                    // 현재 화면에 보여지고있는 셀들 중에서 다음 재생할 파일 선택.
+                    // 빠르게 스크롤 시 재생중이던 셀과 다음 재생하려고 하는 셀이 화면에 안보이는 상태일 수 있어 내용 수정.
+                    var indexPath = IndexPath(row: indexPaths[1].row, section: 0)// 중간 데이터로 초기화
+                    if (self.lastContentOffset > scrollView.contentOffset.y) {
+                        print("RecommendVC move up")
+                        for ip in indexPaths {
+//                            print("RecommendVC indexPath.row : \(ip.row)")
+                            if visibleIP!.row == ip.row {// 재생중이던 셀이 화면에 보인다면 바로 위 셀을 선택
+                                var row = visibleIP!.row - 1
+                                if row < 0 { row = 0 }
+                                indexPath.row = row
+                            }
+                        }
+
                     }
-                    afterVideoCell!.startPlayback(seekTimes[afterVideoCell!.videoID])
+                    else if (self.lastContentOffset < scrollView.contentOffset.y) {
+                        print("RecommendVC move down")
+                        for ip in indexPaths {
+//                            print("RecommendVC indexPath.row : \(ip.row)")
+                            if visibleIP!.row == ip.row {// 재생중이던 셀이 화면에 보인다면 바로 아래 셀을 선택
+                                var row = visibleIP!.row + 1
+                                if row == self.recommendVideo.body.count { row = self.recommendVideo.body.count - 1 }
+                                indexPath.row = row
+                            }
+                        }
+                    } else {
+                        print("???")
+                    }
+                    self.lastContentOffset = scrollView.contentOffset.y
+                    
+                    visibleIP = indexPath
+                    let afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
+                    afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
                 }
             }
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forRowAt indexPath: IndexPath) {
-//        print("end = \(indexPath)")
-//        if let videoCell = cell as? RecommendCVCell {
-//            videoCell.stopPlayback(isEnded: false)
-//        }
-//    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("didEndDisplaying forItemAt = \(indexPath.row)")
+        if let videoCell = cell as? RecommendCVCell {
+            if let seekTime = videoCell.avPlayer?.currentItem?.currentTime() {
+                if seekTime.seconds > 0 {
+                    seekTimes[videoCell.videoID] = seekTime
+                }
+            }
+            videoCell.stopPlayback(isEnded: false)
+        }
+    }
 }
 
 extension RecommendVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 자동 재생 중지
         if visibleIP != nil {
-            if let videoCell = recommendCollection.cellForItem(at: visibleIP!) as? RecommendCVCell {
-                let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
-                if seekTime?.seconds ?? 0 > 0 {
-                    seekTimes[videoCell.videoID] = seekTime
-                }
-                videoCell.stopPlayback(isEnded: false)
-            }
-            visibleIP = nil
+            stopCurrentVideoCell()
         }
         
         // 토큰이 없는 경우

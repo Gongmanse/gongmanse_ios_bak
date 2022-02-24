@@ -1,12 +1,14 @@
 import UIKit
 
-class PopularCVCell: UICollectionViewCell {
+class PopularCVCell: AutoPlayVideoCell {
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var subjects: UILabel!
     @IBOutlet weak var term: UILabel!
     @IBOutlet weak var starRating: UILabel!
+    
+    @IBOutlet weak var videoContainer: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,5 +23,7 @@ class PopularCVCell: UICollectionViewCell {
         //용어 label background 라운딩 처리
         term.layer.cornerRadius = 7
         term.clipsToBounds = true
+        
+        videoAreaView = videoContainer
     }
 }

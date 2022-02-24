@@ -1,6 +1,6 @@
 import UIKit
 
-class OtherSubjectsCVCell: UICollectionViewCell {
+class OtherSubjectsCVCell: AutoPlayVideoCell {
     
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var videoThumbnail: UIImageView!
@@ -10,6 +10,8 @@ class OtherSubjectsCVCell: UICollectionViewCell {
     @IBOutlet weak var teachersName: UILabel!
     @IBOutlet weak var starRating: UILabel!
     @IBOutlet weak var videoPlayButton: UIButton!
+    
+    @IBOutlet weak var videoContainer: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,5 +34,7 @@ class OtherSubjectsCVCell: UICollectionViewCell {
         //용어 label background 라운딩 처리
         term.layer.cornerRadius = 7
         term.clipsToBounds = true
+        
+        videoAreaView = videoContainer
     }
 }

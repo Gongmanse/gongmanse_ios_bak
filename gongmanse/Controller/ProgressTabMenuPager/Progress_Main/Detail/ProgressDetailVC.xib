@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,6 +17,7 @@
                 <outlet property="gradeLabel" destination="wQd-ei-vPh" id="Evl-ra-qcv"/>
                 <outlet property="lessonTitle" destination="cPJ-wy-3kB" id="Bxa-ul-QSb"/>
                 <outlet property="numberOfLesson" destination="E9b-iU-tGN" id="Dou-bi-6YQ"/>
+                <outlet property="scrollBtn" destination="dGc-vJ-1YX" id="QuX-6m-MxL"/>
                 <outlet property="subjectColor" destination="gpW-lx-cKP" id="1mT-4u-VtB"/>
                 <outlet property="subjectLabel" destination="cCe-tL-Y4B" id="W4h-fB-J7E"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -132,6 +133,19 @@
                         <constraint firstItem="eJm-SO-T11" firstAttribute="leading" secondItem="Dep-dW-bQC" secondAttribute="trailing" constant="8" id="xAc-Ke-9nn"/>
                     </constraints>
                 </view>
+                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGc-vJ-1YX">
+                    <rect key="frame" x="354" y="802" width="35" height="35"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="VqI-40-gp3"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="arrow.up" catalog="system"/>
+                    <connections>
+                        <action selector="scrollToTop:" destination="-1" eventType="touchUpInside" id="LVA-8p-nRj"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -140,11 +154,14 @@
                 <constraint firstAttribute="bottom" secondItem="MEQ-LU-Otl" secondAttribute="bottom" id="4mt-vm-Rld"/>
                 <constraint firstItem="MEQ-LU-Otl" firstAttribute="top" secondItem="q7A-jD-R0E" secondAttribute="bottom" id="6zJ-KX-Hvx"/>
                 <constraint firstItem="MEQ-LU-Otl" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Dh6-qg-gx8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dGc-vJ-1YX" secondAttribute="trailing" constant="25" id="OEw-nS-lFG"/>
                 <constraint firstItem="q7A-jD-R0E" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="OPs-75-MlB"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dGc-vJ-1YX" secondAttribute="bottom" constant="25" id="PVN-Nq-hH1"/>
                 <constraint firstItem="q7A-jD-R0E" firstAttribute="top" secondItem="iQD-j3-hhh" secondAttribute="bottom" id="QXN-LW-u78"/>
                 <constraint firstItem="iQD-j3-hhh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TiZ-bg-kQd"/>
                 <constraint firstItem="iQD-j3-hhh" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ULN-Ix-w4g"/>
                 <constraint firstItem="MEQ-LU-Otl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="blt-xh-yPH"/>
+                <constraint firstItem="dGc-vJ-1YX" firstAttribute="width" secondItem="dGc-vJ-1YX" secondAttribute="height" id="dl9-zc-cae"/>
                 <constraint firstItem="iQD-j3-hhh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="rk3-UA-Ocp"/>
                 <constraint firstItem="iQD-j3-hhh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="t4B-Bg-8sb"/>
                 <constraint firstItem="q7A-jD-R0E" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="yMd-3T-D81"/>
@@ -153,6 +170,7 @@
         </view>
     </objects>
     <resources>
+        <image name="arrow.up" catalog="system" width="120" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

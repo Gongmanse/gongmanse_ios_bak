@@ -1,12 +1,14 @@
 import UIKit
 
-class SeriesCollectionViewCell: UICollectionViewCell {
+class SeriesCollectionViewCell: AutoPlayVideoCell {
     
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var subjects: UILabel!
     @IBOutlet weak var term: UILabel!
     @IBOutlet weak var teachersName: UILabel!
+    
+    @IBOutlet weak var videoContainer: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +30,8 @@ class SeriesCollectionViewCell: UICollectionViewCell {
         term.layer.cornerRadius = 7
         term.clipsToBounds = true
         term.textColor = .white
+        
+        videoAreaView = videoContainer
     }
     
     func fontSettings() {

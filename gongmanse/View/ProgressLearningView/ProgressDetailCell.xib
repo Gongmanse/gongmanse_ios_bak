@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -26,7 +26,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpt-eJ-WPC">
                         <rect key="frame" x="0.0" y="0.0" width="358" height="289"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="임시이미지" translatesAutoresizingMaskIntoConstraints="NO" id="Xlo-yH-z4X">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xlo-yH-z4X">
                                 <rect key="frame" x="0.0" y="0.0" width="358" height="201.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Xlo-yH-z4X" secondAttribute="height" multiplier="16:9" id="Dy8-hY-z0S"/>
@@ -122,16 +122,26 @@
                                     <constraint firstAttribute="trailing" secondItem="3oj-hl-sLx" secondAttribute="trailing" id="sVF-EG-VbB"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dpf-Tk-BGm">
+                                <rect key="frame" x="0.0" y="0.0" width="358" height="201.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="dpf-Tk-BGm" secondAttribute="height" multiplier="16:9" id="GgV-Lj-BUq"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="bM1-QB-Fit" secondAttribute="bottom" constant="12" id="BY6-EY-yuv"/>
+                            <constraint firstItem="dpf-Tk-BGm" firstAttribute="width" secondItem="xpt-eJ-WPC" secondAttribute="width" id="CYE-8D-tm2"/>
                             <constraint firstItem="Xlo-yH-z4X" firstAttribute="top" secondItem="xpt-eJ-WPC" secondAttribute="top" id="J4V-fP-sj4"/>
                             <constraint firstAttribute="trailing" secondItem="Xlo-yH-z4X" secondAttribute="trailing" id="LEW-j0-9dj"/>
                             <constraint firstItem="bM1-QB-Fit" firstAttribute="top" secondItem="Xlo-yH-z4X" secondAttribute="bottom" constant="13" id="Rxb-Tb-9pq"/>
+                            <constraint firstItem="dpf-Tk-BGm" firstAttribute="top" secondItem="xpt-eJ-WPC" secondAttribute="top" id="chC-O0-aaV"/>
                             <constraint firstAttribute="trailing" secondItem="bM1-QB-Fit" secondAttribute="trailing" id="nY8-Db-xy4"/>
                             <constraint firstItem="bM1-QB-Fit" firstAttribute="leading" secondItem="xpt-eJ-WPC" secondAttribute="leading" id="uh1-zP-X6D"/>
                             <constraint firstItem="Xlo-yH-z4X" firstAttribute="leading" secondItem="xpt-eJ-WPC" secondAttribute="leading" id="wMF-ce-Egd"/>
+                            <constraint firstItem="dpf-Tk-BGm" firstAttribute="centerX" secondItem="xpt-eJ-WPC" secondAttribute="centerX" id="wPU-1L-FXh"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -152,13 +162,13 @@
                 <outlet property="subjectFirst" destination="bgg-zX-vIT" id="BPz-xj-o5S"/>
                 <outlet property="subjectSecond" destination="7eD-iN-aqy" id="CDa-dO-UMA"/>
                 <outlet property="teathername" destination="nUq-3E-nTV" id="lUr-IV-Fzo"/>
+                <outlet property="videoContainer" destination="dpf-Tk-BGm" id="iyC-uO-Baq"/>
             </connections>
             <point key="canvasLocation" x="352.17391304347831" y="100.11160714285714"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="star" width="10.5" height="9.5"/>
-        <image name="임시이미지" width="1276" height="639"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

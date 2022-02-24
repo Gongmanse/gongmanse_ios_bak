@@ -1,5 +1,6 @@
 import UIKit
 import BottomPopup
+import AVFoundation
 
 protocol ScienceVCDelegate: AnyObject {
     func sciencePassSelectedIndexSettingValue(_ selectedIndex: Int)
@@ -7,6 +8,10 @@ protocol ScienceVCDelegate: AnyObject {
 }
 
 class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinityScroll {
+    //MARK: - auto play videoCell
+    var visibleIP : IndexPath?
+    var seekTimes = [String:CMTime]()
+    var lastContentOffset: CGFloat = 0
     
     // 자동재생을 위한 싱글톤 객체를 생성한다.
     let autoPlayDataManager = AutoplayDataManager.shared
@@ -35,7 +40,14 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
     @IBOutlet weak var filterImage: UIImageView!
     @IBOutlet weak var scienceCollection: UICollectionView!
     @IBOutlet weak var scrollBtn: UIButton!
+    
+    var isAutoScroll = false
     @IBAction func scrollToTop(_ sender: Any) {
+        if visibleIP != nil {
+            print("ScienceVC scrollToTop. stop play")
+            stopCurrentVideoCell()
+        }
+        isAutoScroll = true
         scienceCollection.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
     }
     
@@ -101,6 +113,49 @@ class ScienceVC: UIViewController, BottomPopupDelegate, subjectVideoListInfinity
 //        let rateFilterButtonTitle = UserDefaults.standard.object(forKey: "rateFilterText")
 //        filteringBtn.setTitle(rateFilterButtonTitle as? String, for: .normal)
 //    }
+    
+    // 탭 이동 시 자동 재생제어
+    var isGuest = true
+    override func viewDidAppear(_ animated: Bool) {
+        print("ScienceVC viewDidAppear")
+        isGuest = Constant.isLogin == false || Constant.remainPremiumDateInt == nil
+        if isGuest { print("isGuest") }
+    }
+    private func startFirstVideoCell(ip: IndexPath) {
+        if visibleIP?.item != ip.item {// 재생중인 파일 비교
+            if visibleIP != nil {
+                let beforeVideoCell = scienceCollection.cellForItem(at: visibleIP!) as? ScienceCVCell
+                if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                    if seekTime.seconds > 0 {
+                        seekTimes[beforeVideoCell!.videoID] = seekTime
+                    }
+                }
+                beforeVideoCell?.stopPlayback(isEnded: false)
+            }
+            
+            // 첫번째 아이템 재생 처리
+            visibleIP = ip
+            let afterVideoCell = (scienceCollection.cellForItem(at: visibleIP!) as! ScienceCVCell)
+            afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+        }
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("ScienceVC viewDidDisappear")
+        guard visibleIP != nil else { return }
+        stopCurrentVideoCell()
+    }
+    
+    fileprivate func stopCurrentVideoCell() {
+        if let videoCell = scienceCollection.cellForItem(at: visibleIP!) as? ScienceCVCell {
+            let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
+            if seekTime?.seconds ?? 0 > 0 {
+                seekTimes[videoCell.videoID] = seekTime
+            }
+            videoCell.stopPlayback(isEnded: false)
+            
+        }
+        visibleIP = nil
+    }
     
     func textInput() {
         //label에 지정된 text 넣기
@@ -403,6 +458,8 @@ extension ScienceVC: UICollectionViewDataSource {
         
         /// cell UI업데이트를 위한 메소드
         func setUpDefaultCellSetting() {
+            cell.delegate = self
+            cell.videoID = indexData.videoId
             cell.videoThumbnail.contentMode = .scaleAspectFill
             cell.videoThumbnail.sd_setImage(with: url)
             cell.videoTitle.text = indexData.title
@@ -539,11 +596,153 @@ extension ScienceVC: UICollectionViewDataSource {
             autoPlayLabel.textColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isGuest {
+            print("isGuest")
+            return
+        }
+        if self.selectedItem == 3 {
+            print("isNoteList")
+            return
+        }
+        
+        let indexPaths = scienceCollection.indexPathsForVisibleItems.sorted(by: {$0.row < $1.row})
+        var cells = [Any]()
+        for ip in indexPaths {
+            if let videoCell = scienceCollection.cellForItem(at: ip) as? ScienceCVCell {
+                cells.append(videoCell)
+            }
+        }
+        
+        let cellCount = cells.count
+        if cellCount == 0 { return }
+        
+        // 최상단으로 스크롤된 경우 첫번째 아이템 재생
+        if scrollView.contentOffset.y == 0 {
+            print("ScienceVC reached the top of the scrollView, isAutoScroll : \(isAutoScroll)")
+            
+            if isAutoScroll {
+                // auto scroll 시 재생되지 않도록 적용
+                isAutoScroll = false
+            } else {
+                startFirstVideoCell(ip: IndexPath(item: 0, section: 0))
+            }
+            
+//                let delay = isAutoScroll ? 0.3 : 0.0
+//                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+//                    // auto scroll 시 화면 그려진 이후에 재생되도록 딜레이 설정
+//                    self.startFirstVideoCell(ip: IndexPath(item: 0, section: 0))
+//                    self.isAutoScroll = false
+//                }
+            return
+        }
+
+        // 마지막 아이템까지 스크롤된 경우 마지막 아이템 재생
+        // - 이전 재생 videoCell 이 65% 이상 가려지기 전에 다음 항목 재생되도록 별도 처리
+        let heightSV = scrollView.frame.size.height
+        let offSetY = scrollView.contentOffset.y
+        let distanceFromBot = scrollView.contentSize.height - offSetY
+        if distanceFromBot <= heightSV {// distanceFromBot == heightSV 인 순간 바닥점 터치.
+            print("ScienceVC reached the bottom of the scrollView")
+            if visibleIP != nil && visibleIP!.item != indexPaths[indexPaths.count - 1].item {
+                let beforeVideoCell = scienceCollection.cellForItem(at: visibleIP!) as? ScienceCVCell
+                print("ScienceVC stop current item for bottom")
+                if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                    if seekTime.seconds > 0 {
+                        seekTimes[beforeVideoCell!.videoID] = seekTime
+                    }
+                }
+                beforeVideoCell?.stopPlayback(isEnded: false)
+                
+                // 마지막 아이템 재생 처리
+                visibleIP = indexPaths[indexPaths.count - 1]
+                let afterVideoCell = (scienceCollection.cellForItem(at: visibleIP!) as! ScienceCVCell)
+                afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+            }
+            return
+        }
+
+        if cellCount >= 2 {
+//            print("cellCount : \(cellCount)")
+            // 아이템 재생위치 계산
+            if visibleIP == nil {// 발생하지 않을 케이스..
+                print("ScienceVC play first item")
+                let videoCell = cells[0] as! ScienceCVCell
+                visibleIP = indexPaths[0]
+                videoCell.startPlayback(seekTimes[videoCell.videoID])
+            } else {
+                let beforeVideoCell = scienceCollection.cellForItem(at: visibleIP!) as? ScienceCVCell
+                let beforeCellVisibleH = beforeVideoCell?.frame.intersection(scienceCollection.bounds).height ?? 0.0
+                
+                // 자동 스크롤이 다음 파일 재생할만큼 충분하지 못한 경우가 있어 0.6 -> 0.65 로 수정
+                if (beforeVideoCell != nil && beforeCellVisibleH < beforeVideoCell!.frame.height * 0.65) || beforeVideoCell == nil {
+                    print("ScienceVC stop current item for next")
+                    if let seekTime = beforeVideoCell?.avPlayer?.currentItem?.currentTime() {
+                        if seekTime.seconds > 0 {
+                            seekTimes[beforeVideoCell!.videoID] = seekTime
+                        }
+                    }
+                    beforeVideoCell?.stopPlayback(isEnded: false)
+                    
+                    print("ScienceVC visibleIP!.row : \(visibleIP!.row)")
+                    // 현재 화면에 보여지고있는 셀들 중에서 다음 재생할 파일 선택.
+                    // 빠르게 스크롤 시 재생중이던 셀과 다음 재생하려고 하는 셀이 화면에 안보이는 상태일 수 있어 내용 수정.
+                    var indexPath = IndexPath(row: indexPaths[1].row, section: 0)// 중간 데이터로 초기화
+                    if (self.lastContentOffset > scrollView.contentOffset.y) {
+                        print("ScienceVC move up")
+                        for ip in indexPaths {
+//                            print("ScienceVC indexPath.row : \(ip.row)")
+                            if visibleIP!.row == ip.row {// 재생중이던 셀이 화면에 보인다면 바로 위 셀을 선택
+                                var row = visibleIP!.row - 1
+                                if row < 0 { row = 0 }
+                                indexPath.row = row
+                            }
+                        }
+
+                    }
+                    else if (self.lastContentOffset < scrollView.contentOffset.y) {
+                        print("ScienceVC move down")
+                        for ip in indexPaths {
+//                            print("ScienceVC indexPath.row : \(ip.row)")
+                            if visibleIP!.row == ip.row {// 재생중이던 셀이 화면에 보인다면 바로 아래 셀을 선택
+                                var row = visibleIP!.row + 1
+                                if row == self.scienceVideo!.body.count { row = self.scienceVideo!.body.count - 1 }
+                                indexPath.row = row
+                            }
+                        }
+                    } else {
+                        print("???")
+                    }
+                    self.lastContentOffset = scrollView.contentOffset.y
+                    
+                    visibleIP = indexPath
+                    let afterVideoCell = (scienceCollection.cellForItem(at: visibleIP!) as! ScienceCVCell)
+                    afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+                }
+            }
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("didEndDisplaying forItemAt = \(indexPath.row)")
+        if let videoCell = cell as? ScienceCVCell {
+            if let seekTime = videoCell.avPlayer?.currentItem?.currentTime() {
+                if seekTime.seconds > 0 {
+                    seekTimes[videoCell.videoID] = seekTime
+                }
+            }
+            videoCell.stopPlayback(isEnded: false)
+        }
+    }
 }
 
 
 extension ScienceVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 자동 재생 중지
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
@@ -561,29 +760,30 @@ extension ScienceVC: UICollectionViewDelegate {
             if self.selectedItem == 0 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
-                videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .overFullScreen
-                let videoID = scienceVideo?.body[indexPath.row].videoId
-                vc.id = videoID
-//                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
-//                vc.scienceSeriesId = seriesID
-//                vc.scienceSwitchValue = playSwitch
-//                vc.scienceReceiveData = scienceVideo
-//                vc.scienceSelectedBtn = selectBtn
-//                vc.scienceViewTitle = "과학 강의"
+                if let videoID = scienceVideo?.body[indexPath.row].videoId {
+                    videoDataManager.isFirstPlayVideo = true
+                    vc.id = videoID
+                    if let seekTime = seekTimes[videoID] {
+                        print("set seekTime \(seekTime.seconds)")
+                        vc.autoPlaySeekTime = seekTime
+                        vc.isStartVideo = true
+        //            print("vc.seekTime 1 : \(String(describing: vc.autoPlaySeekTime)), \(String(describing: vc.autoPlaySeekTime?.timescale))")
+                    }
+                    
+                    vc.modalPresentationStyle = .overFullScreen
+                    
+                    autoPlayDataManager.currentViewTitleView = "과학"
+                    autoPlayDataManager.currentFiltering = "전체보기"
+                    autoPlayDataManager.currentSort = self.sortedId ?? 0
+                    autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                    autoPlayDataManager.videoDataList.removeAll()
+                    autoPlayDataManager.videoDataList.append(contentsOf: scienceVideo!.body)
+                    autoPlayDataManager.videoSeriesDataList.removeAll()
+                    autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                    
+                    present(vc, animated: true)
                 
-                autoPlayDataManager.currentViewTitleView = "과학"
-                autoPlayDataManager.currentFiltering = "전체보기"
-                autoPlayDataManager.currentSort = self.sortedId ?? 0
-                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
-                autoPlayDataManager.videoDataList.removeAll()
-                autoPlayDataManager.videoDataList.append(contentsOf: scienceVideo!.body)
-                autoPlayDataManager.videoSeriesDataList.removeAll()
-                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
-                
-                present(vc, animated: true)
-                
-                
+                }
                 // 시리즈 보기
             } else if self.selectedItem == 1 {
                 let vc = self.storyboard?.instantiateViewController(identifier: "SeriesVC") as! SeriesVC
@@ -745,7 +945,7 @@ extension ScienceVC: UICollectionViewDelegate {
         
         guard let cellCount = scienceVideo?.body.count else { return }
         
-        guard let cellCountSecond = scienceVideoSecond?.data.count else { return }
+        guard let _ = scienceVideoSecond?.data.count else { return }
         
         if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
             scrollBtn.isHidden = false
@@ -828,5 +1028,25 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         self.scienceCollection.reloadData()
         listCount = 0
         getDataFromJson()
+    }
+}
+
+extension ScienceVC: AutoPlayDelegate {
+    func playerItemDidReachEnd() {
+        guard visibleIP != nil else { return }
+        // set reachEnd item's seek time
+        if let videoCell = scienceCollection.cellForItem(at: visibleIP!) as? ScienceCVCell {
+            seekTimes[videoCell.videoID] = nil
+        }
+        
+        // auto play ended. scroll to bottom.
+        print("visibleIP!.item : \(visibleIP!.item)")// 현재 위치 파악.
+        if visibleIP!.item < self.scienceVideo!.body.count - 1 {// 마지막 항목이 아닌 경우
+            print("has next item & scroll to next.")
+            let indexPath = IndexPath(item: visibleIP!.item + 1, section: visibleIP!.section)
+            scienceCollection.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
+        } else {
+            print("is last item")
+        }
     }
 }

@@ -1085,7 +1085,7 @@
                                             <outlet property="subjects" destination="dj1-Wh-9Aj" id="q0G-wy-3SQ"/>
                                             <outlet property="teachersName" destination="Vxm-pd-6LQ" id="q1P-tC-FzR"/>
                                             <outlet property="term" destination="nUY-sC-5JJ" id="jAO-Fw-1in"/>
-                                            <outlet property="videoAreaView" destination="nMq-sq-CTL" id="A6O-wV-qW6"/>
+                                            <outlet property="videoContainer" destination="nMq-sq-CTL" id="blm-Ra-6ZG"/>
                                             <outlet property="videoThumbnail" destination="Eg2-Ud-P2f" id="CSI-Dd-LOH"/>
                                             <outlet property="videoTitle" destination="Sz6-bw-uCm" id="i45-LB-z0X"/>
                                         </connections>
@@ -1348,14 +1348,24 @@
                                                         </stackView>
                                                     </subviews>
                                                 </stackView>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ksn-VM-GVf">
+                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="202.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Ksn-VM-GVf" secondAttribute="height" multiplier="16:9" id="Kuf-7m-yOR"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Jyk-KJ-vKZ" firstAttribute="leading" secondItem="nfg-m4-Gfj" secondAttribute="leading" id="0a0-MJ-7p2"/>
                                                 <constraint firstAttribute="trailing" secondItem="6Ah-uK-MlW" secondAttribute="trailing" constant="10" id="7zL-pz-fRX"/>
                                                 <constraint firstAttribute="trailing" secondItem="Jyk-KJ-vKZ" secondAttribute="trailing" id="BFq-1q-VAo"/>
                                                 <constraint firstAttribute="bottom" secondItem="6Ah-uK-MlW" secondAttribute="bottom" constant="5" id="BW1-8p-dB3"/>
+                                                <constraint firstItem="Ksn-VM-GVf" firstAttribute="width" secondItem="nfg-m4-Gfj" secondAttribute="width" id="IMb-4Z-1zZ"/>
                                                 <constraint firstItem="IV0-O4-UXg" firstAttribute="leading" secondItem="nfg-m4-Gfj" secondAttribute="leading" id="elh-om-rco"/>
                                                 <constraint firstItem="Jyk-KJ-vKZ" firstAttribute="top" secondItem="nfg-m4-Gfj" secondAttribute="top" id="iJO-py-HsI"/>
+                                                <constraint firstItem="Ksn-VM-GVf" firstAttribute="centerX" secondItem="nfg-m4-Gfj" secondAttribute="centerX" id="iM3-YI-zME"/>
+                                                <constraint firstItem="Ksn-VM-GVf" firstAttribute="top" secondItem="nfg-m4-Gfj" secondAttribute="top" id="iqw-Tl-gbe"/>
                                                 <constraint firstItem="TNF-eM-Ueh" firstAttribute="top" secondItem="Jyk-KJ-vKZ" secondAttribute="bottom" constant="12" id="iyI-7b-OF0"/>
                                                 <constraint firstAttribute="bottom" secondItem="IV0-O4-UXg" secondAttribute="bottom" constant="5" id="vuy-Cp-PSu"/>
                                             </constraints>
@@ -1366,6 +1376,7 @@
                                             <outlet property="subjects" destination="TNF-eM-Ueh" id="mAX-W3-Sbf"/>
                                             <outlet property="teachersName" destination="sun-ee-EuM" id="vxM-Xk-glv"/>
                                             <outlet property="term" destination="Ryj-nw-hfB" id="pg3-0s-tk7"/>
+                                            <outlet property="videoContainer" destination="Ksn-VM-GVf" id="hfN-Pn-fN4"/>
                                             <outlet property="videoThumbnail" destination="h5B-jB-PjV" id="rWq-Et-dg3"/>
                                             <outlet property="videoTitle" destination="6OB-4y-81s" id="2i8-SL-sw4"/>
                                         </connections>
@@ -1686,6 +1697,13 @@
                                                     </constraints>
                                                     <state key="normal" image="notePlayButton"/>
                                                 </button>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hhC-xm-sre">
+                                                    <rect key="frame" x="10" y="10" width="340" height="191.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="hhC-xm-sre" secondAttribute="height" multiplier="16:9" id="cAf-ia-2MG"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="BvI-46-Xwo" firstAttribute="trailing" secondItem="P8u-iT-K51" secondAttribute="trailing" id="1De-Zj-AcZ"/>
@@ -1694,10 +1712,13 @@
                                                 <constraint firstItem="BvI-46-Xwo" firstAttribute="leading" secondItem="P8u-iT-K51" secondAttribute="leading" id="C0a-hs-ivP"/>
                                                 <constraint firstItem="W6u-9v-1uc" firstAttribute="top" secondItem="P8u-iT-K51" secondAttribute="bottom" constant="10" id="DDT-9d-V4F"/>
                                                 <constraint firstItem="BvI-46-Xwo" firstAttribute="top" secondItem="P8u-iT-K51" secondAttribute="top" id="Fum-0i-bDQ"/>
+                                                <constraint firstItem="hhC-xm-sre" firstAttribute="centerX" secondItem="YYz-hB-5Nq" secondAttribute="centerX" id="HTj-po-ksI"/>
                                                 <constraint firstAttribute="bottom" secondItem="ttZ-ce-Ujd" secondAttribute="bottom" constant="5" id="PBO-cy-3AP"/>
                                                 <constraint firstItem="g4R-BM-WBC" firstAttribute="leading" secondItem="YYz-hB-5Nq" secondAttribute="leading" constant="10" id="RnL-pU-adT"/>
                                                 <constraint firstAttribute="trailing" secondItem="W6u-9v-1uc" secondAttribute="trailing" constant="10" id="SbA-YC-2K2"/>
                                                 <constraint firstItem="ttZ-ce-Ujd" firstAttribute="leading" secondItem="YYz-hB-5Nq" secondAttribute="leading" constant="10" id="THI-CU-1ww"/>
+                                                <constraint firstItem="hhC-xm-sre" firstAttribute="top" secondItem="YYz-hB-5Nq" secondAttribute="top" constant="10" id="U9L-Oe-1Qj"/>
+                                                <constraint firstItem="hhC-xm-sre" firstAttribute="width" secondItem="YYz-hB-5Nq" secondAttribute="width" constant="-20" id="WRt-xw-kVg"/>
                                                 <constraint firstAttribute="trailing" secondItem="P8u-iT-K51" secondAttribute="trailing" constant="10" id="YnQ-Bw-eZx"/>
                                                 <constraint firstItem="g4R-BM-WBC" firstAttribute="top" secondItem="P8u-iT-K51" secondAttribute="bottom" constant="10" id="d6A-yA-aeX"/>
                                                 <constraint firstAttribute="bottom" secondItem="hX1-eR-gjr" secondAttribute="bottom" constant="5" id="fU7-hC-AfL"/>
@@ -1713,6 +1734,7 @@
                                             <outlet property="subjects" destination="9xz-8x-O0F" id="TJH-RZ-Bji"/>
                                             <outlet property="teachersName" destination="XG8-X5-8Vj" id="px1-t7-7eF"/>
                                             <outlet property="term" destination="eLL-9n-X1k" id="qkB-b1-X1Q"/>
+                                            <outlet property="videoContainer" destination="hhC-xm-sre" id="yuA-O5-MBp"/>
                                             <outlet property="videoPlayButton" destination="W6u-9v-1uc" id="rPw-Bh-l9I"/>
                                             <outlet property="videoThumbnail" destination="P8u-iT-K51" id="Rm3-tf-FKl"/>
                                             <outlet property="videoTitle" destination="g4R-BM-WBC" id="S1m-gl-ZSd"/>
@@ -1983,9 +2005,17 @@
                                                     </constraints>
                                                     <state key="normal" image="notePlayButton"/>
                                                 </button>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zMD-pZ-ibQ">
+                                                    <rect key="frame" x="10" y="10" width="340" height="191.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="zMD-pZ-ibQ" secondAttribute="height" multiplier="16:9" id="svc-1A-yvR"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="5Sk-QQ-QBc" secondAttribute="trailing" constant="10" id="0Tk-N2-9cQ"/>
+                                                <constraint firstItem="zMD-pZ-ibQ" firstAttribute="centerX" secondItem="aUK-yL-Uhf" secondAttribute="centerX" id="B2v-KU-Vw8"/>
                                                 <constraint firstAttribute="trailing" secondItem="o3g-ZW-l5f" secondAttribute="trailing" constant="10" id="DNb-ES-gbq"/>
                                                 <constraint firstAttribute="bottom" secondItem="dfN-ba-aFg" secondAttribute="bottom" constant="5" id="J1j-Dq-x3g"/>
                                                 <constraint firstAttribute="trailing" secondItem="6EY-23-dE8" secondAttribute="trailing" constant="10" id="O4d-3h-5bG"/>
@@ -1995,10 +2025,12 @@
                                                 <constraint firstItem="dfN-ba-aFg" firstAttribute="leading" secondItem="aUK-yL-Uhf" secondAttribute="leading" constant="10" id="gcn-ZK-NDl"/>
                                                 <constraint firstItem="hGY-qS-zFt" firstAttribute="bottom" secondItem="6EY-23-dE8" secondAttribute="bottom" id="jDy-bC-EEk"/>
                                                 <constraint firstAttribute="trailing" secondItem="gNY-q5-EWa" secondAttribute="trailing" constant="90" id="k6A-DA-jhL"/>
+                                                <constraint firstItem="zMD-pZ-ibQ" firstAttribute="width" secondItem="aUK-yL-Uhf" secondAttribute="width" constant="-20" id="lpb-XI-zNX"/>
                                                 <constraint firstItem="gNY-q5-EWa" firstAttribute="leading" secondItem="aUK-yL-Uhf" secondAttribute="leading" constant="10" id="mP0-f5-qgw"/>
                                                 <constraint firstItem="hGY-qS-zFt" firstAttribute="leading" secondItem="6EY-23-dE8" secondAttribute="leading" id="nTg-ok-Pbo"/>
                                                 <constraint firstAttribute="bottom" secondItem="5Sk-QQ-QBc" secondAttribute="bottom" constant="5" id="q4u-ea-ESg"/>
                                                 <constraint firstItem="hGY-qS-zFt" firstAttribute="trailing" secondItem="6EY-23-dE8" secondAttribute="trailing" id="tCl-7y-Qiu"/>
+                                                <constraint firstItem="zMD-pZ-ibQ" firstAttribute="top" secondItem="aUK-yL-Uhf" secondAttribute="top" constant="10" id="ubb-yZ-MSc"/>
                                                 <constraint firstItem="hGY-qS-zFt" firstAttribute="top" secondItem="6EY-23-dE8" secondAttribute="top" id="v2W-OE-uPl"/>
                                                 <constraint firstItem="o3g-ZW-l5f" firstAttribute="top" secondItem="6EY-23-dE8" secondAttribute="bottom" constant="10" id="yZ9-n6-jnP"/>
                                             </constraints>
@@ -2010,6 +2042,7 @@
                                             <outlet property="subjects" destination="z3K-n5-eKG" id="HLQ-c3-Yp9"/>
                                             <outlet property="teachersName" destination="eEb-bp-u9V" id="gXT-73-Dl4"/>
                                             <outlet property="term" destination="lLb-BF-yHA" id="uHN-lO-dzh"/>
+                                            <outlet property="videoContainer" destination="zMD-pZ-ibQ" id="Igq-PE-6nO"/>
                                             <outlet property="videoPlayButton" destination="o3g-ZW-l5f" id="hLO-tF-NEm"/>
                                             <outlet property="videoThumbnail" destination="6EY-23-dE8" id="b1N-jx-zuM"/>
                                             <outlet property="videoTitle" destination="gNY-q5-EWa" id="ePs-2i-EbB"/>
@@ -2280,14 +2313,24 @@
                                                     </constraints>
                                                     <state key="normal" image="notePlayButton"/>
                                                 </button>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aBK-xS-NQ6">
+                                                    <rect key="frame" x="10" y="10" width="340" height="191.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="aBK-xS-NQ6" secondAttribute="height" multiplier="16:9" id="r6Y-lt-Xl7"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="12m-Dz-WPA" secondAttribute="trailing" constant="90" id="95z-EO-0gU"/>
                                                 <constraint firstItem="4ah-bT-uen" firstAttribute="top" secondItem="nvZ-BA-I3D" secondAttribute="top" id="BJH-Q6-8tz"/>
                                                 <constraint firstAttribute="trailing" secondItem="Xuy-oq-lRh" secondAttribute="trailing" constant="10" id="FbT-3C-Aoy"/>
                                                 <constraint firstItem="4ah-bT-uen" firstAttribute="trailing" secondItem="nvZ-BA-I3D" secondAttribute="trailing" id="INR-lz-hsh"/>
+                                                <constraint firstItem="aBK-xS-NQ6" firstAttribute="top" secondItem="qX8-BJ-FIK" secondAttribute="top" constant="10" id="Mb5-Li-Uct"/>
                                                 <constraint firstItem="4ah-bT-uen" firstAttribute="bottom" secondItem="nvZ-BA-I3D" secondAttribute="bottom" id="PBz-G1-0zx"/>
                                                 <constraint firstItem="buq-9w-7mO" firstAttribute="leading" secondItem="qX8-BJ-FIK" secondAttribute="leading" constant="10" id="Sqn-MN-SQz"/>
+                                                <constraint firstItem="aBK-xS-NQ6" firstAttribute="width" secondItem="qX8-BJ-FIK" secondAttribute="width" constant="-20" id="X0b-R5-TZW"/>
+                                                <constraint firstItem="aBK-xS-NQ6" firstAttribute="centerX" secondItem="qX8-BJ-FIK" secondAttribute="centerX" id="auF-yc-o6J"/>
                                                 <constraint firstAttribute="bottom" secondItem="buq-9w-7mO" secondAttribute="bottom" constant="5" id="cXq-DL-QY1"/>
                                                 <constraint firstAttribute="bottom" secondItem="Xuy-oq-lRh" secondAttribute="bottom" constant="5" id="cth-qR-rmY"/>
                                                 <constraint firstItem="nvZ-BA-I3D" firstAttribute="top" secondItem="qX8-BJ-FIK" secondAttribute="top" constant="10" id="fbe-wp-oL4"/>
@@ -2307,6 +2350,7 @@
                                             <outlet property="subjects" destination="hLH-hx-dNm" id="KGe-EG-YS4"/>
                                             <outlet property="teachersName" destination="NXM-r7-4qG" id="fOq-GG-jjq"/>
                                             <outlet property="term" destination="hxn-7Z-wB9" id="IFO-hS-a6H"/>
+                                            <outlet property="videoContainer" destination="aBK-xS-NQ6" id="WZB-KC-Naf"/>
                                             <outlet property="videoPlayButton" destination="yuS-Ve-Q9I" id="jin-m6-krd"/>
                                             <outlet property="videoThumbnail" destination="nvZ-BA-I3D" id="AAK-1Z-HMa"/>
                                             <outlet property="videoTitle" destination="12m-Dz-WPA" id="KjQ-uz-Egl"/>
@@ -2577,6 +2621,13 @@
                                                     </constraints>
                                                     <state key="normal" image="notePlayButton"/>
                                                 </button>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FwT-eU-mPS">
+                                                    <rect key="frame" x="10" y="10" width="340" height="191.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="FwT-eU-mPS" secondAttribute="height" multiplier="16:9" id="Lra-Tl-SQD"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="quH-V7-RYu" secondAttribute="bottom" constant="5" id="36s-Yt-rul"/>
@@ -2586,9 +2637,12 @@
                                                 <constraint firstAttribute="trailing" secondItem="quH-V7-RYu" secondAttribute="trailing" constant="10" id="Emt-cU-Xv8"/>
                                                 <constraint firstItem="4Ba-vI-W5f" firstAttribute="leading" secondItem="HKi-Bx-GmS" secondAttribute="leading" constant="10" id="FQi-mX-yJa"/>
                                                 <constraint firstItem="ocZ-OE-dqp" firstAttribute="top" secondItem="4Ba-vI-W5f" secondAttribute="bottom" constant="10" id="G56-lL-Mbb"/>
+                                                <constraint firstItem="FwT-eU-mPS" firstAttribute="centerX" secondItem="HKi-Bx-GmS" secondAttribute="centerX" id="IUW-3M-z9q"/>
                                                 <constraint firstItem="ASg-Oq-EYh" firstAttribute="leading" secondItem="4Ba-vI-W5f" secondAttribute="leading" id="ODk-PP-63x"/>
                                                 <constraint firstItem="ocZ-OE-dqp" firstAttribute="leading" secondItem="HKi-Bx-GmS" secondAttribute="leading" constant="10" id="PMF-gF-nqt"/>
+                                                <constraint firstItem="FwT-eU-mPS" firstAttribute="width" secondItem="HKi-Bx-GmS" secondAttribute="width" constant="-20" id="gDu-V1-GHk"/>
                                                 <constraint firstItem="ASg-Oq-EYh" firstAttribute="trailing" secondItem="4Ba-vI-W5f" secondAttribute="trailing" id="gSK-al-7yu"/>
+                                                <constraint firstItem="FwT-eU-mPS" firstAttribute="top" secondItem="HKi-Bx-GmS" secondAttribute="top" constant="10" id="hll-1P-efA"/>
                                                 <constraint firstAttribute="bottom" secondItem="tQg-jl-f0B" secondAttribute="bottom" constant="5" id="kvR-oB-I6x"/>
                                                 <constraint firstItem="4Ba-vI-W5f" firstAttribute="top" secondItem="HKi-Bx-GmS" secondAttribute="top" constant="10" id="miQ-sg-opY"/>
                                                 <constraint firstItem="ASg-Oq-EYh" firstAttribute="top" secondItem="4Ba-vI-W5f" secondAttribute="top" id="n4U-fr-nXC"/>
@@ -2604,6 +2658,7 @@
                                             <outlet property="subjects" destination="QCm-8S-ldu" id="hIt-KX-kjR"/>
                                             <outlet property="teachersName" destination="a3z-5d-RF5" id="Jtr-ys-tat"/>
                                             <outlet property="term" destination="q2a-Ja-Yf0" id="5BY-g7-6IF"/>
+                                            <outlet property="videoContainer" destination="FwT-eU-mPS" id="Iwe-cl-0G4"/>
                                             <outlet property="videoPlayButton" destination="Whg-nw-La7" id="qyn-Wk-e4Y"/>
                                             <outlet property="videoThumbnail" destination="4Ba-vI-W5f" id="4Lk-Bg-vcs"/>
                                             <outlet property="videoTitle" destination="ocZ-OE-dqp" id="cCA-HF-Zve"/>
@@ -5005,13 +5060,23 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfn-ut-dbO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="202.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Nfn-ut-dbO" secondAttribute="height" multiplier="16:9" id="pzZ-LR-0Zw"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="vgr-Th-C5K" secondAttribute="trailing" constant="8" id="6OV-0y-MGV"/>
+                                                <constraint firstItem="Nfn-ut-dbO" firstAttribute="width" secondItem="adQ-jp-Kt7" secondAttribute="width" id="79H-UE-3Cd"/>
                                                 <constraint firstItem="Bm1-OU-94I" firstAttribute="top" secondItem="2oF-vh-XN8" secondAttribute="bottom" constant="8" symbolic="YES" id="7Od-o0-Taw"/>
+                                                <constraint firstItem="Nfn-ut-dbO" firstAttribute="centerX" secondItem="adQ-jp-Kt7" secondAttribute="centerX" id="9TV-Kn-0ky"/>
                                                 <constraint firstItem="v2h-cI-h9Z" firstAttribute="top" secondItem="2oF-vh-XN8" secondAttribute="bottom" constant="8" symbolic="YES" id="Lry-dY-MjF"/>
                                                 <constraint firstAttribute="trailing" secondItem="gpT-k4-HBa" secondAttribute="trailing" id="MMq-YV-6eU"/>
                                                 <constraint firstItem="gpT-k4-HBa" firstAttribute="top" secondItem="adQ-jp-Kt7" secondAttribute="top" id="S9V-os-5vs"/>
+                                                <constraint firstItem="Nfn-ut-dbO" firstAttribute="top" secondItem="adQ-jp-Kt7" secondAttribute="top" id="dbv-Wy-OgU"/>
                                                 <constraint firstItem="2oF-vh-XN8" firstAttribute="top" secondItem="gpT-k4-HBa" secondAttribute="bottom" constant="8" symbolic="YES" id="kgI-Hu-zcu"/>
                                                 <constraint firstItem="vgr-Th-C5K" firstAttribute="top" secondItem="2oF-vh-XN8" secondAttribute="bottom" constant="12" id="mdN-d9-WPM"/>
                                                 <constraint firstItem="2oF-vh-XN8" firstAttribute="leading" secondItem="adQ-jp-Kt7" secondAttribute="leading" constant="1" id="qD4-zt-uxI"/>
@@ -5025,6 +5090,7 @@
                                             <outlet property="subjects" destination="Bm1-OU-94I" id="zht-DK-51F"/>
                                             <outlet property="teachersName" destination="vgr-Th-C5K" id="woj-wd-sdn"/>
                                             <outlet property="term" destination="v2h-cI-h9Z" id="yu2-3B-ohC"/>
+                                            <outlet property="videoContainer" destination="Nfn-ut-dbO" id="dhF-5V-MUX"/>
                                             <outlet property="videoThumbnail" destination="gpT-k4-HBa" id="LJI-Zq-vob"/>
                                             <outlet property="videoTitle" destination="2oF-vh-XN8" id="Z6d-bh-WBX"/>
                                         </connections>
@@ -6120,8 +6186,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ltC-PN-uOf"/>
-        <segue reference="YI5-pe-RfL"/>
+        <segue reference="udz-fJ-IHO"/>
+        <segue reference="yEQ-S7-dDH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addPhoto" width="18" height="18"/>

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LectureCell: UICollectionViewCell {
+class LectureCell: AutoPlayVideoCell {
     
     //MARK: - Properties
     
@@ -24,19 +24,23 @@ class LectureCell: UICollectionViewCell {
     @IBOutlet weak var rating: UILabel!
     @IBOutlet weak var starImage: UIImageView!
     
+    @IBOutlet weak var videoContainer: UIView!
     
     //MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
         configureUI()
+        videoAreaView = videoContainer
     }
     
     
     func setSeriesCellData(_ type: SeriesDetailDataModel) {
+        print("setSeriesCellData")
         mainImageView.setImageUrl("\(fileBaseURL)/\(type.sThumbnail ?? "")")
 //        mainImageView.layer.contentsRect = CGRect(x: 0.0, y: -0.1, width: 1.0, height: 1.0)
 //        mainImageView.contentMode = .scaleAspectFill
+        videoID = type.id
         lectureTitle.text = type.sTitle
         teachername.text = "\(type.sTeacher!) 선생님"
         tagLabel.text = type.sSubject
@@ -65,7 +69,7 @@ class LectureCell: UICollectionViewCell {
         teachername.text = "\(type.sTeacher) 선생님"
         tagLabel.text = type.sSubject
         tagLabel.backgroundColor = UIColor(hex: type.sSubjectColor)
-        
+        videoID = type.id
         if type.sUnit.isEmpty {
             unitLabel.isHidden = true
         } else {
@@ -97,6 +101,10 @@ class LectureCell: UICollectionViewCell {
                              paddingLeft: 0,
                              paddingRight: 0)
         
+        videoContainer.anchor(top: mainImageView.topAnchor,
+                              left: mainImageView.leftAnchor,
+                              bottom: mainImageView.bottomAnchor,
+                              right: mainImageView.rightAnchor)
         
         // cornerRadius
         mainImageView.layer.cornerRadius = cornerRadiusValue
