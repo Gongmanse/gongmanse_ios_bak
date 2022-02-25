@@ -784,30 +784,37 @@ extension OtherSubjectsVC: UICollectionViewDelegate {
             } else if self.selectedItem == 2 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
-                videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .overFullScreen
-                let videoID = otherSubjectsVideo?.body[indexPath.row].videoId
-                vc.id = videoID
-//                let seriesID = otherSubjectsVideoSecond?.data[indexPath.row].iSeriesId
-//                vc.socialStudiesSeriesId = seriesID
-//                vc.socialStudiesSwitchValue = playSwitch
-//                vc.socialStudiesReceiveData = otherSubjectsVideo
-//                vc.socialStudiesSelectedBtn = selectBtn
-//                //                vc.koreanViewTitle = viewTitle.text
-//                vc.socialStudiesViewTitle = "기타"
-                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                if let videoID = otherSubjectsVideo?.body[indexPath.row].videoId {
+                    videoDataManager.isFirstPlayVideo = true
+                    vc.id = videoID
+                    if let seekTime = seekTimes[videoID] {
+                        print("set seekTime \(seekTime.seconds)")
+                        vc.autoPlaySeekTime = seekTime
+                        vc.isStartVideo = true
+                    }
+    //                let seriesID = otherSubjectsVideoSecond?.data[indexPath.row].iSeriesId
+    //                vc.socialStudiesSeriesId = seriesID
+    //                vc.socialStudiesSwitchValue = playSwitch
+    //                vc.socialStudiesReceiveData = otherSubjectsVideo
+    //                vc.socialStudiesSelectedBtn = selectBtn
+    //                //                vc.koreanViewTitle = viewTitle.text
+    //                vc.socialStudiesViewTitle = "기타"
+                    //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 
-                autoPlayDataManager.currentViewTitleView = "기타"
-                autoPlayDataManager.currentFiltering = "문제풀이"
-                autoPlayDataManager.currentSort = 2
-                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
-                autoPlayDataManager.videoDataList.removeAll()
-                autoPlayDataManager.videoDataList.append(contentsOf: otherSubjectsVideo!.body)
-                autoPlayDataManager.videoSeriesDataList.removeAll()
-                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
-                
-                present(vc, animated: true)
-                print("DEBUG: 2번")
+                    vc.modalPresentationStyle = .overFullScreen
+                    
+                    autoPlayDataManager.currentViewTitleView = "기타"
+                    autoPlayDataManager.currentFiltering = "문제풀이"
+                    autoPlayDataManager.currentSort = 2
+                    autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                    autoPlayDataManager.videoDataList.removeAll()
+                    autoPlayDataManager.videoDataList.append(contentsOf: otherSubjectsVideo!.body)
+                    autoPlayDataManager.videoSeriesDataList.removeAll()
+                    autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                    
+                    present(vc, animated: true)
+                    print("DEBUG: 2번")
+                }
             } else if self.selectedItem == 3 {
                 let videoID = otherSubjectsVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
@@ -880,6 +887,10 @@ extension OtherSubjectsVC: UICollectionViewDelegateFlowLayout {
 extension OtherSubjectsVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAlignmentVCDelegate {
     
     func passSortedIdRow(_ sortedIdRowIndex: Int, _ rateFilterText: String) {
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
+        
         filteringBtn.setTitle(rateFilterText, for: .normal)
         
         if sortedIdRowIndex == 2 {          // 1 번째 Cell
@@ -896,10 +907,15 @@ extension OtherSubjectsVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
         self.otherSubjectsVideo?.body.removeAll()
         self.otherSubjectsCollection.reloadData()
         listCount = 0
+        lastContentOffset = 0
         getDataFromJson()
     }
     
     func passSelectedRow(_ selectedRowIndex: Int, _ videoFilterText: String) {
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
+        
         selectBtn.setTitle(videoFilterText, for: .normal)
         
         if selectedRowIndex == 0 {
@@ -920,6 +936,7 @@ extension OtherSubjectsVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
         self.otherSubjectsVideo?.body.removeAll()
         self.otherSubjectsCollection.reloadData()
         listCount = 0
+        lastContentOffset = 0
         getDataFromJson()
     }
 }

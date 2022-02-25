@@ -797,10 +797,14 @@ extension ScienceVC: UICollectionViewDelegate {
             } else if self.selectedItem == 2 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
-                videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .overFullScreen
-                let videoID = scienceVideo?.body[indexPath.row].videoId
-                vc.id = videoID
+                if let videoID = scienceVideo?.body[indexPath.row].videoId {
+                    videoDataManager.isFirstPlayVideo = true
+                    vc.id = videoID
+                    if let seekTime = seekTimes[videoID] {
+                        print("set seekTime \(seekTime.seconds)")
+                        vc.autoPlaySeekTime = seekTime
+                        vc.isStartVideo = true
+                    }
 //                let seriesID = scienceVideoSecond?.data[indexPath.row].iSeriesId
 //                vc.scienceSeriesId = seriesID
 //                vc.scienceSwitchValue = playSwitch
@@ -810,17 +814,20 @@ extension ScienceVC: UICollectionViewDelegate {
 //                vc.scienceViewTitle = "과학"
                 //                autoplayDataManager.currentViewTitleView = "국영수 강의"
                 
-                autoPlayDataManager.currentViewTitleView = "과학"
-                autoPlayDataManager.currentFiltering = "문제풀이"
-                autoPlayDataManager.currentSort = 2
-                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
-                autoPlayDataManager.videoDataList.removeAll()
-                autoPlayDataManager.videoDataList.append(contentsOf: scienceVideo!.body)
-                autoPlayDataManager.videoSeriesDataList.removeAll()
-                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
-                
-                present(vc, animated: true)
-                print("DEBUG: 2번")
+                    vc.modalPresentationStyle = .overFullScreen
+                    
+                    autoPlayDataManager.currentViewTitleView = "과학"
+                    autoPlayDataManager.currentFiltering = "문제풀이"
+                    autoPlayDataManager.currentSort = 2
+                    autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                    autoPlayDataManager.videoDataList.removeAll()
+                    autoPlayDataManager.videoDataList.append(contentsOf: scienceVideo!.body)
+                    autoPlayDataManager.videoSeriesDataList.removeAll()
+                    autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                    
+                    present(vc, animated: true)
+                    print("DEBUG: 2번")
+                }
                 // 노트보기
             } else if self.selectedItem == 3 {
                 let videoID = scienceVideo?.body[indexPath.row].videoId
@@ -985,6 +992,10 @@ extension ScienceVC: UICollectionViewDelegateFlowLayout {
 extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAlignmentVCDelegate {
     
     func passSortedIdRow(_ sortedIdRowIndex: Int, _ rateFilterText: String) {
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
+        
         filteringBtn.setTitle(rateFilterText, for: .normal)
         
         if sortedIdRowIndex == 2 {          // 1 번째 Cell
@@ -1002,11 +1013,16 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         self.scienceVideo?.body.removeAll()
         self.scienceCollection.reloadData()
         listCount = 0
+        lastContentOffset = 0
         getDataFromJson()
         
     }
     
     func passSelectedRow(_ selectedRowIndex: Int, _ videoFilterText: String) {
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
+        
         selectBtn.setTitle(videoFilterText, for: .normal)
         
         if selectedRowIndex == 0 {
@@ -1027,6 +1043,7 @@ extension ScienceVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAl
         self.scienceVideo?.body.removeAll()
         self.scienceCollection.reloadData()
         listCount = 0
+        lastContentOffset = 0
         getDataFromJson()
     }
 }

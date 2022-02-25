@@ -709,6 +709,10 @@ extension SocialStudiesVC: UICollectionViewDataSource {
 
 extension SocialStudiesVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 자동 재생 중지
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
         
         if Constant.isLogin == false {
             presentAlert(message: "로그인 상태와 이용권 구매여부를 확인해주세요.")
@@ -755,31 +759,37 @@ extension SocialStudiesVC: UICollectionViewDelegate {
             } else if self.selectedItem == 2 {
                 let vc = VideoController()
                 let videoDataManager = VideoDataManager.shared
-                videoDataManager.isFirstPlayVideo = true
-                vc.modalPresentationStyle = .overFullScreen
-                let videoID = socialStudiesVideo?.body[indexPath.row].videoId
-                vc.id = videoID
-//                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
-//                vc.socialStudiesSeriesId = seriesID
-//                vc.socialStudiesSwitchValue = playSwitch
-//                vc.socialStudiesReceiveData = socialStudiesVideo
-//                vc.socialStudiesSelectedBtn = selectBtn
-//                //                vc.koreanViewTitle = viewTitle.text
-//                vc.socialStudiesViewTitle = "사회"
-                //                autoplayDataManager.currentViewTitleView = "국영수 강의"
-                autoPlayDataManager.currentViewTitleView = "사회"
-                autoPlayDataManager.currentFiltering = "문제풀이"
-                autoPlayDataManager.currentSort = 2
-                autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
-                autoPlayDataManager.videoDataList.removeAll()
-                autoPlayDataManager.videoDataList.append(contentsOf: socialStudiesVideo!.body)
-                autoPlayDataManager.videoSeriesDataList.removeAll()
-                autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
-                
-                present(vc, animated: true)
-                print("DEBUG: 2번")
-                
-                print("DEBUG: 2번")
+                if let videoID = socialStudiesVideo?.body[indexPath.row].videoId {
+                    videoDataManager.isFirstPlayVideo = true
+                    vc.id = videoID
+                    if let seekTime = seekTimes[videoID] {
+                        print("set seekTime \(seekTime.seconds)")
+                        vc.autoPlaySeekTime = seekTime
+                        vc.isStartVideo = true
+                    }
+    //                let seriesID = socialStudiesVideoSecond?.data[indexPath.row].iSeriesId
+    //                vc.socialStudiesSeriesId = seriesID
+    //                vc.socialStudiesSwitchValue = playSwitch
+    //                vc.socialStudiesReceiveData = socialStudiesVideo
+    //                vc.socialStudiesSelectedBtn = selectBtn
+    //                //                vc.koreanViewTitle = viewTitle.text
+    //                vc.socialStudiesViewTitle = "사회"
+                    //                autoplayDataManager.currentViewTitleView = "국영수 강의"
+                    
+                    vc.modalPresentationStyle = .overFullScreen
+                    
+                    autoPlayDataManager.currentViewTitleView = "사회"
+                    autoPlayDataManager.currentFiltering = "문제풀이"
+                    autoPlayDataManager.currentSort = 2
+                    autoPlayDataManager.isAutoPlay = self.playSwitch.isOn
+                    autoPlayDataManager.videoDataList.removeAll()
+                    autoPlayDataManager.videoDataList.append(contentsOf: socialStudiesVideo!.body)
+                    autoPlayDataManager.videoSeriesDataList.removeAll()
+                    autoPlayDataManager.currentIndex = self.playSwitch.isOn ? indexPath.row : -1
+                    
+                    present(vc, animated: true)
+                    print("DEBUG: 2번")
+                }
             } else if self.selectedItem == 3 {
                 let videoID = socialStudiesVideo?.body[indexPath.row].videoId
                 let vc = LessonNoteController(id: "\(videoID!)", token: Constant.token)
@@ -855,6 +865,10 @@ extension SocialStudiesVC: UICollectionViewDelegateFlowLayout {
 extension SocialStudiesVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglishMathAlignmentVCDelegate {
     
     func passSortedIdRow(_ sortedIdRowIndex: Int, _ rateFilterText: String) {
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
+        
         filteringBtn.setTitle(rateFilterText, for: .normal)
         
         if sortedIdRowIndex == 2 {          // 1 번째 Cell
@@ -871,10 +885,15 @@ extension SocialStudiesVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
         self.socialStudiesVideo?.body.removeAll()
         self.socialStudiesCollection.reloadData()
         listCount = 0
+        lastContentOffset = 0
         getDataFromJson()
     }
     
     func passSelectedRow(_ selectedRowIndex: Int, _ videoFilterText: String) {
+        if visibleIP != nil {
+            stopCurrentVideoCell()
+        }
+        
         selectBtn.setTitle(videoFilterText, for: .normal)
         
         if selectedRowIndex == 0 {
@@ -895,6 +914,7 @@ extension SocialStudiesVC: KoreanEnglishMathBottomPopUpVCDelegate, KoreanEnglish
         self.socialStudiesVideo?.body.removeAll()
         self.socialStudiesCollection.reloadData()
         listCount = 0
+        lastContentOffset = 0
         getDataFromJson()
     }
 }
