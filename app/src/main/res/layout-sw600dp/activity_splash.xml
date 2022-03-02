@@ -13,13 +13,12 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:src="@mipmap/splash"
-        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintWidth_percent="0.5"
         app:layout_constraintDimensionRatio="288:521"
         android:contentDescription="@string/content_description_image_splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

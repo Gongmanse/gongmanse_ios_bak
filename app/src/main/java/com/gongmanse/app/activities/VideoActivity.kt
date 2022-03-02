@@ -773,8 +773,8 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
         val ssb = SpannableStringBuilder(str)
         var isHighlightSound = false
 
-        val test = "기준으로 해서 동사가 당한다, 되어진다라고 갈 때는 우리가"
-        Log.v(TAG, "test => ${ssb.indexOf(test, 0)}")
+//        val test = "기준으로 해서 동사가 당한다, 되어진다라고 갈 때는 우리가"
+//        Log.v(TAG, "test => ${ssb.indexOf(test, 0)}")
 
         mVideoViewModel.data.value?.highlight?.let { it ->
             val highlights = it.split("@")
