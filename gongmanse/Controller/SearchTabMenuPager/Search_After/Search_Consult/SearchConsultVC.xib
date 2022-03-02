@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,6 +17,7 @@
             <connections>
                 <outlet property="collectionView" destination="RTZ-wI-hZz" id="LEd-SF-9sk"/>
                 <outlet property="numberOfLesson" destination="rJk-h1-XWL" id="OyT-SF-oj7"/>
+                <outlet property="scrollBtn" destination="XzU-m4-xX1" id="Fpz-LN-edw"/>
                 <outlet property="sortButton" destination="uXR-Ne-kOZ" id="dz3-FV-XR3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -36,6 +37,20 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XzU-m4-xX1">
+                    <rect key="frame" x="354" y="802" width="35" height="35"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="0Gj-rw-PWJ"/>
+                        <constraint firstAttribute="width" secondItem="XzU-m4-xX1" secondAttribute="height" id="3MF-C4-wzV"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="arrow.up" catalog="system"/>
+                    <connections>
+                        <action selector="scrollToTop:" destination="-1" eventType="touchUpInside" id="3tH-TY-uZb"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nmh-pM-YMr">
                     <rect key="frame" x="0.0" y="44" width="414" height="47"/>
                     <subviews>
@@ -77,9 +92,14 @@
                 <constraint firstItem="nmh-pM-YMr" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="PTw-6I-KLc"/>
                 <constraint firstItem="RTZ-wI-hZz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="VC7-h1-OOD"/>
                 <constraint firstItem="RTZ-wI-hZz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hDC-8I-KIo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="XzU-m4-xX1" secondAttribute="bottom" constant="25" id="m0G-IC-URo"/>
                 <constraint firstItem="RTZ-wI-hZz" firstAttribute="top" secondItem="nmh-pM-YMr" secondAttribute="bottom" id="mRF-CF-Brc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XzU-m4-xX1" secondAttribute="trailing" constant="25" id="p0K-oq-jS7"/>
             </constraints>
             <point key="canvasLocation" x="-9" y="88"/>
         </view>
     </objects>
+    <resources>
+        <image name="arrow.up" catalog="system" width="120" height="128"/>
+    </resources>
 </document>

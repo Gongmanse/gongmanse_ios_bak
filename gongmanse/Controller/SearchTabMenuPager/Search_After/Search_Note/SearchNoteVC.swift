@@ -33,6 +33,10 @@ class SearchNoteVC: UIViewController {
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noteSortButton: UIButton!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        collectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
     
     // singleton
     lazy var searchData = SearchData.shared
@@ -115,7 +119,10 @@ class SearchNoteVC: UIViewController {
         emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
-        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     func getsearchNoteList() {
@@ -293,6 +300,12 @@ extension SearchNoteVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         guard let cellCount = searchNoteVM.searchNotesDataModel?.data.count  else { return }
 
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == cellCount - 1 {
             
             if searchNoteVM.allIntiniteScroll {

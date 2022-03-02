@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,6 +20,7 @@
                 <outlet property="autoVideoLabel" destination="rcu-ZM-0ia" id="A0g-5t-laX"/>
                 <outlet property="collectionView" destination="QQg-rj-lwS" id="jis-rD-rfh"/>
                 <outlet property="numberOfLesson" destination="McI-nO-EOF" id="1rR-X7-mDW"/>
+                <outlet property="scrollBtn" destination="Uws-l9-K5c" id="lOY-CQ-cc8"/>
                 <outlet property="sortButtonTitle" destination="F9a-co-6h8" id="vyS-9F-546"/>
                 <outlet property="view" destination="k1A-36-IOl" id="qHU-m3-36W"/>
             </connections>
@@ -39,6 +40,20 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uws-l9-K5c">
+                    <rect key="frame" x="354" y="802" width="35" height="35"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="1eR-sE-Rlc"/>
+                        <constraint firstAttribute="width" secondItem="Uws-l9-K5c" secondAttribute="height" id="LFL-pZ-c4H"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="arrow.up" catalog="system"/>
+                    <connections>
+                        <action selector="scrollToTop:" destination="-1" eventType="touchUpInside" id="RRi-M8-Yjh"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D00-Ym-150">
                     <rect key="frame" x="0.0" y="44" width="414" height="47"/>
                     <subviews>
@@ -88,6 +103,7 @@
             <viewLayoutGuide key="safeArea" id="BQ8-2j-BV1"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="BQ8-2j-BV1" firstAttribute="bottom" secondItem="Uws-l9-K5c" secondAttribute="bottom" constant="25" id="3JJ-UB-Mik"/>
                 <constraint firstItem="D00-Ym-150" firstAttribute="leading" secondItem="BQ8-2j-BV1" secondAttribute="leading" id="A2y-GM-ZUJ"/>
                 <constraint firstItem="QQg-rj-lwS" firstAttribute="top" secondItem="D00-Ym-150" secondAttribute="bottom" id="CLM-tG-cJf"/>
                 <constraint firstItem="QQg-rj-lwS" firstAttribute="trailing" secondItem="BQ8-2j-BV1" secondAttribute="trailing" id="Dua-8e-AD7"/>
@@ -95,11 +111,13 @@
                 <constraint firstAttribute="bottom" secondItem="QQg-rj-lwS" secondAttribute="bottom" id="YYf-pj-iQa"/>
                 <constraint firstItem="D00-Ym-150" firstAttribute="trailing" secondItem="BQ8-2j-BV1" secondAttribute="trailing" id="av1-wn-lp8"/>
                 <constraint firstItem="QQg-rj-lwS" firstAttribute="leading" secondItem="BQ8-2j-BV1" secondAttribute="leading" id="ghT-pX-7jK"/>
+                <constraint firstItem="BQ8-2j-BV1" firstAttribute="trailing" secondItem="Uws-l9-K5c" secondAttribute="trailing" constant="25" id="z4v-Rd-NLC"/>
             </constraints>
             <point key="canvasLocation" x="118.84057971014494" y="56.919642857142854"/>
         </view>
     </objects>
     <resources>
+        <image name="arrow.up" catalog="system" width="120" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

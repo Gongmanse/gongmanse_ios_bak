@@ -21,6 +21,10 @@ class SearchConsultVC: UIViewController {
     @IBOutlet weak var numberOfLesson: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sortButton: UIButton!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        collectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
     
     let searchConsultationVM = SearchConsultationViewModel()
 
@@ -100,6 +104,11 @@ class SearchConsultVC: UIViewController {
         emptyStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         emptyStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         emptyStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     func getSearchConsultation() {
@@ -226,6 +235,13 @@ extension SearchConsultVC: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == (self.searchConsultationVM.responseDataModel?.data.count ?? 0) - 1 && !searchConsultationVM.isLoading {
             searchConsultationVM.requestConsultationApi(keyword: searchData.searchText,
                                                         sortId: _selectedID,

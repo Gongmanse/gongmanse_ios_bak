@@ -37,6 +37,10 @@ class SearchVideoVC: UIViewController {
     @IBOutlet weak var autoPlaySwitch: UISwitch!
     @IBOutlet weak var sortButtonTitle: UIButton!
     @IBOutlet weak var autoVideoLabel: UILabel!
+    @IBOutlet weak var scrollBtn: UIButton!
+    @IBAction func scrollToTop(_ sender: Any) {
+        collectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
     
     var _selectedID: String? = "7"
     
@@ -119,6 +123,11 @@ class SearchVideoVC: UIViewController {
         
         
         autoPlaySwitch.addTarget(self, action: #selector(switchDidTap(_:)), for: .valueChanged)
+        
+        // 맨위로 스크롤 기능 추가
+        DispatchQueue.main.async {
+            self.scrollBtn.applyShadowWithCornerRadius(color: .black, opacity: 1, radius: 5, edge: AIEdge.Bottom, shadowSpace: 3)
+        }
     }
     
     func getSearchVideoList() {
@@ -302,6 +311,12 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         guard let cellCount = searchVideoVM.responseVideoModel?.data.count  else { return }
 
+        if collectionView.frame.height < cell.frame.height * CGFloat(indexPath.row - 1) {// 1번째 셀 hide.
+            scrollBtn.isHidden = false
+        } else if indexPath.row == 0 {// 1번째 셀 show.
+            scrollBtn.isHidden = true
+        }
+        
         if indexPath.row == cellCount - 1 {
             
 //            if searchVideoVM.allIntiniteScroll {
