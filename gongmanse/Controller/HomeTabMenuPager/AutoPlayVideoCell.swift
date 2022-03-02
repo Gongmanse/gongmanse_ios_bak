@@ -416,7 +416,8 @@ class AutoPlayVideoCell: UICollectionViewCell {
                 let label = strongSelf.subtitleLabel
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
-                if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload, time.seconds) {
+                // 22.03.02 하이라이트 데이터 설정 오류로 일단 효과 제거 후 자막사용
+                if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload, time.seconds)?.replacingOccurrences(of: "ffff00", with: "ffffff") {
 //                    print("subtitleText : \(subtitleText)")// html tag 포함.
                     
                     // load HTML String
