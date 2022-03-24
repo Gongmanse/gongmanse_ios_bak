@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.gongmanse.app.R
 import com.gongmanse.app.adapter.home.HomeTabAdapter
 import com.gongmanse.app.fragments.home.*
+import com.gongmanse.app.utils.GBLog
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -32,7 +33,19 @@ class HomeFragment : Fragment() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        Log.d(TAG, "HomeFragment:: hidden => $hidden")
+        GBLog.d(TAG, "HomeFragment:: hidden => $hidden")
+
+        if (hidden) {
+            mContext.view_pager.currentItem.let { idx ->
+                (mContext.view_pager.adapter as? HomeTabAdapter)?.let { adapter ->
+                    val currFragment = adapter.getItem(idx)
+                    GBLog.i(TAG, "currFragment.isResumed : ${currFragment.isResumed}")
+                    if (currFragment.isResumed) {
+                        currFragment.onPause()
+                    }
+                }
+            }
+        }
     }
 
     private fun initView() {
