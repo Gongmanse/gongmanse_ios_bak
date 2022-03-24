@@ -19,11 +19,11 @@ import com.gongmanse.app.listeners.EndlessRVScrollListener
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.gongmanse.app.utils.Preferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.text.isNullOrEmpty as isNullOrEmpty
 
 @Suppress("DEPRECATION")
 class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -32,6 +32,7 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         private val TAG = HomeBestFragment::class.java.simpleName
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private lateinit var binding: FragmentBestBinding
     private lateinit var scrollListener: EndlessRVScrollListener
     private lateinit var query: HashMap<String, String>
@@ -54,9 +55,23 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         initView()
     }
 
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
+    }
+
     override fun onRefresh() {
         binding.refreshLayout.isRefreshing = false
         mViewpagerAdapter.clear()
+        videoIds.clear()
         prepareData()
     }
 
@@ -114,6 +129,13 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                             mViewpagerAdapter.removeLoading()
                         }
                         mViewpagerAdapter.addItems(this.data as List<VideoData>)
+
+                        // set recyclerView's videoIds
+                        data.map {
+                            videoIds.add(it.id!!)
+                        }
+                        binding.rvVideo.videoIds = videoIds
+
                         isLoading = false
                     }
                 }

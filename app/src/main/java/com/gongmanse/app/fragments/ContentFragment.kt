@@ -201,4 +201,8 @@ class ContentFragment : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     fun setCurrentHomeFragment() {
         binding.bottomNavigation.selectedItemId = R.id.action_home
     }
+
+    fun getCurrentFragment(): Fragment? {
+        return selectFragment
+    }
 }

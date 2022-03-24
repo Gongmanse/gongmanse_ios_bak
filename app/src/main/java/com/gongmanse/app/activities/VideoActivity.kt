@@ -56,10 +56,7 @@ import com.gongmanse.app.fragments.video.*
 import com.gongmanse.app.listeners.OnVideoOptionListener
 import com.gongmanse.app.model.*
 import com.gongmanse.app.model.VideoViewModel
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.GBLog
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -132,6 +129,8 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
     private val outro = arrayOf(R.raw.gong_outro1, R.raw.gong_outro2)
     private var videoIntro: Int = intro[Random().nextInt(intro.size)]
     private var videoOutro: Int = outro[Random().nextInt(outro.size)]
+
+    private var seekTime: Long? = -1
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -273,12 +272,26 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
         })
 
         mVideoViewModel.videoId.observe(this, {
-            Log.v(TAG, "getViewModel videoId => $it")
+            GBLog.v(TAG, "set viewModel videoId => $it")
+
+            // check seekTime
+            GBLog.i(TAG, "seekTime init : $seekTime")
+            seekTime?.let { initTime ->
+                if (initTime < 0) {
+                    val getTime = VideoPlayerRecyclerView.videoSeekTime[it]
+                    getTime?.let {
+                        GBLog.i(TAG, "seekTime : $getTime")
+                        seekTime = getTime
+                        isBottom = true
+                    }
+                }
+            }
+
             resetVideo()
             onSlideClose()
             qnaFragment.clearAdapter()
             if (mVideoViewModel.playListType.value == Constants.QUERY_TYPE_BEST && isFirst) {
-                Log.v(TAG, "hasExpire => ${Commons.hasExpire()} || isFirst => $isFirst")
+                GBLog.v(TAG, "hasExpire => ${Commons.hasExpire()} || isFirst => $isFirst")
                 if (isFirst) {
                     mVideoViewModel.loadBest()
                     isFirst = false
@@ -303,7 +316,14 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
                 Constants.VIDEO_PLAY -> {
                     mVideoViewModel.useCaption.postValue(Preferences.subtitle)
                     setupPlayVideo()
-                    mPlayer?.seekTo(mPlayerBottomPosition)
+
+                    if (seekTime != null && seekTime!! > 0) {
+                        //
+                    } else {
+                        GBLog.e(TAG, "seekTo : $mPlayerBottomPosition")
+                        mPlayer?.seekTo(mPlayerBottomPosition)
+                    }
+
                     if (mPlayerBottomPosition == -1L) {
                         mVideoViewModel.videoMode.postValue(Constants.VIDEO_OUTRO)
                     }
@@ -352,7 +372,7 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
         setVideoPlayer()
         if (isBottom) {
             Handler(Looper.getMainLooper()).postDelayed({
-                Log.d(TAG, "@@@@@@@@@ : 2. Constants.VIDEO_PLAY")
+                GBLog.d(TAG, "Constants.VIDEO_PLAY")
                 mVideoViewModel.videoMode.postValue(Constants.VIDEO_PLAY)
                 isBottom = false
             }, 500L)
@@ -770,33 +790,34 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun addSubTitleInEventView(str: CharSequence) {
+        GBLog.v("", "addSubTitleInEventView : $str")
         val ssb = SpannableStringBuilder(str)
         var isHighlightSound = false
 
 //        val test = "기준으로 해서 동사가 당한다, 되어진다라고 갈 때는 우리가"
 //        Log.v(TAG, "test => ${ssb.indexOf(test, 0)}")
 
-        mVideoViewModel.data.value?.highlight?.let { it ->
-            val highlights = it.split("@")
-            highlights.forEach { txt ->
-                val highlight = txt.trim()
-                val position = ssb.indexOf(highlight, 0)
-                if (position != -1) {
-                    Log.v(TAG, "test : highlight => $highlight : ${highlight.length}")
-                    Log.v(TAG, "test : ssb => $ssb : ${ssb.length}")
-                    isHighlightSound = true
-                    val index = position.plus(highlight.length)
-                    Log.v(TAG, "test : position => $position")
-                    Log.v(TAG, "test : index => $index")
-                    ssb.setSpan(
-                        ForegroundColorSpan(Color.parseColor("#ffff00")),
-                        position,
-                        index,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            }
-        }
+//        mVideoViewModel.data.value?.highlight?.let { it ->
+//            val highlights = it.split("@")
+//            highlights.forEach { txt ->
+//                val highlight = txt.trim()
+//                val position = ssb.indexOf(highlight, 0)
+//                if (position != -1) {
+//                    Log.v(TAG, "test : highlight => $highlight : ${highlight.length}")
+//                    Log.v(TAG, "test : ssb => $ssb : ${ssb.length}")
+//                    isHighlightSound = true
+//                    val index = position.plus(highlight.length)
+//                    Log.v(TAG, "test : position => $position")
+//                    Log.v(TAG, "test : index => $index")
+//                    ssb.setSpan(
+//                        ForegroundColorSpan(Color.parseColor("#ffff00")),
+//                        position,
+//                        index,
+//                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                    )
+//                }
+//            }
+//        }
 
         if (isHighlightSound) {
             Log.d(TAG, "PlayAlarmSound()....")
@@ -887,12 +908,13 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
 
     // 강의 동영상 설정
     private fun setupPlayVideo() {
-        Log.v(TAG, "setupPlayVideo")
+        GBLog.v(TAG, "setupPlayVideo")
         binding.playerView.useController = true
         if (mVideoViewModel.data.value?.videoURL.isNullOrEmpty().not()) {
             val subtitleUrl = "${Constants.FILE_DOMAIN}/${mVideoViewModel.data.value?.subtitle}"
             GBLog.v(TAG, "subtitleURL => $subtitleUrl")
             GBLog.v(TAG, "mediaURL => ${mVideoViewModel.data.value?.videoURL}")
+            GBLog.v(TAG, "highlight => ${mVideoViewModel.data.value?.highlight}")
             var devUrl = mVideoViewModel.data.value?.videoURL.toString()
             if (devUrl.contains("https://file.gongmanse.com/om/")) {
                 devUrl = devUrl.replace("https://file.gongmanse.com/om", Constants.FILE_DOMAIN)
@@ -929,7 +951,7 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
         if (::binding.isInitialized) {
             binding.playerView.hideController()
         }
-        mPlayer?.playWhenReady = true
+        mPlayer?.playWhenReady = !(seekTime != null && seekTime!! > 0)
     }
 
     // 플레이어 일시정지
@@ -987,11 +1009,19 @@ class VideoActivity : AppCompatActivity(), View.OnClickListener {
 
     private val onPlayerEventListener = object: Player.EventListener {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            GBLog.e(TAG, "onPlayerStateChanged : $playbackState")
             if (playbackState == Player.STATE_READY) {
                 if (playWhenReady)
                     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 else
                     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+                if (seekTime != null && seekTime!! > 0) {
+                    GBLog.e(TAG, "do seekTo : $seekTime")
+                    mPlayer?.seekTo(seekTime!!)
+                    mPlayer?.playWhenReady = true
+                    seekTime = 0
+                }
             }
 
             if (playWhenReady && playbackState == Player.STATE_ENDED) {

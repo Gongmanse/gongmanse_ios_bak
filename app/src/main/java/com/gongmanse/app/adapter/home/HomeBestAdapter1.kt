@@ -7,20 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.gongmanse.app.R
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.gongmanse.app.activities.SettingActivity
 import com.gongmanse.app.activities.VideoActivity
-import com.gongmanse.app.adapter.active.RecentVideoRVAdapter
 import com.gongmanse.app.api.RetrofitClient
 import com.gongmanse.app.databinding.*
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
-import com.gongmanse.app.model.VideoQuery
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.IsWIFIConnected
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
+import com.google.android.exoplayer2.ui.PlayerView
+import kotlinx.android.synthetic.main.custom_video_control_layout.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.singleTop
@@ -106,8 +104,12 @@ class HomeBestAdapter1 :  RecyclerView.Adapter<RecyclerView.ViewHolder> () {
                 }
             }
             is RecyclerViewHolder -> {
-                Log.d("진입 홀더 확인","$holder")
+//                GBLog.d("RecyclerViewHolder", "진입 홀더 확인 $holder")
+
                 holder.apply {
+                    GBLog.d("RecyclerViewHolder", "setTag")
+                    itemView.tag = holder
+
                     bind(item, View.OnClickListener {
                         val wifiState = IsWIFIConnected().check(holder.itemView.context)
                         itemView.context.apply {

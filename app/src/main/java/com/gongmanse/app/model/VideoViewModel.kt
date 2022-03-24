@@ -10,10 +10,8 @@ import androidx.lifecycle.ViewModel
 import com.gongmanse.app.R
 import com.gongmanse.app.activities.LoginActivity
 import com.gongmanse.app.api.video.VideoRepository
-import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.*
 import com.gongmanse.app.utils.Event
-import com.gongmanse.app.utils.Preferences
-import com.gongmanse.app.utils.SingleLiveEvent
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -135,7 +133,7 @@ class VideoViewModel(private val videoRepository: VideoRepository?): ViewModel()
     fun load() {
         CoroutineScope(Dispatchers.IO).launch {
             videoRepository?.getVideoData(videoId.value)?.let { response ->
-                Log.v(TAG, "load(): result code => ${response.code()}")
+                GBLog.e(TAG, "load(): result code => ${response.code()}")
                 if (response.isSuccessful) {
                     response.body()?.let { body ->
                         body.data?.let { videoData ->
@@ -154,7 +152,7 @@ class VideoViewModel(private val videoRepository: VideoRepository?): ViewModel()
     fun loadBest() {
         CoroutineScope(Dispatchers.IO).launch {
             videoRepository?.getBestVideoData(videoId.value)?.let { response ->
-                Log.v(TAG, "loadBest(): result code => ${response.code()}")
+                GBLog.v(TAG, "loadBest(): result code => ${response.code()}")
                 if (response.isSuccessful) {
                     response.body()?.let { body ->
                         body.data?.let { videoData ->

@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.gongmanse.app.R
 import com.gongmanse.app.adapter.home.HomeTabAdapter
 import com.gongmanse.app.fragments.home.*
@@ -75,4 +75,7 @@ class HomeFragment : Fragment() {
 
     private fun Int.dpToPx(): Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), resources.displayMetrics).toInt()
 
+    fun getPager(): ViewPager {
+        return mContext.view_pager
+    }
 }

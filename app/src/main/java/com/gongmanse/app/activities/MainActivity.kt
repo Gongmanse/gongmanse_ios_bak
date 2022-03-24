@@ -192,4 +192,8 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         }
     }
 
+    fun selectedFragment(): Fragment? {
+        val content = (fragment as ContentFragment)
+        return content.getCurrentFragment()
+    }
 }
