@@ -213,9 +213,19 @@ class VideoPlayerRecyclerView : RecyclerView {
         })
     }
 
+    private var nextPlayItemPosition = -1
+    private var isAutoScroll = false
     private fun scrollToItemTopPosition(pos: Int) {
         playPosition = -1// auto scroll 시 해당 position 아이템이 재생되도록 기존 재생 아이템 정보 초기화.
-        smoothScrollToPosition(pos)// 해당 뷰가 보이는 곳까지 스크롤. OnScrollListener 동작 ok.
+        isAutoScroll = true
+        nextPlayItemPosition = pos
+
+        // 화면에 보여지는 아이템 갯수에 따라서 오토 스크롤 범위 조정
+        val lastCompletePosition = (layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+        if (nextPlayItemPosition == lastCompletePosition)
+            smoothScrollToPosition(pos + 1)// 해당 뷰가 상단으로 올라오도록 스크롤
+        else
+            smoothScrollToPosition(pos)// 해당 뷰가 보이는 곳까지 스크롤
     }
 
     override fun onAttachedToWindow() {
@@ -287,7 +297,12 @@ class VideoPlayerRecyclerView : RecyclerView {
                         startPosition = endPosition - 1// 아래서 두개
                     }
 
-                    targetPosition = checkViewSelect(startPosition, endPosition)
+                    GBLog.i("", "nextPlayItemPosition : $nextPlayItemPosition")
+                    targetPosition =
+                        if (isAutoScroll)
+                            nextPlayItemPosition
+                        else
+                            checkViewSelect(startPosition, endPosition)
                 }
             }
         } else {// 리스트 마지막 아이템 재생
@@ -311,6 +326,9 @@ class VideoPlayerRecyclerView : RecyclerView {
         // set the position of the list-item that is to be played
         playPosition = targetPosition
         GBLog.v("TAG", "playPosition : $playPosition")
+
+        isAutoScroll = false
+        nextPlayItemPosition = -1
 
 
         val currentPosition = targetPosition - (layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
