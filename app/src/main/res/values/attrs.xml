@@ -7,4 +7,7 @@
         <attr name="txtSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="video_player_recycler_view">
+        <attr name="is_best" format="boolean" />
+    </declare-styleable>
 </resources>

@@ -13,6 +13,7 @@ import com.gongmanse.app.databinding.ItemLoadingBinding
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.gongmanse.app.utils.Preferences
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
@@ -57,24 +58,29 @@ class RelationSeriesRVAdapter(private val activity: RelationSeriesActivity) : Re
     }
 
     private fun populateItemRows(holder: ItemViewHolder, position: Int) {
-        holder.bind(items[position], View.OnClickListener {
-            items[position]?.let {
-                Log.e(TAG, "items[${position}] => $it")
-                Preferences.currentPosition = position
-                if (Preferences.token.isNotEmpty()) {
-                    activity.backToVideo(it.id,it.seriesId,position,isAutoPlay)
-                } else {
-                    activity.apply {
-                        alert(title = null, message = getString(R.string.content_text_toast_login)) {
-                            positiveButton(getString(R.string.content_button_positive)) { dialog ->
-                                dialog.dismiss()
-                                startActivity(intentFor<LoginActivity>().singleTop())
-                            }
-                        }.show()
+        holder.apply {
+            GBLog.d("RecyclerViewHolder", "setTag")
+            itemView.tag = holder
+
+            holder.bind(items[position], View.OnClickListener {
+                items[position]?.let {
+                    Log.e(TAG, "items[${position}] => $it")
+                    Preferences.currentPosition = position
+                    if (Preferences.token.isNotEmpty()) {
+                        activity.backToVideo(it.id,it.seriesId,position,isAutoPlay)
+                    } else {
+                        activity.apply {
+                            alert(title = null, message = getString(R.string.content_text_toast_login)) {
+                                positiveButton(getString(R.string.content_button_positive)) { dialog ->
+                                    dialog.dismiss()
+                                    startActivity(intentFor<LoginActivity>().singleTop())
+                                }
+                            }.show()
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 
     fun setSeriesId(id: Int) {

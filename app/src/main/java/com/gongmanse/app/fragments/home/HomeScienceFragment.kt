@@ -27,6 +27,7 @@ import com.gongmanse.app.model.ActionType
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,6 +40,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
         private const val CATEGORY_ID : Int = Constants.GRADE_SORT_ID_SCIENCE
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private lateinit var mRecyclerAdapter : HomeSubjectRVAdapter
     private lateinit var binding: FragmentScienceBinding
     private lateinit var scrollListener: EndlessRVScrollListener
@@ -60,6 +62,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
         page = 0
         binding.rvVideo.removeAllViewsInLayout()
         mRecyclerAdapter.clear()
+        videoIds.clear()
         initView()
 
     }
@@ -70,6 +73,18 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
         return binding.root
     }
 
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
+    }
 
     private fun initView() {
         setHeaderVisibility()
@@ -102,6 +117,7 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
         listData.currentValue.observe(viewLifecycleOwner, Observer { it1->
             if (noteType == Constants.NOTE_TYPE_SCIENCE) {
                 mRecyclerAdapter.clear()
+                videoIds.clear()
                 if(it1.size != 0){
                     mRecyclerAdapter.clear()
                     mRecyclerAdapter.addItems(it1)
@@ -245,6 +261,13 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
                             mRecyclerAdapter.addSortId(sortId)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
                             mRecyclerAdapter.addTotalAndType(temp,Constants.NOTE_TYPE_SCIENCE)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
+
                             isLoading = false
                         }
                     }
@@ -277,6 +300,13 @@ class HomeScienceFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
                             mRecyclerAdapter.addType(Constants.QUERY_TYPE_SCIENCE_PROBLEM)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
                             mRecyclerAdapter.addSortId(Constants.CONTENT_RESPONSE_VALUE_SUBJECT)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
+
                             isLoading = false
                         }
                         val temp = this.totalNum!!.toInt()

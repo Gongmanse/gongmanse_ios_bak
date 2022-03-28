@@ -41,6 +41,7 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         private const val CATEGORY_ID : Int = Constants.GRADE_SORT_ID_KEM
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private lateinit var mRecyclerAdapter : HomeSubjectRVAdapter
     private lateinit var binding: FragmentKemBinding
     private lateinit var scrollListener: EndlessRVScrollListener
@@ -62,6 +63,7 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         page = 0
         binding.rvVideo.removeAllViewsInLayout()
         mRecyclerAdapter.clear()
+        videoIds.clear()
         initView()
 
     }
@@ -72,6 +74,18 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         return binding.root
     }
 
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
+    }
 
     private fun initView() {
         setHeaderVisibility()
@@ -104,6 +118,7 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         listData.currentValue.observe(viewLifecycleOwner, Observer { it1->
             if (noteType == Constants.NOTE_TYPE_KEM) {
                 mRecyclerAdapter.clear()
+                videoIds.clear()
                 if(it1.size != 0){
                     mRecyclerAdapter.clear()
                     mRecyclerAdapter.addItems(it1)
@@ -248,6 +263,13 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
                             mRecyclerAdapter.addSortId(sortId)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
                             mRecyclerAdapter.addTotalAndType(temp,Constants.NOTE_TYPE_KEM)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
+
                             isLoading = false
                         }
                     }
@@ -280,6 +302,13 @@ class HomeKEMFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
                             mRecyclerAdapter.addType(Constants.QUERY_TYPE_KEM_PROBLEM)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
                             mRecyclerAdapter.addSortId(Constants.CONTENT_RESPONSE_VALUE_SUBJECT)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
+
                             isLoading = false
                         }
                         val temp = this.totalNum!!.toInt()

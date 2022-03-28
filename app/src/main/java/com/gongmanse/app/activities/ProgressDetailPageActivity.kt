@@ -23,6 +23,7 @@ import com.gongmanse.app.model.ProgressData
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.gongmanse.app.utils.Preferences
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,6 +36,7 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
         private val TAG = ProgressDetailPageActivity::class.java.simpleName
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private lateinit var binding: ActivityProgressDetailPageBinding
     private lateinit var query: HashMap<String, String>
     private lateinit var scrollListener: EndlessRVScrollListener
@@ -51,10 +53,24 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
 
     }
 
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
+    }
+
     override fun onRefresh() {
         Log.d(TAG, "onRefresh()")
         binding.refreshLayout.isRefreshing = false
         mAdapter.clear()
+        videoIds.clear()
         prepareData()
     }
 
@@ -139,8 +155,23 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
                                     binding.layoutVideoCount.totalNum = totalNum
                                 }
 
+                                // set recyclerView's videoIds
+                                this.data?.let {
+                                    it.map { data ->
+                                        videoIds.add(data.id!!)
+                                    }
+                                    binding.rvVideo.videoIds = videoIds
+                                }
                             } else {
-                                this.data?.let { mAdapter.addItems(it) }
+                                this.data?.let {
+                                    mAdapter.addItems(it)
+
+                                    // add recyclerView's videoIds
+                                    it.map { data ->
+                                        videoIds.add(data.id!!)
+                                    }
+                                    binding.rvVideo.videoIds = videoIds
+                                }
                             }
 
                         }

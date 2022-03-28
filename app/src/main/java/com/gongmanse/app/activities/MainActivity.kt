@@ -18,9 +18,7 @@ import com.gongmanse.app.listeners.OnFragmentInteractionListener
 import com.gongmanse.app.model.ActionType
 import com.gongmanse.app.model.NoteLiveDataModel
 import com.gongmanse.app.model.VideoData
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.IsWIFIConnected
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 
@@ -39,6 +37,11 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         setContentView(R.layout.activity_main)
         getDeepLink()
         initView(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        VideoPlayerRecyclerView.isGuest = !Commons.hasExpire()
     }
 
     private fun getDeepLink() {

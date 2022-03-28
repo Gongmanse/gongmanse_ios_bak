@@ -2,7 +2,6 @@ package com.gongmanse.app.adapter.home
 
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,8 @@ import com.gongmanse.app.R
 import com.gongmanse.app.activities.*
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.model.VideoData
-import com.gongmanse.app.model.VideoQuery
-import com.gongmanse.app.utils.Commons
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.gongmanse.app.utils.IsWIFIConnected
 import com.gongmanse.app.utils.Preferences
 import org.jetbrains.anko.*
@@ -43,6 +41,9 @@ class HomeSeriesRVAdapter : RecyclerView.Adapter<HomeSeriesRVAdapter.ViewHolder>
         val item = items[position]
 
         holder.apply {
+            GBLog.d("RecyclerViewHolder", "setTag")
+            itemView.tag = holder
+
             bind(item, View.OnClickListener {
                 val wifiState = IsWIFIConnected().check(holder.itemView.context)
                 itemView.context.apply {

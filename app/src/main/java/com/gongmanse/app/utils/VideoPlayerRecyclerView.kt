@@ -53,6 +53,13 @@ class VideoPlayerRecyclerView : RecyclerView {
     constructor(@NonNull context: Context) : this(context, null)
     constructor(@NonNull context: Context, @Nullable attributeSet: AttributeSet?) : this(context, attributeSet, 0)
     constructor(@NonNull context: Context, @Nullable attributeSet: AttributeSet?, defStyleAttr: Int) : super(context, attributeSet, defStyleAttr) {
+        attributeSet?.let {
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.video_player_recycler_view)
+            val isBest = typedArray.getBoolean(R.styleable.video_player_recycler_view_is_best, false)
+            typedArray.recycle()
+
+            isBestTab = isBest//use guest key. & has 2 headers.
+        }
         initListener()
     }
     private enum class VolumeState {
@@ -71,7 +78,7 @@ class VideoPlayerRecyclerView : RecyclerView {
         private const val PLAYBACK_RESUME_BUFFER_DURATION = 2000 // 리 버퍼 후 재생을 재개하기 위해 버퍼링해야하는 미디어의 기본 기간 : 2초
         var videoSeekTime:MutableMap<String, Long> = HashMap()
         private var hasSeekTime = false
-        private var isBestTab = true// TODO set
+        var isGuest = true
     }
 
     // ui
@@ -91,12 +98,24 @@ class VideoPlayerRecyclerView : RecyclerView {
     private var scrollToBot = true
     private var volumeState = VolumeState.OFF
     var videoIds: MutableList<String> = mutableListOf()
+    private var isBestTab = false
+    var isPiPOn = false
 
     private fun initListener() {
         addOnScrollListener(object : OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == SCROLL_STATE_IDLE) {// 스크롤이 멈춘 이후에 재생 관리...
+                    if (!isBestTab && isGuest) {
+                        GBLog.e("", "isGuest : $isGuest")
+                        return
+                    }
+
+                    if (isPiPOn) {
+                        GBLog.e("", "isPipOn : $isPiPOn")
+                        return
+                    }
+
                     if (!recyclerView.canScrollVertically(1)) {// when the end of the list has been reached.
                         playVideo(true)
                     } else if (!recyclerView.canScrollVertically(-1)) {// when the top of the list has been reached.
@@ -380,7 +399,7 @@ class VideoPlayerRecyclerView : RecyclerView {
 
             exo_progress.addListener(object: TimeBar.OnScrubListener {
                 override fun onScrubStart(timeBar: TimeBar, position: Long) {
-                    (context as MainActivity).selectedFragment()?.let {
+                    (context as? MainActivity)?.selectedFragment()?.let {
                         GBLog.i("TAG", "current fragment : ${it.javaClass.kotlin}")
                         if (it is HomeFragment) {
                             GBLog.i("TAG", "onScrubStart. block MainActivity-HomeFragment.pager")
@@ -392,7 +411,7 @@ class VideoPlayerRecyclerView : RecyclerView {
                 override fun onScrubMove(timeBar: TimeBar, position: Long) { }
 
                 override fun onScrubStop(timeBar: TimeBar, position: Long, canceled: Boolean) {
-                    (context as MainActivity).selectedFragment()?.let {
+                    (context as? MainActivity)?.selectedFragment()?.let {
                         GBLog.i("TAG", "current fragment : ${it.javaClass.kotlin}")
                         if (it is HomeFragment) {
                             GBLog.i("TAG", "onScrubStop. release swipe pager")
@@ -432,28 +451,50 @@ class VideoPlayerRecyclerView : RecyclerView {
     private fun getVideoData(videoId: String) {
         GBLog.d("TAG", "request videoId : $videoId")
         CoroutineScope(Dispatchers.IO).launch {
-            client.getVideoData2(Preferences.token, videoId).let { response ->
-                if (response.isSuccessful) {
-                    response.body()?.let { body ->
-                        GBLog.d("TAG", "response data : ${body.data}")
-                        if (body.data != null) {
-//                            GBLog.d("", "videoId : ${body.data.videoId}, id : ${body.data.id}")
-                            if (playVideoId == body.data.id) {// 현재 위치화 응답 결과 비교
-                                val videoUrl = body.data.videoURL!!
-                                val subtitleUrl = "${Constants.FILE_DOMAIN}/${body.data.subtitle}"
-                                body.data.tags?.split(",")?.let { tags.addAll(it) }
-                                GBLog.i("TAG", "tags : $tags")
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    prepareVideo(videoUrl, subtitleUrl)
-                                }
-
+            if (isBestTab)
+                client.getVideoData2(Preferences.token, videoId).let { response ->
+                    if (response.isSuccessful) {
+                        response.body()?.let { body ->
+                            GBLog.d("TAG", "get Best Video response data : ${body.data}")
+                            if (body.data != null) {
+                                // guest 로 요청 시 videoId 받을 수 없음...
+//                                if (playVideoId == body.data.id) {// 현재 위치화 응답 결과 비교
+                                    val videoUrl = body.data.videoURL!!
+                                    val subtitleUrl = "${Constants.FILE_DOMAIN}/${body.data.subtitle}"
+                                    body.data.tags?.split(",")?.let { tags.addAll(it) }
+                                    GBLog.i("TAG", "tags : $tags")
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        prepareVideo(videoUrl, subtitleUrl)
+                                    }
+//                                }
                             }
                         }
+                    } else {
+                        GBLog.e("TAG","${response.errorBody()}")
                     }
-                } else {
-                    GBLog.e("TAG","${response.errorBody()}")
                 }
-            }
+            else
+                client.getVideoData(Preferences.token, videoId).let { response ->
+                    if (response.isSuccessful) {
+                        response.body()?.let { body ->
+                            GBLog.d("TAG", "get Video response data : ${body.data}")
+                            if (body.data != null) {
+                                if (playVideoId == body.data.id) {// 현재 위치화 응답 결과 비교
+                                    val videoUrl = body.data.videoURL!!
+                                    val subtitleUrl = "${Constants.FILE_DOMAIN}/${body.data.subtitle}"
+                                    body.data.tags?.split(",")?.let { tags.addAll(it) }
+                                    GBLog.i("TAG", "tags : $tags")
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        prepareVideo(videoUrl, subtitleUrl)
+                                    }
+
+                                }
+                            }
+                        }
+                    } else {
+                        GBLog.e("TAG","${response.errorBody()}")
+                    }
+                }
         }
     }
 

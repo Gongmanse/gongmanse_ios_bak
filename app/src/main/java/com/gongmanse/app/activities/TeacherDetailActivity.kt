@@ -17,6 +17,7 @@ import com.gongmanse.app.model.Teacher
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import kotlinx.android.synthetic.main.activity_teacher_detail.*
 import kotlinx.android.synthetic.main.layout_video_header.view.*
 import retrofit2.Call
@@ -32,6 +33,7 @@ class TeacherDetailActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefresh
 
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private val mRecyclerAdapter by lazy { TeacherDetailRVAdapter() }
     private var id : Int? = null
     private var videoId : Int? = null
@@ -40,6 +42,7 @@ class TeacherDetailActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefresh
     private var mOffset : Int = 0
     private val isChecked = false
 
+    // TODO 확인 필. 새로고침 시 데이터 갱신되지 않음
     override fun onRefresh() {
         refresh_layout.isRefreshing = false
     }
@@ -52,6 +55,19 @@ class TeacherDetailActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefresh
 
         loadData()
         initView()
+    }
+
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
     }
 
     private fun initView() {
@@ -119,6 +135,12 @@ class TeacherDetailActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefresh
                     response.body().apply{
                         this?.data.let {
                             mRecyclerAdapter.addItems(it as List<VideoData>)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
                         }
                         val temp: String = this!!.totalNum.toString()
                         temp.let{

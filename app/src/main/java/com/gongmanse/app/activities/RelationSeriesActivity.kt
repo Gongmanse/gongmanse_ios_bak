@@ -25,6 +25,7 @@ import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.model.VideoPlayer
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
@@ -63,9 +64,10 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     private var queryType : Int? = null
     private var mPlayer: SimpleExoPlayer? = null
     private lateinit var bottomQuery: HashMap<String, Any?>
-
+    private val videoIds: MutableList<String> = mutableListOf()
     override fun onRefresh() {
         mAdapter.clear()
+        videoIds.clear()
         initView()
         binding.layoutRefresh.isRefreshing = false
     }
@@ -75,6 +77,8 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         binding = DataBindingUtil.setContentView(this, R.layout.activity_relation_series)
         loadExtraData()
         initView()
+
+        binding.recyclerView.isPiPOn = true
     }
 
     override fun onResume() {
@@ -87,6 +91,19 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
                 resume()
             }
         }
+    }
+
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.recyclerView.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.recyclerView.releasePlayer()
+        super.onDestroy()
     }
 
     override fun onStop() {
@@ -237,6 +254,12 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
                             if (it.size > 0) {
                                 binding.setVariable(BR.data, this)
                                 mAdapter.addItems(it)
+
+                                // set recyclerView's videoIds
+                                it.map { data ->
+                                    videoIds.add(data.id!!)
+                                }
+                                binding.recyclerView.videoIds = videoIds
                             }
                         }
                         isLoading = false
@@ -370,6 +393,8 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     private fun playerClose() {
         binding.layoutPlayer.visibility = View.GONE
         pause()
+
+        binding.recyclerView.isPiPOn = false
     }
 
     private fun resume() {

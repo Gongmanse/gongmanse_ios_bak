@@ -1,26 +1,18 @@
 package com.gongmanse.app.adapter.home
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gongmanse.app.R
 import com.gongmanse.app.activities.MainActivity
 import com.gongmanse.app.activities.SettingActivity
 import com.gongmanse.app.activities.VideoActivity
-import com.gongmanse.app.adapter.active.RecentVideoRVAdapter
 import com.gongmanse.app.databinding.ItemLoadingBinding
-import com.gongmanse.app.databinding.ItemRecentVideoBinding
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.model.VideoData
-import com.gongmanse.app.model.VideoQuery
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.IsWIFIConnected
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.singleTop
@@ -65,6 +57,9 @@ class HomeHotRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
     private fun populateItemRows(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.apply {
+            GBLog.d("RecyclerViewHolder", "setTag")
+            itemView.tag = holder
+
             bind(item, View.OnClickListener {
                 val wifiState = IsWIFIConnected().check(holder.itemView.context)
                 itemView.context.apply {

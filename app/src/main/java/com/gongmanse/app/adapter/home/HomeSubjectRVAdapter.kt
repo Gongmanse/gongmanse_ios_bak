@@ -14,10 +14,7 @@ import com.gongmanse.app.databinding.ItemLoadingBinding
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoQuery
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.IsWIFIConnected
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
 import kotlinx.android.synthetic.main.item_video.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
@@ -70,6 +67,9 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
         val item = items[position]
 
         holder.apply {
+            GBLog.d("RecyclerViewHolder", "setTag")
+            itemView.tag = holder
+
             bind(item, View.OnClickListener{
                 Log.d("클릭시 타입","$type")
                 Log.d("클릭시 아이템","${item.videoId}")

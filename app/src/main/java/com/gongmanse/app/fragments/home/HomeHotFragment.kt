@@ -19,6 +19,7 @@ import com.gongmanse.app.listeners.EndlessRVScrollListener
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import com.gongmanse.app.utils.Preferences
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +32,7 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         private val TAG = HomeHotFragment::class.java.simpleName
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private lateinit var binding: FragmentHotBinding
     private lateinit var mRecyclerAdapter :HomeHotRVAdapter
     private lateinit var scrollListener: EndlessRVScrollListener
@@ -41,6 +43,7 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onRefresh() {
         Log.d(TAG, "HotFragment:: onRefresh()")
         mRecyclerAdapter.clear()
+        videoIds.clear()
         prepareData()
         binding.refreshLayout.isRefreshing = false
     }
@@ -50,6 +53,19 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         initView()
         loadData()
         return binding.root
+    }
+
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
     }
 
     private fun initView() {
@@ -107,6 +123,13 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                             mRecyclerAdapter.removeLoading()
                         }
                         mRecyclerAdapter.addItems(this.data as List<VideoData>)
+
+                        // set recyclerView's videoIds
+                        data.map {
+                            videoIds.add(it.id!!)
+                        }
+                        binding.rvVideo.videoIds = videoIds
+
                         isLoading = false
                     }
                 }

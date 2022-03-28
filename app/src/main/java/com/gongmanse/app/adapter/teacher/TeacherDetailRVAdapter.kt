@@ -12,10 +12,7 @@ import com.gongmanse.app.activities.*
 import com.gongmanse.app.databinding.ItemVideoBinding
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoQuery
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.IsWIFIConnected
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.singleTop
@@ -45,6 +42,9 @@ class TeacherDetailRVAdapter() : RecyclerView.Adapter<TeacherDetailRVAdapter.Vie
         val item = items[position]
 
         holder.apply {
+            GBLog.d("RecyclerViewHolder", "setTag")
+            itemView.tag = holder
+
             bind(item, View.OnClickListener {
                 val wifiState = IsWIFIConnected().check(holder.itemView.context)
                 itemView.context.apply {

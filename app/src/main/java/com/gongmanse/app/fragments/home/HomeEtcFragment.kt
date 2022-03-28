@@ -27,6 +27,7 @@ import com.gongmanse.app.model.ActionType
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,6 +40,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         private const val CATEGORY_ID : Int = Constants.GRADE_SORT_ID_ETC
     }
 
+    private val videoIds: MutableList<String> = mutableListOf()
     private lateinit var mRecyclerAdapter : HomeSubjectRVAdapter
     private lateinit var binding: FragmentEtcBinding
     private lateinit var scrollListener: EndlessRVScrollListener
@@ -59,6 +61,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         page = 0
         binding.rvVideo.removeAllViewsInLayout()
         mRecyclerAdapter.clear()
+        videoIds.clear()
         initView()
     }
 
@@ -68,6 +71,19 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_etc, container, false)
         initView()
         return binding.root
+    }
+
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
     }
 
     private fun initView() {
@@ -103,6 +119,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         listData.currentValue.observe(viewLifecycleOwner, Observer { it1->
             if (noteType == Constants.NOTE_TYPE_ETC) {
                 mRecyclerAdapter.clear()
+                videoIds.clear()
                 if(it1.size != 0){
                     mRecyclerAdapter.clear()
                     mRecyclerAdapter.addItems(it1)
@@ -247,6 +264,13 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
                             mRecyclerAdapter.addSortId(sortId)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
                             mRecyclerAdapter.addTotalAndType(temp ,Constants.NOTE_TYPE_ETC)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
+
                             isLoading = false
                         }
                     }
@@ -279,6 +303,13 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
                             mRecyclerAdapter.addType(Constants.QUERY_TYPE_ETC_PROBLEM)
                             mRecyclerAdapter.addItems(it as List<VideoData>)
                             mRecyclerAdapter.addSortId(Constants.CONTENT_RESPONSE_VALUE_SUBJECT)
+
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
+
                             isLoading = false
                         }
                         val temp = this.totalNum!!.toInt()
