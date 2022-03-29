@@ -261,6 +261,7 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
                                     videoIds.add(data.id!!)
                                 }
                                 binding.recyclerView.videoIds = videoIds
+                                binding.recyclerView.checkSmallItemList()
                             }
                         }
                         isLoading = false

@@ -141,11 +141,12 @@ class TeacherDetailActivity : AppCompatActivity() , SwipeRefreshLayout.OnRefresh
                                 videoIds.add(data.id!!)
                             }
                             binding.rvVideo.videoIds = videoIds
+                            binding.rvVideo.checkSmallItemList()
                         }
                         val temp: String = this!!.totalNum.toString()
                         temp.let{
                             val totalNum = temp.toInt()
-                            Log.d("item check" , "${totalNum}")
+                            Log.d("item check" , "$totalNum")
                             binding.tvVideoCount.totalNum = totalNum
                         }
                     }

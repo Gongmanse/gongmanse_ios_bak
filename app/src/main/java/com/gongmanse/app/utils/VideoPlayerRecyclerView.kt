@@ -162,6 +162,30 @@ class VideoPlayerRecyclerView : RecyclerView {
                 }
             }
         })
+
+        GBLog.i("TAG", "init done")
+    }
+
+    fun checkSmallItemList() {
+        // 스크롤이 불가한 적은 아이템인 경우 처리
+        val firstCompletePosition = (layoutManager as LinearLayoutManager?)!!.findFirstCompletelyVisibleItemPosition()
+        val lastCompletePosition = (layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+        val startPosition = (layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
+        val endPosition = (layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
+        GBLog.e("","================================" +
+                "\nfirstVisiblePosition : $startPosition\nfirstCompletePosition : $firstCompletePosition \nlastCompletePosition : $lastCompletePosition\nlastVisiblePosition : $endPosition")
+
+        if (startPosition < 0 || endPosition < 0) {
+            GBLog.e("", "something wrong")
+            return
+        }
+
+        if (startPosition == firstCompletePosition && endPosition == lastCompletePosition) {
+            Handler(Looper.getMainLooper()).postDelayed( {
+                GBLog.i("", "delayed play video")
+                playVideo(false)
+            }, 500)
+        }
     }
 
     private fun initPlayer() {

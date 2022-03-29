@@ -184,6 +184,7 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
                                 videoIds.add(data.id!!)
                             }
                             binding.rvVideo.videoIds = videoIds
+                            binding.rvVideo.checkSmallItemList()
                         }
                         this.totalNum?.let{
                             val temp = this.totalNum.toInt()

@@ -162,6 +162,7 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
                                         videoIds.add(data.id!!)
                                     }
                                     binding.rvVideo.videoIds = videoIds
+                                    binding.rvVideo.checkSmallItemList()
                                 }
                             } else {
                                 this.data?.let {
@@ -172,6 +173,7 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
                                         videoIds.add(data.id!!)
                                     }
                                     binding.rvVideo.videoIds = videoIds
+                                    binding.rvVideo.checkSmallItemList()
                                 }
                             }
 
