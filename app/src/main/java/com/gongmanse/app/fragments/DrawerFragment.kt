@@ -17,9 +17,7 @@ import com.gongmanse.app.activities.customer.CustomerServiceActivity
 import com.gongmanse.app.api.RetrofitClient
 import com.gongmanse.app.databinding.FragmentDrawerBinding
 import com.gongmanse.app.model.User
-import com.gongmanse.app.utils.Commons
-import com.gongmanse.app.utils.Constants
-import com.gongmanse.app.utils.Preferences
+import com.gongmanse.app.utils.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.intentFor
@@ -154,6 +152,12 @@ class DrawerFragment: Fragment() {
                 (context as MainActivity).updateGradeAndSubject()
                 binding.setVariable(BR.data, null)
 
+                // 로그아웃시 자동재생 관리
+                GBLog.i("TAG", "logout")
+                VideoPlayerRecyclerView.isGuest = Preferences.token.isEmpty() || !Commons.hasExpire()
+                if (VideoPlayerRecyclerView.isGuest) {
+                    VideoPlayerRecyclerView.stopVideo()
+                }
             }
         }.show()
     }

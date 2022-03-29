@@ -38,10 +38,9 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         getDeepLink()
         initView(savedInstanceState)
     }
-
     override fun onResume() {
         super.onResume()
-        VideoPlayerRecyclerView.isGuest = !Commons.hasExpire()
+        VideoPlayerRecyclerView.isGuest = Preferences.token.isEmpty() || !Commons.hasExpire()
     }
 
     private fun getDeepLink() {

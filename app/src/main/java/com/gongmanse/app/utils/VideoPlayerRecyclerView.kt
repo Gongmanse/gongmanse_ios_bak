@@ -1,6 +1,7 @@
 @file:Suppress("DEPRECATION")
 package com.gongmanse.app.utils
 
+import android.annotation.SuppressLint
 import com.gongmanse.app.R
 import android.app.Activity
 import android.content.Context
@@ -59,6 +60,7 @@ class VideoPlayerRecyclerView : RecyclerView {
             typedArray.recycle()
 
             isBestTab = isBest//use guest key. & has 2 headers.
+            startIdx = if (isBestTab) 2 else 0
         }
         initListener()
     }
@@ -68,6 +70,8 @@ class VideoPlayerRecyclerView : RecyclerView {
     private val client = VideoService.client
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var mInstance: VideoPlayerRecyclerView? = null
         private const val TRIM_ON_RESET = true // 할당 자 재설정시 메모리 해제 여부. 할당자가 여러 플레이어 인스턴스에서 재사용되지 않는 한 참이어야 합니다.
         private const val INDIVIDUAL_ALLOCATION_SIZE = 16 // 각 Allocation 의 길이
         private const val TARGET_BUFFER_BYTES = -1 // 대상 버퍼 크기 : 바이트 단위
@@ -79,6 +83,12 @@ class VideoPlayerRecyclerView : RecyclerView {
         var videoSeekTime:MutableMap<String, Long> = HashMap()
         private var hasSeekTime = false
         var isGuest = true
+        fun stopVideo() {
+            mInstance?.let {
+                if (!it.isBestTab)
+                    it.resetVideoView()
+            }
+        }
     }
 
     // ui
@@ -99,6 +109,7 @@ class VideoPlayerRecyclerView : RecyclerView {
     private var volumeState = VolumeState.OFF
     var videoIds: MutableList<String> = mutableListOf()
     private var isBestTab = false
+    private var startIdx = 2
     var isPiPOn = false
 
     private fun initListener() {
@@ -119,8 +130,12 @@ class VideoPlayerRecyclerView : RecyclerView {
                     if (!recyclerView.canScrollVertically(1)) {// when the end of the list has been reached.
                         playVideo(true)
                     } else if (!recyclerView.canScrollVertically(-1)) {// when the top of the list has been reached.
-                        GBLog.e("","scroll to Top. stop playing video.")
-                        resetVideoView()
+                        if (isBestTab) {
+                            GBLog.e("", "scroll to Top. stop playing video.")
+                            resetVideoView()
+                        } else {
+                            playVideo(false)
+                        }
                     } else {
                         playVideo(false)
                     }
@@ -191,7 +206,6 @@ class VideoPlayerRecyclerView : RecyclerView {
                         videoPlayer?.seekTo(0)
                         subtitleView?.text = ""
 
-                        val startIdx = if (isBestTab) 2 else 0
                         if ((playPosition - startIdx) < (videoIds.size - 1)) {//마지막 아이템 이전까지만 자동 스크롤 지원
                             scrollToItemTopPosition(playPosition + 1)
                         }
@@ -254,6 +268,7 @@ class VideoPlayerRecyclerView : RecyclerView {
 
     override fun onDetachedFromWindow() {
         GBLog.i("TAG", "onDetachedFromWindow")
+        mInstance = null
         super.onDetachedFromWindow()
     }
 
@@ -264,8 +279,6 @@ class VideoPlayerRecyclerView : RecyclerView {
         * startIdx : first visible position.
         * header 포함. 추천탭인 경우 첫번째 아이템 position 은 2.
         * */
-        val startIdx = if (isBestTab) 2 else 0
-
         if (!isEndOfList) {
             val firstCompletePosition = (layoutManager as LinearLayoutManager?)!!.findFirstCompletelyVisibleItemPosition()
             val lastCompletePosition = (layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
@@ -365,6 +378,7 @@ class VideoPlayerRecyclerView : RecyclerView {
 
 
         // init holder
+        mInstance = this
         viewHolderParent = holder.itemView
         frameLayout = holder.itemView.findViewById(R.id.fl_video_container)
         videoSurfaceView = holder.itemView.findViewById(R.id.player_view)
@@ -578,7 +592,8 @@ class VideoPlayerRecyclerView : RecyclerView {
         GBLog.d("TAG", "playPosition : $checkPosition, childY : $childY, nextChildY : $nextChildY")
 
         // 스크롤 방향에 따라 가려지는 playerView 의 비율이 다르기 때문에 각각 계산.
-        return if (checkPosition == playPosition) {
+        //
+        return if (checkPosition == startIdx || checkPosition == playPosition) {
             if (scrollToBot)
                 (childVisibleH * 1.6).toInt()// itemViewHeight 769 기준 상단 37% 가려진 시점
             else
@@ -606,6 +621,7 @@ class VideoPlayerRecyclerView : RecyclerView {
 
         playPosition = -1
         viewHolderParent = null
+        mInstance = null
     }
 
     fun pausePlayer() {
