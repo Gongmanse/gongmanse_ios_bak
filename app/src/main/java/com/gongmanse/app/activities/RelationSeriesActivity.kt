@@ -82,7 +82,9 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         binding.recyclerView.isPiPOn = true
     }
 
+    private var isFirst = true
     override fun onResume() {
+        GBLog.i("TAG","onResume")
         super.onResume()
         videoPlayer?.position?.let {
             if (it == -1L) {
@@ -91,6 +93,13 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
             } else {
                 resume()
             }
+        }
+
+        if (isFirst) {
+            binding.recyclerView.playFirstItem()
+            isFirst = false
+        } else {
+            binding.recyclerView.checkSmallItemList()
         }
     }
 
@@ -261,7 +270,6 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
                                     videoIds.add(data.id!!)
                                 }
                                 binding.recyclerView.videoIds = videoIds
-                                binding.recyclerView.checkSmallItemList()
                             }
                         }
                         isLoading = false

@@ -61,6 +61,18 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
         initView()
     }
 
+    private var isFirst = true
+    override fun onResume() {
+        GBLog.i("TAG","onResume")
+        super.onResume()
+        if (isFirst) {
+            binding.rvVideo.playFirstItem()
+            isFirst = false
+        } else {
+            binding.rvVideo.checkSmallItemList()
+        }
+    }
+
     override fun onPause() {
         GBLog.i("TAG","onPause")
         binding.rvVideo.pausePlayer()
@@ -184,7 +196,6 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
                                 videoIds.add(data.id!!)
                             }
                             binding.rvVideo.videoIds = videoIds
-                            binding.rvVideo.checkSmallItemList()
                         }
                         this.totalNum?.let{
                             val temp = this.totalNum.toInt()

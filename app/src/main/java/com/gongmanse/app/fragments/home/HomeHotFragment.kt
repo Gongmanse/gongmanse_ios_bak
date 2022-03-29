@@ -15,6 +15,7 @@ import com.gongmanse.app.R
 import com.gongmanse.app.adapter.home.HomeHotRVAdapter
 import com.gongmanse.app.api.RetrofitClient
 import com.gongmanse.app.databinding.FragmentHotBinding
+import com.gongmanse.app.fragments.HomeFragment
 import com.gongmanse.app.listeners.EndlessRVScrollListener
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
@@ -54,6 +55,16 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         initView()
         loadData()
         return binding.root
+    }
+
+    private var isFirst = true
+    override fun onResume() {
+        GBLog.i("TAG","onResume")
+        super.onResume()
+        if (isFirst) {
+            binding.rvVideo.playFirstItem()
+            isFirst = false
+        }
     }
 
     override fun onPause() {

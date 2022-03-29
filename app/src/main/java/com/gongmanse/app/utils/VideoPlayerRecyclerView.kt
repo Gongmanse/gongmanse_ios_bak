@@ -134,16 +134,16 @@ class VideoPlayerRecyclerView : RecyclerView {
                     }
 
                     if (!recyclerView.canScrollVertically(1)) {// when the end of the list has been reached.
-                        playVideo(true)
+                        playVideo(true, adapter!!.itemCount + (startIdx - 1))
                     } else if (!recyclerView.canScrollVertically(-1)) {// when the top of the list has been reached.
                         if (isBestTab) {
                             GBLog.e("", "scroll to Top. stop playing video.")
                             resetVideoView()
                         } else {
-                            playVideo(false)
+                            playVideo(true, 0)
                         }
                     } else {
-                        playVideo(false)
+                        playVideo(false, -1)
                     }
                 }
             }
@@ -166,7 +166,20 @@ class VideoPlayerRecyclerView : RecyclerView {
         GBLog.i("TAG", "init done")
     }
 
+    fun playFirstItem() {
+        if (isGuest) return
+
+        // 리스트가 화면에 보일때 최상단 아이템 재생 처리.
+        if (!canScrollVertically(-1)) {
+            Handler(Looper.getMainLooper()).postDelayed( {
+                GBLog.i("", "delayed play top video item")
+                playVideo(true, 0)
+            }, 500)
+        }
+    }
     fun checkSmallItemList() {
+        if (isGuest) return
+
         // 스크롤이 불가한 적은 아이템인 경우 처리
         val firstCompletePosition = (layoutManager as LinearLayoutManager?)!!.findFirstCompletelyVisibleItemPosition()
         val lastCompletePosition = (layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
@@ -183,7 +196,7 @@ class VideoPlayerRecyclerView : RecyclerView {
         if (startPosition == firstCompletePosition && endPosition == lastCompletePosition) {
             Handler(Looper.getMainLooper()).postDelayed( {
                 GBLog.i("", "delayed play video")
-                playVideo(false)
+                playVideo(false, 0)
             }, 500)
         }
     }
@@ -307,7 +320,7 @@ class VideoPlayerRecyclerView : RecyclerView {
         super.onDetachedFromWindow()
     }
 
-    fun playVideo(isEndOfList: Boolean) {
+    fun playVideo(isEndOfList: Boolean, setPosition: Int) {
         val targetPosition: Int
 
         /*
@@ -373,7 +386,7 @@ class VideoPlayerRecyclerView : RecyclerView {
                 }
             }
         } else {// 리스트 마지막 아이템 재생
-            targetPosition = adapter!!.itemCount + (startIdx - 1)
+            targetPosition = setPosition
         }
         GBLog.d("TAG", "playVideo: target position: $targetPosition")
 

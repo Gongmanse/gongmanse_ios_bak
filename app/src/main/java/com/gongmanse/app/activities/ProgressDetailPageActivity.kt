@@ -53,6 +53,18 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
 
     }
 
+    private var isFirst = true
+    override fun onResume() {
+        GBLog.i("TAG","onResume")
+        super.onResume()
+        if (isFirst) {
+            binding.rvVideo.playFirstItem()
+            isFirst = false
+        } else {
+            binding.rvVideo.checkSmallItemList()
+        }
+    }
+
     override fun onPause() {
         GBLog.i("TAG","onPause")
         binding.rvVideo.pausePlayer()
@@ -162,7 +174,6 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
                                         videoIds.add(data.id!!)
                                     }
                                     binding.rvVideo.videoIds = videoIds
-                                    binding.rvVideo.checkSmallItemList()
                                 }
                             } else {
                                 this.data?.let {
@@ -173,7 +184,6 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
                                         videoIds.add(data.id!!)
                                     }
                                     binding.rvVideo.videoIds = videoIds
-                                    binding.rvVideo.checkSmallItemList()
                                 }
                             }
 

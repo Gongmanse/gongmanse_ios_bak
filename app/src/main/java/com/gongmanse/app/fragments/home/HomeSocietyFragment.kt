@@ -18,6 +18,7 @@ import com.gongmanse.app.activities.MainActivity.Companion.listData
 import com.gongmanse.app.adapter.home.HomeSubjectRVAdapter
 import com.gongmanse.app.api.RetrofitClient
 import com.gongmanse.app.databinding.FragmentSocietyBinding
+import com.gongmanse.app.fragments.HomeFragment
 import com.gongmanse.app.fragments.sheet.SelectionSheet
 import com.gongmanse.app.fragments.sheet.SelectionSheetSpinner
 import com.gongmanse.app.listeners.EndlessRVScrollListener
@@ -81,6 +82,16 @@ class HomeSocietyFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, On
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_society, container, false)
         initView()
         return binding.root
+    }
+
+    private var isFirst = true
+    override fun onResume() {
+        GBLog.i("TAG","onResume")
+        super.onResume()
+        if (isFirst) {
+            binding.rvVideo.playFirstItem()
+            isFirst = false
+        }
     }
 
     override fun onPause() {

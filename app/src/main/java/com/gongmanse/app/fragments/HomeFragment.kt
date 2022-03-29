@@ -31,21 +31,26 @@ class HomeFragment : Fragment() {
         return mContext
     }
 
+    // 회면 복귀 시마다 재생할 경우 사용.
+//    public var resumed = false
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         GBLog.d(TAG, "HomeFragment:: hidden => $hidden")
+//        resumed = !hidden
 
-        if (hidden) {
-            mContext.view_pager.currentItem.let { idx ->
-                (mContext.view_pager.adapter as? HomeTabAdapter)?.let { adapter ->
-                    val currFragment = adapter.getItem(idx)
-                    GBLog.i(TAG, "currFragment.isResumed : ${currFragment.isResumed}")
-                    if (currFragment.isResumed) {
+        mContext.view_pager.currentItem.let { idx ->
+            (mContext.view_pager.adapter as? HomeTabAdapter)?.let { adapter ->
+                val currFragment = adapter.getItem(idx)
+                GBLog.i(TAG, "currFragment.isResumed : ${currFragment.isResumed}")
+                if (currFragment.isResumed) {
+                    if (hidden)
                         currFragment.onPause()
-                    }
+//                    else
+//                        currFragment.onResume()
                 }
             }
         }
+
     }
 
     private fun initView() {
