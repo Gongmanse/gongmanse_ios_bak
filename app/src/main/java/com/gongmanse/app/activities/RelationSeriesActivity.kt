@@ -68,6 +68,7 @@ class RelationSeriesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     override fun onRefresh() {
         mAdapter.clear()
         videoIds.clear()
+        binding.recyclerView.pausePlayer()
         initView()
         binding.layoutRefresh.isRefreshing = false
     }

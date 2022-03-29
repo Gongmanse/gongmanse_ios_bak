@@ -111,6 +111,7 @@ class VideoPlayerRecyclerView : RecyclerView {
     private var isBestTab = false
     private var startIdx = 2
     var isPiPOn = false
+    var isAutoPlayOff = false
 
     private fun initListener() {
         addOnScrollListener(object : OnScrollListener() {
@@ -124,6 +125,11 @@ class VideoPlayerRecyclerView : RecyclerView {
 
                     if (isPiPOn) {
                         GBLog.e("", "isPipOn : $isPiPOn")
+                        return
+                    }
+
+                    if (isAutoPlayOff) {// 홈 > 국영수, 과학, 사회, 기타 탭에서 시리스&노트 보기 상태인 경우 자동재생 동작하지 않도록
+                        GBLog.e("", "isAutoPlayOff : $isAutoPlayOff")
                         return
                     }
 
@@ -206,8 +212,13 @@ class VideoPlayerRecyclerView : RecyclerView {
                         videoPlayer?.seekTo(0)
                         subtitleView?.text = ""
 
+                        val currPos = playPosition - startIdx
+                        GBLog.d("TAG", "Video ended. : currPos : $currPos, videoSize : ${videoIds.size}")
                         if ((playPosition - startIdx) < (videoIds.size - 1)) {//마지막 아이템 이전까지만 자동 스크롤 지원
                             scrollToItemTopPosition(playPosition + 1)
+                        } else {
+                            GBLog.i("", "lastItem end")
+                            resetVideoView()
                         }
                     }
                     Player.STATE_IDLE -> {

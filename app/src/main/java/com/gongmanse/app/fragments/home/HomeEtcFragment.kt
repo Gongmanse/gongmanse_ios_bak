@@ -62,6 +62,18 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
         binding.rvVideo.removeAllViewsInLayout()
         mRecyclerAdapter.clear()
         videoIds.clear()
+        binding.rvVideo.pausePlayer()
+
+        // 강의 타입 선택 시 자동재생 관리
+        when (selectView) {
+            Constants.CONTENT_VALUE_ALL, Constants.CONTENT_VALUE_PROBLEM -> {
+                binding.rvVideo.isAutoPlayOff = false
+            }
+            Constants.CONTENT_VALUE_SERIES, Constants.CONTENT_VALUE_NOTE -> {
+                binding.rvVideo.isAutoPlayOff = true
+            }
+        }
+
         initView()
     }
 
@@ -120,6 +132,7 @@ class HomeEtcFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnBott
             if (noteType == Constants.NOTE_TYPE_ETC) {
                 mRecyclerAdapter.clear()
                 videoIds.clear()
+                binding.rvVideo.pausePlayer()
                 if(it1.size != 0){
                     mRecyclerAdapter.clear()
                     mRecyclerAdapter.addItems(it1)

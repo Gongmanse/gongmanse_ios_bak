@@ -14,12 +14,11 @@ import com.gongmanse.app.R
 import com.gongmanse.app.adapter.home.HomeSeriesRVAdapter
 import com.gongmanse.app.api.RetrofitClient
 import com.gongmanse.app.databinding.ActivitySeriesListBinding
-import com.gongmanse.app.fragments.home.HomeEtcFragment
-import com.gongmanse.app.fragments.home.HomeKEMFragment
 import com.gongmanse.app.listeners.EndlessRVScrollListener
 import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.model.VideoList
 import com.gongmanse.app.utils.Constants
+import com.gongmanse.app.utils.GBLog
 import kotlinx.android.synthetic.main.activity_teacher_detail.*
 import kotlinx.android.synthetic.main.layout_video_header.view.*
 import org.jetbrains.anko.textColor
@@ -32,7 +31,7 @@ import kotlin.properties.Delegates
 class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
-        private val TAG = HomeKEMFragment::class.java.simpleName
+        private val TAG = SeriesListActivity::class.java.simpleName
     }
 
     private val mRecyclerAdapter by lazy { HomeSeriesRVAdapter() }
@@ -42,7 +41,7 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
     private var page = 0
     private var seriesId by Delegates.notNull<Int>()
     private val isChecked = false
-
+    private val videoIds: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +56,22 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
         page = 0
         binding.rvVideo.removeAllViewsInLayout()
         mRecyclerAdapter.clear()
+        videoIds.clear()
+        binding.rvVideo.pausePlayer()
         initView()
+    }
+
+    override fun onPause() {
+        GBLog.i("TAG","onPause")
+        binding.rvVideo.pausePlayer()
+
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        GBLog.i("TAG","onDestroy")
+        binding.rvVideo.releasePlayer()
+        super.onDestroy()
     }
 
     private fun initView() {
@@ -165,6 +179,11 @@ class SeriesListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshList
                     response.body()?.apply {
                         this.data.let{
                             mRecyclerAdapter.addItems(it as List<VideoData>,id)
+                            // set recyclerView's videoIds
+                            it.map { data ->
+                                videoIds.add(data.id!!)
+                            }
+                            binding.rvVideo.videoIds = videoIds
                         }
                         this.totalNum?.let{
                             val temp = this.totalNum.toInt()

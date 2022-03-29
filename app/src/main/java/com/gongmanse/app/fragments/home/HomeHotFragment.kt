@@ -44,6 +44,7 @@ class HomeHotFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         Log.d(TAG, "HotFragment:: onRefresh()")
         mRecyclerAdapter.clear()
         videoIds.clear()
+        binding.rvVideo.pausePlayer()
         prepareData()
         binding.refreshLayout.isRefreshing = false
     }

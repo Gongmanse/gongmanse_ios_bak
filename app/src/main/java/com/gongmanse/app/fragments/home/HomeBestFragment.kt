@@ -72,6 +72,7 @@ class HomeBestFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.refreshLayout.isRefreshing = false
         mViewpagerAdapter.clear()
         videoIds.clear()
+        binding.rvVideo.pausePlayer()
         prepareData()
     }
 

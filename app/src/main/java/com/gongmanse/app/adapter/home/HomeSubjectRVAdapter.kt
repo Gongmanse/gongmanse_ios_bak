@@ -214,8 +214,9 @@ class HomeSubjectRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
         fun bind(data : VideoData, listener: View.OnClickListener){
             binding.apply {
                 this.data = data
-                layoutItems.setOnClickListener(listener)
-                ivQuickVideo.setOnClickListener(listener)
+//                layoutItems.setOnClickListener(listener)
+//                ivQuickVideo.setOnClickListener(listener)
+                itemView.setOnClickListener(listener)
             }
         }
     }

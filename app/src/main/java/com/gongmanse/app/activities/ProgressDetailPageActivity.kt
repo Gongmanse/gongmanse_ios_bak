@@ -71,6 +71,7 @@ class ProgressDetailPageActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
         binding.refreshLayout.isRefreshing = false
         mAdapter.clear()
         videoIds.clear()
+        binding.rvVideo.pausePlayer()
         prepareData()
     }
 
