@@ -686,7 +686,7 @@ extension LecturePlaylistVC: UICollectionViewDelegate, UICollectionViewDataSourc
                     
 //                    let layout = UICollectionViewFlowLayout()
 //                    vc.collectionViewLayout = layout
-                    vc.modalPresentationStyle = .fullScreen
+//                    vc.modalPresentationStyle = .fullScreen
                     mainTabVC.present(mainTabVC2, animated: false) {
                         mainTabVC2.present(vc, animated: true)
                     }

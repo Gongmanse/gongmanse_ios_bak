@@ -690,6 +690,16 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
             UIView.animate(withDuration: 0.4) { [weak self] in
                 self?.view.frame = CGRect(x:positionX, y:0, width:width, height:height)
                 if positionX == width {
+                    if let this = self {
+                        NotificationCenter.default.removeObserver(this)
+                        this.setRemoveNotification()
+                        this.removePeriodicTimeObserver()
+                        this.videoDataManager.isFirstPlayVideo = true
+                        this.videoDataManager.removeVideoLastLog()
+                    }
+                    
+                    PIPDataManager.shared.currentVideoTime = 0
+                    
                     self?.dismiss(animated: false, completion: nil)
                 }
             }

@@ -285,7 +285,7 @@ extension SearchVideoVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 
                 vc.id = receviedVideoID
                 
-                vc.modalPresentationStyle = .fullScreen
+                vc.modalPresentationStyle = .overFullScreen
                 present(vc, animated: true)
                 return
             }
