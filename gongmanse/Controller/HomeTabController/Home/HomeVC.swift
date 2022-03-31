@@ -81,6 +81,11 @@ class HomeVC: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        print("HomeVC viewDidDisappear")
+        Constant.delegate = nil
+    }
+    
     func addBottomBorder() {
         let thickness: CGFloat = 0.5
        let bottomBorder = CALayer()

@@ -111,7 +111,7 @@ class KoreanEnglishMathVC: UIViewController, BottomPopupDelegate, subjectVideoLi
         print("KoreanEnglishMathVC viewDidAppear")
         isGuest = Constant.isLogin == false || Constant.remainPremiumDateInt == nil
         if isGuest { print("isGuest") }
-        
+        Constant.delegate = self
 
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 //            let currY = self.koreanEnglishMathCollection.contentOffset.y
@@ -1002,3 +1002,12 @@ extension KoreanEnglishMathVC: AutoPlayDelegate {
     }
 }
 
+extension KoreanEnglishMathVC: LoginStatusChecker {
+    func logout() {
+        isGuest = true
+        print("KoreanEnglishMathVC logout... current visibleIP : \(String(describing: visibleIP))")
+        if let _ = visibleIP {
+            stopCurrentVideoCell()
+        }
+    }
+}

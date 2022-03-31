@@ -66,7 +66,7 @@ class PopularVC: UIViewController {
         print("PopularVC viewDidAppear")
         isGuest = Constant.isLogin == false || Constant.remainPremiumDateInt == nil
         if isGuest { print("isGuest") }
-        
+        Constant.delegate = self
 
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 //            let currY = self.popularCollection.contentOffset.y
@@ -539,6 +539,16 @@ extension PopularVC: AutoPlayDelegate {
             popularCollection.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
         } else {
             print("is last item")
+        }
+    }
+}
+
+extension PopularVC: LoginStatusChecker {
+    func logout() {
+        isGuest = true
+        print("PopularVC logout... current visibleIP : \(String(describing: visibleIP))")
+        if let _ = visibleIP {
+            stopCurrentVideoCell()
         }
     }
 }

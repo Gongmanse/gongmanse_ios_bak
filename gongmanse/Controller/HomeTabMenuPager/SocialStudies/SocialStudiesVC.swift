@@ -109,6 +109,7 @@ class SocialStudiesVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         print("SocialStudiesVC viewDidAppear")
         isGuest = Constant.isLogin == false || Constant.remainPremiumDateInt == nil
         if isGuest { print("isGuest") }
+        Constant.delegate = self
     }
     private func startFirstVideoCell(ip: IndexPath) {
         if visibleIP?.item != ip.item {// 재생중인 파일 비교
@@ -936,6 +937,16 @@ extension SocialStudiesVC: AutoPlayDelegate {
             socialStudiesCollection.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
         } else {
             print("is last item")
+        }
+    }
+}
+
+extension SocialStudiesVC: LoginStatusChecker {
+    func logout() {
+        isGuest = true
+        print("SocialStudiesVC logout... current visibleIP : \(String(describing: visibleIP))")
+        if let _ = visibleIP {
+            stopCurrentVideoCell()
         }
     }
 }

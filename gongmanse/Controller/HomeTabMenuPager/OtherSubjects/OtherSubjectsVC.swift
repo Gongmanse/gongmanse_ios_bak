@@ -109,6 +109,7 @@ class OtherSubjectsVC: UIViewController, BottomPopupDelegate, subjectVideoListIn
         print("OtherSubjectsVC viewDidAppear")
         isGuest = Constant.isLogin == false || Constant.remainPremiumDateInt == nil
         if isGuest { print("isGuest") }
+        Constant.delegate = self
     }
     private func startFirstVideoCell(ip: IndexPath) {
         if visibleIP?.item != ip.item {// 재생중인 파일 비교
@@ -957,6 +958,16 @@ extension OtherSubjectsVC: AutoPlayDelegate {
             otherSubjectsCollection.scrollToItem(at: indexPath, at: [.centeredVertically, .centeredHorizontally], animated: true)
         } else {
             print("is last item")
+        }
+    }
+}
+
+extension OtherSubjectsVC: LoginStatusChecker {
+    func logout() {
+        isGuest = true
+        print("OtherSubjectsVC logout... current visibleIP : \(String(describing: visibleIP))")
+        if let _ = visibleIP {
+            stopCurrentVideoCell()
         }
     }
 }

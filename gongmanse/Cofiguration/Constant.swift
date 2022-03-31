@@ -16,7 +16,9 @@ struct Constant {
 //    static let GONGMANSE_BASE_URL = ""
     
     static var userID: String = ""
-    static var token: String = ""
+    static var token: String = "" {
+        didSet { if (token.count < 4) { delegate?.logout() } }
+    }
     static var refreshToken: String = "" {
         didSet {
             /**
@@ -95,6 +97,7 @@ struct Constant {
         으로 합니다.
         """
     
+    static var delegate:LoginStatusChecker? = nil
 }
 
 enum SortedIndex {
@@ -162,3 +165,7 @@ func dateStringToDate(_ dateString: String) -> Date {
 }
 
 var buttonFontSize:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 13 : 12
+
+protocol LoginStatusChecker {
+    func logout()
+}
