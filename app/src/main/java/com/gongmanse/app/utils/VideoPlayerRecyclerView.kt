@@ -167,7 +167,7 @@ class VideoPlayerRecyclerView : RecyclerView {
     }
 
     fun playFirstItem() {
-        if (isGuest) return
+        if (isGuest || isPiPOn || isAutoPlayOff) return
 
         // 리스트가 화면에 보일때 최상단 아이템 재생 처리.
         if (!canScrollVertically(-1)) {
@@ -178,7 +178,7 @@ class VideoPlayerRecyclerView : RecyclerView {
         }
     }
     fun checkSmallItemList() {
-        if (isGuest) return
+        if (isGuest || isPiPOn || isAutoPlayOff) return
 
         // 스크롤이 불가한 적은 아이템인 경우 처리
         val firstCompletePosition = (layoutManager as LinearLayoutManager?)!!.findFirstCompletelyVisibleItemPosition()
