@@ -17,6 +17,7 @@ extension UIColor {
     static let redPenColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
     static let greenPenColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
     static let bluePenColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
+    static let eraserColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
     
     // 1:1문의
     static let gray200Color = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)

@@ -275,7 +275,8 @@ class LessonNoteController: UIViewController {
         let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "eraserOff"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "eraserOn"), for: .selected)
-        button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(handleUndo), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleColorChange), for: .touchUpInside)
         return button
     }()
     
@@ -416,6 +417,8 @@ class LessonNoteController: UIViewController {
             pencilColor = #colorLiteral(red: 0.2518872917, green: 0.6477053165, blue: 0.3158096969, alpha: 1)
         case blueButton:
             pencilColor = #colorLiteral(red: 0.07627140731, green: 0.6886936426, blue: 0.6746042967, alpha: 1)
+        case clearButton:
+            pencilColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         default:
             pencilColor = #colorLiteral(red: 0.7536085248, green: 0.2732567191, blue: 0.3757801056, alpha: 1)
         }
@@ -1113,6 +1116,8 @@ extension LessonNoteController {
                         penColor = .greenPenColor
                     case "#29b3df":
                         penColor = .bluePenColor
+                    case "transparent":
+                        penColor = .eraserColor
                     default:
                         penColor = .redPenColor
                     }
@@ -1252,6 +1257,8 @@ extension LessonNoteController: CanvasDelegate {
                 tempColorString = "#a7c645"
             case .bluePenColor:
                 tempColorString = "#29b3df"
+            case .eraserColor:
+                tempColorString = "transparent"
             default:
                 tempColorString = "#d82579"
             }
@@ -1262,7 +1269,13 @@ extension LessonNoteController: CanvasDelegate {
         // 그러므로 하나의 String에 하나의 색상에 다수의 x,y좌표를 입력한다.
         for (i, p) in points.enumerated() {
             // "strokes" String에 x,y 좌표값과 color를 String으로 입력한다.
-            let strokes: String = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.004514673,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            let strokes: String
+            if uiColor2StringColorArr[i] == "transparent" {
+                strokes = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.06772009,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            } else {
+                strokes = "{\"points\":[\(String(p.dropLast(1)))],\"color\":\"\(uiColor2StringColorArr[i])\",\"size\":0.004514673,\"cap\":\"round\",\"join\":\"round\",\"miterLimit\":10}"
+            }
+
             
             // tempArr에 {points: 다수의 x,y좌표값들, color: 한개의 색상 ...} 의 구조 구성요소를 가지며
             // 이러한 구성요소를 배열의 형태로 저장하고 있다.

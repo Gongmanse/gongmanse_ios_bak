@@ -108,8 +108,15 @@ class Canvas: UIView {
         
         lines.forEach { line in
             context.setStrokeColor(line.color.cgColor)
-            context.setLineWidth(CGFloat(line.strokeWidth))
             context.setLineCap(.round)
+            if line.color == UIColor.eraserColor {
+                context.setBlendMode(.clear)
+                // line size 가 2로 고정되어 지우개 비율 맞춰서 크기 조정
+                context.setLineWidth(CGFloat(line.strokeWidth * 15))
+            } else {
+                context.setBlendMode(.normal)
+                context.setLineWidth(CGFloat(line.strokeWidth))
+            }
             
             for (i, p) in line.points.enumerated() {
                 let p1 = CGPoint(x: p.x * CGFloat(mWidth ?? 1), y: p.y * CGFloat(mHeight ?? 1))
