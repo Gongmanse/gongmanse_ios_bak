@@ -259,6 +259,14 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
         //UserDefaults.standard.removeObject(forKey: "refresh_token")
         let alert = UIAlertController(title: nil, message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
+            //FirebaseToken Update, logout
+//            let token = Constant.token
+//            EditingProfileDataManager().getUserId(token, "logout. init fcm_token.")
+            let fcm_token = (UserDefaults.standard.object(forKey: "fcm_token") as? String) ?? ""
+            if !fcm_token.isEmpty {
+                EditingProfileDataManager().registerFcmToken(fcm_token, "logout")
+            }
+            
             Constant.token = ""
 //            Constant.remainPremiumDateInt = nil
             
@@ -273,8 +281,8 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
             autoPlayDataManager.videoDataList.removeAll()
             autoPlayDataManager.videoSeriesDataList.removeAll()
             
-            let loginData = LoginDataManager()
-            loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
+//            let loginData = LoginDataManager()
+//            loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
             self.tableView.reloadData()
         }))
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
