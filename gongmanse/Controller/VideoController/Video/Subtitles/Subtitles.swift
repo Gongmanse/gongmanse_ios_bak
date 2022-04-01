@@ -168,7 +168,7 @@ public class Subtitles : NSObject {
         }
     }
 
-    
+    static var currentText = ""
     static func searchSubtitles(_ payload: NSDictionary?, _ time: TimeInterval) -> String? {
         
         let predicate = NSPredicate(format: "(%f >= %K) AND (%f <= %K)", time, "from", time, "to")
@@ -181,6 +181,11 @@ public class Subtitles : NSObject {
             return nil
         }
         
+        guard currentText != text else {
+            return nil
+        }
+        print("set new subtitle text")
+        currentText = text
         return text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
     }

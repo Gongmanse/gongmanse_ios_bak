@@ -696,7 +696,7 @@ extension VideoFullScreenController: AVPlayerViewControllerDelegate {
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.timeObserverToken = self.player.addPeriodicTimeObserver(
-            forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1),// 확인 주기 변경
+            forInterval: CMTimeMake(value: 1, timescale: 60),// 자막 갱신 확인 주기
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
                 guard let strongSelf = self else { return }

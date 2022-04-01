@@ -328,8 +328,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
         
         // "forInterval"의 시간마다 코드로직을 실행한다.
         self.timeObserverToken = player.addPeriodicTimeObserver(
-//            forInterval: CMTimeMake(value: 1, timescale: 60),
-            forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1),// 확인 주기 변경
+            forInterval: CMTimeMake(value: 1, timescale: 60),
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
                 guard let strongSelf = self else { return }
@@ -360,9 +359,7 @@ extension VideoController: AVPlayerViewControllerDelegate {
                 
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload,
-                                                                time.seconds)
-                {
-//                    print("subtitleText : \(subtitleText)")// html tag 포함.
+                                                                time.seconds) {                    
                     /// 슬라이싱한 최종결과를 저장할 프로퍼티
                     var subtitleFinal = String()
                     /// 태그의 개수를 파악하기 위해 정규표현식을 적용한 string 프로퍼티

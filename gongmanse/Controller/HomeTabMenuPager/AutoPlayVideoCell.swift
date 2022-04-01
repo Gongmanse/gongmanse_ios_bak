@@ -403,7 +403,7 @@ class AutoPlayVideoCell: UICollectionViewCell {
     
     func addPeriodicTimeObserver() {
         self.timeObserverToken = avPlayer?.addPeriodicTimeObserver(
-            forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1),// 확인 주기 변경
+            forInterval: CMTimeMake(value: 1, timescale: 60),// 자막 갱신 확인 주기
             queue: DispatchQueue.main,
             using: { [weak self] (time) -> Void in
                 guard let strongSelf = self else { return }
@@ -418,11 +418,9 @@ class AutoPlayVideoCell: UICollectionViewCell {
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 // 22.03.02 하이라이트 데이터 설정 오류로 일단 효과 제거 후 자막사용
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload, time.seconds)?.replacingOccurrences(of: "ffff00", with: "ffffff") {
-//                    print("subtitleText : \(subtitleText)")// html tag 포함.
                     
                     // load HTML String
                     if subtitleText.contains("#") {
-//                        print("has hashTag")
                         label.attributedText = subtitleText.htmlAttributedString(font: UIFont.appBoldFontWith(size: strongSelf.subtitleFontSize))
                         
                         // 자막이 필터링된 값 중 "#"가 있는 keyword를 찾아서 텍스트 속성부여 + gesture를 추가기위해 if절 로직을 실행한다.
