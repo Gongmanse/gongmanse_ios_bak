@@ -18,6 +18,7 @@ import com.gongmanse.app.api.RetrofitClient
 import com.gongmanse.app.databinding.FragmentDrawerBinding
 import com.gongmanse.app.model.User
 import com.gongmanse.app.utils.*
+import okhttp3.ResponseBody
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.intentFor
@@ -158,8 +159,28 @@ class DrawerFragment: Fragment() {
                 if (VideoPlayerRecyclerView.isGuest) {
                     VideoPlayerRecyclerView.stopVideo()
                 }
+
+                // 로그아웃시 푸시토큰 관리
+                val token = Preferences.fcmToken
+                sendTokenToServer("logout", token)
             }
         }.show()
+    }
+
+    private fun sendTokenToServer(userId: String, token: String) {
+        RetrofitClient.getService().registerFcmToken(token, userId, "Android").enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.v(TAG, "Failed API call with call : $call\nexception : $t")
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.v(TAG, "response body => ${response.body()}")
+                } else {
+                    Log.v(TAG, "Failed API code : ${response.code()}\n message : ${response.message()}")
+                }
+            }
+        })
     }
 
     // 메뉴 초기화
