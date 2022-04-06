@@ -117,6 +117,17 @@ class VideoPlayerRecyclerView : RecyclerView {
         addOnScrollListener(object : OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+                if (isBestTab && newState == SCROLL_STATE_DRAGGING && playPosition == -1) {
+                    // 추천탭 첫번째 아이템 재생 로직 수정. 스크롤 시작할 때 재생아이템이 없는 경우.
+                    val firstCompletePosition = (layoutManager as LinearLayoutManager?)!!.findFirstCompletelyVisibleItemPosition()
+                    GBLog.v("TAG", "firstCompletePosition : $firstCompletePosition")
+                    if (firstCompletePosition < startIdx) {
+                        GBLog.v("TAG", "playVideo startIdx ")
+                        playVideo(true, startIdx)
+                    }
+                    return
+                }
+
                 if (newState == SCROLL_STATE_IDLE) {// 스크롤이 멈춘 이후에 재생 관리...
                     if (!isBestTab && isGuest) {
                         GBLog.e("", "isGuest : $isGuest")
