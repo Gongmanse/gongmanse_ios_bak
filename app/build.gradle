@@ -22,8 +22,8 @@ android {
         applicationId "com.gongmanse.app"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2270
-        versionName "2.2.7"
+        versionCode 2281
+        versionName "2.2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //aab 파일명 설정
         setProperty("archivesBaseName", "Gongmanse" + "_V" + versionName)
