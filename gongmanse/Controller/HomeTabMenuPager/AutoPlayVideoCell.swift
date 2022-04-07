@@ -246,7 +246,19 @@ class AutoPlayVideoCell: UICollectionViewCell {
         
         videoAreaView.isHidden = false
         
+        // locked when user controll finish.
         requestDelayTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.waitDelay), userInfo: nil, repeats: false)
+    }
+    
+    func startNow(_ seekTime: CMTime?){
+        if !videoAreaView.isHidden { return }
+        
+        print("=================startNow=============\(String(describing: videoID))")
+        
+        // request video url
+        self.seekTime = seekTime
+        videoAreaView.isHidden = false
+        requestVideoUrl()
     }
 
     @objc func waitDelay() {
@@ -332,12 +344,13 @@ class AutoPlayVideoCell: UICollectionViewCell {
         setupMoviePlayer()
         
         videoPlayerItem = AVPlayerItem(url: url)
-        var duration = CMTime()
-        if let playerItem = videoPlayerItem {
-            duration = playerItem.asset.duration
-        }
-        let endSeconds: Float64 = CMTimeGetSeconds(duration)
-        timeSlider.maximumValue = Float(endSeconds)
+        setDuration = false
+//        var duration = CMTime()
+//        if let playerItem = videoPlayerItem {
+//            duration = playerItem.asset.duration
+//        }
+//        let endSeconds: Float64 = CMTimeGetSeconds(duration)
+        timeSlider.maximumValue = 180//Float(endSeconds)
         timeSlider.minimumValue = 0
         timeSlider.isContinuous = true
         timeSlider.addTarget(self, action: #selector(timeSliderValueChanged),
@@ -401,6 +414,7 @@ class AutoPlayVideoCell: UICollectionViewCell {
         isAudioMute.toggle()
     }
     
+    private var setDuration = false
     func addPeriodicTimeObserver() {
         self.timeObserverToken = avPlayer?.addPeriodicTimeObserver(
             forInterval: CMTimeMake(value: 1, timescale: 60),// 자막 갱신 확인 주기
@@ -418,6 +432,17 @@ class AutoPlayVideoCell: UICollectionViewCell {
                 // "Subtitles"에서 (자막의 시간만)필터링한 자막값을 옵셔널언랩핑한다.
                 // 22.03.02 하이라이트 데이터 설정 오류로 일단 효과 제거 후 자막사용
                 if let subtitleText = Subtitles.searchSubtitles(strongSelf.subtitles.parsedPayload, time.seconds)?.replacingOccurrences(of: "ffff00", with: "ffffff") {
+                    
+                    if !strongSelf.setDuration {
+                        print("strongSelf.setDuration")
+                        strongSelf.setDuration = true
+                        var duration = CMTime()
+                        if let playerItem = strongSelf.videoPlayerItem {
+                            duration = playerItem.asset.duration
+                        }
+                        let endSeconds: Float64 = CMTimeGetSeconds(duration)
+                        strongSelf.timeSlider.maximumValue = Float(endSeconds)
+                    }
                     
                     // load HTML String
                     if subtitleText.contains("#") {

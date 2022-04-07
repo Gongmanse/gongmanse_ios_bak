@@ -184,7 +184,7 @@ public class Subtitles : NSObject {
         guard currentText != text else {
             return nil
         }
-        print("set new subtitle text")
+//        print("set new subtitle text")
         currentText = text
         return text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         

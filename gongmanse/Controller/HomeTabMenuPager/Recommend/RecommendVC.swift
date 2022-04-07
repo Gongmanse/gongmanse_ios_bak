@@ -287,17 +287,11 @@ extension RecommendVC: UICollectionViewDataSource {
         let cellCount = cells.count
         if cellCount == 0 { return }
         
-        // 최상단으로 스크롤된 경우 첫번째 아이템 재생 중지
+        // 최상단으로 스크롤된 경우 재생 중지
         if scrollView.contentOffset.y == 0 {
-            print("stopPlayback")
-            if let videoCell = cells[0] as? RecommendCVCell {
-                if visibleIP != nil {
-                    let seekTime = videoCell.avPlayer?.currentItem?.currentTime()
-                    if seekTime?.seconds ?? 0 > 0 {
-                        seekTimes[videoCell.videoID] = seekTime
-                    }
-                    videoCell.stopPlayback(isEnded: false)
-                }
+            if visibleIP != nil {
+                print("stopPlayback")
+                stopCurrentVideoCell()
             }
             return
         }
@@ -339,10 +333,13 @@ extension RecommendVC: UICollectionViewDataSource {
         if cellCount >= 2 {
             // 아이템 재생위치 계산
             if visibleIP == nil {
-                if headerH < scrollView.contentOffset.y {
-                    print("play first item")
-                    let videoCell = cells[0] as! RecommendCVCell
-                    visibleIP = indexPaths[0]
+                let videoCell = cells[0] as! RecommendCVCell
+                visibleIP = indexPaths[0]
+                print("play first item")
+                // 1번쨰 아이템이 보이는 동안에는 스크롤 중에도 재생될 수 있도록 수정. 
+                if 0 < scrollView.contentOffset.y && scrollView.contentOffset.y < (headerH + videoCell.frame.height) {
+                    videoCell.startNow(seekTimes[videoCell.videoID])
+                } else {
                     videoCell.startPlayback(seekTimes[videoCell.videoID])
                 }
             } else {
