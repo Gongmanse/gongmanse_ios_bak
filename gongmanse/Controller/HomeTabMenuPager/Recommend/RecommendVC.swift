@@ -77,12 +77,12 @@ class RecommendVC: UIViewController {
         visibleIP = nil
     }
     
-    var headerH: CGFloat!
-    override func viewDidLayoutSubviews() {
-        // 라벨 제외한 헤더 영역 사이즈 계산
-        headerH = (233 + 10) / 414 * view.frame.width
-        print("headerH : \(String(describing: headerH))")
-    }
+//    var headerH: CGFloat!
+//    override func viewDidLayoutSubviews() {
+//        // 라벨 제외한 헤더 영역 사이즈 계산
+//        headerH = (233 + 10) / 414 * view.frame.width
+//        print("headerH : \(String(describing: headerH))")
+//    }
     
     //API
     var default1 = 0
@@ -336,8 +336,8 @@ extension RecommendVC: UICollectionViewDataSource {
                 let videoCell = cells[0] as! RecommendCVCell
                 visibleIP = indexPaths[0]
                 print("play first item")
-                // 1번쨰 아이템이 보이는 동안에는 스크롤 중에도 재생될 수 있도록 수정. 
-                if 0 < scrollView.contentOffset.y && scrollView.contentOffset.y < (headerH + videoCell.frame.height) {
+                // 1번쨰 아이템이 보이는 동안에는 스크롤 중에도 재생될 수 있도록 수정.
+                if 0 < scrollView.contentOffset.y && scrollView.contentOffset.y < videoCell.frame.height * 2 {
                     videoCell.startNow(seekTimes[videoCell.videoID])
                 } else {
                     videoCell.startPlayback(seekTimes[videoCell.videoID])
@@ -407,6 +407,19 @@ extension RecommendVC: UICollectionViewDataSource {
                     visibleIP = indexPath
                     let afterVideoCell = (recommendCollection.cellForItem(at: visibleIP!) as! RecommendCVCell)
                     afterVideoCell.startPlayback(seekTimes[afterVideoCell.videoID])
+                }
+            }
+        } else {
+            // 패드에서 이용 시 아이템이 하나만 보일 경우 처리. 최상단 위치..
+            if visibleIP == nil {
+                let videoCell = cells[0] as! RecommendCVCell
+                visibleIP = indexPaths[0]
+                print("play first item")
+                // 1번쨰 아이템이 보이는 동안에는 스크롤 중에도 재생될 수 있도록 수정.
+                if 0 < scrollView.contentOffset.y && scrollView.contentOffset.y < videoCell.frame.height * 2 {
+                    videoCell.startNow(seekTimes[videoCell.videoID])
+                } else {
+                    videoCell.startPlayback(seekTimes[videoCell.videoID])
                 }
             }
         }
