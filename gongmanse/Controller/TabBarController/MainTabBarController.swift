@@ -29,6 +29,23 @@ class MainTabBarController: UITabBarController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        // check popup visibility
+        if let popupDate = UserDefaults.standard.string(forKey: "popup") {
+            let dateformatter: DateFormatter = DateFormatter()
+            dateformatter.dateFormat = "yyyy-MM-dd"
+            let dateString = dateformatter.string(from: Date())
+            
+            print("performSegue currDate : \(dateString), noShow date : \(popupDate)")
+            if popupDate == dateString {
+                return
+            }
+        } else {
+            print("performSegue popupNotice")
+        }
+        performSegue(withIdentifier: "popupNotice", sender: nil)
+    }
+    
     func setupStyle() {
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 12)

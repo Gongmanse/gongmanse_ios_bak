@@ -481,10 +481,11 @@
 		C2F22746261E9EB600559065 /* SubjectListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F22744261E9EB600559065 /* SubjectListCell.xib */; };
 		C2F2274A261EA02900559065 /* GradeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F22748261EA02900559065 /* GradeListCell.swift */; };
 		C2F2274B261EA02900559065 /* GradeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2F22749261EA02900559065 /* GradeListCell.xib */; };
-		F060FEBA2794F4AA003481A3 /* launcher_img.png in Resources */ = {isa = PBXBuildFile; fileRef = F060FEB92794F4AA003481A3 /* launcher_img.png */; };
 		F064A48C27604F75006FDCA6 /* FindEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F064A48B27604F75006FDCA6 /* FindEntity.swift */; };
 		F0AED47B274B7D9B00C6FEDA /* PurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */; };
 		F0AF222F27BCB36600BC1EF0 /* OnboardingIntroCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */; };
+		F0B4ACFF2803F08D001DCF8C /* launcher_img1.png in Resources */ = {isa = PBXBuildFile; fileRef = F0B4ACFE2803F08D001DCF8C /* launcher_img1.png */; };
+		F0B4AD012803F970001DCF8C /* PopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B4AD002803F970001DCF8C /* PopupVC.swift */; };
 		F0BF7DFA27C60F02008CA9BC /* AutoPlayVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BF7DF927C60F02008CA9BC /* AutoPlayVideoCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -970,10 +971,11 @@
 		C2F22749261EA02900559065 /* GradeListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GradeListCell.xib; sourceTree = "<group>"; };
 		C76B166D1A38127929F36FC3 /* Pods_gongmanse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gongmanse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF0C8568A9B356F0E8F237 /* Pods-gongmanse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gongmanse.debug.xcconfig"; path = "Target Support Files/Pods-gongmanse/Pods-gongmanse.debug.xcconfig"; sourceTree = "<group>"; };
-		F060FEB92794F4AA003481A3 /* launcher_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launcher_img.png; sourceTree = "<group>"; };
 		F064A48B27604F75006FDCA6 /* FindEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindEntity.swift; sourceTree = "<group>"; };
 		F0AED47A274B7D9B00C6FEDA /* PurchaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseModel.swift; sourceTree = "<group>"; };
 		F0AF222E27BCB36600BC1EF0 /* OnboardingIntroCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingIntroCell.swift; sourceTree = "<group>"; };
+		F0B4ACFE2803F08D001DCF8C /* launcher_img1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launcher_img1.png; sourceTree = "<group>"; };
+		F0B4AD002803F970001DCF8C /* PopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupVC.swift; sourceTree = "<group>"; };
 		F0BF7DF927C60F02008CA9BC /* AutoPlayVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPlayVideoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2359,6 +2361,7 @@
 			isa = PBXGroup;
 			children = (
 				6C47139125F60F0900D68A2B /* MainTabBarController.swift */,
+				F0B4AD002803F970001DCF8C /* PopupVC.swift */,
 			);
 			path = TabBarController;
 			sourceTree = "<group>";
@@ -2540,6 +2543,7 @@
 		6CD7C3B825F086DF0092D30E = {
 			isa = PBXGroup;
 			children = (
+				F0B4ACFE2803F08D001DCF8C /* launcher_img1.png */,
 				6CD7C3C325F086E00092D30E /* gongmanse */,
 				6CD7C3C225F086E00092D30E /* Products */,
 				24DED3C6B664DB4FE8D84479 /* Pods */,
@@ -2558,7 +2562,6 @@
 		6CD7C3C325F086E00092D30E /* gongmanse */ = {
 			isa = PBXGroup;
 			children = (
-				F060FEB92794F4AA003481A3 /* launcher_img.png */,
 				6CE92DD1268065E60018B43F /* gongmanse.entitlements */,
 				C279FA7D264CB151009FA317 /* Enum */,
 				C20C8E272645044A00B0566A /* Generic */,
@@ -3452,7 +3455,6 @@
 				259B8BA2260301CF009A7146 /* SearchNoteCell.xib in Resources */,
 				259B8BF4260305E1009A7146 /* SearchVideoVC.xib in Resources */,
 				6CB1FA9E265F9E7500027666 /* LoadingCell.xib in Resources */,
-				F060FEBA2794F4AA003481A3 /* launcher_img.png in Resources */,
 				C2A92FB9263FAC9C00098F92 /* SearchAfterTableCell.xib in Resources */,
 				25201DB526042880001098AC /* FindIDByPhoneVC.xib in Resources */,
 				6C9BEEBC265E163C00FFF655 /* EmptyTableViewCell.xib in Resources */,
@@ -3480,6 +3482,7 @@
 				A9129ED026169F4B00041CC5 /* EventListVC.xib in Resources */,
 				259B8B8726030148009A7146 /* ProgressPopupCell.xib in Resources */,
 				259B8C3526031C99009A7146 /* StoreVC.xib in Resources */,
+				F0B4ACFF2803F08D001DCF8C /* launcher_img1.png in Resources */,
 				259B8BBF2603050A009A7146 /* ProgressMainVC.xib in Resources */,
 				259B8B99260301B0009A7146 /* PopularKeywordCell.xib in Resources */,
 				A952484C261A92DF000F2473 /* NoticeCell.xib in Resources */,
@@ -3836,6 +3839,7 @@
 				253F4EBD267722AF005D9094 /* AutoplaySingleTon.swift in Sources */,
 				6CBEEACC26526AFD0006795D /* PlayListAPI.swift in Sources */,
 				6CE92DAE267AFB440018B43F /* SeriesVC.swift in Sources */,
+				F0B4AD012803F970001DCF8C /* PopupVC.swift in Sources */,
 				C27A5713265BA5CB0047520E /* LectureDetailViewModel.swift in Sources */,
 				A9850EFA261613FE00908BA4 /* EnquiryCell.swift in Sources */,
 				2580CF4E261A91BA00D78E4E /* VideoUpperTabCell.swift in Sources */,
@@ -4070,7 +4074,7 @@
 				CODE_SIGN_ENTITLEMENTS = gongmanse/gongmanse.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4078,7 +4082,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.9;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4096,7 +4100,7 @@
 				CODE_SIGN_ENTITLEMENTS = gongmanse/gongmanse.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 5C3LAPBF76;
 				INFOPLIST_FILE = gongmanse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4104,7 +4108,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.9;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gongmanse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
