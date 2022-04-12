@@ -338,7 +338,7 @@ extension ProgressSocialVC: UITableViewDelegate, UITableViewDataSource {
                 scrollMethod()
                 
             }
-            
+            tableView.isScrollEnabled = true
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellIdentifier, for: indexPath) as! EmptyStateViewCell

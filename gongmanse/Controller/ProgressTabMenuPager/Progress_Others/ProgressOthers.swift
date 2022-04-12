@@ -339,6 +339,7 @@ extension ProgressOthers: UITableViewDelegate, UITableViewDataSource {
                 scrollMethod()
             }
             
+            tableView.isScrollEnabled = true
             return cell
             
         } else {
