@@ -648,10 +648,11 @@ class VideoController: UIViewController, VideoMenuBarDelegate {
         if Reachability.isConnectedToNetwork() {
             if (autoPlaySeekTime?.seconds ?? 0) > 0 {
                 print("has seekTime.")
+                backButton.alpha = 0
             } else {
                 playInOutroVideo(1)
+                backButton.alpha = 1
             }
-            backButton.alpha = 1
         }
         
         // swipe close 기능 추가.
