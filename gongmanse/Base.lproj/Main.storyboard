@@ -939,25 +939,25 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="닫기">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" red="0.92941176470588238" green="0.46274509803921571" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
                                             <action selector="btnClick:" destination="Sj5-R5-45R" eventType="touchUpInside" id="Qb0-DI-N0e"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i2e-p7-1Nc">
-                                        <rect key="frame" x="7" y="332" width="124" height="28"/>
+                                        <rect key="frame" x="7" y="332" width="98" height="28"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="오늘 하루 다시 보지않기">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="일주일간 보지 않기">
+                                            <color key="titleColor" red="0.92941176469999998" green="0.46274509800000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
                                             <action selector="btnClick:" destination="Sj5-R5-45R" eventType="touchUpInside" id="DrX-gm-KFk"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.95313449881293555" green="0.95313449881293555" blue="0.95313449881293555" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.95294117647058818" green="0.95313449881293555" blue="0.95313449881293555" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="hKZ-kk-o07" secondAttribute="bottom" constant="5" id="2DM-1a-3MX"/>
                                     <constraint firstItem="i2e-p7-1Nc" firstAttribute="top" secondItem="XNX-I1-Hvr" secondAttribute="bottom" constant="5" id="KFD-S5-p9r"/>

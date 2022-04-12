@@ -31,18 +31,19 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         // check popup visibility
-        if let popupDate = UserDefaults.standard.string(forKey: "popup") {
+        if let noShowPopup = UserDefaults.standard.string(forKey: "popup") {
             let dateformatter: DateFormatter = DateFormatter()
             dateformatter.dateFormat = "yyyy-MM-dd"
-            let dateString = dateformatter.string(from: Date())
+            let calendar = Calendar.current
+            let weeksAgo = calendar.date(byAdding: .day, value: -6, to: Date())!
+            let weeksAgoStr = dateformatter.string(from: weeksAgo)
             
-            print("performSegue currDate : \(dateString), noShow date : \(popupDate)")
-            if popupDate == dateString {
+            // 일주일간 보지 않기 날짜 비교 로직 수정.
+            if noShowPopup > weeksAgoStr {
                 return
             }
-        } else {
-            print("performSegue popupNotice")
         }
+        print("performSegue popupNotice")
         performSegue(withIdentifier: "popupNotice", sender: nil)
     }
     
