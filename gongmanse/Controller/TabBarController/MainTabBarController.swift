@@ -31,6 +31,7 @@ class MainTabBarController: UITabBarController {
     
     private var popupShown = false
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         print("MainTabBarController viewDidAppear")
         guard !popupShown else {
             print("already shown")
