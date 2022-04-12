@@ -281,8 +281,8 @@ extension SideMenuVC: SideMenuHeaderViewDelegate {
             autoPlayDataManager.videoDataList.removeAll()
             autoPlayDataManager.videoSeriesDataList.removeAll()
             
-//            let loginData = LoginDataManager()
-//            loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
+            let loginData = LoginDataManager()
+            loginData.getTokenByRefreshToken(RefreshTokenInput.init(grant_type: "grant_type", refresh_token: Constant.token))
             self.tableView.reloadData()
         }))
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
