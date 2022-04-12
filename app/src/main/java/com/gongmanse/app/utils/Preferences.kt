@@ -27,6 +27,7 @@ object Preferences {
     private const val SCHEDULE_CEREMONY       = "scheduleCeremony"
     private const val SCHEDULE_EVENT          = "scheduleEvent"
     private const val PREMIUM_EXPIRE          = "expire"
+    private const val POPUP_SHOW              = "popup"
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(context.packageName, Activity.MODE_PRIVATE)
@@ -142,5 +143,11 @@ object Preferences {
         get() = prefs.getString(PREMIUM_EXPIRE, "") ?: ""
         set(value) = prefs.edit {
             putString(PREMIUM_EXPIRE, value).apply()
+        }
+
+    var noShowPopup: String
+        get() = prefs.getString(POPUP_SHOW, "") ?: ""
+        set(value) = prefs.edit {
+            putString(POPUP_SHOW, value).apply()
         }
 }

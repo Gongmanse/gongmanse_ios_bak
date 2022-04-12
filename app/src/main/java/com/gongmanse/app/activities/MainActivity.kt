@@ -21,6 +21,9 @@ import com.gongmanse.app.model.VideoData
 import com.gongmanse.app.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
@@ -91,6 +94,25 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
                     }
                 }
             }
+        } else if (requestCode == 999) {
+            // check popup show
+            if (Preferences.noShowPopup.isNotEmpty()) {
+                val format = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+                val cal = Calendar.getInstance()
+                cal.add(Calendar.DAY_OF_MONTH, -6)
+                val weeksAgo = format.format(cal.time)
+
+                if (Preferences.noShowPopup > weeksAgo) {
+                    GBLog.i(TAG,"no show")
+                    return
+                }
+            }
+
+            GBLog.i(TAG, "show popup")
+            Handler().postDelayed({
+                val dialog = PopupDialog(this@MainActivity)
+                dialog.myDialog()
+            }, 500)
         }
     }
 
@@ -135,7 +157,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         } else {
             Intent(this, SplashActivity::class.java)
         }
-        startActivity(intent) // 화면 생성 후 로딩화면으로 이동
+        startActivityForResult(intent, 999) // 화면 생성 후 로딩화면으로 이동
         overridePendingTransition(android.R.anim.fade_in, 0)
     }
 
