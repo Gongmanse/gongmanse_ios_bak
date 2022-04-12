@@ -29,7 +29,15 @@ class MainTabBarController: UITabBarController {
         }
     }
     
+    private var popupShown = false
     override func viewDidAppear(_ animated: Bool) {
+        print("MainTabBarController viewDidAppear")
+        guard !popupShown else {
+            print("already shown")
+            return
+        }
+        popupShown = true
+        
         // check popup visibility
         if let noShowPopup = UserDefaults.standard.string(forKey: "popup") {
             let dateformatter: DateFormatter = DateFormatter()
